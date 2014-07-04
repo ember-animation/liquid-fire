@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>HtmlbarsDemo</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {{BASE_TAG}}
+
+    <link rel="stylesheet" href="assets/vendor.css">
+    <link rel="stylesheet" href="assets/htmlbars-demo.css">
+  </head>
+  <body>
+    <script>
+      window.HtmlbarsDemoENV = {{ENV}};
+      window.EmberENV = window.HtmlbarsDemoENV.EmberENV;
+    </script>
+    <script src="assets/vendor.js"></script>
+    <script src="assets/htmlbars-demo.js"></script>
+    <script>
+      window.HtmlbarsDemo = require('htmlbars-demo/app')['default'].create(HtmlbarsDemoENV.APP);
+    </script>
+  </body>
+</html>
