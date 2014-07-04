@@ -1,3 +1,36 @@
 html, body {
   margin: 20px;
 }
+
+.sticky-outlet {
+    position: relative;
+}
+
+.sticky-child {
+    position: absolute;
+    top: 0;
+    
+    border: 1px solid blue;
+    
+    -moz-transition: -moz-transform 250ms ease;
+    -webkit-transition: -webkit-transform 250ms ease;
+    transition: transform 250ms ease;
+
+    -moz-transform: translate(0);
+    -webkit-transform: translate(0);
+    transform: translate(0);    
+
+}
+
+.sticky-child.leaving {
+    -moz-transform: translate(-100%);
+    -webkit-transform: translate(-100%);
+    transform: translate(-100%);
+}
+
+
+.sticky-child.entering {
+    -moz-transform: translate(100%);
+    -webkit-transform: translate(100%);
+    transform: translate(100%); 
+}
