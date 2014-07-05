@@ -1,4 +1,5 @@
-var Promise = Ember.RSVP.Promise;
+import Ember from "ember";
+var Prom = Ember.RSVP.Promise;
 
 var StickyChild = Ember.ContainerView.extend({
   classNames: ['sticky-child'],
@@ -10,11 +11,11 @@ var StickyChild = Ember.ContainerView.extend({
 
   motionFor: function(forNewView, oldContext, newContext) {
     var offset = 100;
-    if (oldContext.name !== 'index') {
+    if (oldContext.name !== 'index' || newContext.name === 'something else') {
       offset *= -1;
     }
     if (forNewView) {
-      return {translateX: ["0%", offset + "%"]}
+      return {translateX: ["0%", offset + "%"]};
     } else {
       return {translateX: (offset * -1) + "%"};
     }
@@ -30,15 +31,15 @@ var StickyChild = Ember.ContainerView.extend({
     // If we're already leaving or if we've been told not to animate
     // our entrance, do nothing.
     if (this._leaving || !this.get('entering')) {
-      return Promise.cast(null);
+      return Prom.cast(null);
     }
 
     console.log("I'm replacing " + logSpatialContext(this.get('replacingState')) + " with " + logSpatialContext(this.spatialContext()));
     
     var self = this;
-    return this._entering = new Promise(function(resolve){
+    return this._entering = new Prom(function(resolve){
       //console.log("starting animateIn for", self.get('currentView.renderedName'));
-      self.$().velocity(self.motionFor(true, self.get('replacingState'), self.spatialContext()), {duration: 250, complete: resolve})
+      self.$().velocity(self.motionFor(true, self.get('replacingState'), self.spatialContext()), {duration: 250, complete: resolve});
     }).then(function(){
       //console.log("finished animateIn for", self.get('currentView.renderedName'))
     });
@@ -55,13 +56,13 @@ var StickyChild = Ember.ContainerView.extend({
     // do queuing for animations on the same element, so in those
     // cases this is redundant but harmless.
     console.log("I'm being replaced by " + logSpatialContext(successor) + ", I had " + logSpatialContext(this.spatialContext()));    
-    return this._leaving = Promise.cast(this._entering).then(function(){
-      return new Promise(function(resolve) {
+    return this._leaving = Prom.cast(this._entering).then(function(){
+      return new Prom(function(resolve) {
 
-	self.$().velocity(self.motionFor(false, self.spatialContext(), successor), {duration: 250, complete: resolve})
-      })
+	self.$().velocity(self.motionFor(false, self.spatialContext(), successor), {duration: 250, complete: resolve});
+      });
     }).then(function(){
-      self.destroy()
+      self.destroy();
     });
   }
   
@@ -113,7 +114,7 @@ export default Ember.ContainerView.extend({
       // Ensure that all our earlier children are animating out, with
       // their directions relative to the view that followed them.
       promises.push(children.objectAt(i).animateOut(children.objectAt(i+1).spatialContext()));
-    };
+    }
     
     if (len > 0) {
       // The last child view is our most-current child up until
@@ -148,9 +149,9 @@ function spatialContext(view) {
   return {
     context: view.get('context.content'),
     name: view.get('renderedName')
-  }
+  };
 }
 
 function logSpatialContext(ctxt) {
-  return ctxt.name + "(" + JSON.stringify(ctxt.context)+ ")" 
+  return ctxt.name + "(" + JSON.stringify(ctxt.context)+ ")";
 }
