@@ -52,7 +52,7 @@ Transitions.map = function(handler) {
   var t = new Transitions();
   handler.apply(t);
   return t;
-}
+};
 
 function Transition(oldView, newContent, animation) {
   this.oldView = oldView;
@@ -69,7 +69,6 @@ Transition.prototype = {
 
     var self = this;
     function insertNewView() {
-      debugger;
       if (self.inserted) {
 	return self.inserted;
       }
@@ -87,7 +86,6 @@ Transition.prototype = {
   },
 
   interrupt: function(){
-    debugger;
     // If we haven't yet inserted the new view, don't. And tell the
     // old view not to destroy when our animation stops, because the
     // next transition is going to take over and keep using it.
@@ -105,7 +103,6 @@ Transition.prototype = {
 // by animation libraries because promises are more composable and
 // general purpose across animation methods.
 function animate(view, props, opts) {
-  debugger;
   return new Promise(function(resolve) {
     if (!view) {
       resolve();
@@ -115,12 +112,12 @@ function animate(view, props, opts) {
       opts = {};
     }
     opts.complete = resolve;
-    debugger;
     view.$().velocity(props, opts);
   });
 }
 
 export default Transitions.map(function(){
+  /* global $ */
   $.Velocity.defaults.duration = 250;
   
   this.defineTransition('toRight', function(oldView, insertNewView) {

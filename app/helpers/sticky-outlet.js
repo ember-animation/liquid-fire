@@ -1,3 +1,5 @@
+import Ember from "ember";
+
 export default function stickyOutletHelper(property, options) {
   if (property && property.data && property.data.isRenderData) {
     options = property;

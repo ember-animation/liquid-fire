@@ -42,8 +42,7 @@ export default Ember.ContainerView.extend({
     // them to start heading for the exits now.
     var oldView = this.get('childViews.lastObject'),
 	newView = this.get('currentView'),
-	transition = transitions.lookup(oldView, newView),
-	self = this;
+	transition = transitions.lookup(oldView, newView);
 
     if (this._runningTransition) {
       this._runningTransition.interrupt();
@@ -65,13 +64,3 @@ export default Ember.ContainerView.extend({
 
 });
 
-function spatialContext(view) {
-  return {
-    context: view.get('context.content'),
-    name: view.get('renderedName')
-  };
-}
-
-function logSpatialContext(ctxt) {
-  return ctxt.name + "(" + JSON.stringify(ctxt.context)+ ")";
-}
