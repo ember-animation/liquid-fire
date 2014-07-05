@@ -4,33 +4,16 @@ html, body {
 
 .sticky-outlet {
     position: relative;
+    overflow: hidden;
+    height: 400px;
+    width: 400px;
 }
 
 .sticky-child {
     position: absolute;
     top: 0;
-    
     border: 1px solid blue;
-    
-    -moz-transition: -moz-transform 250ms ease;
-    -webkit-transition: -webkit-transform 250ms ease;
-    transition: transform 250ms ease;
-
-    -moz-transform: translate(0);
-    -webkit-transform: translate(0);
-    transform: translate(0);    
-
+    width: 400px;
+    height: 400px;
 }
 
-.sticky-child.leaving {
-    -moz-transform: translate(-100%);
-    -webkit-transform: translate(-100%);
-    transform: translate(-100%);
-}
-
-
-.sticky-child.entering {
-    -moz-transform: translate(100%);
-    -webkit-transform: translate(100%);
-    transform: translate(100%); 
-}
