@@ -2,7 +2,7 @@
   "predef": {
     "document": true,
     "window": true,
-    "EmberAnimateENV": true
+    "LiquidFireENV": true
   },
   "browser" : true,
   "boss" : true,

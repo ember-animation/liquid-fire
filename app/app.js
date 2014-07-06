@@ -5,10 +5,10 @@ import loadInitializers from 'ember/load-initializers';
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
 var App = Ember.Application.extend({
-  modulePrefix: 'ember-animate', // TODO: loaded via config
+  modulePrefix: 'liquid-fire', // TODO: loaded via config
   Resolver: Resolver
 });
 
-loadInitializers(App, 'ember-animate');
+loadInitializers(App, 'liquid-fire');
 
 export default App;

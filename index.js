@@ -5,9 +5,9 @@ var fs   = require('fs');
 var mergeTrees = require('broccoli-merge-trees')
 var pickFiles = require('broccoli-static-compiler');
 
-function EmberAnimate(project) {
+function LiquidFire(project) {
   this.project = project;
-  this.name    = 'Ember Animate';
+  this.name    = 'Liquid Fire';
 }
 
 function unwatchedTree(dir) {
@@ -17,8 +17,8 @@ function unwatchedTree(dir) {
   };
 }
 
-EmberAnimate.prototype.treeFor = function treeFor(name) {
-  var treePath = path.join('node_modules', 'ember-animate', name + '-addon');
+LiquidFire.prototype.treeFor = function treeFor(name) {
+  var treePath = path.join('node_modules', 'liquid-fire', name + '-addon');
   var addon;
 
   if (fs.existsSync(treePath)) {
@@ -27,7 +27,7 @@ EmberAnimate.prototype.treeFor = function treeFor(name) {
   
   if (name === 'vendor') {
     ['velocity'].forEach(function(dep){
-      var src = unwatchedTree(path.join('node_modules', 'ember-animate', 'vendor'));
+      var src = unwatchedTree(path.join('node_modules', 'liquid-fire', 'vendor'));
       addon = mergeTrees([addon, pickFiles(src, {srcDir: dep, destDir: dep})]);
     });
   }
@@ -35,10 +35,10 @@ EmberAnimate.prototype.treeFor = function treeFor(name) {
   return addon;
 };
 
-EmberAnimate.prototype.included = function included(app) {
+LiquidFire.prototype.included = function included(app) {
   this.app = app;
   this.app.import('vendor/velocity/jquery.velocity.js');
-  this.app.import('vendor/animate/animate.css');  
+  this.app.import('vendor/liquid-fire/animate.css');  
 };
 
-module.exports = EmberAnimate;
+module.exports = LiquidFire;

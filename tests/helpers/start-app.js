@@ -1,7 +1,7 @@
 /* global require */
 
-var Application = require('ember-animate/app')['default'];
-var Router = require('ember-animate/router')['default'];
+var Application = require('liquid-fire/app')['default'];
+var Router = require('liquid-fire/router')['default'];
 import Ember from 'ember';
 
 export default function startApp(attrs) {

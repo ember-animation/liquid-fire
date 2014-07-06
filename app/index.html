@@ -3,24 +3,24 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Ember Animate</title>
+    <title>Liquid Fire</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{BASE_TAG}}
 
     <link rel="stylesheet" href="assets/vendor.css">
-    <link rel="stylesheet" href="assets/ember-animate.css">
+    <link rel="stylesheet" href="assets/liquid-fire.css">
   </head>
   <body>
     <script>
-      window.EmberAnimateENV = {{ENV}};
-      window.EmberENV = window.EmberAnimateENV.EmberENV;
+      window.LiquidFireENV = {{ENV}};
+      window.EmberENV = window.LiquidFireENV.EmberENV;
     </script>
     <script src="assets/vendor.js"></script>
-    <script src="assets/ember-animate.js"></script>
+    <script src="assets/liquid-fire.js"></script>
     <script>
-      window.EmberAnimate = require('ember-animate/app')['default'].create(EmberAnimateENV.APP);
+      window.LiquidFire = require('liquid-fire/app')['default'].create(LiquidFireENV.APP);
     </script>
   </body>
 </html>

@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Ember Animate Tests</title>
+    <title>Liquid Fire Tests</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{BASE_TAG}}
 
     <link rel="stylesheet" href="assets/vendor.css">
-    <link rel="stylesheet" href="assets/ember-animate.css">
+    <link rel="stylesheet" href="assets/liquid-fire.css">
     <link rel="stylesheet" href="assets/qunit.css">
     <style>
       #ember-testing-container {
@@ -34,16 +34,16 @@
     <div id="qunit-fixture"></div>
 
     <script>
-      window.EmberAnimateENV = {{ENV}};
-      window.EmberENV = window.EmberAnimateENV.EmberENV;
+      window.LiquidFireENV = {{ENV}};
+      window.EmberENV = window.LiquidFireENV.EmberENV;
     </script>
     <script src="assets/qunit.js"></script>
     <script src="assets/qunit-notifications.js"></script>
     <script src="assets/vendor.js"></script>
-    <script src="assets/ember-animate.js"></script>
+    <script src="assets/liquid-fire.js"></script>
     <script src="testem.js"></script>
     <script>
-      require('ember-animate/tests/test-helper');
+      require('liquid-fire/tests/test-helper');
     </script>
     <script src="assets/test-loader.js"></script>
   </body>
