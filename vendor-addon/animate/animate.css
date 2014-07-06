@@ -1,0 +1,8 @@
+.sticky-outlet {
+    position: relative;
+}
+
+.sticky-child {
+    position: absolute;
+    top: 0;
+}

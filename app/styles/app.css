@@ -3,15 +3,12 @@ html, body {
 }
 
 .sticky-outlet {
-    position: relative;
     overflow: hidden;
     height: 400px;
     width: 400px;
 }
 
 .sticky-child {
-    position: absolute;
-    top: 0;
     border: 1px solid blue;
     width: 400px;
     height: 400px;
