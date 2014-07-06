@@ -1,4 +1,5 @@
 import Transition from "./transition";
+import { setDefaults } from "./animate";
 
 function Transitions() {
   this._namedTransitions = {};
@@ -6,6 +7,10 @@ function Transitions() {
 }
 
 Transitions.prototype = {
+
+  setDefault: function(props) {
+    setDefaults(props);
+  },
   
   defineTransition: function(name, handler) {
     this._namedTransitions[name] = handler;
