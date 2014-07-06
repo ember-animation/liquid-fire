@@ -31,8 +31,8 @@ Transitions.prototype = {
   },
 
   use: function(nameOrHandler) {
-    var from = this._from || '__default__',
-        to   = this._to   || '__default__';
+    var from = this._from || 'default',
+        to   = this._to   || 'default';
     if (!this._map[from]) {
       this._map[from] = {};
     }
@@ -41,8 +41,20 @@ Transitions.prototype = {
   },
 
   lookup: function(oldView, newContent) {
-    var ctxt = this._map[oldView.get('currentView.renderedName')] || this._map['__default__'] || {},
-        key = ctxt[newContent.get('renderedName')] || ctxt['__default__'],
+    var oldName, newName;
+    if (oldView) {
+      oldName = oldView.get('currentView.renderedName');
+    } else {
+      oldName = "empty";
+    }
+    if (newContent) {
+      newName = newContent.get('renderedName');
+    } else {
+      newName = "empty";
+    }
+
+    var ctxt = this._map[oldName] || this._map['default'] || {},
+        key = ctxt[newName] || ctxt['default'],
         handler;
     
     if (key && typeof(key) === 'function') {

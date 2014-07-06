@@ -19,7 +19,9 @@ export function animate(view, props, opts) {
 }
 
 export function stop(view) {
-  view.$().velocity('stop', true);
+  if (view) {
+    view.$().velocity('stop', true);
+  }
 }
 
 export function setDefaults(props) {

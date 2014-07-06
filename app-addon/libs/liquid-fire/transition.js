@@ -7,7 +7,9 @@ function Transition(oldView, newContent, animation) {
 Transition.prototype = {
   run: function(container) {
     if (!this.animation) {
-      this.oldView.destroy();
+      if (this.oldView) {
+        this.oldView.destroy();
+      }
       return container._pushNewView(this.newContent);
     }
 
@@ -24,7 +26,7 @@ Transition.prototype = {
   },
 
   maybeDestroyOldView: function(){
-    if (!this.interrupted) {
+    if (!this.interrupted && this.oldView) {
       this.oldView.destroy();
     }
   },
