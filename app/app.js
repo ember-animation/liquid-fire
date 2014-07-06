@@ -5,10 +5,10 @@ import loadInitializers from 'ember/load-initializers';
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
 var App = Ember.Application.extend({
-  modulePrefix: 'htmlbars-demo', // TODO: loaded via config
+  modulePrefix: 'ember-animate', // TODO: loaded via config
   Resolver: Resolver
 });
 
-loadInitializers(App, 'htmlbars-demo');
+loadInitializers(App, 'ember-animate');
 
 export default App;

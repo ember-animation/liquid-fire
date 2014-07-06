@@ -1,7 +1,7 @@
 /* global require */
 
-var Application = require('htmlbars-demo/app')['default'];
-var Router = require('htmlbars-demo/router')['default'];
+var Application = require('ember-animate/app')['default'];
+var Router = require('ember-animate/router')['default'];
 import Ember from 'ember';
 
 export default function startApp(attrs) {

@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>HtmlbarsDemo Tests</title>
+    <title>Ember Animate Tests</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{BASE_TAG}}
 
     <link rel="stylesheet" href="assets/vendor.css">
-    <link rel="stylesheet" href="assets/htmlbars-demo.css">
+    <link rel="stylesheet" href="assets/ember-animate.css">
     <link rel="stylesheet" href="assets/qunit.css">
     <style>
       #ember-testing-container {
@@ -34,16 +34,16 @@
     <div id="qunit-fixture"></div>
 
     <script>
-      window.HtmlbarsDemoENV = {{ENV}};
-      window.EmberENV = window.HtmlbarsDemoENV.EmberENV;
+      window.EmberAnimateENV = {{ENV}};
+      window.EmberENV = window.EmberAnimateENV.EmberENV;
     </script>
     <script src="assets/qunit.js"></script>
     <script src="assets/qunit-notifications.js"></script>
     <script src="assets/vendor.js"></script>
-    <script src="assets/htmlbars-demo.js"></script>
+    <script src="assets/ember-animate.js"></script>
     <script src="testem.js"></script>
     <script>
-      require('htmlbars-demo/tests/test-helper');
+      require('ember-animate/tests/test-helper');
     </script>
     <script src="assets/test-loader.js"></script>
   </body>

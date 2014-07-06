@@ -2,7 +2,7 @@
   "predef": {
     "document": true,
     "window": true,
-    "HtmlbarsDemoENV": true
+    "EmberAnimateENV": true
   },
   "browser" : true,
   "boss" : true,
