@@ -1,27 +1,13 @@
 import Ember from "ember";
 import transitions from "../transitions";
 
-var LiquidChild = Ember.ContainerView.extend({
-  classNames: ['liquid-child'],
-  
-  resolveInsertionPromise: function(){
-    if (this._resolveInsertion) {
-      this._resolveInsertion(this);
-    }
-  }.on('didInsertElement')
-  
-});
-
 export default Ember.ContainerView.extend({
   classNames: ['liquid-outlet'],
 
   init: function(){
     var currentView = this.get('currentView');
     if (currentView) {
-      this.set('currentView', LiquidChild.create({
-        currentView: currentView,
-        entering: false
-      }));
+      this.set('currentView', this._liquidChildFor(currentView));
     }
     this._super();
   },
@@ -51,9 +37,16 @@ export default Ember.ContainerView.extend({
     this._runningTransition = transition;
     transition.run(this);
   }),
+
+  _liquidChildFor: function(content) {
+    var LiquidChild = this.container.lookupFactory('view:liquid-child');
+    return LiquidChild.create({
+      currentView: content
+    });
+  },
   
   _pushNewView: function(newView) {
-    var child = LiquidChild.create({currentView: newView}),
+    var child = this._liquidChildFor(newView),
         promise = new Promise(function(resolve) {
           child._resolveInsertion = resolve;
         });
