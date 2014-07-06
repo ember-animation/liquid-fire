@@ -6,10 +6,10 @@ html, body {
     overflow: hidden;
     height: 400px;
     width: 400px;
+    border: 1px solid blue;
 }
 
 .liquid-child {
-    border: 1px solid blue;
     width: 400px;
     height: 400px;
 }
