@@ -6,6 +6,7 @@ var Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route("second", {path: "/second/:id"});
+  this.route("test-with", {path: "/test-with/:id"});
 });
 
 export default Router;
