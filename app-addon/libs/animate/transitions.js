@@ -1,9 +1,11 @@
 import Transition from "./transition";
+import predefinedTransitions from "./predefined_transitions";
 import { setDefaults } from "./animate";
 
 function Transitions() {
   this._namedTransitions = {};
   this._map = {};
+  this.map(predefinedTransitions);
 }
 
 Transitions.prototype = {
@@ -52,7 +54,13 @@ Transitions.prototype = {
       }
     }
     return new Transition(oldView, newContent, handler);
+  },
+
+  map: function(handler) {
+    handler.apply(this);
+    return this;
   }
+    
 };
 
 Transitions.map = function(handler) {
