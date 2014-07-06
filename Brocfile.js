@@ -13,6 +13,6 @@ var app = new EmberApp({
 });
 
 app.import("vendor/velocity/jquery.velocity.js");
-app.import("vendor/animate/animate.css");
+app.import("vendor/liquid-fire/liquid-fire.css");
 
 module.exports = app.toTree();

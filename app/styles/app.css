@@ -2,13 +2,13 @@ html, body {
   margin: 20px;
 }
 
-.sticky-outlet {
+.liquid-outlet {
     overflow: hidden;
     height: 400px;
     width: 400px;
 }
 
-.sticky-child {
+.liquid-child {
     border: 1px solid blue;
     width: 400px;
     height: 400px;

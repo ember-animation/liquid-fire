@@ -1,8 +1,8 @@
-.sticky-outlet {
+.liquid-outlet {
     position: relative;
 }
 
-.sticky-child {
+.liquid-child {
     position: absolute;
     top: 0;
 }

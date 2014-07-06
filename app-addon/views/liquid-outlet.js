@@ -1,8 +1,8 @@
 import Ember from "ember";
 import transitions from "../transitions";
 
-var StickyChild = Ember.ContainerView.extend({
-  classNames: ['sticky-child'],
+var LiquidChild = Ember.ContainerView.extend({
+  classNames: ['liquid-child'],
   
   resolveInsertionPromise: function(){
     if (this._resolveInsertion) {
@@ -13,12 +13,12 @@ var StickyChild = Ember.ContainerView.extend({
 });
 
 export default Ember.ContainerView.extend({
-  classNames: ['sticky-outlet'],
+  classNames: ['liquid-outlet'],
 
   init: function(){
     var currentView = this.get('currentView');
     if (currentView) {
-      this.set('currentView', StickyChild.create({
+      this.set('currentView', LiquidChild.create({
         currentView: currentView,
         entering: false
       }));
@@ -53,7 +53,7 @@ export default Ember.ContainerView.extend({
   }),
   
   _pushNewView: function(newView) {
-    var child = StickyChild.create({currentView: newView}),
+    var child = LiquidChild.create({currentView: newView}),
         promise = new Promise(function(resolve) {
           child._resolveInsertion = resolve;
         });

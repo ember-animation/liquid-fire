@@ -38,7 +38,7 @@ LiquidFire.prototype.treeFor = function treeFor(name) {
 LiquidFire.prototype.included = function included(app) {
   this.app = app;
   this.app.import('vendor/velocity/jquery.velocity.js');
-  this.app.import('vendor/liquid-fire/animate.css');  
+  this.app.import('vendor/liquid-fire/liquid-fire.css');  
 };
 
 module.exports = LiquidFire;
