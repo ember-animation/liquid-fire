@@ -1,6 +1,6 @@
 {
   "name": "ember-animate",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "directories": {
     "doc": "doc",
@@ -11,12 +11,19 @@
     "build": "ember build",
     "test": "ember test"
   },
-  "repository": "https://github.com/stefanpenner/ember-cli",
+  "repository": "https://github.com/ef4/ember-animate",
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "",
+  "keywords": [
+    "ember-addon"
+  ],
+  "author": "Edward Faulkner <ef@alum.mit.edu>",
   "license": "MIT",
+  "dependencies":{
+    "broccoli-merge-trees": "^0.1.4",
+    "broccoli-static-compiler": "^0.1.4"
+  },
   "devDependencies": {
     "ember-cli": "0.0.37",
     "originate": "0.1.5",
@@ -26,7 +33,6 @@
     "glob": "^3.2.9",
     "ember-cli-ic-ajax": "0.1.1",
     "ember-cli-ember-data": "0.1.0",
-    "broccoli-asset-rev": "0.0.11",
-    "broccoli-merge-trees": "^0.1.4"
+    "broccoli-asset-rev": "0.0.11"
   }
 }
