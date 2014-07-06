@@ -6,7 +6,8 @@
 // general purpose across animation methods.
 export function animate(view, props, opts) {
   return new Promise(function(resolve) {
-    if (!view) {
+    var elt;
+    if (!view || !(elt = view.$())) {
       resolve();
       return;
     }
@@ -14,13 +15,14 @@ export function animate(view, props, opts) {
       opts = {};
     }
     opts.complete = resolve;
-    view.$().velocity(props, opts);
+    elt.velocity(props, opts);
   });
 }
 
 export function stop(view) {
-  if (view) {
-    view.$().velocity('stop', true);
+  var elt;
+  if (view && (elt = view.$())) {
+    elt.velocity('stop', true);
   }
 }
 

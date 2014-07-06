@@ -3,7 +3,6 @@ import Ember from "ember";
 
 export default LiquidOutlet.extend({
   liquidUpdate: Ember.observer('boundContext', function(){
-    console.log("updating");
     var View = this.container.lookupFactory('view:default');
     var view = View.create({
       templateName: 'liquid-with',
