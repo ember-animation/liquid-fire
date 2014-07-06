@@ -32,7 +32,7 @@ Transitions.prototype = {
 
   use: function(nameOrHandler) {
     var from = this._from || '__default__',
-	to   = this._to   || '__default__';
+        to   = this._to   || '__default__';
     if (!this._map[from]) {
       this._map[from] = {};
     }
@@ -42,15 +42,15 @@ Transitions.prototype = {
 
   lookup: function(oldView, newContent) {
     var ctxt = this._map[oldView.get('currentView.renderedName')] || this._map['__default__'] || {},
-	key = ctxt[newContent.get('renderedName')] || ctxt['__default__'],
-	handler;
+        key = ctxt[newContent.get('renderedName')] || ctxt['__default__'],
+        handler;
     
     if (key && typeof(key) === 'function') {
       handler = key;
     } else if (key) {
       handler = this._namedTransitions[key];
       if (!handler) {
-	throw new Error("unknown transition name: " + key);
+        throw new Error("unknown transition name: " + key);
       }
     }
     return new Transition(oldView, newContent, handler);

@@ -14,7 +14,7 @@ Transition.prototype = {
     var self = this;
     function insertNewView() {
       if (self.inserted) {
-	return self.inserted;
+        return self.inserted;
       }
       return self.inserted = container._pushNewView(self.newContent);
     }

@@ -19,8 +19,8 @@ export default Ember.ContainerView.extend({
     var currentView = this.get('currentView');
     if (currentView) {
       this.set('currentView', StickyChild.create({
-	currentView: currentView,
-	entering: false
+        currentView: currentView,
+        entering: false
       }));
     }
     this._super();
@@ -41,8 +41,8 @@ export default Ember.ContainerView.extend({
     // transition is already in progress). In any case, we tell all of
     // them to start heading for the exits now.
     var oldView = this.get('childViews.lastObject'),
-	newView = this.get('currentView'),
-	transition = transitions.lookup(oldView, newView);
+        newView = this.get('currentView'),
+        transition = transitions.lookup(oldView, newView);
 
     if (this._runningTransition) {
       this._runningTransition.interrupt();
@@ -54,9 +54,9 @@ export default Ember.ContainerView.extend({
   
   _pushNewView: function(newView) {
     var child = StickyChild.create({currentView: newView}),
-	promise = new Promise(function(resolve) {
-	  child._resolveInsertion = resolve;
-	});
+        promise = new Promise(function(resolve) {
+          child._resolveInsertion = resolve;
+        });
     this.pushObject(child);
     return promise;
   }

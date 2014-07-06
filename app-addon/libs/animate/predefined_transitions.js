@@ -7,8 +7,8 @@ export default function predefinedTransitions(){
     stop(oldView);
     return insertNewView().then(function(newView){
       return Promise.all([
-	animate(oldView, {translateX: "-100%"}),
-	animate(newView, {translateX: ["0%", "100%"]})
+        animate(oldView, {translateX: "-100%"}),
+        animate(newView, {translateX: ["0%", "100%"]})
       ]);
     });
   });
@@ -17,8 +17,8 @@ export default function predefinedTransitions(){
     stop(oldView);
     return insertNewView().then(function(newView){
       return Promise.all([
-	animate(oldView, {translateX: "100%"}),
-	animate(newView, {translateX: ["0%", "-100%"]})
+        animate(oldView, {translateX: "100%"}),
+        animate(newView, {translateX: ["0%", "-100%"]})
       ]);
     });
   });
@@ -28,7 +28,7 @@ export default function predefinedTransitions(){
     return animate(oldView, {opacity: 0})
       .then(insertNewView)
       .then(function(newView){
-	return animate(newView, {opacity: [1, 0]});
+        return animate(newView, {opacity: [1, 0]});
       });
   });
 }
