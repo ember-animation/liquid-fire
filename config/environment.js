@@ -4,7 +4,11 @@ module.exports = function(environment) {
   var ENV = {
     environment: environment,
     baseURL: '/',
-    locationType: 'auto',
+
+    // Personally, hash is nicer for test work. The browser knows not
+    // to do a full page refresh when you manually edit the url.
+    locationType: 'hash',
+
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build

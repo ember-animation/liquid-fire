@@ -59,12 +59,6 @@ export default Ember.ContainerView.extend({
           child._resolveInsertion = resolve;
         });
     this.pushObject(child);
-    // Children automatically hide themselves at insertion. We reveal
-    // them on the next tick, which gives animations a chance to take
-    // over without flashing the content first.
-    promise.then(function(){
-      child.$().show();
-    });
     return promise;
   }
 

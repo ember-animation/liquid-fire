@@ -12,7 +12,12 @@ Transition.prototype = {
       if (this.oldView) {
         this.oldView.destroy();
       }
-      return container._pushNewView(this.newContent);
+      return container._pushNewView(this.newContent).then(function(newView){
+        var elt;
+        if (newView && (elt = newView.$())) {
+          elt.show();
+        }
+      });;
     }
 
     var self = this;
