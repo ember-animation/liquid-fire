@@ -1,4 +1,5 @@
 import Ember from "ember";
+import { Promise } from "../libs/liquid-fire";
 import transitions from "../transitions";
 
 export default Ember.ContainerView.extend({

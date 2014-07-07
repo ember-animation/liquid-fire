@@ -1,3 +1,5 @@
+import Promise from "./promise";
+
 function Transition(oldView, newContent, animation) {
   this.oldView = oldView;
   this.newContent = newContent;

@@ -1,4 +1,5 @@
 import { animate, stop } from "./animate";
+import Promise from "./promise";
 
 export default function predefinedTransitions(){
   this.setDefault({duration: 250});
