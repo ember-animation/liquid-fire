@@ -4,6 +4,15 @@ import transitions from "../transitions";
 export default Ember.ContainerView.extend({
   classNames: ['liquid-outlet'],
 
+  init: function(){
+    // The ContainerView constructor normally sticks our "currentView"
+    // directly into _childViews, but we want to leave that up to
+    // _currentViewDidChange so we have the opportunity to launch a
+    // transition.
+    this._super();
+    this._childViews.clear();
+  },
+
   // Deliberately overriding a private method from
   // Ember.ContainerView!
   //
