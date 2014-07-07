@@ -6,8 +6,8 @@ export default function liquidWithHelper() {
       View = options.data.view.container.lookupFactory('view:liquid-with'),
       innerOptions = {
         data: options.data,
-        hash: options.hash,
-        hashTypes: options.hashTypes
+        hash: {},
+        hashTypes: {}
       };
 
   View = View.extend({
