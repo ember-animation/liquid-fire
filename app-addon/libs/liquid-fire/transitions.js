@@ -90,7 +90,7 @@ Transitions.prototype = {
 
     return {
       route: view.get('renderedName'),
-      context: context
+      context: context || DSL.EMPTY
     };
   },
   

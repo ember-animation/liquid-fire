@@ -3,6 +3,7 @@ import Ember from "ember";
 
 var t, oldView, newContent;
 function dummyAction() {}
+function otherAction() {}
 
 function lookupTransition() {
   return t.transitionFor(oldView, newContent).animation;
@@ -20,6 +21,19 @@ function setRoutes(o, n) {
     newContent = Ember.View.create({renderedName: n});
   } else {
     newContent = null;
+  }
+}
+
+function setContexts(o, n) {
+  if (o) {
+    oldView.get('currentView').set('context', Ember.Object.create(o));
+  } else {
+    oldView.get('currentView').set('context', null);
+  }
+  if (n) {
+    newContent.set('context', Ember.Object.create(n));
+  } else {
+    newContent.set('context', null);
   }
 }
 
@@ -115,3 +129,107 @@ test("matches empty source route", function(){
   setRoutes(null, 'two');
   equal(lookupTransition(), dummyAction, 'empty source');  
 });
+
+test("matches source & destination contexts", function(){
+  t.map(function(){
+    this.transition(
+      this.fromContext(function(){ return this.isMySource; }),
+      this.toContext(function(){ return this.isMyDestination; }),      
+      this.use(dummyAction)
+    );
+  });
+
+  setRoutes('one', 'one');
+  
+  setContexts({isMySource: true}, {isMyDestination: true});
+  equal(lookupTransition(), dummyAction, 'both match');
+
+  setContexts(null, {isMyDestination: true});
+  equal(lookupTransition(), undefined, 'empty source');
+
+  setContexts({isMySource: true}, null);
+  equal(lookupTransition(), undefined, 'empty destination');  
+
+  setContexts({isMySource: false}, {isMyDestination: true});
+  equal(lookupTransition(), undefined, 'other source');
+
+  setContexts({isMySource: true}, {isMyDestination: false});
+  equal(lookupTransition(), undefined, 'other destination');
+  
+});
+
+test("matches routes & contexts", function(){
+  t.map(function(){
+    this.transition(
+      this.fromRoute('one'),
+      this.toRoute('two'),
+      this.fromContext(function(){ return this.isMySource; }),
+      this.toContext(function(){ return this.isMyDestination; }),      
+      this.use(dummyAction)
+    );
+  });
+
+  setRoutes('one', 'two');
+  
+  setContexts({isMySource: true}, {isMyDestination: true});
+  equal(lookupTransition(), dummyAction, 'both match');
+
+  setContexts(null, {isMyDestination: true});
+  equal(lookupTransition(), undefined, 'empty source');
+
+  setContexts({isMySource: true}, null);
+  equal(lookupTransition(), undefined, 'empty destination');  
+
+  setContexts({isMySource: false}, {isMyDestination: true});
+  equal(lookupTransition(), undefined, 'other source');
+
+  setContexts({isMySource: true}, {isMyDestination: false});
+  equal(lookupTransition(), undefined, 'other destination');
+
+  setRoutes('one', 'three');
+  setContexts({isMySource: true}, {isMyDestination: true});
+  equal(lookupTransition(), undefined, 'wrong destination route');
+
+  setRoutes('three', 'two');
+  setContexts({isMySource: true}, {isMyDestination: true});
+  equal(lookupTransition(), undefined, 'wrong source route');
+  
+});
+
+test("steps through partial route matches", function(){
+  t.map(function(){
+    this.transition(
+      this.fromRoute('one'),
+      this.toRoute('two'),
+      this.use(otherAction)
+    );
+    this.transition(
+      this.fromRoute('one'),
+      this.toRoute('three'),
+      this.use(dummyAction)
+    );    
+  });
+
+  setRoutes('one', 'three');
+  equal(lookupTransition(), dummyAction, 'both match');
+});
+
+test("steps through partial context matches", function(){
+  t.map(function(){
+    this.transition(
+      this.fromContext(function(){ return this.isMySource; }),
+      this.toContext(function(){ return false; }),      
+      this.use(otherAction)
+    );
+    this.transition(
+      this.fromContext(function(){ return this.isMySource; }),
+      this.toContext(function(){ return true; }),      
+      this.use(dummyAction)
+    );
+  });
+
+  setRoutes('one', 'three');
+  setContexts({isMySource: true}, {isMyDestination: true});  
+  equal(lookupTransition(), dummyAction, 'matches');
+});
+
