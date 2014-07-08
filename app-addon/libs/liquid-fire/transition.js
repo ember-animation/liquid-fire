@@ -17,7 +17,7 @@ Transition.prototype = {
         if (newView && (elt = newView.$())) {
           elt.show();
         }
-      });;
+      });
     }
 
     var self = this;

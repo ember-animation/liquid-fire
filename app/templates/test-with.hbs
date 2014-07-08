@@ -1,7 +1,7 @@
 <h2>Testing the liquid-with helper</h2>
-{{#liquid-with model controller="sample"}}
-  The model has {{id}}.
-  {{#if usingSampleController}}
+{{#liquid-with model as foo controller="sample"}}
+  The model has {{foo.id}}.
+  {{#if foo.usingSampleController}}
     Yay, have right controller.
   {{/if}}
   <button {{action "increment"}}>Increment</button>
