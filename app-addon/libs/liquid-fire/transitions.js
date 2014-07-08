@@ -131,7 +131,10 @@ Transitions.prototype = {
         if (remaining.length === 1) {
           return candidate[1];
         } else {
-          return this._match(change, candidate[1], remaining.slice(1));
+          var answer = this._match(change, candidate[1], remaining.slice(1));
+          if (answer) {
+            return answer;
+          }
         }
       }
     }

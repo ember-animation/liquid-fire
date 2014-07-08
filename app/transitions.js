@@ -40,13 +40,13 @@ export default function(){
   this.transition(
     this.fromContext(person),
     this.toContext(higherPerson),
-    this.use('toUp')
+    this.use('toDown')
   );
 
   this.transition(
     this.fromContext(person),
     this.toContext(lowerPerson),
-    this.use('toDown')
+    this.use('toUp')
   );
 
   this.transition(

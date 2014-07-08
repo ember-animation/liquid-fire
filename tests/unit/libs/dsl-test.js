@@ -217,19 +217,18 @@ test("steps through partial route matches", function(){
 test("steps through partial context matches", function(){
   t.map(function(){
     this.transition(
-      this.fromContext(function(){ return this.isMySource; }),
+      this.fromContext(function(){ return true; }),
       this.toContext(function(){ return false; }),      
       this.use(otherAction)
     );
     this.transition(
-      this.fromContext(function(){ return this.isMySource; }),
+      this.fromContext(function(){ return true; }),
       this.toContext(function(){ return true; }),      
       this.use(dummyAction)
     );
   });
 
   setRoutes('one', 'three');
-  setContexts({isMySource: true}, {isMyDestination: true});  
   equal(lookupTransition(), dummyAction, 'matches');
 });
 
