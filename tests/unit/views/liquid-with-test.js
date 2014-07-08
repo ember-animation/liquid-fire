@@ -9,7 +9,7 @@ var run = Ember.run,
 
 var view;
 
-function localModuleFor(title, attrs) {
+function makeModuleFor(title, attrs) {
   moduleFor("helper:liquid-with", title, {
     needs: ['view:liquid-with', 'view:liquid-child', 'template:liquid-with', 'helper:with-apply'],
     setup: function(){
@@ -51,7 +51,7 @@ function check(expected, comment) {
   equal(text, expected.replace(/\s/g,''), comment);
 }
 
-localModuleFor("Handlebars {{#liquid-with}} helper", {
+makeModuleFor("Handlebars {{#liquid-with}} helper", {
   template: "{{#with person as tom}}{{title}}: {{tom.name}}{{/with}}",
   context: {
     title: "Señor Engineer",
@@ -90,7 +90,7 @@ test("updating a property on the view should update the HTML", function() {
 });
 
 
-localModuleFor("Multiple Handlebars {{with}} helpers with 'as'", {
+makeModuleFor("Multiple Handlebars {{with}} helpers with 'as'", {
   template: "Admin: {{#liquid-with admin as person}}{{person.name}}{{/liquid-with}} User: {{#liquid-with user as person}}{{person.name}}{{/liquid-with}}",
   context: {
     admin: { name: "Tom Dale" },
@@ -129,7 +129,7 @@ test("nested {{with}} blocks shadow the outer scoped variable properly.", functi
 
 (function(){
   var originalLookup;
-  localModuleFor("Handlebars {{#liquid-with}} globals helper", {
+  makeModuleFor("Handlebars {{#liquid-with}} globals helper", {
     setup: function(){
       originalLookup = Ember.lookup;
       Ember.lookup = { Foo: { bar: 'baz' }};
@@ -151,7 +151,7 @@ test("nested {{with}} blocks shadow the outer scoped variable properly.", functi
   });
 })();
 
-localModuleFor("Handlebars {{#liquid-with keyword as foo}}", {
+makeModuleFor("Handlebars {{#liquid-with keyword as foo}}", {
   template: "{{#liquid-with view as myView}}{{myView.name}}{{/liquid-with}}",
   name: "Sonics"
 });
@@ -167,7 +167,7 @@ test("it should support #liquid-with view as foo", function() {
 
 });
 
-localModuleFor("Handlebars {{#liquid-with keyword as foo}}", {
+makeModuleFor("Handlebars {{#liquid-with keyword as foo}}", {
   template: "{{#liquid-with name as foo}}{{#liquid-with foo as bar}}{{bar}}{{/liquid-with}}{{/liquid-with}}",
   context: { name: "caterpillar" }
 });
@@ -183,7 +183,7 @@ test("it should support #liquid-with name as food, then #liquid-with foo as bar"
   check("butterfly", "should update");
 });
 
-localModuleFor("Handlebars {{#liquid-with this as foo}}", function(){ return {
+makeModuleFor("Handlebars {{#liquid-with this as foo}}", function(){ return {
   template: "{{#liquid-with this as person}}{{person.name}}{{/liquid-with}}",
   controller: Ember.Object.create({ name: "Los Pivots" })
 };});
@@ -198,7 +198,7 @@ test("it should support #liquid-with this as qux", function() {
   check("l'Pivots", "should update");
 });
 
-localModuleFor("Handlebars {{#liquid-with foo}} insideGroup", {});
+makeModuleFor("Handlebars {{#liquid-with foo}} insideGroup", {});
 
 test("it should render without fail", function() {
   var View = Ember.View.extend({
@@ -226,7 +226,7 @@ test("it should render without fail", function() {
 (function(){
   var parentController, person;
   
-  localModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function() {
+  makeModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function() {
     var Controller = Ember.ObjectController.extend({
       controllerName: Ember.computed(function() {
         return "controller:"+this.get('model.name') + ' and ' + this.get('parentController.name');
@@ -281,7 +281,7 @@ test("it should render without fail", function() {
 (function(){
   var parentController, person, people;
   
-  localModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function() {
+  makeModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function() {
     var Controller = Ember.ObjectController.extend({
       controllerName: Ember.computed(function() {
         return "controller:"+this.get('model.name') + ' and ' + this.get('parentController.name');
@@ -311,7 +311,7 @@ test("it should render without fail", function() {
 
 (function(){
   var PersonController, person, parentController;
-  localModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function(){
+  makeModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function(){
 
     PersonController = Ember.ObjectController.extend({
       name: Ember.computed('model.name', function() {
@@ -363,7 +363,7 @@ test("it should render without fail", function() {
 
 (function(){
   var destroyed, Controller, person, parentController;
-  localModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function(){
+  makeModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function(){
     destroyed = false;
     Controller = Ember.ObjectController.extend({
       willDestroy: function() {
@@ -395,7 +395,7 @@ test("it should render without fail", function() {
 
 (function(){
   var destroyed, Controller, person, parentController;
-  localModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function(){
+  makeModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function(){
     destroyed = false;
     Controller = Ember.ObjectController.extend({
       willDestroy: function() {
@@ -427,7 +427,7 @@ test("it should render without fail", function() {
 
 
 
-localModuleFor("{{#liquid-with}} helper binding to view keyword", {
+makeModuleFor("{{#liquid-with}} helper binding to view keyword", {
   template: "We have: {{#liquid-with view.thing as fromView}}{{fromView.name}} and {{fromContext.name}}{{/liquid-with}}",
   thing: { name: 'this is from the view' },
   context: {
