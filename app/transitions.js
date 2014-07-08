@@ -22,17 +22,13 @@ export default function(){
   }
 
   function higherPerson(change){
-    if (!Ember.get(this, 'isPerson')) {
-      return false;
-    }
-    return change.leaving.context.get('id') < change.entering.context.get('id');
+    return person.apply(this) &&
+      change.leaving.context.get('id') < change.entering.context.get('id');
   }
 
   function lowerPerson(change){
-    if (!Ember.get(this, 'isPerson')) {
-      return false;
-    }
-    return change.leaving.context.get('id') > change.entering.context.get('id');
+    return person.apply(this) &&
+      change.leaving.context.get('id') > change.entering.context.get('id');
   }
 
   

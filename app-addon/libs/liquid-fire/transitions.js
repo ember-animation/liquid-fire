@@ -99,7 +99,6 @@ Transitions.prototype = {
       leaving: this._viewProperties(oldView, 'currentView'),
       entering: this._viewProperties(newContent)
     };
-    console.log("matching", change);
     return this._match(change, this._map, [
       change.leaving.route,
       change.entering.route,
