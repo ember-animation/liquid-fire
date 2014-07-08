@@ -1,6 +1,5 @@
 import Ember from "ember";
 import { Promise } from "../libs/liquid-fire";
-import transitions from "../transitions";
 
 export default Ember.ContainerView.extend({
   classNames: ['liquid-outlet'],
@@ -35,8 +34,10 @@ export default Ember.ContainerView.extend({
     if (oldView && oldView.get('currentView') === newView) {
       return;
     }
-    
-    var transition = transitions.lookup(oldView, newView);
+
+    // `transitions` comes from dependency injection, see the
+    // liquid-fire app initializer.
+    var transition = this.get('transitions').lookup(oldView, newView);
 
     if (this._runningTransition) {
       this._runningTransition.interrupt();

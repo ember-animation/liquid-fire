@@ -69,7 +69,9 @@ Transitions.prototype = {
   },
 
   map: function(handler) {
-    handler.apply(this);
+    if (handler){
+      handler.apply(this);
+    }
     return this;
   }
     
@@ -77,7 +79,7 @@ Transitions.prototype = {
 
 Transitions.map = function(handler) {
   var t = new Transitions();
-  handler.apply(t);
+  t.map(handler);
   return t;
 };
 
