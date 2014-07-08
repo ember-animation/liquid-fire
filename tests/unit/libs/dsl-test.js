@@ -232,3 +232,29 @@ test("steps through partial context matches", function(){
   equal(lookupTransition(), dummyAction, 'matches');
 });
 
+test("matches between contexts", function(){
+  t.map(function(){
+    this.transition(
+      this.between(function(){ return this.isThing; }),
+      this.use(dummyAction)
+    );
+  });
+
+  setRoutes('one', 'one');
+  
+  setContexts({isThing: true}, {isThing: true});
+  equal(lookupTransition(), dummyAction, 'both match');
+
+  setContexts(null, {isThing: true});
+  equal(lookupTransition(), undefined, 'empty source');
+
+  setContexts({isThing: true}, null);
+  equal(lookupTransition(), undefined, 'empty destination');  
+
+  setContexts({isThing: false}, {isThing: true});
+  equal(lookupTransition(), undefined, 'other source');
+
+  setContexts({isThing: true}, {isThing: false});
+  equal(lookupTransition(), undefined, 'other destination');
+  
+});

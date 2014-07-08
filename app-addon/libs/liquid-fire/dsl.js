@@ -16,10 +16,14 @@ DSL.prototype = {
   transition: function() {
     var action,
         from = { routes: [], contexts: [] },
-        to = { routes: [], contexts: [] }   ; 
+        to = { routes: [], contexts: [] },
+        args = Array.prototype.slice.apply(arguments).reduce(function(a,b){
+          return a.concat(b);
+        }, []);
+    
 
-    for (var i = 0; i < arguments.length; i++) {
-      var arg = arguments[i];
+    for (var i = 0; i < args.length; i++) {
+      var arg = args[i];
       if (arg.type === 'action') {
         if (action) {
           throw new Error("each transition definition must contain exactly one 'use' statement");
@@ -89,6 +93,12 @@ DSL.prototype = {
     };
   },
 
+  between: function(matcher) {
+    return [
+      this.fromContext(matcher),
+      this.toContext(matcher)
+    ];
+  },
 
   use: function(nameOrHandler) {
     return {
