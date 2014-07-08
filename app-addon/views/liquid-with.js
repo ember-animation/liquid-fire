@@ -3,8 +3,8 @@ import Ember from "ember";
 
 export default LiquidOutlet.extend({
   liquidUpdate: Ember.observer('boundContext', function(){
-    var View = this.container.lookupFactory('view:default');
-    var view = View.create({
+    var view = Ember._MetamorphView.create({
+      container: this.container,
       templateName: 'liquid-with',
       boundContext: this.get('boundContext'),
       liquidWithParent: this

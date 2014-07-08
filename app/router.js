@@ -5,7 +5,9 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route("second", {path: "/second/:id"});
+  this.resource("test-outlet", function(){
+    this.route('second');
+  });
   this.route("test-with", {path: "/test-with/:id"});
 });
 
