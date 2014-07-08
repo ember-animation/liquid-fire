@@ -59,7 +59,7 @@ DSL.prototype = {
     return {
       side: 'from',
       type: 'route',
-      payload: name
+      payload: name || DSL.EMPTY
     };
   },
 
@@ -67,7 +67,7 @@ DSL.prototype = {
     return {
       side: 'to',
       type: 'route',
-      payload: name
+      payload: name || DSL.EMPTY
     };
   },
 
@@ -77,7 +77,7 @@ DSL.prototype = {
     return {
       side: 'from',
       type: 'context',
-      payload: matcher
+      payload: matcher || DSL.EMPTY
     };
   },
 
@@ -85,7 +85,7 @@ DSL.prototype = {
     return {
       side: 'to',
       type: 'context',
-      payload: matcher
+      payload: matcher || DSL.EMPTY
     };
   },
 
@@ -99,5 +99,6 @@ DSL.prototype = {
 };
 
 DSL.ANY = '__liquid-fire-ANY';
+DSL.EMPTY = '__liquid-fire-EMPTY';
 
 export default DSL;

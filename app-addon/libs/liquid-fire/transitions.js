@@ -76,8 +76,8 @@ Transitions.prototype = {
     
     if (!view) {
       return {
-        route: 'empty',
-        context: 'empty'
+        route: DSL.EMPTY,
+        context: DSL.EMPTY
       };
     }
     
@@ -95,37 +95,44 @@ Transitions.prototype = {
   },
   
   match: function(oldView, newContent) {
-    var oldProps = this._viewProperties(oldView, 'currentView'),
-        newProps = this._viewProperties(newContent);
-    console.log("matching", oldProps, newProps);
-    return this._match(this._map, [oldProps.route, newProps.route, oldProps.context, newProps.context]);
+    var change = {
+      leaving: this._viewProperties(oldView, 'currentView'),
+      entering: this._viewProperties(newContent)
+    };
+    console.log("matching", change);
+    return this._match(change, this._map, [
+      change.leaving.route,
+      change.entering.route,
+      change.leaving.context,
+      change.entering.context
+    ]);
   },
   
-  _match: function(ctxt, remaining) {
+  _match: function(change, ctxt, remaining) {
     var next = ctxt[remaining[0]] || ctxt[DSL.ANY];
     if (!next){
-      next = this._matchFunctions(ctxt, remaining);
-    }
-    if (!next) {
-      return;
+      return this._matchFunctions(change, ctxt, remaining);
     }
     if (remaining.length === 1){
       return next;
     } else {
-      return this._match(next, remaining.slice(1));
+      return this._match(change, next, remaining.slice(1));
     }
   },
 
-  _matchFunctions: function(ctxt, remaining) {
+  _matchFunctions: function(change, ctxt, remaining) {
     var first = remaining[0],
         fs = ctxt.__functions,
         len, i, candidate;
-    
     if (!fs){ return; }
     for (i = 0, len = fs.length; i < len; i++) {
       candidate = fs[i];
-      if (candidate[0].apply(first)) {
-        return candidate[1];
+      if (candidate[0].apply(first, [change])) {
+        if (remaining.length === 1) {
+          return candidate[1];
+        } else {
+          return this._match(change, candidate[1], remaining.slice(1));
+        }
       }
     }
   }

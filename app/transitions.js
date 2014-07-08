@@ -20,15 +20,37 @@ export default function(){
   function person(){
     return Ember.get(this, 'isPerson');
   }
+
+  function higherPerson(change){
+    if (!Ember.get(this, 'isPerson')) {
+      return false;
+    }
+    return change.leaving.context.get('id') < change.entering.context.get('id');
+  }
+
+  function lowerPerson(change){
+    if (!Ember.get(this, 'isPerson')) {
+      return false;
+    }
+    return change.leaving.context.get('id') > change.entering.context.get('id');
+  }
+
+  
   
   this.transition(
     this.fromContext(person),
-    this.toContext(person),
+    this.toContext(higherPerson),
+    this.use('toUp')
+  );
+
+  this.transition(
+    this.fromContext(person),
+    this.toContext(lowerPerson),
     this.use('toDown')
   );
 
   this.transition(
-    this.fromContext('empty'),
+    this.fromContext(null),
     this.toContext(person),
     this.use('crossFade')
   );
