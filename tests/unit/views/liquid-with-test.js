@@ -276,177 +276,165 @@ test("it should render without fail", function() {
 
   });
 })();
-// test("it should still have access to original parentController within an {{#each}}", function() {
-//   var Controller = ObjectController.extend({
-//     controllerName: computed(function() {
-//       return "controller:"+this.get('model.name') + ' and ' + this.get('parentController.name');
-//     })
-//   });
 
-//   var people = A([{ name: "Steve Holt" }, { name: "Carl Weathers" }]);
-//   var container = new Container();
 
-//   var parentController = EmberObject.create({
-//     container: container,
-//     name: 'Bob Loblaw',
-//     people: people
-//   });
+(function(){
+  var parentController, person, people;
+  
+  localModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function() {
+    var Controller = Ember.ObjectController.extend({
+      controllerName: Ember.computed(function() {
+        return "controller:"+this.get('model.name') + ' and ' + this.get('parentController.name');
+      })
+    });
 
-//   view = EmberView.create({
-//     container: container,
-//     template: EmberHandlebars.compile('{{#each person in people}}{{#liquid-with person controller="person"}}{{controllerName}}{{/liquid-with}}{{/each}}'),
-//     controller: parentController
-//   });
+    people = Ember.A([{ name: "Steve Holt" }, { name: "Carl Weathers" }]);    
 
-//   container.register('controller:person', Controller);
+    parentController = Ember.Object.create({
+      container: this.container,
+      name: 'Bob Loblaw',
+      people: people
+    });
+    this.container.register('controller:person', Controller);
+    
+    return {
+      template: '{{#each person in people}}{{#liquid-with person controller="person"}}{{controllerName}}{{/liquid-with}}{{/each}}',
+      controller: parentController
+    };
+  });
 
-//   appendView(view);
+  test("it should still have access to original parentController within an {{#each}}", function() {
 
-//   check("controller:Steve Holt and Bob Loblawcontroller:Carl Weathers and Bob Loblaw");
+    check("controller:Steve Holt and Bob Loblawcontroller:Carl Weathers and Bob Loblaw");
+  });
+})();
 
-//   run(function() { view.destroy(); }); // destroy existing view
-// });
+(function(){
+  var PersonController, person, parentController;
+  localModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function(){
 
-// test("it should wrap keyword with object controller", function() {
-//   var PersonController = ObjectController.extend({
-//     name: computed('model.name', function() {
-//       return get(this, 'model.name').toUpperCase();
-//     })
-//   });
+    PersonController = Ember.ObjectController.extend({
+      name: Ember.computed('model.name', function() {
+        return get(this, 'model.name').toUpperCase();
+      })
+    });
+    this.container.register('controller:person', PersonController);
+    
+    person = Ember.Object.create({name: 'Steve Holt'});
 
-//   var person = EmberObject.create({name: 'Steve Holt'});
-//   var container = new Container();
+    parentController = Ember.Object.create({
+      container: this.container,
+      person: person,
+      name: 'Bob Loblaw'
+    });
 
-//   var parentController = EmberObject.create({
-//     container: container,
-//     person: person,
-//     name: 'Bob Loblaw'
-//   });
 
-//   view = EmberView.create({
-//     container: container,
-//     template: EmberHandlebars.compile('{{#liquid-with person as steve controller="person"}}{{name}} - {{steve.name}}{{/liquid-with}}'),
-//     controller: parentController
-//   });
+    
+    return {
+      template: '{{#liquid-with person as steve controller="person"}}{{name}} - {{steve.name}}{{/liquid-with}}',
+      controller: parentController
+    };
+  });
 
-//   container.register('controller:person', PersonController);
+  test("it should wrap keyword with object controller", function() {
+    check("Bob Loblaw - STEVE HOLT");
 
-//   appendView(view);
+    run(function() {
+      view.rerender();
+    });
 
-//   check("Bob Loblaw - STEVE HOLT");
+    check("Bob Loblaw - STEVE HOLT");
 
-//   run(function() {
-//     view.rerender();
-//   });
+    run(function() {
+      parentController.set('name', 'Carl Weathers');
+      view.rerender();
+    });
 
-//   check("Bob Loblaw - STEVE HOLT");
+    check("Carl Weathers - STEVE HOLT");
 
-//   run(function() {
-//     parentController.set('name', 'Carl Weathers');
-//     view.rerender();
-//   });
+    run(function() {
+      person.set('name', 'Gob');
+      view.rerender();
+    });
 
-//   check("Carl Weathers - STEVE HOLT");
+    check("Carl Weathers - GOB");
+  });
+})();
 
-//   run(function() {
-//     person.set('name', 'Gob');
-//     view.rerender();
-//   });
+(function(){
+  var destroyed, Controller, person, parentController;
+  localModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function(){
+    destroyed = false;
+    Controller = Ember.ObjectController.extend({
+      willDestroy: function() {
+        this._super();
+        destroyed = true;
+      }
+    });
+    this.container.register('controller:person', Controller);
+    
+    person = Ember.Object.create({name: 'Steve Holt'});
 
-//   check("Carl Weathers - GOB");
+    parentController = Ember.Object.create({
+      container: this.container,
+      person: person,
+      name: 'Bob Loblaw'
+    });
 
-//   run(function() { view.destroy(); }); // destroy existing view
-// });
+    return {
+      template: '{{#liquid-with person controller="person"}}{{controllerName}}{{/liquid-with}}',
+      controller: parentController
+    };
+  });
+  
+  test("destroys the controller generated with {{with foo controller='blah'}}", function() {
+    run(view, 'destroy'); // destroy existing view
+    ok(destroyed, 'controller was destroyed properly');
+  });
+})();
 
-// test("destroys the controller generated with {{with foo controller='blah'}}", function() {
-//   var destroyed = false;
-//   var Controller = ObjectController.extend({
-//     willDestroy: function() {
-//       this._super();
-//       destroyed = true;
-//     }
-//   });
+(function(){
+  var destroyed, Controller, person, parentController;
+  localModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function(){
+    destroyed = false;
+    Controller = Ember.ObjectController.extend({
+      willDestroy: function() {
+        this._super();
+        destroyed = true;
+      }
+    });
+    this.container.register('controller:person', Controller);
+    
+    person = Ember.Object.create({name: 'Steve Holt'});
 
-//   var person = EmberObject.create({name: 'Steve Holt'});
-//   var container = new Container();
+    parentController = Ember.Object.create({
+      container: this.container,
+      person: person,
+      name: 'Bob Loblaw'
+    });
 
-//   var parentController = EmberObject.create({
-//     container: container,
-//     person: person,
-//     name: 'Bob Loblaw'
-//   });
+    return {
+      template: '{{#liquid-with person as steve controller="person"}}{{controllerName}}{{/liquid-with}}',
+      controller: parentController
+    };
+  });
+  
+  test("destroys the controller generated with {{with foo controller='blah'}}", function() {
+    run(view, 'destroy'); // destroy existing view
+    ok(destroyed, 'controller was destroyed properly');
+  });
+})();
 
-//   view = EmberView.create({
-//     container: container,
-//     template: EmberHandlebars.compile('{{#liquid-with person controller="person"}}{{controllerName}}{{/liquid-with}}'),
-//     controller: parentController
-//   });
 
-//   container.register('controller:person', Controller);
 
-//   appendView(view);
+localModuleFor("{{#liquid-with}} helper binding to view keyword", {
+  template: "We have: {{#liquid-with view.thing as fromView}}{{fromView.name}} and {{fromContext.name}}{{/liquid-with}}",
+  thing: { name: 'this is from the view' },
+  context: {
+    fromContext: { name: "this is from the context" },
+  }
+});
 
-//   run(view, 'destroy'); // destroy existing view
-
-//   ok(destroyed, 'controller was destroyed properly');
-// });
-
-// test("destroys the controller generated with {{with foo as bar controller='blah'}}", function() {
-//   var destroyed = false;
-//   var Controller = ObjectController.extend({
-//     willDestroy: function() {
-//       this._super();
-//       destroyed = true;
-//     }
-//   });
-
-//   var person = EmberObject.create({name: 'Steve Holt'});
-//   var container = new Container();
-
-//   var parentController = EmberObject.create({
-//     container: container,
-//     person: person,
-//     name: 'Bob Loblaw'
-//   });
-
-//   view = EmberView.create({
-//     container: container,
-//     template: EmberHandlebars.compile('{{#liquid-with person as steve controller="person"}}{{controllerName}}{{/liquid-with}}'),
-//     controller: parentController
-//   });
-
-//   container.register('controller:person', Controller);
-
-//   appendView(view);
-
-//   run(view, 'destroy'); // destroy existing view
-
-//   ok(destroyed, 'controller was destroyed properly');
-// });
-
-// QUnit.module("{{#liquid-with}} helper binding to view keyword", {
-//   setup: function() {
-//     Ember.lookup = lookup = { Ember: Ember };
-
-//     view = EmberView.create({
-//       template: EmberHandlebars.compile("We have: {{#liquid-with view.thing as fromView}}{{fromView.name}} and {{fromContext.name}}{{/liquid-with}}"),
-//       thing: { name: 'this is from the view' },
-//       context: {
-//         fromContext: { name: "this is from the context" },
-//       }
-//     });
-
-//     appendView(view);
-//   },
-
-//   teardown: function() {
-//     run(function() {
-//       view.destroy();
-//     });
-//     Ember.lookup = originalLookup;
-//   }
-// });
-
-// test("{{with}} helper can bind to keywords with 'as'", function(){
-//   check("We have: this is from the view and this is from the context", "should render");
-// });
+test("{{with}} helper can bind to keywords with 'as'", function(){
+  check("We have: this is from the view and this is from the context", "should render");
+});
