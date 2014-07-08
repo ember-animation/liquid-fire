@@ -31,13 +31,18 @@ export default Ember.ContainerView.extend({
     var oldView = this.get('childViews.lastObject'),
         newView = this.get('currentView');
 
-    if (oldView && oldView.get('currentView') === newView) {
+    // Idempotence
+    if ((oldView && oldView.get('currentView') === newView) ||
+        (this._runningTransition &&
+         this._runningTransition.oldView === oldView &&
+         this._runningTransition.newContent === newView
+        )) {
       return;
     }
 
     // `transitions` comes from dependency injection, see the
     // liquid-fire app initializer.
-    var transition = this.get('transitions').lookup(oldView, newView);
+    var transition = this.get('transitions').transitionFor(oldView, newView);
 
     if (this._runningTransition) {
       this._runningTransition.interrupt();

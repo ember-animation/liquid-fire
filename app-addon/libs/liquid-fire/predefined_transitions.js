@@ -4,27 +4,28 @@ import Promise from "./promise";
 export default function predefinedTransitions(){
   this.setDefault({duration: 250});
 
-  this.defineTransition('toRight', function(oldView, insertNewView) {
-    stop(oldView);
-    return insertNewView().then(function(newView){
-      return Promise.all([
-        animate(oldView, {translateX: "-100%"}),
-        animate(newView, {translateX: ["0%", "100%"]})
-      ]);
-    });
-  });
+  function moveOver(property, direction) {
+    return function(oldView, insertNewView) {
+      var oldParams = {}, newParams = {};
+      oldParams[property] = (100 * direction) + '%';
+      newParams[property] = ["0%", (-100 * direction) + '%'];
 
-  this.defineTransition('toLeft', function(oldView, insertNewView) {
-    stop(oldView);
-    return insertNewView().then(function(newView){
-      return Promise.all([
-        animate(oldView, {translateX: "100%"}),
-        animate(newView, {translateX: ["0%", "-100%"]})
-      ]);
-    });
-  });
-
-  this.defineTransition('crossFade', function(oldView, insertNewView) {
+      stop(oldView);
+      return insertNewView().then(function(newView){
+        return Promise.all([
+          animate(oldView, oldParams),
+          animate(newView, newParams)
+        ]);
+      });
+    };
+  }
+  
+  this.define('toRight', moveOver('translateX', -1));
+  this.define('toLeft', moveOver('translateX', 1));
+  this.define('toUp', moveOver('translateY', 1));
+  this.define('toDown', moveOver('translateY', -1));
+  
+  this.define('crossFade', function(oldView, insertNewView) {
     stop(oldView);
     return animate(oldView, {opacity: 0})
       .then(insertNewView)

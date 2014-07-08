@@ -1,9 +1,10 @@
 import Promise from "./promise";
 
-function Transition(oldView, newContent, animation) {
+function Transition(oldView, newContent, animation, transitionMap) {
   this.oldView = oldView;
   this.newContent = newContent;
   this.animation = animation;
+  this.transitionMap = transitionMap;
 }
 
 Transition.prototype = {
@@ -46,6 +47,11 @@ Transition.prototype = {
       this.inserted = Promise.cast(null);
       this.interrupted = true;
     }
+  },
+
+  // Lets you compose your transitions out of other named transitions.
+  lookup: function(transitionName) {
+    return this.transitionMap.lookup(transitionName);
   }
 };
 

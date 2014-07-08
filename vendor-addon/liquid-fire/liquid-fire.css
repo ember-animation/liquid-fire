@@ -4,5 +4,14 @@
 
 .liquid-child {
     position: absolute;
+
+    /* 
+       Prevents a tiny vertical jump when the content switches to
+       accelerated. 
+   */
+    transform: translateZ(0);
+    -webkitTransform: translateZ(0);
+
+    
     top: 0;
 }

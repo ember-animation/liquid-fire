@@ -1,6 +1,6 @@
 import Transition from "./transition";
+import DSL from "./dsl";
 import predefinedTransitions from "./predefined_transitions";
-import { setDefaults } from "./animate";
 
 function Transitions() {
   this._namedTransitions = {};
@@ -10,72 +10,129 @@ function Transitions() {
 
 Transitions.prototype = {
 
-  setDefault: function(props) {
-    setDefaults(props);
+  lookup: function(transitionName) {
+    var handler = this._namedTransitions[transitionName];
+    if (!handler) {
+      throw new Error("unknown transition name: " + transitionName);
+    }
+    return handler;
   },
   
-  defineTransition: function(name, handler) {
-    this._namedTransitions[name] = handler;
-  },
-
-  from: function(name) {
-    var context = Object.create(this);
-    context._from = name;
-    return context;
-  },
-
-  to: function(name) {
-    var context = Object.create(this);
-    context._to = name;
-    return context;
-  },
-
-  use: function(nameOrHandler) {
-    var from = this._from || 'default',
-        to   = this._to   || 'default';
-    if (!this._map[from]) {
-      this._map[from] = {};
-    }
-    this._map[from][to] = nameOrHandler;
-    return this;
-  },
-
-  lookup: function(oldView, newContent) {
-    var oldName, newName;
-    if (oldView) {
-      oldName = oldView.get('currentView.renderedName');
-    } else {
-      oldName = "empty";
-    }
-    if (newContent) {
-      newName = newContent.get('renderedName');
-    } else {
-      newName = "empty";
-    }
-
-    var ctxt = this._map[oldName] || this._map['default'] || {},
-        key = ctxt[newName] || ctxt['default'],
+  transitionFor: function(oldView, newContent) {
+    var key = this.match(oldView, newContent),
         handler;
     
     if (key && typeof(key) === 'function') {
       handler = key;
     } else if (key) {
-      handler = this._namedTransitions[key];
-      if (!handler) {
-        throw new Error("unknown transition name: " + key);
-      }
+      handler = this.lookup(key);
     }
-    return new Transition(oldView, newContent, handler);
+    return new Transition(oldView, newContent, handler, this);
   },
 
   map: function(handler) {
     if (handler){
-      handler.apply(this);
+      handler.apply(new DSL(this));
     }
     return this;
+  },
+
+  register: function(from, to, action) {
+    this._register(this._map, [from.routes, to.routes, from.contexts, to.contexts], action);
+  },
+  
+  _register: function(ctxt, remaining, payload) {
+    var first = remaining[0];
+    for (var i = 0; i < first.length; i++) {
+      var elt = first[i];
+      if (typeof(elt) === 'function') {
+        if (!ctxt.__functions) {
+          ctxt.__functions = [];
+        }
+        if (remaining.length === 1) {
+          ctxt.__functions.push([elt, payload]);
+        } else {
+          var c = {};
+          this._register(c, remaining.slice(1), payload);
+          ctxt.__functions.push([elt, c]);
+        }
+      } else {
+        if (remaining.length === 1) {
+          ctxt[elt] = payload;
+        } else {
+          if (!ctxt[elt]) {
+            ctxt[elt] = {};
+          }
+          this._register(ctxt[elt], remaining.slice(1), payload);
+        }
+      }
+    }
+  },
+
+  _viewProperties: function(view, childProp) {
+    if (view && childProp) {
+      view = view.get(childProp);
+    }
+    
+    if (!view) {
+      return {
+        route: 'empty',
+        context: 'empty'
+      };
+    }
+    
+    var context;
+    if (view.get('templateName') === 'liquid-with') {
+      context = view.get('boundContext');
+    } else {
+      context = view.get('context');
+    }
+
+    return {
+      route: view.get('renderedName'),
+      context: context
+    };
+  },
+  
+  match: function(oldView, newContent) {
+    var oldProps = this._viewProperties(oldView, 'currentView'),
+        newProps = this._viewProperties(newContent);
+    console.log("matching", oldProps, newProps);
+    return this._match(this._map, [oldProps.route, newProps.route, oldProps.context, newProps.context]);
+  },
+  
+  _match: function(ctxt, remaining) {
+    var next = ctxt[remaining[0]] || ctxt[DSL.ANY];
+    if (!next){
+      next = this._matchFunctions(ctxt, remaining);
+    }
+    if (!next) {
+      return;
+    }
+    if (remaining.length === 1){
+      return next;
+    } else {
+      return this._match(next, remaining.slice(1));
+    }
+  },
+
+  _matchFunctions: function(ctxt, remaining) {
+    var first = remaining[0],
+        fs = ctxt.__functions,
+        len, i, candidate;
+    
+    if (!fs){ return; }
+    for (i = 0, len = fs.length; i < len; i++) {
+      candidate = fs[i];
+      if (candidate[0].apply(first)) {
+        return candidate[1];
+      }
+    }
   }
+  
     
 };
+
 
 Transitions.map = function(handler) {
   var t = new Transitions();

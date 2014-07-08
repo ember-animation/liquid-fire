@@ -2,6 +2,7 @@ import Ember from "ember";
 
 export default Ember.Route.extend({
   model: function(params){
-    return Ember.Object.create({id: params.id});
+    var Person = this.container.lookupFactory('model:person');
+    return Person.create({id: params.id});
   }
 });

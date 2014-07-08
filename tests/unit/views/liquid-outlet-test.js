@@ -116,6 +116,6 @@ test("Outlets bind to the current view, not the current concrete view", function
     middleView.connectOutlet('main', bottomView);
   });
 
-  var output = jQuery('#qunit-fixture h1 ~ h2 ~ h3').text();
+  var output = $('#qunit-fixture h1 ~ h2 ~ h3').text();
   equal(output, "BOTTOM", "all templates were rendered");
 });

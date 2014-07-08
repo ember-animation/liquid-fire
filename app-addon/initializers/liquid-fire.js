@@ -6,7 +6,7 @@ export function configure(container, config) {
                      Transitions.map(config),
                      {instantiate: false});
   container.injection('view:liquid-outlet', 'transitions', 'transitions:map');
-  container.injection('view:liquid-with', 'transitions', 'transitions:map');  
+  container.injection('view:liquid-with', 'transitions', 'transitions:map');
 }
 
 export default {
