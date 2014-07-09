@@ -1,9 +1,7 @@
 import Ember from "ember";
 import { Promise } from "../libs/liquid-fire";
 
-export default Ember.ContainerView.extend({
-  classNames: ['liquid-outlet'],
-
+export default Ember.ContainerView.extend(Ember._Metamorph, {
   init: function(){
     // The ContainerView constructor normally sticks our "currentView"
     // directly into _childViews, but we want to leave that up to

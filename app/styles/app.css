@@ -2,15 +2,16 @@ html, body {
   margin: 20px;
 }
 
-.liquid-outlet {
+.container {
     overflow: hidden;
     height: 400px;
     width: 400px;
     border: 1px solid blue;
+    position: relative;
 }
 
 .liquid-child {
-    width: 400px;
-    height: 400px;
+    width: 100%;
+    height: 100%;
 }
 
