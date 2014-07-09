@@ -272,8 +272,6 @@ test("it should render without fail", function() {
 
     check("controller:Gob and Carl Weathers");
 
-    strictEqual(view.get('_childViews')[0].get('controller.target'), parentController, "the target property of the child controllers are set correctly");
-
   });
 })();
 
