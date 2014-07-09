@@ -19,11 +19,14 @@ export default function predefinedTransitions(){
       });
     };
   }
-  
-  this.define('toRight', moveOver('translateX', -1));
-  this.define('toLeft', moveOver('translateX', 1));
-  this.define('toUp', moveOver('translateY', 1));
-  this.define('toDown', moveOver('translateY', -1));
+
+  // The terminology here describes the direction that the content
+  // moves. An alternative frame of reference is to describe which way
+  // the view's point-of-view moves, which has the opposite sense.
+  this.define('toRight', moveOver('translateX',1));
+  this.define('toLeft', moveOver('translateX', -1));
+  this.define('toUp', moveOver('translateY', -1));
+  this.define('toDown', moveOver('translateY', 1));
   
   this.define('crossFade', function(oldView, insertNewView) {
     stop(oldView);

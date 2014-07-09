@@ -51,4 +51,8 @@ export default function(){
     this.use('crossFade')
   );
 
+  this.transition(
+    this.between(function(){return typeof(this) === 'number';}),
+    this.use('toLeft')
+  );
 }

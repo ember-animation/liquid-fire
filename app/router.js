@@ -10,6 +10,7 @@ Router.map(function() {
     this.route('third', {path: '/third/:id'});
   });
   this.route("test-with", {path: "/test-with/:id"});
+  this.route("test-bind", {path: "/test-bind"});
 });
 
 export default Router;
