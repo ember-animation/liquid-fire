@@ -1,9 +1,10 @@
 import Promise from "./promise";
 
-function Transition(oldView, newContent, animation, transitionMap) {
+function Transition(oldView, newContent, animation, animationArgs, transitionMap) {
   this.oldView = oldView;
   this.newContent = newContent;
   this.animation = animation;
+  this.animationArgs = animationArgs;
   this.transitionMap = transitionMap;
 }
 
@@ -28,7 +29,7 @@ Transition.prototype = {
       }
       return self.inserted = container._pushNewView(self.newContent);
     }
-    return this.animation(this.oldView, insertNewView).then(function(){
+    return this.animation.apply(this, [this.oldView, insertNewView].concat(this.animationArgs)).then(function(){
       self.maybeDestroyOldView();
     });
   },

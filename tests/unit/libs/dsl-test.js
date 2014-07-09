@@ -329,3 +329,30 @@ test("matches instanceOf contexts", function() {
   equal(lookupTransition(), otherAction, 'Sees through controllers');
 
 });
+
+test("passes arguments through to transitions", function() {
+  t.map(function(){
+    this.transition(
+      this.fromRoute('one'),
+      this.toRoute('two'),
+      this.use(dummyAction, 1, 2, 3)
+    );
+    this.transition(
+      this.fromRoute('one'),
+      this.toRoute('three'),
+      this.use('fancySpin', 4, 5, 6)
+    );
+    this.define('fancySpin', otherAction);
+  });
+
+  setRoutes('one', 'two');
+
+
+  deepEqual(t.transitionFor(oldView, newContent).animationArgs, [1,2,3], 'with function');
+
+  setRoutes('one', 'three');
+  deepEqual(t.transitionFor(oldView, newContent).animationArgs, [4,5,6], 'with named transition');
+
+
+
+});

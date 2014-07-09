@@ -4,7 +4,7 @@ import Promise from "./promise";
 export default function predefinedTransitions(){
   this.setDefault({duration: 250});
 
-  function moveOver(property, direction) {
+  function moveOver(property, direction, opts) {
     return function(oldView, insertNewView) {
       var oldParams = {}, newParams = {};
       oldParams[property] = (100 * direction) + '%';
@@ -13,8 +13,8 @@ export default function predefinedTransitions(){
       stop(oldView);
       return insertNewView().then(function(newView){
         return Promise.all([
-          animate(oldView, oldParams),
-          animate(newView, newParams)
+          animate(oldView, oldParams, opts),
+          animate(newView, newParams, opts)
         ]);
       });
     };
@@ -28,12 +28,22 @@ export default function predefinedTransitions(){
   this.define('toUp', moveOver('translateY', -1));
   this.define('toDown', moveOver('translateY', 1));
   
-  this.define('crossFade', function(oldView, insertNewView) {
+  this.define('crossFade', function(oldView, insertNewView, opts) {
+    stop(oldView);
+    return insertNewView().then(function(newView) {
+      return Promise.all([
+        animate(oldView, {opacity: 0}, opts),
+        animate(newView, {opacity: [1, 0]}, opts)
+      ]);
+    });
+  });
+
+  this.define('fade', function(oldView, insertNewView) {
     stop(oldView);
     return animate(oldView, {opacity: 0})
       .then(insertNewView)
       .then(function(newView){
         return animate(newView, {opacity: [1, 0]});
       });
-  });
+  });  
 }

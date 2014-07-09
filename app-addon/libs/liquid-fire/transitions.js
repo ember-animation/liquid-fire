@@ -22,12 +22,12 @@ Transitions.prototype = {
     var key = this.match(oldView, newContent),
         handler;
     
-    if (key && typeof(key) === 'function') {
-      handler = key;
+    if (key && typeof(key.method) === 'function') {
+      handler = key.method;
     } else if (key) {
-      handler = this.lookup(key);
+      handler = this.lookup(key.method);
     }
-    return new Transition(oldView, newContent, handler, this);
+    return new Transition(oldView, newContent, handler, (key ? key.args : undefined), this);
   },
 
   map: function(handler) {

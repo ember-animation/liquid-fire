@@ -28,7 +28,7 @@ DSL.prototype = {
         if (action) {
           throw new Error("each transition definition must contain exactly one 'use' statement");
         }
-        action = arg.payload;
+        action = { method: arg.payload, args: arg.args };
       } else {
         var ctxt = (arg.side === 'from') ? from : to;
         var list = (arg.type === 'route') ? ctxt.routes : ctxt.contexts;
@@ -103,7 +103,8 @@ DSL.prototype = {
   use: function(nameOrHandler) {
     return {
       type: 'action',
-      payload: nameOrHandler
+      payload: nameOrHandler,
+      args: Array.prototype.slice.apply(arguments, [1])
     };
   }
 };
