@@ -76,8 +76,8 @@ Transitions.prototype = {
     
     if (!view) {
       return {
-        route: DSL.EMPTY,
-        context: DSL.EMPTY
+        route: undefined,
+        context: undefined
       };
     }
     
@@ -90,7 +90,7 @@ Transitions.prototype = {
 
     return {
       route: view.get('renderedName'),
-      context: context || DSL.EMPTY
+      context: context
     };
   },
   
@@ -108,7 +108,7 @@ Transitions.prototype = {
   },
   
   _match: function(change, ctxt, remaining) {
-    var next = ctxt[remaining[0]] || ctxt[DSL.ANY];
+    var next = ctxt[remaining[0] || DSL.EMPTY] || ctxt[DSL.ANY];
     if (!next){
       return this._matchFunctions(change, ctxt, remaining);
     }

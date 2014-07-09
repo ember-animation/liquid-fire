@@ -142,8 +142,8 @@ test("matches empty source route", function(){
 test("matches source & destination contexts", function(){
   t.map(function(){
     this.transition(
-      this.fromContext(function(){ return this.isMySource; }),
-      this.toContext(function(){ return this.isMyDestination; }),
+      this.fromContext(function(){ return this && this.isMySource; }),
+      this.toContext(function(){ return this && this.isMyDestination; }),
       this.use(dummyAction)
     );
   });
@@ -172,8 +172,8 @@ test("matches routes & contexts", function(){
     this.transition(
       this.fromRoute('one'),
       this.toRoute('two'),
-      this.fromContext(function(){ return this.isMySource; }),
-      this.toContext(function(){ return this.isMyDestination; }),
+      this.fromContext(function(){ return this && this.isMySource; }),
+      this.toContext(function(){ return this && this.isMyDestination; }),
       this.use(dummyAction)
     );
   });
@@ -244,7 +244,7 @@ test("steps through partial context matches", function(){
 test("matches between contexts", function(){
   t.map(function(){
     this.transition(
-      this.between(function(){ return this.isThing; }),
+      this.between(function(){ return this && this.isThing; }),
       this.use(dummyAction)
     );
   });
