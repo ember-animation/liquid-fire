@@ -13,7 +13,7 @@ function setRoutes(o, n) {
   if (o) {
     oldView = Ember.View.create({
       currentView: Ember.View.create({renderedName: o})
-    });    
+    });
   } else {
     oldView = null;
   }
@@ -33,7 +33,7 @@ function setContexts(o, n) {
     n = Ember.Object.create(n);
   }
 
-  
+
   if (o) {
     oldView.get('currentView').set('context', o);
   } else {
@@ -87,7 +87,7 @@ test("matches just source route", function(){
       this.use(dummyAction)
     );
   });
-  
+
   setRoutes('one', 'bogus');
   equal(lookupTransition(), dummyAction);
 
@@ -120,7 +120,7 @@ test("matches just destination route", function(){
 
   setRoutes('bogus', null);
   equal(lookupTransition(), undefined, 'with empty destination');
-  
+
 });
 
 test("matches empty source route", function(){
@@ -136,20 +136,20 @@ test("matches empty source route", function(){
   equal(lookupTransition(), undefined, 'non-empty source');
 
   setRoutes(null, 'two');
-  equal(lookupTransition(), dummyAction, 'empty source');  
+  equal(lookupTransition(), dummyAction, 'empty source');
 });
 
 test("matches source & destination contexts", function(){
   t.map(function(){
     this.transition(
       this.fromContext(function(){ return this.isMySource; }),
-      this.toContext(function(){ return this.isMyDestination; }),      
+      this.toContext(function(){ return this.isMyDestination; }),
       this.use(dummyAction)
     );
   });
 
   setRoutes('one', 'one');
-  
+
   setContexts({isMySource: true}, {isMyDestination: true});
   equal(lookupTransition(), dummyAction, 'both match');
 
@@ -157,14 +157,14 @@ test("matches source & destination contexts", function(){
   equal(lookupTransition(), undefined, 'empty source');
 
   setContexts({isMySource: true}, null);
-  equal(lookupTransition(), undefined, 'empty destination');  
+  equal(lookupTransition(), undefined, 'empty destination');
 
   setContexts({isMySource: false}, {isMyDestination: true});
   equal(lookupTransition(), undefined, 'other source');
 
   setContexts({isMySource: true}, {isMyDestination: false});
   equal(lookupTransition(), undefined, 'other destination');
-  
+
 });
 
 test("matches routes & contexts", function(){
@@ -173,13 +173,13 @@ test("matches routes & contexts", function(){
       this.fromRoute('one'),
       this.toRoute('two'),
       this.fromContext(function(){ return this.isMySource; }),
-      this.toContext(function(){ return this.isMyDestination; }),      
+      this.toContext(function(){ return this.isMyDestination; }),
       this.use(dummyAction)
     );
   });
 
   setRoutes('one', 'two');
-  
+
   setContexts({isMySource: true}, {isMyDestination: true});
   equal(lookupTransition(), dummyAction, 'both match');
 
@@ -187,7 +187,7 @@ test("matches routes & contexts", function(){
   equal(lookupTransition(), undefined, 'empty source');
 
   setContexts({isMySource: true}, null);
-  equal(lookupTransition(), undefined, 'empty destination');  
+  equal(lookupTransition(), undefined, 'empty destination');
 
   setContexts({isMySource: false}, {isMyDestination: true});
   equal(lookupTransition(), undefined, 'other source');
@@ -202,7 +202,7 @@ test("matches routes & contexts", function(){
   setRoutes('three', 'two');
   setContexts({isMySource: true}, {isMyDestination: true});
   equal(lookupTransition(), undefined, 'wrong source route');
-  
+
 });
 
 test("steps through partial route matches", function(){
@@ -216,7 +216,7 @@ test("steps through partial route matches", function(){
       this.fromRoute('one'),
       this.toRoute('three'),
       this.use(dummyAction)
-    );    
+    );
   });
 
   setRoutes('one', 'three');
@@ -227,12 +227,12 @@ test("steps through partial context matches", function(){
   t.map(function(){
     this.transition(
       this.fromContext(function(){ return true; }),
-      this.toContext(function(){ return false; }),      
+      this.toContext(function(){ return false; }),
       this.use(otherAction)
     );
     this.transition(
       this.fromContext(function(){ return true; }),
-      this.toContext(function(){ return true; }),      
+      this.toContext(function(){ return true; }),
       this.use(dummyAction)
     );
   });
@@ -250,7 +250,7 @@ test("matches between contexts", function(){
   });
 
   setRoutes('one', 'one');
-  
+
   setContexts({isThing: true}, {isThing: true});
   equal(lookupTransition(), dummyAction, 'both match');
 
@@ -258,35 +258,67 @@ test("matches between contexts", function(){
   equal(lookupTransition(), undefined, 'empty source');
 
   setContexts({isThing: true}, null);
-  equal(lookupTransition(), undefined, 'empty destination');  
+  equal(lookupTransition(), undefined, 'empty destination');
 
   setContexts({isThing: false}, {isThing: true});
   equal(lookupTransition(), undefined, 'other source');
 
   setContexts({isThing: true}, {isThing: false});
   equal(lookupTransition(), undefined, 'other destination');
-  
+
+});
+
+test("can target empty routes", function() {
+  t.map(function(){
+    this.transition(
+      this.fromRoute(null),
+      this.toRoute('one'),
+      this.use(dummyAction)
+    );
+  });
+  setRoutes(null, 'one');
+  equal(lookupTransition(), dummyAction, 'should match');
+
+  setRoutes('two', 'one');
+  equal(lookupTransition(), undefined, 'should not match');
+});
+
+test("can target empty context", function() {
+  t.map(function(){
+    this.transition(
+      this.fromContext(null),
+      this.toContext(function(){ return true; }),
+      this.use(dummyAction)
+    );
+  });
+  setRoutes('one', 'one');
+
+  setContexts(null, {});
+  equal(lookupTransition(), dummyAction, 'should match');
+
+  setContexts({}, {});
+  equal(lookupTransition(), undefined, 'should not match');
 });
 
 test("matches instanceOf contexts", function() {
   var Pet = Ember.Object.extend();
   var Owner = Ember.Object.extend();
-  
+
   t.map(function(){
     this.transition(
       this.fromContext({instanceOf: Pet}),
-      this.toContext({instanceOf: Owner}),      
+      this.toContext({instanceOf: Owner}),
       this.use(dummyAction)
     );
     this.transition(
       this.fromContext({instanceOf: Owner}),
-      this.toContext({instanceOf: Pet}),      
+      this.toContext({instanceOf: Pet}),
       this.use(otherAction)
-    );    
+    );
   });
 
   setRoutes('one', 'one');
-  
+
   setContexts(Pet.create(), Owner.create());
   equal(lookupTransition(), dummyAction, 'Pet to Owner');
 
@@ -294,6 +326,6 @@ test("matches instanceOf contexts", function() {
   equal(lookupTransition(), otherAction, 'Owner to Pet');
 
   setContexts(Ember.ObjectController.create({model: Owner.create()}), Pet.create());
-  equal(lookupTransition(), otherAction, 'Sees through controllers');  
-  
+  equal(lookupTransition(), otherAction, 'Sees through controllers');
+
 });
