@@ -81,7 +81,7 @@ DSL.prototype = {
     return {
       side: 'from',
       type: 'context',
-      payload: matcher || DSL.EMPTY
+      payload: contextMatcher(matcher) || DSL.EMPTY
     };
   },
 
@@ -89,7 +89,7 @@ DSL.prototype = {
     return {
       side: 'to',
       type: 'context',
-      payload: matcher || DSL.EMPTY
+      payload: contextMatcher(matcher) || DSL.EMPTY
     };
   },
 
@@ -110,5 +110,16 @@ DSL.prototype = {
 
 DSL.ANY = '__liquid-fire-ANY';
 DSL.EMPTY = '__liquid-fire-EMPTY';
+
+function contextMatcher(matcher) {
+  if (typeof(matcher) === 'function') {
+    return matcher;
+  }
+  if (matcher.instanceOf) {
+    return function() {
+      return (this instanceof matcher.instanceOf) || (this && this.get && this.get('model') && this.get('model') instanceof matcher.instanceOf);
+    };
+  }
+}
 
 export default DSL;

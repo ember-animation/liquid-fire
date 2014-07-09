@@ -25,13 +25,22 @@ function setRoutes(o, n) {
 }
 
 function setContexts(o, n) {
+  if (o && !(o instanceof Ember.Object)) {
+    o = Ember.Object.create(o);
+  }
+
+  if (n && !(n instanceof Ember.Object)) {
+    n = Ember.Object.create(n);
+  }
+
+  
   if (o) {
-    oldView.get('currentView').set('context', Ember.Object.create(o));
+    oldView.get('currentView').set('context', o);
   } else {
     oldView.get('currentView').set('context', null);
   }
   if (n) {
-    newContent.set('context', Ember.Object.create(n));
+    newContent.set('context', n);
   } else {
     newContent.set('context', null);
   }
@@ -256,5 +265,35 @@ test("matches between contexts", function(){
 
   setContexts({isThing: true}, {isThing: false});
   equal(lookupTransition(), undefined, 'other destination');
+  
+});
+
+test("matches instanceOf contexts", function() {
+  var Pet = Ember.Object.extend();
+  var Owner = Ember.Object.extend();
+  
+  t.map(function(){
+    this.transition(
+      this.fromContext({instanceOf: Pet}),
+      this.toContext({instanceOf: Owner}),      
+      this.use(dummyAction)
+    );
+    this.transition(
+      this.fromContext({instanceOf: Owner}),
+      this.toContext({instanceOf: Pet}),      
+      this.use(otherAction)
+    );    
+  });
+
+  setRoutes('one', 'one');
+  
+  setContexts(Pet.create(), Owner.create());
+  equal(lookupTransition(), dummyAction, 'Pet to Owner');
+
+  setContexts(Owner.create(), Pet.create());
+  equal(lookupTransition(), otherAction, 'Owner to Pet');
+
+  setContexts(Ember.ObjectController.create({model: Owner.create()}), Pet.create());
+  equal(lookupTransition(), otherAction, 'Sees through controllers');  
   
 });
