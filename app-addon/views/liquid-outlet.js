@@ -30,7 +30,8 @@ export default Ember.ContainerView.extend(Ember._Metamorph, {
         newView = this.get('currentView');
 
     // Idempotence
-    if ((oldView && oldView.get('currentView') === newView) ||
+    if ((!oldView && !newView) ||
+        (oldView && oldView.get('currentView') === newView) ||
         (this._runningTransition &&
          this._runningTransition.oldView === oldView &&
          this._runningTransition.newContent === newView
