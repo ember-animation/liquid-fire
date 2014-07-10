@@ -24,7 +24,7 @@ Comprehensive animation support for ambitious Ember applications.
 
 ## Installation
 
-This is an ember-cli addon, so (*once I publish it to npm*) all you need is:
+This is an ember-cli addon, so all you need is:
 
     npm install --save-dev liquid-fire
 
