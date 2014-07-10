@@ -43,6 +43,9 @@ export default Ember.Component.extend({
     case 'biggestChild':
       dim = this._measureBiggestChild(elt);
       break;
+    case 'lastChild':
+      dim = this._measureLastChild(elt);
+      break;
     default:
       dim = this._measure(elt);
     }
@@ -82,6 +85,10 @@ export default Ember.Component.extend({
       }
     });
     return dim;
+  },
+
+  _measureLastChild: function(elt) {
+    return this._measure(elt.children().not('script').last());
   }
 
 
