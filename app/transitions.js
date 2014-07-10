@@ -6,13 +6,13 @@ export default function(){
   this.transition(
     this.fromRoute('test-outlet.index'),
     this.toRoute('test-outlet.second'),
-    this.toRoute('test-outlet.third'),    
+    this.toRoute('test-outlet.third'),
     this.use('toLeft')
   );
 
   this.transition(
     this.fromRoute('test-outlet.second'),
-    this.fromRoute('test-outlet.third'),    
+    this.fromRoute('test-outlet.third'),
     this.toRoute('test-outlet.index'),
     this.use('toRight')
   );
@@ -31,8 +31,8 @@ export default function(){
       change.leaving.context.get('id') > change.entering.context.get('id');
   }
 
-  
-  
+
+
   this.transition(
     this.fromContext(person),
     this.toContext(higherPerson),
@@ -57,7 +57,7 @@ export default function(){
   );
 
   this.transition(
-    this.between({childOf: '#test-if-container'}),
+    this.between({class: 'demo-if'}),
     this.use('crossFade')
   );
 

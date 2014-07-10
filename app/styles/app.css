@@ -10,9 +10,9 @@ html, body {
     position: relative;
 }
 
-.liquid-child {
-    width: 100%;
+.container .liquid-child {
     height: 100%;
+    width: 100%;
 }
 
 #measure-demo-target {
@@ -24,3 +24,10 @@ html, body {
     border: 1px solid red;
     overflow: hidden;
 }
+
+#test-if-container {
+    position: relative;
+    border: 1px solid black;
+    overflow: hidden;
+}
+

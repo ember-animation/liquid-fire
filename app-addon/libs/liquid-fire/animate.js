@@ -43,7 +43,7 @@ export function animate(view, props, opts) {
 export function stop(view) {
   var elt, animList;
   if (view && (elt = view.$())) {
-    elt.velocity('stop', true);    
+    elt.velocity('stop', true);
     if (animList = view._velocityAnimations) {
       for (var i=0; i < animList.length; i++) {
         animList[i]();
@@ -61,4 +61,3 @@ export function setDefaults(props) {
     }
   }
 }
-

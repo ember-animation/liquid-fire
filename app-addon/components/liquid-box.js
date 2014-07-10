@@ -6,10 +6,11 @@ export default Ember.Component.extend({
 
   initialSize: function(){
     var elt = this.$();
-    var child = elt.children().first();
-    elt.css({height: child.height(), width: child.width()});
+    var measure = this._childViews[0];
+    measure.updateMeasurements();
+    elt.css({height: measure.get('height'), width: measure.get('width')});
   }.on('didInsertElement'),
-  
+
   resize: Ember.observer('contentHeight', 'contentWidth', function() {
     Ember.run.debounce(this, '_resize', 100);
   }),

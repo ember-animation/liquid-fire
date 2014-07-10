@@ -1,9 +1,13 @@
 {{input type="checkbox" checked=checked}}
 
-<div id="test-if-container" style="position: relative">
-{{#liquid-if checked}}
-It's checked
+
+{{#liquid-box id="test-if-container" measure="biggestChild"}}
+{{#liquid-if checked class="demo-if"}}
+It's checked<br>
+This one<br>
+is taller
 {{else}}
 It's not checked
 {{/liquid-if}}
-</div>
+{{/liquid-box}}
+
