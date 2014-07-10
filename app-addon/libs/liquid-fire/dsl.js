@@ -133,6 +133,7 @@ function contextMatcher(matcher) {
 
   if (matcher.childOf) {
     return function(change) {
+      /* global Ember */
       return Ember.$('#' + change.parentView.morph.start).parent().is(matcher.childOf);
     };
   }

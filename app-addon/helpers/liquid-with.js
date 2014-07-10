@@ -18,7 +18,7 @@ export default function liquidWithHelper() {
   });
   innerOptions.hash.boundContextBinding = context;
   if (options.hash.class) {
-    innerOptions.hash.class = options.hash.class
+    innerOptions.hash.class = options.hash.class;
     innerOptions.hashTypes.class = options.hashTypes.class;
   }
   return Ember.Handlebars.helpers.view.call(this, View, innerOptions);
