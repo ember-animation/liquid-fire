@@ -18,7 +18,14 @@ function unwatchedTree(dir) {
 }
 
 LiquidFire.prototype.treeFor = function treeFor(name) {
-  var treePath = path.join('node_modules', 'liquid-fire', name + '-addon');
+  var treePath = path.join('node_modules', 'liquid-fire');
+
+  if (name === 'templates') {
+    treePath = path.join(treePath, 'app-addon', 'templates');
+  } else {
+    treePath = path.join(treePath, name + '-addon');
+  }
+
   var addon;
 
   if (fs.existsSync(treePath)) {
