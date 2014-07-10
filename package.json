@@ -1,7 +1,6 @@
 {
   "name": "liquid-fire",
   "version": "0.0.1",
-  "private": true,
   "directories": {
     "doc": "doc",
     "test": "test"
