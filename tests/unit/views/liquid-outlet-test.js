@@ -4,12 +4,14 @@ import { configure } from "liquid-fire/initializers/liquid-fire";
 
 var view,
     run = Ember.run,
-    compile = Ember.Handlebars.compile;
+    compile = Ember.Handlebars.compile,
+    container;
 
 function makeView(attrs) {
   if (attrs.template) {
     attrs.template = compile(attrs.template);
   }
+  attrs.container = container;
   view = Ember.View.create(attrs);
 }
 
@@ -22,10 +24,11 @@ function appendView() {
 function makeModuleFor(title) {
   moduleFor('helper:liquid-outlet', title, {
 
-    needs: ['view:liquid-child'],
+    needs: ['view:liquid-child', 'view:liquid-outlet'],
 
     setup: function(){
       configure(this.container);
+      container = this.container;
     },
     
     teardown: function(){
@@ -41,11 +44,11 @@ function check(expected, comment) {
   equal(text, expected.replace(/\s/g,''), comment);
 }
 
-makeModuleFor('{{liquid-with}} Basics');
+makeModuleFor('{{liquid-outlet}} Basics');
 
 test("view should support connectOutlet for the main outlet", function() {
   makeView({
-    template: "<h1>HI</h1>{{outlet}}",
+    template: "<h1>HI</h1>{{liquid-outlet}}",
   });
   appendView();
   check('HI');
@@ -54,13 +57,12 @@ test("view should support connectOutlet for the main outlet", function() {
       template: compile("<p>BYE</p>")
     }));
   });
-  // Replace whitespace for older IE
   check('HIBYE');
 });
 
 test("outlet should support connectOutlet in slots in prerender state", function() {
   makeView({
-    template: "<h1>HI</h1>{{outlet}}"
+    template: "<h1>HI</h1>{{liquid-outlet}}"
   });
 
   view.connectOutlet('main', Ember.View.create({
@@ -90,16 +92,18 @@ test("outlet should support an optional name", function() {
 
 
 test("Outlets bind to the current view, not the current concrete view", function() {
-  var parentTemplate = "<h1>HI</h1>{{outlet}}";
-  var middleTemplate = "<h2>MIDDLE</h2>{{outlet}}";
+  var parentTemplate = "<h1>HI</h1>{{liquid-outlet}}";
+  var middleTemplate = "<h2>MIDDLE</h2>{{liquid-outlet}}";
   var bottomTemplate = "<h3>BOTTOM</h3>";
 
   var middleView = Ember._MetamorphView.create({
-    template: compile(middleTemplate)
+    template: compile(middleTemplate),
+    container: container
   });
 
   var bottomView = Ember._MetamorphView.create({
-    template: compile(bottomTemplate)
+    template: compile(bottomTemplate),
+    container: container    
   });
 
   makeView({
@@ -116,6 +120,8 @@ test("Outlets bind to the current view, not the current concrete view", function
     middleView.connectOutlet('main', bottomView);
   });
 
-  var output = $('#qunit-fixture h1 ~ h2 ~ h3').text();
+  var output = $('#qunit-fixture h3').text();
   equal(output, "BOTTOM", "all templates were rendered");
 });
+
+
