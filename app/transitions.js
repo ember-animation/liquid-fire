@@ -18,7 +18,7 @@ export default function(){
   );
 
   function person(){
-    return Ember.get(this, 'isPerson');
+    return this && Ember.get(this, 'isPerson');
   }
 
   function higherPerson(change){
@@ -54,6 +54,11 @@ export default function(){
   this.transition(
     this.between({childOf: '#bind-test-container'}),
     this.use('toLeft')
+  );
+
+  this.transition(
+    this.between({childOf: '#test-if-container'}),
+    this.use('crossFade')
   );
 
 }

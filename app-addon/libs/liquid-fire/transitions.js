@@ -105,30 +105,30 @@ Transitions.prototype = {
     ]);
   },
   
-  _match: function(change, ctxt, remaining) {
-    var next = ctxt[remaining[0] || DSL.EMPTY] || ctxt[DSL.ANY];
-    if (!next){
-      return this._matchFunctions(change, ctxt, remaining);
-    }
-    if (remaining.length === 1){
-      return next;
-    } else {
-      return this._match(change, next, remaining.slice(1));
-    }
-  },
+  _match: function(change, ctxt, queue) {
+    var index = 0,
+        first = queue[0],
+        rest = queue.slice(1),
+        candidate, nextContext, answer,
+        candidates = [first || DSL.EMPTY].concat(ctxt.__functions).concat(DSL.ANY);
 
-  _matchFunctions: function(change, ctxt, remaining) {
-    var first = remaining[0],
-        fs = ctxt.__functions,
-        len, i, candidate;
-    if (!fs){ return; }
-    for (i = 0, len = fs.length; i < len; i++) {
-      candidate = fs[i];
-      if (candidate[0].apply(first, [change])) {
-        if (remaining.length === 1) {
-          return candidate[1];
+    for (index = 0; index < candidates.length; index++) {
+      candidate = candidates[index];
+      if (!candidate) { continue; }
+      if (typeof(candidate[0]) === 'function'){
+        if (candidate[0].apply(first, [change])) {
+          nextContext = candidate[1];
         } else {
-          var answer = this._match(change, candidate[1], remaining.slice(1));
+          nextContext = null;
+        }
+      } else {
+        nextContext = ctxt[candidate];
+      }
+      if (nextContext) {
+        if (rest.length === 0) {
+          return nextContext;
+        } else {
+          answer = this._match(change, nextContext, rest);
           if (answer) {
             return answer;
           }
@@ -136,7 +136,7 @@ Transitions.prototype = {
       }
     }
   }
-  
+
     
 };
 

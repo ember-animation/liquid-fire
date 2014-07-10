@@ -205,7 +205,7 @@ test("matches routes & contexts", function(){
 
 });
 
-test("steps through partial route matches", function(){
+test("backtracks past partial route matches", function(){
   t.map(function(){
     this.transition(
       this.fromRoute('one'),
@@ -223,7 +223,7 @@ test("steps through partial route matches", function(){
   equal(lookupTransition(), dummyAction, 'both match');
 });
 
-test("steps through partial context matches", function(){
+test("backtracks past partial context matches", function(){
   t.map(function(){
     this.transition(
       this.fromContext(function(){ return true; }),
@@ -240,6 +240,40 @@ test("steps through partial context matches", function(){
   setRoutes('one', 'three');
   equal(lookupTransition(), dummyAction, 'matches');
 });
+
+test("backtracks to default route", function(){
+  t.map(function(){
+    this.transition(
+      this.fromRoute('x'),
+      this.toContext(function(){ return false; }),
+      this.use(otherAction)
+    );
+    this.transition(
+      this.toContext(function(){ return true; }),
+      this.use(dummyAction)
+    );
+  });
+
+  setRoutes('x', 'three');
+  equal(lookupTransition(), dummyAction, 'matches');
+});
+
+test("matching context takes precedence over default", function(){
+  t.map(function(){
+    this.transition(
+      this.use(otherAction)
+    );
+    this.transition(
+      this.toContext(function(){ return true; }),
+      this.use(dummyAction)
+    );
+  });
+
+  setRoutes('x', 'three');
+  equal(lookupTransition(), dummyAction, 'matches');
+});
+
+
 
 test("matches between contexts", function(){
   t.map(function(){
