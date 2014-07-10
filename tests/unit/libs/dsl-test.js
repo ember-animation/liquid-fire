@@ -1,12 +1,12 @@
 import { Transitions } from "liquid-fire/libs/liquid-fire";
 import Ember from "ember";
 
-var t, oldView, newContent;
+var t, oldView, newContent, parentView;
 function dummyAction() {}
 function otherAction() {}
 
 function lookupTransition() {
-  return t.transitionFor(oldView, newContent).animation;
+  return t.transitionFor(parentView, oldView, newContent).animation;
 }
 
 function setRoutes(o, n) {
@@ -330,6 +330,7 @@ test("matches instanceOf contexts", function() {
 
 });
 
+
 test("passes arguments through to transitions", function() {
   t.map(function(){
     this.transition(
@@ -348,10 +349,10 @@ test("passes arguments through to transitions", function() {
   setRoutes('one', 'two');
 
 
-  deepEqual(t.transitionFor(oldView, newContent).animationArgs, [1,2,3], 'with function');
+  deepEqual(t.transitionFor(parentView, oldView, newContent).animationArgs, [1,2,3], 'with function');
 
   setRoutes('one', 'three');
-  deepEqual(t.transitionFor(oldView, newContent).animationArgs, [4,5,6], 'with named transition');
+  deepEqual(t.transitionFor(parentView, oldView, newContent).animationArgs, [4,5,6], 'with named transition');
 
 
 

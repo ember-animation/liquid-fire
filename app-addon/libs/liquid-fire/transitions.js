@@ -18,8 +18,8 @@ Transitions.prototype = {
     return handler;
   },
   
-  transitionFor: function(oldView, newContent) {
-    var key = this.match(oldView, newContent),
+  transitionFor: function(parentView, oldView, newContent) {
+    var key = this.match(parentView, oldView, newContent),
         handler;
     
     if (key && typeof(key.method) === 'function') {
@@ -27,7 +27,7 @@ Transitions.prototype = {
     } else if (key) {
       handler = this.lookup(key.method);
     }
-    return new Transition(oldView, newContent, handler, (key ? key.args : undefined), this);
+    return new Transition(parentView, oldView, newContent, handler, (key ? key.args : undefined), this);
   },
 
   map: function(handler) {
@@ -91,10 +91,11 @@ Transitions.prototype = {
     };
   },
   
-  match: function(oldView, newContent) {
+  match: function(parentView, oldView, newContent) {
     var change = {
       leaving: this._viewProperties(oldView, 'currentView'),
-      entering: this._viewProperties(newContent)
+      entering: this._viewProperties(newContent),
+      parentView: parentView
     };
     return this._match(change, this._map, [
       change.leaving.route,
@@ -145,5 +146,7 @@ Transitions.map = function(handler) {
   t.map(handler);
   return t;
 };
+
+
 
 export default Transitions;

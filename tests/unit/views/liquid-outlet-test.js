@@ -125,3 +125,32 @@ test("Outlets bind to the current view, not the current concrete view", function
 });
 
 
+test("outlet should support bound class on liquid children", function() {
+  makeView({
+    template: '{{liquid-outlet class=mood}}',
+    context: {
+      mood: 'happy'
+    }
+  });
+  run(function() {
+    view.connectOutlet('main', Ember.View.create({
+      template: compile("<p>BYE</p>")
+    }));
+  });
+  appendView(view);
+  equal(view.$('.liquid-child.happy').length, 1, "should have class");
+});
+
+test("outlet should support static class on liquid children", function() {
+  makeView({
+    template: '{{liquid-outlet class="foo"}}'
+  });
+  run(function() {
+    view.connectOutlet('main', Ember.View.create({
+      template: compile("<p>BYE</p>")
+    }));
+  });
+  appendView(view);
+  equal(view.$('.liquid-child.foo').length, 1, "should have class");
+});
+

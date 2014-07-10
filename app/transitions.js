@@ -7,14 +7,14 @@ export default function(){
     this.fromRoute('test-outlet.index'),
     this.toRoute('test-outlet.second'),
     this.toRoute('test-outlet.third'),    
-    this.use('toRight')
+    this.use('toLeft')
   );
 
   this.transition(
     this.fromRoute('test-outlet.second'),
     this.fromRoute('test-outlet.third'),    
     this.toRoute('test-outlet.index'),
-    this.use('toLeft')
+    this.use('toRight')
   );
 
   function person(){
@@ -52,7 +52,8 @@ export default function(){
   );
 
   this.transition(
-    this.between(function(){return typeof(this) === 'number';}),
+    this.between({childOf: '#bind-test-container'}),
     this.use('toLeft')
   );
+
 }

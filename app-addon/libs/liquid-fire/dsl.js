@@ -125,6 +125,17 @@ function contextMatcher(matcher) {
       return (this instanceof matcher.instanceOf) || (this && this.get && this.get('model') && this.get('model') instanceof matcher.instanceOf);
     };
   }
+  if (matcher.class) {
+    return function(change) {
+      return change.parentView.get('classNames').indexOf(matcher.class) !== -1;
+    };
+  }
+
+  if (matcher.childOf) {
+    return function(change) {
+      return Ember.$('#' + change.parentView.morph.start).parent().is(matcher.childOf);
+    };
+  }
 }
 
 export default DSL;

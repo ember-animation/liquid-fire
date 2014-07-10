@@ -40,20 +40,22 @@ export default Ember.ContainerView.extend(Ember._Metamorph, {
 
     // `transitions` comes from dependency injection, see the
     // liquid-fire app initializer.
-    var transition = this.get('transitions').transitionFor(oldView, newView);
+    var transition = this.get('transitions').transitionFor(this, oldView, newView);
 
     if (this._runningTransition) {
       this._runningTransition.interrupt();
     }
 
     this._runningTransition = transition;
-    transition.run(this);
+    transition.run();
   }).on('init'),
 
   _liquidChildFor: function(content) {
     var LiquidChild = this.container.lookupFactory('view:liquid-child');
     return LiquidChild.create({
-      currentView: content
+      currentView: content,
+      classNames: this.get('classNames'),
+      classNameBindings: this.get('classNameBindings')
     });
   },
   
