@@ -16,7 +16,11 @@ html, body {
 }
 
 #measure-demo-target {
-    float: left;
     border: 1px solid black;
-    max-width: 10em;
+}
+
+
+.demo-box {
+    border: 1px solid red;
+    overflow: hidden;
 }

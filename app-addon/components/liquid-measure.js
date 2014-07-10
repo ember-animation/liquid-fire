@@ -2,9 +2,12 @@ import Ember from "ember";
 import MutationObserver from "../libs/liquid-fire/mutation-observer";
 
 export default Ember.Component.extend({
+  attributeBindings: ['style'],
+  style: "display: inline-block;",
+
   didInsertElement: function() {
     var self = this;
-    self.updateMeasurements();
+    this.updateMeasurements();
     this.observer = new MutationObserver(function(){
       self.updateMeasurements();
     });
@@ -22,7 +25,7 @@ export default Ember.Component.extend({
   willDestroyElement: function() {
     if (this.destroyer) {
       window.removeEventListener('unload', this.destroyer);
-      this.destroy = null;
+      this.destroyer = null;
     }
     if (this.observer) {
       this.observer.disconnect();

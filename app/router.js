@@ -12,7 +12,8 @@ Router.map(function() {
   this.route("test-with", {path: "/test-with/:id"});
   this.route("test-bind", {path: "/test-bind"});
   this.route("test-measure", {path: "/test-measure"});
-  this.route("test-if", {path: "/test-if"});    
+  this.route("test-box", {path: "/test-box"});
+  this.route("test-if", {path: "/test-if"});
 });
 
 export default Router;
