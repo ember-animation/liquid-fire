@@ -7,8 +7,10 @@ export default LiquidOutlet.extend({
     var view = Ember._MetamorphView.create({
       container: this.container,
       template: template,
+      liquidParent: this,
+      contextBinding: 'liquidParent.context'
     });
     this.set('currentView', view);
   }).on('init')
-  
+
 });

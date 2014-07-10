@@ -1,13 +1,13 @@
 {{input type="checkbox" checked=checked}}
-
+Mesage: {{message}}
 
 {{#liquid-box id="test-if-container" measure="biggestChild"}}
 {{#liquid-if checked class="demo-if"}}
-It's checked<br>
+context says: {{message}}. It's checked<br>
 This one<br>
 is taller
 {{else}}
-It's not checked
+context says: {{message}}. It's not checked.
 {{/liquid-if}}
 {{/liquid-box}}
 
