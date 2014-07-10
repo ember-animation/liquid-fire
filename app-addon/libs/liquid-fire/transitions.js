@@ -75,10 +75,7 @@ Transitions.prototype = {
     }
     
     if (!view) {
-      return {
-        route: undefined,
-        context: undefined
-      };
+      return {};
     }
     
     var context;
