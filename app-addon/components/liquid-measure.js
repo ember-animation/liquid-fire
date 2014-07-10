@@ -15,7 +15,7 @@ export default Ember.Component.extend({
     });
 
     // Chrome Memory Leak: https://bugs.webkit.org/show_bug.cgi?id=93661
-    this.destroyer = function(){ self.willDestroyElement() };
+    this.destroyer = function(){ self.willDestroyElement(); };
     window.addEventListener('unload', this.destroyer);
   },
 
