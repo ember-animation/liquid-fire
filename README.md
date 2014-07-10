@@ -53,3 +53,30 @@ I think we can do it by building
  - a single dual-purple view & controller that have morphing capabilities
 - a (child) route that potentially loads new data as usual and adds it
   to the controller, but doesn't touch outlets at all by itself.
+
+## Transition Map DSL
+
+- `define`
+- `transition`
+- `fromRoute`
+- `toRoute`
+- `fromContext`
+- `toContext`
+
+### Context matchers accept
+- `undefined` for an empty context
+- `function(change){ ... }`
+- `{ instanceOf: SomeConstructor }`
+- 
+
+### {{liquid-outlet}}
+
+A nearly drop-in replacment for {{outlet}}. Just like {{outlet}}, it
+can take an optional name.
+
+Unlike a regular outlet, it wraps its content in an element. And when
+the content changes, it looks to your transition map to decide how to
+orchestrate removing the old element and adding the new element.
+
+You can set a class property the usual way, and target the classes
+from the transition map.
