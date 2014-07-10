@@ -45,3 +45,4 @@ appropriate in the direction they're told.
 
 ### More Documentation to Come!
 
+For now, see some examples in my [Ember Animation Demo](http://github.com/ef4/ember-animation-demo) repo.
