@@ -1,6 +1,6 @@
 {
   "name": "liquid-fire",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "directories": {
     "doc": "doc",
     "test": "test"
@@ -10,6 +10,12 @@
     "build": "ember build",
     "test": "ember test"
   },
+  "files": [
+    "app-addon",
+    "index.js",
+    "vendor-addon",
+    "vendor/velocity"
+  ],
   "repository": "https://github.com/ef4/liquid-fire",
   "engines": {
     "node": ">= 0.10.0"
