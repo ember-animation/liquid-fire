@@ -14,14 +14,6 @@ export function animate(view, props, opts) {
       opts = {};
     }
 
-    // By default, we ask velocity to set "display: block" at the
-    // start of animation. Our animated divs are all initially
-    // rendered at display:none to prevent a flash of before-animated
-    // content.
-    if (typeof(opts.display) === 'undefined') {
-      opts.display = 'block';
-    }
-
     // This is needed for now because velocity doesn't have a callback
     // that fires after `stop`.
     if (!view._velocityAnimations) {
@@ -36,6 +28,7 @@ export function animate(view, props, opts) {
       }
       resolve();
     };
+    elt.show();
     elt.velocity(props, opts);
   });
 }
