@@ -45,4 +45,4 @@ appropriate in the direction they're told.
 
 ### More Documentation to Come!
 
-For now, see some examples in my [Ember Animation Demo](http://github.com/ef4/ember-animation-demo) repo.
+For now, see some examples in my [Ember Animation Demo](http://github.com/ef4/ember-animation-demo) repo, and this [video presentation from the Boston Ember Meetup](https://www.youtube.com/watch?v=S4M78SO3gAc).
