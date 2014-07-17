@@ -16,13 +16,39 @@
     <div class="content">
       {{outlet}}
     </div>
-    <div class="sidebar">
-      {{#link-to "index"}}Introduction{{/link-to}}
-      {{#link-to "test-outlet"}}Liquid Outlet Test{{/link-to}}
-      {{#link-to "test-with" 1}}Liquid With Test{{/link-to}}
-      {{#link-to "test-bind"}}Liquid Bind Test{{/link-to}}
-      {{#link-to "test-if"}}Liquid If Test{{/link-to}}
-    </div>
+
+    <ul>
+      <li>{{#link-to "index"}}Introduction{{/link-to}}</li>
+      <li>
+        {{#link-to "helpers"}}Template Helpers{{/link-to}}
+        <ul>
+          <li>{{#link-to "helpers.liquid-outlet"}}liquid-outlet{{/link-to}}</li>
+          <li>{{#link-to "helpers.liquid-with"}}liquid-with{{/link-to}}</li>
+          <li>{{#link-to "helpers.liquid-bind"}}liquid-bind{{/link-to}}</li>
+          <li>{{#link-to "helpers.liquid-if"}}liquid-if{{/link-to}}</li>
+          <li>{{#link-to "helpers.liquid-measure"}}liquid-measure{{/link-to}}</li>
+          <li>{{#link-to "helpers.liquid-box"}}liquid-box{{/link-to}}</li>
+        </ul>
+      </li>
+      <li>
+        Transition Map
+        <ul>
+          <li>Matching by route</li>
+          <li>Matching by context</li>
+          <li>Defining transitions</li>
+        </ul>
+      </li>
+      <li>
+        Transitions
+        <ul>
+          <li>Predefined transitions</li>
+          <li>Custom transitions</li>
+          <li>animate</li>
+          <li>stop</li>
+        </ul>
+      </li>
+
+    </ul>
   </div>
 </div>
 

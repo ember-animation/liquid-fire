@@ -1,6 +1,6 @@
 import { animate, stop } from "libs/liquid-fire";
 
-this.define('crossFade', function(oldView, insertNewView, opts) {
+export function crossFade(oldView, insertNewView, opts) {
   stop(oldView);
   return insertNewView().then(function(newView) {
     return Promise.all([
@@ -10,7 +10,7 @@ this.define('crossFade', function(oldView, insertNewView, opts) {
   });
 });
 
-this.define('fade', function(oldView, insertNewView) {
+export function fade(oldView, insertNewView) {
   stop(oldView);
   return animate(oldView, {opacity: 0})
     .then(insertNewView)
