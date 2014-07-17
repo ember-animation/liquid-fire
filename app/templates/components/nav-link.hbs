@@ -1,0 +1,15 @@
+{{#if topic}}
+  {{#if isForward}}
+    Onward to
+  {{else}}
+    Back to
+  {{/if}}
+{{/if}}
+
+{{#with topic}}
+  {{#if route}}
+    {{#link-to route}}{{title}}{{/link-to}}
+  {{else}}
+    {{#if title}}{{title}}{{else}}{{this}}{{/if}}
+  {{/if}}
+{{/with}}
