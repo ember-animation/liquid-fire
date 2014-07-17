@@ -2,7 +2,71 @@
 
 <p>Liquid Fire is a toolkit for managing animated transitions in an
 Ember application. Like Ember itself, our goal is to cultivate shared
-abstractions so we can be free to focus on bigger and better
+abstractions so we're free to focus on bigger and better
 ideas. <em>Good defaults. Convention over configuration. Composable
 pieces all the way down.</em></p>
 
+<h3>Getting Started</h3>
+
+<p>If you're using <a href="http://iamstef.net/ember-cli/">ember-cli</a>
+(and for any new project, you should!), you can install the
+liquid-fire addon with:</p>
+
+<pre>
+  npm install --save-dev liquid-fire
+</pre>
+
+<div class="callout callout-danger">For a non-ember-cli app, you'll
+want to grab a prebuilt version of liquid-fire. This build
+configuration is not yet implemented, PRs welcome.</div>
+
+<h3>Key Ideas</h3>
+
+<p>Transitions need to be implemented within the view layer, but deciding
+<em>what kind</em> of transition to do at any given time is a
+higher-level question, dependent on the relationships between
+different routes and models.</p>
+
+<p>Therefore, we split the responsibility between three key pieces:
+template helpers, the transition map, and transitions.</p>
+
+
+<h4>Template Helpers</h4>
+
+<p>The library provides helpers
+like <code>\{{liquid-outlet}}</code>, <code>\{{liquid-with}}</code>,
+etc, that are nearly drop-in replacements for the equivalent normal
+Ember helpers. The key difference is that they don't update
+instantly when bound data changes. Instead they consult your
+application's transition map, and if they discover a matching
+transition, they give the transition control over <em>both the old
+and new content</em> simultaneously.</p>
+
+<h4>Transition Map</h4>
+
+<p>The transition map is analogous to your normal Ember router
+map. It's a single place to declaratively capture rules about how
+the pieces of your application relate to each other. By convention,
+the transition map goes in <code>app/transitions.js</code>, and it
+looks like this:</p>
+
+{{code-snippet name="simple-transition-map.js"}}
+
+<h4>Transitions</h4>
+
+<p>The transition map above mentions two named
+transitions: <code>toLeft</code> and <code>toRight</code>. These are
+both predefined transitions that come with the library. But you can
+compose new transitions too. They look like this (and can be included
+inside your transition map):
+
+{{code-snippet name="transition-definitions.js"}}
+
+<p><em>(In these examples, <code>opacity: [1, 0]</code>
+uses <a href="http://velocityjs.org">velocity</a>'s "force-feeding"
+capability to specify <code>[endValue, startValue]</code>, so the
+meaning is "animate the opacity from 0 to 1".)</em></p>
+
+<p>Transitions are implemented with a promise-based API that gives you
+control over all the relevant timing, including when to insert the new
+view into the DOM.</p>

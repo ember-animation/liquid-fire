@@ -1,0 +1,19 @@
+/* Inspired by the callouts that Bootstrap uses in their own
+documentation. I was a little surprised they're not part of Bootstrap
+itself.*/
+
+.callout {
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
+
+.callout+.callout {
+    margin-top: -5px;
+}
+.callout-danger {
+    border-left-color: $tertiary-vd;
+    background-color: lighten($tertiary-vl, 20%);
+}

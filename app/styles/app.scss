@@ -12,6 +12,7 @@ $font-size-h4: ceil(($font-size-base * 1));
 
 @import "vendor/bootstrap-sass-official/assets/stylesheets/bootstrap";
 @import "typography";
+@import "callout";
 
 body {
     background-color: #faf4f1;
