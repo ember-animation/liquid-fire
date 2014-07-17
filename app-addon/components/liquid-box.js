@@ -2,6 +2,7 @@ import Ember from "ember";
 import { animate, stop } from "../libs/liquid-fire";
 
 export default Ember.Component.extend({
+  classNames: ['liquid-box'],
   duration: 250,
 
   initialSize: function(){

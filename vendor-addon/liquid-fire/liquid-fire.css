@@ -11,3 +11,8 @@
     
     top: 0;
 }
+
+.liquid-box {
+    position: relative;
+    overflow: hidden;
+}
