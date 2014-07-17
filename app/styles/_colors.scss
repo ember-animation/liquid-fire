@@ -1,0 +1,31 @@
+/* 
+
+  Our basic three-color pallete, each with "very light", "light",
+  "dark", and "very dark" variations.
+
+  Adapted from http://paletton.com/#uid=5030u0kllllaFw0g0qFqFg0w0aF
+
+*/
+
+$primary: #AA4139;
+$primary-vl: #FFB0AA;
+$primary-l: #D4726A;
+$primary-d: #801D15;
+$primary-vd: #550600;
+
+$secondary: #AA6F39;
+$secondary-vl: #FFD3AA;
+$secondary-l: #D49D6A;
+$secondary-d: #804815;
+$secondary-vd: #552900;
+
+$tertiary: #8C2F5E;
+$tertiary-vl: #D28CAF;
+$tertiary-l: #AF5784;
+$tertiary-d: #69113E;
+$tertiary-vd: #460024;
+
+/* Grays */
+$faint: lighten(desaturate($primary, 25%), 40%);
+$near-black: darken(saturate($primary, 50%), 35%);
+

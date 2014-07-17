@@ -1,0 +1,97 @@
+@import "colors";
+
+/* Customization of Bootstrap Variables */
+$font-size-base: 16px;
+$brand-primary: $primary;
+$font-size-h1: floor(($font-size-base * 2.6));
+$font-size-h2: floor(($font-size-base * 2.15));
+$font-size-h3: ceil(($font-size-base * 1.25));
+$font-size-h4: ceil(($font-size-base * 1));
+
+
+
+@import "vendor/bootstrap-sass-official/assets/stylesheets/bootstrap";
+@import "typography";
+
+body {
+    background-color: #faf4f1;
+}    
+
+.header {
+    background-color: $tertiary;
+    color: white;
+    line-height: $line-height-computed*2;
+    border-bottom: 1px solid $secondary-vd;
+    -webkit-box-shadow: rgba(0,0,0,0.3) 0 0 3px;
+    -moz-box-shadow: rgba(0,0,0,0.3) 0 0 3px;
+    box-shadow: rgba(0,0,0,0.3) 0 0 3px;
+    letter-spacing: 2px;
+    font-weight: 300;
+}
+
+.main {
+    > div {
+        @include make-row();
+        padding-top: 2*$line-height-computed - 1px;
+    }
+}
+
+.content {
+    @include make-md-column(9);
+    @include make-md-column-push(3);
+    color: $near-black;
+    h2 {
+        margin-top: 0;
+    }
+}
+
+.sidebar {
+    @include make-md-column(3);
+    @include make-md-column-pull(9);
+    border-top: 1px solid $secondary-l;
+    > a {
+        border: 1px solid $secondary-l;
+        border-top: 0;
+        background-color: $secondary-vl;
+        color: $near-black;
+        display: block;
+        @include baselined-px(18px);
+        padding: (ceil($line-height-computed/2) - 1px) $grid-gutter-width/2 floor($line-height-computed/2) $grid-gutter-width/2;
+        margin-left: -1*$grid-gutter-width/2;
+        margin-right: -1*$grid-gutter-width/2;
+        &:hover, &.active {
+            text-decoration: none;
+            background-color: $secondary-l;
+        }
+    }
+}
+
+.xcontainer {
+    overflow: hidden;
+    height: 400px;
+    width: 400px;
+    border: 1px solid blue;
+    position: relative;
+}
+
+.xcontainer .liquid-child {
+    height: 100%;
+    width: 100%;
+}
+
+#measure-demo-target {
+    border: 1px solid black;
+}
+
+
+.demo-box {
+    border: 1px solid red;
+    overflow: hidden;
+}
+
+#test-if-container {
+    position: relative;
+    border: 1px solid black;
+    overflow: hidden;
+}
+

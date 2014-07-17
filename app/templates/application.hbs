@@ -1,2 +1,29 @@
-{{outlet}}
+<div class="header">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-6">Liquid Fire</div>
+      <div class="col-xs-6" style="text-align: right">
+        <a href="https://github.com/ef4/liquid-fire">
+          <img src="/GitHub-Mark-Light-32px.png">
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container main">
+  <div>
+    <div class="content">
+      {{outlet}}
+    </div>
+    <div class="sidebar">
+      {{#link-to "index"}}Introduction{{/link-to}}
+      {{#link-to "test-outlet"}}Liquid Outlet Test{{/link-to}}
+      {{#link-to "test-with" 1}}Liquid With Test{{/link-to}}
+      {{#link-to "test-bind"}}Liquid Bind Test{{/link-to}}
+      {{#link-to "test-if"}}Liquid If Test{{/link-to}}
+    </div>
+  </div>
+</div>
+
 
