@@ -38,8 +38,8 @@ body {
 }
 
 .content {
-    @include make-md-column(9);
-    @include make-md-column-push(3);
+    @include make-xs-column(9);
+    @include make-xs-column-push(3);
     color: $near-black;
     h2 {
         margin-top: 0;
@@ -47,8 +47,12 @@ body {
 }
 
 .main > div > ul {
-    @include make-md-column(3);
-    @include make-md-column-pull(9);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    @include make-xs-column(3);
+    @include make-xs-column-pull(9);
     background-color: lighten($secondary-vl, 8%);
     border: 1px solid $secondary-vl;
     
@@ -64,6 +68,9 @@ body {
             }
         }
         > ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
             margin-left: 24px;
             a {
                 padding: 0 0 0 ($grid-gutter-width/2 + 24px);
@@ -83,3 +90,5 @@ body {
       float: right;
     }
 }
+
+@import "demos";

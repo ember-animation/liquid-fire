@@ -68,8 +68,22 @@ dfn {
     border-bottom: 1px dotted #888;
 }
 
+
 ul {
-    list-style: none;
-    padding: 0;
+    margin: $line-height-computed;
+}
+
+code {
+    padding-bottom: 0;
+    padding-top: 0;
+    line-height: 20px;
+    font-size: 14px;
+}
+
+pre.hljs {
     margin: 0;
+    margin-bottom:floor($line-height-computed/2) - 2px;
+    padding-top: ceil($line-height-computed/4);
+    padding-bottom: floor($line-height-computed/4);    
+    @include baselined-px(16px);
 }

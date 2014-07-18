@@ -1,7 +1,17 @@
 import Ember from "ember";
 
 export default function(){
-  //  this.setDefault({duration: 3000});
+
+  this.transition(
+    this.fromRoute('helpers.liquid-outlet.index'),
+    this.fromRoute('helpers.liquid-outlet.other'),
+    this.use('toLeft')
+  );
+  this.transition(
+    this.fromRoute('helpers.liquid-outlet.other'),
+    this.toRoute('helpers.liquid-outlet.index'),
+    this.use('toRight')
+  );
 
   this.transition(
     this.fromRoute('test-outlet.index'),

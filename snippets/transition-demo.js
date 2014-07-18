@@ -1,0 +1,10 @@
+this.transition(
+  this.fromRoute('helpers.liquid-outlet.index'),
+  this.fromRoute('helpers.liquid-outlet.other'),
+  this.use('toLeft')
+);
+this.transition(
+  this.fromRoute('helpers.liquid-outlet.other'),
+  this.toRoute('helpers.liquid-outlet.index'),
+  this.use('toRight')
+);
