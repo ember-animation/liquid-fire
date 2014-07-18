@@ -76,7 +76,7 @@ export default Ember.Component.extend({
   _measureBiggestChild: function(elt) {
     var self = this, dim = {width: 0, height: 0};
     elt.children().each(function(){
-      var d = self._measure($(this));
+      var d = self._measure(Ember.$(this));
       if (d.width > dim.width) {
         dim.width = d.width;
       }

@@ -36,7 +36,7 @@ export function animate(view, props, opts) {
       for (var i=0; i<elements.length; i++) {
         elements[i].style.display = "";
       }
-    }
+    };
 
     opts.complete = function(){
       var i = view._velocityAnimations.indexOf(resolve);

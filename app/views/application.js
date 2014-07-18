@@ -1,3 +1,7 @@
+import Ember from "ember";
+
+var $ = Ember.$;
+
 function show_lead(space, offset) {
   var max = $(document).height() / space;
   hide_lead();
@@ -16,11 +20,11 @@ function show_lead(space, offset) {
       'background-color': 'transparent'
     });
   }
-};
+}
 
 function hide_lead() {
   $('.grid').remove();
-};
+}
 
 function toggleGrid(leading, leading_offset) {
   if (leading_offset == null) {
@@ -31,15 +35,15 @@ function toggleGrid(leading, leading_offset) {
   } else {
     return show_lead(leading, leading_offset);
   }
-};
+}
 
 export default Ember.View.extend({
   didInsertElement: function(){
     $(document).bind('keydown', function(e){
       // Ctrl-Alt-g shows vertical rhythm
-      if (e.ctrlKey && e.altKey && e.keyCode == 71) {
-        toggleGrid(22)
+      if (e.ctrlKey && e.altKey && e.keyCode === 71) {
+        toggleGrid(22);
       }
     });
   }
-})
+});
