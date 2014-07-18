@@ -7,10 +7,10 @@ export default Ember.Controller.extend({
         children: [
           {route: "helpers.liquid-outlet", title: "liquid-outlet"},
           {route: "helpers.liquid-with", title: "liquid-with"},
-          {route: "helpers.liquid-bind", title: "liquid-bind"},
-          {route: "helpers.liquid-if", title: "liquid-if"},
-          {route: "helpers.liquid-measure", title: "liquid-measure"},
-          {route: "helpers.liquid-box", title: "liquid-box"}
+          "liquid-bind",
+          "liquid-if",
+          "liquid-measure",
+          "liquid-box"
         ]
       },
       { title: 'Transition Map',
