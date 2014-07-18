@@ -43,6 +43,10 @@ above, etc) of that other route". Views need to know how to transition
 appropriate in the direction they're told.
 
 
-### More Documentation to Come!
+### Documentation 
 
-For now, see some examples in my [Ember Animation Demo](http://github.com/ef4/ember-animation-demo) repo, and this [video presentation from the Boston Ember Meetup](https://www.youtube.com/watch?v=S4M78SO3gAc).
+Liquid Fire itself is an ember-cli application that runs an
+interactive demo & documentation. The docs are still being written,
+but you can get a [sneak peak](http://ef4.github.io/liquid-fire).
+
+You can also see some examples in my [Ember Animation Demo](http://github.com/ef4/ember-animation-demo) repo, and this [video presentation from the Boston Ember Meetup](https://www.youtube.com/watch?v=S4M78SO3gAc).
