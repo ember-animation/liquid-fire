@@ -14,9 +14,15 @@
 <div class="container main">
   <div>
     <div class="content">
+      <div class="clearfix">
+        {{nav-link topic=prevTopic direction="back"}}
+        {{nav-link topic=nextTopic direction="forward"}}
+      </div>
       {{outlet}}
-      {{nav-link topic=prevTopic direction="back"}}
-      {{nav-link topic=nextTopic direction="forward"}}
+      <div class="clearfix">
+        {{nav-link topic=prevTopic direction="back"}}
+        {{nav-link topic=nextTopic direction="forward"}}
+      </div>
     </div>
 
     <ul>

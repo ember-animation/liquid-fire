@@ -1,15 +1,22 @@
 {{#if topic}}
-  {{#if isForward}}
-    Onward to
+  {{#if topic.route}}
+    {{#link-to topic.route}}
+      {{#if preGlyphicon}}
+        <div {{bind-attr class=":glyphicon preGlyphicon"}}></div>
+      {{/if}}
+      {{topic.title}}
+      {{#if postGlyphicon}}
+        <div {{bind-attr class=":glyphicon postGlyphicon"}}></div>
+      {{/if}}
+    {{/link-to}}
   {{else}}
-    Back to
+    {{#if preGlyphicon}}
+      <div {{bind-attr class=":glyphicon preGlyphicon"}}></div>
+    {{/if}}
+    {{#if topic.title}}{{topic.title}}{{else}}{{topic}}{{/if}}
+    {{#if postGlyphicon}}
+      <div {{bind-attr class=":glyphicon postGlyphicon"}}></div>
+    {{/if}}
   {{/if}}
 {{/if}}
 
-{{#with topic}}
-  {{#if route}}
-    {{#link-to route}}{{title}}{{/link-to}}
-  {{else}}
-    {{#if title}}{{title}}{{else}}{{this}}{{/if}}
-  {{/if}}
-{{/with}}

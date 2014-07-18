@@ -74,3 +74,12 @@ body {
     }
 }
 
+.nav-link {
+    a:hover { text-decoration: none; }
+    &.back {
+      float: left;
+    }
+    &.forward {
+      float: right;
+    }
+}
