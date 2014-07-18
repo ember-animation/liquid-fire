@@ -27,7 +27,7 @@ export default function predefinedTransitions(){
   this.define('toLeft', moveOver('translateX', -1));
   this.define('toUp', moveOver('translateY', -1));
   this.define('toDown', moveOver('translateY', 1));
-  
+
   this.define('crossFade', function(oldView, insertNewView, opts) {
     stop(oldView);
     return insertNewView().then(function(newView) {
@@ -45,5 +45,17 @@ export default function predefinedTransitions(){
       .then(function(newView){
         return animate(newView, {opacity: [1, 0]});
       });
-  });  
+  });
+
+  this.define('rotateBelow', function(oldView, insertNewView, opts) {
+    stop(oldView);
+    return insertNewView().then(function(newView) {
+      oldView.$().css('transform-origin', '50% 150%');
+      newView.$().css('transform-origin', '50% 150%');
+      return Promise.all([
+        animate(oldView, { rotateZ: '-90deg' }, opts),
+        animate(newView, { rotateZ: ['0deg', '90deg'] }, opts),
+      ]);
+    });
+  });
 }

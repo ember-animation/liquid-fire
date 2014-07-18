@@ -1,0 +1,57 @@
+<h2>\{{#liquid-with}}</h2>
+
+<p>Acts just like a normal Ember <code>\{{with}}</code>, except:</p>
+
+<ul>
+  <li>it respects the transition map and lets you animate between routes.</li>
+  <li>it wraps its content in a non-virtual view, meaning that it adds
+  one layer of <code>&lt;div class="liquid-child"&gt;</code> markup. These divs are the ones that the animations will target.</li>
+</ul>
+
+<p>This helper will grab whatever context you pass it, and when that
+context changes, the helper will hold on to a copy of the old value
+long enough to gracefully transition away.</p>
+
+<p>Binding to a singleton controller's <code>model</code> works great,
+because future changes to the model will be captured and
+animated. Binding directly to a singleton controller won't animate
+because the controller never changes. If you need a controller inside
+the <code>\{{#liquid-with}}</code>, it's best to instantiate one
+explicitly with the <code>controller</code> option, so that a fresh
+controller will be instantiated for each update to your bound
+context.</p>
+
+<h3>When to use it</h3>
+
+<p>Use this when you want to animate the transitions between
+different models on the same route.</p>
+
+<div class="callout callout-danger"><code>\{{#liquid-with}}</code>
+doesn't deal with routes at all, so saying <code>fromRoute</code>
+or <code>toRoute</code> in your transition map will not match
+a <code>\{{#liquid-with}}</code>. Instead you must target it for
+transitions based on its context.</div>
+
+<div class="callout callout-danger"><code>\{{#liquid-with foo as
+bar}}</code> is supported, but it depends on a <a href="https://github.com/emberjs/ember.js/pull/5115">bugfix</a> in Ember
+1.7.0-beta.2 and may not work in earlier releases.</div>
+
+<h3>Demo</h3>
+
+<p>Notice that the ID being rendered maps correctly to the URL in both
+directions.</p>
+
+<div id="liquid-with-demo" class="demo-container">
+  {{#liquid-with model controller="demo"}}
+    {{id}}
+    <button {{action "higher"}}>Go</button>
+  {{/liquid-with}}
+</div>
+
+<h4>Template</h4>
+
+{{code-snippet name="with-demo.hbs"}}
+
+<h4>Transition Map</h4>
+
+{{code-snippet name="with-demo.js"}}

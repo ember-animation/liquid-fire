@@ -7,11 +7,23 @@ export default function(){
     this.fromRoute('helpers.liquid-outlet.other'),
     this.use('toLeft')
   );
+
   this.transition(
     this.fromRoute('helpers.liquid-outlet.other'),
     this.toRoute('helpers.liquid-outlet.index'),
     this.use('toRight')
   );
+
+  this.transition(
+    this.between({childOf: '#liquid-with-demo'}),
+    this.use('rotateBelow')
+  );
+
+
+
+
+
+
 
   this.transition(
     this.fromRoute('test-outlet.index'),

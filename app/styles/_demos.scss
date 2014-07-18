@@ -1,4 +1,4 @@
-#liquid-outlet-demo {
+.demo-container {
     border: 1px solid $near-black;
     position: relative;
     height: $line-height-computed*4;
@@ -12,4 +12,3 @@
         @include baselined-px(24px);
     }
 }
-
