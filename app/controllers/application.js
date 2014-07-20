@@ -9,7 +9,7 @@ export default Ember.Controller.extend({
         children: [
           {route: "helpers.liquid-outlet", title: "liquid-outlet"},
           {route: "helpers.liquid-with", title: "liquid-with"},
-          "liquid-bind",
+          {route: "helpers.liquid-bind", title: "liquid-bind"},
           "liquid-if",
           "liquid-measure",
           "liquid-box"

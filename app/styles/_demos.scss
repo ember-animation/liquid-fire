@@ -12,3 +12,23 @@
         @include baselined-px(24px);
     }
 }
+
+#liquid-bind-demo {
+    @include baselined(3);
+    text-align: center;
+    > div {
+	display: inline-block;
+	height: 1.5em;
+	width: 1.15em;
+	text-align: center;
+	vertical-align: top;
+	overflow: hidden;
+
+	/* without this, overflow:hidden won't take effect because the things
+           we're trying to hide are on a separate accelerated
+           context. */
+	-webkit-transform: translateY(0);
+	-moz-transform: translateY(0);
+	transform: translateY(0);
+    }
+}

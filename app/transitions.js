@@ -19,9 +19,10 @@ export default function(){
     this.use('rotateBelow')
   );
 
-
-
-
+  this.transition(
+    this.between({childOf: '#liquid-bind-demo > div'}),
+    this.use('toUp')
+  );
 
 
 
