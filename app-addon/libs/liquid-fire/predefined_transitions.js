@@ -4,8 +4,8 @@ import Promise from "./promise";
 export default function predefinedTransitions(){
   this.setDefault({duration: 250});
 
-  function moveOver(property, direction, opts) {
-    return function(oldView, insertNewView) {
+  function moveOver(property, direction) {
+    return function(oldView, insertNewView, opts) {
       var oldParams = {}, newParams = {};
       oldParams[property] = (100 * direction) + '%';
       newParams[property] = ["0%", (-100 * direction) + '%'];
