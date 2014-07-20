@@ -30,19 +30,6 @@ This is an ember-cli addon, so all you need is:
 
 
 
-## Architectural
-
-Cross-route animated transitions don't fit neatly into any single part
-of the Ember architecture. You want the view layer to deal with
-actually moving DIVs around, etc. But you want the routing layer to
-decide what the spatial relationship between routes should be.
-
-We split these concerns by establishing a directionality API between
-routes and views. Routes just say "I'm to the left (or right, or
-above, etc) of that other route". Views need to know how to transition
-appropriate in the direction they're told.
-
-
 ### Documentation 
 
 Liquid Fire itself is an ember-cli application that runs an
