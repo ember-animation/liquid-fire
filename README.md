@@ -29,7 +29,6 @@ This is an ember-cli addon, so all you need is:
     npm install --save-dev liquid-fire
 
 
-
 ### Documentation 
 
 Liquid Fire itself is an ember-cli application that runs an
@@ -37,3 +36,22 @@ interactive demo & documentation. The docs are still being written,
 but you can get a [sneak peak](http://ef4.github.io/liquid-fire).
 
 You can also see some examples in my [Ember Animation Demo](http://github.com/ef4/ember-animation-demo) repo, and this [video presentation from the Boston Ember Meetup](https://www.youtube.com/watch?v=S4M78SO3gAc).
+
+### Source Organization
+
+This repo contains both the liquid-fire library and a demo application
+that presents interactive docuemntation. The library code is in:
+
+ - index.js
+ - app-addon
+ - vendor-addon
+
+The demo app is organized like a typical ember-cli application, so all
+of these are for the demo application:
+
+ - Brocfile.js
+ - app
+ - config
+ - public
+ - vendor
+ - snippets (which get rendered by [ember-code-snippet](http://github.com/ef4/ember-code-snippet))
