@@ -3,7 +3,7 @@
 <p>Acts just like a normal Ember <code>\{{with}}</code>, except:</p>
 
 <ul>
-  <li>it respects the transition map and lets you animate between routes.</li>
+  <li>it respects the transition map and lets you animate between contexts.</li>
   <li>it wraps its content in a non-virtual view, meaning that it adds
   one layer of <code>&lt;div class="liquid-child"&gt;</code> markup. These divs are the ones that the animations will target.</li>
 </ul>
@@ -34,7 +34,7 @@ transitions based on its context.</div>
 
 <div class="callout callout-danger"><code>\{{#liquid-with foo as
 bar}}</code> is supported, but it depends on a <a href="https://github.com/emberjs/ember.js/pull/5115">bugfix</a> in Ember
-1.7.0-beta.2 and may not work in earlier releases.</div>
+1.7.0-beta.2 and may not work with earlier releases of Ember.</div>
 
 <h3>Demo</h3>
 
