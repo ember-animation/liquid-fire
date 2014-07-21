@@ -17,3 +17,7 @@ itself.*/
     border-left-color: $tertiary-vd;
     background-color: lighten($tertiary-vl, 20%);
 }
+.callout-info {
+    border-left-color: $secondary;
+    background-color: lighten($secondary-vl, 0%);
+}
