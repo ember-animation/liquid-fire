@@ -19,5 +19,5 @@ itself.*/
 }
 .callout-info {
     border-left-color: $secondary;
-    background-color: lighten($secondary-vl, 0%);
+    background-color: $secondary-vl;
 }

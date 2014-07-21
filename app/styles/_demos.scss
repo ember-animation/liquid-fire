@@ -74,3 +74,14 @@
         color: $tertiary;
     }
 }
+
+#liquid-box-demo {
+    border: 1px solid $secondary;
+    background: $secondary-vl;
+    width: 20em;
+    border-radius: 3px;
+    padding: $line-height-computed;
+    input, select {
+        margin-bottom: $line-height-computed;
+    }
+}

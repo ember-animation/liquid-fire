@@ -1,0 +1,45 @@
+<h2>\{{#liquid-box}}</h2>
+
+<p>This component creates an element that will alter its own size as
+its child elements change, optionally animating the size
+change. It accepts these properties:</p>
+
+<dl class="dl-horizontal">
+  <dt>measure</dt>
+  <dd>How to measure the size of our children. This accepts all the
+  same values accepted by {{#link-to "helpers.liquid-measure"}}
+  \{{#liquid-measure}} {{/link-to}}'s <code>method</code> property.</dd>
+
+  <dt>duration</dt>
+  <dd>Duration in milliseconds to spend animating size
+  changes. Defaults to 250. Set it to 0 if you don't want to
+  animate.</dd>
+</dl>
+
+<p>Since this component can match its height to the height of
+absolutely-positioned children, it allows you to work around one of
+the annoying things about animating within the DOM: animated elements
+often need to be absolutely positioned, but you also often want to
+embed them in the document flow. You can achieve this with
+<code>\{{#liquid-box}}</code> as demonstrated below.</p>
+
+<h3>Demo</h3>
+
+<div id="liquid-box-demo">
+  <label>I'm renting a </label>
+  {{view Ember.Select value=vehicle content=vehicles}}
+
+  {{#liquid-box measure="lastChild"}}
+    {{#liquid-if isBike class="vehicles"}}
+      <label>
+        Would you like a helmet? {{input type="checkbox" value="helmet"}}
+      </label>
+    {{else}}
+      <label>License Number</label>
+      {{input type="text" value=license}}
+      <label>License State</label>
+      {{view Ember.Select value=state content=states}}
+    {{/liquid-if}}
+  {{/liquid-box}}
+  <button type="button" class="btn btn-success">Yay, let's go!</button>
+</div>

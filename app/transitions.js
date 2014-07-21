@@ -30,6 +30,11 @@ export default function(){
   );
 
   this.transition(
+    this.between({'class': 'vehicles'}),
+    this.use('crossFade')
+  );
+
+  this.transition(
     this.fromRoute('test-outlet.index'),
     this.toRoute('test-outlet.second'),
     this.toRoute('test-outlet.third'),
