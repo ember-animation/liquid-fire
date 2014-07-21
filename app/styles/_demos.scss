@@ -44,3 +44,33 @@
         min-height: $line-height-computed*2;
     }
 }
+
+#liquid-measure-demo {
+    display: flex;
+    > div {
+        flex: 1;
+        padding: $line-height-computed;
+        &:first-of-type {
+            border-right: 1px solid $faint;
+        }
+    }
+    label, input {
+        display: block;
+    }
+    input, textarea {
+        width: 100%;
+    }
+    .title {
+        @include baselined(1.2);
+        font-weight: bold;
+    }
+    p {
+        background-color: white;
+    }
+    .post {
+        border: 1px dashed $faint;
+    }
+    .size {
+        color: $tertiary;
+    }
+}

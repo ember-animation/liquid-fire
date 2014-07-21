@@ -1,0 +1,39 @@
+<h2>\{{#liquid-measure}}</h2>
+
+<p>This component creates an element that exposes
+bindable <code>height</code> and <code>width</code> properties. It is
+a lower-level building block to help build more complex dynamic
+layouts.</p>
+
+<p>It styles itself with <code>{display: inline-block}</code> so it
+can measure both the height and width of its content, but you can
+apply your own CSS to constrain one dimension if you want.</p>
+
+<h3>Demo</h3>
+
+<p>As you edit, the measurements update to reflect the size of the
+resulting post.</p>
+
+<div id="liquid-measure-demo">
+  <div>
+    <h4>Editor</h4>
+    {{input value=title placeholder="Your Title"}}
+    {{textarea rows=3 value=body placeholder="Your post goes here..."}}
+  </div>
+  <div>
+    <h4>Preview</h4>
+    {{#liquid-measure height=postHeight width=postWidth class="post"}}
+      <span class="title">{{title}}</span>
+      <p>{{body}}</p>
+    {{/liquid-measure}}
+    <div class="size">
+      {{postWidth}}px
+      by 
+      {{postHeight}}px
+    </div>
+  </div>
+</div>
+
+<br>
+
+{{code-snippet name="liquid-measure-demo.hbs"}}

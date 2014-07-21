@@ -1,0 +1,19 @@
+<div id="liquid-measure-demo">
+  <div>
+    <h4>Editor</h4>
+    {{input value=title placeholder="Your Title"}}
+    {{textarea rows=3 value=body placeholder="Your post goes here..."}}
+  </div>
+  <div>
+    <h4>Preview</h4>
+    {{#liquid-measure height=postHeight width=postWidth class="post"}}
+      <span class="title">{{title}}</span>
+      <p>{{body}}</p>
+    {{/liquid-measure}}
+    <div class="size">
+      {{postWidth}}px
+      by 
+      {{postHeight}}px
+    </div>
+  </div>
+</div>

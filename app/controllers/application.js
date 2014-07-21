@@ -11,7 +11,7 @@ export default Ember.Controller.extend({
           {route: "helpers.liquid-with", title: "liquid-with"},
           {route: "helpers.liquid-bind", title: "liquid-bind"},
           {route: "helpers.liquid-if", title: "liquid-if"},
-          "liquid-measure",
+          {route: "helpers.liquid-measure", title: "liquid-measure"},
           "liquid-box"
         ]
       },
