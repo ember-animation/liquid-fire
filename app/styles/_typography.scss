@@ -82,8 +82,8 @@ code {
 
 pre.hljs {
     margin: 0;
-    margin-bottom:floor($line-height-computed/2) - 2px;
-    padding-top: ceil($line-height-computed/4);
-    padding-bottom: floor($line-height-computed/4);    
+    margin-bottom:$line-height-computed - 2px;
+    padding-top: ceil($line-height-computed/2);
+    padding-bottom: floor($line-height-computed/2);
     @include baselined-px(16px);
 }

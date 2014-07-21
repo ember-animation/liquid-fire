@@ -36,6 +36,7 @@
 #liquid-if-demo {
     border: 1px solid $near-black;
     padding: 0 0.5em;
+    margin-bottom: $line-height-computed;
     label {
         font-weight: normal;
     }
@@ -81,6 +82,7 @@
     width: 20em;
     border-radius: 3px;
     padding: $line-height-computed;
+    margin-bottom: $line-height-computed;
     input, select {
         margin-bottom: $line-height-computed;
     }
