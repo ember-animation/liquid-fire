@@ -24,7 +24,10 @@ export default function(){
     this.use('toUp')
   );
 
-
+  this.transition(
+    this.between({childOf: '#liquid-if-demo > div'}),
+    this.use('crossFade')
+  );
 
   this.transition(
     this.fromRoute('test-outlet.index'),

@@ -32,3 +32,15 @@
 	transform: translateY(0);
     }
 }
+
+#liquid-if-demo {
+    border: 1px solid $near-black;
+    padding: 0 0.5em;
+    label {
+        font-weight: normal;
+    }
+    > div {
+        position: relative;
+        min-height: $line-height-computed*2;
+    }
+}

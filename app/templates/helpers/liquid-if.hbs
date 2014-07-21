@@ -1,0 +1,43 @@
+<h2>\{{#liquid-if}}</h2>
+
+<p><code>\{{#liquid-if}}</code> is a replacement for Ember's
+normal <code>\{{#if}}</code>, except it:</p>
+
+<ul>
+  <li>respects the transition map so you can animate changes between its <code>true</code>
+and <code>false</code> states.</li>
+  <li>wraps its content in <code>&lt;div
+  class="liquid-child"&gt;</code> to facilitate animation.
+</ul>
+
+<div class="callout callout-danger"><code>\{{#liquid-if}}</code>
+doesn't deal with routes at all, so saying <code>fromRoute</code>
+or <code>toRoute</code> in your transition map will not match
+a <code>\{{#liquid-if}}</code>. Instead you must target it for
+transitions based on its context.</div>
+
+<h3>Demo</h3>
+
+<div id="liquid-if-demo">
+  <div>
+    <label>Are you a parent?
+      {{input type="checkbox" checked=isParent}}
+    </label>
+  </div>
+  <div>
+    {{#liquid-if isParent}}
+      <label>How many children do you have?</label>
+      {{input type="number" value=numKids}}
+    {{else}}
+      I bet you get a lot of nice sleep.
+    {{/liquid-if}}
+  </div>
+</div>
+
+<br>
+
+{{code-snippet name="liquid-if-demo.hbs"}}
+
+<br>
+
+{{code-snippet name="liquid-if-demo-transition.js"}}
