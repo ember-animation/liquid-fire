@@ -20,7 +20,7 @@ DSL.prototype = {
   _combineMatchers: function(matchers) {
     return [matchers.reduce(function(a,b){
       if (typeof(a) !== "function" || typeof(b) !== "function") {
-        throw new Error("cannot combine empty context matcher with any other constraints");
+        throw new Error("cannot combine empty model matcher with any other constraints");
       }
 
       return function(){
@@ -104,7 +104,7 @@ DSL.prototype = {
     ];
   },
 
-  fromContext: function(matcher) {
+  fromModel: function(matcher) {
     return {
       side: 'from',
       type: 'context',
@@ -112,7 +112,7 @@ DSL.prototype = {
     };
   },
 
-  toContext: function(matcher) {
+  toModel: function(matcher) {
     return {
       side: 'to',
       type: 'context',
@@ -120,11 +120,24 @@ DSL.prototype = {
     };
   },
 
-  between: function(matcher) {
+  betweenModels: function(matcher) {
     return [
-      this.fromContext(matcher),
-      this.toContext(matcher)
+      this.fromModel(matcher),
+      this.toModel(matcher)
     ];
+  },
+
+  hasClass: function(name) {
+    return this.betweenModels(function(change) {
+      return change.parentView.get('classNames').indexOf(name) !== -1;
+    });
+  },
+
+  childOf: function(selector) {
+    return this.betweenModels(function(change) {
+      /* global Ember */
+      return Ember.$('#' + change.parentView.morph.start).parent().is(selector);
+    });
   },
 
   use: function(nameOrHandler) {
@@ -150,18 +163,6 @@ function contextMatcher(matcher) {
   if (matcher.instanceOf) {
     return function() {
       return (this instanceof matcher.instanceOf) || (this && this.get && this.get('model') && this.get('model') instanceof matcher.instanceOf);
-    };
-  }
-  if (matcher.class) {
-    return function(change) {
-      return change.parentView.get('classNames').indexOf(matcher.class) !== -1;
-    };
-  }
-
-  if (matcher.childOf) {
-    return function(change) {
-      /* global Ember */
-      return Ember.$('#' + change.parentView.morph.start).parent().is(matcher.childOf);
     };
   }
 

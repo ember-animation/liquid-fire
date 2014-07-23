@@ -23,7 +23,7 @@ export default function(){
 
   // BEGIN-SNIPPET bind-demo-transition
   this.transition(
-    this.between({childOf: '#liquid-bind-demo > div'}),
+    this.childOf('#liquid-bind-demo > div'),
     this.use('toUp')
   );
   // END-SNIPPET
@@ -41,10 +41,10 @@ export default function(){
     //
     //If we just said between({class: 'vehicles'}) we'd get an
     // unintended animation at the first render.
-    this.fromContext(function(change){
-      return typeof(change.leaving.context) !== "undefined";
+    this.fromModel(function(){
+      return typeof(this) !== "undefined";
     }),
-    this.toContext({'class': 'vehicles'}),
+    this.hasClass('vehicles'),
     this.use('crossFade')
   );
   // END-SNIPPET

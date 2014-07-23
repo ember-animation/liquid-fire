@@ -142,8 +142,8 @@ test("matches empty source route", function(){
 test("matches source & destination contexts", function(){
   t.map(function(){
     this.transition(
-      this.fromContext(function(){ return this && this.isMySource; }),
-      this.toContext(function(){ return this && this.isMyDestination; }),
+      this.fromModel(function(){ return this && this.isMySource; }),
+      this.toModel(function(){ return this && this.isMyDestination; }),
       this.use(dummyAction)
     );
   });
@@ -172,8 +172,8 @@ test("matches routes & contexts", function(){
     this.transition(
       this.fromRoute('one'),
       this.toRoute('two'),
-      this.fromContext(function(){ return this && this.isMySource; }),
-      this.toContext(function(){ return this && this.isMyDestination; }),
+      this.fromModel(function(){ return this && this.isMySource; }),
+      this.toModel(function(){ return this && this.isMyDestination; }),
       this.use(dummyAction)
     );
   });
@@ -226,13 +226,13 @@ test("backtracks past partial route matches", function(){
 test("backtracks past partial context matches", function(){
   t.map(function(){
     this.transition(
-      this.fromContext(function(){ return true; }),
-      this.toContext(function(){ return false; }),
+      this.fromModel(function(){ return true; }),
+      this.toModel(function(){ return false; }),
       this.use(otherAction)
     );
     this.transition(
-      this.fromContext(function(){ return true; }),
-      this.toContext(function(){ return true; }),
+      this.fromModel(function(){ return true; }),
+      this.toModel(function(){ return true; }),
       this.use(dummyAction)
     );
   });
@@ -245,11 +245,11 @@ test("backtracks to default route", function(){
   t.map(function(){
     this.transition(
       this.fromRoute('x'),
-      this.toContext(function(){ return false; }),
+      this.toModel(function(){ return false; }),
       this.use(otherAction)
     );
     this.transition(
-      this.toContext(function(){ return true; }),
+      this.toModel(function(){ return true; }),
       this.use(dummyAction)
     );
   });
@@ -264,7 +264,7 @@ test("matching context takes precedence over default", function(){
       this.use(otherAction)
     );
     this.transition(
-      this.toContext(function(){ return true; }),
+      this.toModel(function(){ return true; }),
       this.use(dummyAction)
     );
   });
@@ -278,7 +278,7 @@ test("matching context takes precedence over default", function(){
 test("matches between contexts", function(){
   t.map(function(){
     this.transition(
-      this.between(function(){ return this && this.isThing; }),
+      this.betweenModels(function(){ return this && this.isThing; }),
       this.use(dummyAction)
     );
   });
@@ -320,8 +320,8 @@ test("can target empty routes", function() {
 test("can target empty context", function() {
   t.map(function(){
     this.transition(
-      this.fromContext(null),
-      this.toContext(function(){ return true; }),
+      this.fromModel(null),
+      this.toModel(function(){ return true; }),
       this.use(dummyAction)
     );
   });
@@ -340,13 +340,13 @@ test("matches instanceOf contexts", function() {
 
   t.map(function(){
     this.transition(
-      this.fromContext({instanceOf: Pet}),
-      this.toContext({instanceOf: Owner}),
+      this.fromModel({instanceOf: Pet}),
+      this.toModel({instanceOf: Owner}),
       this.use(dummyAction)
     );
     this.transition(
-      this.fromContext({instanceOf: Owner}),
-      this.toContext({instanceOf: Pet}),
+      this.fromModel({instanceOf: Owner}),
+      this.toModel({instanceOf: Pet}),
       this.use(otherAction)
     );
   });
@@ -439,8 +439,8 @@ test("combines multiple context constraints", function(){
 
   t.map(function(){
     this.transition(
-      this.toContext({instanceOf: Pet}),
-      this.toContext(function(){ return this.get('name') === 'Fluffy';}),
+      this.toModel({instanceOf: Pet}),
+      this.toModel(function(){ return this.get('name') === 'Fluffy';}),
       this.use(dummyAction)
     );
   });
@@ -461,10 +461,10 @@ test("warn about combining empty matcher and other predicates ", function(){
   throws(function(){
     t.map(function(){
       this.transition(
-        this.toContext(null),
-        this.toContext(function(){ return this.get('name') === 'Fluffy';}),
+        this.toModel(null),
+        this.toModel(function(){ return this.get('name') === 'Fluffy';}),
         this.use(dummyAction)
       );
     });
-  }, /cannot combine empty context matcher/);
+  }, /cannot combine empty model matcher/);
 });
