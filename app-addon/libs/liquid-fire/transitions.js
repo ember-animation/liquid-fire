@@ -37,8 +37,8 @@ Transitions.prototype = {
     return this;
   },
 
-  register: function(from, to, action) {
-    this._register(this._map, [from.routes, to.routes, from.contexts, to.contexts], action);
+  register: function(routes, contexts, action) {
+    this._register(this._map, [routes.from, routes.to, contexts.from, contexts.to], action);
   },
 
   _register: function(ctxt, remaining, payload) {

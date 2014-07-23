@@ -13,10 +13,14 @@ DSL.prototype = {
     this.map._namedTransitions[name] = handler;
   },
 
+  _withEmpty: function(elt){
+    return elt || DSL.EMPTY;
+  },
+
   transition: function() {
     var action,
-        from = { routes: [], contexts: [] },
-        to = { routes: [], contexts: [] },
+        routes = {},
+        contexts = {},
         args = Array.prototype.slice.apply(arguments).reduce(function(a,b){
           return a.concat(b);
         }, []);
@@ -29,10 +33,16 @@ DSL.prototype = {
           throw new Error("each transition definition must contain exactly one 'use' statement");
         }
         action = { method: arg.payload, args: arg.args };
+      } else if (arg.type === 'route') {
+        if (routes[arg.side]) {
+          throw new Error("A transition definition contains multiple constraints on " + arg.side + "Route");
+        }
+        routes[arg.side] = arg.payload.map(this._withEmpty);
       } else {
-        var ctxt = (arg.side === 'from') ? from : to;
-        var list = (arg.type === 'route') ? ctxt.routes : ctxt.contexts;
-        list.push(arg.payload);
+        if (!contexts[arg.side]){
+          contexts[arg.side] = [];
+        }
+        contexts[arg.side].push(arg.payload);
       }
     }
 
@@ -40,42 +50,42 @@ DSL.prototype = {
       throw new Error("a transition definition contains no 'use' statement");
     }
 
-    if (from.routes.length === 0) {
-      from.routes.push(DSL.ANY);
+    if (!routes.from) {
+      routes.from = [DSL.ANY];
     }
-    if (to.routes.length === 0) {
-      to.routes.push(DSL.ANY);
+    if (!routes.to) {
+      routes.to = [DSL.ANY];
     }
-    if (from.contexts.length === 0) {
-      from.contexts.push(DSL.ANY);
+    if (!contexts.from) {
+      contexts.from = [DSL.ANY];
     }
-    if (to.contexts.length === 0) {
-      to.contexts.push(DSL.ANY);
+    if (!contexts.to) {
+      contexts.to = [DSL.ANY];
     }
 
-    this.map.register(from, to, action);
+    this.map.register(routes, contexts, action);
   },
 
-  fromRoute: function(name) {
+  fromRoute: function() {
     return {
       side: 'from',
       type: 'route',
-      payload: name || DSL.EMPTY
+      payload: Array.prototype.slice.apply(arguments)
     };
   },
 
-  toRoute: function(name) {
+  toRoute: function() {
     return {
       side: 'to',
       type: 'route',
-      payload: name || DSL.EMPTY
+      payload: Array.prototype.slice.apply(arguments)
     };
   },
 
-  withinRoute: function(name) {
+  withinRoute: function() {
     return [
-      this.fromRoute(name),
-      this.toRoute(name)
+      this.fromRoute(arguments),
+      this.toRoute(arguments)
     ];
   },
 
@@ -139,6 +149,8 @@ function contextMatcher(matcher) {
       return Ember.$('#' + change.parentView.morph.start).parent().is(matcher.childOf);
     };
   }
+
+  throw new Error("unknown context matcher: " + JSON.stringify(matcher));
 }
 
 export default DSL;

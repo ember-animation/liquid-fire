@@ -388,6 +388,71 @@ test("passes arguments through to transitions", function() {
   setRoutes('one', 'three');
   deepEqual(t.transitionFor(parentView, oldView, newContent).animationArgs, [4,5,6], 'with named transition');
 
+});
 
+test("rejects multiple uses of fromRoute in a single transition", function(){
+  throws(function(){
+    t.map(function(){
+      this.transition(
+        this.fromRoute('x'),
+        this.fromRoute('y'),
+        this.use(dummyAction)
+      );
+    });
+  }, /multiple constraints on fromRoute/);
+});
+
+test("accepts multiple source routes", function(){
+  t.map(function(){
+    this.transition(
+      this.fromRoute('one', 'two'),
+      this.use(dummyAction)
+    );
+  });
+
+  setRoutes('one', 'bogus');
+  equal(lookupTransition(), dummyAction);
+
+  setRoutes('two', 'bogus');
+  equal(lookupTransition(), dummyAction);
+
+});
+
+test("accepts multiple destination routes", function(){
+  t.map(function(){
+    this.transition(
+      this.toRoute('one', 'two'),
+      this.use(dummyAction)
+    );
+  });
+
+  setRoutes('bogus', 'one');
+  equal(lookupTransition(), dummyAction);
+
+  setRoutes('bogus', 'two');
+  equal(lookupTransition(), dummyAction);
+
+});
+
+test("combines multiple context constraints", function(){
+  var Pet = Ember.Object.extend();
+
+  t.map(function(){
+    this.transition(
+      this.toContext({instanceOf: Pet}),
+      this.toContext(function(){ return this.get('name') === 'Fluffy';}),
+      this.use(dummyAction)
+    );
+  });
+
+  setRoutes('one', 'one');
+  setContexts(null, Pet.create());
+  equal(lookupTransition(), undefined, "should not match because of name");
+
+  setContexts(null, Ember.Object.create({name: 'Fluffy'}));
+  equal(lookupTransition(), undefined, "should not match because of instanceof");
+
+  setContexts(null, Pet.create({name: 'Fluffy'}));
+  equal(lookupTransition(), dummyAction, "should match both");
 
 });
