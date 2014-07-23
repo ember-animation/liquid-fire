@@ -18,7 +18,7 @@ export default function(){
 
   // BEGIN-SNIPPET with-demo
   this.transition(
-    this.between({childOf: '#liquid-with-demo'}),
+    this.withinRoute('helpers.liquid-with.page'),
     this.use('rotateBelow')
   );
   // END-SNIPPET
@@ -32,7 +32,7 @@ export default function(){
 
   // BEGIN-SNIPPET liquid-if-demo-transition
   this.transition(
-    this.between({childOf: '#liquid-if-demo > div'}),
+    this.withinRoute('helpers.liquid-if'),
     this.use('crossFade')
   );
   // END-SNIPPET
