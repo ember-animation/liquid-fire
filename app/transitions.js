@@ -5,7 +5,7 @@ export default function(){
   // BEGIN-SNIPPET transition-demo
   this.transition(
     this.fromRoute('helpers.liquid-outlet.index'),
-    this.fromRoute('helpers.liquid-outlet.other'),
+    this.toRoute('helpers.liquid-outlet.other'),
     this.use('toLeft')
   );
   // END-SNIPPET
