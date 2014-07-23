@@ -140,6 +140,24 @@ DSL.prototype = {
     });
   },
 
+  fromNonEmptyModel: function(){
+    return this.fromModel(function(){
+      return !!this;
+    });
+  },
+
+  toNonEmptyModel: function(){
+    return this.toModel(function(){
+      return !!this;
+    });
+  },
+
+  betweenNonEmptyModels: function(){
+    return this.betweenModels(function(){
+      return !!this;
+    });
+  },
+
   use: function(nameOrHandler) {
     return {
       type: 'action',

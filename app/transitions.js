@@ -37,13 +37,10 @@ export default function(){
 
   // BEGIN-SNIPPET liquid-box-demo-transition
   this.transition(
-    // TODO: this case needs a friendlier API shortcut.
-    //
-    //If we just said between({class: 'vehicles'}) we'd get an
-    // unintended animation at the first render.
-    this.fromModel(function(){
-      return typeof(this) !== "undefined";
-    }),
+    // hasClass('vehicles') is true even during the first render, so
+    // we also require fromNonEmptyModel to prevent an animation when
+    // the page first loads.
+    this.fromNonEmptyModel(),
     this.hasClass('vehicles'),
     this.use('crossFade')
   );
