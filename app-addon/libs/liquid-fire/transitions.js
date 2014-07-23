@@ -37,8 +37,8 @@ Transitions.prototype = {
     return this;
   },
 
-  register: function(routes, contexts, action) {
-    this._register(this._map, [routes.from, routes.to, contexts.from, contexts.to], action);
+  register: function(routes, contexts, parent, action) {
+    this._register(this._map, [routes.from, routes.to, parent, contexts.from, contexts.to], action);
   },
 
   _register: function(ctxt, remaining, payload) {
@@ -113,6 +113,7 @@ Transitions.prototype = {
     return this._match(change, this._map, [
       change.leaving.route,
       change.entering.route,
+      parentView,
       change.leaving.context,
       change.entering.context
     ]);
@@ -129,7 +130,7 @@ Transitions.prototype = {
       candidate = candidates[index];
       if (!candidate) { continue; }
       if (typeof(candidate[0]) === 'function'){
-        if (candidate[0].apply(first, [change])) {
+        if (candidate[0].apply(first, this._predicateArgs(change, queue.length))) {
           nextContext = candidate[1];
         } else {
           nextContext = null;
@@ -148,7 +149,23 @@ Transitions.prototype = {
         }
       }
     }
-  }
+  },
+
+  _predicateArgs: function(change, remainingLevels) {
+    var level = 4 - remainingLevels;
+    switch (level) {
+    case 0:
+      return [change.entering.route];
+    case 1:
+      return [change.leaving.route];
+    case 2:
+      return [];
+    case 3:
+      return [change.entering.model];
+    case 4:
+      return [change.leaving.model];
+    }
+  },
 
 
 };

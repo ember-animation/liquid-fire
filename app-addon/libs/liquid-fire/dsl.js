@@ -31,6 +31,7 @@ DSL.prototype = {
 
   transition: function() {
     var action,
+        parent = [],
         routes = {},
         contexts = {},
         args = Array.prototype.slice.apply(arguments).reduce(function(a,b){
@@ -50,6 +51,8 @@ DSL.prototype = {
           throw new Error("A transition definition contains multiple constraints on " + arg.side + "Route");
         }
         routes[arg.side] = arg.payload.map(this._withEmpty);
+      } else if (arg.type === 'parent') {
+        parent.push(arg.payload);
       } else {
         if (!contexts[arg.side]){
           contexts[arg.side] = [];
@@ -61,12 +64,14 @@ DSL.prototype = {
     if (!action) {
       throw new Error("a transition definition contains no 'use' statement");
     }
-
     if (!routes.from) {
       routes.from = [DSL.ANY];
     }
     if (!routes.to) {
       routes.to = [DSL.ANY];
+    }
+    if (parent.length === 0) {
+      parent.push(DSL.ANY);
     }
     if (!contexts.from) {
       contexts.from = [DSL.ANY];
@@ -75,10 +80,11 @@ DSL.prototype = {
       contexts.to = [DSL.ANY];
     }
 
+    parent = this._combineMatchers(parent);
     contexts.from = this._combineMatchers(contexts.from);
     contexts.to = this._combineMatchers(contexts.to);
 
-    this.map.register(routes, contexts, action);
+    this.map.register(routes, contexts, parent, action);
   },
 
   fromRoute: function() {
@@ -128,16 +134,22 @@ DSL.prototype = {
   },
 
   hasClass: function(name) {
-    return this.betweenModels(function(change) {
-      return change.parentView.get('classNames').indexOf(name) !== -1;
-    });
+    return {
+      type: 'parent',
+      payload: function() {
+        return this && this.get('classNames').indexOf(name) !== -1;
+      }
+    };
   },
 
   childOf: function(selector) {
-    return this.betweenModels(function(change) {
-      /* global Ember */
-      return Ember.$('#' + change.parentView.morph.start).parent().is(selector);
-    });
+    return {
+      type: 'parent',
+      payload: function() {
+        /* global Ember */
+        return this && Ember.$('#' + this.morph.start).parent().is(selector);
+      }
+    };
   },
 
   fromNonEmptyModel: function(){
