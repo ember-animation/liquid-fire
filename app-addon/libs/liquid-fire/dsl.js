@@ -17,6 +17,18 @@ DSL.prototype = {
     return elt || DSL.EMPTY;
   },
 
+  _combineMatchers: function(matchers) {
+    return [matchers.reduce(function(a,b){
+      if (typeof(a) !== "function" || typeof(b) !== "function") {
+        throw new Error("cannot combine empty context matcher with any other constraints");
+      }
+
+      return function(){
+        return a.apply(this, arguments) && b.apply(this, arguments);
+      };
+    })];
+  },
+
   transition: function() {
     var action,
         routes = {},
@@ -62,6 +74,9 @@ DSL.prototype = {
     if (!contexts.to) {
       contexts.to = [DSL.ANY];
     }
+
+    contexts.from = this._combineMatchers(contexts.from);
+    contexts.to = this._combineMatchers(contexts.to);
 
     this.map.register(routes, contexts, action);
   },

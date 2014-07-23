@@ -456,3 +456,15 @@ test("combines multiple context constraints", function(){
   equal(lookupTransition(), dummyAction, "should match both");
 
 });
+
+test("warn about combining empty matcher and other predicates ", function(){
+  throws(function(){
+    t.map(function(){
+      this.transition(
+        this.toContext(null),
+        this.toContext(function(){ return this.get('name') === 'Fluffy';}),
+        this.use(dummyAction)
+      );
+    });
+  }, /cannot combine empty context matcher/);
+});
