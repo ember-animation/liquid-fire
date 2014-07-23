@@ -41,12 +41,14 @@ bar}}</code> is supported, but it depends on a <a href="https://github.com/ember
 <p>Notice that the ID being rendered maps correctly to the URL in both
 directions.</p>
 
+{{!- BEGIN-SNIPPET with-demo -}}
 <div id="liquid-with-demo" class="demo-container">
   {{#liquid-with model controller="demo"}}
     {{id}}
     <button {{action "higher"}}>Go</button>
   {{/liquid-with}}
 </div>
+{{!- END-SNIPPET -}}
 
 <h4>Template</h4>
 

@@ -2,11 +2,13 @@ import Ember from "ember";
 
 export default function(){
 
+  // BEGIN-SNIPPET transition-demo
   this.transition(
     this.fromRoute('helpers.liquid-outlet.index'),
     this.fromRoute('helpers.liquid-outlet.other'),
     this.use('toLeft')
   );
+  // END-SNIPPET
 
   this.transition(
     this.fromRoute('helpers.liquid-outlet.other'),
@@ -14,10 +16,12 @@ export default function(){
     this.use('toRight')
   );
 
+  // BEGIN-SNIPPET with-demo
   this.transition(
     this.between({childOf: '#liquid-with-demo'}),
     this.use('rotateBelow')
   );
+  // END-SNIPPET
 
   // BEGIN-SNIPPET bind-demo-transition
   this.transition(
@@ -26,10 +30,12 @@ export default function(){
   );
   // END-SNIPPET
 
+  // BEGIN-SNIPPET liquid-if-demo-transition
   this.transition(
     this.between({childOf: '#liquid-if-demo > div'}),
     this.use('crossFade')
   );
+  // END-SNIPPET
 
   // BEGIN-SNIPPET liquid-box-demo-transition
   this.transition(
