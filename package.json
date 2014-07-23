@@ -41,6 +41,6 @@
     "ember-cli-ember-data": "0.1.0",
     "broccoli-asset-rev": "0.0.15",
     "broccoli-sass": "^0.2.1",
-    "ember-code-snippet": "^0.0.4"
+    "ember-code-snippet": "^0.0.6"
   }
 }

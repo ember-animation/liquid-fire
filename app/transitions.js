@@ -19,16 +19,19 @@ export default function(){
     this.use('rotateBelow')
   );
 
+  // BEGIN-SNIPPET bind-demo-transition
   this.transition(
     this.between({childOf: '#liquid-bind-demo > div'}),
     this.use('toUp')
   );
+  // END-SNIPPET
 
   this.transition(
     this.between({childOf: '#liquid-if-demo > div'}),
     this.use('crossFade')
   );
 
+  // BEGIN-SNIPPET liquid-box-demo-transition
   this.transition(
     // TODO: this case needs a friendlier API shortcut.
     //
@@ -40,6 +43,7 @@ export default function(){
     this.toContext({'class': 'vehicles'}),
     this.use('crossFade')
   );
+  // END-SNIPPET
 
   this.transition(
     this.fromRoute('test-outlet.index'),
