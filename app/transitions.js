@@ -1,5 +1,3 @@
-import Ember from "ember";
-
 export default function(){
 
   // BEGIN-SNIPPET transition-demo
