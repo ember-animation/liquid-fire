@@ -35,14 +35,14 @@ function setContexts(o, n) {
 
 
   if (o) {
-    oldView.get('currentView').set('context', o);
+    oldView.get('currentView').set('liquidContext', o);
   } else {
-    oldView.get('currentView').set('context', null);
+    oldView.get('currentView').set('liquidContext', null);
   }
   if (n) {
-    newContent.set('context', n);
+    newContent.set('liquidContext', n);
   } else {
-    newContent.set('context', null);
+    newContent.set('liquidContext', null);
   }
 }
 

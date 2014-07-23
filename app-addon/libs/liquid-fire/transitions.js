@@ -78,16 +78,9 @@ Transitions.prototype = {
       return {};
     }
 
-    var context;
-    if (view.get('templateName') === 'liquid-with') {
-      context = view.get('boundContext');
-    } else {
-      context = view.get('context');
-    }
-
     return {
       route: view.get('renderedName'),
-      context: context
+      context: view.get('liquidContext')
     };
   },
 

@@ -7,7 +7,9 @@ export default LiquidOutlet.extend({
       container: this.container,
       templateName: 'liquid-with',
       boundContext: this.get('boundContext'),
-      liquidWithParent: this
+      liquidWithParent: this,
+      liquidContext: this.get('boundContext'),
+      hasLiquidContext: true,
     });
     this.set('currentView', view);
   }).on('init')

@@ -8,7 +8,9 @@ export default LiquidOutlet.extend({
       container: this.container,
       template: template,
       liquidParent: this,
-      contextBinding: 'liquidParent.context'
+      contextBinding: 'liquidParent.context',
+      liquidContext: this.get("showFirst"),
+      hasLiquidContext: true
     });
     this.set('currentView', view);
   }).on('init')
