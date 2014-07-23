@@ -142,19 +142,19 @@ DSL.prototype = {
 
   fromNonEmptyModel: function(){
     return this.fromModel(function(){
-      return !!this;
+      return typeof(this) !== 'undefined';
     });
   },
 
   toNonEmptyModel: function(){
     return this.toModel(function(){
-      return !!this;
+      return typeof(this) !== 'undefined';
     });
   },
 
   betweenNonEmptyModels: function(){
     return this.betweenModels(function(){
-      return !!this;
+      return typeof(this) !== 'undefined';
     });
   },
 
