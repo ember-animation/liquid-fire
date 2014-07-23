@@ -17,11 +17,11 @@ Transitions.prototype = {
     }
     return handler;
   },
-  
+
   transitionFor: function(parentView, oldView, newContent) {
     var key = this.match(parentView, oldView, newContent),
         handler;
-    
+
     if (key && typeof(key.method) === 'function') {
       handler = key.method;
     } else if (key) {
@@ -40,7 +40,7 @@ Transitions.prototype = {
   register: function(from, to, action) {
     this._register(this._map, [from.routes, to.routes, from.contexts, to.contexts], action);
   },
-  
+
   _register: function(ctxt, remaining, payload) {
     var first = remaining[0];
     for (var i = 0; i < first.length; i++) {
@@ -73,11 +73,11 @@ Transitions.prototype = {
     if (view && childProp) {
       view = view.get(childProp);
     }
-    
+
     if (!view) {
       return {};
     }
-    
+
     var context;
     if (view.get('templateName') === 'liquid-with') {
       context = view.get('boundContext');
@@ -90,13 +90,33 @@ Transitions.prototype = {
       context: context
     };
   },
-  
+
+  _ancestorsRenderedName: function(view) {
+    while (view && !view.get('renderedName')){
+      view = view.get('_parentView');
+    }
+    if (view) {
+      return view.get('renderedName');
+    }
+  },
+
   match: function(parentView, oldView, newContent) {
     var change = {
       leaving: this._viewProperties(oldView, 'currentView'),
       entering: this._viewProperties(newContent),
       parentView: parentView
     };
+
+    // If the old/new views themselves are not part of a route
+    // transition, provide route properties from our surrounding
+    // context.
+    if (oldView && !change.leaving.route) {
+      change.leaving.route = this._ancestorsRenderedName(parentView);
+    }
+    if (newContent && !change.entering.route) {
+      change.entering.route = change.leaving.route || this._ancestorsRenderedName(parentView);
+    }
+
     return this._match(change, this._map, [
       change.leaving.route,
       change.entering.route,
@@ -104,7 +124,7 @@ Transitions.prototype = {
       change.entering.context
     ]);
   },
-  
+
   _match: function(change, ctxt, queue) {
     var index = 0,
         first = queue[0],
@@ -137,7 +157,7 @@ Transitions.prototype = {
     }
   }
 
-    
+
 };
 
 
