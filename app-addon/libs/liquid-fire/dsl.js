@@ -99,8 +99,8 @@ DSL.prototype = {
 
   withinRoute: function() {
     return [
-      this.fromRoute(arguments),
-      this.toRoute(arguments)
+      this.fromRoute.apply(this, arguments),
+      this.toRoute.apply(this, arguments)
     ];
   },
 
