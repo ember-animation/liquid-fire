@@ -1,7 +1,7 @@
 /*jshint newcap:false*/
 import Ember from "ember";
 import { test, moduleFor } from 'ember-qunit';
-import { configure } from "liquid-fire/initializers/liquid-fire";
+import { initialize } from "liquid-fire/libs/liquid-fire";
 
 var run = Ember.run,
     set = Ember.set,
@@ -14,7 +14,7 @@ function makeModuleFor(title, attrs) {
     needs: ['view:liquid-with', 'view:liquid-child', 'template:liquid-with', 'helper:with-apply'],
     setup: function(){
       var a;
-      configure(this.container);
+      initialize(this.container);
       if (typeof(attrs) === 'function') {
         a = attrs.apply(this);
       } else {
@@ -29,7 +29,7 @@ function makeModuleFor(title, attrs) {
         a.setup.apply(this);
         delete a.setup;
       }
-      
+
       view = Ember.View.create(a);
       run(function() {
         view.appendTo('#qunit-fixture');
@@ -225,7 +225,7 @@ test("it should render without fail", function() {
 
 (function(){
   var parentController, person;
-  
+
   makeModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function() {
     var Controller = Ember.ObjectController.extend({
       controllerName: Ember.computed(function() {
@@ -240,7 +240,7 @@ test("it should render without fail", function() {
       name: 'Bob Loblaw'
     });
     this.container.register('controller:person', Controller);
-    
+
     return {
       template: '{{#liquid-with view.person controller="person"}}{{controllerName}}{{/liquid-with}}',
       person: person,
@@ -278,7 +278,7 @@ test("it should render without fail", function() {
 
 (function(){
   var parentController, person, people;
-  
+
   makeModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function() {
     var Controller = Ember.ObjectController.extend({
       controllerName: Ember.computed(function() {
@@ -286,7 +286,7 @@ test("it should render without fail", function() {
       })
     });
 
-    people = Ember.A([{ name: "Steve Holt" }, { name: "Carl Weathers" }]);    
+    people = Ember.A([{ name: "Steve Holt" }, { name: "Carl Weathers" }]);
 
     parentController = Ember.Object.create({
       container: this.container,
@@ -294,7 +294,7 @@ test("it should render without fail", function() {
       people: people
     });
     this.container.register('controller:person', Controller);
-    
+
     return {
       template: '{{#each person in people}}{{#liquid-with person controller="person"}}{{controllerName}}{{/liquid-with}}{{/each}}',
       controller: parentController
@@ -317,7 +317,7 @@ test("it should render without fail", function() {
       })
     });
     this.container.register('controller:person', PersonController);
-    
+
     person = Ember.Object.create({name: 'Steve Holt'});
 
     parentController = Ember.Object.create({
@@ -327,7 +327,7 @@ test("it should render without fail", function() {
     });
 
 
-    
+
     return {
       template: '{{#liquid-with person as steve controller="person"}}{{name}} - {{steve.name}}{{/liquid-with}}',
       controller: parentController
@@ -370,7 +370,7 @@ test("it should render without fail", function() {
       }
     });
     this.container.register('controller:person', Controller);
-    
+
     person = Ember.Object.create({name: 'Steve Holt'});
 
     parentController = Ember.Object.create({
@@ -384,7 +384,7 @@ test("it should render without fail", function() {
       controller: parentController
     };
   });
-  
+
   test("destroys the controller generated with {{with foo controller='blah'}}", function() {
     run(view, 'destroy'); // destroy existing view
     ok(destroyed, 'controller was destroyed properly');
@@ -402,7 +402,7 @@ test("it should render without fail", function() {
       }
     });
     this.container.register('controller:person', Controller);
-    
+
     person = Ember.Object.create({name: 'Steve Holt'});
 
     parentController = Ember.Object.create({
@@ -416,7 +416,7 @@ test("it should render without fail", function() {
       controller: parentController
     };
   });
-  
+
   test("destroys the controller generated with {{with foo controller='blah'}}", function() {
     run(view, 'destroy'); // destroy existing view
     ok(destroyed, 'controller was destroyed properly');

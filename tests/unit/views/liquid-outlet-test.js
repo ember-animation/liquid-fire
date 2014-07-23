@@ -1,6 +1,6 @@
 import Ember from "ember";
 import { test, moduleFor } from 'ember-qunit';
-import { configure } from "liquid-fire/initializers/liquid-fire";
+import { initialize } from "liquid-fire/libs/liquid-fire";
 
 var view,
     run = Ember.run,
@@ -18,7 +18,7 @@ function makeView(attrs) {
 function appendView() {
   run(function() {
     view.appendTo('#qunit-fixture');
-  });  
+  });
 }
 
 function makeModuleFor(title) {
@@ -27,10 +27,10 @@ function makeModuleFor(title) {
     needs: ['view:liquid-child', 'view:liquid-outlet'],
 
     setup: function(){
-      configure(this.container);
+      initialize(this.container);
       container = this.container;
     },
-    
+
     teardown: function(){
       run(function(){ view.destroy(); });
       view = null;
@@ -103,13 +103,13 @@ test("Outlets bind to the current view, not the current concrete view", function
 
   var bottomView = Ember._MetamorphView.create({
     template: compile(bottomTemplate),
-    container: container    
+    container: container
   });
 
   makeView({
     template: parentTemplate
   });
-  
+
   appendView();
 
   run(function() {
@@ -153,4 +153,3 @@ test("outlet should support static class on liquid children", function() {
   appendView(view);
   equal(view.$('.liquid-child.foo').length, 1, "should have class");
 });
-
