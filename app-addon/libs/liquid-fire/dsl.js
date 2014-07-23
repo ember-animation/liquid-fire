@@ -8,7 +8,7 @@ DSL.prototype = {
   setDefault: function(props) {
     setDefaults(props);
   },
-  
+
   define: function(name, handler) {
     this.map._namedTransitions[name] = handler;
   },
@@ -20,7 +20,7 @@ DSL.prototype = {
         args = Array.prototype.slice.apply(arguments).reduce(function(a,b){
           return a.concat(b);
         }, []);
-    
+
 
     for (var i = 0; i < args.length; i++) {
       var arg = args[i];
@@ -52,13 +52,10 @@ DSL.prototype = {
     if (to.contexts.length === 0) {
       to.contexts.push(DSL.ANY);
     }
-    
+
     this.map.register(from, to, action);
   },
 
-  // fromRoute and toRoute necessarily only match transitions that
-  // happen in a {{liquid-outlet}}, not transitions that happen in a
-  // {{liquid-with}}, because the latter have no routes involved.
   fromRoute: function(name) {
     return {
       side: 'from',
@@ -75,8 +72,13 @@ DSL.prototype = {
     };
   },
 
-  // fromContext and toContext can match both {{liquid-outlet}}
-  // transitions and {{liquid-with}} transitions. 
+  withinRoute: function(name) {
+    return [
+      this.fromRoute(name),
+      this.toRoute(name)
+    ];
+  },
+
   fromContext: function(matcher) {
     return {
       side: 'from',
@@ -116,7 +118,7 @@ function contextMatcher(matcher) {
   if (!matcher) {
     return DSL.EMPTY;
   }
-  
+
   if (typeof(matcher) === 'function') {
     return matcher;
   }
