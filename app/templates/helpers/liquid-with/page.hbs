@@ -26,12 +26,6 @@ context.</p>
 <p>Use this when you want to animate the transitions between
 different models on the same route.</p>
 
-<div class="callout callout-danger"><code>\{{#liquid-with}}</code>
-doesn't deal with routes at all, so saying <code>fromRoute</code>
-or <code>toRoute</code> in your transition map will not match
-a <code>\{{#liquid-with}}</code>. Instead you must target it for
-transitions based on its context.</div>
-
 <div class="callout callout-danger"><code>\{{#liquid-with foo as
 bar}}</code> is supported, but it depends on a <a href="https://github.com/emberjs/ember.js/pull/5115">bugfix</a> in Ember
 1.7.0-beta.2 and may not work with earlier releases of Ember.</div>
