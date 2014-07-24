@@ -436,3 +436,12 @@ makeModuleFor("{{#liquid-with}} helper binding to view keyword", {
 test("{{with}} helper can bind to keywords with 'as'", function(){
   check("We have: this is from the view and this is from the context", "should render");
 });
+
+makeModuleFor("{{#liquid-with}} class binding", {
+  template: "{{#liquid-with thing class=\"magical\"}}{{name}}{{/liquid-with}}",
+  thing: { name: 'this is from the view' }
+});
+
+test("{{liquid-with}} helper can bind classes", function(){
+  equal(view.$('.liquid-child.magical').length, 1, "matches class selector");
+});
