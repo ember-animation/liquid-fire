@@ -1,0 +1,47 @@
+<h2>DOM Constraints</h2>
+
+<p>These constraints let you target a transition rule based on the
+surrounding DOM.</p>
+
+<dl class="dl-horizontal">
+  <dt>hasClass</dt>
+  <dd>
+    <p>Takes a class name and matches it against the animated
+    element. For example, this transition:</p>
+    
+    {{code-snippet name="has-class-example.js"}}
+    
+    <p>Will match an animated element like this one:</p>
+    
+    {{code-snippet name="has-class-example.hbs"}}
+
+    <div class="callout callout-info">
+    <p>Note that all the liquid helpers propagate
+    their <code>class</code> argument through to their liquid-child
+    elements. The above example results in DOM like this:
+
+    {{code-snippet name="has-class-example-dom.hbs"}}
+    </div>
+      
+  </dd>
+
+  <dt>childOf</dt>
+  <dd>
+    <p>Takes a CSS selector and tests whether the animated element's
+    parent matches the selector. For example, this rule:</p>
+
+    {{code-snippet name="child-of-example.js"}}
+
+    <p>Will match against this template:</p>
+
+    {{code-snippet name="child-of-example.hbs"}}
+
+    <div class="callout callout-danger">
+      This constraint cannot match during the very first render of
+      your animated element, because Handlebars templates have no
+      knowledge of their DOM context until after they're inserted into
+      the document. This limitation should go away after Ember adopts
+      HTMLBars.
+    </div>
+  </dd>
+</dl>

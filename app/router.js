@@ -20,6 +20,7 @@ Router.map(function() {
     this.resource('transition-map', function(){
       this.route('route-constraints');
       this.route('model-constraints');
+      this.route('dom-constraints');
     });
   });
 });

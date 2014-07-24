@@ -6,7 +6,11 @@ three exceptions:</p>
 <ul>
   <li>it respects the transition map and lets you animate between routes.</li>
   <li>it wraps its content in a non-virtual view, meaning that it adds
-  one layer of <code>&lt;div class="liquid-child"&gt;</code> markup. These divs are the ones that the animations will target.</li>
+  one layer of <code>&lt;div class="liquid-child"&gt;</code>
+  markup. These divs are the ones that the animations will target. You
+  can pass a <code>class</code> argument
+  to <code>\{{liquid-outlet}}</code> to set both bound and static
+  class names on the liquid-child, in the usual Ember way.</li>
   <li>it does not support the <code>view</code> option to override its view class.</li>
 </ul>
 
