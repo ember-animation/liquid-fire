@@ -152,7 +152,7 @@ Transitions.prototype = {
   },
 
   _predicateArgs: function(change, remainingLevels) {
-    var level = 4 - remainingLevels;
+    var level = 5 - remainingLevels;
     switch (level) {
     case 0:
       return [change.entering.route];
@@ -161,9 +161,9 @@ Transitions.prototype = {
     case 2:
       return [];
     case 3:
-      return [change.entering.model];
+      return [change.entering.context];
     case 4:
-      return [change.leaving.model];
+      return [change.leaving.context];
     }
   },
 
