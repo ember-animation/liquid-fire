@@ -1,0 +1,24 @@
+<h2>Route Constraints</h2>
+
+<p>The following three constraints apply to route names. They all
+accept the same arguments.</p>
+
+<dl class="dl-horizontal">
+  <dt>fromRoute</dt>
+  <dd>Matches the route name at the start of a transition.</dd>
+
+  <dt>toRoute</dt>
+  <dd>Matches the route name at the end of a transition.</dd>
+
+  <dt>withinRoute</dt>
+  <dd>Matches the same name at both the start and end of the
+    transition. This is good for matching transitions that are not
+    route changes.
+  </dd>
+</dl>
+
+<p>Each of them accepts one or more arguments. The arguments can be
+strings containing route names, or functions that test route
+names. Best illustrated by example:</p>
+
+{{code-snippet name="route-match-examples.js"}}

@@ -1,0 +1,37 @@
+<h2>Using the Transition Map</h2>
+
+<p>The transition map is where you configure which transitions to run
+in which situations. In an ember-cli app, it is loaded automatically
+from <code>app/transitions.js</code>.</p>
+
+<div class="callout callout-info">Instructions for non-ember-cli
+builds are still needed.</div>
+
+<p>When one of the liquid helpers detects an update that might need to
+animate, it consults the transition map. The first matching rule that
+it finds will be applied.</p>
+
+<h3>Transition map top-level functions</h3>
+
+<dl class="dl-horizontal">
+  <dt>transition</dt>
+  <dd>Creates a transition rule that governs when to apply a given
+  animation. The rule consists of one or more constraints and
+  a <code>use</code> statement. The animation named
+  by <code>use</code> will only run if all the constraints match.</dd>
+
+  <dt>define</dt>
+  <dd>
+    <p>Assigns a name to a given animation so that it can be targeted
+    by <code>use()</code> in transition rules. If you're sticking to
+    predefined aniations like <code>'toLeft'</code>, you don't need
+    this.</p>
+    </p>
+  </dd>
+
+</dl>
+
+<p>The next sections cover the kinds of constraints that can go inside
+a transition rule.</p>
+
+

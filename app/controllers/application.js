@@ -15,10 +15,11 @@ export default Ember.Controller.extend({
           {route: "helpers.liquid-box", title: "liquid-box"},
         ]
       },
-      { title: 'Transition Map',
+      { route: 'transition-map', title: 'Transition Map',
         children: [
-          'Matching by route',
-          'Matching by context',
+          {route: 'transition-map.route-constraints', title: 'Matching by route'},
+          {route: 'transition-map.model-constraints', title: 'Matching by model'},
+          'Matching by DOM context',
           'Defining transitions'
         ]
       },

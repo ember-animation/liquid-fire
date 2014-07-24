@@ -17,6 +17,10 @@ Router.map(function() {
     this.resource('helpers.liquid-if', { path: 'liquid-if'});
     this.resource('helpers.liquid-measure', { path: 'liquid-measure'});
     this.resource('helpers.liquid-box', { path: 'liquid-box'});
+    this.resource('transition-map', function(){
+      this.route('route-constraints');
+      this.route('model-constraints');
+    });
   });
 });
 
