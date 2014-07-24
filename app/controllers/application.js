@@ -20,7 +20,7 @@ export default Ember.Controller.extend({
           {route: 'transition-map.route-constraints', title: 'Matching by route'},
           {route: 'transition-map.model-constraints', title: 'Matching by model'},
           {route: 'transition-map.dom-constraints', title: 'Matching by DOM context'},
-          'Defining transitions'
+          {route: 'transition-map.defining-transitions', title: 'Defining transition animations'}
         ]
       },
       { title: 'Transitions',

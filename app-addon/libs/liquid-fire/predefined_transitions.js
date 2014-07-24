@@ -28,6 +28,7 @@ export default function predefinedTransitions(){
   this.define('toUp', moveOver('translateY', -1));
   this.define('toDown', moveOver('translateY', 1));
 
+  // BEGIN-SNIPPET cross-fade-definition
   this.define('crossFade', function(oldView, insertNewView, opts) {
     stop(oldView);
     return insertNewView().then(function(newView) {
@@ -37,6 +38,7 @@ export default function predefinedTransitions(){
       ]);
     });
   });
+  // END-SNIPPET
 
   this.define('fade', function(oldView, insertNewView) {
     stop(oldView);
