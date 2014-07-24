@@ -52,7 +52,7 @@ export default Ember.ContainerView.extend(Ember._Metamorph, {
   }).on('init'),
 
   _liquidChildFor: function(content) {
-    if (!content.get('hasLiquidContext')){
+    if (content && !content.get('hasLiquidContext')){
       content.set('liquidContext', content.get('context'));
     }
     var LiquidChild = this.container.lookupFactory('view:liquid-child');
@@ -74,4 +74,3 @@ export default Ember.ContainerView.extend(Ember._Metamorph, {
 
 
 });
-
