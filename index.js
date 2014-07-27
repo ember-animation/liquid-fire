@@ -34,10 +34,8 @@ LiquidFire.prototype.treeFor = function treeFor(name) {
   }
 
   if (name === 'vendor') {
-    ['velocity'].forEach(function(dep){
-      var src = unwatchedTree(path.join('node_modules', 'liquid-fire', 'vendor'));
-      addon = mergeTrees([addon, pickFiles(src, {srcDir: dep, destDir: dep})]);
-    });
+    var src = unwatchedTree(path.dirname(require.resolve('velocity-animate')));
+    addon = mergeTrees([addon, pickFiles(src, {srcDir: '/', destDir: 'velocity'})]);
   }
 
   return addon;
