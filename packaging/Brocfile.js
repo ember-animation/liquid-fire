@@ -6,17 +6,12 @@ var compileES6 = require('broccoli-es6-concatenator');
 var templateCompiler = require('broccoli-ember-hbs-template-compiler');
 var registry = require('./registry');
 
-var velocity = pickFiles('../node_modules/velocity-animate', {
-  srcDir: '/',
-  destDir: 'velocity'
-});
-
 var appTree = pickFiles('../app-addon', { srcDir: '/', destDir: 'app-addon'});
 
 var templateTree = templateCompiler('../app-addon/templates', { module: true });
 templateTree = pickFiles(templateTree, {srcDir: '/', destDir: 'app-addon/templates'});
 
-var vendorTree = mergeTrees([velocity, '../vendor-addon', '../vendor']);
+var vendorTree = mergeTrees(['../vendor-addon', '../vendor']);
 vendorTree = pickFiles(vendorTree, { srcDir: '/', destDir: 'vendor' });
 
 
@@ -30,10 +25,5 @@ var compiled = compileES6(mergeTrees(['.', mergeTrees([precompiled, registration
   outputFile: '/liquid-fire.js',
   legacyFilesToAppend: ['registry-output.js', 'glue.js']
 });
-
-
-
-
-
 
 module.exports = compiled;
