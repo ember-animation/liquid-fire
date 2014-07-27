@@ -1,6 +1,6 @@
 import Ember from "ember";
 import { test, moduleFor } from 'ember-qunit';
-import { initialize } from "liquid-fire/libs/liquid-fire";
+import { initialize } from "vendor/liquid-fire";
 
 var view,
     run = Ember.run,

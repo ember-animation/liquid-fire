@@ -1,4 +1,4 @@
-import { initialize } from "../libs/liquid-fire";
+import { initialize } from "vendor/liquid-fire";
 import transitionConfig from "../transitions";
 
 export default {

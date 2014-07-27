@@ -2,4 +2,4 @@
 // their own version of this file and use it to configure their
 // transitions.
 
-export default function(){};
+export default function(){}

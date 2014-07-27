@@ -1,7 +1,7 @@
 /*jshint newcap:false*/
 import Ember from "ember";
 import { test, moduleFor } from 'ember-qunit';
-import { initialize } from "liquid-fire/libs/liquid-fire";
+import { initialize } from "vendor/liquid-fire";
 
 var run = Ember.run,
     set = Ember.set,

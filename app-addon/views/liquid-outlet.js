@@ -1,5 +1,5 @@
 import Ember from "ember";
-import { Promise } from "../libs/liquid-fire";
+import { Promise } from "vendor/liquid-fire";
 
 export default Ember.ContainerView.extend(Ember._Metamorph, {
   init: function(){
@@ -62,7 +62,7 @@ export default Ember.ContainerView.extend(Ember._Metamorph, {
       classNameBindings: this.get('classNameBindings')
     });
   },
-  
+
   _pushNewView: function(newView) {
     var child = this._liquidChildFor(newView),
         promise = new Promise(function(resolve) {

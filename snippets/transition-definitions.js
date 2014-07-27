@@ -1,4 +1,4 @@
-import { animate, stop } from "libs/liquid-fire";
+import { animate, stop } from "vendor/liquid-fire";
 
 export function crossFade(oldView, insertNewView, opts) {
   stop(oldView);
@@ -17,5 +17,4 @@ export function fade(oldView, insertNewView) {
     .then(function(newView){
       return animate(newView, {opacity: [1, 0]});
     });
-});  
-
+});

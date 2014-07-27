@@ -1,5 +1,5 @@
 import Ember from "ember";
-import MutationObserver from "../libs/liquid-fire/mutation-observer";
+import MutationObserver from "vendor/liquid-fire/mutation-observer";
 
 export default Ember.Component.extend({
   attributeBindings: ['style'],

@@ -1,5 +1,5 @@
 import Ember from "ember";
-import { animate, stop } from "../libs/liquid-fire";
+import { animate, stop } from "vendor/liquid-fire";
 
 export default Ember.Component.extend({
   classNames: ['liquid-box'],
