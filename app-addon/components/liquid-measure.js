@@ -2,8 +2,7 @@ import Ember from "ember";
 import MutationObserver from "vendor/liquid-fire/mutation-observer";
 
 export default Ember.Component.extend({
-  attributeBindings: ['style'],
-  style: "display: inline-block;",
+  classNames: ['liquid-measure'],
 
   didInsertElement: function() {
     var self = this;

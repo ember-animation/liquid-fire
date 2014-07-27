@@ -16,3 +16,7 @@
     position: relative;
     overflow: hidden;
 }
+
+.liquid-measure {
+    display: inline-block;
+}
