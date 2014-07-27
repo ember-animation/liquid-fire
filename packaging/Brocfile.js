@@ -5,6 +5,7 @@ var pickFiles = require('broccoli-static-compiler');
 var compileES6 = require('broccoli-es6-concatenator');
 var templateCompiler = require('broccoli-ember-hbs-template-compiler');
 var registry = require('./registry');
+var version = require('../package.json').version;
 
 var appTree = pickFiles('../app-addon', { srcDir: '/', destDir: 'app-addon'});
 
@@ -22,7 +23,7 @@ var compiled = compileES6(mergeTrees(['.', mergeTrees([precompiled, registration
   loaderFile: 'vendor/loader/loader.js',
   inputFiles: ['vendor/liquid-fire.js', 'app-addon/**/*.js'],
   ignoredModules: ['ember'],
-  outputFile: '/liquid-fire.js',
+  outputFile: '/liquid-fire-' + version + '.js',
   legacyFilesToAppend: ['registry-output.js', 'glue.js']
 });
 
