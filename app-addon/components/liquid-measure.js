@@ -1,5 +1,5 @@
 import Ember from "ember";
-import MutationObserver from "vendor/liquid-fire/mutation-observer";
+import { MutationObserver } from "vendor/liquid-fire";
 
 export default Ember.Component.extend({
   classNames: ['liquid-measure'],
