@@ -16,9 +16,12 @@ liquid-fire addon with:</p>
   npm install --save-dev liquid-fire
 </pre>
 
-<div class="callout callout-danger">For a non-ember-cli app, you'll
-want to grab a prebuilt version of liquid-fire. This build
-configuration is not yet implemented, PRs welcome.</div>
+<div class="callout callout-info">
+  If you're not using
+  ember-cli, <a href="https://github.com/ef4/liquid-fire/releases">grab
+  a prebuilt release</a>. You will also need to manually
+  add <a href="http://velocityjs.org">velocity.js</a> to your page.
+</div>
 
 <h3>Key Ideas</h3>
 
@@ -51,6 +54,12 @@ the transition map goes in <code>app/transitions.js</code>, and it
 looks something like this:</p>
 
 {{code-snippet name="simple-transition-map.js"}}
+
+<div class="callout callout-info">
+  Old-school apps without a module resolver should pass their
+  transition map function to <code>LiquidFire.map</code>. <a href="https://github.com/ef4/liquid-fire/blob/master/example/prebuilt-example.html">There is an example here</a>.
+</div>
+
 
 <h4>Transitions</h4>
 
