@@ -1,0 +1,59 @@
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://builds.handlebarsjs.com.s3.amazonaws.com/handlebars-v1.3.0.js"></script>
+<script src="http://builds.emberjs.com/tags/v1.6.1/ember.js"></script>
+<script src="jquery.velocity.min.js"></script>
+<script src="liquid-fire-0.1.5.js"></script>
+
+<script type="text/javascript">
+
+/*
+
+  This example shows how to use the prebuilt version of liquid-fire
+  without ember-cli. THIS IS NOT RECOMMENDED FOR NEW PROJECTS, which
+  should just use ember-cli.
+
+*/
+
+
+App = Ember.Application.create();
+
+App.Router.map(function() {
+  this.route('other');
+});
+
+LiquidFire.map(function(){
+  this.transition(
+    this.fromRoute('index'),
+    this.toRoute('other'),
+    this.use('toLeft')
+  );
+  this.transition(
+    this.fromRoute('other'),
+    this.toRoute('index'),
+    this.use('toRight')
+  );
+});
+
+</script>
+
+</head>
+<body>
+
+ <script type="text/x-handlebars">
+    <h2> Welcome to Ember.js</h2>
+    {{liquid-outlet}}
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="index">
+    {{#link-to 'other'}}Other{{/link-to}}
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="other">
+    {{#link-to 'index'}}Index{{/link-to}}
+  </script>
+
+</body>
+
+</html>
