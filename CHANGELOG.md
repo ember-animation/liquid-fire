@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.1.6
+
+- Added standalone packaging.
+
 ### 0.1.4
 
 - Pull velocity.js from npm

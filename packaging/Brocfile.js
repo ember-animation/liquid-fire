@@ -5,6 +5,7 @@ var pickFiles = require('broccoli-static-compiler');
 var compileES6 = require('broccoli-es6-concatenator');
 var templateCompiler = require('broccoli-ember-hbs-template-compiler');
 var registry = require('./registry');
+var wrap = require('./wrap');
 var version = require('../package.json').version;
 
 var appTree = pickFiles('../app-addon', { srcDir: '/', destDir: 'app-addon'});
@@ -27,4 +28,4 @@ var compiled = compileES6(mergeTrees(['.', mergeTrees([precompiled, registration
   legacyFilesToAppend: ['registry-output.js', 'glue.js']
 });
 
-module.exports = compiled;
+module.exports = wrap(compiled);
