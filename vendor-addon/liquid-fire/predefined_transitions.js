@@ -40,12 +40,12 @@ export default function predefinedTransitions(){
   });
   // END-SNIPPET
 
-  this.define('fade', function(oldView, insertNewView) {
+  this.define('fade', function(oldView, insertNewView, opts) {
     stop(oldView);
-    return animate(oldView, {opacity: 0})
+    return animate(oldView, {opacity: 0}, opts)
       .then(insertNewView)
       .then(function(newView){
-        return animate(newView, {opacity: [1, 0]});
+        return animate(newView, {opacity: [1, 0]}, opts);
       });
   });
 
