@@ -4,6 +4,7 @@ import Promise from "./promise";
 export default function predefinedTransitions(){
   this.setDefault({duration: 250});
 
+  // BEGIN-SNIPPET move-over-definition
   this.define('moveOver', function(oldView, insertNewView, dimension, direction, opts) {
     var property  = 'translate' + dimension.toUpperCase(),
         oldParams = {},
@@ -21,13 +22,11 @@ export default function predefinedTransitions(){
     });
   });
 
-  // The terminology here describes the direction that the content
-  // moves. An alternative frame of reference is to describe which way
-  // the view's point-of-view moves, which has the opposite sense.
   this.define('toRight', 'moveOver', 'x',  1 );
   this.define('toLeft',  'moveOver', 'x', -1 );
   this.define('toUp',    'moveOver', 'y', -1 );
   this.define('toDown',  'moveOver', 'y',  1 );
+  // END-SNIPPET
 
   // BEGIN-SNIPPET cross-fade-definition
   this.define('crossFade', function(oldView, insertNewView, opts) {

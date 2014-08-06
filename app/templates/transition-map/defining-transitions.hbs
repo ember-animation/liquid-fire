@@ -5,6 +5,66 @@ transition animations like 'toLeft' and 'crossFade'. This section
 explains how such animations are implemented so you can create your
 own.</p>
 
-<p>Here is the definition of 'crossFade':</p>
+<p>liquid-fire exports two relevant helper functions:<p>
+
+<dl>
+  <dt><code>animate(view, props, opts)</code></dt>
+
+  <dd>
+    This operates on the given <code>view</code>'s element, and always returns a
+    promise (even if the view is undefined or otherwise lacking an
+    element). <code>props</code> and <code>opts</code> are passed
+    directly through
+    to <a href="http://julian.com/research/velocity/#arguments">Velocity's
+    animate function</a>.
+  </dd>
+
+  <dt><code>stop(view)</code></dt>
+  <dd>
+    This stops any currently running animations of the given view.
+  </dd>
+</dl>
+
+<p>Using the above helper functions, here's an example of how a
+complete transition may be defined:</p>
 
 {{code-snippet name="cross-fade-definition.js"}}
+
+<p>Your transition function always receives at least two arguments:</p>
+
+<dl class="dl-horizontal">
+  <dt><code>oldView</code></dt>
+
+  <dd>The outgoing view for this transition. May be undefined when
+  transitioning from an empty initial state (which is
+  why <code>animate</code> is robust against an undefined view).</dd>
+
+  <dt><code>insertNewView</code></dt>
+
+  <dd>This is always a function that returns a promise. Call this
+  function when you're ready to insert the new view into the DOM. It
+  will resolve to the newView.</dd>
+</dl>
+
+<p>Any remaining arguments will come directly from <code>use</code>
+statements in transition rules. In the above example, we accept an
+optional <code>opts</code> argument and pass it through
+to <code>animate</code>, which gives the caller of our transition the
+ability say things like <code>this.use('crossFade', { duration: 1000
+})</code>.</p>
+
+<p>You may also define a new transition in terms of an existing
+transition with some added arguments, like this example from
+the <a href="https://github.com/ef4/liquid-fire/blob/master/vendor-addon/liquid-fire/predefined_transitions.js">predefined
+transitions</a>. Notice that our <code>use('toLeft')</code> transition
+is really just shorthand for <code>use('moveOver', 'x',
+-1)</code>:</p>
+
+{{code-snippet name="move-over-definition.js"}}
+
+
+
+
+
+
+

@@ -46,5 +46,8 @@ export default function(){
   );
   // END-SNIPPET
 
-
+  this.transition(
+    this.childOf("#interrupted-fade-demo > div"),
+    this.use('fade', { duration: 1500 })
+  );
 }

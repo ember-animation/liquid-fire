@@ -1,0 +1,34 @@
+<h2>Using <code>insertNewView</code> for Parallel and Serial Transitions</h2>
+
+<p>In the previous section, we explained that transitions
+receive <code>oldView</code> and <code>insertNewView</code>. Why don't
+we just give you <code>newView</code> directly?</p>
+
+<p>Some transitions are parallel: you want to animate both the old and
+new views at the same time. <code>toLeft</code>
+and <code>crossFade</code> are examples of predefined parallel
+transitions.</p>
+
+<p>But some transitions are serial: you want to animate the old view
+away before dealing with the new view. <code>fade</code> is an example
+of a predefined serial transition.</p>
+
+<p><b>liquid-fire automatically optimizes interrupted serial
+transitions</b>. That is, if you're in the middle of animating away
+the old view and a user action causes another transition, as long as
+we haven't already inserted the new view, we can switch to the new-new
+view without starting the whole animation over.
+</p>
+
+<h3>Demo</h3>
+
+<div id="interrupted-fade-demo">
+  {{#link-to "transition-map.parallel-vs-serial.index"}}One{{/link-to}}
+  {{#link-to "transition-map.parallel-vs-serial.two"}}Two{{/link-to}}
+  {{#link-to "transition-map.parallel-vs-serial.three"}}Three{{/link-to}}
+  <div class="demo-container">
+    {{liquid-outlet}}
+  </div>
+</div>
+
+
