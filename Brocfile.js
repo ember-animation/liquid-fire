@@ -18,7 +18,7 @@ var app = new EmberApp({
     vendor: vendorTree,
     templates: templateTree
   },
-  snippetSearchPaths: ['app', 'app-addon']
+  snippetSearchPaths: ['app', 'app-addon', 'vendor-addon']
 });
 
 app.import("vendor/velocity/jquery.velocity.js");
