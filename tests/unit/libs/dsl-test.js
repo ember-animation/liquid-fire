@@ -6,7 +6,11 @@ function dummyAction() {}
 function otherAction() {}
 
 function lookupTransition() {
-  return t.transitionFor(parentView, oldView, newContent).animation;
+  return t.transitionFor(parentView, oldView, newContent);
+}
+
+function lookupAnimation() {
+  return lookupTransition().animation;
 }
 
 function setRoutes(o, n) {
@@ -64,19 +68,19 @@ test("matches source & destination routes", function(){
     );
   });
   setRoutes('one', 'two');
-  equal(lookupTransition(), dummyAction);
+  equal(lookupAnimation(), dummyAction);
 
   setRoutes('x', 'two');
-  equal(lookupTransition(), undefined);
+  equal(lookupAnimation(), undefined);
 
   setRoutes(null, 'two');
-  equal(lookupTransition(), undefined);
+  equal(lookupAnimation(), undefined);
 
   setRoutes('one', 'x');
-  equal(lookupTransition(), undefined);
+  equal(lookupAnimation(), undefined);
 
   setRoutes('one', null);
-  equal(lookupTransition(), undefined);
+  equal(lookupAnimation(), undefined);
 
 });
 
@@ -89,16 +93,16 @@ test("matches just source route", function(){
   });
 
   setRoutes('one', 'bogus');
-  equal(lookupTransition(), dummyAction);
+  equal(lookupAnimation(), dummyAction);
 
   setRoutes('one', null);
-  equal(lookupTransition(), dummyAction);
+  equal(lookupAnimation(), dummyAction);
 
   setRoutes('other', 'two');
-  equal(lookupTransition(), undefined);
+  equal(lookupAnimation(), undefined);
 
   setRoutes(null, 'two');
-  equal(lookupTransition(), undefined);
+  equal(lookupAnimation(), undefined);
 });
 
 test("matches just destination route", function(){
@@ -110,16 +114,16 @@ test("matches just destination route", function(){
   });
 
   setRoutes('bogus', 'two');
-  equal(lookupTransition(), dummyAction, 'with a source route');
+  equal(lookupAnimation(), dummyAction, 'with a source route');
 
   setRoutes(null, 'two');
-  equal(lookupTransition(), dummyAction, 'with empty source route');
+  equal(lookupAnimation(), dummyAction, 'with empty source route');
 
   setRoutes('bogus', 'twox');
-  equal(lookupTransition(), undefined, 'with other destination');
+  equal(lookupAnimation(), undefined, 'with other destination');
 
   setRoutes('bogus', null);
-  equal(lookupTransition(), undefined, 'with empty destination');
+  equal(lookupAnimation(), undefined, 'with empty destination');
 
 });
 
@@ -133,10 +137,10 @@ test("matches empty source route", function(){
   });
 
   setRoutes('bogus', 'two');
-  equal(lookupTransition(), undefined, 'non-empty source');
+  equal(lookupAnimation(), undefined, 'non-empty source');
 
   setRoutes(null, 'two');
-  equal(lookupTransition(), dummyAction, 'empty source');
+  equal(lookupAnimation(), dummyAction, 'empty source');
 });
 
 test("matches source & destination contexts", function(){
@@ -151,19 +155,19 @@ test("matches source & destination contexts", function(){
   setRoutes('one', 'one');
 
   setContexts({isMySource: true}, {isMyDestination: true});
-  equal(lookupTransition(), dummyAction, 'both match');
+  equal(lookupAnimation(), dummyAction, 'both match');
 
   setContexts(null, {isMyDestination: true});
-  equal(lookupTransition(), undefined, 'empty source');
+  equal(lookupAnimation(), undefined, 'empty source');
 
   setContexts({isMySource: true}, null);
-  equal(lookupTransition(), undefined, 'empty destination');
+  equal(lookupAnimation(), undefined, 'empty destination');
 
   setContexts({isMySource: false}, {isMyDestination: true});
-  equal(lookupTransition(), undefined, 'other source');
+  equal(lookupAnimation(), undefined, 'other source');
 
   setContexts({isMySource: true}, {isMyDestination: false});
-  equal(lookupTransition(), undefined, 'other destination');
+  equal(lookupAnimation(), undefined, 'other destination');
 
 });
 
@@ -181,27 +185,27 @@ test("matches routes & contexts", function(){
   setRoutes('one', 'two');
 
   setContexts({isMySource: true}, {isMyDestination: true});
-  equal(lookupTransition(), dummyAction, 'both match');
+  equal(lookupAnimation(), dummyAction, 'both match');
 
   setContexts(null, {isMyDestination: true});
-  equal(lookupTransition(), undefined, 'empty source');
+  equal(lookupAnimation(), undefined, 'empty source');
 
   setContexts({isMySource: true}, null);
-  equal(lookupTransition(), undefined, 'empty destination');
+  equal(lookupAnimation(), undefined, 'empty destination');
 
   setContexts({isMySource: false}, {isMyDestination: true});
-  equal(lookupTransition(), undefined, 'other source');
+  equal(lookupAnimation(), undefined, 'other source');
 
   setContexts({isMySource: true}, {isMyDestination: false});
-  equal(lookupTransition(), undefined, 'other destination');
+  equal(lookupAnimation(), undefined, 'other destination');
 
   setRoutes('one', 'three');
   setContexts({isMySource: true}, {isMyDestination: true});
-  equal(lookupTransition(), undefined, 'wrong destination route');
+  equal(lookupAnimation(), undefined, 'wrong destination route');
 
   setRoutes('three', 'two');
   setContexts({isMySource: true}, {isMyDestination: true});
-  equal(lookupTransition(), undefined, 'wrong source route');
+  equal(lookupAnimation(), undefined, 'wrong source route');
 
 });
 
@@ -220,7 +224,7 @@ test("backtracks past partial route matches", function(){
   });
 
   setRoutes('one', 'three');
-  equal(lookupTransition(), dummyAction, 'both match');
+  equal(lookupAnimation(), dummyAction, 'both match');
 });
 
 test("backtracks past partial context matches", function(){
@@ -238,7 +242,7 @@ test("backtracks past partial context matches", function(){
   });
 
   setRoutes('one', 'three');
-  equal(lookupTransition(), dummyAction, 'matches');
+  equal(lookupAnimation(), dummyAction, 'matches');
 });
 
 test("backtracks to default route", function(){
@@ -255,7 +259,7 @@ test("backtracks to default route", function(){
   });
 
   setRoutes('x', 'three');
-  equal(lookupTransition(), dummyAction, 'matches');
+  equal(lookupAnimation(), dummyAction, 'matches');
 });
 
 test("matching context takes precedence over default", function(){
@@ -270,7 +274,7 @@ test("matching context takes precedence over default", function(){
   });
 
   setRoutes('x', 'three');
-  equal(lookupTransition(), dummyAction, 'matches');
+  equal(lookupAnimation(), dummyAction, 'matches');
 });
 
 
@@ -286,19 +290,19 @@ test("matches between contexts", function(){
   setRoutes('one', 'one');
 
   setContexts({isThing: true}, {isThing: true});
-  equal(lookupTransition(), dummyAction, 'both match');
+  equal(lookupAnimation(), dummyAction, 'both match');
 
   setContexts(null, {isThing: true});
-  equal(lookupTransition(), undefined, 'empty source');
+  equal(lookupAnimation(), undefined, 'empty source');
 
   setContexts({isThing: true}, null);
-  equal(lookupTransition(), undefined, 'empty destination');
+  equal(lookupAnimation(), undefined, 'empty destination');
 
   setContexts({isThing: false}, {isThing: true});
-  equal(lookupTransition(), undefined, 'other source');
+  equal(lookupAnimation(), undefined, 'other source');
 
   setContexts({isThing: true}, {isThing: false});
-  equal(lookupTransition(), undefined, 'other destination');
+  equal(lookupAnimation(), undefined, 'other destination');
 
 });
 
@@ -311,10 +315,10 @@ test("can target empty routes", function() {
     );
   });
   setRoutes(null, 'one');
-  equal(lookupTransition(), dummyAction, 'should match');
+  equal(lookupAnimation(), dummyAction, 'should match');
 
   setRoutes('two', 'one');
-  equal(lookupTransition(), undefined, 'should not match');
+  equal(lookupAnimation(), undefined, 'should not match');
 });
 
 test("can target empty context", function() {
@@ -328,10 +332,10 @@ test("can target empty context", function() {
   setRoutes('one', 'one');
 
   setContexts(null, {});
-  equal(lookupTransition(), dummyAction, 'should match');
+  equal(lookupAnimation(), dummyAction, 'should match');
 
   setContexts({}, {});
-  equal(lookupTransition(), undefined, 'should not match');
+  equal(lookupAnimation(), undefined, 'should not match');
 });
 
 test("matches instanceOf contexts", function() {
@@ -354,13 +358,13 @@ test("matches instanceOf contexts", function() {
   setRoutes('one', 'one');
 
   setContexts(Pet.create(), Owner.create());
-  equal(lookupTransition(), dummyAction, 'Pet to Owner');
+  equal(lookupAnimation(), dummyAction, 'Pet to Owner');
 
   setContexts(Owner.create(), Pet.create());
-  equal(lookupTransition(), otherAction, 'Owner to Pet');
+  equal(lookupAnimation(), otherAction, 'Owner to Pet');
 
   setContexts(Ember.ObjectController.create({model: Owner.create()}), Pet.create());
-  equal(lookupTransition(), otherAction, 'Sees through controllers');
+  equal(lookupAnimation(), otherAction, 'Sees through controllers');
 
 });
 
@@ -383,11 +387,30 @@ test("passes arguments through to transitions", function() {
   setRoutes('one', 'two');
 
 
-  deepEqual(t.transitionFor(parentView, oldView, newContent).animationArgs, [1,2,3], 'with function');
+  deepEqual(lookupTransition().animationArgs, [1,2,3], 'with function');
 
   setRoutes('one', 'three');
-  deepEqual(t.transitionFor(parentView, oldView, newContent).animationArgs, [4,5,6], 'with named transition');
+  deepEqual(lookupTransition().animationArgs, [4,5,6], 'with named transition');
 
+});
+
+test("may extend named transitions via arguments", function() {
+  expect(1);
+  t.map(function(){
+    this.define('base', function(){
+      deepEqual(Array.prototype.slice.apply(arguments, [2]),
+                ['firstArg','secondArg','thirdArg', 'fourthArg'], 'proper args');
+      return Ember.RSVP.Promise.cast();
+    });
+    this.define('derived', 'base', 'firstArg', 'secondArg');
+    this.transition(
+      this.fromRoute('one'),
+      this.toRoute('two'),
+      this.use('derived', 'thirdArg', 'fourthArg')
+    );
+  });
+  setRoutes('one', 'two');
+  lookupTransition().run();
 });
 
 test("rejects multiple uses of fromRoute in a single transition", function(){
@@ -411,10 +434,10 @@ test("accepts multiple source routes", function(){
   });
 
   setRoutes('one', 'bogus');
-  equal(lookupTransition(), dummyAction);
+  equal(lookupAnimation(), dummyAction);
 
   setRoutes('two', 'bogus');
-  equal(lookupTransition(), dummyAction);
+  equal(lookupAnimation(), dummyAction);
 
 });
 
@@ -427,10 +450,10 @@ test("accepts multiple destination routes", function(){
   });
 
   setRoutes('bogus', 'one');
-  equal(lookupTransition(), dummyAction);
+  equal(lookupAnimation(), dummyAction);
 
   setRoutes('bogus', 'two');
-  equal(lookupTransition(), dummyAction);
+  equal(lookupAnimation(), dummyAction);
 
 });
 
@@ -447,13 +470,13 @@ test("combines multiple context constraints", function(){
 
   setRoutes('one', 'one');
   setContexts(null, Pet.create());
-  equal(lookupTransition(), undefined, "should not match because of name");
+  equal(lookupAnimation(), undefined, "should not match because of name");
 
   setContexts(null, Ember.Object.create({name: 'Fluffy'}));
-  equal(lookupTransition(), undefined, "should not match because of instanceof");
+  equal(lookupAnimation(), undefined, "should not match because of instanceof");
 
   setContexts(null, Pet.create({name: 'Fluffy'}));
-  equal(lookupTransition(), dummyAction, "should match both");
+  equal(lookupAnimation(), dummyAction, "should match both");
 
 });
 
