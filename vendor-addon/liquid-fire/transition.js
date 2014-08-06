@@ -12,33 +12,49 @@ function Transition(parentView, oldView, newContent, animation, animationArgs, t
 Transition.prototype = {
   run: function() {
     if (!this.animation) {
-      if (this.oldView) {
-        this.oldView.destroy();
-      }
-      return this.parentView._pushNewView(this.newContent).then(function(newView){
-        var elt;
-        if (newView && (elt = newView.$())) {
-          elt.show();
-        }
-      });
+      this.maybeDestroyOldView();
+      return this._insertNewView().then(revealView);
     }
-
     var self = this;
-    function insertNewView() {
-      if (self.inserted) {
-        return self.inserted;
-      }
-      return self.inserted = self.parentView._pushNewView(self.newContent);
-    }
-    return this.animation.apply(this, [this.oldView, insertNewView].concat(this.animationArgs)).then(function(){
+    return this._invokeAnimation().then(function(){
       self.maybeDestroyOldView();
+    }, function(err){
+      return self.cleanupAfterError(err);
     });
   },
 
-  maybeDestroyOldView: function(){
+  _insertNewView: function() {
+    if (this.inserted) {
+      return this.inserted;
+    }
+    return this.inserted = this.parentView._pushNewView(this.newContent);
+  },
+
+  _invokeAnimation: function() {
+    // The extra Promise means we will trap an exception thrown
+    // immediately by the animation implementation.
+    var self = this,
+        animation = this.animation,
+        inserter = function(){return self._insertNewView();},
+        args = [this.oldView, inserter].concat(this.animationArgs);
+    return new Promise(function(resolve, reject){
+      return animation.apply(self, args).then(resolve, reject);
+    });
+  },
+
+  maybeDestroyOldView: function() {
     if (!this.interrupted && this.oldView) {
       this.oldView.destroy();
     }
+  },
+
+  // If the animation blew up, do what we can to leave the DOM in a
+  // sane state before re-propagating the error.
+  cleanupAfterError: function(err) {
+    this.maybeDestroyOldView();
+    return this._insertNewView().then(revealView).then(function(){
+      throw err;
+    });
   },
 
   interrupt: function(){
@@ -56,5 +72,14 @@ Transition.prototype = {
     return this.transitionMap.lookup(transitionName);
   }
 };
+
+function revealView(view) {
+  var elt;
+  if (view && (elt = view.$())) {
+    elt.show();
+  }
+}
+
+
 
 export default Transition;
