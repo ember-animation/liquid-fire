@@ -41,6 +41,7 @@ export default function predefinedTransitions(){
   });
   // END-SNIPPET
 
+  // BEGIN-SNIPPET fade-definition
   this.define('fade', function(oldView, insertNewView, opts) {
     stop(oldView);
     return animate(oldView, {opacity: 0}, opts)
@@ -49,6 +50,7 @@ export default function predefinedTransitions(){
         return animate(newView, {opacity: [1, 0]}, opts);
       });
   });
+  // END-SNIPPET
 
   this.define('rotateBelow', function(oldView, insertNewView, opts) {
     var direction = 1;
