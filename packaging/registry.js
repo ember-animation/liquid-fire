@@ -22,7 +22,8 @@ var AddonRegistry = function ( inputTree, options ) {
     'components',
     'helpers',
     'controllers',
-    'routes'
+    'routes',
+    'transitions'
   ];
 };
 
@@ -46,6 +47,7 @@ AddonRegistry.prototype.write = function (readTree, destDir) {
             var key = parts[0].replace(/s$/, '') + ':' + parts.slice(1).join(path.sep).replace(path.extname(filename), '');
             var module = [self.outputPrefix].concat(parts).join(path.sep).replace(path.extname(filename), '');
             output.push("container.register('" + key + "', require('" + module + "')['default']);" );
+            output.push("container.register('" + key + "'.camelize(), require('" + module + "')['default']);" );
           }
         });
         output.push("};});");

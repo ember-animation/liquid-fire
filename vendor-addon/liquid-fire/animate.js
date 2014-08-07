@@ -31,6 +31,10 @@ export function animate(view, props, opts, label) {
     opts.display = 'auto';
   }
 
+  if (opts.progress) {
+    throw new Error("liquid-fire's 'animate' function reserves the use of Velocity's 'progress' option for its own nefarious purposes.");
+  }
+
   opts.progress = function(){
     state.percentComplete = arguments[1];
     state.timeRemaining = arguments[2];
@@ -62,6 +66,9 @@ export function stop(view) {
 export function setDefaults(props) {
   for (var key in props) {
     if (props.hasOwnProperty(key)) {
+      if (key === 'progress') {
+        throw new Error("liquid-fire's 'animate' function reserves the use of Velocity's '" + key + "' option for its own nefarious purposes.");
+      }
       $.Velocity.defaults[key] = props[key];
     }
   }

@@ -4,7 +4,14 @@
 <script src="http://builds.handlebarsjs.com.s3.amazonaws.com/handlebars-v1.3.0.js"></script>
 <script src="http://builds.emberjs.com/tags/v1.6.1/ember.js"></script>
 <script src="jquery.velocity.min.js"></script>
-<script src="liquid-fire-0.1.5.js"></script>
+<script src="liquid-fire-0.1.6.js"></script>
+
+<style type="text/css">
+  #container {
+    width: 400px;
+    height: 200px;
+  }
+</style>
 
 <script type="text/javascript">
 
@@ -23,6 +30,22 @@ App.Router.map(function() {
   this.route('other');
 });
 
+LiquidFire.defineTransition('rotateBelow', function (oldView, insertNewView, opts) {
+  var direction = 1;
+  if (opts && opts.direction === 'cw') {
+    direction = -1;
+  }
+  LiquidFire.stop(oldView);
+  return insertNewView().then(function(newView) {
+    oldView.$().css('transform-origin', '50% 150%');
+    newView.$().css('transform-origin', '50% 150%');
+    return LiquidFire.Promise.all([
+      LiquidFire.animate(oldView, { rotateZ: -90*direction + 'deg' }, opts),
+      LiquidFire.animate(newView, { rotateZ: ['0deg', 90*direction+'deg'] }, opts),
+    ]);
+  });
+});
+
 LiquidFire.map(function(){
   this.transition(
     this.fromRoute('index'),
@@ -32,7 +55,7 @@ LiquidFire.map(function(){
   this.transition(
     this.fromRoute('other'),
     this.toRoute('index'),
-    this.use('toRight')
+    this.use('rotateBelow')
   );
 });
 
@@ -43,7 +66,7 @@ LiquidFire.map(function(){
 
  <script type="text/x-handlebars">
     <h2> Welcome to Ember.js</h2>
-    {{liquid-outlet}}
+    <div id="container">{{liquid-outlet}}</div>
   </script>
 
   <script type="text/x-handlebars" data-template-name="index">

@@ -22,11 +22,27 @@
 
   <dt><code>isAnimating(view, label)</code></dt>
   <dd>Tests whether an animation with the given label is currently
-    running on this view.</dd>
+    running on this view.
+  </dd>
+
+  <dt><code>timeSpent(view, label)</code></dt>
+  <dd>
+    Returns the number of milliseconds already spent running the
+    labeled animation. Useful when adaptively interrupting in-progress
+    animations.
+  </dd>
+
+  <dt><code>timeRemaining(view, label)</code></dt>
+  <dd>
+    Returns the number of milliseconds remaining for the labeled
+    animation. Useful when adaptively interrupting in-progress
+    animations.
+  </dd>
 
   <dt><code>finish(view, label)</code></dt>
   <dd>Returns a promise that resolves when the running animation with
   the given label on the given view completes.</dd>
+
 </dl>
 
 <h3>Demo</h3>

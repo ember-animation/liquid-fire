@@ -21,12 +21,12 @@ it finds will be applied.</p>
   a <code>use</code> statement. The animation named
   by <code>use</code> will only run if all the constraints match.</dd>
 
-  <dt>define</dt>
+  <dt>setDefault</dt>
   <dd>
-    <p>Assigns a name to a given animation so that it can be targeted
-    by <code>use()</code> in transition rules. If you're sticking to
-    predefined aniations like <code>'toLeft'</code>, you don't need
-    this.</p>
+    <p>Takes name/value pairs and sets them
+    on <a href="http://julian.com/research/velocity/#arguments">$.Velocity.defaults</a>. This
+    lets you provide global defaults for things like the easing
+    function and animation duration.
     </p>
   </dd>
 

@@ -6,9 +6,14 @@ define('ember', ["exports"], function(__exports__) {
 
 window.LiquidFire = require('vendor/liquid-fire');
 window.LiquidFire._deferredMaps = [];
+window.LiquidFire._deferredDefines = [];
 
 window.LiquidFire.map = function(handler) {
   window.LiquidFire._deferredMaps.push(handler);
+};
+
+window.LiquidFire.defineTransition = function(name, implementation) {
+  window.LiquidFire._deferredDefines.push([name, implementation]);
 };
 
 window.Ember.Application.initializer({
@@ -16,9 +21,11 @@ window.Ember.Application.initializer({
   initialize: function(container) {
     require('vendor/liquid-fire').initialize(container, function(){
       var self = this;
-      console.log("loading maps", window.LiquidFire._deferredMaps.length);
       window.LiquidFire._deferredMaps.forEach(function(m){
         m.apply(self);
+      });
+      window.LiquidFire._deferredDefines.forEach(function(pair){
+        container.register('transition:' + pair[0], pair[1]);
       });
     });
     require('vendor/liquid-fire-shim').initialize(container);
