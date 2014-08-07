@@ -1,7 +1,7 @@
 import Ember from "ember";
 import { Promise } from "vendor/liquid-fire";
 
-export default Ember.ContainerView.extend(Ember._Metamorph, {
+export default Ember.ContainerView.extend(Ember.ViewTargetActionSupport, Ember._Metamorph, {
   init: function(){
     // The ContainerView constructor normally sticks our "currentView"
     // directly into _childViews, but we want to leave that up to
@@ -27,7 +27,8 @@ export default Ember.ContainerView.extend(Ember._Metamorph, {
     // them to start heading for the exits now.
 
     var oldView = this.get('childViews.lastObject'),
-        newView = this.get('currentView');
+        newView = this.get('currentView'),
+        self    = this;
 
     // Idempotence
     if ((!oldView && !newView) ||
@@ -48,8 +49,15 @@ export default Ember.ContainerView.extend(Ember._Metamorph, {
     }
 
     this._runningTransition = transition;
-    transition.run();
+    transition.run().then(function(){ self._finishedTransition(transition); });
   }).on('init'),
+
+  _finishedTransition: function(transition){
+    var doneAction = this.get('done');
+    if (doneAction){
+      this.triggerAction({action: doneAction, actionContext: transition});
+    }
+  },
 
   _liquidChildFor: function(content) {
     if (content && !content.get('hasLiquidContext')){
