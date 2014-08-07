@@ -1,5 +1,17 @@
 # Changelog
 
+### 0.2.0
+
+- We now resolve all named transitions via the container. You can
+  place them in app/transitions/my-fancy-animation.js. As a result,
+  the use of "define" within the transition map is deprecated.
+
+- Added some new animation primitives for testing the state of running
+  animations, and adapted the 'fade' transition to demonstrate how to
+  handle interruptions.
+
+- Lots more documentation, which is now essentially complete.
+
 ### 0.1.6
 
 - Added standalone packaging.
