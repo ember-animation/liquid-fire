@@ -87,3 +87,22 @@
         margin-bottom: $line-height-computed;
     }
 }
+
+#interrupted-fade-demo {
+    .liquid-child {
+        padding: 0;
+        > div {
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .one {
+        background-color: red;
+    }
+    .two {
+        background-color: green;
+    }    
+    .three {
+        background-color: blue;
+    }
+}

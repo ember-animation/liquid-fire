@@ -29,8 +29,12 @@
   the given label on the given view completes.</dd>
 </dl>
 
-
 <h3>Demo</h3>
+
+<p>This shows a slow fade effect so you can experiment with
+interrupting the transition. Notice that if you interrupt it while its
+fading out, it will keep smoothly fading out but will fade back in
+with your final destination.</p>
 
 <div id="interrupted-fade-demo">
   {{#link-to "transitions.primitives.index"}}One{{/link-to}}
@@ -41,4 +45,4 @@
   </div>
 </div>
 
-
+{{code-snippet name="fade-definition.js"}}

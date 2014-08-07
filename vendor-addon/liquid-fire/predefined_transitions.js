@@ -45,9 +45,16 @@ export default function predefinedTransitions(){
     var firstStep;
 
     if (isAnimating(oldView, 'fade-out')) {
+      // if the old view is already fading out, let it finish.
       firstStep = finish(oldView, 'fade-out');
     } else {
+      // otherwise, stop any running animation. This covers the case
+      // where the old view was still fading in.
       stop(oldView);
+
+      // here, 'fade-out' is a label that we're attaching to the
+      // animation so that it can be detected by 'isAnimating' and
+      // 'finish'.
       firstStep = animate(oldView, {opacity: 0}, opts, 'fade-out');
     }
 
