@@ -12,9 +12,9 @@ this.transition(
   this.use('fade', { duration: 3000 })
 );
 
-// You can also provide an implementation directly instead of a
-// name. This takes the same kind of function as `define`, which we
-// talk about more in the next section.
+// You can also provide an implementation instead of a name, though
+// it's probably better to keep implementations in separate files. We
+// talk more about transition implementations in the next section.
 import { animate, stop } from "vendor/liquid-fire";
 this.transition(
   this.withinRoute('foo'),
