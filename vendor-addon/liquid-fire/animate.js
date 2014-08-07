@@ -7,8 +7,8 @@ if (!$.Velocity.Promise) {
   $.Velocity.Promise = Promise;
 }
 
-export function animate(view, props, opts) {
-  var elt;
+export function animate(view, props, opts, label) {
+  var elt, promise;
 
   if (!view || !(elt = view.$()) || !elt[0]) {
     return Promise.cast();
@@ -27,7 +27,19 @@ export function animate(view, props, opts) {
     opts.display = 'auto';
   }
 
-  return $.Velocity.animate(elt[0], props, opts);
+  promise = $.Velocity.animate(elt[0], props, opts);
+
+  if (label) {
+    promise = promise.then(function(){
+      clearLabel(view, label);
+    }, function(err) {
+      clearLabel(view, label);
+      throw err;
+    });
+    applyLabel(view, label, promise);
+  }
+
+  return promise;
 }
 
 export function stop(view) {
@@ -42,5 +54,31 @@ export function setDefaults(props) {
     if (props.hasOwnProperty(key)) {
       $.Velocity.defaults[key] = props[key];
     }
+  }
+}
+
+export function isAnimating(view, animationLabel) {
+  return view && view._lfTags && view._lfTags[animationLabel];
+}
+
+export function finish(view, animationLabel) {
+  var promise = isAnimating(view, animationLabel);
+  if (!promise) {
+    throw new Error("no animation labeled " + animationLabel + " is in progress");
+  }
+  return promise;
+}
+
+function applyLabel(view, label, promise) {
+  if (!view){ return; }
+  if (!view._lfTags) {
+    view._lfTags = {};
+  }
+  view._lfTags[label] = promise;
+}
+
+function clearLabel(view, label) {
+  if (view && view._lfTags) {
+    delete view._lfTags[label];
   }
 }

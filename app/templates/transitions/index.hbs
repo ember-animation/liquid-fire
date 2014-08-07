@@ -1,0 +1,15 @@
+<h2>Transitions</h2>
+
+<p>Transitions implement animation between two states. When a
+{{#link-to "helpers.index"}}template helper{{/link-to}} undergoes a
+state change, it consults the {{#link-to
+"transition-map.index"}}transition map{{/link-to}} to see if there's a
+matching transition. If it finds one, the transition is given the job
+of orchestrating the view animations to get from the old state to the
+new state.</p>
+
+<p>The library ships with some {{#link-to
+"transitions.predefined"}}predefined transitions{{/link-to}}. But it's
+also expected that people will want to {{#link-to
+"transitions.defining"}}compose their own{{/link-to}} out of
+{{#link-to "transitions.primitives"}}lower-level pieces{{/link-to}}.</p>

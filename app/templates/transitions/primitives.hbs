@@ -1,0 +1,44 @@
+<h2>Animation Primitives</h2>
+
+<p>The library exports these animation primitives:<p>
+
+<dl>
+  <dt><code>animate(view, props, opts, <em>label</em>)</code></dt>
+
+  <dd>
+    This operates on the given <code>view</code>'s element, and always
+    returns a promise (even if the view is undefined or otherwise
+    lacking an element). <code>props</code> and <code>opts</code> are
+    passed directly through
+    to <a href="http://julian.com/research/velocity/#arguments">Velocity's
+    animate function</a>. <code>label</code> is an optional string
+    that you can use to refer to this animation while it's running.
+  </dd>
+
+  <dt><code>stop(view)</code></dt>
+  <dd>
+    This stops any currently running animations on the given view.
+  </dd>
+
+  <dt><code>isAnimating(view, label)</code></dt>
+  <dd>Tests whether an animation with the given label is currently
+    running on this view.</dd>
+
+  <dt><code>finish(view, label)</code></dt>
+  <dd>Returns a promise that resolves when the running animation with
+  the given label on the given view completes.</dd>
+</dl>
+
+
+<h3>Demo</h3>
+
+<div id="interrupted-fade-demo">
+  {{#link-to "transitions.primitives.index"}}One{{/link-to}}
+  {{#link-to "transitions.primitives.two"}}Two{{/link-to}}
+  {{#link-to "transitions.primitives.three"}}Three{{/link-to}}
+  <div class="demo-container">
+    {{liquid-outlet}}
+  </div>
+</div>
+
+

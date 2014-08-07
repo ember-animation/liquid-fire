@@ -20,17 +20,14 @@ export default Ember.Controller.extend({
           {route: 'transition-map.route-constraints', title: 'Matching by route'},
           {route: 'transition-map.model-constraints', title: 'Matching by model'},
           {route: 'transition-map.dom-constraints', title: 'Matching by DOM context'},
-          {route: 'transition-map.choosing-transitions', title: 'Choosing transition animations'},
-          {route: 'transition-map.defining-transitions', title: 'Defining transition animations'},
-          {route: 'transition-map.parallel-vs-serial', title: 'Using insertNewView'}
+          {route: 'transition-map.choosing-transitions', title: 'Choosing transition animations'}
         ]
       },
-      { title: 'Transitions',
+      { route: 'transitions', title: 'Transitions',
         children: [
-          "Predefined transitions",
-          "Custom transitions",
-          "animate",
-          "stop"
+          {route: 'transitions.predefined', title: "Predefined transitions"},
+          {route: 'transitions.defining', title: 'Defining custom transitions'},
+          {route: 'transitions.primitives', title: 'Animation Primitives'}
         ]
       }
     ];

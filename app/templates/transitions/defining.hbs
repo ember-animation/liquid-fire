@@ -1,0 +1,44 @@
+<h2>Defining Transition Animations</h2>
+
+<p>Transitions are defined by calling <code>this.define</code> within
+the transition map. <code>define</code> expects a function like
+this:</p>
+
+{{code-snippet name="transition-skeleton.js"}}
+
+<p>The function always receives at least two arguments:</p>
+
+<dl class="dl-horizontal">
+  <dt><code>oldView</code></dt>
+
+  <dd>The outgoing view for this transition. It may be undefined when
+  transitioning from an empty initial state.</dd>
+
+  <dt><code>insertNewView</code></dt>
+
+  <dd>This is always a function that returns a promise. Call this
+  function when you're ready to insert the new view into the DOM. It
+  will resolve to the newView. The newView may be undefined if your
+  transition has already been interrupted, so you should always
+  tolerate an undefined newView.</dd>
+</dl>
+
+<div class="callout callout-info">
+  <h3>Why "insertNewView" instead of "newView"?</h3>
+
+  Because sometimes you want to animate the views in parallel, and
+  sometimes you want to animate them in series. In the series case,
+  your transition may get interrupted before the new view is even
+  needed, in which case we can avoid inserting it entirely.
+</div>
+
+<p>Any remaining arguments will come directly from <code>use</code>
+statements in transition rules. For example:
+
+{{code-snippet name="transition-arguments.js"}}
+
+<p>If you have some commonly-used arguments, you can define a new
+transition that curries them:</p>
+
+{{code-snippet name="curried-transition.js"}}
+

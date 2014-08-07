@@ -33,17 +33,17 @@ different routes and models.</p>
 <p>Therefore, we split the responsibility between three key pieces:
 template helpers, the transition map, and transitions.</p>
 
-
 <h4>Template Helpers</h4>
 
 <p>The library provides helpers
 like <code>\{{liquid-outlet}}</code>, <code>\{{liquid-with}}</code>,
 etc, that are nearly drop-in replacements for the equivalent normal
-Ember helpers. The key difference is that they don't update
-instantly when bound data changes. Instead they consult your
-application's transition map, and if they discover a matching
-transition, they give the transition control over <em>both the old
-and new content</em> simultaneously.</p>
+Ember helpers. The key difference is that they don't update instantly
+when bound data changes. Instead they consult your application's
+transition map, and if they discover a matching transition, they give
+the transition control over <em>both the old and new content</em>
+simultaneously. {{#link-to "helpers.index"}}Read more about Template
+Helpers.{{/link-to}}</p>
 
 <h4>Transition Map</h4>
 
@@ -60,6 +60,8 @@ looks something like this:</p>
   transition map function to <code>LiquidFire.map</code>. <a href="https://github.com/ef4/liquid-fire/blob/master/example/prebuilt-example.html">There is an example here</a>.
 </div>
 
+<p>{{#link-to "transition-map.index"}}Read more about the Transition
+Map.{{/link-to}}</p>
 
 <h4>Transitions</h4>
 
@@ -77,4 +79,5 @@ meaning is "animate the opacity from 0 to 1".)</em></p>
 
 <p>Transitions are implemented with a promise-based API that gives you
 control over all the relevant timing, including when to insert the new
-view into the DOM.</p>
+view into the DOM. {{#link-to "transitions.index"}}Read more about
+Transitions.{{/link-to}}</p>

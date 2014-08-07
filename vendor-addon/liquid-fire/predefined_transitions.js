@@ -1,4 +1,4 @@
-import { animate, stop } from "./animate";
+import { animate, stop, isAnimating, finish } from "./animate";
 import Promise from "./promise";
 
 export default function predefinedTransitions(){
@@ -42,9 +42,16 @@ export default function predefinedTransitions(){
 
   // BEGIN-SNIPPET fade-definition
   this.define('fade', function(oldView, insertNewView, opts) {
-    stop(oldView);
-    return animate(oldView, {opacity: 0}, opts)
-      .then(insertNewView)
+    var firstStep;
+
+    if (isAnimating(oldView, 'fade-out')) {
+      firstStep = finish(oldView, 'fade-out');
+    } else {
+      stop(oldView);
+      firstStep = animate(oldView, {opacity: 0}, opts, 'fade-out');
+    }
+
+    return firstStep.then(insertNewView)
       .then(function(newView){
         return animate(newView, {opacity: [1, 0]}, opts);
       });
