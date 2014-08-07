@@ -19,7 +19,9 @@ Transition.prototype = {
     return this._invokeAnimation().then(function(){
       self.maybeDestroyOldView();
     }, function(err){
-      return self.cleanupAfterError(err);
+      return self.cleanupAfterError().then(function(){
+        throw err;
+      });
     });
   },
 
@@ -38,7 +40,7 @@ Transition.prototype = {
         inserter = function(){return self._insertNewView();},
         args = [this.oldView, inserter].concat(this.animationArgs);
     return new Promise(function(resolve, reject){
-      return animation.apply(self, args).then(resolve, reject);
+      animation.apply(self, args).then(resolve, reject);
     });
   },
 
@@ -50,11 +52,9 @@ Transition.prototype = {
 
   // If the animation blew up, do what we can to leave the DOM in a
   // sane state before re-propagating the error.
-  cleanupAfterError: function(err) {
+  cleanupAfterError: function() {
     this.maybeDestroyOldView();
-    return this._insertNewView().then(revealView).then(function(){
-      throw err;
-    });
+    return this._insertNewView().then(revealView);
   },
 
   interrupt: function(){
