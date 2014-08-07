@@ -2,7 +2,6 @@ import Transition from "./transition";
 import DSL from "./dsl";
 
 function Transitions() {
-  this._namedTransitions = {};
   this._map = {};
   this.map(function(){
     this.setDefault({duration: 250});
@@ -12,7 +11,7 @@ function Transitions() {
 Transitions.prototype = {
 
   lookup: function(transitionName) {
-    var handler = this._namedTransitions[transitionName] || this.container.lookupFactory('transition:' + transitionName);
+    var handler = this.container.lookupFactory('transition:' + transitionName);
     if (!handler) {
       throw new Error("unknown transition name: " + transitionName);
     }

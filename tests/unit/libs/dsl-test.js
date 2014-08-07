@@ -376,41 +376,10 @@ test("passes arguments through to transitions", function() {
       this.toRoute('two'),
       this.use(dummyAction, 1, 2, 3)
     );
-    this.transition(
-      this.fromRoute('one'),
-      this.toRoute('three'),
-      this.use('fancySpin', 4, 5, 6)
-    );
-    this.define('fancySpin', otherAction);
   });
 
   setRoutes('one', 'two');
-
-
   deepEqual(lookupTransition().animationArgs, [1,2,3], 'with function');
-
-  setRoutes('one', 'three');
-  deepEqual(lookupTransition().animationArgs, [4,5,6], 'with named transition');
-
-});
-
-test("may extend named transitions via arguments", function() {
-  expect(1);
-  t.map(function(){
-    this.define('base', function(){
-      deepEqual(Array.prototype.slice.apply(arguments, [2]),
-                ['firstArg','secondArg','thirdArg', 'fourthArg'], 'proper args');
-      return Ember.RSVP.Promise.cast();
-    });
-    this.define('derived', 'base', 'firstArg', 'secondArg');
-    this.transition(
-      this.fromRoute('one'),
-      this.toRoute('two'),
-      this.use('derived', 'thirdArg', 'fourthArg')
-    );
-  });
-  setRoutes('one', 'two');
-  lookupTransition().run();
 });
 
 test("rejects multiple uses of fromRoute in a single transition", function(){
