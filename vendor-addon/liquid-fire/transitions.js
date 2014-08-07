@@ -11,7 +11,7 @@ function Transitions() {
 Transitions.prototype = {
 
   lookup: function(transitionName) {
-    var handler = this._namedTransitions[transitionName];
+    var handler = this._namedTransitions[transitionName] || this.container.lookupFactory('transition:' + transitionName);
     if (!handler) {
       throw new Error("unknown transition name: " + transitionName);
     }
