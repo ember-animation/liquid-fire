@@ -1,5 +1,6 @@
 /* global $ */
 import Promise from "./promise";
+import Ember from "ember";
 
 // Make sure Velocity always has promise support by injecting our own
 // RSVP-based implementation if it doesn't already have one.
@@ -18,7 +19,11 @@ export function animate(view, props, opts, label) {
     return Promise.cast();
   }
 
-  if (!opts) {  opts = {}; }
+  if (!opts) {
+    opts = {};
+  } else {
+    opts = Ember.copy(opts);
+  }
 
   // By default, we ask velocity to reveal the elements at the start
   // of animation. Our animated divs are all initially rendered at
