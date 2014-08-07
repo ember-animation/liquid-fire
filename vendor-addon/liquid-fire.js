@@ -3,5 +3,6 @@ import { animate, stop, isAnimating, timeSpent, timeRemaining, finish } from "./
 import Promise from "./liquid-fire/promise";
 import initialize from "./liquid-fire/initialize";
 import MutationObserver from "./liquid-fire/mutation-observer";
+import curryTransition from "./liquid-fire/curry";
 export { Transitions, animate, stop, isAnimating, timeSpent, timeRemaining, finish,
-         Promise, initialize, MutationObserver };
+         Promise, initialize, MutationObserver, curryTransition };

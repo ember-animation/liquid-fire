@@ -71,14 +71,6 @@ export function isAnimating(view, animationLabel) {
   return view && view._lfTags && view._lfTags[animationLabel];
 }
 
-function stateForLabel(view, label) {
-  var state = isAnimating(view, label);
-  if (!state) {
-    throw new Error("no animation labeled " + label + " is in progress");
-  }
-  return state;
-}
-
 export function finish(view, animationLabel) {
   return stateForLabel(view, animationLabel).promise;
 }
@@ -89,6 +81,14 @@ export function timeSpent(view, animationLabel) {
 
 export function timeRemaining(view, animationLabel) {
   return stateForLabel(view, animationLabel).timeRemaining;
+}
+
+function stateForLabel(view, label) {
+  var state = isAnimating(view, label);
+  if (!state) {
+    throw new Error("no animation labeled " + label + " is in progress");
+  }
+  return state;
 }
 
 function applyLabel(view, label, state) {

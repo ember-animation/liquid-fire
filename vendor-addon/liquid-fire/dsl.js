@@ -9,18 +9,8 @@ DSL.prototype = {
     setDefaults(props);
   },
 
-  define: function(name, handler) {
-    if (typeof(handler) !== 'function') {
-      var indirectName = handler,
-          indirectArgs = Array.prototype.slice.apply(arguments, [2]);
-      handler = function() {
-        var innerHandler = this.transitionMap.lookup(indirectName),
-            args = Array.prototype.slice.apply(arguments);
-        args.splice.apply(args, [2, 0].concat(indirectArgs));
-        return innerHandler.apply(this, args);
-      };
-    }
-    this.map._namedTransitions[name] = handler;
+  define: function() {
+    throw new Error("calling 'define' from within the transition map is deprecated");
   },
 
   _withEmpty: function(elt){

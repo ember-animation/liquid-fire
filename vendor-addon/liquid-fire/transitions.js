@@ -1,11 +1,12 @@
 import Transition from "./transition";
 import DSL from "./dsl";
-import predefinedTransitions from "./predefined_transitions";
 
 function Transitions() {
   this._namedTransitions = {};
   this._map = {};
-  this.map(predefinedTransitions);
+  this.map(function(){
+    this.setDefault({duration: 250});
+  });
 }
 
 Transitions.prototype = {
