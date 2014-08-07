@@ -1,4 +1,4 @@
-import { animate, stop, isAnimating, finish } from "./animate";
+import { animate, stop, isAnimating, timeSpent, finish } from "./animate";
 import Promise from "./promise";
 
 export default function predefinedTransitions(){
@@ -42,24 +42,24 @@ export default function predefinedTransitions(){
 
   // BEGIN-SNIPPET fade-definition
   this.define('fade', function(oldView, insertNewView, opts) {
-    var firstStep;
+    var firstStep,
+        outOpts = opts;
 
     if (isAnimating(oldView, 'fade-out')) {
       // if the old view is already fading out, let it finish.
       firstStep = finish(oldView, 'fade-out');
     } else {
-      // otherwise, stop any running animation. This covers the case
-      // where the old view was still fading in.
+      if (isAnimating(oldView, 'fade-in')) {
+        // if the old view is partially faded in, scale its fade-out
+        // duration appropriately.
+        outOpts = { duration: timeSpent(oldView, 'fade-in') };
+      }
       stop(oldView);
-
-      // here, 'fade-out' is a label that we're attaching to the
-      // animation so that it can be detected by 'isAnimating' and
-      // 'finish'.
-      firstStep = animate(oldView, {opacity: 0}, opts, 'fade-out');
+      firstStep = animate(oldView, {opacity: 0}, outOpts, 'fade-out');
     }
 
     return firstStep.then(insertNewView).then(function(newView){
-      return animate(newView, {opacity: [1, 0]}, opts);
+      return animate(newView, {opacity: [1, 0]}, opts, 'fade-in');
     });
   });
   // END-SNIPPET

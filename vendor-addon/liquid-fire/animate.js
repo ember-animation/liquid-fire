@@ -8,7 +8,11 @@ if (!$.Velocity.Promise) {
 }
 
 export function animate(view, props, opts, label) {
-  var elt, promise;
+  // These numbers are just sane defaults in the probably-impossible
+  // case where somebody tries to read our state before the first
+  // 'progress' callback has fired.
+  var state = { percentComplete: 0, timeRemaining: 100, timeSpent: 0 },
+      elt;
 
   if (!view || !(elt = view.$()) || !elt[0]) {
     return Promise.cast();
@@ -27,19 +31,25 @@ export function animate(view, props, opts, label) {
     opts.display = 'auto';
   }
 
-  promise = $.Velocity.animate(elt[0], props, opts);
+  opts.progress = function(){
+    state.percentComplete = arguments[1];
+    state.timeRemaining = arguments[2];
+    state.timeSpent = state.timeRemaining / (1/state.percentComplete - 1);
+  };
+
+  state.promise = $.Velocity.animate(elt[0], props, opts);
 
   if (label) {
-    promise = promise.then(function(){
+    state.promise = state.promise.then(function(){
       clearLabel(view, label);
     }, function(err) {
       clearLabel(view, label);
       throw err;
     });
-    applyLabel(view, label, promise);
+    applyLabel(view, label, state);
   }
 
-  return promise;
+  return state.promise;
 }
 
 export function stop(view) {
@@ -61,20 +71,32 @@ export function isAnimating(view, animationLabel) {
   return view && view._lfTags && view._lfTags[animationLabel];
 }
 
-export function finish(view, animationLabel) {
-  var promise = isAnimating(view, animationLabel);
-  if (!promise) {
-    throw new Error("no animation labeled " + animationLabel + " is in progress");
+function stateForLabel(view, label) {
+  var state = isAnimating(view, label);
+  if (!state) {
+    throw new Error("no animation labeled " + label + " is in progress");
   }
-  return promise;
+  return state;
 }
 
-function applyLabel(view, label, promise) {
+export function finish(view, animationLabel) {
+  return stateForLabel(view, animationLabel).promise;
+}
+
+export function timeSpent(view, animationLabel) {
+  return stateForLabel(view, animationLabel).timeSpent;
+}
+
+export function timeRemaining(view, animationLabel) {
+  return stateForLabel(view, animationLabel).timeRemaining;
+}
+
+function applyLabel(view, label, state) {
   if (!view){ return; }
   if (!view._lfTags) {
     view._lfTags = {};
   }
-  view._lfTags[label] = promise;
+  view._lfTags[label] = state;
 }
 
 function clearLabel(view, label) {
