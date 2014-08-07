@@ -51,10 +51,9 @@ export default function predefinedTransitions(){
       firstStep = animate(oldView, {opacity: 0}, opts, 'fade-out');
     }
 
-    return firstStep.then(insertNewView)
-      .then(function(newView){
-        return animate(newView, {opacity: [1, 0]}, opts);
-      });
+    return firstStep.then(insertNewView).then(function(newView){
+      return animate(newView, {opacity: [1, 0]}, opts);
+    });
   });
   // END-SNIPPET
 
