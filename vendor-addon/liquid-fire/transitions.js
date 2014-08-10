@@ -18,16 +18,23 @@ Transitions.prototype = {
     return handler;
   },
 
-  transitionFor: function(parentView, oldView, newContent) {
-    var key = this.match(parentView, oldView, newContent),
-        handler;
-
-    if (key && typeof(key.method) === 'function') {
-      handler = key.method;
-    } else if (key) {
-      handler = this.lookup(key.method);
+  transitionFor: function(parentView, oldView, newContent, use) {
+    var handler, args;
+    if (use) {
+      handler = this.lookup(use);
+    } else {
+      var key = this.match(parentView, oldView, newContent);
+      if (key) {
+        args = key.args;
+        if (typeof(key.method) === 'function') {
+          handler = key.method;
+        } else {
+          handler = this.lookup(key.method);
+        }
+      }
     }
-    return new Transition(parentView, oldView, newContent, handler, (key ? key.args : undefined), this);
+
+    return new Transition(parentView, oldView, newContent, handler, args, this);
   },
 
   map: function(handler) {

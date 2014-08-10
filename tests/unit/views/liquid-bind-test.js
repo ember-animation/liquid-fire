@@ -86,3 +86,22 @@ test("it should update bound class name", function() {
   });
   equal(view.$('.liquid-child.humor').length, 1, "found bound class");
 });
+
+makeModuleFor("{{liquid-bind}} `use` option", {
+  template: "{{liquid-bind value use='foo'}}",
+  context: {
+    value: 123
+  },
+  setup: function() {
+    var self = this;
+    this.container.register('transition:foo', function(oldView, insertNewView) {
+      self.fooCalled = true;
+      return insertNewView();
+    });
+  }
+});
+
+test("it should pass through the 'use' option to the underlying liquid-outlet", function() {
+  ok(this.fooCalled, "foo transition was used without looking up transition map");
+});
+
