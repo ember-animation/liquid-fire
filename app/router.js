@@ -6,17 +6,17 @@ var Router = Ember.Router.extend({
 
 Router.map(function() {
 
-  this.resource("helpers", function(){
-    this.resource('helpers.liquid-outlet', { path: 'liquid-outlet'}, function(){
+  this.resource("helpers-documentation", { path: 'helpers'}, function(){
+    this.resource('helpers-documentation.liquid-outlet', { path: 'liquid-outlet'}, function(){
       this.route('other');
     });
-    this.resource('helpers.liquid-with', { path: 'liquid-with'}, function(){
+    this.resource('helpers-documentation.liquid-with', { path: 'liquid-with'}, function(){
       this.route('page', { path: '/:id' });
     });
-    this.resource('helpers.liquid-bind', { path: 'liquid-bind'});
-    this.resource('helpers.liquid-if', { path: 'liquid-if'});
-    this.resource('helpers.liquid-measure', { path: 'liquid-measure'});
-    this.resource('helpers.liquid-box', { path: 'liquid-box'});
+    this.resource('helpers-documentation.liquid-bind', { path: 'liquid-bind'});
+    this.resource('helpers-documentation.liquid-if', { path: 'liquid-if'});
+    this.resource('helpers-documentation.liquid-measure', { path: 'liquid-measure'});
+    this.resource('helpers-documentation.liquid-box', { path: 'liquid-box'});
     this.resource('transition-map', function(){
       this.route('route-constraints');
       this.route('model-constraints');

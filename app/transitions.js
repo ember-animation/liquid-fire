@@ -2,21 +2,21 @@ export default function(){
 
   // BEGIN-SNIPPET transition-demo
   this.transition(
-    this.fromRoute('helpers.liquid-outlet.index'),
-    this.toRoute('helpers.liquid-outlet.other'),
+    this.fromRoute('helpers-documentation.liquid-outlet.index'),
+    this.toRoute('helpers-documentation.liquid-outlet.other'),
     this.use('toLeft')
   );
   // END-SNIPPET
 
   this.transition(
-    this.fromRoute('helpers.liquid-outlet.other'),
-    this.toRoute('helpers.liquid-outlet.index'),
+    this.fromRoute('helpers-documentation.liquid-outlet.other'),
+    this.toRoute('helpers-documentation.liquid-outlet.index'),
     this.use('toRight')
   );
 
   // BEGIN-SNIPPET with-demo
   this.transition(
-    this.withinRoute('helpers.liquid-with.page'),
+    this.withinRoute('helpers-documentation.liquid-with.page'),
     this.use('rotateBelow')
   );
   // END-SNIPPET
@@ -30,7 +30,7 @@ export default function(){
 
   // BEGIN-SNIPPET liquid-if-demo-transition
   this.transition(
-    this.withinRoute('helpers.liquid-if'),
+    this.withinRoute('helpers-documentation.liquid-if'),
     this.use('crossFade')
   );
   // END-SNIPPET

@@ -5,14 +5,14 @@ export default Ember.Controller.extend({
   tableOfContents: function(){
     return [
       { route: "index",   title: "Introduction"},
-      { route: "helpers", title: "Template Helpers",
+      { route: "helpers-documentation", title: "Template Helpers",
         children: [
-          {route: "helpers.liquid-outlet", title: "liquid-outlet"},
-          {route: "helpers.liquid-with", title: "liquid-with"},
-          {route: "helpers.liquid-bind", title: "liquid-bind"},
-          {route: "helpers.liquid-if", title: "liquid-if"},
-          {route: "helpers.liquid-measure", title: "liquid-measure"},
-          {route: "helpers.liquid-box", title: "liquid-box"},
+          {route: "helpers-documentation.liquid-outlet", title: "liquid-outlet"},
+          {route: "helpers-documentation.liquid-with", title: "liquid-with"},
+          {route: "helpers-documentation.liquid-bind", title: "liquid-bind"},
+          {route: "helpers-documentation.liquid-if", title: "liquid-if"},
+          {route: "helpers-documentation.liquid-measure", title: "liquid-measure"},
+          {route: "helpers-documentation.liquid-box", title: "liquid-box"},
         ]
       },
       { route: 'transition-map', title: 'Transition Map',
