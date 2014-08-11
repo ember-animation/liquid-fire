@@ -1,5 +1,5 @@
 // BEGIN-SNIPPET rotate-below
-import { stop, animate } from "vendor/liquid-fire";
+import { stop, animate, Promise } from "vendor/liquid-fire";
 
 export default function rotateBelow(oldView, insertNewView, opts) {
   var direction = 1;

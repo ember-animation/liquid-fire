@@ -1,4 +1,4 @@
-import { stop, animate } from "vendor/liquid-fire";
+import { stop, animate, Promise } from "vendor/liquid-fire";
 
 export default function moveOver(oldView, insertNewView, dimension, direction, opts) {
   var property  = 'translate' + dimension.toUpperCase(),
