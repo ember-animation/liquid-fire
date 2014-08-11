@@ -39,7 +39,7 @@ You can also see some examples in my [Ember Animation Demo](http://github.com/ef
 ### Source Organization
 
 This repo contains both the liquid-fire library and a demo application
-that presents interactive docuemntation. The library code is in:
+that presents interactive documentation. The library code is in:
 
  - index.js
  - app-addon
