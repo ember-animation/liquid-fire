@@ -21,6 +21,7 @@ var precompiled = mergeTrees([vendorTree, appTree, templateTree]);
 var registrations = registry(pickFiles(precompiled, {srcDir: '/app-addon', destDir: '/'}));
 
 var compiled = compileES6(mergeTrees(['.', mergeTrees([precompiled, registrations])]), {
+  wrapInEval: false,
   loaderFile: 'vendor/loader/loader.js',
   inputFiles: ['vendor/liquid-fire.js', 'app-addon/**/*.js'],
   ignoredModules: ['ember'],
