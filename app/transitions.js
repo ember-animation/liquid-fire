@@ -14,13 +14,6 @@ export default function(){
   );
   // END-SNIPPET
 
-  // BEGIN-SNIPPET with-demo
-  this.transition(
-    this.withinRoute('helpers-documentation.liquid-with.page'),
-    this.use('rotateBelow')
-  );
-  // END-SNIPPET
-
   // BEGIN-SNIPPET bind-demo-transition
   this.transition(
     this.childOf('#liquid-bind-demo > div'),

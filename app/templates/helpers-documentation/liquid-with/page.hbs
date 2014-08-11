@@ -24,6 +24,8 @@ explicitly with the <code>controller</code> option, so that a fresh
 controller will be instantiated for each update to your bound
 context.</p>
 
+{{partial "use-option"}}
+
 <h3>When to use it</h3>
 
 <p>Use this when you want to animate the transitions between
@@ -40,7 +42,7 @@ directions.</p>
 
 {{!- BEGIN-SNIPPET with-demo -}}
 <div id="liquid-with-demo" class="demo-container">
-  {{#liquid-with model controller="demo"}}
+  {{#liquid-with model controller="demo" use="rotateBelow"}}
     {{id}}
     <button {{action "higher"}}>Go</button>
   {{/liquid-with}}
@@ -50,10 +52,6 @@ directions.</p>
 <h4>Template</h4>
 
 {{code-snippet name="with-demo.hbs"}}
-
-<h4>Transition Map</h4>
-
-{{code-snippet name="with-demo.js"}}
 
 <h4>Transition Implementation</h4>
 
