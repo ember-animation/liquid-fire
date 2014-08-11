@@ -1,5 +1,20 @@
 # Changelog
 
+### 0.3.0
+
+- Helpers now take a `use` option that lets you provide a transition
+  name that they will always use. This covers the simplest cases where
+  you don't care about context at all, and lets you avoid cluttering
+  your transition map.
+
+- Reorganized the documentation routes to avoid potential
+  confusion. Before, we had rules like
+  `fromRoute('helpers.liquid-if')` which appears to falsely imply you
+  can match directly against helper names.
+
+- Thanks to Alex Matchneer (@machty) and Robert Jackson (@rwjblue) for
+  contributing to this release.
+
 ### 0.2.0
 
 - We now resolve all named transitions via the container. You can
