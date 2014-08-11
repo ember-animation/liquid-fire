@@ -41,7 +41,7 @@ export default Ember.ContainerView.extend(Ember._Metamorph, {
 
     // `transitions` comes from dependency injection, see the
     // liquid-fire app initializer.
-    var transition = this.get('transitions').transitionFor(this, oldView, newView);
+    var transition = this.get('transitions').transitionFor(this, oldView, newView, this.get('use'));
 
     if (this._runningTransition) {
       this._runningTransition.interrupt();

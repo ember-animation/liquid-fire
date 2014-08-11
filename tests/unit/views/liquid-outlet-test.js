@@ -153,3 +153,22 @@ test("outlet should support static class on liquid children", function() {
   appendView(view);
   equal(view.$('.liquid-child.foo').length, 1, "should have class");
 });
+
+test("outlet should support directly specifying a transition to use", function() {
+  expect(1);
+  container.register('transition:foo', function(oldView, insertNewView) {
+    ok(true, "foo transition was used without looking up transition map");
+    return insertNewView();
+  });
+
+  makeView({
+    template: '{{liquid-outlet use="foo"}}'
+  });
+  run(function() {
+    view.connectOutlet('main', Ember.View.create({
+      template: compile("<p>FIRST</p>")
+    }));
+  });
+  appendView(view);
+});
+
