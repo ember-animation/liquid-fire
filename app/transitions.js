@@ -6,13 +6,13 @@ export default function(){
     this.toRoute('helpers-documentation.liquid-outlet.other'),
     this.use('toLeft')
   );
-  // END-SNIPPET
 
   this.transition(
     this.fromRoute('helpers-documentation.liquid-outlet.other'),
     this.toRoute('helpers-documentation.liquid-outlet.index'),
     this.use('toRight')
   );
+  // END-SNIPPET
 
   // BEGIN-SNIPPET with-demo
   this.transition(
