@@ -25,9 +25,9 @@ app.import("vendor/velocity/jquery.velocity.js");
 app.import("vendor/moment/moment.js");
 app.import("vendor/liquid-fire/liquid-fire.css");
 
-var fonts = pickFiles('vendor/bootstrap-sass-official/assets/fonts', {
+var fonts = pickFiles('vendor/bootstrap-sass-official/assets/fonts/bootstrap', {
   srcDir:'/',
-  destDir: 'assets'
+  destDir: '/fonts/bootstrap'
 });
 
 module.exports = mergeTrees([app.toTree(), fonts]);
