@@ -1,5 +1,16 @@
 # Changelog
 
+### 0.4.0
+
+- liquid-box now accepts `trackWidth` and `trackHeight` options, see docs.
+
+- Bugfix: added a workaround for an RSVP bug that could cause apps
+  using liquid-fire to never see exceptions that happen during
+  transitions. (https://github.com/ef4/liquid-fire/issues/28)
+
+- Bugfix: prevent a potential exception when `liquid-measure` measures
+  nothing.
+
 ### 0.3.0
 
 - Helpers now take a `use` option that lets you provide a transition
