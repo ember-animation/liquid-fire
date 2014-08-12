@@ -48,7 +48,11 @@ export default Ember.ContainerView.extend(Ember._Metamorph, {
     }
 
     this._runningTransition = transition;
-    transition.run();
+    transition.run().catch(function(err){
+      // Force any errors through to the RSVP error handler, because
+      // of https://github.com/tildeio/rsvp.js/pull/278
+      Ember.RSVP.Promise.cast()._onerror(err);
+    });
   }).on('init'),
 
   _liquidChildFor: function(content) {
