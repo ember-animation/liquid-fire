@@ -58,13 +58,13 @@ export default Ember.Component.extend({
     // mutation events. So we trap the zero case without hitting
     // jQuery.
     var width, height;
-    if (elt[0].offsetWidth === 0) {
+    if (!elt[0] || elt[0].offsetWidth === 0) {
       width = 0;
     } else {
       width = elt.width();
     }
 
-    if (elt[0].offsetHeight === 0) {
+    if (!elt[0] || elt[0].offsetHeight === 0) {
       height = 0;
     } else {
       height = elt.height();
