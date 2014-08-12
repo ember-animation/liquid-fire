@@ -10,6 +10,12 @@ function Transitions() {
 
 Transitions.prototype = {
 
+  activeCount: 0,
+
+  runningTransitions: function() {
+    return this.activeCount;
+  },
+
   lookup: function(transitionName) {
     var handler = this.container.lookupFactory('transition:' + transitionName);
     if (!handler) {

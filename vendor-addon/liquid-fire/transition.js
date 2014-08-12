@@ -16,12 +16,15 @@ Transition.prototype = {
       return this._insertNewView().then(revealView);
     }
     var self = this;
+    self.transitionMap.activeCount += 1;
     return this._invokeAnimation().then(function(){
       self.maybeDestroyOldView();
     }, function(err){
       return self.cleanupAfterError().then(function(){
         throw err;
       });
+    }).finally(function(){
+      self.transitionMap.activeCount -= 1;
     });
   },
 
