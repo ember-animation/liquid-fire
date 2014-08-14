@@ -8,7 +8,7 @@ export default Ember.Component.extend({
     var self = this;
     this.updateMeasurements();
     this.observer = new MutationObserver(function(){
-      self.updateMeasurements();
+      Ember.run.once(self, 'updateMeasurements');
     });
     this.observer.observe(this.get('element'), {
       attributes: true,
