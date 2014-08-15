@@ -1,5 +1,11 @@
 # Changelog
 
+### 0.4.1
+
+- Bugfix: liquid-box sometimes measured its content as 0
+
+- Bugfix: liquid-box sometimes animated at initial render
+
 ### 0.4.0
 
 - liquid-box now accepts `trackWidth` and `trackHeight` options, see docs.
