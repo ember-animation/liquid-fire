@@ -4,13 +4,8 @@ export default function(){
   this.transition(
     this.fromRoute('helpers-documentation.liquid-outlet.index'),
     this.toRoute('helpers-documentation.liquid-outlet.other'),
-    this.use('toLeft')
-  );
-
-  this.transition(
-    this.fromRoute('helpers-documentation.liquid-outlet.other'),
-    this.toRoute('helpers-documentation.liquid-outlet.index'),
-    this.use('toRight')
+    this.use('toLeft'),
+    this.reverse('toRight')
   );
   // END-SNIPPET
 

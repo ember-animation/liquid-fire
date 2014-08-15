@@ -12,6 +12,15 @@ this.transition(
   this.use('fade', { duration: 3000 })
 );
 
+// This declares two symmetric rules: "from foo to bar use toLeft" and
+// "from bar to foo use toRight".
+this.transition(
+  this.fromRoute('foo'),
+  this.toRoute('bar'),
+  this.use('toLeft'),
+  this.reverse('toRight')
+);
+
 // You can also provide an implementation instead of a name, though
 // it's probably better to keep implementations in separate files. We
 // talk more about transition implementations in the next section.
