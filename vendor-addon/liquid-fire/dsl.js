@@ -157,7 +157,9 @@ DSL.prototype = {
       type: 'parent',
       payload: function() {
         /* global Ember */
-        return this && Ember.$('#' + this.morph.start).parent().is(selector);
+        return this &&
+          (this._morph && Ember.$(this._morph.start.parentElement).is(selector)) ||
+          (this.moprh  && Ember.$('#' + this.morph.start).parent().is(selector));
       }
     };
   },
