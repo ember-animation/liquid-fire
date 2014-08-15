@@ -30,7 +30,7 @@ DSL.prototype = {
   },
 
   transition: function() {
-    var action,
+    var action, reverseAction,
         parent = [],
         routes = {},
         contexts = {},
@@ -46,6 +46,11 @@ DSL.prototype = {
           throw new Error("each transition definition must contain exactly one 'use' statement");
         }
         action = { method: arg.payload, args: arg.args };
+      } else if (arg.type === 'reverseAction') {
+        if (reverseAction) {
+          throw new Error("each transition defintiion may contain at most one 'reverse' statement");
+        }
+        reverseAction = { method: arg.payload, args: arg.args };
       } else if (arg.type === 'route') {
         if (routes[arg.side]) {
           throw new Error("A transition definition contains multiple constraints on " + arg.side + "Route");
@@ -85,6 +90,11 @@ DSL.prototype = {
     contexts.to = this._combineMatchers(contexts.to);
 
     this.map.register(routes, contexts, parent, action);
+    if (reverseAction) {
+      routes = { from: routes.to, to: routes.from };
+      contexts = { from: contexts.to, to: contexts.from };
+      this.map.register(routes, contexts, parent, reverseAction);
+    }
   },
 
   fromRoute: function() {
@@ -173,6 +183,14 @@ DSL.prototype = {
   use: function(nameOrHandler) {
     return {
       type: 'action',
+      payload: nameOrHandler,
+      args: Array.prototype.slice.apply(arguments, [1])
+    };
+  },
+
+  reverse: function(nameOrHandler) {
+    return {
+      type: 'reverseAction',
       payload: nameOrHandler,
       args: Array.prototype.slice.apply(arguments, [1])
     };

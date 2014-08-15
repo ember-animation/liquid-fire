@@ -460,3 +460,25 @@ test("warn about combining empty matcher and other predicates ", function(){
     });
   }, /cannot combine empty model matcher/);
 });
+
+test("matches reverse routes & contexts", function(){
+  t.map(function(){
+    this.transition(
+      this.fromRoute('one'),
+      this.toRoute('two'),
+      this.fromModel(function(){ return this && this.isMySource; }),
+      this.toModel(function(){ return this && this.isMyDestination; }),
+      this.use(dummyAction),
+      this.reverse(otherAction)
+    );
+  });
+
+  setRoutes('one', 'two');
+  setContexts({isMySource: true}, {isMyDestination: true});
+  equal(lookupAnimation(), dummyAction, 'forward');
+
+  setRoutes('two', 'one');
+  setContexts({isMyDestination: true}, {isMySource: true});
+  equal(lookupAnimation(), otherAction, 'reverse');
+
+});
