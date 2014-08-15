@@ -1,5 +1,11 @@
 # Changelog
 
+### master
+
+- New feature: it's easier to define symmetric transition rules using
+  the "reverse" statement.
+  (http://beren:4200/#/helpers/transition-map/choosing-transitions)
+
 ### 0.4.1
 
 - Bugfix: liquid-box sometimes measured its content as 0
