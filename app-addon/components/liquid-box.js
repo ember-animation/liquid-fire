@@ -4,6 +4,7 @@ import { animate, stop } from "vendor/liquid-fire";
 export default Ember.Component.extend({
   classNames: ['liquid-box'],
   duration: 250,
+  easing: 'slide',
   trackWidth: true,
   trackHeight: true,
   _enabled: false,
@@ -42,7 +43,7 @@ export default Ember.Component.extend({
     stop(this);
     animate(this,
             this.targetDimensions(this.get('contentWidth'), this.get('contentHeight')),
-            { duration: this.get('_enabled') ? this.get('duration') : 0}
+            { duration: this.get('_enabled') ? this.get('duration') : 0, easing: this.get('easing')}
            );
   }
 });
