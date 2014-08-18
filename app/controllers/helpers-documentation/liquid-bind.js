@@ -1,15 +1,15 @@
 import Ember from "ember";
 
 export default Ember.Controller.extend({
-  start: function() {
+  start: Ember.on('init', function() {
     var self = this;
     this.interval = setInterval(function(){ self.tick();}, 1000);
     this.tick();
-  }.on('init'),
+  }),
 
-  stop: function() {
+  stop: Ember.on('willDestroy', function() {
     clearInterval(this.interval);
-  }.on('willDestroy'),
+  }),
 
   tick: function() {
     /* global moment */
