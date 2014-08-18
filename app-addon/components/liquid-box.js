@@ -9,13 +9,13 @@ export default Ember.Component.extend({
   trackHeight: true,
   _enabled: false,
 
-  initialSize: function(){
+  initialSize: Ember.on('didInsertElement', function(){
     var elt = this.$();
     var measure = this._childViews[0];
     measure.updateMeasurements();
     elt.css(this.targetDimensions(measure.get('width'), measure.get('height')));
     Ember.run.later(this, 'enable', this.get('duration'));
-  }.on('didInsertElement'),
+  }),
 
   // This causes us to absorb any size changes that happen during the
   // first `duration` after insertion without animating them.

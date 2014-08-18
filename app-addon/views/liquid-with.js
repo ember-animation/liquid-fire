@@ -2,7 +2,7 @@ import LiquidOutlet from "./liquid-outlet";
 import Ember from "ember";
 
 export default LiquidOutlet.extend({
-  liquidUpdate: Ember.observer('boundContext', function(){
+  liquidUpdate: Ember.on('init', Ember.observer('boundContext', function(){
     var view = Ember._MetamorphView.create({
       container: this.container,
       templateName: 'liquid-with',
@@ -12,6 +12,6 @@ export default LiquidOutlet.extend({
       hasLiquidContext: true,
     });
     this.set('currentView', view);
-  }).on('init')
+  }))
 
 });

@@ -8,7 +8,7 @@ export default Ember.ContainerView.extend(Ember._Metamorph, {
     // _currentViewDidChange so we have the opportunity to launch a
     // transition.
     this._super();
-    this._childViews.clear();
+    Ember.A(this._childViews).clear();
   },
 
   // Deliberately overriding a private method from
@@ -20,7 +20,7 @@ export default Ember.ContainerView.extend(Ember._Metamorph, {
 
   // Deliberately overriding a private method from
   // Ember.ContainerView!
-  _currentViewDidChange: Ember.observer('currentView', function() {
+  _currentViewDidChange: Ember.on('init', Ember.observer('currentView', function() {
     // Normally there is only one child (the view we're
     // replacing). But sometimes there may be two children (because a
     // transition is already in progress). In any case, we tell all of
@@ -53,7 +53,7 @@ export default Ember.ContainerView.extend(Ember._Metamorph, {
       // of https://github.com/tildeio/rsvp.js/pull/278
       Ember.RSVP.Promise.cast()._onerror(err);
     });
-  }).on('init'),
+  })),
 
   _liquidChildFor: function(content) {
     if (content && !content.get('hasLiquidContext')){
