@@ -1,6 +1,6 @@
 # Changelog
 
-### master
+### 0.5.0
 
 - New feature: it's easier to define symmetric transition rules using
   the "reverse" statement.
