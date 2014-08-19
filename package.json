@@ -46,6 +46,10 @@
     "broccoli": "^0.12.3",
     "es6-promise": "^1.0.0",
     "broccoli-writer": "^0.1.1",
-    "broccoli-filter": "^0.1.6"
+    "broccoli-filter": "^0.1.6",
+    "commander": "^2.3.0",
+    "rsvp":"^3.0.13",
+    "ncp":"^0.6.0",
+    "github":"^0.2.1"
   }
 }
