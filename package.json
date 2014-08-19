@@ -46,6 +46,10 @@
     "broccoli": "^0.12.3",
     "es6-promise": "^1.0.0",
     "broccoli-writer": "^0.1.1",
-    "broccoli-filter": "^0.1.6"
+    "broccoli-filter": "^0.1.6",
+    "cookie-signature": "~1.0.4",
+    "bytes": "~1.0.0",
+    "debug": "~1.0.4",
+    "serve-static": "~1.5.3"
   }
 }
