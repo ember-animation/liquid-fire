@@ -70,6 +70,19 @@ function deployWebsite(github) {
   });
 }
 
+function libraryStep(program){
+  if (program.nolib) {
+    console.log("Skipping library build");
+    return RSVP.Promise.cast();
+  } else {
+    return run("rm", ["-rf", "dist"], {cwd: __dirname}).then(function(){
+      return run("broccoli", ["build", "dist"], {cwd: __dirname});
+    }).then(function(){
+      console.log("Built library");
+    });
+  }
+}
+
 function buildStep(program) {
   if (program.nobuild) {
     console.log("Skipping website build");
@@ -95,11 +108,14 @@ function deployStep(program, github) {
 if (require.main === module) {
   program.option('--nobuild', 'Skip website build')
     .option('--nodeploy', 'Skip website deploy')
+    .option('--nolib', 'Skip library build')
     .parse(process.argv);
 
   require('./github').then(function(github) {
     return buildStep(program).then(function(){
       return deployStep(program, github);
+    }).then(function(){
+      return libraryStep(program);
     });
   }).catch(function(err){
     console.log(err);
