@@ -6,6 +6,9 @@
   the "reverse" statement.
   (http://beren:4200/#/helpers/transition-map/choosing-transitions)
 
+- Improvement: the toLeft/toRight/toUp/toDown predefined transitions
+  should look nicer when they get interrupted.
+
 ### 0.4.1
 
 - Bugfix: liquid-box sometimes measured its content as 0
