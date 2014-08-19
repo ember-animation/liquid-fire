@@ -159,7 +159,7 @@ DSL.prototype = {
         /* global Ember */
         return this &&
           (this._morph && Ember.$(this._morph.start.parentElement).is(selector)) ||
-          (this.moprh  && Ember.$('#' + this.morph.start).parent().is(selector));
+          (this.morph  && Ember.$('#' + this.morph.start).parent().is(selector));
       }
     };
   },
