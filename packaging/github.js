@@ -18,7 +18,9 @@ function github() {
 
   promiseify(g.authorization, 'create');
   promiseify(g.user, 'get');
-
+  promiseify(g.releases, 'listReleases');
+  promiseify(g.releases, 'createRelease');
+  promiseify(g.releases, 'uploadAsset');
   return g;
 }
 

@@ -83,6 +83,47 @@ function libraryStep(program){
   }
 }
 
+function releaseStep(program, github) {
+  if (program.norelease) {
+    console.log("Skipping github release creation");
+    return RSVP.Promise.cast();
+  } else {
+    return github.releases.createRelease({
+      tag_name: 'v' + version(),
+      target_commitish: 'master',
+      owner: 'ef4',
+      repo: 'liquid-fire',
+      draft: true
+    }).then(function(){
+      console.log("Created github release");
+    });
+  }
+}
+
+function assetUploadStep(program, github) {
+  if (program.noupload) {
+    console.log("Skipping github release asset upload");
+    return RSVP.Promise.cast();
+  } else {
+    return github.releases.listReleases({
+      owner: 'ef4',
+      repo: 'liquid-fire'
+    }).then(function(response) {
+      var matching;
+      for (var i=0; i<response.length; i++) {
+        if (response[i].tag_name === 'v' + version()){
+          matching = response[i];
+          break;
+        }
+      }
+      if (!matching) {
+        throw new Error("found no release with tag v" + version());
+      }
+      console.log("found release " + matching.id);
+    });
+  }
+}
+
 function buildStep(program) {
   if (program.nobuild) {
     console.log("Skipping website build");
@@ -109,6 +150,7 @@ if (require.main === module) {
   program.option('--nobuild', 'Skip website build')
     .option('--nodeploy', 'Skip website deploy')
     .option('--nolib', 'Skip library build')
+    .option('--norelease', 'Skip github release creation')
     .parse(process.argv);
 
   require('./github').then(function(github) {
@@ -116,6 +158,10 @@ if (require.main === module) {
       return deployStep(program, github);
     }).then(function(){
       return libraryStep(program);
+    }).then(function(){
+      return releaseStep(program, github);
+    }).then(function(){
+      return assetUploadStep(program, github);
     });
   }).catch(function(err){
     console.log(err);
