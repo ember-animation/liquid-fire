@@ -13,7 +13,8 @@ export default Ember.Component.extend({
     this.observer.observe(this.get('element'), {
       attributes: true,
       subtree: true,
-      childList: true
+      childList: true,
+      characterData: true
     });
 
     // Chrome Memory Leak: https://bugs.webkit.org/show_bug.cgi?id=93661
