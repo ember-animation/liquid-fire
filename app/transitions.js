@@ -11,7 +11,7 @@ export default function(){
 
   // BEGIN-SNIPPET bind-demo-transition
   this.transition(
-    this.childOf('#liquid-bind-demo > div'),
+    this.childOf('#liquid-bind-demo'),
     this.use('toUp')
   );
   // END-SNIPPET
@@ -30,12 +30,12 @@ export default function(){
     // the page first loads.
     this.fromNonEmptyModel(),
     this.hasClass('vehicles'),
-    this.use('crossFade')
+    this.use('crossFade', {duration: 2000})
   );
   // END-SNIPPET
 
   this.transition(
-    this.childOf("#interrupted-fade-demo > div"),
+    this.childOf("#interrupted-fade-demo"),
     this.use('fade', { duration: 1500 })
   );
 }

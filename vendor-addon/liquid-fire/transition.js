@@ -35,16 +35,46 @@ Transition.prototype = {
     return this.inserted = this.parentView._pushNewView(this.newContent);
   },
 
+  _goAbsolute: function() {
+    var oldElt;
+    if (this.oldView && (oldElt = this.oldView.$())) {
+      this.parentView.setProperties({
+        preserveHeight: oldElt.height(),
+        preserveWidth: oldElt.width()
+      });
+      oldElt.css('position', 'absolute');
+    }
+  },
+
+  _goStatic: function() {
+    if (this.newView) {
+      this.newView.$().css('position', '');
+    }
+    this.parentView.setProperties({
+      preserveHeight: null,
+      preserveWidth: null
+    });
+  },
+
   _invokeAnimation: function() {
+    this._goAbsolute();
+
     // The extra Promise means we will trap an exception thrown
     // immediately by the animation implementation.
     var self = this,
         animation = this.animation,
-        inserter = function(){return self._insertNewView();},
+        inserter = function(){
+          return self._insertNewView().then(function(newView){
+            if (!newView) { return; }
+            newView.$().css('position', 'absolute');
+            self.parentView.adaptSize(newView.$().width(),newView.$().height());
+            return self.newView = newView;
+          });
+        },
         args = [this.oldView, inserter].concat(this.animationArgs);
     return new Promise(function(resolve, reject){
       animation.apply(self, args).then(resolve, reject);
-    });
+    }).then(function(){self._goStatic();});
   },
 
   maybeDestroyOldView: function() {

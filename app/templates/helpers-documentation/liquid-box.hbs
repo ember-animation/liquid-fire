@@ -42,7 +42,7 @@ embed them in the document flow. You can achieve this with
   <label>I'm renting a </label>
   {{view "select" value=vehicle content=vehicles}}
 
-  {{#liquid-box measure="lastChild" trackWidth=false}}
+
     {{#liquid-if isBike class="vehicles"}}
       <label>
         Would you like a helmet? {{input type="checkbox" value="helmet"}}
@@ -53,7 +53,7 @@ embed them in the document flow. You can achieve this with
       <label>License State</label>
       {{view "select" value=state content=states}}
     {{/liquid-if}}
-  {{/liquid-box}}
+
   <button type="button" class="btn btn-success">Yay, let's go!</button>
 </div>
 {{!- END-SNIPPET -}}

@@ -1,7 +1,10 @@
 import Ember from "ember";
-import { Promise } from "vendor/liquid-fire";
+import { Promise, animate, stop } from "vendor/liquid-fire";
 
-export default Ember.ContainerView.extend(Ember._Metamorph, {
+export default Ember.ContainerView.extend({
+  classNames: ['liquid-outlet'],
+  attributeBindings: ['style'],
+
   init: function(){
     // The ContainerView constructor normally sticks our "currentView"
     // directly into _childViews, but we want to leave that up to
@@ -63,9 +66,7 @@ export default Ember.ContainerView.extend(Ember._Metamorph, {
     }
     var LiquidChild = this.container.lookupFactory('view:liquid-child');
     return LiquidChild.create({
-      currentView: content,
-      classNames: this.get('classNames'),
-      classNameBindings: this.get('classNameBindings')
+      currentView: content
     });
   },
 
@@ -76,7 +77,24 @@ export default Ember.ContainerView.extend(Ember._Metamorph, {
         });
     this.pushObject(child);
     return promise;
-  }
+  },
 
+  style: Ember.computed('preserveWidth', 'preserveHeight', function() {
+    var w = this.get('preserveWidth'),
+        h = this.get('preserveHeight'),
+        out = [];
+    if (typeof(w) !== 'undefined') {
+      out.push('width:' + w + 'px');
+    }
+    if (typeof(h) !== 'undefined') {
+      out.push('height:' + h + 'px');
+    }
+    return out.join(';');
+  }),
+
+  adaptSize: function(width, height) {
+    stop(this);
+    animate(this, { width: width, height: height }, { duration: 2000 });
+  }
 
 });
