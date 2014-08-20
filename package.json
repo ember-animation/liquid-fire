@@ -47,7 +47,7 @@
     "ember-code-snippet": "^0.1.0",
     "es6-promise": "^1.0.0",
     "express": "^4.1.1",
-    "github": "^0.2.1",
+    "github": "git://github.com/ef4/node-github",
     "glob": "^4.0.4",
     "ncp": "^0.6.0",
     "originate": "0.1.5",
