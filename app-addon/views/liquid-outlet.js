@@ -50,7 +50,9 @@ export default Ember.ContainerView.extend(Ember._Metamorph, {
     this._runningTransition = transition;
     transition.run().catch(function(err){
       // Force any errors through to the RSVP error handler, because
-      // of https://github.com/tildeio/rsvp.js/pull/278
+      // of https://github.com/tildeio/rsvp.js/pull/278.  The fix got
+      // into Ember 1.7, so we can drop this once we decide 1.6 is
+      // EOL.
       Ember.RSVP.Promise.cast()._onerror(err);
     });
   })),
