@@ -14,10 +14,14 @@
 #liquid-bind-demo {
     @include baselined(3);
     text-align: center;
-    > div {
+    .liquid-outlet {
 	display: inline-block;
-	text-align: center;
 	vertical-align: top;
+        margin-right: -20px;
+    }
+    .liquid-child {
+        /* This prevents a slight horizontal wobble. */
+        width: 1.5em;
     }
 }
 

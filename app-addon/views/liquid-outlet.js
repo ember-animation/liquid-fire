@@ -103,9 +103,17 @@ export default Ember.ContainerView.extend({
   },
 
   unlockSize: function() {
-    var elt = this.$();
-    if (elt) {
-      elt.css({width: '', height: ''});
+    var self = this;
+    function doUnlock(){
+      var elt = self.$();
+      if (elt) {
+        elt.css({width: '', height: ''});
+      }
+    }
+    if (this._scaling) {
+      this._scaling.then(doUnlock);
+    } else {
+      doUnlock();
     }
   },
 
@@ -123,7 +131,7 @@ export default Ember.ContainerView.extend({
     }
 
     for (var unused in target) { // jshint ignore:line
-      animate(this, target, { duration: 1500 });
+      this._scaling = animate(this, target, { duration: 1500 });
       break;
     }
   }
