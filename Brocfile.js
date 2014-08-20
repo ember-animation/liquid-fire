@@ -27,7 +27,7 @@ app.import("vendor/liquid-fire/liquid-fire.css");
 
 var fonts = pickFiles('vendor/bootstrap-sass-official/assets/fonts', {
   srcDir:'/',
-  destDir: 'assets'
+  destDir: '/fonts'
 });
 
 module.exports = mergeTrees([app.toTree(), fonts]);
