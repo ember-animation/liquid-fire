@@ -92,9 +92,40 @@ export default Ember.ContainerView.extend({
     return out.join(';');
   }),
 
+  lockSize: function() {
+    var elt = this.$();
+    if (elt) {
+      this._lastLockWidth = elt.width();
+      this._lastLockHeight = elt.height();
+      elt.width(this._lastLockWidth);
+      elt.height(this._lastLockHeight);
+    }
+  },
+
+  unlockSize: function() {
+    var elt = this.$();
+    if (elt) {
+      elt.css({width: '', height: ''});
+    }
+  },
+
   adaptSize: function(width, height) {
     stop(this);
-    animate(this, { width: width, height: height }, { duration: 2000 });
+    var target = {};
+    if (typeof(this._lastLockWidth) === 'undefined') {
+      return;
+    }
+    if (width !== this._lastLockWidth) {
+      target.width = [width, this._lastLockWidth];
+    }
+    if (height !== this._lastLockHeight) {
+      target.height = [height, this._lastLockHeight];
+    }
+
+    for (var unused in target) { // jshint ignore:line
+      animate(this, target, { duration: 1500 });
+      break;
+    }
   }
 
 });

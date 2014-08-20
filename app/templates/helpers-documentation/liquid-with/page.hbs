@@ -41,12 +41,12 @@ bar}}</code> is supported, but it depends on a <a href="https://github.com/ember
 directions.</p>
 
 {{!- BEGIN-SNIPPET with-demo -}}
-<div id="liquid-with-demo" class="demo-container">
-  {{#liquid-with model controller="demo" use="rotateBelow"}}
-    {{id}}
-    <button {{action "higher"}}>Go</button>
-  {{/liquid-with}}
-</div>
+
+{{#liquid-with model controller="demo" use="rotateBelow" class="demo-container"}}
+  {{id}}
+  <button {{action "higher"}}>Go</button>
+{{/liquid-with}}
+
 {{!- END-SNIPPET -}}
 
 <h4>Template</h4>

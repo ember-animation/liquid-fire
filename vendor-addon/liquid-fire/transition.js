@@ -37,23 +37,19 @@ Transition.prototype = {
 
   _goAbsolute: function() {
     var oldElt;
+    this.parentView.lockSize();
     if (this.oldView && (oldElt = this.oldView.$())) {
-      this.parentView.setProperties({
-        preserveHeight: oldElt.height(),
-        preserveWidth: oldElt.width()
-      });
       oldElt.css('position', 'absolute');
     }
   },
 
   _goStatic: function() {
-    if (this.newView) {
-      this.newView.$().css('position', '');
+    if (!this.interruptedLate) {
+      if (this.newView) {
+        this.newView.$().css('position', '');
+      }
+      this.parentView.unlockSize();
     }
-    this.parentView.setProperties({
-      preserveHeight: null,
-      preserveWidth: null
-    });
   },
 
   _invokeAnimation: function() {
@@ -67,7 +63,7 @@ Transition.prototype = {
           return self._insertNewView().then(function(newView){
             if (!newView) { return; }
             newView.$().css('position', 'absolute');
-            self.parentView.adaptSize(newView.$().width(),newView.$().height());
+            self.parentView.adaptSize(newView.$().outerWidth(true),newView.$().outerHeight(true));
             return self.newView = newView;
           });
         },
@@ -78,7 +74,7 @@ Transition.prototype = {
   },
 
   maybeDestroyOldView: function() {
-    if (!this.interrupted && this.oldView) {
+    if (!this.interruptedEarly && this.oldView) {
       this.oldView.destroy();
     }
   },
@@ -96,7 +92,9 @@ Transition.prototype = {
     // next transition is going to take over and keep using it.
     if (!this.inserted) {
       this.inserted = Promise.cast(null);
-      this.interrupted = true;
+      this.interruptedEarly = true;
+    } else {
+      this.interruptedLate = true;
     }
   },
 

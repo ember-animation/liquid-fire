@@ -1,8 +1,6 @@
 .demo-container {
     border: 1px solid $near-black;
-    position: relative;
     height: $line-height-computed*4;
-    overflow: hidden;
     width: 20em;
     .liquid-child {
         text-align: center;
