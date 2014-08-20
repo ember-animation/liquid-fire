@@ -5,6 +5,7 @@ var path = require('path');
 var RSVP = require('rsvp');
 var spawn = require('child_process').spawn;
 var stat = RSVP.denodeify(fs.stat);
+var readdir = RSVP.denodeify(fs.readdir);
 var copy = RSVP.denodeify(require('ncp').ncp);
 var program = require('commander');
 
@@ -83,6 +84,20 @@ function libraryStep(program){
   }
 }
 
+function releaseID(github) {
+  return github.releases.listReleases({
+    owner: 'ef4',
+    repo: 'liquid-fire'
+  }).then(function(response) {
+    for (var i=0; i<response.length; i++) {
+      if (response[i].tag_name === 'v' + version()){
+        return response[i].id;
+      }
+    }
+    throw new Error("found no release with tag v" + version());
+  });
+}
+
 function releaseStep(program, github) {
   if (program.norelease) {
     console.log("Skipping github release creation");
@@ -104,24 +119,32 @@ function assetUploadStep(program, github) {
   if (program.noupload) {
     console.log("Skipping github release asset upload");
     return RSVP.Promise.cast();
-  } else {
-    return github.releases.listReleases({
-      owner: 'ef4',
-      repo: 'liquid-fire'
-    }).then(function(response) {
-      var matching;
-      for (var i=0; i<response.length; i++) {
-        if (response[i].tag_name === 'v' + version()){
-          matching = response[i];
-          break;
-        }
-      }
-      if (!matching) {
-        throw new Error("found no release with tag v" + version());
-      }
-      console.log("found release " + matching.id);
-    });
   }
+
+  return RSVP.hash({
+    id: releaseID(github),
+    files: readdir(path.join(__dirname, 'dist'))
+  }).then(function(result) {
+
+    function uploadNext() {
+      var filename = result.files.shift();
+      if (!filename){
+        return RSVP.Promise.cast();
+      }
+      return github.releases.uploadAsset({
+        owner: 'ef4',
+        repo: 'liquid-fire',
+        id: result.id,
+        name: filename,
+        filePath: path.join(__dirname, 'dist', filename)
+      }).then(function(){
+        console.log("Uploaded " + filename);
+        return uploadNext();
+      });
+    }
+
+    return uploadNext();
+  });
 }
 
 function buildStep(program) {
@@ -151,6 +174,7 @@ if (require.main === module) {
     .option('--nodeploy', 'Skip website deploy')
     .option('--nolib', 'Skip library build')
     .option('--norelease', 'Skip github release creation')
+    .option('--noupload', 'Skip github asset upload')
     .parse(process.argv);
 
   require('./github').then(function(github) {
@@ -165,6 +189,7 @@ if (require.main === module) {
     });
   }).catch(function(err){
     console.log(err);
+    console.log(err.stack);
     process.exit(-1);
   });
 }
