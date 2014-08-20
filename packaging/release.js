@@ -43,7 +43,7 @@ function run(command, args, opts) {
 
 function checkoutWebsite(targetDir) {
   return stat(targetDir).then(function() {
-    return run('git', ['reset', '--hard']).then(function(){
+    return run('git', ['reset', '--hard'], {cwd: targetDir}).then(function(){
       return run("git", ["pull"], {cwd: targetDir});
     });
   }, function(err){
