@@ -80,10 +80,18 @@
 
 #interrupted-fade-demo {
     .liquid-outlet {
-        width: 100%;
+        width: 20em;
         height: $line-height-computed*4;
+        border: 1px solid $near-black;
     }
-    .liquid-child, .liquid-child > div {
+    .liquid-child {
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        @include baselined-px(24px);
+    }
+    .liquid-child > div {
+        padding: 0.5em $line-height-computed;
         width: 100%;
         height: 100%;
     }
