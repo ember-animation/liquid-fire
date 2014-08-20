@@ -20,6 +20,7 @@ function github() {
   promiseify(g.user, 'get');
   promiseify(g.releases, 'listReleases');
   promiseify(g.releases, 'createRelease');
+  promiseify(g.releases, 'editRelease');
   promiseify(g.releases, 'uploadAsset');
   return g;
 }

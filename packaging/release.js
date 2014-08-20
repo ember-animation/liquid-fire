@@ -50,9 +50,22 @@ function checkoutWebsite(targetDir) {
   });
 }
 
+function updateWebsite(targetDir, ourDir) {
+  return run("git", ["rm", "-r", "."], {cwd: targetDir}).then(function(){
+    return copy(path.join(ourDir, "dist"), targetDir, {stopOnErr:true});
+  }).then(function(){
+    return run('git', ['add', '-A'], {cwd: targetDir});
+  }).then(function(){
+    return run('git', ['commit', '-m', 'deploy'], {cwd: targetDir});
+  });
+}
 
+var _releaseID = null;
 function releaseID(github) {
-  return github.releases.listReleases({
+  if (_releaseID) {
+    return _releaseID;
+  }
+  return _releaseID = github.releases.listReleases({
     owner: 'ef4',
     repo: 'liquid-fire'
   }).then(function(response) {
@@ -78,13 +91,7 @@ var steps = [
       var targetDir = path.normalize(path.join(__dirname, '..', '..', 'deploy-liquid-fire'));
       var ourDir = path.normalize(path.join(__dirname, '..'));
       return checkoutWebsite(targetDir).then(function(){
-        return run("git", ["rm", "-r", "."], {cwd: targetDir});
-      }).then(function(){
-        return copy(path.join(ourDir, "dist"), targetDir, {stopOnErr:true});
-      }).then(function(){
-        return run('git', ['add', '-A'], {cwd: targetDir});
-      }).then(function(){
-        return run('git', ['commit', '-m', 'deploy'], {cwd: targetDir});
+        return updateWebsite(targetDir, ourDir);
       }).then(function(){
         return run('git', ['push', pushURL(github), 'gh-pages'], {cwd: targetDir});
       });
@@ -135,6 +142,26 @@ var steps = [
         }
         return uploadNext();
       });
+    }
+  },
+  {
+    name: 'publish github release',
+    step: function(github) {
+      return releaseID(github).then(function(id) {
+        return github.releases.editRelease({
+          owner: 'ef4',
+          repo: 'liquid-fire',
+          id: id,
+          tag_name: 'v' + version(),
+          draft: false
+        });
+      });
+    }
+  },
+  {
+    name: 'npm publish',
+    step: function() {
+      return run('npm', ['publish'], {cwd: path.join(__dirname, '..')});
     }
   }
 ];
