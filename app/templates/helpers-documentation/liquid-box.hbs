@@ -40,7 +40,7 @@ embed them in the document flow. You can achieve this with
 {{!- BEGIN-SNIPPET liquid-box-demo -}}
 <div id="liquid-box-demo">
   <label>I'm renting a </label>
-  {{view Ember.Select value=vehicle content=vehicles}}
+  {{view "select" value=vehicle content=vehicles}}
 
   {{#liquid-box measure="lastChild" trackWidth=false}}
     {{#liquid-if isBike class="vehicles"}}
@@ -51,7 +51,7 @@ embed them in the document flow. You can achieve this with
       <label>License Number</label>
       {{input type="text" value=license}}
       <label>License State</label>
-      {{view Ember.Select value=state content=states}}
+      {{view "select" value=state content=states}}
     {{/liquid-if}}
   {{/liquid-box}}
   <button type="button" class="btn btn-success">Yay, let's go!</button>
