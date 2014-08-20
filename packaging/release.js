@@ -75,13 +75,12 @@ function libraryStep(program){
   if (program.nolib) {
     console.log("Skipping library build");
     return RSVP.Promise.cast();
-  } else {
-    return run("rm", ["-rf", "dist"], {cwd: __dirname}).then(function(){
-      return run("broccoli", ["build", "dist"], {cwd: __dirname});
-    }).then(function(){
-      console.log("Built library");
-    });
   }
+  return run("rm", ["-rf", "dist"], {cwd: __dirname}).then(function(){
+    return run("broccoli", ["build", "dist"], {cwd: __dirname});
+  }).then(function(){
+    console.log("Built library");
+  });
 }
 
 function releaseID(github) {
@@ -102,17 +101,16 @@ function releaseStep(program, github) {
   if (program.norelease) {
     console.log("Skipping github release creation");
     return RSVP.Promise.cast();
-  } else {
-    return github.releases.createRelease({
-      tag_name: 'v' + version(),
-      target_commitish: 'master',
-      owner: 'ef4',
-      repo: 'liquid-fire',
-      draft: true
-    }).then(function(){
-      console.log("Created github release");
-    });
   }
+  return github.releases.createRelease({
+    tag_name: 'v' + version(),
+    target_commitish: 'master',
+    owner: 'ef4',
+    repo: 'liquid-fire',
+    draft: true
+  }).then(function(){
+    console.log("Created github release");
+  });
 }
 
 function assetUploadStep(program, github) {
@@ -151,22 +149,20 @@ function buildStep(program) {
   if (program.nobuild) {
     console.log("Skipping website build");
     return RSVP.Promise.cast();
-  } else  {
-    return buildWebsite().then(function(){
-      console.log("Built website");
-    });
   }
+  return buildWebsite().then(function(){
+    console.log("Built website");
+  });
 }
 
 function deployStep(program, github) {
   if (program.nodeploy) {
     console.log("Skipping website deploy");
     return RSVP.Promise.cast();
-  } else {
-    return deployWebsite(github).then(function(){
-      console.log("Deployed website");
-    });
   }
+  return deployWebsite(github).then(function(){
+    console.log("Deployed website");
+  });
 }
 
 if (require.main === module) {
