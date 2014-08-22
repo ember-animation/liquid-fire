@@ -156,10 +156,12 @@ DSL.prototype = {
     return {
       type: 'parent',
       payload: function() {
+        var elt;
         /* global Ember */
         return this &&
           (this._morph && Ember.$(this._morph.start.parentElement).is(selector)) ||
-          (this.morph  && Ember.$('#' + this.morph.start).parent().is(selector));
+          (this.morph  && Ember.$('#' + this.morph.start).parent().is(selector)) ||
+          ((elt=this.$()) && elt.parent().is(selector));
       }
     };
   },
