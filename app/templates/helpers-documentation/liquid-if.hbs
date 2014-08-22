@@ -14,25 +14,26 @@ and <code>false</code> states.</li>
 
 <h3>Demo</h3>
 
-{{!- BEGIN-SNIPPET liquid-if-demo -}}
-<div id="liquid-if-demo">
-  <div>
-    <label>Are you a parent?
-      {{input type="checkbox" checked=isParent}}
+{{!- BEGIN-SNIPPET liquid-box-demo -}}
+<div id="liquid-box-demo">
+  <label>I'm renting a </label>
+  {{view "select" value=vehicle content=vehicles}}
+
+  {{#liquid-if isBike class="vehicles"}}
+    <label>
+      Would you like a helmet? {{input type="checkbox" value="helmet"}}
     </label>
-  </div>
-  <div>
-    {{#liquid-if isParent}}
-      <label>How many children do you have?</label>
-      {{input type="number" value=numKids}}
-    {{else}}
-      I bet you get a lot of nice sleep.
-    {{/liquid-if}}
-  </div>
+  {{else}}
+    <label>License Number</label>
+    {{input type="text" value=license}}
+    <label>License State</label>
+    {{view "select" value=state content=states}}
+  {{/liquid-if}}
+
+  <button type="button" class="btn btn-success">Yay, let's go!</button>
 </div>
 {{!- END-SNIPPET -}}
 
-{{code-snippet name="liquid-if-demo.hbs"}}
+{{code-snippet name="liquid-box-demo.hbs"}}
 
-{{code-snippet name="liquid-if-demo-transition.js"}}
-
+{{code-snippet name="liquid-box-demo-transition.js"}}

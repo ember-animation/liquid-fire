@@ -1,17 +1,3 @@
-.xliquid-child {
-    position: absolute;
-
-    /* 
-       Prevents a tiny vertical jump when the content switches to
-       accelerated. 
-   */
-    transform: translateZ(0);
-    -webkitTransform: translateZ(0);
-
-    
-    top: 0;
-}
-
 .liquid-outlet {
     position: relative;
     overflow: hidden;
@@ -23,13 +9,4 @@
     -webkit-transform: translateY(0);
     -moz-transform: translateY(0);
     transform: translateY(0);
-}
-
-.liquid-box {
-    position: relative;
-    overflow: hidden;
-}
-
-.liquid-measure {
-    display: inline-block;
 }

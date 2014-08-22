@@ -15,8 +15,6 @@ Router.map(function() {
     });
     this.resource('helpers-documentation.liquid-bind', { path: 'liquid-bind'});
     this.resource('helpers-documentation.liquid-if', { path: 'liquid-if'});
-    this.resource('helpers-documentation.liquid-measure', { path: 'liquid-measure'});
-    this.resource('helpers-documentation.liquid-box', { path: 'liquid-box'});
     this.resource('transition-map', function(){
       this.route('route-constraints');
       this.route('model-constraints');

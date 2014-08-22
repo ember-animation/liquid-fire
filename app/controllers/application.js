@@ -11,8 +11,6 @@ export default Ember.Controller.extend({
           {route: "helpers-documentation.liquid-with", title: "liquid-with"},
           {route: "helpers-documentation.liquid-bind", title: "liquid-bind"},
           {route: "helpers-documentation.liquid-if", title: "liquid-if"},
-          {route: "helpers-documentation.liquid-measure", title: "liquid-measure"},
-          {route: "helpers-documentation.liquid-box", title: "liquid-box"},
         ]
       },
       { route: 'transition-map', title: 'Transition Map',
