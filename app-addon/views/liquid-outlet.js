@@ -4,6 +4,9 @@ import { Promise, animate, stop } from "vendor/liquid-fire";
 export default Ember.ContainerView.extend({
   classNames: ['liquid-outlet'],
   attributeBindings: ['style'],
+  growPixelsPerSecond: 200,
+  growEasing: 'slide',
+  enableGrowth: true,
 
   init: function(){
     // The ContainerView constructor normally sticks our "currentView"
@@ -117,23 +120,40 @@ export default Ember.ContainerView.extend({
     }
   },
 
+  _durationFor: function(before, after) {
+    return 1000*Math.abs(before - after)/this.get('growPixelsPerSecond');
+  },
+
+  _adaptDimension: function(dimension, before, after) {
+    if (before === after || !this.get('enableGrowth')) {
+      var elt = this.$();
+      if (elt) {
+        elt[dimension](after);
+      }
+      return Promise.cast();
+    } else {
+      var target = {};
+      target[dimension] = [after, before];
+      return animate(this, target, {
+        duration: this._durationFor(before, after),
+        queue: false,
+        easing: this.get('growEasing')
+      });
+    }
+  },
+
   adaptSize: function(width, height) {
     stop(this);
-    var target = {};
+
     if (typeof(this._lastLockWidth) === 'undefined') {
-      return;
-    }
-    if (width !== this._lastLockWidth) {
-      target.width = [width, this._lastLockWidth];
-    }
-    if (height !== this._lastLockHeight) {
-      target.height = [height, this._lastLockHeight];
+      this._lastLockWidth = width;
+      this._lastLockHeight = height;
     }
 
-    for (var unused in target) { // jshint ignore:line
-      this._scaling = animate(this, target, { duration: 1500 });
-      break;
-    }
+    this._scaling = Promise.all([
+      this._adaptDimension('width', this._lastLockWidth, width),
+      this._adaptDimension('height', this._lastLockHeight, height),
+    ]);
   }
 
 });
