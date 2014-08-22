@@ -5,15 +5,9 @@ map to decide how to animate when the bound value changes.</p>
 
 <p>Saying <code>\{{liquid-bind someValue}}</code> is a drop-in
 replacement for <code>\{{someValue}}</code>, except this wraps the
-content in <code>&lt;div class="liquid-child"&gt;</code>, so that it
-can be targeted for animation.</p>
-
-<p>By default, <code>.liquid-child</code> elements
-have <code>{position: absolute}</code>, which is almost always what
-you want. This implies that you need to provide positioned containers
-for them.</p>
-
-{{partial "use-option"}}
+content in markup so that it can be targeted for animation. See the
+{{#link-to "helpers-documentation.index"}}Common Behavior and
+Options{{/link-to}} that apply to all liquid-fire helpers.</p>
 
 <h3>Demo</h3>
 

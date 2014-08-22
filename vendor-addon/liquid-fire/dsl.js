@@ -215,6 +215,15 @@ function contextMatcher(matcher) {
       return (this instanceof matcher.instanceOf) || (this && this.get && this.get('model') && this.get('model') instanceof matcher.instanceOf);
     };
   }
+  if (typeof(matcher) === 'boolean') {
+    return function() {
+      if (matcher) {
+        return !!this;
+      } else {
+        return !this;
+      }
+    }
+  }
 
   throw new Error("unknown context matcher: " + JSON.stringify(matcher));
 }

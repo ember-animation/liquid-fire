@@ -40,18 +40,24 @@ this.transition(
   this.use('fade')
 );
 
+// `true` is essentially shorthand for function(){ return this; }. And
+// `false` works too. These are useful when you're writing a rule that
+// targets a liquid-if and you want to animate differently for the two
+// different logical transitions.
+this.transition(
+  this.hasClass('fancy-choice'),
+  this.toModel(true),
+  this.use('toUp'),
+  this.reverse('toDown')
+);
+
 // Your test functions also receive an argument containing the "other"
 // model, so you can do direct comparisons between them:
 this.transition(
-  // First ensure that both models are defined, so that we know we can
-  // safely do a comparison at all.
-  this.toModel(function(){return typeof(this) !== 'undefined'; }),
-  this.fromModel(function(){return typeof(this) !== 'undefined'; }),
-
-  // Then compare them by id and only run this animation if we're
-  // moving to a model with a higher id.
+  // compare them by id and only run this animation if we're moving to
+  // a model with a higher id.
   this.toModel(function(fromModel) {
-    return this.get('id') > fromModel.get('id');
+    return this && fromModel && this.get('id') > fromModel.get('id');
   }),
 
   this.use('toLeft')

@@ -14,3 +14,81 @@
   <dd>Switching between true and false branches in an #if statement.</dd>
 
 </dl>
+
+<h3>Common Behavior and Options</h3>
+
+<p>All of the above helpers share some core behaviors and
+options:</p>
+
+<ul>
+  <li>Each helper is a semantic drop-in replacement for the
+  corresponding normal Ember helper.
+
+  <li><em>Except</em> they generate DOM elements: 
+    <ul>
+      <li> a <code>&lt;div class="liquid-container"&gt;</code> to
+        serve as a container for animations. It
+        is <code>position:relative</code> by default.
+
+      <li>a <code>&lt;div class="liquid-child"&gt;</code> to wrap the
+        content and serve as a target for
+        animations. 
+    </ul>
+
+  <li>Whenever bound data updates, the helper consults the {{#link-to
+  'transition-map'}}transition map{{/link-to}} and decides whether to
+  animate the transition.</li>
+
+  <li>While animating, the <code>liquid-container</code> will
+  contain <code>liquid-children</code> for both the outgoing and
+  incoming states (or possibly even more, if transitions interrupt
+  each other), and the {{#link-to
+  "transitions"}}transition{{/link-to}} has full control over
+  animating them.
+
+  <li>The <code>liquid-container</code> can animate it's own height
+  and width to smoothly match the size difference between its old and
+  new content.
+
+  <li>liquid-fire makes your content absolutely positioned <em>only
+  while needed</em> for running animations, and deals with holding
+  your place in the normal document flow. This greatly simplifies the
+  problem of designing animation-friendly layouts.
+
+</ul>
+
+<h4>Options</h4>
+
+<dl>
+  <dt>class</dt>
+  <dd>You can pass both static and bound class names in the normal
+  Ember way. They will apply to the <code>liquid-container</code>
+  element.</dd>
+
+  <dt>use</dt>
+  <dd>Lets you provide a transition name directly
+    (example: <code>use="crossFade"</code>), skipping the transition
+    map. This is useful for the simplest cases in which you don't care
+    about context at all and always want to use the same
+    animation. The <code>use</code> will match all transitions except
+    the initial render. For more control, use the {{#link-to
+    "transition-map"}}transition map{{/link-to}}.
+  </dd>
+
+  <dt>growPixelsPerSecond</dt>
+  <dd>How fast the liquid-container should change its own size in
+    response to its content changing. Defaults to <code>200</code>
+    pixels per second.
+  </dd>
+
+  <dt>growEasing</dt>
+  <dd>A Velocity <a href="http://julian.com/research/velocity/#easing">easing
+  function</a> to use when growing the container height and
+  width. Defaults to <code>'slide'</code>.</dd>
+
+  <dt>enableGrowth</dt>
+  <dd>Whether the container should animate its own height and width
+  changes. Defaults to <code>true</code>.</dd>
+
+
+</dl>

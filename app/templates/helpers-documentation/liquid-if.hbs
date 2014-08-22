@@ -6,13 +6,15 @@ normal <code>\{{#if}}</code>, except it:</p>
 <ul>
   <li>respects the transition map so you can animate changes between its <code>true</code>
 and <code>false</code> states.</li>
-  <li>wraps its content in <code>&lt;div
-  class="liquid-child"&gt;</code> to facilitate animation.
+  <li>wraps its content in markup to facilitate animation. See the {{#link-to "helpers-documentation.index"}}Common
+    Behavior and Options{{/link-to}} that apply to all liquid-fire
+    helpers.
 </ul>
 
-{{partial "use-option"}}
-
 <h3>Demo</h3>
+
+<p>Here's a bit of a silly example that shows off the flexibility of
+the transition rules.</p>
 
 {{!- BEGIN-SNIPPET liquid-box-demo -}}
 <div id="liquid-box-demo">

@@ -16,13 +16,6 @@ export default function(){
   );
   // END-SNIPPET
 
-  // BEGIN-SNIPPET liquid-if-demo-transition
-  this.transition(
-    this.withinRoute('helpers-documentation.liquid-if'),
-    this.use('crossFade')
-  );
-  // END-SNIPPET
-
   // BEGIN-SNIPPET liquid-box-demo-transition
   this.transition(
     // hasClass('vehicles') is true even during the first render, so
@@ -30,7 +23,15 @@ export default function(){
     // the page first loads.
     this.fromNonEmptyModel(),
     this.hasClass('vehicles'),
-    this.use('crossFade', {duration: 2000})
+
+    // this makes our rule apply when the liquid-if transitions to the
+    // true state.
+    this.toModel(true),
+    this.use('crossFade', {duration: 1000}),
+
+    // which means we can also apply a reverse rule for transitions to
+    // the false state.
+    this.reverse('toLeft', {duration: 1000})
   );
   // END-SNIPPET
 

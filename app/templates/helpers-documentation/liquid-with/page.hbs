@@ -5,10 +5,9 @@
 <ul>
   <li>it respects the transition map and lets you animate between contexts.</li>
   <li>it wraps its content in a non-virtual view, meaning that it adds
-  one layer of <code>&lt;div class="liquid-child"&gt;</code>
-  markup. These divs are the ones that the animations will target. You
-  can pass a <code>class</code> argument which will apply to the
-  liquid-child.</li>
+    markup. See the {{#link-to "helpers-documentation.index"}}Common
+    Behavior and Options{{/link-to}} that apply to all liquid-fire
+    helpers.
 </ul>
 
 <p>This helper will grab whatever context you pass it, and when that
@@ -23,8 +22,6 @@ the <code>\{{#liquid-with}}</code>, it's best to instantiate one
 explicitly with the <code>controller</code> option, so that a fresh
 controller will be instantiated for each update to your bound
 context.</p>
-
-{{partial "use-option"}}
 
 <h3>When to use it</h3>
 

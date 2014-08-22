@@ -73,6 +73,10 @@ ul {
     margin: $line-height-computed;
 }
 
+ul ul {
+    margin: 0;
+}
+
 code {
     padding-bottom: 0;
     padding-top: 0;
