@@ -1,5 +1,30 @@
 # Changelog
 
+### 0.6.0
+
+- BREAKING CHANGES: this release introduces static layout. No longer
+  do you need to deal with all the liquid-child divs being absolutely
+  positioned.
+
+- liquid-box (and liquid-measure) are deprecated. The point of
+  liquid-box was mostly to work around the problem of absolutely
+  positioned children, which is not a problem anymore.
+
+- all the other helpers gain the ability to animate their own height
+  and width changes to match their changing content.
+
+- all helpers now produce two layers of divs instead of just one. The
+  outer layer (liquid-container) will remain stable in your document
+  flow (and possibly animate its own size changes, as mentioned
+  above). The inner layer is the liquid-child that animations target.
+
+- liquid-child has no default styling, and it can be statically
+  positioned. The library will dynamically switch it to absolutely
+  positioned only during animations.
+
+- New DSL shorthand: you can say `toModel(true)` as an easy way to
+  match a liquid-if going into the `true` state, etc. 
+
 ### 0.5.0
 
 - New feature: it's easier to define symmetric transition rules using
