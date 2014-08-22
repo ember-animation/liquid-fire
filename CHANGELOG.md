@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.6.1
+
+- Oops, released the wrong branch. Fixing.
+
 ### 0.6.0
 
 - BREAKING CHANGES: this release introduces static layout. No longer
