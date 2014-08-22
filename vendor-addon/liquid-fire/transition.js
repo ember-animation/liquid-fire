@@ -44,8 +44,9 @@ Transition.prototype = {
   },
 
   _goStatic: function() {
+    var elt;
     if (!this.interruptedLate) {
-      if (this.newView) {
+      if (this.newView && (elt = this.newView.$())) {
         this.newView.$().css('position', '');
       }
       this.parentView.unlockSize();
