@@ -66,7 +66,7 @@ test("it should render", function() {
 });
 
 test("it should have static class name", function() {
-  equal(view.$('.liquid-child.magical-unicorn').length, 1, "found static class");
+  equal(view.$('.liquid-outlet.magical-unicorn').length, 1, "found static class");
 });
 
 test("it should update", function(){
@@ -86,7 +86,7 @@ makeModuleFor("{{#liquid-if}} dynamic class name", {
 });
 
 test("it should have dynamic class name", function() {
-  equal(view.$('.liquid-child.blue').length, 1, "found dynamic class");
+  equal(view.$('.liquid-outlet.blue').length, 1, "found dynamic class");
 });
 
 
@@ -94,5 +94,5 @@ test("it should update dynamic class name", function() {
   Ember.run(function(){
     view.get("context").set('color', 'red');
   });
-  equal(view.$('.liquid-child.red').length, 1, "found dynamic class");
+  equal(view.$('.liquid-outlet.red').length, 1, "found dynamic class");
 });

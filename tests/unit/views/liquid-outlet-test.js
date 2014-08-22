@@ -138,7 +138,7 @@ test("outlet should support bound class on liquid children", function() {
     }));
   });
   appendView(view);
-  equal(view.$('.liquid-child.happy').length, 1, "should have class");
+  equal(view.$('.liquid-outlet.happy').length, 1, "should have class");
 });
 
 test("outlet should support static class on liquid children", function() {
@@ -151,7 +151,7 @@ test("outlet should support static class on liquid children", function() {
     }));
   });
   appendView(view);
-  equal(view.$('.liquid-child.foo').length, 1, "should have class");
+  equal(view.$('.liquid-outlet.foo').length, 1, "should have class");
 });
 
 test("outlet should support directly specifying a transition to use", function() {
@@ -171,4 +171,3 @@ test("outlet should support directly specifying a transition to use", function()
   });
   appendView(view);
 });
-

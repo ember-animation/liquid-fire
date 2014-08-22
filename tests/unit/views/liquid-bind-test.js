@@ -11,7 +11,7 @@ var view;
 
 function makeModuleFor(title, attrs) {
   moduleFor("helper:liquid-bind", title, {
-    needs: ['view:liquid-bind', 'template:liquid-bind', 'helper:liquid-with', 'view:liquid-with', 'view:liquid-child', 'template:liquid-with', 'helper:with-apply'],
+    needs: ['template:liquid-with-self', 'helper:liquid-with', 'view:liquid-with', 'view:liquid-child', 'template:liquid-with', 'helper:with-apply'],
     setup: function(){
       var a;
       initialize(this.container);
@@ -65,7 +65,7 @@ test("it should render", function() {
 });
 
 test("it should have static class name", function() {
-  equal(view.$('.liquid-child.magical-unicorn').length, 1, "found static class");
+  equal(view.$('.liquid-outlet.magical-unicorn').length, 1, "found static class");
 });
 
 makeModuleFor("{{liquid-bind}} bound class name", {
@@ -77,14 +77,14 @@ makeModuleFor("{{liquid-bind}} bound class name", {
 });
 
 test("it should have bound class name", function() {
-  equal(view.$('.liquid-child.rainbow').length, 1, "found bound class");
+  equal(view.$('.liquid-outlet.rainbow').length, 1, "found bound class");
 });
 
 test("it should update bound class name", function() {
   Ember.run(function(){
     view.get('context').set('power', 'humor');
   });
-  equal(view.$('.liquid-child.humor').length, 1, "found bound class");
+  equal(view.$('.liquid-outlet.humor').length, 1, "found bound class");
 });
 
 makeModuleFor("{{liquid-bind}} `use` option", {
@@ -104,4 +104,3 @@ makeModuleFor("{{liquid-bind}} `use` option", {
 test("it should pass through the 'use' option to the underlying liquid-outlet", function() {
   ok(this.fooCalled, "foo transition was used without looking up transition map");
 });
-

@@ -1,7 +1,10 @@
-import Ember from "ember";
+/* liquid-bind is really just liquid-with with a pre-provided block
+   that just says {{this}} */
 
-export default function liquidBindHelper(property, options) {
-  var View = options.data.view.container.lookupFactory('view:liquid-bind');
-  options.hash.boundContextBinding = property;
-  return Ember.Handlebars.helpers.view.call(this, View, options);
+export default function liquidBindHelper() {
+  var options = arguments[arguments.length-1],
+      container = options.data.view.container,
+      liquidWith = container.lookupFactory('helper:liquid-with');
+  options.fn = container.lookup('template:liquid-with-self');
+  return liquidWith.apply(this, arguments);
 }
