@@ -102,5 +102,9 @@ makeModuleFor("{{liquid-bind}} `use` option", {
 });
 
 test("it should pass through the 'use' option to the underlying liquid-outlet", function() {
+  ok(!this.fooCall, "foo transition did not run on initial render");
+  Ember.run(function(){
+    view.get('context').set('value', 456);
+  });
   ok(this.fooCalled, "foo transition was used without looking up transition map");
 });
