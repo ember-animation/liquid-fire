@@ -14,7 +14,7 @@
 #liquid-bind-demo {
     @include baselined(3);
     text-align: center;
-    .liquid-outlet {
+    .liquid-container {
 	display: inline-block;
 	vertical-align: top;
     }
@@ -37,7 +37,7 @@
 }
 
 #interrupted-fade-demo {
-    .liquid-outlet {
+    .liquid-container {
         width: 20em;
         height: $line-height-computed*4;
         border: 1px solid $near-black;

@@ -1,5 +1,12 @@
 # Changelog
 
+### 0.6.3
+
+- BREAKING bugfix: all helpers render with a `liquid-container` class,
+  rather than `liquid-outlet` class. This was the original intent of
+  the 0.6.0 release and the docs already reflected this, but it was
+  left out until now.
+
 ### 0.6.2
 
 - Enhancement: make Ember integration tests automatically wait for our
