@@ -46,7 +46,7 @@ export function animate(view, props, opts, label) {
     state.timeSpent = state.timeRemaining / (1/state.percentComplete - 1);
   };
 
-  state.promise = $.Velocity.animate(elt[0], props, opts);
+  state.promise = Promise.cast($.Velocity.animate(elt[0], props, opts));
 
   if (label) {
     state.promise = state.promise.then(function(){
