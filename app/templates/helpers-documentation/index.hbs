@@ -75,10 +75,18 @@ options:</p>
     "transition-map"}}transition map{{/link-to}}.
   </dd>
 
+  <dt>growDuration</dt>
+  <dd>
+    The maximum amount of time to spend growing. For small changes, we
+    may spend less than this time depending on
+    growPixelsPerSecond. Defaults to 250 milliseconds.
+  </dd>
+
   <dt>growPixelsPerSecond</dt>
-  <dd>How fast the liquid-container should change its own size in
-    response to its content changing. Defaults to <code>200</code>
-    pixels per second.
+  <dd>
+    The minimum speed in at which we will grow. Defaults to 200 pixels
+    per second. This lets us make small size adjustments in times
+    shorter than a full growDuration.
   </dd>
 
   <dt>growEasing</dt>

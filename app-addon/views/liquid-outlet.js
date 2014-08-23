@@ -4,6 +4,7 @@ import { Promise, animate, stop } from "vendor/liquid-fire";
 export default Ember.ContainerView.extend({
   classNames: ['liquid-container'],
   attributeBindings: ['style'],
+  growDuration: 250,
   growPixelsPerSecond: 200,
   growEasing: 'slide',
   enableGrowth: true,
@@ -121,7 +122,7 @@ export default Ember.ContainerView.extend({
   },
 
   _durationFor: function(before, after) {
-    return 1000*Math.abs(before - after)/this.get('growPixelsPerSecond');
+    return Math.min(this.get('growDuration'), 1000*Math.abs(before - after)/this.get('growPixelsPerSecond'));
   },
 
   _adaptDimension: function(dimension, before, after) {
