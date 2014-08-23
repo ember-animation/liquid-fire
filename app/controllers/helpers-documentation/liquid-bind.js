@@ -3,7 +3,7 @@ import Ember from "ember";
 export default Ember.Controller.extend({
   start: Ember.on('init', function() {
     var self = this;
-    this.interval = setInterval(function(){ self.tick();}, 1000);
+    this.interval = setInterval(function(){ Ember.run(self, 'tick'); }, 1000);
     this.tick();
   }),
 
