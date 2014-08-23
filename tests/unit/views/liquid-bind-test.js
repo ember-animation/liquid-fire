@@ -65,7 +65,7 @@ test("it should render", function() {
 });
 
 test("it should have static class name", function() {
-  equal(view.$('.liquid-outlet.magical-unicorn').length, 1, "found static class");
+  equal(view.$('.liquid-container.magical-unicorn').length, 1, "found static class");
 });
 
 makeModuleFor("{{liquid-bind}} bound class name", {
@@ -77,14 +77,14 @@ makeModuleFor("{{liquid-bind}} bound class name", {
 });
 
 test("it should have bound class name", function() {
-  equal(view.$('.liquid-outlet.rainbow').length, 1, "found bound class");
+  equal(view.$('.liquid-container.rainbow').length, 1, "found bound class");
 });
 
 test("it should update bound class name", function() {
   Ember.run(function(){
     view.get('context').set('power', 'humor');
   });
-  equal(view.$('.liquid-outlet.humor').length, 1, "found bound class");
+  equal(view.$('.liquid-container.humor').length, 1, "found bound class");
 });
 
 makeModuleFor("{{liquid-bind}} `use` option", {

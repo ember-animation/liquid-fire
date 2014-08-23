@@ -443,5 +443,5 @@ makeModuleFor("{{#liquid-with}} class binding", {
 });
 
 test("{{liquid-with}} helper can bind classes", function(){
-  equal(view.$('.liquid-outlet.magical').length, 1, "matches class selector");
+  equal(view.$('.liquid-container.magical').length, 1, "matches class selector");
 });
