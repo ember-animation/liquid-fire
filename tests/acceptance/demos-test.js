@@ -12,6 +12,16 @@ module('Acceptance: Demos', {
   }
 });
 
+function classFound(name) {
+  equal(find('.'+name).length, 1, 'found ' + name);
+}
+
+function clickWithoutWaiting(selector, text) {
+  find(selector).filter(function() {
+    return $(this).text() === text;
+  }).click();
+}
+
 test('visit every link in sidebar', function() {
   var lastRouteName = 'transitions.primitives.index';
   expect(1);
@@ -51,12 +61,10 @@ test('liquid outlet demo', function() {
 test('liquid with demo', function() {
   visit('/helpers/liquid-with');
   andThen(function(){
-    equal(currentRouteName(), 'helpers-documentation.liquid-with.page');
     ok(/\b1\b/.test(find('.demo-container').text()), 'Has 1');
   });
   click('.demo-container button');
   andThen(function(){
-    equal(currentRouteName(), 'helpers-documentation.liquid-with.page');
     ok(/\b2\b/.test(find('.demo-container').text()), 'Has 2');
   });
 });
@@ -71,13 +79,64 @@ test('liquid bind demo', function() {
 
   visit('/helpers/liquid-bind');
   andThen(function(){
-    equal(currentRouteName(), 'helpers-documentation.liquid-bind');
     first = clock();
-    Ember.run(function(){
-      Ember.run.later(function(){
-        second = clock();
-        notEqual(first, second, "clock readings differ, " + first + ", " + second);
-      }, 2000);
-    });
+    Ember.run.later(function(){
+      second = clock();
+      notEqual(first, second, "clock readings differ, " + first + ", " + second);
+    }, 2000);
+  });
+});
+
+test('liquid if demo', function() {
+  visit('/helpers/liquid-if');
+  andThen(function(){
+    equal(find('#liquid-box-demo input[type=checkbox]').length, 1, "found checkbox");
+    equal(find('#liquid-box-demo input[type=text]').length, 0, "no text input");
+    find('select').val('car').trigger('change');
+  });
+  andThen(function(){
+    equal(find('#liquid-box-demo input[type=checkbox]').length, 0, "no more checkbox");
+    equal(find('#liquid-box-demo input[type=text]').length, 1, "has text input");
+  });
+});
+
+
+test('interruption demo, normal transition', function() {
+  visit('/transitions/primitives');
+  andThen(function(){
+    classFound('one');
+    clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
+  });
+  andThen(function(){
+    classFound('two');
+  });
+});
+
+test('interruption demo, early interruption', function() {
+  visit('/transitions/primitives');
+  andThen(function(){
+    classFound('one');
+    clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
+    Ember.run.later(function(){
+      clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
+    }, 300);
+  });
+  andThen(function(){
+    classFound('three');
+  });
+});
+
+test('interruption demo, late interruption', function() {
+  visit('/transitions/primitives');
+  andThen(function(){
+    classFound('one');
+    clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
+    Ember.run.later(function(){
+      classFound('two');
+      clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
+    }, 1800);
+  });
+  andThen(function(){
+    classFound('three');
   });
 });
