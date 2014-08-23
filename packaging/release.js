@@ -5,7 +5,7 @@
 var fs = require('fs');
 var path = require('path');
 var RSVP = require('rsvp');
-var spawn = require('child_process').spawn;
+var run = require('./promise_spawn');
 var stat = RSVP.denodeify(fs.stat);
 var readdir = RSVP.denodeify(fs.readdir);
 var copy = RSVP.denodeify(require('ncp').ncp);
@@ -21,24 +21,6 @@ function repo() {
 
 function pushURL(github) {
   return repo().replace('github', github.auth.token + '@github');
-}
-
-function run(command, args, opts) {
-  return new RSVP.Promise(function(resolve, reject) {
-    var p = spawn(command, args, opts || {});
-    var stderr = '';
-    p.stderr.on('data', function(output) {
-      stderr += output;
-    });
-    p.on('close', function(code){
-      if (code !== 0) {
-        console.log(stderr);
-        reject(command + " exited with nonzero status");
-      } else {
-        resolve();
-      }
-    });
-  });
 }
 
 function checkoutWebsite(targetDir) {
