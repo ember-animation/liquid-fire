@@ -1,0 +1,9 @@
+#nested-outlet-scenario {
+    border: 1px solid blue;
+    width: 30em;
+    label { display: block; }
+    .liquid-container {
+        border: 1px solid black;
+        display: inline-block;
+    }
+}

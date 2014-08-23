@@ -1,0 +1,10 @@
+<div id="nested-outlet-scenario" >
+  <label>{{input type="checkbox" checked=otherState}} Swap Em</label>
+
+  {{#liquid-if otherState use="toLeft" growPixelsPerSecond=400}}
+    One.
+  {{else}}
+    Two Three Four Five Six Two Three Four Five Six Two Three Four Five
+    Six Two Three Four Five Six.
+  {{/liquid-if}}
+</div>

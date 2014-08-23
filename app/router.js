@@ -6,6 +6,8 @@ var Router = Ember.Router.extend({
 
 Router.map(function() {
 
+  /* Interactive Documentation */
+
   this.resource("helpers-documentation", { path: 'helpers'}, function(){
     this.route('liquid-outlet', function(){
       this.route('other');
@@ -31,6 +33,12 @@ Router.map(function() {
       this.route('two');
       this.route('three');
     });
+  });
+
+  /* Test Scenarios */
+
+  this.resource('scenarios', function() {
+    this.route('inline');
   });
 
 });
