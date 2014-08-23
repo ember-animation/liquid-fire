@@ -80,10 +80,11 @@ test('liquid bind demo', function() {
   visit('/helpers/liquid-bind');
   andThen(function(){
     first = clock();
-    Ember.run.later(function(){
-      second = clock();
-      notEqual(first, second, "clock readings differ, " + first + ", " + second);
-    }, 2000);
+  });
+  click('#force-tick');
+  andThen(function(){
+    second = clock();
+    notEqual(first, second, "clock readings differ, " + first + ", " + second);
   });
 });
 

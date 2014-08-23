@@ -12,12 +12,24 @@ export default Ember.Controller.extend({
     this._super();
   },
 
-  tick: function() {
-    /* global moment */
-    var now = moment();
-    this.set('hours', now.format('hh'));
-    this.set('minutes', now.format('mm'));
-    this.set('seconds', now.format('ss'));
+  tick: function(now) {
+    if (!now) {
+      /* global moment */
+      now = moment();
+    }
+    this.setProperties({
+      now: now,
+      hours: now.format('hh'),
+      minutes: now.format('mm'),
+      seconds: now.format('ss')
+    });
+  },
+
+  actions: {
+    forceTick: function() {
+      clearInterval(this.interval);
+      this.tick(this.get('now').add({hours: 1, minutes: 1, seconds: 1}));
+    }
   }
 
 });
