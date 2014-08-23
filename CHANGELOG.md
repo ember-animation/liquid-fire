@@ -1,5 +1,14 @@
 # Changelog
 
+### 0.7.0
+
+- Feature: all helpers accept `growDuration` to cap the amount of time
+  they'll spend growing/shrinking.
+
+- Feature: the library will warn you if you're using Velocity older
+  than 0.11.8, because we're using an enhancement in that version to
+  better deal with element `position` properties.
+
 ### 0.6.3
 
 - BREAKING bugfix: all helpers render with a `liquid-container` class,
