@@ -1,5 +1,12 @@
 # Changelog
 
+### 0.6.2
+
+- Enhancement: make Ember integration tests automatically wait for our
+  animations to finish.
+
+- Test coverage: added acceptance tests for all the demo animations.
+
 ### 0.6.1
 
 - Oops, released the wrong branch. Fixing.
