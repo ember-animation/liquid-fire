@@ -2,7 +2,7 @@ import Ember from "ember";
 import { Promise, animate, stop } from "vendor/liquid-fire";
 
 export default Ember.ContainerView.extend({
-  classNames: ['liquid-outlet'],
+  classNames: ['liquid-container'],
   attributeBindings: ['style'],
   growPixelsPerSecond: 200,
   growEasing: 'slide',
