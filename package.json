@@ -28,7 +28,7 @@
   "dependencies": {
     "broccoli-merge-trees": "^0.1.4",
     "broccoli-static-compiler": "^0.1.4",
-    "velocity-animate": "^0.9.0"
+    "velocity-animate": "^0.11.8"
   },
   "devDependencies": {
     "body-parser": "^1.2.0",

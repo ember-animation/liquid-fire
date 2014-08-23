@@ -137,8 +137,7 @@ export default Ember.ContainerView.extend({
       return animate(this, target, {
         duration: this._durationFor(before, after),
         queue: false,
-        easing: this.get('growEasing'),
-        display: null
+        easing: this.get('growEasing')
       });
     }
   },
