@@ -7,9 +7,10 @@ export default Ember.Controller.extend({
     this.tick();
   }),
 
-  stop: Ember.on('willDestroy', function() {
+  willDestroy: function(){
     clearInterval(this.interval);
-  }),
+    this._super();
+  },
 
   tick: function() {
     /* global moment */
