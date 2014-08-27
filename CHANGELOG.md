@@ -1,5 +1,12 @@
 # Changelog
 
+### 0.7.1
+
+- Bugfix: don't conflict with a user's transition map written in any
+  transpiled language.
+
+- Bugfix: pass 'id' property through helpers so you can.
+
 ### 0.7.0
 
 - Feature: all helpers accept `growDuration` to cap the amount of time
