@@ -7,3 +7,10 @@
         display: inline-block;
     }
 }
+
+#empty-if-scenario {
+    border: 1px solid black;
+    .liquid-child {
+        height: 1.5em;
+    }
+}
