@@ -152,7 +152,7 @@ export default Ember.ContainerView.extend({
     // Measure new size.
     var newSize = elt.css(['width', 'height']);
     if (typeof(this._cachedSize) === 'undefined') {
-      this._cachedSize = size;
+      this._cachedSize = newSize;
     }
 
     // Now that measurements have been taken, lock the size
