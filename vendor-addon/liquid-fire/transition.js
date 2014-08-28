@@ -39,7 +39,14 @@ Transition.prototype = {
     var oldElt;
     this.parentView.lockSize();
     if (this.oldView && (oldElt = this.oldView.$())) {
-      oldElt.css('position', 'absolute');
+      // Prevent shrink-wrapping.
+      var width = oldElt.width();
+      var height = oldElt.height();
+      oldElt.css({
+        width: width,
+        height: height,
+        position: 'absolute'
+      });
     }
   },
 
