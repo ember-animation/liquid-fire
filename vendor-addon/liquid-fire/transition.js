@@ -63,8 +63,8 @@ Transition.prototype = {
         inserter = function(){
           return self._insertNewView().then(function(newView){
             if (!newView) { return; }
-            newView.$().css('position', 'absolute');
-            self.parentView.adaptSize(newView.$().outerWidth(true),newView.$().outerHeight(true));
+            newView.$().show();
+            self.parentView.adaptSize();
             return self.newView = newView;
           });
         },

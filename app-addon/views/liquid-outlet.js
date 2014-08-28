@@ -101,8 +101,6 @@ export default Ember.ContainerView.extend({
     if (elt) {
       this._lastLockWidth = elt.width();
       this._lastLockHeight = elt.height();
-      elt.width(this._lastLockWidth);
-      elt.height(this._lastLockHeight);
     }
   },
 
@@ -143,8 +141,14 @@ export default Ember.ContainerView.extend({
     }
   },
 
-  adaptSize: function(width, height) {
+  adaptSize: function() {
     stop(this);
+
+    var elt = this.$();
+    if (!elt) { return; }
+
+    var width = elt.width();
+    var height = elt.height();
 
     if (typeof(this._lastLockWidth) === 'undefined') {
       this._lastLockWidth = width;
