@@ -25,6 +25,18 @@ export function animate(view, props, opts, label) {
     opts = Ember.copy(opts);
   }
 
+  // By default, we ask velocity to clear the element's `display`
+  // and `visibility` properties at the start of animation. Our
+  // animated divs are all initially rendered with `display:none`
+  // and `visibility:hidden` to prevent a flash of before-animated
+  // content.
+  if (typeof(opts.display) === 'undefined') {
+    opts.display = '';
+  }
+  if (typeof(opts.visibility) === 'undefined') {
+    opts.visibility = 'visible';
+  }
+
   if (opts.progress) {
     throw new Error("liquid-fire's 'animate' function reserves the use of Velocity's 'progress' option for its own nefarious purposes.");
   }

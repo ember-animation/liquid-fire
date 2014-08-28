@@ -155,6 +155,13 @@ export default Ember.ContainerView.extend({
       this._lastLockHeight = height;
     }
 
+    // Now that measurements have been taken, lock the size
+    // before the scaling transition begins.
+    elt.css({
+      width: this._lastLockWidth,
+      height: this._lastLockHeight
+    })
+
     this._scaling = Promise.all([
       this._adaptDimension('width', this._lastLockWidth, width),
       this._adaptDimension('height', this._lastLockHeight, height),
