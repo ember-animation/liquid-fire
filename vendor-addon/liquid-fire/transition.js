@@ -36,7 +36,7 @@ Transition.prototype = {
   },
 
   _invokeAnimation: function() {
-    this.parentView.lockSize();
+    this.parentView.cacheSize();
     goAbsolute(this.oldView);
 
     // The extra Promise means we will trap an exception thrown

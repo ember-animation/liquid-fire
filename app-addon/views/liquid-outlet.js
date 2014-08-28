@@ -96,11 +96,11 @@ export default Ember.ContainerView.extend({
     return out.join(';');
   }),
 
-  lockSize: function() {
+  cacheSize: function() {
     var elt = this.$();
     if (elt) {
-      this._lastLockWidth = elt.width();
-      this._lastLockHeight = elt.height();
+      // Measure original size.
+      this._cachedSize = elt.css(['width', 'height']);
     }
   },
 
@@ -120,6 +120,8 @@ export default Ember.ContainerView.extend({
   },
 
   _durationFor: function(before, after) {
+    before = parseInt(before, 10);
+    after = parseInt(after, 10);
     return Math.min(this.get('growDuration'), 1000*Math.abs(before - after)/this.get('growPixelsPerSecond'));
   },
 
@@ -147,24 +149,19 @@ export default Ember.ContainerView.extend({
     var elt = this.$();
     if (!elt) { return; }
 
-    var width = elt.width();
-    var height = elt.height();
-
-    if (typeof(this._lastLockWidth) === 'undefined') {
-      this._lastLockWidth = width;
-      this._lastLockHeight = height;
+    // Measure new size.
+    var newSize = elt.css(['width', 'height']);
+    if (typeof(this._cachedSize) === 'undefined') {
+      this._cachedSize = size;
     }
 
     // Now that measurements have been taken, lock the size
-    // before the scaling transition begins.
-    elt.css({
-      width: this._lastLockWidth,
-      height: this._lastLockHeight
-    })
+    // before the invoking the scaling transition.
+    elt.css(this._cachedSize);
 
     this._scaling = Promise.all([
-      this._adaptDimension('width', this._lastLockWidth, width),
-      this._adaptDimension('height', this._lastLockHeight, height),
+      this._adaptDimension('width', this._cachedSize.width, newSize.width),
+      this._adaptDimension('height', this._cachedSize.height, newSize.height),
     ]);
   }
 
