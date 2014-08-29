@@ -7,8 +7,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!- The following is a workaround for https://github.com/stefanpenner/ember-cli/issues/1003 ->
-    <base href="/" />
+    {{BASE_TAG}}
 
     <link rel="stylesheet" href="assets/vendor.css">
     <link rel="stylesheet" href="assets/test-support.css">
@@ -34,15 +33,14 @@
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
 
-    <script>
-      window.LiquidFireENV = {{ENV}};
-      window.EmberENV = window.LiquidFireENV.EmberENV;
-    </script>
     <script src="assets/vendor.js"></script>
     <script src="assets/test-support.js"></script>
     <script src="assets/liquid-fire.js"></script>
     <script src="testem.js"></script>
     <script>
+      window.LiquidFireENV = require('liquid-fire/config/environment')['default'];
+      window.EmberENV = window.LiquidFireENV.EmberENV;
+
       require('liquid-fire/tests/test-helper');
     </script>
     <script src="assets/test-loader.js"></script>
