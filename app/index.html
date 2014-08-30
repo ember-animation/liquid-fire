@@ -13,13 +13,11 @@
     <link rel="stylesheet" href="assets/liquid-fire.css">
   </head>
   <body>
-    <script>
-      window.LiquidFireENV = {{ENV}};
-      window.EmberENV = window.LiquidFireENV.EmberENV;
-    </script>
     <script src="assets/vendor.js"></script>
     <script src="assets/liquid-fire.js"></script>
     <script>
+      window.LiquidFireENV = require('liquid-fire/config/environment')['default'];
+      window.EmberENV = window.LiquidFireENV.EmberENV;
       window.LiquidFire = require('liquid-fire/app')['default'].create(LiquidFireENV.APP);
     </script>
   </body>
