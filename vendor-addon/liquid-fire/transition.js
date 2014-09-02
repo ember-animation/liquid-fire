@@ -106,7 +106,10 @@ function revealView(view) {
 function getSize(view) {
   var elt;
   if (view && (elt = view.$())) {
-    return elt.css(['width', 'height']);
+    return {
+      width: elt.width(),
+      height: elt.height()
+    };
   }
 }
 
@@ -116,8 +119,9 @@ function goAbsolute(view, size) {
     if (!size) {
       size = getSize(view);
     }
-    size.position = 'absolute';
-    elt.css(size);
+    elt.width(size.width);
+    elt.height(size.height);
+    elt.css({position: 'absolute'});
   }
 }
 
