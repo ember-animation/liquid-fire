@@ -14,7 +14,7 @@ var makeModuleFor = moduleMaker("helper:liquid-each", {
 });
 
 makeModuleFor("#liquid-each helper", {
-  template: "{{#each view.people}}{{name}}{{/each}}",
+  template: "{{#liquid-each view.people}}{{name}}{{/liquid-each}}",
   people: Ember.A([{ name: "Steve Holt" }, { name: "Annabelle" }])
 });
 
@@ -97,7 +97,7 @@ test("can add and replace complicatedly harder", function() {
 
 
 makeModuleFor("#liquid-each helper", {
-  template: "{{#each view.people}}{{this}}{{/each}}",
+  template: "{{#liquid-each view.people}}{{this}}{{/liquid-each}}",
   people: Ember.A(['Black Francis', 'Joey Santiago', 'Kim Deal', 'David Lovering'])
 });
 
@@ -106,7 +106,7 @@ test("it allows you to access the current context using {{this}}", function() {
 });
 
 makeModuleFor("#liquid-each helper", {
-  template: '<ul>{{#each view.people}}<li>{{name}}</li>{{/each}}</ul>',
+  template: '<ul>{{#liquid-each view.people}}<li>{{name}}</li>{{/liquid-each}}</ul>',
   people: Ember.A([{ name: "Steve Holt" }, { name: "Annabelle" }])
 });
 
@@ -122,7 +122,7 @@ test("it works inside a ul element", function() {
 });
 
 makeModuleFor("#liquid-each helper", {
-  template: '<table><tbody>{{#each view.people}}<tr><td>{{name}}</td></tr>{{/each}}</tbody></table>',
+  template: '<table><tbody>{{#liquid-each view.people}}<tr><td>{{name}}</td></tr>{{/liquid-each}}</tbody></table>',
   people: Ember.A([{ name: "Steve Holt" }, { name: "Annabelle" }])
 });
 
@@ -143,7 +143,7 @@ test("it works inside a table element", function() {
 });
 
 makeModuleFor("#liquid-each helper", {
-  template: '{{#each view.people itemController="person"}}{{controllerName}}{{/each}}',
+  template: '{{#liquid-each view.people itemController="person"}}{{controllerName}}{{/liquid-each}}',
   people: Ember.A([{ name: "Steve Holt" }, { name: "Annabelle" }]),
   setup: function(viewAttrs) {
     this.container.register('controller:person', Ember.Controller.extend({
@@ -181,7 +181,7 @@ test('it supports itemController', function() {
 });
 
 makeModuleFor("#liquid-each helper", {
-  template: '{{#each view.people itemController="person"}}{{controllerName}}{{/each}}',
+  template: '{{#liquid-each view.people itemController="person"}}{{controllerName}}{{/liquid-each}}',
   people: Ember.A([{ name: "Steve Holt" }, { name: "Annabelle" }]),
   setup: function(viewAttrs) {
     this.container.register('controller:person', Ember.ObjectController.extend({
@@ -200,7 +200,7 @@ test("itemController specified in template gets a parentController property", fu
 
 
 makeModuleFor("#liquid-each helper", {
-  template: '{{#each}}{{controllerName}}{{/each}}',
+  template: '{{#liquid-each}}{{controllerName}}{{/liquid-each}}',
   setup: function(viewAttrs) {
     this.container.register('controller:person', Ember.ObjectController.extend({
       controllerName: Ember.computed(function() {
@@ -221,7 +221,7 @@ test("itemController specified in ArrayController gets a parentController proper
 });
 
 makeModuleFor("#liquid-each helper", {
-  template: '{{#each}}{{controllerName}}{{/each}}',
+  template: '{{#liquid-each}}{{controllerName}}{{/liquid-each}}',
   setup: function(viewAttrs) {
     this.container.register('controller:person', Ember.ObjectController.extend({
       controllerName: Ember.computed(function() {
@@ -246,7 +246,7 @@ test("itemController's parentController property, when the ArrayController has a
 });
 
 makeModuleFor("#liquid-each helper", {
-  template: '{{#each person in view.people itemController="person"}}{{person.controllerName}}{{/each}}',
+  template: '{{#liquid-each person in view.people itemController="person"}}{{person.controllerName}}{{/liquid-each}}',
   people: Ember.A([{ name: "Steve Holt" }, { name: "Annabelle" }]),
   setup: function(viewAttrs) {
     this.container.register('controller:person', Ember.ObjectController.extend({
@@ -331,7 +331,7 @@ test("it supports {{itemViewClass=}} with in format", function() {
 });
 
 makeModuleFor("#liquid-each helper", {
-  template: "{{#each view.items}}{{this}}{{else}}Nothing{{/each}}",
+  template: "{{#liquid-each view.items}}{{this}}{{else}}Nothing{{/liquid-each}}",
   items: Ember.A(['one', 'two'])
 });
 
@@ -341,10 +341,14 @@ test("it supports {{else}}", function() {
     view().set('items', Ember.A());
   });
   check('Nothing');
+  run(function() {
+    view().set('items', Ember.A(['three', 'four']));
+  });
+  check('threefour');
 });
 
 makeModuleFor("#liquid-each helper", function(){ return {
-  template: "{{#view}}{{#each controller}}{{this}}{{/each}}{{/view}}",
+  template: "{{#view}}{{#liquid-each controller}}{{this}}{{/liquid-each}}{{/view}}",
   controller: Ember.ArrayController.create({
     model: Ember.A(["foo", "bar", "baz"])
   }),
@@ -358,17 +362,17 @@ test("it works with the controller keyword", function() {
 });
 
 makeModuleFor("#liquid-each helper", {
-  template: "{{#each item in view.items}}{{view.title}} {{item}}{{/each}}",
+  template: "{{#liquid-each item in view.items}}{{view.title}} {{item}}{{/liquid-each}}",
   title: "My Cool Each Test",
   items: Ember.A([1, 2])
 });
 
-test("#each accepts a name binding", function() {
+test("#liquid-each accepts a name binding", function() {
   check("My Cool Each Test 1My Cool Each Test 2");
 });
 
 makeModuleFor("#liquid-each helper", function(){ return {
-  template: "{{#each item in view.items}}{{name}}{{/each}}",
+  template: "{{#liquid-each item in view.items}}{{name}}{{/liquid-each}}",
   title: "My Cool Each Test",
   items: Ember.A([Ember.Object.create({
     name: 'henry the item'
@@ -378,56 +382,56 @@ makeModuleFor("#liquid-each helper", function(){ return {
   })
 };});
 
-test("#each accepts a name binding and does not change the context", function() {
+test("#liquid-each accepts a name binding and does not change the context", function() {
   check("bob the controller");
 });
 
 makeModuleFor("#liquid-each helper", {
-  template: "{{#each item in view.items}}{{view.title}} {{item.name}}{{/each}}",
+  template: "{{#liquid-each item in view.items}}{{view.title}} {{item.name}}{{/liquid-each}}",
   title: "My Cool Each Test",
   items: Ember.A([{ name: 1 }, { name: 2 }])
 });
 
-test("#each accepts a name binding and can display child properties", function() {
+test("#liquid-each accepts a name binding and can display child properties", function() {
   check("My Cool Each Test 1My Cool Each Test 2");
 });
 
 makeModuleFor("#liquid-each helper", {
-  template: "{{#each item in this}}{{view.title}} {{item.name}}{{/each}}",
+  template: "{{#liquid-each item in this}}{{view.title}} {{item.name}}{{/liquid-each}}",
   title: "My Cool Each Test",
   controller: Ember.A([{ name: 1 }, { name: 2 }])
 });
 
-test("#each accepts 'this' as the right hand side", function() {
+test("#liquid-each accepts 'this' as the right hand side", function() {
   check("My Cool Each Test 1My Cool Each Test 2");
 });
 
 makeModuleFor("#liquid-each helper", {
-  template: '{{#each controller}}{{#view}}{{name}}{{/view}}{{/each}}',
+  template: '{{#liquid-each controller}}{{#view}}{{name}}{{/view}}{{/liquid-each}}',
   controller: Ember.A([{ name: 'Adam' }, { name: 'Steve' }]),
   setup: function() {
     this.container.register('view:toplevel', Ember.View.extend());
   }
 });
 
-test("views inside #each preserve the new context", function() {
+test("views inside #liquid-each preserve the new context", function() {
   check("AdamSteve");
 });
 
 makeModuleFor("#liquid-each helper", {
-  template: '{{#each personController in this}}{{#view controllerBinding="personController"}}{{name}}{{/view}}{{/each}}',
+  template: '{{#liquid-each personController in this}}{{#view controllerBinding="personController"}}{{name}}{{/view}}{{/liquid-each}}',
   controller: Ember.A([{ name: 'Adam' }, { name: 'Steve' }]),
   setup: function() {
     this.container.register('view:toplevel', Ember.View.extend());
   }
 });
 
-test("controller is assignable inside an #each", function() {
+test("controller is assignable inside an #liquid-each", function() {
   check("AdamSteve");
 });
 
 makeModuleFor("#liquid-each helper", {
-  template: '{{#each}}{{name}}{{/each}}',
+  template: '{{#liquid-each}}{{name}}{{/liquid-each}}',
   context: Ember.A([{ name: 'Adam' }, { name: 'Steve' }])
 });
 
@@ -436,7 +440,7 @@ test("single-arg each defaults to current context", function() {
 });
 
 makeModuleFor("#liquid-each helper", {
-  template: '{{#each}}{{name}}{{/each}}',
+  template: '{{#liquid-each}}{{name}}{{/liquid-each}}',
   controller: Ember.A([{ name: 'Adam' }, { name: 'Steve' }])
 });
 
@@ -446,7 +450,7 @@ test("single-arg each will iterate over controller if present", function() {
 
 makeModuleFor("#liquid-each helper", {
   controller: Ember.A(['Cyril', 'David']),
-  template: '<table><tbody>{{#each}}<tr><td>{{this}}</td></tr>{{/each}}<tbody></table>'
+  template: '<table><tbody>{{#liquid-each}}<tr><td>{{this}}</td></tr>{{/liquid-each}}<tbody></table>'
 });
 
 test("it doesn't assert when the morph tags have the same parent", function() {
@@ -454,7 +458,7 @@ test("it doesn't assert when the morph tags have the same parent", function() {
 });
 
 makeModuleFor("#liquid-each helper", {
-  template: '{{#each person in people itemController="person"}}{{controllerName}} - {{person.controllerName}} - {{/each}}',
+  template: '{{#liquid-each person in people itemController="person"}}{{controllerName}} - {{person.controllerName}} - {{/liquid-each}}',
   setup: function(viewAttrs) {
     this.container.register('controller:array', Ember.ArrayController.extend());
     this.container.register('controller:person', Ember.Controller.extend({
@@ -492,7 +496,7 @@ test("itemController specified in template with name binding does not change con
 
 
 makeModuleFor("#liquid-each helper", {
-  template: '{{#each person in this}}{{controllerName}} - {{person.controllerName}} - {{/each}}',
+  template: '{{#liquid-each person in this}}{{controllerName}} - {{person.controllerName}} - {{/liquid-each}}',
   setup: function(viewAttrs) {
     this.container.register('controller:people', Ember.ArrayController.extend({
       model: Ember.A([{ name: "Steve Holt" }, { name: "Annabelle" }]),
