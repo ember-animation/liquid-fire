@@ -1,0 +1,8 @@
+{{#liquid-with currentContext as cc}}
+  <div class="lm-container">
+    <div>
+      {{view innerView model=cc.model}}
+    </div>
+    {{lf-overlay action="clickedOutside"}}
+  </div>
+{{/liquid-with}}

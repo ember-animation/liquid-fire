@@ -10,3 +10,55 @@
     -moz-transform: translateY(0);
     transform: translateY(0);
 }
+
+.liquid-modal .liquid-container {
+    position: static;
+    transform: none;
+    -webkit-transform: none;
+}
+
+.lm-container {
+    overflow: hidden;
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    box-pack: center;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    box-orient: vertical;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+
+.lm-container > div {
+    position: relative;
+    background: white;
+    padding: 1.5em;
+    border: 1px solid black;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 20em;
+}
+
+.lf-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: black;
+    opacity: 0.5;
+    z-index: -1;
+}
+
+.lf-modal-open {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}

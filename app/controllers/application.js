@@ -1,6 +1,34 @@
 import Ember from "ember";
 
 export default Ember.Controller.extend({
+  queryParams: ['testModal'],
+  testModal: null,
+
+  initializeModalContext: Ember.on('init', function() {
+    this.set('modalContexts', Ember.A());
+  }),
+
+  updateModalContext: Ember.observer('testModal', function() {
+    var ctxts = this.get('modalContexts');
+
+    var m = this.get('testModal');
+    var haveM = ctxts.find(function(c) { return c.name === 'test-popup'; });
+
+    if (m && !haveM) {
+      ctxts.pushObject({
+        name: 'test-popup',
+        model: Ember.Object.create({id: m, isOrder: true})
+      });
+    } else if (!m && haveM) {
+      ctxts.removeObject(haveM);
+    }
+  }),
+
+  actions: {
+    dismissModal: function() {
+      this.set('testModal', null);
+    }
+  },
 
   tableOfContents: function(){
     return [
