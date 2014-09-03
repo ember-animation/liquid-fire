@@ -40,6 +40,7 @@ Router.map(function() {
   this.resource('scenarios', function() {
     this.route('inline');
     this.route('empty-if');
+    this.route('each');
   });
 
 });
