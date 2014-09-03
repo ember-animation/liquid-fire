@@ -1,57 +1,17 @@
 /*jshint newcap:false*/
 import Ember from "ember";
-import { test, moduleFor } from 'ember-qunit';
-import { initialize } from "vendor/liquid-fire";
+import { test } from 'ember-qunit';
+import { view, moduleMaker, check } from "../../helpers/fire-helpers";
 
 var run = Ember.run,
     set = Ember.set,
     get = Ember.get;
 
-var view;
-
-function makeModuleFor(title, attrs) {
-  moduleFor("helper:liquid-bind", title, {
-    needs: ['template:liquid-with-self', 'helper:liquid-with', 'view:liquid-with', 'view:liquid-child', 'template:liquid-with', 'helper:with-apply'],
-    setup: function(){
-      var a;
-      initialize(this.container);
-      if (typeof(attrs) === 'function') {
-        a = attrs.apply(this);
-      } else {
-        a = Ember.copy(attrs, true);
-      }
-      if (a.template) {
-        a.template = Ember.Handlebars.compile(a.template);
-      }
-      a.container = this.container;
-      if (a.context && !(a.context instanceof Ember.Object) ) {
-        a.context = Ember.Object.create(a.context);
-      }
-      if (a.setup) {
-        a.setup.apply(this);
-        delete a.setup;
-      }
-
-      view = Ember.View.create(a);
-      run(function() {
-        view.appendTo('#qunit-fixture');
-      });
-    },
-    teardown: function(){
-      if (attrs.teardown) {
-        attrs.teardown.apply(this);
-      }
-      run(function(){ view.destroy(); });
-      view = null;
-    }
-  });
-}
-
-// tolerate whitespace differences, caused by the extra markup we add.
-function check(expected, comment) {
-  var text = view.$().text().replace(/\s/g, '');
-  equal(text, expected.replace(/\s/g,''), comment);
-}
+var makeModuleFor = moduleMaker("helper:liquid-bind", {
+  needs: ['template:liquid-with-self', 'helper:liquid-with',
+          'view:liquid-with', 'view:liquid-child',
+          'template:liquid-with', 'helper:with-apply']
+});
 
 makeModuleFor("{{liquid-bind}} helper basics", {
   template: "{{liquid-bind person.name class=\"magical-unicorn\"}}",
@@ -65,7 +25,7 @@ test("it should render", function() {
 });
 
 test("it should have static class name", function() {
-  equal(view.$('.liquid-container.magical-unicorn').length, 1, "found static class");
+  equal(view().$('.liquid-container.magical-unicorn').length, 1, "found static class");
 });
 
 makeModuleFor("{{liquid-bind}} bound class name", {
@@ -77,14 +37,14 @@ makeModuleFor("{{liquid-bind}} bound class name", {
 });
 
 test("it should have bound class name", function() {
-  equal(view.$('.liquid-container.rainbow').length, 1, "found bound class");
+  equal(view().$('.liquid-container.rainbow').length, 1, "found bound class");
 });
 
 test("it should update bound class name", function() {
   Ember.run(function(){
-    view.get('context').set('power', 'humor');
+    view().get('context').set('power', 'humor');
   });
-  equal(view.$('.liquid-container.humor').length, 1, "found bound class");
+  equal(view().$('.liquid-container.humor').length, 1, "found bound class");
 });
 
 makeModuleFor("{{liquid-bind}} `use` option", {
@@ -104,7 +64,7 @@ makeModuleFor("{{liquid-bind}} `use` option", {
 test("it should pass through the 'use' option to the underlying liquid-outlet", function() {
   ok(!this.fooCall, "foo transition did not run on initial render");
   Ember.run(function(){
-    view.get('context').set('value', 456);
+    view().get('context').set('value', 456);
   });
   ok(this.fooCalled, "foo transition was used without looking up transition map");
 });

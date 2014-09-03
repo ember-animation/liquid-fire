@@ -1,9 +1,9 @@
 import Ember from "ember";
 import { test, moduleFor } from 'ember-qunit';
 import { initialize } from "vendor/liquid-fire";
+import { view, check } from "../../helpers/fire-helpers";
 
-var view,
-    run = Ember.run,
+var run = Ember.run,
     compile = Ember.Handlebars.compile,
     container;
 
@@ -12,12 +12,12 @@ function makeView(attrs) {
     attrs.template = compile(attrs.template);
   }
   attrs.container = container;
-  view = Ember.View.create(attrs);
+  view(Ember.View.create(attrs));
 }
 
 function appendView() {
   run(function() {
-    view.appendTo('#qunit-fixture');
+    view().appendTo('#qunit-fixture');
   });
 }
 
@@ -32,16 +32,10 @@ function makeModuleFor(title) {
     },
 
     teardown: function(){
-      run(function(){ view.destroy(); });
-      view = null;
+      run(function(){ view().destroy(); });
+      view(null);
     }
   });
-}
-
-// tolerate whitespace differences, caused by the extra markup we add.
-function check(expected, comment) {
-  var text = view.$().text().replace(/\s/g, '');
-  equal(text, expected.replace(/\s/g,''), comment);
 }
 
 makeModuleFor('{{liquid-outlet}} Basics');
@@ -53,7 +47,7 @@ test("view should support connectOutlet for the main outlet", function() {
   appendView();
   check('HI');
   run(function() {
-    view.connectOutlet('main', Ember.View.create({
+    view().connectOutlet('main', Ember.View.create({
       template: compile("<p>BYE</p>")
     }));
   });
@@ -65,7 +59,7 @@ test("outlet should support connectOutlet in slots in prerender state", function
     template: "<h1>HI</h1>{{liquid-outlet}}"
   });
 
-  view.connectOutlet('main', Ember.View.create({
+  view().connectOutlet('main', Ember.View.create({
     template: compile("<p>BYE</p>")
   }));
 
@@ -78,11 +72,11 @@ test("outlet should support an optional name", function() {
   makeView({
     template: "<h1>HI</h1>{{liquid-outlet mainView}}"
   });
-  appendView(view);
+  appendView(view());
   check('HI');
 
   run(function() {
-    view.connectOutlet('mainView', Ember.View.create({
+    view().connectOutlet('mainView', Ember.View.create({
       template: compile("<p>BYE</p>")
     }));
   });
@@ -113,7 +107,7 @@ test("Outlets bind to the current view, not the current concrete view", function
   appendView();
 
   run(function() {
-    view.connectOutlet('main', middleView);
+    view().connectOutlet('main', middleView);
   });
 
   run(function() {
@@ -133,12 +127,12 @@ test("outlet should support bound class on liquid children", function() {
     }
   });
   run(function() {
-    view.connectOutlet('main', Ember.View.create({
+    view().connectOutlet('main', Ember.View.create({
       template: compile("<p>BYE</p>")
     }));
   });
-  appendView(view);
-  equal(view.$('.liquid-container.happy').length, 1, "should have class");
+  appendView(view());
+  equal(view().$('.liquid-container.happy').length, 1, "should have class");
 });
 
 test("outlet should support static class on liquid children", function() {
@@ -146,12 +140,12 @@ test("outlet should support static class on liquid children", function() {
     template: '{{liquid-outlet class="foo"}}'
   });
   run(function() {
-    view.connectOutlet('main', Ember.View.create({
+    view().connectOutlet('main', Ember.View.create({
       template: compile("<p>BYE</p>")
     }));
   });
-  appendView(view);
-  equal(view.$('.liquid-container.foo').length, 1, "should have class");
+  appendView(view());
+  equal(view().$('.liquid-container.foo').length, 1, "should have class");
 });
 
 test("outlet should support directly specifying a transition to use", function() {
@@ -166,14 +160,14 @@ test("outlet should support directly specifying a transition to use", function()
     template: '{{liquid-outlet use="foo"}}'
   });
   run(function() {
-    view.connectOutlet('main', Ember.View.create({
+    view().connectOutlet('main', Ember.View.create({
       template: compile("<p>FIRST</p>")
     }));
   });
-  appendView(view);
+  appendView(view());
   ok(!fooCalled, "foo transition was not used during initial render");
   run(function() {
-    view.connectOutlet('main', Ember.View.create({
+    view().connectOutlet('main', Ember.View.create({
       template: compile("<p>Second</p>")
     }));
   });
