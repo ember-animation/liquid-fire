@@ -25,7 +25,7 @@ function setup(attrs){
       a.template = Ember.Handlebars.compile(a.template);
     }
     a.container = this.container;
-    if (a.context && !(a.context instanceof Ember.Object) ) {
+    if (a.context && !((a.context instanceof Ember.Object) || (Ember.isArray(a.context)))) {
       a.context = Ember.Object.create(a.context);
     }
     if (a.setup) {

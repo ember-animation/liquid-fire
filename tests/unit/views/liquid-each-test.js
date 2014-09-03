@@ -413,3 +413,102 @@ makeModuleFor("#liquid-each helper", {
 test("views inside #each preserve the new context", function() {
   check("AdamSteve");
 });
+
+makeModuleFor("#liquid-each helper", {
+  template: '{{#each personController in this}}{{#view controllerBinding="personController"}}{{name}}{{/view}}{{/each}}',
+  controller: Ember.A([{ name: 'Adam' }, { name: 'Steve' }]),
+  setup: function() {
+    this.container.register('view:toplevel', Ember.View.extend());
+  }
+});
+
+test("controller is assignable inside an #each", function() {
+  check("AdamSteve");
+});
+
+makeModuleFor("#liquid-each helper", {
+  template: '{{#each}}{{name}}{{/each}}',
+  context: Ember.A([{ name: 'Adam' }, { name: 'Steve' }])
+});
+
+test("single-arg each defaults to current context", function() {
+  check("AdamSteve");
+});
+
+makeModuleFor("#liquid-each helper", {
+  template: '{{#each}}{{name}}{{/each}}',
+  controller: Ember.A([{ name: 'Adam' }, { name: 'Steve' }])
+});
+
+test("single-arg each will iterate over controller if present", function() {
+  check("AdamSteve");
+});
+
+makeModuleFor("#liquid-each helper", {
+  controller: Ember.A(['Cyril', 'David']),
+  template: '<table><tbody>{{#each}}<tr><td>{{this}}</td></tr>{{/each}}<tbody></table>'
+});
+
+test("it doesn't assert when the morph tags have the same parent", function() {
+  ok(true, "No assertion from valid template");
+});
+
+makeModuleFor("#liquid-each helper", {
+  template: '{{#each person in people itemController="person"}}{{controllerName}} - {{person.controllerName}} - {{/each}}',
+  setup: function(viewAttrs) {
+    this.container.register('controller:array', Ember.ArrayController.extend());
+    this.container.register('controller:person', Ember.Controller.extend({
+      controllerName: Ember.computed(function() {
+        return "controller:"+this.get('model.name');
+      })
+    }));
+    viewAttrs.controller =  {
+      container: this.container,
+      people: Ember.A([{ name: "Steve Holt" }, { name: "Annabelle" }]),
+      controllerName: 'controller:parentController'
+    };
+  }
+});
+
+test("itemController specified in template with name binding does not change context", function() {
+  check("controller:parentController - controller:Steve Holt - controller:parentController - controller:Annabelle - ");
+
+  run(function() {
+    view().get('controller.people').pushObject({ name: "Yehuda Katz" });
+  });
+
+  check("controller:parentController - controller:Steve Holt - controller:parentController - controller:Annabelle - controller:parentController - controller:Yehuda Katz - ");
+
+  run(function() {
+    set(view().get('controller'), 'people', Ember.A([{ name: "Trek Glowacki" }, { name: "Geoffrey Grosenbach" }]));
+  });
+
+  check("controller:parentController - controller:Trek Glowacki - controller:parentController - controller:Geoffrey Grosenbach - ");
+
+  strictEqual(view().get('_childViews')[0].get('_arrayController.target'), view().get('controller'), "the target property of the child controllers are set correctly");
+
+
+});
+
+
+makeModuleFor("#liquid-each helper", {
+  template: '{{#each person in this}}{{controllerName}} - {{person.controllerName}} - {{/each}}',
+  setup: function(viewAttrs) {
+    this.container.register('controller:people', Ember.ArrayController.extend({
+      model: Ember.A([{ name: "Steve Holt" }, { name: "Annabelle" }]),
+      itemController: 'person',
+      company: 'Yapp',
+      controllerName: 'controller:people'
+    }));
+    this.container.register('controller:person', Ember.ObjectController.extend({
+      controllerName: Ember.computed(function() {
+        return "controller:" + get(this, 'model.name') + ' of ' + get(this, 'parentController.company');
+      })
+    }));
+    viewAttrs.controller = this.container.lookup('controller:people');
+  }
+});
+
+test("itemController specified in ArrayController with name binding does not change context", function() {
+  check("controller:people - controller:Steve Holt of Yapp - controller:people - controller:Annabelle of Yapp - ");
+});
