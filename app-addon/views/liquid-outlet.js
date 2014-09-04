@@ -87,8 +87,8 @@ export default Ember.ContainerView.extend({
     if (elt) {
       // Measure original size.
       this._cachedSize = {
-        width: elt.width(),
-        height: elt.height()
+        width: elt.outerWidth(),
+        height: elt.outerHeight()
       };
     }
   },
@@ -138,8 +138,8 @@ export default Ember.ContainerView.extend({
 
     // Measure new size.
     var newSize = {
-      width: elt.width(),
-      height: elt.height()
+      width: elt.outerWidth(),
+      height: elt.outerHeight()
     };
     if (typeof(this._cachedSize) === 'undefined') {
       this._cachedSize = newSize;
@@ -147,8 +147,8 @@ export default Ember.ContainerView.extend({
 
     // Now that measurements have been taken, lock the size
     // before the invoking the scaling transition.
-    elt.width(this._cachedSize.width);
-    elt.height(this._cachedSize.height);
+    elt.outerWidth(this._cachedSize.width);
+    elt.outerHeight(this._cachedSize.height);
 
     this._scaling = Promise.all([
       this._adaptDimension('width', this._cachedSize.width, newSize.width),
