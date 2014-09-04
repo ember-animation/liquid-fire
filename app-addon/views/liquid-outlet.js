@@ -1,5 +1,6 @@
 import Ember from "ember";
 import { Promise, animate, stop } from "vendor/liquid-fire";
+var capitalize = Ember.String.capitalize;
 
 export default Ember.ContainerView.extend({
   classNames: ['liquid-container'],
@@ -86,10 +87,7 @@ export default Ember.ContainerView.extend({
     var elt = this.$();
     if (elt) {
       // Measure original size.
-      this._cachedSize = {
-        width: elt.width(),
-        height: elt.height()
-      };
+      this._cachedSize = getSize(elt);
     }
   },
 
@@ -113,17 +111,22 @@ export default Ember.ContainerView.extend({
   },
 
   _adaptDimension: function(dimension, before, after) {
-    if (before === after || !this.get('enableGrowth')) {
+    if (before[dimension] === after[dimension] || !this.get('enableGrowth')) {
       var elt = this.$();
       if (elt) {
-        elt[dimension](after);
+        elt[dimension](after[dimension]);
       }
       return Promise.cast();
     } else {
+      // Velocity deals in literal width/height, whereas jQuery deals
+      // in box-sizing-dependent measurements.
       var target = {};
-      target[dimension] = [after, before];
+      target[dimension] = [
+        after['literal'+capitalize(dimension)],
+        before['literal'+capitalize(dimension)],
+      ];
       return animate(this, target, {
-        duration: this._durationFor(before, after),
+        duration: this._durationFor(before[dimension], after[dimension]),
         queue: false,
         easing: this.get('growEasing')
       });
@@ -137,10 +140,7 @@ export default Ember.ContainerView.extend({
     if (!elt) { return; }
 
     // Measure new size.
-    var newSize = {
-      width: elt.width(),
-      height: elt.height()
-    };
+    var newSize = getSize(elt);
     if (typeof(this._cachedSize) === 'undefined') {
       this._cachedSize = newSize;
     }
@@ -151,9 +151,22 @@ export default Ember.ContainerView.extend({
     elt.height(this._cachedSize.height);
 
     this._scaling = Promise.all([
-      this._adaptDimension('width', this._cachedSize.width, newSize.width),
-      this._adaptDimension('height', this._cachedSize.height, newSize.height),
+      this._adaptDimension('width', this._cachedSize, newSize),
+      this._adaptDimension('height', this._cachedSize, newSize),
     ]);
   }
 
 });
+
+// We're tracking both jQuery's box-sizing dependent measurements and
+// the literal CSS properties, because it's nice to get/set dimensions
+// with jQuery and not worry about boz-sizing *but* Velocity needs the
+// raw values.
+function getSize(elt) {
+  return {
+    width: elt.width(),
+    literalWidth: parseInt(elt.css('width'),10),
+    height: elt.height(),
+    literalHeight: parseInt(elt.css('height'),10)
+  };
+}
