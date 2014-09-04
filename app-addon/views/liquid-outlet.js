@@ -3,7 +3,6 @@ import { Promise, animate, stop } from "vendor/liquid-fire";
 
 export default Ember.ContainerView.extend({
   classNames: ['liquid-container'],
-  attributeBindings: ['style'],
   growDuration: 250,
   growPixelsPerSecond: 200,
   growEasing: 'slide',
@@ -82,19 +81,6 @@ export default Ember.ContainerView.extend({
     this.pushObject(child);
     return promise;
   },
-
-  style: Ember.computed('preserveWidth', 'preserveHeight', function() {
-    var w = this.get('preserveWidth'),
-        h = this.get('preserveHeight'),
-        out = [];
-    if (typeof(w) !== 'undefined') {
-      out.push('width:' + w + 'px');
-    }
-    if (typeof(h) !== 'undefined') {
-      out.push('height:' + h + 'px');
-    }
-    return out.join(';');
-  }),
 
   cacheSize: function() {
     var elt = this.$();
