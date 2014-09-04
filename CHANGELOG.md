@@ -1,5 +1,12 @@
 # Changelog
 
+### master
+
+- Possibly BREAKING change: improved management of container sizes
+  thanks to @jamesreggio. This should result is much more friendly
+  behavior for things like inline content or content centered with
+  auto margins.
+
 ### 0.7.1
 
 - Bugfix: don't conflict with a user's transition map written in any
