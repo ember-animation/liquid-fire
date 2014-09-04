@@ -1,6 +1,6 @@
 # Changelog
 
-### master
+### 0.8.0
 
 - Possibly BREAKING change: improved management of container sizes
   thanks to @jamesreggio. This should result in much more friendly
@@ -10,6 +10,8 @@
 - Enhancement: the predefined directional transitions (toLeft, toUp,
   etc), have a new implementation that should look nicer when the old
   & new content vary widely in size.
+
+- Bugfix: we no longer depend on a global `$` and always defer to `Ember.$`.
 
 ### 0.7.1
 
