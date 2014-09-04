@@ -18,8 +18,18 @@ export default function liquidWithHelper() {
   });
   innerOptions.hash.boundContextBinding = context;
 
-  ['class', 'classNames', 'classNameBindings', 'use', 'id'].forEach(function(field){
-    if (options.hash[field]) {
+  [
+    'class',
+    'classNames',
+    'classNameBindings',
+    'use',
+    'id',
+    'growDuration',
+    'growPixelsPerSecond',
+    'growEasing',
+    'enableGrowth'
+  ].forEach(function(field){
+    if (options.hash.hasOwnProperty(field)) {
       innerOptions.hash[field] = options.hash[field];
       innerOptions.hashTypes[field] = options.hashTypes[field];
     }

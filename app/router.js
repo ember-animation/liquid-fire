@@ -42,6 +42,7 @@ Router.map(function() {
     this.route('inline-serial');
     this.route('empty-if');
     this.route('modal');
+    this.route('growable-with');
   });
 
 });
