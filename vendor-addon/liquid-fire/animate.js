@@ -1,11 +1,12 @@
-/* global $ */
 import Promise from "./promise";
 import Ember from "ember";
 
+var Velocity = Ember.$.Velocity;
+
 // Make sure Velocity always has promise support by injecting our own
 // RSVP-based implementation if it doesn't already have one.
-if (!$.Velocity.Promise) {
-  $.Velocity.Promise = Promise;
+if (!Velocity.Promise) {
+  Velocity.Promise = Promise;
 }
 
 export function animate(view, props, opts, label) {
@@ -26,11 +27,15 @@ export function animate(view, props, opts, label) {
   }
 
   // By default, we ask velocity to clear the element's `display`
-  // property at the start of animation. Our animated divs are all
-  // initially rendered at display:none to prevent a flash of
-  // before-animated content.
+  // and `visibility` properties at the start of animation. Our
+  // animated divs are all initially rendered with `display:none`
+  // and `visibility:hidden` to prevent a flash of before-animated
+  // content.
   if (typeof(opts.display) === 'undefined') {
     opts.display = '';
+  }
+  if (typeof(opts.visibility) === 'undefined') {
+    opts.visibility = 'visible';
   }
 
   if (opts.progress) {
@@ -43,7 +48,7 @@ export function animate(view, props, opts, label) {
     state.timeSpent = state.timeRemaining / (1/state.percentComplete - 1);
   };
 
-  state.promise = Promise.cast($.Velocity.animate(elt[0], props, opts));
+  state.promise = Promise.cast(Velocity.animate(elt[0], props, opts));
 
   if (label) {
     state.promise = state.promise.then(function(){
@@ -71,7 +76,7 @@ export function setDefaults(props) {
       if (key === 'progress') {
         throw new Error("liquid-fire's 'animate' function reserves the use of Velocity's '" + key + "' option for its own nefarious purposes.");
       }
-      $.Velocity.defaults[key] = props[key];
+      Velocity.defaults[key] = props[key];
     }
   }
 }

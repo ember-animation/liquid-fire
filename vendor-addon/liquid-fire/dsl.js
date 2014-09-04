@@ -1,3 +1,4 @@
+import Ember from "ember";
 import { setDefaults } from "./animate";
 
 function DSL(map) {
@@ -157,7 +158,6 @@ DSL.prototype = {
       type: 'parent',
       payload: function() {
         var elt;
-        /* global Ember */
         return this &&
           (this._morph && Ember.$(this._morph.start.parentElement).is(selector)) ||
           (this.morph  && Ember.$('#' + this.morph.start).parent().is(selector)) ||
@@ -224,7 +224,7 @@ function contextMatcher(matcher) {
       } else {
         return !this;
       }
-    }
+    };
   }
 
   throw new Error("unknown context matcher: " + JSON.stringify(matcher));

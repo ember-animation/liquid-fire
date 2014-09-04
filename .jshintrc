@@ -3,7 +3,8 @@
     "document": true,
     "window": true,
     "LiquidFireENV": true,
-    "-Promise": true
+    "-Promise": true,
+    "-$": true
   },
   "browser" : true,
   "boss" : true,

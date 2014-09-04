@@ -35,26 +35,9 @@ Transition.prototype = {
     return this.inserted = this.parentView._pushNewView(this.newContent);
   },
 
-  _goAbsolute: function() {
-    var oldElt;
-    this.parentView.lockSize();
-    if (this.oldView && (oldElt = this.oldView.$())) {
-      oldElt.css('position', 'absolute');
-    }
-  },
-
-  _goStatic: function() {
-    var elt;
-    if (!this.interruptedLate) {
-      if (this.newView && (elt = this.newView.$())) {
-        this.newView.$().css('position', '');
-      }
-      this.parentView.unlockSize();
-    }
-  },
-
   _invokeAnimation: function() {
-    this._goAbsolute();
+    this.parentView.cacheSize();
+    goAbsolute(this.oldView);
 
     // The extra Promise means we will trap an exception thrown
     // immediately by the animation implementation.
@@ -63,15 +46,23 @@ Transition.prototype = {
         inserter = function(){
           return self._insertNewView().then(function(newView){
             if (!newView) { return; }
-            newView.$().css('position', 'absolute');
-            self.parentView.adaptSize(newView.$().outerWidth(true),newView.$().outerHeight(true));
+            newView.$().show();
+            // Measure newView size before parentView sets an explicit size.
+            var size = getSize(newView);
+            self.parentView.adaptSize();
+            goAbsolute(newView, size);
             return self.newView = newView;
           });
         },
         args = [this.oldView, inserter].concat(this.animationArgs);
     return new Promise(function(resolve, reject){
       animation.apply(self, args).then(resolve, reject);
-    }).then(function(){self._goStatic();});
+    }).then(function(){
+      if (!self.interruptedLate) {
+        goStatic(self.newView);
+        self.parentView.unlockSize();
+      }
+    });
   },
 
   maybeDestroyOldView: function() {
@@ -108,7 +99,36 @@ Transition.prototype = {
 function revealView(view) {
   var elt;
   if (view && (elt = view.$())) {
-    elt.show();
+    elt.show().css({visibility: ''});
+  }
+}
+
+function getSize(view) {
+  var elt;
+  if (view && (elt = view.$())) {
+    return {
+      width: elt.width(),
+      height: elt.height()
+    };
+  }
+}
+
+function goAbsolute(view, size) {
+  var elt;
+  if (view && (elt = view.$())) {
+    if (!size) {
+      size = getSize(view);
+    }
+    elt.width(size.width);
+    elt.height(size.height);
+    elt.css({position: 'absolute'});
+  }
+}
+
+function goStatic(view) {
+  var elt;
+  if (view && (elt = view.$())) {
+    elt.css({width: '', height: '', position: ''});
   }
 }
 
