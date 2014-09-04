@@ -36,10 +36,10 @@ Transition.prototype = {
   },
 
   _invokeAnimation: function() {
-    this.parentView.cacheSize();
     var self = this,
         animation = this.animation,
         inserter = function(){
+          self.parentView.cacheSize();
           goAbsolute(self.oldView);
           return self._insertNewView().then(function(newView){
             if (!newView) { return; }
