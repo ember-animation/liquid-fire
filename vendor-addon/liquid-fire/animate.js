@@ -27,11 +27,15 @@ export function animate(view, props, opts, label) {
   }
 
   // By default, we ask velocity to clear the element's `display`
-  // property at the start of animation. Our animated divs are all
-  // initially rendered at display:none to prevent a flash of
-  // before-animated content.
+  // and `visibility` properties at the start of animation. Our
+  // animated divs are all initially rendered with `display:none`
+  // and `visibility:hidden` to prevent a flash of before-animated
+  // content.
   if (typeof(opts.display) === 'undefined') {
     opts.display = '';
+  }
+  if (typeof(opts.visibility) === 'undefined') {
+    opts.visibility = 'visible';
   }
 
   if (opts.progress) {
