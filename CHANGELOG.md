@@ -7,6 +7,10 @@
   behavior for things like inline content or content centered with
   auto margins.
 
+- Enhancement: the predefined directional transitions (toLeft, toUp,
+  etc), have a new implementation that should look nicer when the old
+  & new content vary widely in size.
+
 ### 0.7.1
 
 - Bugfix: don't conflict with a user's transition map written in any
