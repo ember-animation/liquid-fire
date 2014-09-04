@@ -39,4 +39,16 @@ export default function(){
     this.childOf("#interrupted-fade-demo"),
     this.use('fade', { duration: 1500 })
   );
+
+  this.transition(
+    this.childOf("#inline-serial-scenario"),
+    this.use('fade', {duration: 1000})
+  );
+
+  this.transition(
+    this.childOf("#inline-scenario"),
+    this.toModel(true),
+    this.use('toLeft', {duration: 1000}),
+    this.reverse('toRight', {duration: 1000})
+  );
 }

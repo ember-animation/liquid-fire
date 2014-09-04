@@ -39,6 +39,7 @@ Router.map(function() {
 
   this.resource('scenarios', function() {
     this.route('inline');
+    this.route('inline-serial');
     this.route('empty-if');
   });
 
