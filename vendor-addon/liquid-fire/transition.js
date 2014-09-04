@@ -39,8 +39,6 @@ Transition.prototype = {
     this.parentView.cacheSize();
     goAbsolute(this.oldView);
 
-    // The extra Promise means we will trap an exception thrown
-    // immediately by the animation implementation.
     var self = this,
         animation = this.animation,
         inserter = function(){
@@ -55,6 +53,9 @@ Transition.prototype = {
           });
         },
         args = [this.oldView, inserter].concat(this.animationArgs);
+
+    // The extra Promise means we will trap an exception thrown
+    // immediately by the animation implementation.
     return new Promise(function(resolve, reject){
       animation.apply(self, args).then(resolve, reject);
     }).then(function(){
