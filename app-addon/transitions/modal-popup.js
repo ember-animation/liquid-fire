@@ -24,15 +24,26 @@ function revealModal(insertNewView) {
         !(obscure = newView.$('.lf-overlay')[0])) {
       return;
     }
-    // liquid-fire always starts newView at "display: none", the
-    // animate function normally handles clearing it for us.
+
+    // we're not going to animate the whole view, rather we're going
+    // to animate two pieces of it separately. So we move the view
+    // properties down onto the individual elements, so that the
+    // animate function can reveal them at precisely the right time.
+    Ember.$(box).css({
+      display: 'none'
+    });
+
+    Ember.$(obscure).css({
+      display: 'none'
+    });
     newView.$().css({
       display: '',
       visibility: ''
     });
+
     return Promise.all([
-      Velocity.animate(obscure, {opacity: [0.5, 0]}, {duration: 200}),
-      Velocity.animate(box, {scale: [1, 0]}, {duration: 200})
+      Velocity.animate(obscure, {opacity: [0.5, 0]}, {duration: 200, display: ''}),
+      Velocity.animate(box, {scale: [1, 0]}, {duration: 200, display: ''})
     ]);
   });
 }
