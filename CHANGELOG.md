@@ -3,7 +3,7 @@
 ### master
 
 - Possibly BREAKING change: improved management of container sizes
-  thanks to @jamesreggio. This should result is much more friendly
+  thanks to @jamesreggio. This should result in much more friendly
   behavior for things like inline content or content centered with
   auto margins.
 
