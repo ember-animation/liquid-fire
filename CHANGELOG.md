@@ -1,5 +1,10 @@
 # Changelog
 
+### 0.8.1
+
+- Bugfix: my first attempt at resolving issue #53 was wrong, so 0.8.0
+  can suffer jittery outlets. 
+
 ### 0.8.0
 
 - Possibly BREAKING change: improved management of container sizes
