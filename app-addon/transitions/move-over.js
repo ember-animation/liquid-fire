@@ -1,10 +1,19 @@
 import { stop, animate, Promise, isAnimating, finish } from "vendor/liquid-fire";
 
 export default function moveOver(oldView, insertNewView, dimension, direction, opts) {
-  var property  = 'translate' + dimension.toUpperCase(),
-      oldParams = {},
+  var oldParams = {},
       newParams = {},
-      firstStep;
+      firstStep,
+      property,
+      measure;
+
+  if (dimension.toLowerCase() === 'x') {
+    property = 'translateX';
+    measure = 'width';
+  } else {
+    property = 'translateY';
+    measure = 'height';
+  }
 
   if (isAnimating(oldView, 'moving-in')) {
     firstStep = finish(oldView, 'moving-in');
@@ -13,10 +22,17 @@ export default function moveOver(oldView, insertNewView, dimension, direction, o
     firstStep = Promise.cast();
   }
 
-  oldParams[property] = (100 * direction) + '%';
-  newParams[property] = ["0%", (-100 * direction) + '%'];
 
   return firstStep.then(insertNewView).then(function(newView){
+    if (newView && newView.$() && oldView && oldView.$()) {
+      var bigger = Math.max.apply(null, [newView.$()[measure](), oldView.$()[measure]()]);
+      oldParams[property] = (bigger * direction) + 'px';
+      newParams[property] = ["0px", (-1 * bigger * direction) + 'px'];
+    } else {
+      oldParams[property] = (100 * direction) + '%';
+      newParams[property] = ["0%", (-100 * direction) + '%'];
+    }
+
     return Promise.all([
       animate(oldView, oldParams, opts),
       animate(newView, newParams, opts, 'moving-in')
