@@ -1,6 +1,6 @@
-/* global $ */
-
+import Ember from "ember";
 import { Promise } from "vendor/liquid-fire";
+var Velocity = Ember.$.Velocity;
 
 function hideModal(oldView) {
   var box, obscure;
@@ -11,8 +11,8 @@ function hideModal(oldView) {
   }
 
   return Promise.all([
-    $.Velocity.animate(obscure, {opacity: [0, 0.5]}, {duration: 200}),
-    $.Velocity.animate(box, {scale: [0, 1]}, {duration: 200})
+    Velocity.animate(obscure, {opacity: [0, 0.5]}, {duration: 200}),
+    Velocity.animate(box, {scale: [0, 1]}, {duration: 200})
   ]);
 }
 
@@ -26,10 +26,13 @@ function revealModal(insertNewView) {
     }
     // liquid-fire always starts newView at "display: none", the
     // animate function normally handles clearing it for us.
-    newView.$().css('display', 'block');
+    newView.$().css({
+      display: '',
+      visibility: ''
+    });
     return Promise.all([
-      $.Velocity.animate(obscure, {opacity: [0.5, 0]}, {duration: 200}),
-      $.Velocity.animate(box, {scale: [1, 0]}, {duration: 200})
+      Velocity.animate(obscure, {opacity: [0.5, 0]}, {duration: 200}),
+      Velocity.animate(box, {scale: [1, 0]}, {duration: 200})
     ]);
   });
 }
