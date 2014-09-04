@@ -19,15 +19,9 @@
 
 .lm-container {
     overflow: hidden;
-    display: -webkit-box;
-    display: -moz-box;
-    display: box;
-    -webkit-box-pack: center;
-    -moz-box-pack: center;
-    box-pack: center;
-    -webkit-box-orient: vertical;
-    -moz-box-orient: vertical;
-    box-orient: vertical;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     position: fixed;
     top: 0;
     left: 0;
