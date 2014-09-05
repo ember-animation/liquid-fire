@@ -3,10 +3,12 @@ import Ember from "ember";
 export var ModalControllerMixin = Ember.Mixin.create({
   initializeModalContext: Ember.on('init', function() {
     this.set('modalContexts', Ember.A());
-    Ember.run.scheduleOnce('afterRender', this, 'appendModalContainer');
   }),
 
   appendModalContainer: function() {
+    if (this._modalContainer) {
+      return;
+    }
     var container = this.get('container');
     var Component = container.lookup('component-lookup:main').lookupFactory('liquid-modal');
     this._modalContainer = Component.create({owner: this});
@@ -32,6 +34,9 @@ export var ModalControllerMixin = Ember.Mixin.create({
       } else {
         ctxts.pushObject(newContext);
       }
+    }
+    if (ctxts.length > 0) {
+      Ember.run.scheduleOnce('afterRender', this, 'appendModalContainer');
     }
   }
 });
