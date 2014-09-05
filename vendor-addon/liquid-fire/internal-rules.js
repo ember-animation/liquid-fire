@@ -1,6 +1,6 @@
 export default function() {
   this.transition(
-    this.childOf('.liquid-modal'),
+    this.hasClass('lm-with'),
     this.use('modal-popup')
   );
 }
