@@ -13,8 +13,8 @@
 
 .liquid-modal .liquid-container {
     position: static;
-    transform: none;
     -webkit-transform: none;
+    transform: none;
 }
 
 .lm-container {
