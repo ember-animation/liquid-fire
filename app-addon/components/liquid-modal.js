@@ -4,6 +4,8 @@ export default Ember.Component.extend({
   classNames: ['liquid-modal'],
   clickOutsideToDismiss: true,
 
+  currentContext: Ember.computed.oneWay('owner.modalContexts.lastObject'),
+
   innerView: Ember.computed('currentContext', function() {
     var name = this.get('currentContext.name'),
         container = this.get('container'),
