@@ -19,9 +19,7 @@ var lastOpenedModal = null;
 Ember.$(document).on('focusin', handleTabIntoBrowser);
 
 function handleTabIntoBrowser() {
-  console.log("handling last open");
   if (lastOpenedModal) {
-    console.log("found it");
     lastOpenedModal.focus();
   }
 }

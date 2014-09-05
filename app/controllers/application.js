@@ -9,7 +9,8 @@ export default Ember.Controller.extend(ModalControllerMixin, {
 
   testModal: launchModal('test-popup', {
     withParams: 'showTestModal',
-    dismissWithEscape: false
+    dismissWithEscape: false,
+    ariaLabel: 'foo'
   }),
   otherModal: launchModal('other-popup', { withParams: ['other', 'foo'] }),
 
