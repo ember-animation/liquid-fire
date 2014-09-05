@@ -1,5 +1,31 @@
+/*
+   Parts of this file were adapted from ic-modal
+
+   https://github.com/instructure/ic-modal
+   Released under The MIT License (MIT)
+   Copyright (c) 2014 Instructure, Inc.
+*/
+
 import Ember from "ember";
 import "vendor/liquid-fire/tabbable";
+
+/**
+ * If you do something to move focus outside of the browser (like
+ * command+l to go to the address bar) and then tab back into the
+ * window, capture it and focus the first tabbable element in an active
+ * modal.
+ */
+var lastOpenedModal = null;
+Ember.$(document).on('focusin', handleTabIntoBrowser);
+
+function handleTabIntoBrowser() {
+  console.log("handling last open");
+  if (lastOpenedModal) {
+    console.log("found it");
+    lastOpenedModal.focus();
+  }
+}
+
 
 export default Ember.Component.extend({
   classNames: ['lm-container'],
@@ -21,10 +47,31 @@ export default Ember.Component.extend({
   },
 
   didInsertElement: function() {
-    this.$().focus();
+    this.focus();
+    lastOpenedModal = this;
   },
 
-  // Credit to https://github.com/instructure/ic-modal
+  willDestroy: function() {
+    lastOpenedModal = null;
+  },
+
+  focus: function() {
+    if (this.get('element').contains(document.activeElement)) {
+      // just let it be if we already contain the activeElement
+      return;
+    }
+    var target = this.$('[autofocus]');
+    if (!target.length) {
+      target = this.$(':tabbable');
+    }
+
+    if (!target.length) {
+      target = this.$();
+    }
+
+    target[0].focus();
+  },
+
   constrainTabNavigation: function(event) {
     var tabbable = this.$(':tabbable');
     var finalTabbable = tabbable[event.shiftKey ? 'first' : 'last']()[0];
