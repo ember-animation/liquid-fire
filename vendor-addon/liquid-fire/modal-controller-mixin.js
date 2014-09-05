@@ -1,6 +1,6 @@
 import Ember from "ember";
 
-export default Ember.Mixin.create({
+export var ModalControllerMixin = Ember.Mixin.create({
   initializeModalContext: Ember.on('init', function() {
     this.set('modalContexts', Ember.A());
     Ember.run.scheduleOnce('afterRender', this, 'appendModalContainer');
@@ -13,20 +13,52 @@ export default Ember.Mixin.create({
     this._modalContainer.appendTo('body');
   },
 
-  updateModalContext: Ember.observer('testModal', function() {
+  updateModalContext: function(componentName, paramNames) {
+    var params = currentParams(this, paramNames);
     var ctxts = this.get('modalContexts');
-
-    var m = this.get('testModal');
-    var haveM = ctxts.find(function(c) { return c.name === 'test-popup'; });
-
-    if (m && !haveM) {
-      ctxts.pushObject({
-        name: 'test-popup',
-        model: Ember.Object.create({id: m, isOrder: true})
+    var matchingContext = ctxts.find(function(c) { return c.name === componentName; });
+    if (!params) {
+      if (matchingContext) {
+        ctxts.removeObject(matchingContext);
+      }
+    } else {
+      var newContext = Ember.Object.create({
+        name: componentName,
+        params: params
       });
-    } else if (!m && haveM) {
-      ctxts.removeObject(haveM);
+      if (matchingContext) {
+        ctxts.replace(ctxts.indexOf(matchingContext), 1, [newContext]);
+      } else {
+        ctxts.pushObject(newContext);
+      }
     }
-  }),
-
+  }
 });
+
+export function launchModal(componentName) {
+  var params = Array.prototype.slice.call(arguments, 1);
+  var handler = function() {
+    this.updateModalContext(componentName, params);
+  };
+
+  return Ember.observer.apply(Ember, params.concat(handler));
+}
+
+function currentParams(controller, paramNames) {
+  var params={},
+      foundTruthy = false,
+      name,
+      value;
+
+  for (var i = 0; i < paramNames.length; i++) {
+    name = paramNames[i];
+    value = controller.get(name);
+    params[name] = value;
+    if (value) {
+      foundTruthy = true;
+    }
+  }
+  if (foundTruthy) {
+    return params;
+  }
+}
