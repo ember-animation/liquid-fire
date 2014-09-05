@@ -1,0 +1,42 @@
+<h2>launchModal</h2>
+
+<p>The <code>launchModal</code> function binds one or more of the
+properties on your controller to a modal dialog component.</p>
+
+<p>The rule for displaying a modal is simple: if any of the properties
+have non-default values, the modal appears. Each of the properties is
+also passed through to your modal component itself. If any of these
+properties change, the modal re-animates.</p>
+
+<p><code>launchModal(componentName, options)</code> takes these options:
+
+<dl>
+  <dt>withParams</dt>
+  <dd>The property name or array of property names that will be passed
+  to the component. We will show the component whenever any of these
+  has a non-default value.</dd>
+
+  <dt>dismissWithOutsideClick</dt>
+  <dd>If true, clicking outside the modal will dismiss it. If false,
+    your component will receive an <code>outsideClick</code> event
+    instead. Defaults to true.
+  </dd>
+
+  <dt>dismissWithEscape</dt>
+  <dd>If true, the escape key will dismiss the modal. If false, your
+    component will receive an <code>escape</code> event
+    instead. Defaults to true.
+  </dd>
+
+  <dt>ariaLabelledBy</dt>
+  <dd>Lets you set the aria-labelledby property on the modal dialog
+    box for proper accessibility.</dd>
+
+  <dt>ariaLabel</dt>
+  <dd>Lets you set the aria-label property on the modal dialog box for
+    proper accessibility.</dd>
+</dl>
+
+<p><code>launchModal</code>'s return value is actually an observer
+that watches the appropriate properties and coordinates launching the
+appropriate component as needed.</p>

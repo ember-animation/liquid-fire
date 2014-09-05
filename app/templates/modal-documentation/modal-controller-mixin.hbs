@@ -1,0 +1,11 @@
+<h2>ModalControllerMixin</h2>
+
+<p><code>ModalControllerMixin</code> doesn't have a public API of its
+own, <em>per se</em>. But it lets you use {{#link-to
+"modal-documentation.launch-modal"}}launchModal{{/link-to}} to assign a
+modal dialog component to properties on your controller.</p>
+
+<p>You should almost certainly use <code>ModalControllerMixin</code>
+on your top-level <code>application</code> controller. Otherwise you
+won't necessarily support clean transitions to and from every possible
+modal state and route.</p>

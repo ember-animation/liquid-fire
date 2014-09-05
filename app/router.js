@@ -35,6 +35,12 @@ Router.map(function() {
     });
   });
 
+  this.resource("modal-documentation", { path: 'modals'}, function(){
+    this.route('modal-controller-mixin');
+    this.route('launch-modal');
+    this.route('component');
+  });
+
   /* Test Scenarios */
 
   this.resource('scenarios', function() {

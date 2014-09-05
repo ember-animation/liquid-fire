@@ -1,18 +1,22 @@
 import Ember from "ember";
+// BEGIN-SNIPPET modal-setup
 import { ModalControllerMixin, launchModal } from "vendor/liquid-fire";
 
 export default Ember.Controller.extend(ModalControllerMixin, {
-  queryParams: ['showTestModal', 'other', 'foo'],
-  showTestModal: 1,
-  other: null,
-  foo: 0,
+  // Define one or more query params.
+  queryParams: ['hello'],
 
-  testModal: launchModal('test-popup', {
-    withParams: 'showTestModal',
-    dismissWithEscape: false,
-    ariaLabel: 'foo'
+  // Set default values for them as desired.
+  hello: null,
+
+  // Bind the params to your modal component. `withParams` is required
+  // and may also be a list. Whenever any withParams have non-default
+  // values, the modal will render.
+  helloModal: launchModal('hello-modal', {
+    withParams: 'hello',
+    ariaLabel: 'Welcome Message'
   }),
-  otherModal: launchModal('other-popup', { withParams: ['other', 'foo'] }),
+  // END-SNIPPET
 
   tableOfContents: function(){
     return [
@@ -38,6 +42,13 @@ export default Ember.Controller.extend(ModalControllerMixin, {
           {route: 'transitions.predefined', title: "Predefined transitions"},
           {route: 'transitions.defining', title: 'Defining custom transitions'},
           {route: 'transitions.primitives', title: 'Animation Primitives'}
+        ]
+      },
+      { route: 'modal-documentation', title: 'Modal Dialogs',
+        children: [
+          {route: 'modal-documentation.modal-controller-mixin', title: 'ModalControllerMixin'},
+          {route: 'modal-documentation.launch-modal', title: 'launchModal'},
+          {route: 'modal-documentation.component', title: 'Modal Components'}
         ]
       }
     ];

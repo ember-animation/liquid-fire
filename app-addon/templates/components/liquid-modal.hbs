@@ -1,6 +1,6 @@
 {{#liquid-with currentContext as cc class="lm-with"}}
   {{#lm-container action="escape"}}
-    <div role="dialog" {{bind-attr aria-labelledby="cc.opts.ariaLabelledBy" aria-label="cc.opts.ariaLabel"}}>
+    <div class="lf-dialog" role="dialog" {{bind-attr aria-labelledby="cc.opts.ariaLabelledBy" aria-label="cc.opts.ariaLabel"}}>
       {{view innerView dismiss="dismiss"}}
     </div>
     {{lf-overlay clickAway="outsideClick"}}

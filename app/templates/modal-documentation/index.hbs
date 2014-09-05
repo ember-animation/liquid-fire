@@ -1,0 +1,42 @@
+<h2>Modal Dialogs</h2>
+
+<p>{{#link-to (query-params hello="Tomster")}}Modal dialogs{{/link-to}} are a natural fit for
+Ember's <a href="http://emberjs.com/guides/routing/query-params/">query
+parameters</a>. queryParams can encapsulate state that doesn't
+necessarily belong within a single place in the route hierarchy.</p>
+
+<p>Since modals don't necessarily live <em>inside</em> any other view,
+they don't belong inside your other templates and so we don't offer a
+template helper for creating them. Instead, we offer conventions for
+defining your modals as Ember components and tying them to query
+params.</p>
+
+<p>Modal dialog basics:</p>
+
+<ol>
+  <li>Create an Ember component the usual way. For example, here
+  is <code>app/templates/components/hello-modal.hbs</code>:
+
+    {{code-snippet name="hello-modal.hbs"}}
+
+    And <code>app/components/hello-modal.js</code>:
+    {{code-snippet name="hello-modal.js"}}
+
+  <li>Add the <code>ModalControllerMixin</code> to your application
+  controller and bind one or more query params to your modal
+  component:
+
+    {{code-snippet name="modal-setup.js"}}
+
+  <li>You can launch your modal by setting the relevant query
+  param(s), either via a transition or by directly setting the value
+  on your controller:
+
+    {{code-snippet name="hello-tomster.hbs"}}
+    <div id="basic-modal-demo">
+    {{!- BEGIN-SNIPPET hello-tomster -}}
+    {{#link-to (query-params hello="Tomster") tagName="button"}}Try It{{/link-to}}
+    {{!- END-SNIPPET }}
+    </div>
+</ol>
+

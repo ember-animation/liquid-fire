@@ -47,7 +47,7 @@ function clickWithoutWaiting(selector, text) {
 }
 
 test('visit every link in sidebar', function() {
-  var lastRouteName = 'transitions.primitives.index';
+  var lastRouteName = 'modal-documentation.component';
   expect(1);
 
   function navigateForward() {

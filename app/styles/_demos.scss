@@ -63,3 +63,15 @@
         background-color: blue;
     }
 }
+
+#basic-modal-demo {
+    text-align: center;
+    button {
+        font-size: 2em;
+        height: $line-height-computed * 2;
+    }
+}
+
+.lf-dialog {
+    border-radius: 5px;
+}
