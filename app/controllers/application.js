@@ -2,10 +2,13 @@ import Ember from "ember";
 import { ModalControllerMixin, launchModal } from "vendor/liquid-fire";
 
 export default Ember.Controller.extend(ModalControllerMixin, {
-  queryParams: ['showTestModal'],
-  showTestModal: null,
+  queryParams: ['showTestModal', 'other', 'foo'],
+  showTestModal: 1,
+  other: null,
+  foo: 0,
 
   testModal: launchModal('test-popup', 'showTestModal'),
+  otherModal: launchModal('other-popup', 'other', 'foo'),
 
   tableOfContents: function(){
     return [

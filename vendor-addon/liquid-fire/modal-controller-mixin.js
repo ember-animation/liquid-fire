@@ -46,7 +46,8 @@ export function launchModal(componentName) {
 
 function currentParams(controller, paramNames) {
   var params={},
-      foundTruthy = false,
+      foundNonDefault = false,
+      proto = controller.constructor.proto(),
       name,
       value;
 
@@ -54,11 +55,11 @@ function currentParams(controller, paramNames) {
     name = paramNames[i];
     value = controller.get(name);
     params[name] = value;
-    if (value) {
-      foundTruthy = true;
+    if (value !== proto[name]) {
+      foundNonDefault = true;
     }
   }
-  if (foundTruthy) {
+  if (foundNonDefault) {
     return params;
   }
 }

@@ -2,24 +2,48 @@ import Ember from "ember";
 
 export default Ember.Component.extend({
   classNames: ['liquid-modal'],
-  clickOutsideToDismiss: true,
-
   currentContext: Ember.computed.oneWay('owner.modalContexts.lastObject'),
 
   innerView: Ember.computed('currentContext', function() {
-    var current = this.get('currentContext'),
+    var self = this,
+        current = this.get('currentContext'),
         name = current.get('name'),
         container = this.get('container'),
         component = container.lookup('component-lookup:main').lookupFactory(name);
     Ember.assert("Tried to render a modal using component '" + name + "', but couldn't find it.", component);
-    return component.extend(current.get('params'));
+
+    var args = Ember.copy(current.get('params'));
+    args.registerMyself = Ember.on('init', function() {
+      self.set('innerViewInstance', this);
+    });
+    return component.extend(args);
   }),
 
   actions: {
-    clickedOutside: function() {
-      if (this.get('clickOutsideToDismiss')) {
-        this.sendAction('dismiss');
+    outsideClick: function() {
+      proxyToInnerInstance(this, 'outsideClick');
+    },
+    escape: function() {
+      proxyToInnerInstance(this, 'escape');
+    },
+    dismiss: function() {
+      var owner = this.get('owner'),
+          proto = owner.constructor.proto(),
+          params = this.get('currentContext.params'),
+          clearThem = {};
+
+      for (var key in params) {
+        clearThem[key] = proto[key];
       }
+      owner.setProperties(clearThem);
     }
   }
 });
+
+
+function proxyToInnerInstance(self, message) {
+  var vi = self.get('innerViewInstance');
+  if (vi) {
+    vi.send(message);
+  }
+}
