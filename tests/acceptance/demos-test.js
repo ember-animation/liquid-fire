@@ -179,3 +179,16 @@ test('interruption demo, late interruption', function() {
     classFound('three');
   });
 });
+
+test('modal demo', function() {
+  visit('/modals');
+  click('#basic-modal-demo button');
+  andThen(function(){
+    equal(Ember.$('.hello-modal').length, 1, "found hello modal");
+    Ember.$('.hello-modal button').click();
+    wait();
+  });
+  andThen(function(){
+    equal(Ember.$('.hello-modal').length, 0, "dismissed hello-modal");
+  });
+});
