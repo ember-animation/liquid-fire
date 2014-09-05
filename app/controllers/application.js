@@ -7,8 +7,11 @@ export default Ember.Controller.extend(ModalControllerMixin, {
   other: null,
   foo: 0,
 
-  testModal: launchModal('test-popup', 'showTestModal'),
-  otherModal: launchModal('other-popup', 'other', 'foo'),
+  testModal: launchModal('test-popup', {
+    withParams: 'showTestModal',
+    dismissWithEscape: false
+  }),
+  otherModal: launchModal('other-popup', { withParams: ['other', 'foo'] }),
 
   tableOfContents: function(){
     return [

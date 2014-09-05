@@ -13,8 +13,8 @@ export var ModalControllerMixin = Ember.Mixin.create({
     this._modalContainer.appendTo('body');
   },
 
-  updateModalContext: function(componentName, paramNames) {
-    var params = currentParams(this, paramNames);
+  updateModalContext: function(componentName, opts) {
+    var params = currentParams(this, opts.withParams);
     var ctxts = this.get('modalContexts');
     var matchingContext = ctxts.find(function(c) { return c.name === componentName; });
     if (!params) {
@@ -24,7 +24,8 @@ export var ModalControllerMixin = Ember.Mixin.create({
     } else {
       var newContext = Ember.Object.create({
         name: componentName,
-        params: params
+        params: params,
+        opts: opts
       });
       if (matchingContext) {
         ctxts.replace(ctxts.indexOf(matchingContext), 1, [newContext]);
@@ -35,13 +36,28 @@ export var ModalControllerMixin = Ember.Mixin.create({
   }
 });
 
-export function launchModal(componentName) {
-  var params = Array.prototype.slice.call(arguments, 1);
+export function launchModal(componentName, opts) {
+  Ember.assert('launchModal("' + componentName + '",...) needs a `withParams` argument', opts && opts.withParams);
+
+  opts = Ember.copy(opts);
+
+  if (!Ember.isArray(opts.withParams)) {
+    opts.withParams = [opts.withParams];
+  }
+
+  if (typeof(opts.dismissWithOutsideClick) === 'undefined') {
+    opts.dismissWithOutsideClick = true;
+  }
+
+  if (typeof(opts.dismissWithEscape) === 'undefined') {
+    opts.dismissWithEscape = true;
+  }
+
   var handler = function() {
-    this.updateModalContext(componentName, params);
+    this.updateModalContext(componentName, opts);
   };
 
-  return Ember.observer.apply(Ember, params.concat(handler));
+  return Ember.observer.apply(Ember, opts.withParams.concat(handler));
 }
 
 function currentParams(controller, paramNames) {

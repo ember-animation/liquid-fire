@@ -21,10 +21,18 @@ export default Ember.Component.extend({
 
   actions: {
     outsideClick: function() {
-      proxyToInnerInstance(this, 'outsideClick');
+      if (this.get('currentContext.opts.dismissWithOutsideClick')) {
+        this.send('dismiss');
+      } else {
+        proxyToInnerInstance(this, 'outsideClick');
+      }
     },
     escape: function() {
-      proxyToInnerInstance(this, 'escape');
+      if (this.get('currentContext.opts.dismissWithEscape')) {
+        this.send('dismiss');
+      } else {
+        proxyToInnerInstance(this, 'escape');
+      }
     },
     dismiss: function() {
       var owner = this.get('owner'),
