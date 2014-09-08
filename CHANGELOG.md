@@ -1,5 +1,13 @@
 # Changelog
 
+### 0.8.2
+
+- Bugfix: fix a regression that causes some directional transitions to
+  collapse padding (#60).
+
+- Bugfix: the liquid-with helper now respects enableGrowth,
+  growDuration, growPixelsPerSecond, and growEasing. 
+
 ### 0.8.1
 
 - Bugfix: my first attempt at resolving issue #53 was wrong, so 0.8.0
