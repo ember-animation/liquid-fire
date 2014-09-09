@@ -3,7 +3,7 @@ import Ember from "ember";
 
 export default LiquidOutlet.extend({
   liquidUpdate: Ember.on('init', Ember.observer('showFirst', function(){
-    var template = this.get((this.get('showFirst') ? 'first' : 'second') + 'Template');
+    var template = this.get('templates')[this.get('showFirst') ? 0 : 1];
     var view = Ember._MetamorphView.create({
       container: this.container,
       template: template,
