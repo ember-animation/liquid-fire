@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.8.4
+
+- Oops, released before pushing upstream. Fixing.
+
 ### 0.8.3
 
 - Enhancement: add `liquid-unless` view to complement `liquid-if`.
