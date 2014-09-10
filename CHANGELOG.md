@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.8.3
+
+- Enhancement: add `liquid-unless` view to complement `liquid-if`.
+
 ### 0.8.2
 
 - Bugfix: fix a regression that causes some directional transitions to
