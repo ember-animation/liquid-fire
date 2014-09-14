@@ -1,50 +1,43 @@
 /* jshint node: true */
 'use strict';
 
-var path = require('path');
-var fs   = require('fs');
-var mergeTrees = require('broccoli-merge-trees');
-var pickFiles = require('broccoli-static-compiler');
+var fs         = require('fs');
+var path       = require('path');
 
-function LiquidFire(project) {
-  this.project = project;
-  this.name    = 'Liquid Fire';
-}
+module.exports = {
+  name: 'Liquid Fire',
 
-function unwatchedTree(dir) {
-  return {
-    read:    function() { return dir; },
-    cleanup: function() { }
-  };
-}
+  init: function() {
+    this.treePaths.app       = 'app-addon';
+    this.treePaths.templates = 'app-addon/templates';
+    this.treePaths.vendor    = 'vendor-addon';
+  },
 
-LiquidFire.prototype.treeFor = function treeFor(name) {
-  var treePath = path.join('node_modules', 'liquid-fire');
+  treeFor: function(name) {
+    this._requireBuildPackages();
 
-  if (name === 'templates') {
-    treePath = path.join(treePath, 'app-addon', 'templates');
-  } else {
-    treePath = path.join(treePath, name + '-addon');
+    var treePath = path.join(this.root, this.treePaths[name]);
+    var tree;
+
+    if (fs.existsSync(treePath)) {
+      tree = this.treeGenerator(treePath);
+
+      if(name === 'vendor') {
+        var velocityPath = path.dirname(require.resolve('velocity-animate'));
+        var velocityTree = this.pickFiles(this.treeGenerator(velocityPath), {
+          srcDir: '/',
+          destDir: 'velocity'
+        });
+
+        tree = this.mergeTrees([tree, velocityTree]);
+      }
+
+      return tree;
+    }
+  },
+
+  included: function(app) {
+    app.import('vendor/velocity/jquery.velocity.js');
+    app.import('vendor/liquid-fire/liquid-fire.css');
   }
-
-  var addon;
-
-  if (fs.existsSync(treePath)) {
-    addon = unwatchedTree(treePath);
-  }
-
-  if (name === 'vendor') {
-    var src = unwatchedTree(path.dirname(require.resolve('velocity-animate')));
-    addon = mergeTrees([addon, pickFiles(src, {srcDir: '/', destDir: 'velocity'})]);
-  }
-
-  return addon;
 };
-
-LiquidFire.prototype.included = function included(app) {
-  this.app = app;
-  this.app.import('vendor/velocity/jquery.velocity.js');
-  this.app.import('vendor/liquid-fire/liquid-fire.css');
-};
-
-module.exports = LiquidFire;
