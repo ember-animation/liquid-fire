@@ -25,7 +25,9 @@ export default function moveOver(oldView, insertNewView, dimension, direction, o
 
   return firstStep.then(insertNewView).then(function(newView){
     if (newView && newView.$() && oldView && oldView.$()) {
-      var bigger = Math.max.apply(null, [newView.$()[measure](), oldView.$()[measure]()]);
+      var sizes = [parseInt(newView.$().css(measure), 10),
+                   parseInt(oldView.$().css(measure), 10)];
+      var bigger = Math.max.apply(null, sizes);
       oldParams[property] = (bigger * direction) + 'px';
       newParams[property] = ["0px", (-1 * bigger * direction) + 'px'];
     } else {

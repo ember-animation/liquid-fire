@@ -1,7 +1,7 @@
 {
   "name": "liquid-fire",
   "description": "Animated transitions for Ember applications.",
-  "version": "0.8.1",
+  "version": "0.8.4",
   "directories": {
     "doc": "doc",
     "test": "test"
@@ -26,8 +26,6 @@
   "author": "Edward Faulkner <ef@alum.mit.edu>",
   "license": "MIT",
   "dependencies": {
-    "broccoli-merge-trees": "^0.1.4",
-    "broccoli-static-compiler": "^0.1.4",
     "velocity-animate": "^0.11.8"
   },
   "devDependencies": {
@@ -38,7 +36,9 @@
     "broccoli-es6-concatenator": "^0.1.7",
     "broccoli-file-mover": "^0.4.0",
     "broccoli-filter": "^0.1.6",
+    "broccoli-merge-trees": "^0.1.4",
     "broccoli-sass": "^0.2.1",
+    "broccoli-static-compiler": "^0.1.4",
     "broccoli-writer": "^0.1.1",
     "commander": "^2.3.0",
     "ember-cli": "0.0.42",
