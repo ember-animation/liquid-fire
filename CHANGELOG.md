@@ -1,5 +1,10 @@
 # Changelog
 
+### 0.9.1
+
+- Patch release: 0.9.0 was only compatible with ember-cli 0.0.44. This
+  restores backward compatibility for other recent versions of ember-cli.
+
 ### 0.9.0
 
 - Enhancement: [modal dialogs](http://ef4.github.io/liquid-fire/#/modals).
