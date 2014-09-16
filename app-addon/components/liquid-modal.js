@@ -35,15 +35,15 @@ export default Ember.Component.extend({
       }
     },
     dismiss: function() {
-      var owner = this.get('owner'),
-          proto = owner.constructor.proto(),
+      var source = this.get('currentContext.source'),
+          proto = source.constructor.proto(),
           params = this.get('currentContext.params'),
           clearThem = {};
 
       for (var key in params) {
         clearThem[key] = proto[key];
       }
-      owner.setProperties(clearThem);
+      source.setProperties(clearThem);
     }
   }
 });
