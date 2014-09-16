@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.9.2
+
+- Bugfix: restore ES3 compatibility (#67).
+
 ### 0.9.1
 
 - Patch release: 0.9.0 was only compatible with ember-cli 0.0.44. This
