@@ -17,7 +17,6 @@ export default Ember.Object.extend({
 
   update: Ember.observer('controller', Ember.on('init', function() {
     var name = get(this, 'name');
-    console.log("updating modal " + name);
     var context = this.makeContext();
     var activeContexts = get(this, 'modals.modalContexts');
     var matchingContext = activeContexts.find(function(c){ return get(c, 'name') === name; });
