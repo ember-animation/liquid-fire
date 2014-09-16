@@ -3,6 +3,7 @@
 
 var fs         = require('fs');
 var path       = require('path');
+var es3SafeRecast = require('broccoli-es3-safe-recast');
 
 module.exports = {
   name: 'Liquid Fire',
@@ -30,7 +31,7 @@ module.exports = {
           destDir: 'velocity'
         });
 
-        tree = this.mergeTrees([tree, velocityTree]);
+        tree = this.mergeTrees([es3SafeRecast(tree), velocityTree]);
       }
 
       return tree;
