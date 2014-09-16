@@ -1,22 +1,8 @@
 import Ember from "ember";
-// BEGIN-SNIPPET modal-setup
-import { ModalControllerMixin, launchModal } from "vendor/liquid-fire";
 
-export default Ember.Controller.extend(ModalControllerMixin, {
-  // Define one or more query params.
+export default Ember.Controller.extend({
   queryParams: ['hello'],
-
-  // Set default values for them as desired.
   hello: null,
-
-  // Bind the params to your modal component. `withParams` is required
-  // and may also be a list. Whenever any withParams have non-default
-  // values, the modal will render.
-  helloModal: launchModal('hello-modal', {
-    withParams: 'hello',
-    ariaLabel: 'Welcome Message'
-  }),
-  // END-SNIPPET
 
   tableOfContents: function(){
     return [
