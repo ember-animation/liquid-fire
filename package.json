@@ -26,6 +26,7 @@
   "author": "Edward Faulkner <ef@alum.mit.edu>",
   "license": "MIT",
   "dependencies": {
+    "broccoli-es3-safe-recast": "^1.0.0",
     "broccoli-merge-trees": "^0.1.4",
     "broccoli-static-compiler": "^0.1.4",
     "velocity-animate": "^0.11.8"

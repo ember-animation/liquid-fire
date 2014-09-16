@@ -2,6 +2,7 @@
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var mergeTrees = require('broccoli-merge-trees');
 var pickFiles = require('broccoli-static-compiler');
+var es3SafeRecast = require('broccoli-es3-safe-recast');
 
 var velocity = pickFiles('node_modules/velocity-animate', {
   srcDir: '/',
@@ -17,7 +18,7 @@ var sinon = pickFiles('node_modules/sinon/pkg', {
 
 var appTree = mergeTrees(['app-addon', 'app'], { overwrite: true });
 var templateTree = mergeTrees(['app-addon/templates', 'app/templates'], { overwrite: true });
-var vendorTree = mergeTrees([velocity, sinon, 'vendor-addon', 'vendor']);
+var vendorTree = mergeTrees([velocity, sinon, es3SafeRecast('vendor-addon'), 'vendor']);
 
 var app = new EmberApp({
   trees: {

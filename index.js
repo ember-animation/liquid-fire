@@ -5,6 +5,7 @@ var path = require('path');
 var fs   = require('fs');
 var mergeTrees = require('broccoli-merge-trees');
 var pickFiles = require('broccoli-static-compiler');
+var es3SafeRecast = require('broccoli-es3-safe-recast');
 
 function LiquidFire(project) {
   this.project = project;
@@ -34,6 +35,7 @@ LiquidFire.prototype.treeFor = function treeFor(name) {
   }
 
   if (name === 'vendor') {
+    addon = es3SafeRecast(addon);
     var src = unwatchedTree(path.dirname(require.resolve('velocity-animate')));
     addon = mergeTrees([addon, pickFiles(src, {srcDir: '/', destDir: 'velocity'})]);
   }
