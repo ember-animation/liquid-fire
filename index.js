@@ -11,6 +11,7 @@ module.exports = {
     this.treePaths.app       = 'app-addon';
     this.treePaths.templates = 'app-addon/templates';
     this.treePaths.vendor    = 'vendor-addon';
+    makeBackwardCompatible(this);
   },
 
   treeFor: function(name) {
@@ -41,3 +42,25 @@ module.exports = {
     app.import('vendor/liquid-fire/liquid-fire.css');
   }
 };
+
+
+function makeBackwardCompatible(module) {
+  module.root = module.root || 'node_modules/liquid-fire';
+
+  if (!module.treeGenerator) {
+    module.treeGenerator = function(dir) {
+      return {
+        read:    function() { return dir; },
+        cleanup: function() { }
+      };
+    };
+  }
+
+  if (!module._requireBuildPackages) {
+    module._requireBuildPackages = function(){
+      this.pickFiles = require('broccoli-static-compiler');
+      this.mergeTrees = require("broccoli-merge-trees");
+    };
+  }
+
+}
