@@ -49,7 +49,7 @@ export default Ember.Object.extend({
     var container = this.get('container');
     var Component = container.lookup('component-lookup:main').lookupFactory('liquid-modal');
     this._modalContainer = Component.create({owner: this});
-    this._modalContainer.appendTo('body');
+    this._modalContainer.appendTo(container.lookup('application:main').rootElement);
   }
 
 });

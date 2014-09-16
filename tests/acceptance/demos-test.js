@@ -184,11 +184,32 @@ test('modal demo', function() {
   visit('/modals');
   click('#basic-modal-demo button');
   andThen(function(){
-    equal(Ember.$('.hello-modal').length, 1, "found hello modal");
-    Ember.$('.hello-modal button').click();
-    wait();
+    findWithAssert('.hello-modal');
+    click('.hello-modal button');
   });
   andThen(function(){
-    equal(Ember.$('.hello-modal').length, 0, "dismissed hello-modal");
+    equal(find('.hello-modal').length, 0, "dismissed hello-modal");
+  });
+});
+
+test('warn-popup - dismiss with overlay', function() {
+  visit('/modals?warn=1');
+  andThen(function(){
+    findWithAssert('#warn-popup');
+    click('.lf-overlay');
+  });
+  andThen(function(){
+    equal(find('#warn-popup').length, 0, "dismissed popup");
+  });
+});
+
+test('warn-popup - dismiss with url', function() {
+  visit('/modals?warn=1');
+  andThen(function(){
+    findWithAssert('#warn-popup');
+    visit('/');
+  });
+  andThen(function(){
+    equal(find('#warn-popup').length, 0, "dismissed popup");
   });
 });
