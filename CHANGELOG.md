@@ -1,5 +1,11 @@
 # Changelog
 
+### 0.9.0
+
+- Enhancement: [modal dialogs](http://ef4.github.io/liquid-fire/#/modals).
+
+- Updated to the newest ember-addon API. Thanks @jakecraige.
+
 ### 0.8.4
 
 - Oops, released before pushing upstream. Fixing.

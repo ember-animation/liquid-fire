@@ -1,7 +1,7 @@
 {
   "name": "liquid-fire",
   "description": "Animated transitions for Ember applications.",
-  "version": "0.8.4",
+  "version": "0.9.0",
   "directories": {
     "doc": "doc",
     "test": "test"
