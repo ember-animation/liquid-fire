@@ -10,7 +10,8 @@ export default Ember.Object.extend({
 
     var modalConfigs = this.container.lookup('router:main').router.modals;
     if (modalConfigs && modalConfigs.length > 0) {
-      modalConfigs.forEach(this.registerModal.bind(this));
+      var self = this;
+      modalConfigs.forEach(function(m){ self.registerModal(m); });
     }
 
     Ember.run.schedule('afterRender', this, 'appendModalContainer');
