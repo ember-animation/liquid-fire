@@ -1,17 +1,32 @@
 <h2>Modal Dialogs</h2>
 
-<p>{{#link-to (query-params hello="Tomster")}}Modal dialogs{{/link-to}} are a natural fit for
-Ember's <a href="http://emberjs.com/guides/routing/query-params/">query
-parameters</a>. queryParams can encapsulate state that doesn't
-necessarily belong within a single place in the route hierarchy.</p>
-
-<p>Since modals don't necessarily live <em>inside</em> any other view,
+<p>Since  {{#link-to (query-params person="Tomster"
+salutation="Hi")}}modals{{/link-to}} don't necessarily live <em>inside</em> any other view,
 they don't belong inside your other templates and so we don't offer a
 template helper for creating them. Instead, we offer conventions for
-defining your modals as Ember components and tying them to query
-params.</p>
+defining your modals as Ember components and tying them to properties
+on your controllers.</p>
 
-<p>Modal dialog basics:</p>
+<p>A modal dialog is controlled by two key things: the scope in which
+it's valid, and the list of parameters it observes.</p>
+
+{{code-snippet name="sample-modal-routes.js"}}
+
+<p>Modal dialogs can be scoped to any part of your
+application. {{#link-to (query-params person="Tomhuda Katzdale"
+salutation="Hola")}}This one{{/link-to}} is scoped within the "Modal
+Dialogs" resource you're currently viewing, including all its child
+routes. {{#link-to (query-params warn=1)}}But this one{{/link-to}} is
+scoped to the whole application. You can experiment with the
+difference by changing the URL.</p>
+
+<p>In both of the demo popups from the preceeding paragraph, I'm
+exposing the controller properties as <code>queryParams</code>. This
+is a generally good thing to do, because it makes your modal state
+part of the URL, and lets people dismiss the popup with the back
+button. But this is optional.</p>
+
+<h3>Modal dialog basics</h3>
 
 <ol>
   <li>Create an Ember component the usual way. For example, here
@@ -22,20 +37,20 @@ params.</p>
     And <code>app/components/hello-modal.js</code>:
     {{code-snippet name="hello-modal.js"}}
 
-  <li>Add the <code>ModalControllerMixin</code> to your application
-  controller and bind one or more query params to your modal
-  component:
+  <li>Call {{#link-to "modal-documentation.modal"}}modal(){{/link-to}}
+  within your router map, at whichever scope you choose:
 
-    {{code-snippet name="modal-setup.js"}}
+    {{code-snippet name="hello-modal-map.js"}}
 
-  <li>You can launch your modal by setting the relevant query
-  param(s), either via a transition or by directly setting the value
-  on your controller:
+  <li>You can launch your modal by setting the relevant properties on
+  your controller. If the properties are also query params, you can just <code>link-to</code>:
 
     {{code-snippet name="hello-tomster.hbs"}}
     <div id="basic-modal-demo">
     {{!- BEGIN-SNIPPET hello-tomster -}}
-    {{#link-to (query-params hello="Tomster") tagName="button"}}Try It{{/link-to}}
+    {{#link-to (query-params salutation="Guten tag" person="Stef") tagName="button"}}
+      Try It
+    {{/link-to}}
     {{!- END-SNIPPET }}
     </div>
 </ol>

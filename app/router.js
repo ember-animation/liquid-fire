@@ -36,9 +36,19 @@ Router.map(function() {
   });
 
   this.resource("modal-documentation", { path: 'modals'}, function(){
-    this.route('modal-controller-mixin');
-    this.route('launch-modal');
+    this.route('modal');
     this.route('component');
+
+    // BEGIN-SNIPPET hello-modal-map
+    this.modal('hello-modal', {
+      withParams: ['salutation', 'person']
+    });
+    // END-SNIPPET
+
+  });
+
+  this.modal('warning-popup', {
+    withParams: 'warn'
   });
 
   /* Test Scenarios */
@@ -47,7 +57,6 @@ Router.map(function() {
     this.route('inline');
     this.route('inline-serial');
     this.route('empty-if');
-    this.route('modal');
     this.route('growable-with');
   });
 

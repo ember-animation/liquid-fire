@@ -21,14 +21,14 @@ export default Ember.Component.extend({
 
   actions: {
     outsideClick: function() {
-      if (this.get('currentContext.opts.dismissWithOutsideClick')) {
+      if (this.get('currentContext.options.dismissWithOutsideClick')) {
         this.send('dismiss');
       } else {
         proxyToInnerInstance(this, 'outsideClick');
       }
     },
     escape: function() {
-      if (this.get('currentContext.opts.dismissWithEscape')) {
+      if (this.get('currentContext.options.dismissWithEscape')) {
         this.send('dismiss');
       } else {
         proxyToInnerInstance(this, 'escape');

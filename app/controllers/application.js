@@ -1,8 +1,8 @@
 import Ember from "ember";
 
 export default Ember.Controller.extend({
-  queryParams: ['hello'],
-  hello: null,
+  queryParams: ['warn'],
+  warn: 0,
 
   tableOfContents: function(){
     return [
@@ -32,8 +32,7 @@ export default Ember.Controller.extend({
       },
       { route: 'modal-documentation', title: 'Modal Dialogs',
         children: [
-          {route: 'modal-documentation.modal-controller-mixin', title: 'ModalControllerMixin'},
-          {route: 'modal-documentation.launch-modal', title: 'launchModal'},
+          {route: 'modal-documentation.modal', title: 'modal()'},
           {route: 'modal-documentation.component', title: 'Modal Components'}
         ]
       }
