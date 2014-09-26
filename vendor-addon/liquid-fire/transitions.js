@@ -27,7 +27,7 @@ Transitions.prototype = {
   transitionFor: function(parentView, oldView, newContent, use) {
     var handler, args;
     // "use" matches any transition *except* the initial render
-    if (use && oldView) {
+    if (use && (oldView || parentView.get('animateFromEmpty'))) {
       handler = this.lookup(use);
     } else {
       var key = this.match(parentView, oldView, newContent);

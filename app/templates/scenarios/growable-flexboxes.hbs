@@ -7,15 +7,15 @@
   </div>
 
   <div {{bind-attr class=":flex-parent flexEnabled"}}>
-    {{#liquid-if showOne use="cross-fade"}}
+    {{#liquid-if showOne use="flex-grow"}}
       <div class="payload">One</div>
     {{/liquid-if}}
 
-    {{#liquid-if showTwo use="cross-fade"}}
+    {{#liquid-if showTwo use="flex-grow"}}
       <div class="payload">Two</div>
     {{/liquid-if}}
 
-    {{#liquid-if showThree use="cross-fade"}}
+    {{#liquid-if showThree use="flex-grow"}}
       <div class="payload">Three</div>
     {{/liquid-if}}
   </div>
