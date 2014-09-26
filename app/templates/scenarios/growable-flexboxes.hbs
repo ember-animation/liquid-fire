@@ -1,0 +1,22 @@
+<div id="growable-flexboxes-scenario" {{bind-attr class="flexEnabled"}}>
+  <label>{{input type="checkbox" checked=flexEnabled}}Enable Flex</label>
+  <div>
+    <label>{{input type="checkbox" checked=showOne}}One</label>
+    <label>{{input type="checkbox" checked=showTwo}}Two</label>
+    <label>{{input type="checkbox" checked=showThree}}Three</label>
+  </div>
+
+  <div {{bind-attr class=":flex-parent flexEnabled"}}>
+    {{#liquid-if showOne use="cross-fade"}}
+      <div class="payload">One</div>
+    {{/liquid-if}}
+
+    {{#liquid-if showTwo use="cross-fade"}}
+      <div class="payload">Two</div>
+    {{/liquid-if}}
+
+    {{#liquid-if showThree use="cross-fade"}}
+      <div class="payload">Three</div>
+    {{/liquid-if}}
+  </div>
+</div>
