@@ -17,6 +17,13 @@
   `use` has been updated to animate even when `oldView` is
   absent. Instead it checks explicitly for the initial render case.
 
+- FEATURE: added a `containerless` option to the helpers. If set, we
+  don't render a `.liquid-container` element and we don't manage
+  `position`, `width`, or `height` for the child elements. This can be
+  useful when the user wants to manage their own container
+  differently. For example, see this
+  [flexbox-based demo](http://ef4.github.io/liquid-fire/#/scenarios/growable-flexboxes). 
+
 ### 0.9.2
 
 - Bugfix: restore ES3 compatibility (#67).

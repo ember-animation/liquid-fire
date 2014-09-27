@@ -17,7 +17,7 @@
 }
 
 #growable-flexboxes-scenario {
-    .payload {
+    .liquid-child {
         border: 1px solid blue;
         min-height: 6em;
         text-align: center;
@@ -25,9 +25,5 @@
 
     .flex-parent {
         display: flex;
-    }
-
-    .flex-enabled > div {
-        flex: 1;
     }
 }

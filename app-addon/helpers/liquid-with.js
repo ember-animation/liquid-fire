@@ -27,7 +27,8 @@ export default function liquidWithHelper() {
     'growDuration',
     'growPixelsPerSecond',
     'growEasing',
-    'enableGrowth'
+    'enableGrowth',
+    'containerless'
   ].forEach(function(field){
     if (options.hash.hasOwnProperty(field)) {
       innerOptions.hash[field] = options.hash[field];

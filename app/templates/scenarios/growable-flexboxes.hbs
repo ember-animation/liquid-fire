@@ -1,22 +1,27 @@
-<div id="growable-flexboxes-scenario" {{bind-attr class="flexEnabled"}}>
-  <label>{{input type="checkbox" checked=flexEnabled}}Enable Flex</label>
+<div id="growable-flexboxes-scenario">
+  <p>This demonstrates a way to animate elements dynamically adapting
+  themselves via CSS3's flexible box model. It uses
+  the <code>containerless</code> flag to tell liquid-fire not to try
+  managing the container for the elements, so that we can instead
+  contain them direcltly in a div with `display:flex`.</p>
+
   <div>
     <label>{{input type="checkbox" checked=showOne}}One</label>
     <label>{{input type="checkbox" checked=showTwo}}Two</label>
     <label>{{input type="checkbox" checked=showThree}}Three</label>
   </div>
 
-  <div {{bind-attr class=":flex-parent flexEnabled"}}>
-    {{#liquid-if showOne use="cross-fade"}}
-      <div class="payload">One</div>
+  <div class="flex-parent">
+    {{#liquid-if showOne use="flex-grow" containerless=true }}
+      One
     {{/liquid-if}}
 
-    {{#liquid-if showTwo use="cross-fade"}}
-      <div class="payload">Two</div>
+    {{#liquid-if showTwo use="flex-grow" containerless=true }}
+      Two
     {{/liquid-if}}
 
-    {{#liquid-if showThree use="cross-fade"}}
-      <div class="payload">Three</div>
+    {{#liquid-if showThree use="flex-grow" containerless=true }}
+      Three
     {{/liquid-if}}
   </div>
 </div>

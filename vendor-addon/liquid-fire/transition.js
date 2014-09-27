@@ -39,15 +39,20 @@ Transition.prototype = {
     var self = this,
         animation = this.animation,
         inserter = function(){
-          self.parentView.cacheSize();
-          goAbsolute(self.oldView);
+          var contained = !self.parentView.get('containerless');
+          if (contained) {
+            self.parentView.cacheSize();
+            goAbsolute(self.oldView);
+          }
           return self._insertNewView().then(function(newView){
             if (!newView) { return; }
             newView.$().show();
-            // Measure newView size before parentView sets an explicit size.
-            var size = getSize(newView);
-            self.parentView.adaptSize();
-            goAbsolute(newView, size);
+            if (contained){
+              // Measure newView size before parentView sets an explicit size.
+              var size = getSize(newView);
+              self.parentView.adaptSize();
+              goAbsolute(newView, size);
+            }
             return self.newView = newView;
           });
         },
