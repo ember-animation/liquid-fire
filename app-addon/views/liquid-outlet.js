@@ -34,7 +34,13 @@ export default Ember.ContainerView.extend({
     // them to start heading for the exits now.
 
     var oldView = this.get('childViews.lastObject'),
-        newView = this.get('currentView');
+        newView = this.get('currentView'),
+        firstTime;
+
+    // For the convenience of the transition rules, we explicitly
+    // track our first transition, which happens at initial render.
+    firstTime = !this._hasTransitioned;
+    this._hasTransitioned = true;
 
     // Idempotence
     if ((!oldView && !newView) ||
@@ -48,7 +54,7 @@ export default Ember.ContainerView.extend({
 
     // `transitions` comes from dependency injection, see the
     // liquid-fire app initializer.
-    var transition = this.get('transitions').transitionFor(this, oldView, newView, this.get('use'));
+    var transition = this.get('transitions').transitionFor(this, oldView, newView, this.get('use'), firstTime);
 
     if (this._runningTransition) {
       this._runningTransition.interrupt();

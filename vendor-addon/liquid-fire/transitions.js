@@ -24,10 +24,10 @@ Transitions.prototype = {
     return handler;
   },
 
-  transitionFor: function(parentView, oldView, newContent, use) {
+  transitionFor: function(parentView, oldView, newContent, use, firstTime) {
     var handler, args;
     // "use" matches any transition *except* the initial render
-    if (use && oldView) {
+    if (use && !firstTime) {
       handler = this.lookup(use);
     } else {
       var key = this.match(parentView, oldView, newContent);
