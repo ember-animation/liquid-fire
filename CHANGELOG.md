@@ -8,6 +8,15 @@
   fact that an absent oldView could only happen at initial render,
   because now it can be absent at other times.
 
+- CHANGE: `use` is a shorthand for when you just want to specify a
+  transition to always run. But since we offer the option of animating
+  at initial render, and since we think that's the less-common case,
+  `use` has always refused to match transitions with an absent
+  `oldView`. But due to the previously mentioned change, absent
+  `oldView` can now happen at times other than initial render, so
+  `use` has been updated to animate even when `oldView` is
+  absent. Instead it checks explicitly for the initial render case.
+
 ### 0.9.2
 
 - Bugfix: restore ES3 compatibility (#67).
