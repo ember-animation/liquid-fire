@@ -4,6 +4,10 @@ import Ember from "ember";
 export default LiquidOutlet.extend({
   liquidUpdate: Ember.on('init', Ember.observer('showFirst', function(){
     var template = this.get('templates')[this.get('showFirst') ? 0 : 1];
+    if (!template || template === Ember.Handlebars.VM.noop) {
+      this.set('currentView', null);
+      return;
+    }
     var view = Ember._MetamorphView.create({
       container: this.container,
       template: template,

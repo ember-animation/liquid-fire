@@ -1,5 +1,13 @@
 # Changelog
 
+### master
+
+- CHANGE: `liquid-outlet`, `liquid-if`, and `liquid-with` no longer
+  insert a liquid-child element when they are empty. This may subtly
+  change your transition matching rules if you were relying on the
+  fact that an absent oldView could only happen at initial render,
+  because now it can be absent at other times.
+
 ### 0.9.2
 
 - Bugfix: restore ES3 compatibility (#67).

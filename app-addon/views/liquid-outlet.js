@@ -75,6 +75,9 @@ export default Ember.ContainerView.extend({
   },
 
   _pushNewView: function(newView) {
+    if (!newView) {
+      return Promise.cast();
+    }
     var child = this._liquidChildFor(newView),
         promise = new Promise(function(resolve) {
           child._resolveInsertion = resolve;
