@@ -39,3 +39,10 @@ Router.reopenClass({
     return output;
   }
 });
+
+Router.reopen({
+  startRouting: function() {
+    this._super();
+    this.container.lookup('liquid-modals:main');
+  }
+});

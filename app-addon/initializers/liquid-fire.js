@@ -1,4 +1,4 @@
-import { initialize, activateModals } from "vendor/liquid-fire";
+import { initialize } from "vendor/liquid-fire";
 import Ember from "ember";
 
 export default {
@@ -16,7 +16,6 @@ export default {
     }
 
     initialize(container, container.lookupFactory('transitions:main'));
-    activateModals(container);
 
     if (Ember.testing) {
       Ember.Test.registerWaiter(function(){
