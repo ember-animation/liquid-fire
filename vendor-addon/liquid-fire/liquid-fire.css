@@ -11,12 +11,6 @@
     transform: translateY(0);
 }
 
-.liquid-modal .liquid-container {
-    position: static;
-    -webkit-transform: none;
-    transform: none;
-}
-
 .lm-container {
     overflow: hidden;
     display: flex;
