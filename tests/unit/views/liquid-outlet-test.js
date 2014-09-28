@@ -174,3 +174,17 @@ test("outlet should support directly specifying a transition to use", function()
   ok(fooCalled, "foo transition was used during subsequent render");
 
 });
+
+test("liquid-outlet should respect containerless", function() {
+  makeView({
+    template: '{{liquid-outlet containerless=true}}'
+  });
+  run(function() {
+    view().connectOutlet('main', Ember.View.create({
+      template: compile("<p>FIRST</p>")
+    }));
+  });
+  appendView(view());
+  equal($('#qunit-fixture .liquid-child').length, 1, "Has liquid child");
+  equal($('#qunit-fixture .liquid-container').length, 0, "Doesn't have liquid container");
+});

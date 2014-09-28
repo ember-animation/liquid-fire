@@ -13,7 +13,7 @@ var makeModuleFor = moduleMaker("helper:liquid-with", {
 });
 
 makeModuleFor("Handlebars {{#liquid-with}} helper", {
-  template: "{{#with person as tom}}{{title}}: {{tom.name}}{{/with}}",
+  template: "{{#liquid-with person as tom}}{{title}}: {{tom.name}}{{/liquid-with}}",
   context: {
     title: "Señor Engineer",
     person: { name: "Tom Dale" }
@@ -405,4 +405,16 @@ makeModuleFor("{{#liquid-with}} class binding", {
 
 test("{{liquid-with}} helper can bind classes", function(){
   equal(view().$('.liquid-container.magical').length, 1, "matches class selector");
+});
+
+makeModuleFor("{{#liquid-with}} containerless", {
+  template: "{{#liquid-with person containerless=true}}{{name}}{{/liquid-with}}",
+  context: {
+    person: { name: "Tom Dale" }
+  }
+});
+
+test("is containerless", function(){
+  equal(Ember.$('#qunit-fixture .liquid-child').length, 1, "has liquid-child");
+  equal(Ember.$('#qunit-fixture .liquid-container').length, 0, "doesn't have liquid-container");
 });

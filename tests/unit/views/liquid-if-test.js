@@ -57,3 +57,15 @@ test("it should update dynamic class name", function() {
   });
   equal(view().$('.liquid-container.red').length, 1, "found dynamic class");
 });
+
+makeModuleFor("{{liquid-if}} containerless", {
+  template: "{{#liquid-if person containerless=true}}{{person.name}}{{/liquid-if}}",
+  context: {
+    person: { name: "Tom Dale" }
+  }
+});
+
+test("is containerless", function(){
+  equal(Ember.$('#qunit-fixture .liquid-child').length, 1, "has liquid-child");
+  equal(Ember.$('#qunit-fixture .liquid-container').length, 0, "doesn't have liquid-container");
+});

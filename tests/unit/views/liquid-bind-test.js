@@ -68,3 +68,15 @@ test("it should pass through the 'use' option to the underlying liquid-outlet", 
   });
   ok(this.fooCalled, "foo transition was used without looking up transition map");
 });
+
+makeModuleFor("{{liquid-bind}} containerless", {
+  template: "{{liquid-bind person.name containerless=true}}",
+  context: {
+    person: { name: "Tom Dale" }
+  }
+});
+
+test("is containerless", function(){
+  equal(Ember.$('#qunit-fixture .liquid-child').length, 1, "has liquid-child");
+  equal(Ember.$('#qunit-fixture .liquid-container').length, 0, "doesn't have liquid-container");
+});
