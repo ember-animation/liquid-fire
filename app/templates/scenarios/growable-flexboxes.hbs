@@ -1,11 +1,12 @@
 <div id="growable-flexboxes-scenario">
-  <p>This demonstrates a way to animate elements dynamically adapting
-  themselves via CSS3's flexible box model. It uses
-  the <code>containerless</code> flag to tell liquid-fire not to try
-  managing the container for the elements, so that we can instead
-  contain them direcltly in a div with `display:flex`.</p>
-
+  <p>This demonstrates a way to combine animation and CSS3's flexible
+  box model. It uses the <code>containerless</code> flag to tell
+  liquid-fire not to try managing the container for the elements, so
+  that we can instead contain them direcltly in a div with
+  `display:flex`.</p>
+  {{!- BEGIN-SNIPPET flexboxes -}}
   <div>
+    Choose some of these:
     <label>{{input type="checkbox" checked=showOne}}One</label>
     <label>{{input type="checkbox" checked=showTwo}}Two</label>
     <label>{{input type="checkbox" checked=showThree}}Three</label>
@@ -24,4 +25,6 @@
       Three
     {{/liquid-if}}
   </div>
+  {{!- END-SNIPPET}}
+  {{code-snippet name="flexboxes.hbs"}}
 </div>
