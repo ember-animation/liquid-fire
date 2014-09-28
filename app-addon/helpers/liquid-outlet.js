@@ -5,6 +5,11 @@ export default function liquidOutletHelper(property, options) {
     options = property;
     property = 'main';
   }
-  options.hash.view = 'liquid-outlet';
+
+  var View = options.data.view.container.lookupFactory('view:liquid-outlet');
+  if (options.hash.containerless) {
+    View = View.extend(Ember._Metamorph);
+  }
+  options.hash.viewClass = View;
   return Ember.Handlebars.helpers.outlet.call(this, property, options);
 }

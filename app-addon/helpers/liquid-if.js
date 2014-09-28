@@ -11,6 +11,10 @@ export function factory(invert) {
     delete options.fn;
     delete options.inverse;
 
+    if (options.hash.containerless) {
+      View = View.extend(Ember._Metamorph);
+    }
+
     options.hash.templates = templates;
     options.hash.showFirstBinding = property;
     return Ember.Handlebars.helpers.view.call(this, View, options);

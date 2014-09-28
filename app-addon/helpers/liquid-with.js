@@ -16,6 +16,11 @@ export default function liquidWithHelper() {
     originalHashTypes: options.hashTypes,
     innerTemplate: options.fn
   });
+
+  if (options.hash.containerless) {
+    View = View.extend(Ember._Metamorph);
+  }
+
   innerOptions.hash.boundContextBinding = context;
 
   [

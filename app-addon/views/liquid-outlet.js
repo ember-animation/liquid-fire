@@ -16,13 +16,6 @@ export default Ember.ContainerView.extend({
     // transition.
     this._super();
     Ember.A(this._childViews).clear();
-    if (this.get('containerless')) {
-      this.setProperties({
-        isVirtual: true,
-        tagName: '',
-        enableGrowth: false
-      });
-    }
   },
 
   // Deliberately overriding a private method from
