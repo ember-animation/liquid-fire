@@ -1,12 +1,13 @@
 import Ember from "ember";
 import Modal from "./modal";
 
-export default Ember.Object.extend({
+export default Ember.Controller.extend({
+  needs: ['application'],
+
   setup: Ember.on('init', function() {
 
     this.set('modalContexts', Ember.A());
     this.set('modals', Ember.A());
-    this.set('appController', this.container.lookup('controller:application'));
 
     var modalConfigs = this.container.lookup('router:main').router.modals;
     if (modalConfigs && modalConfigs.length > 0) {
@@ -31,7 +32,7 @@ export default Ember.Object.extend({
     );
   },
 
-  currentRoute: Ember.computed.alias('appController.currentRouteName'),
+  currentRoute: Ember.computed.alias('controllers.application.currentRouteName'),
 
   activeRouteNames: Ember.computed('currentRoute', function() {
     var infos = this.container.lookup('router:main').router.currentHandlerInfos;
