@@ -41,6 +41,10 @@ module.exports = {
   included: function(app) {
     app.import('vendor/velocity/jquery.velocity.js');
     app.import('vendor/liquid-fire/liquid-fire.css');
+  },
+
+  config: function() {
+    // prevent `config/environment.js` from being used
   }
 };
 
