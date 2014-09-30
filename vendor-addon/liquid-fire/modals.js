@@ -13,7 +13,7 @@ export default Ember.Controller.extend({
     if (modalConfigs && modalConfigs.length > 0) {
       var self = this;
       modalConfigs.forEach(function(m){ self.registerModal(m); });
-      Ember.run.schedule('afterRender', this, 'appendModalContainer');
+      this.appendModalContainer();
     }
   }),
 

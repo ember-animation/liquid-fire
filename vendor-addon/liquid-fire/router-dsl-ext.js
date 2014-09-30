@@ -43,6 +43,8 @@ Router.reopenClass({
 Router.reopen({
   startRouting: function() {
     this._super();
-    this.container.lookup('liquid-modals:main');
+    Ember.run.schedule('afterRender', this, function(){
+      this.container.lookup('liquid-modals:main');
+    });
   }
 });
