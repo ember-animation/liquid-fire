@@ -1,5 +1,13 @@
 # Changelog
 
+### master
+
+- CHANGE: modals are now opt-in. You turn them on in your application
+  by inserting a `{{liquid-modal}}` tag in your application
+  template. This avoids us doing non-standard things that make the
+  load order fragile and break the Ember inspector.
+
+
 ### 0.10.0
 
 - CHANGE: `liquid-outlet`, `liquid-if`, and `liquid-with` no longer
