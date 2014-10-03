@@ -13,7 +13,6 @@ export default Ember.Controller.extend({
     if (modalConfigs && modalConfigs.length > 0) {
       var self = this;
       modalConfigs.forEach(function(m){ self.registerModal(m); });
-      this.appendModalContainer();
     }
   }),
 
@@ -41,16 +40,6 @@ export default Ember.Controller.extend({
     } else {
       return [];
     }
-  }),
-
-  appendModalContainer: function() {
-    if (this._modalContainer) {
-      return;
-    }
-    var container = this.get('container');
-    var Component = container.lookup('component-lookup:main').lookupFactory('liquid-modal');
-    this._modalContainer = Component.create({owner: this});
-    this._modalContainer.appendTo(container.lookup('application:main').rootElement);
-  }
+  })
 
 });

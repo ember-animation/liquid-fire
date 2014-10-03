@@ -4,6 +4,10 @@ export default Ember.Component.extend({
   classNames: ['liquid-modal'],
   currentContext: Ember.computed.oneWay('owner.modalContexts.lastObject'),
 
+  owner: Ember.computed('container', function(){
+    return this.get('container').lookup('liquid-modals:main');
+  }),
+
   innerView: Ember.computed('currentContext', function() {
     var self = this,
         current = this.get('currentContext'),
