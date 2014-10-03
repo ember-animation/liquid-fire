@@ -59,6 +59,13 @@ Router.map(function() {
     this.route('empty-if');
     this.route('growable-with');
     this.route('growable-flexboxes');
+    this.route('nested-outlets', function(){
+      this.route('middle', function(){
+        this.route('inner');
+        this.route('inner2');
+      });
+      this.route('middle2');
+    });
   });
 
 });

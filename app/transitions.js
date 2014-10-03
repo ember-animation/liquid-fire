@@ -51,4 +51,18 @@ export default function(){
     this.use('toLeft', {duration: 1000}),
     this.reverse('toRight', {duration: 1000})
   );
+
+  this.transition(
+    this.fromRoute('scenarios.nested-outlets.middle'),
+    this.toRoute('scenarios.nested-outlets.middle2'),
+    this.use('fade', {duration: 1000}),
+    this.reverse('fade', {duration: 1000})
+  );
+
+  this.transition(
+    this.fromRoute('scenarios.nested-outlets.middle.index'),
+    this.toRoute('scenarios.nested-outlets.middle.inner'),
+    this.use('fade', {duration: 1000}),
+    this.reverse('fade', {duration: 1000})
+  );
 }
