@@ -24,7 +24,7 @@
     z-index: 10;
 }
 
-.lm-container > div {
+.lf-dialog {
     position: relative;
     background: white;
     padding: 1.5em;
