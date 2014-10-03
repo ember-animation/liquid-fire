@@ -57,7 +57,7 @@ export default function(){
   this.transition(
     this.fromRoute('scenarios.nested-outlets.middle'),
     this.toRoute('scenarios.nested-outlets.middle2'),
-    this.use('fade', {duration: 1000}),
+    this.use('fade', {duration: Ember.testing ? 100 : 1000}),
     this.reverse('fade', {duration: 1000})
   );
 

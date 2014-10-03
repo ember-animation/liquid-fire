@@ -41,6 +41,17 @@ Transitions.prototype = {
       }
     }
 
+    // If we are not animating, but one of our ancestors is animating
+    // us away, we should wait for the ancestor to finish before
+    // letting our content be destroyed.
+    if (!handler && oldView && !newContent) {
+      var ancestorTransition = slatedForDestruction(oldView);
+      if (ancestorTransition) {
+        handler = waitForTransition;
+        args = [ancestorTransition];
+      }
+    }
+
     return new Transition(parentView, oldView, newContent, handler, args, this);
   },
 
@@ -191,6 +202,19 @@ Transitions.map = function(handler) {
   return t;
 };
 
+function slatedForDestruction(view) {
+  var child;
+  while (view._parentView) {
+    child = view;
+    view = view._parentView;
+    if (view._runningTransition && view._runningTransition.oldView === child) {
+      return view._runningTransition;
+    }
+  }
+}
 
+function waitForTransition() {
+  return arguments[2].run();
+}
 
 export default Transitions;

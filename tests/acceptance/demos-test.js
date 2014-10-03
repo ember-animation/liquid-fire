@@ -1,23 +1,9 @@
-/* global sinon, ranTransition, noTransitionsYet */
-
+/* global ranTransition, noTransitionsYet */
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
-
-function transitionMap(app) {
-  return app.__container__.lookup('transitions:map');
-}
-
-Ember.Test.registerHelper('ranTransition',
-  function(app, name) {
-    ok(transitionMap(app).lookup.calledWith(name), 'ran transition ' + name);
-  }
-);
-
-Ember.Test.registerHelper('noTransitionsYet',
-  function(app, name) {
-    equal(transitionMap(app).lookup.callCount, 0, 'expected no transitions');
-  }
-);
+import { injectTransitionSpies,
+         classFound,
+         clickWithoutWaiting } from '../helpers/integration';
 
 var App;
 
@@ -28,23 +14,12 @@ module('Acceptance: Demos', {
     // the container. But animations are slippery, and it's easier to
     // just spy on them to make sure they're being run than to try to
     // observe their behavior more directly.
-    var tmap = App.__container__.lookup('transitions:map');
-    sinon.spy(tmap, 'lookup');
+    injectTransitionSpies(App);
   },
   teardown: function() {
     Ember.run(App, 'destroy');
   }
 });
-
-function classFound(name) {
-  equal(find('.'+name).length, 1, 'found ' + name);
-}
-
-function clickWithoutWaiting(selector, text) {
-  find(selector).filter(function() {
-    return $(this).text() === text;
-  }).click();
-}
 
 test('visit every link in sidebar', function() {
   var lastRouteName = 'modal-documentation.component';

@@ -11,13 +11,16 @@ function Transition(parentView, oldView, newContent, animation, animationArgs, t
 
 Transition.prototype = {
   run: function() {
+    if (this._ran) {
+      return this._ran;
+    }
     if (!this.animation) {
       this.maybeDestroyOldView();
-      return this._insertNewView().then(revealView);
+      return this._ran = this._insertNewView().then(revealView);
     }
     var self = this;
     self.transitionMap.activeCount += 1;
-    return this._invokeAnimation().then(function(){
+    return this._ran = this._invokeAnimation().then(function(){
       self.maybeDestroyOldView();
     }, function(err){
       return self.cleanupAfterError().then(function(){
