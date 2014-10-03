@@ -1,5 +1,11 @@
 # Changelog
 
+### 0.11.1
+
+- BUGFIX: containerless component should pass their class onto their
+  liquid-children, but *not* their id, because multiple children will
+  be in the dom together.
+
 ### 0.11.0
 
 - CHANGE: modals are now opt-in. You turn them on in your application
