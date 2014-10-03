@@ -1,6 +1,6 @@
 # Changelog
 
-### master
+### 0.11.0
 
 - CHANGE: modals are now opt-in. You turn them on in your application
   by inserting a `{{liquid-modal}}` tag in your application
