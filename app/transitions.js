@@ -1,3 +1,5 @@
+import Ember from "ember";
+
 export default function(){
 
   // BEGIN-SNIPPET transition-demo
@@ -37,7 +39,7 @@ export default function(){
 
   this.transition(
     this.childOf("#interrupted-fade-demo"),
-    this.use('fade', { duration: 1500 })
+    this.use('fade', { duration: Ember.testing ? 100 : 1500 })
   );
 
   this.transition(
