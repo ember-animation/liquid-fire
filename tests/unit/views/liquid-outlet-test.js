@@ -221,16 +221,3 @@ test("containless liquid-outlet should propagate bound class names to liquid-chi
   });
   equal(view().$('.liquid-child.pensive').length, 1, "should update class");
 });
-
-test("containless liquid-outlet should propagate id to liquid-child", function() {
-  makeView({
-    template: '{{liquid-outlet containerless=true id="foo"}}'
-  });
-  run(function() {
-    view().connectOutlet('main', Ember.View.create({
-      template: compile("<p>FIRST</p>")
-    }));
-  });
-  appendView(view());
-  equal($('#qunit-fixture #foo.liquid-child').length, 1, "Has liquid child");
-});

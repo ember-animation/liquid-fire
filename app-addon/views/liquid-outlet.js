@@ -81,7 +81,6 @@ export default Ember.ContainerView.extend({
     if (this.get('containerless')) {
       childProperties.classNames = this.get('classNames').without('liquid-container');
       childProperties.classNameBindings = this.get('classNameBindings');
-      childProperties.elementId = this.get('elementId');
     }
     return LiquidChild.create(childProperties);
   },
