@@ -188,3 +188,49 @@ test("liquid-outlet should respect containerless", function() {
   equal($('#qunit-fixture .liquid-child').length, 1, "Has liquid child");
   equal($('#qunit-fixture .liquid-container').length, 0, "Doesn't have liquid container");
 });
+
+test("containless liquid-outlet should propagate class names to liquid-child", function() {
+  makeView({
+    template: '{{liquid-outlet containerless=true class="foo"}}'
+  });
+  run(function() {
+    view().connectOutlet('main', Ember.View.create({
+      template: compile("<p>FIRST</p>")
+    }));
+  });
+  appendView(view());
+  equal($('#qunit-fixture .liquid-child.foo').length, 1, "Has liquid child");
+});
+
+test("containless liquid-outlet should propagate bound class names to liquid-child", function() {
+  makeView({
+    template: '{{liquid-outlet containerless=true class=mood}}',
+    context: {
+      mood: 'happy'
+    }
+  });
+  run(function() {
+    view().connectOutlet('main', Ember.View.create({
+      template: compile("<p>BYE</p>")
+    }));
+  });
+  appendView(view());
+  equal(view().$('.liquid-child.happy').length, 1, "should have class");
+  Ember.run(function(){
+    Ember.set(view(), 'context.mood', 'pensive');
+  });
+  equal(view().$('.liquid-child.pensive').length, 1, "should update class");
+});
+
+test("containless liquid-outlet should propagate id to liquid-child", function() {
+  makeView({
+    template: '{{liquid-outlet containerless=true id="foo"}}'
+  });
+  run(function() {
+    view().connectOutlet('main', Ember.View.create({
+      template: compile("<p>FIRST</p>")
+    }));
+  });
+  appendView(view());
+  equal($('#qunit-fixture #foo.liquid-child').length, 1, "Has liquid child");
+});

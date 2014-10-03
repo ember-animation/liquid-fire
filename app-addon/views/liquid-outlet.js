@@ -75,9 +75,15 @@ export default Ember.ContainerView.extend({
       content.set('liquidContext', content.get('context'));
     }
     var LiquidChild = this.container.lookupFactory('view:liquid-child');
-    return LiquidChild.create({
+    var childProperties = {
       currentView: content
-    });
+    };
+    if (this.get('containerless')) {
+      childProperties.classNames = this.get('classNames').without('liquid-container');
+      childProperties.classNameBindings = this.get('classNameBindings');
+      childProperties.elementId = this.get('elementId');
+    }
+    return LiquidChild.create(childProperties);
   },
 
   _pushNewView: function(newView) {

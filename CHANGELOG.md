@@ -7,6 +7,8 @@
   template. This avoids us doing non-standard things that make the
   load order fragile and break the Ember inspector.
 
+- BUGFIX: containerless components should pass any class or id
+  arguments onto their liquid-child element.
 
 ### 0.10.0
 
