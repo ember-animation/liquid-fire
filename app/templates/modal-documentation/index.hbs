@@ -47,29 +47,20 @@ button. But this is optional.</p>
 
     {{code-snippet name="hello-modal-map.js"}}
 
-  <li>You can launch your modal by setting the relevant properties on
-  your controller. If the properties are also query params, you can just <code>link-to</code>. 
-  In this example we will define them in our application controller. 
-  You will need to define the relevant properties that trigger the modal in the specific 
-  route/controller that where the modal dialog is loaded from.
+  <li><p>You can launch your modal by setting the relevant properties
+  on your controller. If the properties are also query params, you can
+  just <code>link-to</code>.  For example, here's the controller for this page:</p>
 
+    {{code-snippet name="modal-controller.js"}}
 
-
-    {{code-snippet name="application.js"}}
-    <div id="basic-modal-demo">
-    {{!- BEGIN-SNIPPET hello-tomster -}}
-      // app/controllers/application.js
-      import Ember from 'ember';
-
-      export default Ember.Controller.extend({
-        queryParams: ['salutation', 'person']
-      });
-    {{!- END-SNIPPET }}
-    </div>
-
+  <p>Here's the template for a <code>link-to</code> button that
+  launches the modal:</p>
 
     {{code-snippet name="hello-tomster.hbs"}}
+
     <div id="basic-modal-demo">
+      And here's the result:
+
     {{!- BEGIN-SNIPPET hello-tomster -}}
     {{#link-to (query-params salutation="Guten tag" person="Stef") tagName="button"}}
       Try It
