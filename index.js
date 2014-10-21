@@ -15,6 +15,10 @@ module.exports = {
     makeBackwardCompatible(this);
   },
 
+  blueprintsPath: function() {
+    return path.join(__dirname, 'blueprints');
+  }, 
+
   treeFor: function(name) {
     this._requireBuildPackages();
 
@@ -39,7 +43,9 @@ module.exports = {
   },
 
   included: function(app) {
-    app.import('vendor/velocity/jquery.velocity.js');
+    this._super.included(app);
+
+    app.import(app.bowerDirectory + 'velocity/velocity.js');
     app.import('vendor/liquid-fire/liquid-fire.css');
   },
 
