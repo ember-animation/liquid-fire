@@ -27,6 +27,7 @@ Comprehensive animation support for ambitious Ember applications. [Interactive D
 This is an ember-cli addon, so all you need is:
 
     npm install --save-dev liquid-fire
+    ember g liquid-fire
 
 
 ### Documentation 
