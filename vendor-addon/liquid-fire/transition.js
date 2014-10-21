@@ -48,15 +48,20 @@ Transition.prototype = {
             goAbsolute(self.oldView);
           }
           return self._insertNewView().then(function(newView){
-            if (!newView) { return; }
-            newView.$().show();
-            if (contained){
-              // Measure newView size before parentView sets an explicit size.
-              var size = getSize(newView);
-              self.parentView.adaptSize();
-              goAbsolute(newView, size);
+            if (!newView) {
+              if (contained){
+                self.parentView.adaptSize();
+              }
+            } else {
+              newView.$().show();
+              if (contained){
+                // Measure newView size before parentView sets an explicit size.
+                var size = getSize(newView);
+                self.parentView.adaptSize();
+                goAbsolute(newView, size);
+              }
+              return self.newView = newView;
             }
-            return self.newView = newView;
           });
         },
         args = [this.oldView, inserter].concat(this.animationArgs);
