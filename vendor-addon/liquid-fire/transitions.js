@@ -30,7 +30,7 @@ Transitions.prototype = {
     if (use && !firstTime) {
       handler = this.lookup(use);
     } else {
-      var key = this.match(parentView, oldView, newContent);
+      var key = this.match(firstTime, parentView, oldView, newContent);
       if (key) {
         args = key.args;
         if (typeof(key.method) === 'function') {
@@ -118,11 +118,12 @@ Transitions.prototype = {
     }
   },
 
-  match: function(parentView, oldView, newContent) {
+  match: function(firstTime, parentView, oldView, newContent) {
     var change = {
       leaving: this._viewProperties(oldView, 'currentView'),
       entering: this._viewProperties(newContent),
-      parentView: parentView
+      parentView: parentView,
+      initialRender: firstTime
     };
 
     // If the old/new views themselves are not part of a route
@@ -149,7 +150,7 @@ Transitions.prototype = {
         first = queue[0],
         rest = queue.slice(1),
         candidate, nextContext, answer,
-        candidates = [first || DSL.EMPTY].concat(ctxt.__functions).concat(DSL.ANY);
+        candidates = this._candidatesFor(change, ctxt, queue);
 
     for (index = 0; index < candidates.length; index++) {
       candidate = candidates[index];
@@ -192,6 +193,14 @@ Transitions.prototype = {
     }
   },
 
+  _candidatesFor: function(change, ctxt, queue) {
+    var candidates = [queue[0] || DSL.EMPTY].concat(ctxt.__functions);
+    if (queue.length === 5 && change.initialRender) {
+      return candidates;
+    } else {
+      return candidates.concat(DSL.ANY);
+    }
+  }
 
 };
 

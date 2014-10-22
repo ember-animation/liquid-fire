@@ -2,11 +2,14 @@ import { Transitions } from "vendor/liquid-fire";
 import Ember from "ember";
 
 var t, oldView, newContent, parentView;
+var explicitUse = null;
+var firstTime = false;
+
 function dummyAction() {}
 function otherAction() {}
 
 function lookupTransition() {
-  return t.transitionFor(parentView, oldView, newContent);
+  return t.transitionFor(parentView, oldView, newContent, explicitUse, firstTime);
 }
 
 function lookupAnimation() {
@@ -56,6 +59,8 @@ module("Transitions DSL", {
   },
   teardown: function(){
     t = oldView = newContent = null;
+    explicitUse = null;
+    firstTime = false;
   }
 });
 
@@ -481,4 +486,29 @@ test("matches reverse routes & contexts", function(){
   setContexts({isMyDestination: true}, {isMySource: true});
   equal(lookupAnimation(), otherAction, 'reverse');
 
+});
+
+test("doesn't match initial render by default", function(){
+  t.map(function(){
+    this.transition(
+      this.toRoute('two'),
+      this.use(dummyAction)
+    );
+  });
+  setRoutes(null, 'two');
+  firstTime = true;
+  equal(lookupAnimation(), null);
+});
+
+test("matches initial render when asked explicitly", function(){
+  t.map(function(){
+    this.transition(
+      this.fromRoute(null),
+      this.toRoute('two'),
+      this.use(dummyAction)
+    );
+  });
+  setRoutes(null, 'two');
+  firstTime = true;
+  equal(lookupAnimation(), dummyAction);
 });
