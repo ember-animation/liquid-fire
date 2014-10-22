@@ -1,5 +1,14 @@
 # Changelog
 
+### 0.12.0
+
+- CHANGE: to more easily distinguish between false-ish contexts and
+  the initial render, transition rules will now only match the
+  initial render if they explicitly say `fromRoute(null)`.
+
+- BUGFIX: fixed container size animations when transitioning to empty
+  states. (#97)
+
 ### 0.11.1
 
 - BUGFIX: containerless component should pass their class onto their
