@@ -3,7 +3,7 @@
   "dependencies": {
     "handlebars": "~1.3.0",
     "jquery": "^1.11.1",
-    "ember": "components/ember#canary",
+    "ember": "components/ember#release",
     "ember-resolver": "~0.1.7",
     "loader": "stefanpenner/loader.js#1.0.1",
     "ember-cli-shims": "stefanpenner/ember-cli-shims#0.0.3",
@@ -13,6 +13,6 @@
     "moment": "~2.7.0"
   },
   "resolutions": {
-    "ember": "canary"
+    "ember": "release"
   }
 }
