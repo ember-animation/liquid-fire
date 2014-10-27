@@ -96,7 +96,7 @@ Transition.prototype = {
     // old view not to destroy when our animation stops, because the
     // next transition is going to take over and keep using it.
     if (!this.inserted) {
-      this.inserted = Promise.cast(null);
+      this.inserted = Promise.resolve(null);
       this.interruptedEarly = true;
     } else {
       this.interruptedLate = true;

@@ -17,7 +17,7 @@ export function animate(view, props, opts, label) {
       elt;
 
   if (!view || !(elt = view.$()) || !elt[0]) {
-    return Promise.cast();
+    return Promise.resolve();
   }
 
   if (!opts) {
@@ -48,7 +48,7 @@ export function animate(view, props, opts, label) {
     state.timeSpent = state.timeRemaining / (1/state.percentComplete - 1);
   };
 
-  state.promise = Promise.cast(Velocity.animate(elt[0], props, opts));
+  state.promise = Promise.resolve(Velocity.animate(elt[0], props, opts));
 
   if (label) {
     state.promise = state.promise.then(function(){

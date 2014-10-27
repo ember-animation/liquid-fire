@@ -19,7 +19,7 @@ export default function moveOver(oldView, insertNewView, dimension, direction, o
     firstStep = finish(oldView, 'moving-in');
   } else {
     stop(oldView);
-    firstStep = Promise.cast();
+    firstStep = Promise.resolve();
   }
 
 

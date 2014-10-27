@@ -66,7 +66,7 @@ export default Ember.ContainerView.extend({
       // of https://github.com/tildeio/rsvp.js/pull/278.  The fix got
       // into Ember 1.7, so we can drop this once we decide 1.6 is
       // EOL.
-      Ember.RSVP.Promise.cast()._onerror(err);
+      Ember.RSVP.Promise.resolve()._onerror(err);
     });
   })),
 
@@ -87,7 +87,7 @@ export default Ember.ContainerView.extend({
 
   _pushNewView: function(newView) {
     if (!newView) {
-      return Promise.cast();
+      return Promise.resolve();
     }
     var child = this._liquidChildFor(newView),
         promise = new Promise(function(resolve) {
@@ -130,7 +130,7 @@ export default Ember.ContainerView.extend({
       if (elt) {
         elt[dimension](after[dimension]);
       }
-      return Promise.cast();
+      return Promise.resolve();
     } else {
       // Velocity deals in literal width/height, whereas jQuery deals
       // in box-sizing-dependent measurements.

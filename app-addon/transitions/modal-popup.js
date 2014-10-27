@@ -7,7 +7,7 @@ function hideModal(oldView) {
   if (!oldView ||
       !(box = oldView.$('.lm-container > div')[0]) ||
       !(obscure = oldView.$('.lf-overlay')[0])) {
-    return Promise.cast();
+    return Promise.resolve();
   }
 
   return Promise.all([
