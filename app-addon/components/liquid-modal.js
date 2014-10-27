@@ -4,9 +4,7 @@ export default Ember.Component.extend({
   classNames: ['liquid-modal'],
   currentContext: Ember.computed.oneWay('owner.modalContexts.lastObject'),
 
-  owner: Ember.computed('container', function(){
-    return this.get('container').lookup('liquid-modals:main');
-  }),
+  owner: null, // set by injection
 
   innerView: Ember.computed('currentContext', function() {
     var self = this,
@@ -70,7 +68,6 @@ export default Ember.Component.extend({
     }
   }
 });
-
 
 function proxyToInnerInstance(self, message) {
   var vi = self.get('innerViewInstance');
