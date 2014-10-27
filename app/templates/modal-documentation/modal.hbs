@@ -41,6 +41,13 @@ re-animates.</p>
   <dt>ariaLabel</dt>
   <dd>Lets you set the aria-label property on the modal dialog box for
     proper accessibility.</dd>
+
+  <dt>actions</dt>
+  <dd>
+    Wire up actions from the modal component's <code>sendAction</code> to your app. For example,
+    <code>actions: {submit: "modalSubmitted"}</code> will trigger the <code>modalSubmitted</code>
+    event on your controller when a <code>submit</code> event is fired in your modal.
+  </dd>
 </dl>
 
 <div class="callout callout-info">We still need an API for customizing

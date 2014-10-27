@@ -160,7 +160,13 @@ test('modal demo', function() {
   click('#basic-modal-demo button');
   andThen(function(){
     findWithAssert('.hello-modal');
-    click('.hello-modal button');
+    click('.hello-modal button.change');
+  });
+  andThen(function(){
+    ok(find('.hello-modal').text().match(/Hello/), "Salutation has changed");
+  });
+  andThen(function(){
+    click('.hello-modal button.done');
   });
   andThen(function(){
     equal(find('.hello-modal').length, 0, "dismissed hello-modal");

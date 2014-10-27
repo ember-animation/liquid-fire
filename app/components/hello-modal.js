@@ -5,6 +5,9 @@ export default Ember.Component.extend({
   actions: {
     gotIt: function() {
       this.sendAction('dismiss');
+    },
+    change: function() {
+      this.sendAction('changeSalutation');
     }
   }
 });
