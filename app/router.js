@@ -41,7 +41,10 @@ Router.map(function() {
 
     // BEGIN-SNIPPET hello-modal-map
     this.modal('hello-modal', {
-      withParams: ['salutation', 'person']
+      withParams: ['salutation', 'person'],
+      actions: {
+        changeSalutation: "changeSalutation"
+      }
     });
     // END-SNIPPET
 
