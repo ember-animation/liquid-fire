@@ -17,9 +17,28 @@ export default Ember.Component.extend({
     Ember.assert("Tried to render a modal using component '" + name + "', but couldn't find it.", component);
 
     var args = Ember.copy(current.get('params'));
+
     args.registerMyself = Ember.on('init', function() {
       self.set('innerViewInstance', this);
     });
+
+    var actions = current.get("options.actions") || {};
+
+    // Override sendAction in the modal component so we can intercept and
+    // dynamically dispatch to the controller as expected
+    args.sendAction = function(name) {
+      var actionName = actions[name];
+      if (!actionName) {
+        this._super.apply(this, Array.prototype.slice.call(arguments));
+        return;
+      }
+
+      var controller = current.get("source");
+      var args = Array.prototype.slice.call(arguments, 1);
+      args.unshift(actionName);
+      controller.send.apply(controller, args);
+    };
+
     return component.extend(args);
   }),
 
