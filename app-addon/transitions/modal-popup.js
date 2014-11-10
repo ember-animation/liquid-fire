@@ -5,14 +5,16 @@ var Velocity = Ember.$.Velocity;
 function hideModal(oldView) {
   var box, obscure;
   if (!oldView ||
-      !(box = oldView.$('.lm-container > div')[0]) ||
-      !(obscure = oldView.$('.lf-overlay')[0])) {
+      !(box = oldView.$('.lm-container > div')) ||
+      !(box = box[0]) ||
+      !(obscure = oldView.$('.lf-overlay')) ||
+      !(obscure = obscure[0])) {
     return Promise.resolve();
   }
 
   return Promise.all([
-    Velocity.animate(obscure, {opacity: [0, 0.5]}, {duration: 200}),
-    Velocity.animate(box, {scale: [0, 1]}, {duration: 200})
+    Velocity.animate(obscure, {opacity: [0, 0.5]}, {duration: 250}),
+    Velocity.animate(box, {scale: [0, 1]}, {duration: 250})
   ]);
 }
 
@@ -42,8 +44,8 @@ function revealModal(insertNewView) {
     });
 
     return Promise.all([
-      Velocity.animate(obscure, {opacity: [0.5, 0]}, {duration: 200, display: ''}),
-      Velocity.animate(box, {scale: [1, 0]}, {duration: 200, display: ''})
+      Velocity.animate(obscure, {opacity: [0.5, 0]}, {duration: 250, display: ''}),
+      Velocity.animate(box, {scale: [1, 0]}, {duration: 250, display: ''})
     ]);
   });
 }
