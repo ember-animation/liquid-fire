@@ -1,5 +1,16 @@
 # Changelog
 
+### 0.13.0
+
+- FEATURE: modals can now send actions to their containing
+  controller. Thanks @rlivsey.
+
+- FEATURE: improved compatibility with new versions of RSVP
+
+- BUGFIX: modals will properly bind their aria-label properties.
+
+- CHANGE: minor refinements to the modal popup animation.
+
 ### 0.12.0
 
 - CHANGE: to more easily distinguish between false-ish contexts and
