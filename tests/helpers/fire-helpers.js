@@ -1,5 +1,5 @@
 import Ember from "ember";
-import { initialize } from "vendor/liquid-fire";
+import { initialize } from "liquid-fire";
 import { moduleFor } from 'ember-qunit';
 
 var _view;

@@ -1,42 +1,23 @@
-/* jshint node: true */
-var EmberApp = require('ember-cli/lib/broccoli/ember-app');
-var mergeTrees = require('broccoli-merge-trees');
-var pickFiles = require('broccoli-static-compiler');
-var es3SafeRecast = require('broccoli-es3-safe-recast');
+/* global require, module */
 
-var velocity = pickFiles('node_modules/velocity-animate', {
-  srcDir: '/',
-  destDir: 'velocity'
-});
+var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+var fs = require('fs');
+var path = require('path');
 
-var sinon = pickFiles('node_modules/sinon/pkg', {
-  srcDir: '/',
-  destDir: 'sinon',
-  files: ['sinon.js']
-});
-
-
-var appTree = mergeTrees(['app-addon', 'app'], { overwrite: true });
-var templateTree = mergeTrees(['app-addon/templates', 'app/templates'], { overwrite: true });
-var vendorTree = mergeTrees([velocity, sinon, es3SafeRecast('vendor-addon'), 'vendor']);
-
-var app = new EmberApp({
+var app = new EmberAddon({
+  snippetPaths: ['tests/dummy/snippets'],
+  snippetSearchPaths: ['app', 'tests/dummy/app'],
   trees: {
-    app: appTree,
-    vendor: vendorTree,
-    templates: templateTree
-  },
-  snippetSearchPaths: ['app', 'app-addon', 'vendor-addon']
+    'public': 'tests/dummy/public'
+  }
+});
+app.import('bower_components/moment/moment.js');
+app.import('bower_components/sinon/index.js', { type: 'test'});
+
+var bootstrap = 'bower_components/bootstrap-sass-official/assets/fonts/bootstrap';
+fs.readdirSync(bootstrap).forEach(function(font){
+  app.import(path.join(bootstrap, font), { destDir: '/fonts/bootstrap'});
 });
 
-app.import("vendor/velocity/jquery.velocity.js");
-app.import("vendor/moment/moment.js");
-app.import("vendor/liquid-fire/liquid-fire.css");
-app.import('vendor/sinon/sinon.js', { type: 'test' });
 
-var fonts = pickFiles('vendor/bootstrap-sass-official/assets/fonts', {
-  srcDir:'/',
-  destDir: '/fonts'
-});
-
-module.exports = mergeTrees([app.toTree(), fonts]);
+module.exports = app.toTree();

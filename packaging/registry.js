@@ -3,7 +3,7 @@
 var Writer = require('broccoli-writer'),
     fs = require('fs'),
     path = require('path'),
-    Promise = require('es6-promise').Promise,
+    Promise = require('RSVP').Promise,
     glob = require('glob');
 
 

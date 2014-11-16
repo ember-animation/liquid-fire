@@ -1,4 +1,4 @@
-import { Transitions } from "vendor/liquid-fire";
+import { Transitions } from "liquid-fire";
 import Ember from "ember";
 
 var t, oldView, newContent, parentView;
