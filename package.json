@@ -1,5 +1,6 @@
 {
   "name": "liquid-fire",
+  "description": "Animated transitions for Ember applications.",
   "version": "0.13.0",
   "directories": {
     "doc": "doc",
@@ -10,11 +11,11 @@
     "build": "ember build",
     "test": "ember test"
   },
-  "repository": "",
+  "repository": "https://github.com/ef4/liquid-fire",
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "",
+  "author": "Edward Faulkner <ef@alum.mit.edu>",
   "license": "MIT",
   "dependencies": {
     "velocity-animate": ">= 0.11.8"
