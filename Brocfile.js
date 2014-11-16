@@ -12,7 +12,7 @@ var app = new EmberAddon({
   }
 });
 app.import('bower_components/moment/moment.js');
-app.import('bower_components/sinon/index.js', { type: 'test'});
+app.import('vendor/sinon.js', { type: 'test'});
 
 var bootstrap = 'bower_components/bootstrap-sass-official/assets/fonts/bootstrap';
 fs.readdirSync(bootstrap).forEach(function(font){
