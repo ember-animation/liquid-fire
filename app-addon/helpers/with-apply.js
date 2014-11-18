@@ -13,5 +13,5 @@ export default function withApplyHelper(options){
   options.hash = parent.get('originalHash');
   options.hashTypes = parent.get('originalHashTypes');
   withArgs.push(options);
-  return Ember.Handlebars.helpers.with.apply(this, withArgs);
+  return Ember.Handlebars.helpers['with'].apply(this, withArgs);
 }
