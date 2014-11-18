@@ -61,7 +61,7 @@ export default Ember.ContainerView.extend({
     }
 
     this._runningTransition = transition;
-    transition.run().catch(function(err){
+    transition.run()['catch'](function(err){
       // Force any errors through to the RSVP error handler, because
       // of https://github.com/tildeio/rsvp.js/pull/278.  The fix got
       // into Ember 1.7, so we can drop this once we decide 1.6 is
@@ -137,7 +137,7 @@ export default Ember.ContainerView.extend({
       var target = {};
       target[dimension] = [
         after['literal'+capitalize(dimension)],
-        before['literal'+capitalize(dimension)],
+        before['literal'+capitalize(dimension)]
       ];
       return animate(this, target, {
         duration: this._durationFor(before[dimension], after[dimension]),
@@ -166,7 +166,7 @@ export default Ember.ContainerView.extend({
 
     this._scaling = Promise.all([
       this._adaptDimension('width', this._cachedSize, newSize),
-      this._adaptDimension('height', this._cachedSize, newSize),
+      this._adaptDimension('height', this._cachedSize, newSize)
     ]);
   }
 
