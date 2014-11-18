@@ -1,5 +1,21 @@
 # Changelog
 
+### master
+
+- BREAKING: we have updated the format of liquid-fire to be compatible
+  with the latest ember-cli. As a result, we were able to simplify the
+  way liquid-fire exports values to your code. You will need to change
+  imports like this:
+
+        import animate from "vendor/liquid-fire";
+
+    Like this:
+
+        import animate from "liquid-fire";
+
+- WARNING: Ember master is beginning to integrate HTMLBars and we are
+  not yet compatible. We definitely intend to be.
+
 ### 0.13.0
 
 - FEATURE: modals can now send actions to their containing
