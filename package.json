@@ -49,7 +49,6 @@
     "ncp": "^0.6.0",
     "rsvp": "^3.0.13"
   },
-  "description": "The default blueprint for ember-cli addons.",
   "keywords": [
     "ember-addon"
   ],
