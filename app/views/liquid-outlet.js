@@ -16,6 +16,13 @@ export default Ember.ContainerView.extend({
     // transition.
     this._super();
     Ember.A(this._childViews).clear();
+
+    if (this.get('containerless')) {
+      // This prevents Ember from throwing an assertion when we try to
+      // render as a virtual view.
+      this.set('innerClassNameBindings', this.get('classNameBindings'));
+      this.set('classNameBindings', Ember.A());
+    }
   },
 
   // Deliberately overriding a private method from
@@ -80,7 +87,7 @@ export default Ember.ContainerView.extend({
     };
     if (this.get('containerless')) {
       childProperties.classNames = this.get('classNames').without('liquid-container');
-      childProperties.classNameBindings = this.get('classNameBindings');
+      childProperties.classNameBindings = this.get('innerClassNameBindings');
     }
     return LiquidChild.create(childProperties);
   },
