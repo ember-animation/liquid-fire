@@ -14,7 +14,7 @@ export default LiquidOutlet.extend({
       boundContext: context,
       liquidWithParent: this,
       liquidContext: context,
-      hasLiquidContext: true,
+      hasLiquidContext: true
     });
     this.set('currentView', view);
   }))

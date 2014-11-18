@@ -16,7 +16,7 @@ export default function rotateBelow(oldView, insertNewView, opts) {
     }
     return Promise.all([
       animate(oldView, { rotateZ: -90*direction + 'deg' }, opts),
-      animate(newView, { rotateZ: ['0deg', 90*direction+'deg'] }, opts),
+      animate(newView, { rotateZ: ['0deg', 90*direction+'deg'] }, opts)
     ]);
   });
 }
