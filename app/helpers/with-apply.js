@@ -8,6 +8,9 @@ export default function withApplyHelper(options){
 
   withArgs[0] = 'lwith-view.boundContext';
   options = Ember.copy(options);
+  if (!options.data.keywords) {
+    options.data.keywords = {};
+  }
   options.data.keywords['lwith-view'] = view;
   options.fn = parent.get('innerTemplate');
   options.hash = parent.get('originalHash');
