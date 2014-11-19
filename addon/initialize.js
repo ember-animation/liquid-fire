@@ -15,4 +15,10 @@ export function initialize(container, config) {
   });
 
   container.register('liquid-modals:main', Modals);
+
+  var lwTemplate = container.lookup('template:liquid-with');
+  if (lwTemplate) {
+    // This is a hack to make outlets work inside liquid-with.
+    lwTemplate.isTop = false;
+  }
 }

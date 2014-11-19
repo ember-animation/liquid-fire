@@ -418,3 +418,17 @@ test("is containerless", function(){
   equal(Ember.$('#qunit-fixture .liquid-child').length, 1, "has liquid-child");
   equal(Ember.$('#qunit-fixture .liquid-container').length, 0, "doesn't have liquid-container");
 });
+
+makeModuleFor("outlets inside {{#liquid-with}}", {
+  template: "{{#liquid-with view.thing as fromView}}{{outlet}}{{/liquid-with}}",
+  thing: { name: 'me' },
+});
+
+test("should render", function(){
+  run(function(){
+    view().connectOutlet('main', Ember.View.create({
+      template: Ember.Handlebars.compile("hello world")
+    }));
+  });
+  check("hello world");
+});
