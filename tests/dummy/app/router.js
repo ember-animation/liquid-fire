@@ -70,6 +70,7 @@ Router.map(function() {
       });
       this.route('middle2');
     });
+    this.route('table-row');
   });
 
 });

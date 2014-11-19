@@ -1,0 +1,7 @@
+{{input type="checkbox" checked=showingRow}}
+<table>
+  <tr><td>Static Row</td></tr>
+  {{#liquid-if showingRow containerless=true use="fade" }}
+    <td>Dynamic Row</td>
+  {{/liquid-if}}
+</table>
