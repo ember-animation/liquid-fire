@@ -67,7 +67,7 @@ function saveToken(response) {
 
 function loadOrCreateToken() {
   try {
-    return RSVP.Promise.cast(require(credentialFile()));
+    return RSVP.Promise.resolve(require(credentialFile()));
   } catch (err) {
     return createToken();
   }

@@ -111,7 +111,7 @@ var steps = [
         function uploadNext() {
           var filename = result.files.shift();
           if (!filename){
-            return RSVP.Promise.cast();
+            return RSVP.Promise.resolve();
           }
           return github.releases.uploadAsset({
             owner: 'ef4',
@@ -190,7 +190,7 @@ function nextStep(github, stepFilter) {
   var step = steps.shift();
   if (!step) {
     console.log("All done.");
-    return RSVP.Promise.cast();
+    return RSVP.Promise.resolve();
   }
 
   process.stdout.write(step.name + '...');

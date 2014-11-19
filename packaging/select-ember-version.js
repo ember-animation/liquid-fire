@@ -7,7 +7,7 @@ var RSVP = require('rsvp');
 
 function maybeChangeVersion(channel) {
   if (typeof(channel) === 'undefined') {
-    return RSVP.Promise.cast('existing');
+    return RSVP.Promise.resolve('existing');
   }
 
   var bowerFile = path.join(__dirname, '..', 'bower.json');
