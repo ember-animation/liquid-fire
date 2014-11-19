@@ -14,7 +14,7 @@ function maybeChangeVersion(channel) {
     var bowerJSON = require(bowerFile);
     fs.writeFileSync(bowerFile, JSON.stringify(rewrite(bowerJSON, channel), null, 2));
     return run('bower', ['install'], {cwd: path.join(__dirname, '..')})
-      .then(chooseTemplateCompiler);
+      .then(function(){ return chooseTemplateCompiler(channel);});
   }).then(function(){return channel;});
 }
 
