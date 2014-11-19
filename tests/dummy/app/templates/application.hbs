@@ -28,17 +28,17 @@
     </div>
 
     <ul>
-      {{#each tableOfContents}}
+      {{#each entry in tableOfContents}}
       <li>
-        {{#if route}}
-          {{#link-to route}}{{title}}{{/link-to}}
+        {{#if entry.route}}
+          {{#link-to entry.route}}{{entry.title}}{{/link-to}}
         {{else}}
-          {{title}}
+          {{entry.title}}
         {{/if}}
 
-        {{#if children}}
+        {{#if entry.children}}
           <ul>
-          {{#each child in children}}
+          {{#each child in entry.children}}
             <li>
               {{#if child.route}}
                 {{#link-to child.route}}{{child.title}}{{/link-to}}
