@@ -14,7 +14,8 @@ before_install:
 install:
   - npm install -g bower
   - npm install
-  - bower install
+  - ./packaging/select-ember-version.js
+
 
 script:
   - npm test
