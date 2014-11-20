@@ -17,8 +17,6 @@ export default {
 
     initialize(container, container.lookupFactory('transitions:main'));
 
-    application.inject('component:liquid-modal', 'owner', 'liquid-modals:main');
-
     if (Ember.testing) {
       Ember.Test.registerWaiter(function(){
         return container.lookup('transitions:map').runningTransitions() === 0;

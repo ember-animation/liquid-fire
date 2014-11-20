@@ -15,6 +15,8 @@ export function initialize(container, config) {
   });
 
   container.register('liquid-modals:main', Modals);
+  container.injection('component:liquid-modal', 'owner', 'liquid-modals:main');
+
 
   var lwTemplate = container.lookup('template:liquid-with');
   if (lwTemplate) {
