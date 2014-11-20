@@ -8,6 +8,14 @@ export default function withApplyHelper(options){
 
   withArgs[0] = 'lwith-view.boundContext';
   options = Ember.copy(options);
+
+  // This works to inject our keyword in Ember >= 1.9
+  if (!view._keywords) {
+    view._keywords = {};
+  }
+  view._keywords['lwith-view'] = view;
+
+  // This works to inject our keyword in Ember < 1.9
   if (!options.data.keywords) {
     options.data.keywords = {};
   }
