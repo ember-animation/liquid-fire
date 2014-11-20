@@ -70,7 +70,7 @@ test("outlet should support connectOutlet in slots in prerender state", function
 
 test("outlet should support an optional name", function() {
   makeView({
-    template: "<h1>HI</h1>{{liquid-outlet mainView}}"
+    template: "<h1>HI</h1>{{liquid-outlet \"mainView\"}}"
   });
   appendView(view());
   check('HI');
