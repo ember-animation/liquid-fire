@@ -17,23 +17,28 @@ templateTree = pickFiles(templateTree, {srcDir: '/', destDir: 'app/templates'});
 var addonTree = pickFiles('../addon', {srcDir: '/', destDir: 'liquid-fire'});
 
 
-
 var precompiled = mergeTrees([addonTree, appTree, templateTree]);
-var registrations = registry(pickFiles(precompiled, {srcDir: '/addon', destDir: '/'}));
+var registrations = registry(pickFiles(precompiled, {srcDir: '/app', destDir: '/'}));
+var bower = pickFiles('../bower_components', {srcDir: '/loader.js', destDir: '/'});
+var glue = new Funnel('.', {
+  include: [/^glue\.js$/]
+});
 
 
+var jsTree = mergeTrees([glue, mergeTrees([precompiled, registrations, bower])]);
 
-var compiled = compileES6(mergeTrees(['.', mergeTrees([precompiled, registrations])]), {
+var compiled = compileES6(jsTree, {
   wrapInEval: false,
-  loaderFile: 'vendor/loader/loader.js',
-  inputFiles: ['vendor/liquid-fire.js', 'addon/**/*.js'],
-  ignoredModules: ['ember'],
+  loaderFile: 'loader.js',
+  inputFiles: ['liquid-fire/index.js', 'app/**/*.js'],
+  ignoredModules: ['ember', 'liquid-fire'],
   outputFile: '/liquid-fire-' + version + '.js',
   legacyFilesToAppend: ['registry-output.js', 'glue.js']
 });
 compiled = wrap(compiled);
 
 var css = new Funnel('../vendor', {
+  include: [/\.css$/],
   getDestinationPath: function(relativePath) {
     if (relativePath === 'liquid-fire.css') {
       return "liquid-fire-" + version + '.css';
@@ -41,6 +46,5 @@ var css = new Funnel('../vendor', {
     return relativePath;
   }
 });
-css = pickFiles(css, { srcDir: '/', destDir: '/', files: ['*.css']});
 
 module.exports = mergeTrees([compiled, css]);
