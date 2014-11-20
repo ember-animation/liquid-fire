@@ -1,6 +1,6 @@
 # Changelog
 
-### master
+### 0.14.0
 
 - BREAKING: we have updated the format of liquid-fire to be compatible
   with the latest ember-cli. As a result, we were able to simplify the
@@ -13,8 +13,15 @@
 
         import animate from "liquid-fire";
 
-- WARNING: Ember master is beginning to integrate HTMLBars and we are
-  not yet compatible. We definitely intend to be.
+- ENHANCEMENT: Now compatible with the newest 1.9 beta series and 1.10
+  canary.
+
+- ENHANCEMENT: Added a new "scrollThen" predefined transition. Thanks
+  @jerel.
+
+- BUGFIX: non-cli builds should be es3 safe.
+
+- BUGFIX: fixes outlets inside liquid-with. (#112)
 
 ### 0.13.0
 
