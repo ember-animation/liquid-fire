@@ -12,7 +12,7 @@ export default Ember.Component.extend({
         name = current.get('name'),
         container = this.get('container'),
         component = container.lookup('component-lookup:main').lookupFactory(name);
-    Ember.assert("Tried to render a modal using component '" + name + "', but couldn't find it.", component);
+    Ember.assert("Tried to render a modal using component '" + name + "', but couldn't find it.", !!component);
 
     var args = Ember.copy(current.get('params'));
 
