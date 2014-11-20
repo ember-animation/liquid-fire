@@ -28,9 +28,9 @@ context.</p>
 <p>Use this when you want to animate the transitions between
 different models on the same route.</p>
 
-<div class="callout callout-danger"><code>\{{#liquid-with foo as
-bar}}</code> is supported, but it depends on a <a href="https://github.com/emberjs/ember.js/pull/5115">bugfix</a> in Ember
-1.7.0-beta.2 and may not work with earlier releases of Ember.</div>
+<div class="callout callout-danger"><code>\{{#liquid-with foo}}</code>
+is supported, but as of Ember 1.9 it is deprecated just like the
+normal <code>\{{#with foo}}</code>. Use <code>\{{#liquid-with foo as bar}}</code> instead.</div>
 
 <h3>Demo</h3>
 
