@@ -148,7 +148,7 @@ test('interruption demo, late interruption', function() {
     Ember.run.later(function(){
       classFound('two');
       clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
-    }, 120);
+    }, 150);
   });
   andThen(function(){
     classFound('three');
