@@ -4,6 +4,7 @@ var mergeTrees = require('broccoli-merge-trees');
 var pickFiles = require('broccoli-static-compiler');
 var compileES6 = require('broccoli-es6-concatenator');
 var templateCompiler = require('broccoli-ember-hbs-template-compiler');
+var es3Safe = require('broccoli-es3-safe-recast');
 var Funnel = require('broccoli-funnel');
 var registry = require('./registry');
 var wrap = require('./wrap');
@@ -47,4 +48,4 @@ var css = new Funnel('../vendor', {
   }
 });
 
-module.exports = mergeTrees([compiled, css]);
+module.exports = mergeTrees([es3Safe(compiled), css]);
