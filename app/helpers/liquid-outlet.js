@@ -4,6 +4,7 @@ export default function liquidOutletHelper(property, options) {
   if (property && property.data && property.data.isRenderData) {
     options = property;
     property = 'main';
+    options.types.push('STRING');
   }
 
   var View = options.data.view.container.lookupFactory('view:liquid-outlet');
