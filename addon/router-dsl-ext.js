@@ -10,9 +10,8 @@ proto.modal = function(componentName, opts) {
 
   opts = Ember.copy(opts);
 
-  if (!Ember.isArray(opts.withParams)) {
-    opts.withParams = [opts.withParams];
-  }
+  opts.withParams  = expandParamOptions(opts.withParams);
+  opts.otherParams = expandParamOptions(opts.otherParams);
 
   if (typeof(opts.dismissWithOutsideClick) === 'undefined') {
     opts.dismissWithOutsideClick = true;
@@ -39,3 +38,35 @@ Router.reopenClass({
     return output;
   }
 });
+
+// takes string, array of strings, object, or array of objects and strings
+// and turns them into one object to map withParams/otherParams from context to modal
+//
+// "foo"                   => { foo: "foo" }
+// ["foo"]                 => { foo: "foo" }
+// { foo: "bar" }          => { foo: "bar" }
+// ["foo", { bar: "baz" }] => { foo: "foo", bar: "baz" }
+//
+function expandParamOptions(options) {
+  if (!options) { return {}; }
+
+    if (!Ember.isArray(options)) {
+      options = [options];
+    }
+
+    var params = {};
+    var option, i, key;
+
+    for (i = 0; i < options.length; i++) {
+      option = options[i];
+      if (typeof option === "object") {
+        for (key in option) {
+          params[key] = option[key];
+        }
+      } else {
+        params[option] = option;
+      }
+    }
+
+    return params;
+  }

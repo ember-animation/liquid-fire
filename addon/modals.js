@@ -19,13 +19,13 @@ export default Ember.Controller.extend({
   registerModal: function(config) {
     var ext = {
       modals: this,
-      container: this.container,
+      container: this.container
     };
-    config.options.withParams.forEach(function(param) {
-      ext[param + "Observer"] = Ember.observer('controller.' + param, function(){
-        this.update();
-      });
-    });
+
+    for (var param in config.options.withParams) {
+      ext[param + "Observer"] = observerForParam(param);
+    }
+
     this.get('modals').pushObject(
       Modal.extend(ext).create(config)
     );
@@ -43,3 +43,7 @@ export default Ember.Controller.extend({
   })
 
 });
+
+function observerForParam(param) {
+  return Ember.observer('controller.' + param, function() { this.update(); });
+}

@@ -43,6 +43,9 @@ Router.map(function() {
     // BEGIN-SNIPPET hello-modal-map
     this.modal('hello-modal', {
       withParams: ['salutation', 'person'],
+      otherParams: {
+        modalMessage: "message"
+      },
       actions: {
         changeSalutation: "changeSalutation"
       }
