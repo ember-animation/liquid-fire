@@ -39,18 +39,12 @@ You can also see some examples in my [Ember Animation Demo](http://github.com/ef
 ### Source Organization
 
 This repo contains both the liquid-fire library and a demo application
-that presents interactive documentation. The library code is in:
+that presents interactive documentation. It follows standard ember-cli
+addon format.
 
- - index.js
- - app-addon
- - vendor-addon
+ - app: is code that's loaded directly into the user's application
+ - addon: is code that can be imported by the user from the `liquid-fire` namespace
+ - tests/dummy: is the testing, demo, and documentation application that runs at http://ef4.github.com/liquid-fire
+ - packaging: extra tooling for building non-ember-cli releases
 
-The demo app is organized like a typical ember-cli application, so all
-of these are for the demo application:
 
- - Brocfile.js
- - app
- - config
- - public
- - vendor
- - snippets (which get rendered by [ember-code-snippet](http://github.com/ef4/ember-code-snippet))
