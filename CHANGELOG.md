@@ -1,5 +1,29 @@
 # Changelog
 
+### 0.15.-
+
+- ENHANCEMENT: improved liquid-modal API by @rlivsey.
+
+   * `otherParams` is a new option that lets you bind parameters
+     through to the modal component. Unlike `withParams`, they will
+     not be used to determine if the modal should be rendered.
+
+   * both `otherParams` and `withParams` now allows parameter names to
+     be arbitrarily remapped, so:
+
+        ````javascript
+        this.modal('your-modal', {
+          withParams: ['foo', { bar: 'baz'}]
+        });
+        ````
+
+        Is equivalent to a normal in-template component invoked like this:
+
+        ````javascript
+        {{your-modal foo=foo bar=baz}}
+        ````
+
+
 ### 0.14.0
 
 - BREAKING: we have updated the format of liquid-fire to be compatible
