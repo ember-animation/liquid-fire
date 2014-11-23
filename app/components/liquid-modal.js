@@ -20,6 +20,18 @@ export default Ember.Component.extend({
       self.set('innerViewInstance', this);
     });
 
+    // set source so we can bind other params to it
+    args._source = Ember.computed(function() {
+      return current.get("source");
+    });
+
+    var otherParams = current.get("options.otherParams");
+    var from, to;
+    for (from in otherParams) {
+      to = otherParams[from];
+      args[to] = Ember.computed.alias("_source."+from);
+    }
+
     var actions = current.get("options.actions") || {};
 
     // Override sendAction in the modal component so we can intercept and

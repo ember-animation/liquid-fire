@@ -173,6 +173,17 @@ test('modal demo', function() {
   });
 });
 
+test('modal demo with bound otherParams', function() {
+  visit('/modals');
+  click('#basic-modal-demo button');
+  andThen(function(){
+    fillIn('.modal-input', 'some new text');
+  });
+  andThen(function(){
+    ok(find('.template-input').val() === 'some new text', "Bound value has updated");
+  });
+});
+
 test('warn-popup - dismiss with overlay', function() {
   visit('/modals?warn=1');
   andThen(function(){

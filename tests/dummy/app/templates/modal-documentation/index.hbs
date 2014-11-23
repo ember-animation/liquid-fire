@@ -61,11 +61,15 @@ button. But this is optional.</p>
     <div id="basic-modal-demo">
       And here's the result:
 
-    {{!- BEGIN-SNIPPET hello-tomster -}}
-    {{#link-to (query-params salutation="Guten tag" person="Stef") tagName="button"}}
-      Try It
-    {{/link-to}}
-    {{!- END-SNIPPET }}
+      {{!- BEGIN-SNIPPET hello-tomster -}}
+        {{#link-to (query-params salutation="Guten tag" person="Stef") tagName="button"}}
+          Try It
+        {{/link-to}}
+      {{!- END-SNIPPET }}
+
+      <p>
+        Bound value: {{input value=modalMessage class="template-input"}}
+      </p>
     </div>
 </ol>
 

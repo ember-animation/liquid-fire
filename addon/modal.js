@@ -53,21 +53,21 @@ export default Ember.Object.extend({
 
 });
 
-function currentParams(controller, paramNames) {
-  var params={},
-      foundNonDefault = false,
-      proto = controller.constructor.proto(),
-      name,
-      value;
+function currentParams(controller, paramMap) {
+  var params = {};
+  var proto = controller.constructor.proto();
+  var foundNonDefault = false;
+  var to, from, value;
 
-  for (var i = 0; i < paramNames.length; i++) {
-    name = paramNames[i];
-    value = controller.get(name);
-    params[name] = value;
-    if (value !== proto[name]) {
+  for (from in paramMap) {
+    to = paramMap[from];
+    value = controller.get(from);
+    params[to] = value;
+    if (value !== proto[from]) {
       foundNonDefault = true;
     }
   }
+
   if (foundNonDefault) {
     return params;
   }
