@@ -1,6 +1,29 @@
 import { initialize } from "liquid-fire";
 import Ember from "ember";
 
+var TestWaiter = Ember.Object.extend({
+  init: function() {
+    this._super();
+    var waiter = this;
+
+    this._waiter = function() {
+      return waiter.hasRunningTransitions();
+    };
+
+    Ember.Test.registerWaiter(this._waiter);
+  },
+
+  hasRunningTransitions: function( ) {
+    return this.container.lookup('transitions:map').runningTransitions() === 0;
+  },
+
+  willDestroy: function() {
+    this._super();
+    Ember.Test.unregisterWaiter(this._waiter);
+  }
+});
+
+
 export default {
   name: 'liquid-fire',
 
@@ -18,9 +41,14 @@ export default {
     initialize(container, container.lookupFactory('transitions:main'));
 
     if (Ember.testing) {
-      Ember.Test.registerWaiter(function(){
-        return container.lookup('transitions:map').runningTransitions() === 0;
+
+      application.register('transitions:-liquid-fire-waiter', TestWaiter, {
+        singleton: true
       });
+      // force it into existence
+      // TODO: inject it on something that we know will be instantiated if
+      // waiters are used
+      container.lookup('transitions:-liquid-fire-waiter');
     }
   }
 };
