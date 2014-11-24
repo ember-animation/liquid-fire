@@ -2,6 +2,7 @@ import Transition from "./transition";
 import DSL from "./dsl";
 
 function Transitions() {
+  this.activeCount = 0;
   this._map = {};
   this.map(function(){
     this.setDefault({duration: 250});
@@ -9,9 +10,6 @@ function Transitions() {
 }
 
 Transitions.prototype = {
-
-  activeCount: 0,
-
   runningTransitions: function() {
     return this.activeCount;
   },
