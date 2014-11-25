@@ -16,6 +16,9 @@ var Transitions = Ember.Object.extend({
     if (config) {
       this.map(config);
     }
+    if (Ember.testing) {
+      this._registerWaiter();
+    }
   },
 
   runningTransitions: function() {
@@ -206,8 +209,22 @@ var Transitions = Ember.Object.extend({
     } else {
       return candidates.concat(DSL.ANY);
     }
-  }
+  },
 
+  _registerWaiter: function() {
+    var self = this;
+    this._waiter = function() {
+      return self.runningTransitions() === 0;
+    };
+    Ember.Test.registerWaiter(this._waiter);
+  },
+
+  willDestroy: function() {
+    if (this._waiter) {
+      Ember.Test.unregisterWaiter(this._waiter);
+      this._waiter = null;
+    }
+  }
 });
 
 

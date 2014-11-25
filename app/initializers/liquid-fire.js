@@ -16,11 +16,5 @@ export default {
     }
 
     initialize(container);
-
-    if (Ember.testing) {
-      Ember.Test.registerWaiter(function(){
-        return container.lookup('transitions:map').runningTransitions() === 0;
-      });
-    }
   }
 };
