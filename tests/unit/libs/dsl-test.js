@@ -55,7 +55,7 @@ function setContexts(o, n) {
 
 module("Transitions DSL", {
   setup: function(){
-    t = new Transitions();
+    t = Transitions.create();
   },
   teardown: function(){
     t = oldView = newContent = null;

@@ -1,15 +1,16 @@
 import Transition from "./transition";
 import DSL from "./dsl";
+import Ember from "ember";
 
-function Transitions() {
-  this.activeCount = 0;
-  this._map = {};
-  this.map(function(){
-    this.setDefault({duration: 250});
-  });
-}
+var Transitions = Ember.Object.extend({
+  init: function() {
+    this.activeCount = 0;
+    this._map = {};
+    this.map(function(){
+      this.setDefault({duration: 250});
+    });
+  },
 
-Transitions.prototype = {
   runningTransitions: function() {
     return this.activeCount;
   },
@@ -200,14 +201,16 @@ Transitions.prototype = {
     }
   }
 
-};
+});
 
 
-Transitions.map = function(handler) {
-  var t = new Transitions();
-  t.map(handler);
-  return t;
-};
+Transitions.reopenClass({
+  map: function(handler) {
+    var t = Transitions.create();
+    t.map(handler);
+    return t;
+  }
+});
 
 function slatedForDestruction(view) {
   var child;
