@@ -4,7 +4,7 @@ import Ember from "ember";
 export default {
   name: 'liquid-fire',
 
-  initialize: function(container, application) {
+  initialize: function(container) {
     if (!Ember.$.Velocity) {
       Ember.warn("Velocity.js is missing");
     } else {
@@ -15,7 +15,7 @@ export default {
       }
     }
 
-    initialize(container, container.lookupFactory('transitions:main'));
+    initialize(container);
 
     if (Ember.testing) {
       Ember.Test.registerWaiter(function(){

@@ -1,14 +1,21 @@
 import Transition from "./transition";
 import DSL from "./dsl";
 import Ember from "ember";
+import rules from "./internal-rules";
 
 var Transitions = Ember.Object.extend({
   init: function() {
+    var config, container;
     this.activeCount = 0;
     this._map = {};
-    this.map(function(){
-      this.setDefault({duration: 250});
-    });
+    this.map(rules);
+    container = this.get('container');
+    if (container) {
+      config = container.lookupFactory('transitions:main');
+    }
+    if (config) {
+      this.map(config);
+    }
   },
 
   runningTransitions: function() {
