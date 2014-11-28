@@ -32,7 +32,7 @@ button. But this is optional.</p>
   <li><p>Insert the <code>\{{liquid-modal}}</code> component in
   your <code>application.hbs</code> template. You only need to do this
   once &mdash; it will manage all the modals in your application. It
-  doesn't take any arguments.</p>
+  doesn't take any arguments.</p></li>
 
   <li>Create an Ember component the usual way. For example, here
   is <code>app/templates/components/hello-modal.hbs</code>:
@@ -41,12 +41,13 @@ button. But this is optional.</p>
 
     And <code>app/components/hello-modal.js</code>:
     {{code-snippet name="hello-modal.js"}}
-
+  </li>
   <li>Call {{#link-to "modal-documentation.modal"}}modal(){{/link-to}}
   within your router map, at whichever scope you choose and wire up any actions:
 
     {{code-snippet name="hello-modal-map.js"}}
 
+  </li>
   <li><p>You can launch your modal by setting the relevant properties
   on your controller. If the properties are also query params, you can
   just <code>link-to</code>.  For example, here's the controller for this page:</p>
@@ -71,5 +72,6 @@ button. But this is optional.</p>
         Bound value: {{input value=modalMessage class="template-input"}}
       </p>
     </div>
+  </li>
 </ol>
 
