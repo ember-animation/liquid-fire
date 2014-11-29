@@ -22,18 +22,19 @@ options:</p>
 
 <ul>
   <li>Each helper is a semantic drop-in replacement for the
-  corresponding normal Ember helper.
+  corresponding normal Ember helper.</li>
 
   <li><em>Except</em> they generate DOM elements: 
     <ul>
       <li> a <code>&lt;div class="liquid-container"&gt;</code> to
         serve as a container for animations. It
-        is <code>position:relative</code> by default.
+        is <code>position:relative</code> by default.</li>
 
       <li>a <code>&lt;div class="liquid-child"&gt;</code> to wrap the
         content and serve as a target for
-        animations. 
+        animations.</li>
     </ul>
+  </li>
 
   <li>Whenever bound data updates, the helper consults the {{#link-to
   'transition-map'}}transition map{{/link-to}} and decides whether to
@@ -44,16 +45,16 @@ options:</p>
   incoming states (or possibly even more, if transitions interrupt
   each other), and the {{#link-to
   "transitions"}}transition{{/link-to}} has full control over
-  animating them.
+  animating them.</li>
 
   <li>The <code>liquid-container</code> can animate it's own height
   and width to smoothly match the size difference between its old and
-  new content.
+  new content.</li>
 
   <li>liquid-fire makes your content absolutely positioned <em>only
   while needed</em> for running animations, and deals with holding
   your place in the normal document flow. This greatly simplifies the
-  problem of designing animation-friendly layouts.
+  problem of designing animation-friendly layouts.</li>
 
 </ul>
 
