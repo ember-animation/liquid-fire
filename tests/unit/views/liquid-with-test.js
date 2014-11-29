@@ -159,31 +159,6 @@ test("it should support #liquid-with this as qux", function() {
   check("l'Pivots", "should update");
 });
 
-makeModuleFor("Handlebars {{#liquid-with foo}} insideGroup", {});
-
-test("it should render without fail", function() {
-  var View = Ember.View.extend({
-    template: Ember.Handlebars.compile("{{#view view.childView}}{{#liquid-with person}}{{name}}{{/liquid-with}}{{/view}}"),
-    controller: Ember.Object.create({ person: { name: "Ivan IV Vasilyevich" } }),
-    childView: Ember.View.extend({
-      render: function(){
-        this.set('templateData.insideGroup', true);
-        return this._super.apply(this, arguments);
-      }
-    })
-  });
-
-  view(View.create({ container: this.container }));
-  run(function(){ view().appendTo('#qunit-fixture'); });
-  check("Ivan IV Vasilyevich", "should be properly scoped");
-
-  run(function() {
-    set(view(), 'controller.person.name', "Ivan the Terrible");
-  });
-
-  check("Ivan the Terrible", "should update");
-});
-
 (function(){
   var parentController, person;
 
