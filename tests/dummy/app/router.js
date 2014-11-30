@@ -74,6 +74,13 @@ Router.map(function() {
       this.route('middle2');
     });
     this.route('table-row');
+    this.route('remapped-modal');
+    this.modal('hello-modal', {
+      withParams: {
+        testSalutation : 'salutation',
+        testPerson : 'person'
+      }
+    });
   });
 
 });

@@ -26,3 +26,13 @@ test('nested liquid-outlets wait for their ancestors to animate', function() {
     }, 30);
   });
 });
+
+test('modal with remapped parameters receives them', function() {
+  visit('/scenarios/remapped-modal');
+  andThen(function(){
+    click('a:contains(Go)');
+  });
+  andThen(function(){
+    find('.lf-dialog:contains(Hi Tomstah)');
+  });
+});
