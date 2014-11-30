@@ -1,6 +1,10 @@
 # Changelog
 
-### 0.15.-
+### 0.15.1
+
+- BUGFIX: fixed dismissing modals with remapped withParams (#128)
+
+### 0.15.0
 
 - ENHANCEMENT: improved liquid-modal API by @rlivsey.
 
