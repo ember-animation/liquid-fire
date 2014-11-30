@@ -28,11 +28,18 @@ test('nested liquid-outlets wait for their ancestors to animate', function() {
 });
 
 test('modal with remapped parameters receives them', function() {
+  expect(2);
   visit('/scenarios/remapped-modal');
   andThen(function(){
     click('a:contains(Go)');
   });
   andThen(function(){
-    find('.lf-dialog:contains(Hi Tomstah)');
+    console.log("finding with assert");
+    findWithAssert('.lf-dialog:contains(Hi Tomster)');
+    ok(true);
+    click('button:contains(Thanks)');
+  });
+  andThen(function(){
+    equal(find('.lf-dialog').length, 0, "expected dialog to be dismissed");
   });
 });
