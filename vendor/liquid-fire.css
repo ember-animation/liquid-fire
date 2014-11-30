@@ -13,8 +13,11 @@
 
 .lm-container {
     overflow: hidden;
+    display: -webkit-flex;
     display: flex;
+    -webkit-flex-direction: column;
     flex-direction: column;
+    -webkit-justify-content: center;
     justify-content: center;
     position: fixed;
     top: 0;
