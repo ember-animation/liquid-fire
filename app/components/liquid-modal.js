@@ -70,7 +70,7 @@ export default Ember.Component.extend({
     dismiss: function() {
       var source = this.get('currentContext.source'),
           proto = source.constructor.proto(),
-          params = this.get('currentContext.params'),
+          params = this.get('currentContext.options.withParams'),
           clearThem = {};
 
       for (var key in params) {
