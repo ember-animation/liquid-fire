@@ -25,13 +25,16 @@ window.LiquidFire.defineTransition = function(name, implementation) {
 window.Ember.Application.initializer({
   name: 'liquid-fire-standalone',
   initialize: function(container) {
-    require('liquid-fire/index').initialize(container, function(){
+    require('liquid-fire/index').initialize(container);
+
+    window.LiquidFire._deferredDefines.forEach(function(pair){
+      container.register('transition:' + pair[0], pair[1]);
+    });
+
+    container.register('transitions:main', function() {
       var self = this;
       window.LiquidFire._deferredMaps.forEach(function(m){
         m.apply(self);
-      });
-      window.LiquidFire._deferredDefines.forEach(function(pair){
-        container.register('transition:' + pair[0], pair[1]);
       });
     });
     require('liquid-fire-shim').initialize(container);
