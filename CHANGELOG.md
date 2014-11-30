@@ -1,5 +1,11 @@
 # Changelog
 
+
+### 0.15.2
+
+- BUGFIX: fixed loading of transition map when loaded via globals (#133)
+
+
 ### 0.15.1
 
 - BUGFIX: fixed dismissing modals with remapped withParams (#128)
