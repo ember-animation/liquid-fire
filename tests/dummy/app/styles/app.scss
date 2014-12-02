@@ -16,7 +16,8 @@ $font-size-h4: ceil(($font-size-base * 1));
 
 body {
     background-color: #faf4f1;
-}    
+    padding-bottom: 80px;
+}
 
 .header {
     background-color: $tertiary;
@@ -94,6 +95,7 @@ body {
 .mark-holder {
     text-align: right;
 }
+
 
 @import "demos";
 @import "scenarios";
