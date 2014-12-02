@@ -1,16 +1,54 @@
 import Ember from "ember";
 
-export default function liquidOutletHelper(property, options) {
-  if (property && property.data && property.data.isRenderData) {
-    options = property;
-    property = 'main';
-    options.types.push('STRING');
+var isHTMLBars = !!Ember.HTMLBars;
+
+function liquidOutletHelperFunc(property, options) {
+  var property, options, container, hash, env;
+
+  if (isHTMLBars) {
+    property = arguments[0][0]; // params[0]
+    hash = arguments[1];
+    options = arguments[2];
+    env = arguments[3];
+    container = this.container;
+
+    if (!property) {
+      property = 'main';
+      options.paramTypes = ['string'];
+    }
+  } else {
+    property = arguments[0];
+
+    if (property && property.data && property.data.isRenderData) {
+      options = property;
+      property = 'main';
+      options.types.push('STRING');
+    }
+
+    container = options.data.view.container;
+    hash = options.hash;
   }
 
-  var View = options.data.view.container.lookupFactory('view:liquid-outlet');
-  if (options.hash.containerless) {
+  var View = container.lookupFactory('view:liquid-outlet');
+  if (hash.containerless) {
     View = View.extend(Ember._Metamorph);
   }
-  options.hash.viewClass = View;
-  return Ember.Handlebars.helpers.outlet.call(this, property, options);
+  hash.viewClass = View;
+
+  if (isHTMLBars) {
+    env.helpers.outlet.helperFunction.call(this, [property], hash, options, env);
+  } else {
+    return Ember.Handlebars.helpers.outlet.call(this, property, options);
+  }
 }
+
+var liquidOutletHelper = liquidOutletHelperFunc;
+if (Ember.HTMLBars) {
+  liquidOutletHelper = {
+    isHTMLBars: true,
+    helperFunction: liquidOutletHelperFunc,
+    preprocessArguments: function() { }
+  };
+}
+
+export default liquidOutletHelper;

@@ -1,10 +1,24 @@
 import Ember from "ember";
 
+var isHTMLBars = !!Ember.HTMLBars;
+
 // This helper is internal to liquid-with.
-export default function withApplyHelper(options){
-  var view = options.data.view,
-      parent = view.get('liquidWithParent'),
-      withArgs = parent.get('originalArgs').slice();
+function withApplyHelperFunc(options){
+  var hash, options, env, view;
+
+  if (isHTMLBars) {
+    hash = arguments[1];
+    options = arguments[2];
+    env = arguments[3];
+    view = this;
+  } else {
+    options = arguments[0];
+    hash = options.hash;
+    view = options.data.view;
+  }
+
+  var parent = view.get('liquidWithParent');
+  var withArgs = parent.get('originalArgs').slice();
 
   withArgs[0] = 'lwith-view.boundContext';
   options = Ember.copy(options);
@@ -16,13 +30,38 @@ export default function withApplyHelper(options){
   view._keywords['lwith-view'] = view;
 
   // This works to inject our keyword in Ember < 1.9
-  if (!options.data.keywords) {
-    options.data.keywords = {};
+  if (!isHTMLBars) {
+    if (!options.data.keywords) {
+      options.data.keywords = {};
+    }
+    options.data.keywords['lwith-view'] = view;
   }
-  options.data.keywords['lwith-view'] = view;
-  options.fn = parent.get('innerTemplate');
-  options.hash = parent.get('originalHash');
+
+  if (isHTMLBars) {
+    options.template = parent.get('innerTemplate');
+  } else {
+    options.fn = parent.get('innerTemplate');
+  }
+
+  hash = parent.get('originalHash');
   options.hashTypes = parent.get('originalHashTypes');
-  withArgs.push(options);
-  return Ember.Handlebars.helpers.with.apply(this, withArgs);
+
+  if (isHTMLBars) {
+    env.helpers.with.helperFunction.call(this, withArgs, hash, options, env);
+  } else {
+    options.hash = hash;
+    withArgs.push(options);
+    return Ember.Handlebars.helpers.with.apply(this, withArgs);
+  }
 }
+
+var withApplyHelper = withApplyHelperFunc;
+if (Ember.HTMLBars) {
+  withApplyHelper = {
+    isHTMLBars: true,
+    helperFunction: withApplyHelperFunc,
+    preprocessArguments: function() { }
+  };
+}
+
+export default withApplyHelper;

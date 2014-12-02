@@ -62,7 +62,16 @@ function chooseTemplateCompiler(channel) {
   }
   return RSVP.Promise.all(Object.keys(state).map(function(module){
     return run('npm', [state[module], '--save-dev', module]);
-  }));
+  }))
+  .then(function() {
+    var configFile = path.join(__dirname, '..', 'tests', 'dummy', 'config', 'environment.js');
+    var config = fs.readFileSync(configFile, { encoding: 'utf8' });
+
+    if (process.env.HTMLBARS && channel === 'canary') {
+      config = config.replace("//'ember-htmlbars': true", "'ember-htmlbars': true");
+      fs.writeFileSync(configFile, config);
+    }
+  });
 }
 
 function foundVersion(package) {
@@ -82,6 +91,7 @@ function logVersions(channel) {
   ['ember', 'handlebars', 'broccoli-ember-hbs-template-compiler', 'ember-cli-htmlbars'].map(function(module){
     console.log("  " + module + " " + foundVersion(module));
   });
+  console.log("  HTMLBars is " + (process.env.HTMLBARS ? "enabled" : "disabled"));
 }
 
 maybeChangeVersion(process.env.EMBER_CHANNEL).then(function(channel){
