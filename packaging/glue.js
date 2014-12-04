@@ -25,6 +25,7 @@ window.LiquidFire.defineTransition = function(name, implementation) {
 window.Ember.Application.initializer({
   name: 'liquid-fire-standalone',
   initialize: function(container) {
+    require('liquid-fire-shim').initialize(container);
     require('liquid-fire/index').initialize(container);
 
     window.LiquidFire._deferredDefines.forEach(function(pair){
@@ -37,6 +38,6 @@ window.Ember.Application.initializer({
         m.apply(self);
       });
     });
-    require('liquid-fire-shim').initialize(container);
+
   }
 });
