@@ -21,7 +21,15 @@ export default function(){
   // BEGIN-SNIPPET liquid-box-demo-transition
   this.transition(
     this.hasClass('vehicles'),
+
+    // this makes our rule apply when the liquid-if transitions to the
+    // true state.
+    this.toModel(true),
     this.use('crossFade', {duration: 1000}),
+
+    // which means we can also apply a reverse rule for transitions to
+    // the false state.
+    this.reverse('toLeft', {duration: 1000})
   );
   // END-SNIPPET
 
