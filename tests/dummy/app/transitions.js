@@ -20,10 +20,6 @@ export default function(){
 
   // BEGIN-SNIPPET liquid-box-demo-transition
   this.transition(
-    // hasClass('vehicles') is true even during the first render, so
-    // we also require fromNonEmptyModel to prevent an animation when
-    // the page first loads.
-    this.fromNonEmptyModel(),
     this.hasClass('vehicles'),
 
     // this makes our rule apply when the liquid-if transitions to the
