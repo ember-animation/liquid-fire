@@ -18,6 +18,10 @@ function maybeChangeVersion(channel) {
   }).then(function(){return channel;});
 }
 
+function isPreHTMLBars(channel) {
+  return /^1\.8/.test(channel);
+}
+
 function rewrite(bowerJSON, channel) {
   if (channel === 'existing') {
     return bowerJSON;
@@ -30,7 +34,7 @@ function rewrite(bowerJSON, channel) {
   bowerJSON.dependencies.ember = "components/ember#" + channel;
   bowerJSON.resolutions.ember = channel;
 
-  if (channel === 'release') {
+  if (isPreHTMLBars(channel)) {
     bowerJSON.dependencies.handlebars = "1.3.0";
     bowerJSON.resolutions.handlebars = "1.3.0";
   } else {
@@ -49,7 +53,7 @@ function chooseTemplateCompiler(channel) {
     return RSVP.Promise.resolve();
   }
 
-  if (channel === 'release') {
+  if (isPreHTMLBars(channel)) {
     state = {
       'broccoli-ember-hbs-template-compiler' : 'install',
       'ember-cli-htmlbars' : 'uninstall'
@@ -67,7 +71,10 @@ function chooseTemplateCompiler(channel) {
     var configFile = path.join(__dirname, '..', 'tests', 'dummy', 'config', 'environment.js');
     var config = fs.readFileSync(configFile, { encoding: 'utf8' });
 
-    if (process.env.HTMLBARS && channel === 'canary') {
+    if (!isPreHTMLBars(channel)) {
+      // This feature flag is already merged into ember, but our
+      // version of ember-cli still apparently looks for it to know
+      // how to compile templates.
       config = config.replace("//'ember-htmlbars': true", "'ember-htmlbars': true");
       fs.writeFileSync(configFile, config);
     }
@@ -91,7 +98,6 @@ function logVersions(channel) {
   ['ember', 'handlebars', 'broccoli-ember-hbs-template-compiler', 'ember-cli-htmlbars'].map(function(module){
     console.log("  " + module + " " + foundVersion(module));
   });
-  console.log("  HTMLBars is " + (process.env.HTMLBARS ? "enabled" : "disabled"));
 }
 
 maybeChangeVersion(process.env.EMBER_CHANNEL).then(function(channel){
