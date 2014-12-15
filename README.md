@@ -36,6 +36,8 @@ interactive demo & documentation. [The docs are here](http://ef4.github.io/liqui
 
 You can also see some examples in my [Ember Animation Demo](http://github.com/ef4/ember-animation-demo) repo, and this [video presentation from the Boston Ember Meetup](https://www.youtube.com/watch?v=S4M78SO3gAc).
 
+## Development
+
 ### Source Organization
 
 This repo contains both the liquid-fire library and a demo application
@@ -46,5 +48,21 @@ addon format.
  - addon: is code that can be imported by the user from the `liquid-fire` namespace
  - tests/dummy: is the testing, demo, and documentation application that runs at http://ef4.github.com/liquid-fire
  - packaging: extra tooling for building non-ember-cli releases
+
+### Selecting Ember Versions
+
+Liquid Fire is tested against release, beta, canary, and canary +
+HTMLbars versions of Ember. While developing Liquid Fire, you can
+switch to a different Ember environment by using the
+`packaging/select-ember-version.js` script in conjunction with
+the environment variables used within the `env.matrix` section of
+`.travis.yml`, e.g.:
+
+    # switch to Ember Canary with HTMLbars enabled
+    $ EMBER_CHANNEL=canary HTMLBARS=true packaging/select-ember-version.js
+
+After running this command and re-running `ember serve`, the ember-cli
+server (and QUnit test suite) will be running against Ember Canary +
+HTMLBars.
 
 
