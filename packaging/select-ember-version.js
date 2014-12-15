@@ -66,18 +66,19 @@ function chooseTemplateCompiler(channel) {
   }
   return RSVP.Promise.all(Object.keys(state).map(function(module){
     return run('npm', [state[module], '--save-dev', module]);
-  }))
-  .then(function() {
+  })).then(function() {
     var configFile = path.join(__dirname, '..', 'tests', 'dummy', 'config', 'environment.js');
-    var config = fs.readFileSync(configFile, { encoding: 'utf8' });
+    return run('git', ['checkout', configFile]).then(function(){
+      var config = fs.readFileSync(configFile, { encoding: 'utf8' });
 
-    if (!isPreHTMLBars(channel)) {
-      // This feature flag is already merged into ember, but our
-      // version of ember-cli still apparently looks for it to know
-      // how to compile templates.
-      config = config.replace("//'ember-htmlbars': true", "'ember-htmlbars': true");
-      fs.writeFileSync(configFile, config);
-    }
+      if (!isPreHTMLBars(channel) && channel !== 'release') {
+        // This feature flag is already merged into ember, but our
+        // version of ember-cli still apparently looks for it to know
+        // how to compile templates.
+        config = config.replace("//'ember-htmlbars': true", "'ember-htmlbars': true");
+        fs.writeFileSync(configFile, config);
+      }
+    });
   });
 }
 
