@@ -1,5 +1,11 @@
 # Changelog
 
+### 0.16.0
+
+- ENHANCEMENT: compatibility updates to for Ember 1.9 through
+  canary. Thanks @rwjblue for spearheading this work.
+
+- BUGFIX: fixed nested outlets in non-ember-cli apps.
 
 ### 0.15.2
 
