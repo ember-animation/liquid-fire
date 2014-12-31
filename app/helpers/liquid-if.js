@@ -33,11 +33,12 @@ export function factory(invert) {
     }
 
     hash.templates = templates;
-    hash.showFirstBinding = property;
 
     if (isHTMLBars) {
+      hash.showFirst = property;
       env.helpers.view.helperFunction.call(this, [View], hash, options, env);
     } else {
+      hash.showFirstBinding = property;
       return Ember.Handlebars.helpers.view.call(this, View, options);
     }
   };
