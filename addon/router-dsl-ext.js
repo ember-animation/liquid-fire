@@ -28,12 +28,12 @@ proto.modal = function(componentName, opts) {
   });
 };
 
-var origMap = Router.map;
+var origInitRouterJs = Router._initRouterJs;
 
 Router.reopenClass({
-  map: function() {
+  _initRouterJs: function() {
     currentMap = [];
-    var output = origMap.apply(this, arguments);
+    var output = origInitRouterJs.apply(this, arguments);
     this.router.modals = currentMap;
     return output;
   }
