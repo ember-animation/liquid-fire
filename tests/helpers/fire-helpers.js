@@ -12,6 +12,18 @@ export function view(newValue) {
   return _view;
 }
 
+// Poor mans AST transform for HTMLBars
+// Ideally we'd precompile the templates with HTMLBars and use the same TransformLiquidWithAsToHash transform
+// converts {{#liquid-with foo.bar as bar}} to {{#liquid-with foo.bar as |bar|}}
+function transformTemplate(template) {
+  if (!Ember.HTMLBars) { return template; }
+  return template.replace(/(#liquid-with [^\}]+) as ([^\} ]+)([^\}]*)/g, "$1$3 as |$2|");
+}
+
+export function compileTemplate(template) {
+  return Ember.Handlebars.compile(transformTemplate(template));
+}
+
 function setup(attrs){
   return function() {
     var a;
@@ -22,7 +34,7 @@ function setup(attrs){
       a = Ember.copy(attrs, true);
     }
     if (a.template) {
-      a.template = Ember.Handlebars.compile(a.template);
+      a.template = compileTemplate(a.template);
     }
     a.container = this.container;
     if (a.context && !((a.context instanceof Ember.Object) || (Ember.isArray(a.context)))) {
