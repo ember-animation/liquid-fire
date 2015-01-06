@@ -3,7 +3,7 @@ import Ember from "ember";
 var isHTMLBars = !!Ember.HTMLBars;
 
 // This helper is internal to liquid-with.
-function withApplyHelperFunc(options){
+function withApplyHelperFunc() {
   var hash, options, env, view;
 
   if (isHTMLBars) {
@@ -47,7 +47,7 @@ function withApplyHelperFunc(options){
   options.hashTypes = parent.get('originalHashTypes');
 
   if (isHTMLBars) {
-    env.helpers.with.helperFunction.call(this, withArgs, hash, options, env);
+    env.helpers.with.helperFunction.call(this, [view.getStream(withArgs[0])], hash, options, env);
   } else {
     options.hash = hash;
     withArgs.push(options);

@@ -18,6 +18,11 @@ module.exports = {
   included: function(app){
     app.import('vendor/velocity/velocity.js');
     app.import('vendor/liquid-fire.css');
-  },
 
+    var TransformLiquidWithAsToHash = require('./ext/plugins/transform-liquid-with-as-to-hash');
+    app.registry.add('htmlbars-ast-plugin', {
+      name: "transform-liquid-with-as-to-hash",
+      plugin: TransformLiquidWithAsToHash
+    });
+  }
 };

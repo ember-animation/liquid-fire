@@ -1,7 +1,7 @@
 /*jshint newcap:false*/
 import Ember from "ember";
 import { test } from 'ember-qunit';
-import { view, moduleMaker, check } from "../../helpers/fire-helpers";
+import { view, moduleMaker, check, compileTemplate } from "../../helpers/fire-helpers";
 
 var run = Ember.run,
     set = Ember.set,
@@ -65,7 +65,7 @@ test("re-using the same variable with different #liquid-with blocks does not ove
 
 test("the scoped variable is not available outside the {{with}} block.", function(){
   run(function() {
-    view().set('template', Ember.Handlebars.compile("{{name}}-{{#liquid-with other as name}}{{name}}{{/liquid-with}}-{{name}}"));
+    view().set('template', compileTemplate("{{name}}-{{#liquid-with other as name}}{{name}}{{/liquid-with}}-{{name}}"));
     view().set('context', {
       name: 'Stef',
       other: 'Yehuda'
@@ -77,7 +77,7 @@ test("the scoped variable is not available outside the {{with}} block.", functio
 
 test("nested {{with}} blocks shadow the outer scoped variable properly.", function(){
   run(function() {
-    view().set('template', Ember.Handlebars.compile("{{#liquid-with first as ring}}{{ring}}-{{#liquid-with fifth as ring}}{{ring}}-{{#liquid-with ninth as ring}}{{ring}}-{{/liquid-with}}{{ring}}-{{/liquid-with}}{{ring}}{{/liquid-with}}"));
+    view().set('template', compileTemplate("{{#liquid-with first as ring}}{{ring}}-{{#liquid-with fifth as ring}}{{ring}}-{{#liquid-with ninth as ring}}{{ring}}-{{/liquid-with}}{{ring}}-{{/liquid-with}}{{ring}}{{/liquid-with}}"));
     view().set('context', {
       first: 'Limbo',
       fifth: 'Wrath',
@@ -402,7 +402,7 @@ makeModuleFor("outlets inside {{#liquid-with}}", {
 test("should render", function(){
   run(function(){
     view().connectOutlet('main', Ember.View.create({
-      template: Ember.Handlebars.compile("hello world")
+      template: compileTemplate("hello world")
     }));
   });
   check("hello world");

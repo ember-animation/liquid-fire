@@ -28,16 +28,28 @@ proto.modal = function(componentName, opts) {
   });
 };
 
-var origMap = Router.map;
+// 1.10 and above
+Router.reopen({
+  _initRouterJs: function() {
+    currentMap = [];
+    this._super();
+    this.router.modals = currentMap;
+  }
+});
 
+// 1.9 and below
+var origMap = Router.map;
 Router.reopenClass({
   map: function() {
     currentMap = [];
     var output = origMap.apply(this, arguments);
-    this.router.modals = currentMap;
+    if (this.router) {
+      this.router.modals = currentMap;
+    }
     return output;
   }
 });
+
 
 // takes string, array of strings, object, or array of objects and strings
 // and turns them into one object to map withParams/otherParams from context to modal
