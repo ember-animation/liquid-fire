@@ -47,7 +47,7 @@ function withApplyHelperFunc(options){
   options.hashTypes = parent.get('originalHashTypes');
 
   if (isHTMLBars) {
-    env.helpers.with.helperFunction.call(this, withArgs, hash, options, env);
+    env.helpers.with.helperFunction.call(this, [view.getStream(withArgs[0])], hash, options, env);
   } else {
     options.hash = hash;
     withArgs.push(options);
