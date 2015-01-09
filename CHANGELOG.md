@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.16.1
+
+- COMPAT: several fixes to keep up with Ember canary changes. Thanks @rlivsey.
+
 ### 0.16.0
 
 - ENHANCEMENT: compatibility updates to for Ember 1.9 through
