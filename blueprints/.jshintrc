@@ -1,0 +1,6 @@
+{
+  "predef": [
+    "console"
+  ],
+  "esnext": true,
+}
