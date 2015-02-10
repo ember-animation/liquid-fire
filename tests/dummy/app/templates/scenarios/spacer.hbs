@@ -1,0 +1,10 @@
+<button {{action "addThing"   }}>More Things</button>
+<button {{action "removeThing"}}>Less Things</button>
+
+{{#liquid-spacer id="spacer-test"}}
+  <ol>
+  {{#each thing in things}}
+    <li>{{thing.number}}</li>
+  {{/each}}
+  </ol>
+{{/liquid-spacer}}

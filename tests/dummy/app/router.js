@@ -81,6 +81,7 @@ Router.map(function() {
         testPerson : 'person'
       }
     });
+    this.route('spacer');
   });
 
 });
