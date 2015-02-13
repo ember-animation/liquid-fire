@@ -58,6 +58,11 @@ function chooseTemplateCompiler(channel) {
       'broccoli-ember-hbs-template-compiler' : 'install',
       'ember-cli-htmlbars' : 'uninstall'
     };
+  } else if (/^1\.9/.test(channel)) {
+    state = {
+      'broccoli-ember-hbs-template-compiler' : 'uninstall',
+      'ember-cli-htmlbars@0.6.0' : 'install'
+    };
   } else {
     state = {
       'broccoli-ember-hbs-template-compiler' : 'uninstall',
@@ -66,20 +71,7 @@ function chooseTemplateCompiler(channel) {
   }
   return RSVP.Promise.all(Object.keys(state).map(function(module){
     return run('npm', [state[module], '--save-dev', module]);
-  })).then(function() {
-    var configFile = path.join(__dirname, '..', 'tests', 'dummy', 'config', 'environment.js');
-    return run('git', ['checkout', configFile]).then(function(){
-      var config = fs.readFileSync(configFile, { encoding: 'utf8' });
-
-      if (!isPreHTMLBars(channel) && channel !== 'release') {
-        // This feature flag is already merged into ember, but our
-        // version of ember-cli still apparently looks for it to know
-        // how to compile templates.
-        config = config.replace("//'ember-htmlbars': true", "'ember-htmlbars': true");
-        fs.writeFileSync(configFile, config);
-      }
-    });
-  });
+  }));
 }
 
 function foundVersion(package) {
