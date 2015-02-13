@@ -1,5 +1,16 @@
 # Changelog
 
+### 0.16.3
+
+ - BUGFIX: previous change introduced a new requirement for apps to
+   use ember-cli-6to5. This was unintentional and if we do start to
+   require it, we will do so with a major version bump.
+
+### 0.16.2
+
+- ENHANCEMENT: added an unstable and undocumented component called
+  liquid-spacer.
+
 ### 0.16.1
 
 - COMPAT: several fixes to keep up with Ember canary changes. Thanks @rlivsey.
