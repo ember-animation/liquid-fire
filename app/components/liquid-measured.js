@@ -4,6 +4,8 @@ import Ember from "ember";
 export default Ember.Component.extend({
 
   didInsertElement: function() {
+    var self = this;
+
     // This prevents margin collapse
     this.$().css({
       border: '1px solid transparent',
@@ -11,15 +13,16 @@ export default Ember.Component.extend({
     });
 
     this.didMutate();
-    this.observer = new MutationObserver((mutations) => this.didMutate(mutations));
+
+    this.observer = new MutationObserver(function(mutations) { self.didMutate(mutations); });
     this.observer.observe(this.get('element'), {
       attributes: true,
       subtree: true,
       childList: true
     });
-    this.$().bind('webkitTransitionEnd', ()=> this.didMutate());
+    this.$().bind('webkitTransitionEnd', function() { self.didMutate(); });
     // Chrome Memory Leak: https://bugs.webkit.org/show_bug.cgi?id=93661
-    window.addEventListener('unload', () => this.willDestroyElement());
+    window.addEventListener('unload', function(){ self.willDestroyElement(); });
   },
 
   willDestroyElement: function() {
@@ -29,7 +32,7 @@ export default Ember.Component.extend({
   },
 
   didMutate: function() {
-    Ember.run.next(()=> this._didMutate());
+    Ember.run.next(this, function() { this._didMutate(); });
   },
 
   _didMutate: function() {
