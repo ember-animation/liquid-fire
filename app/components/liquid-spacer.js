@@ -5,37 +5,22 @@ export default Ember.Component.extend({
   growDuration: 250,
   growPixelsPerSecond: 200,
   growEasing: 'slide',
-  lockWidth: false,
-  lockHeight: false,
   
   didInsertElement: function() {
     var child = this.$('> div');
-    child.css({
-      position: 'absolute'
+    this.$().css({
+      overflow: 'hidden',
+      width: child.width(),
+      height: child.height()
     });
-    var css = {
-      position: 'relative',
-      overflow: 'hidden'
-    };
-    if (!this.get('lockWidth')) {
-      css.width = child.width();
-    }
-    if (!this.get('lockHeight')) {
-      css.height = child.height();
-    }
-    this.$().css(css);
   },
 
   sizeChange: Ember.observer('width', 'height', function() {
     var elt = this.$();
-    var actions = [];
-    if (!this.get('lockWidth')) {
-      actions.push(this.adaptDimension(elt, 'width'));
-    }
-    if (!this.get('lockHeight')) {
-      actions.push(this.adaptDimension(elt, 'height'));
-    }
-    return Promise.all(actions);
+    return Promise.all([
+      this.adaptDimension(elt, 'width'),
+      this.adaptDimension(elt, 'height')
+    ]);
   }),
 
   adaptDimension: function(elt, dimension) {
