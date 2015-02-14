@@ -47,12 +47,12 @@ export default Ember.Component.extend({
     if (elt[0].offsetWidth === 0) {
       this.set('width', 0);
     } else {
-      this.set('width', elt.width());
+      this.set('width', elt.outerWidth());
     }
     if (elt[0].offsetHeight === 0) {
       this.set('height', 0);
     } else {
-      this.set('height', elt.height());
+      this.set('height', elt.outerHeight());
     }
   }  
 
