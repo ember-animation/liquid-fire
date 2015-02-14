@@ -145,26 +145,20 @@ var Transitions = Ember.Object.extend({
       change.entering.route = change.leaving.route || this._ancestorsRenderedName(parentView);
     }
 
-    return this._match(change, this._map, [
-      change.leaving.route,
-      change.entering.route,
-      parentView,
-      change.leaving.context,
-      change.entering.context
-    ]);
+    return this._match(change, this._map, 0);
   },
 
-  _match: function(change, ctxt, queue) {
+  _match: function(change, ctxt, depth) {
     var index = 0,
-        rest = queue.slice(1),
         candidate, nextContext, answer,
-        candidates = this._candidatesFor(change, ctxt, queue);
+        predicateArgs = this._predicateArgs(change, depth),
+        candidates = this._candidatesFor(change, ctxt, predicateArgs[0], depth);
 
     for (index = 0; index < candidates.length; index++) {
       candidate = candidates[index];
       if (!candidate) { continue; }
       if (typeof(candidate[0]) === 'function'){
-        if (candidate[0].apply(null, this._predicateArgs(change, queue.length))) {
+        if (candidate[0].apply(null, predicateArgs)) {
           nextContext = candidate[1];
         } else {
           nextContext = null;
@@ -173,10 +167,10 @@ var Transitions = Ember.Object.extend({
         nextContext = ctxt[candidate];
       }
       if (nextContext) {
-        if (rest.length === 0) {
+        if (depth === 4) {
           return nextContext;
         } else {
-          answer = this._match(change, nextContext, rest);
+          answer = this._match(change, nextContext, depth + 1);
           if (answer) {
             return answer;
           }
@@ -185,8 +179,7 @@ var Transitions = Ember.Object.extend({
     }
   },
 
-  _predicateArgs: function(change, remainingLevels) {
-    var level = 5 - remainingLevels;
+  _predicateArgs: function(change, level) {
     switch (level) {
     case 0:
       return [change.leaving.route, change.entering.route];
@@ -201,9 +194,9 @@ var Transitions = Ember.Object.extend({
     }
   },
 
-  _candidatesFor: function(change, ctxt, queue) {
-    var candidates = [queue[0] || DSL.EMPTY].concat(ctxt.__functions);
-    if (queue.length === 5 && change.initialRender) {
+  _candidatesFor: function(change, ctxt, first, depth) {
+    var candidates = [first || DSL.EMPTY].concat(ctxt.__functions);
+    if (depth === 0 && change.initialRender) {
       return candidates;
     } else {
       return candidates.concat(DSL.ANY);
