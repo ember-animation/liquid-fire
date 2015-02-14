@@ -156,7 +156,6 @@ var Transitions = Ember.Object.extend({
 
   _match: function(change, ctxt, queue) {
     var index = 0,
-        first = queue[0],
         rest = queue.slice(1),
         candidate, nextContext, answer,
         candidates = this._candidatesFor(change, ctxt, queue);
@@ -165,7 +164,7 @@ var Transitions = Ember.Object.extend({
       candidate = candidates[index];
       if (!candidate) { continue; }
       if (typeof(candidate[0]) === 'function'){
-        if (candidate[0].apply(first, this._predicateArgs(change, queue.length))) {
+        if (candidate[0].apply(null, this._predicateArgs(change, queue.length))) {
           nextContext = candidate[1];
         } else {
           nextContext = null;
@@ -190,15 +189,15 @@ var Transitions = Ember.Object.extend({
     var level = 5 - remainingLevels;
     switch (level) {
     case 0:
-      return [change.entering.route];
+      return [change.leaving.route, change.entering.route];
     case 1:
-      return [change.leaving.route];
+      return [change.entering.route, change.leaving.route];
     case 2:
-      return [];
+      return [change.parentView];
     case 3:
-      return [change.entering.context];
+      return [change.leaving.context, change.entering.context];
     case 4:
-      return [change.leaving.context];
+      return [change.entering.context, change.leaving.context];
     }
   },
 

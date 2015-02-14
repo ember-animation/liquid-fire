@@ -151,8 +151,8 @@ test("matches empty source route", function(){
 test("matches source & destination contexts", function(){
   t.map(function(){
     this.transition(
-      this.fromModel(function(){ return this && this.isMySource; }),
-      this.toModel(function(){ return this && this.isMyDestination; }),
+      this.fromModel(function(model){ return model && model.isMySource; }),
+      this.toModel(function(model){ return model && model.isMyDestination; }),
       this.use(dummyAction)
     );
   });
@@ -181,8 +181,8 @@ test("matches routes & contexts", function(){
     this.transition(
       this.fromRoute('one'),
       this.toRoute('two'),
-      this.fromModel(function(){ return this && this.isMySource; }),
-      this.toModel(function(){ return this && this.isMyDestination; }),
+      this.fromModel(function(model){ return model && model.isMySource; }),
+      this.toModel(function(model){ return model && model.isMyDestination; }),
       this.use(dummyAction)
     );
   });
@@ -287,7 +287,7 @@ test("matching context takes precedence over default", function(){
 test("matches between contexts", function(){
   t.map(function(){
     this.transition(
-      this.betweenModels(function(){ return this && this.isThing; }),
+      this.betweenModels(function(model){ return model && model.isThing; }),
       this.use(dummyAction)
     );
   });
@@ -437,7 +437,7 @@ test("combines multiple context constraints", function(){
   t.map(function(){
     this.transition(
       this.toModel({instanceOf: Pet}),
-      this.toModel(function(){ return this.get('name') === 'Fluffy';}),
+      this.toModel(function(model){ return model.get('name') === 'Fluffy';}),
       this.use(dummyAction)
     );
   });
@@ -459,7 +459,7 @@ test("warn about combining empty matcher and other predicates ", function(){
     t.map(function(){
       this.transition(
         this.toModel(null),
-        this.toModel(function(){ return this.get('name') === 'Fluffy';}),
+        this.toModel(function(model){ return model.get('name') === 'Fluffy';}),
         this.use(dummyAction)
       );
     });
@@ -471,8 +471,8 @@ test("matches reverse routes & contexts", function(){
     this.transition(
       this.fromRoute('one'),
       this.toRoute('two'),
-      this.fromModel(function(){ return this && this.isMySource; }),
-      this.toModel(function(){ return this && this.isMyDestination; }),
+      this.fromModel(function(model){ return model && model.isMySource; }),
+      this.toModel(function(model){ return model && model.isMyDestination; }),
       this.use(dummyAction),
       this.reverse(otherAction)
     );

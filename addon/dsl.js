@@ -147,8 +147,8 @@ DSL.prototype = {
   hasClass: function(name) {
     return {
       type: 'parent',
-      payload: function() {
-        return this && this.get('classNames').indexOf(name) !== -1;
+      payload: function(parentView) {
+        return parentView && parentView.get('classNames').indexOf(name) !== -1;
       }
     };
   },
@@ -156,31 +156,31 @@ DSL.prototype = {
   childOf: function(selector) {
     return {
       type: 'parent',
-      payload: function() {
+      payload: function(parentView) {
         var elt;
-        return this &&
-          (this._morph && Ember.$(this._morph.start.parentElement).is(selector)) ||
-          (this.morph  && Ember.$('#' + this.morph.start).parent().is(selector)) ||
-          ((elt=this.$()) && elt.parent().is(selector));
+        return parentView &&
+          (parentView._morph && Ember.$(parentView._morph.start.parentElement).is(selector)) ||
+          (parentView.morph  && Ember.$('#' + parentView.morph.start).parent().is(selector)) ||
+          ((elt=parentView.$()) && elt.parent().is(selector));
       }
     };
   },
 
   fromNonEmptyModel: function(){
-    return this.fromModel(function(){
-      return typeof(this) !== 'undefined';
+    return this.fromModel(function(context){
+      return typeof(context) !== 'undefined';
     });
   },
 
   toNonEmptyModel: function(){
-    return this.toModel(function(){
-      return typeof(this) !== 'undefined';
+    return this.toModel(function(context){
+      return typeof(context) !== 'undefined';
     });
   },
 
   betweenNonEmptyModels: function(){
-    return this.betweenModels(function(){
-      return typeof(this) !== 'undefined';
+    return this.betweenModels(function(context){
+      return typeof(context) !== 'undefined';
     });
   },
 
@@ -213,16 +213,16 @@ function contextMatcher(matcher) {
     return matcher;
   }
   if (matcher.instanceOf) {
-    return function() {
-      return (this instanceof matcher.instanceOf) || (this && this.get && this.get('model') && this.get('model') instanceof matcher.instanceOf);
+    return function(context) {
+      return (context instanceof matcher.instanceOf) || (context && context.get && context.get('model') && context.get('model') instanceof matcher.instanceOf);
     };
   }
   if (typeof(matcher) === 'boolean') {
-    return function() {
+    return function(context) {
       if (matcher) {
-        return !!this;
+        return !!context;
       } else {
-        return !this;
+        return !context;
       }
     };
   }
