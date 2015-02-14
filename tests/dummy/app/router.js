@@ -18,6 +18,7 @@ Router.map(function() {
     });
     this.route('liquid-bind');
     this.route('liquid-if');
+    this.route('liquid-spacer');
   });
 
   this.resource('transition-map', function(){

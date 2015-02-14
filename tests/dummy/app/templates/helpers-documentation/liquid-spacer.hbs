@@ -1,0 +1,48 @@
+<h2>\{{#liquid-spacer}}</h2>
+
+<p><code>\{{#liquid-spacer}}</code> is a component that animates its
+own width and height to match the width and height of its
+content. Unlike the other template helpers, it doesn't run arbitrary
+animations or use transition rules. It just manages smoothly growing
+and shrinking a container, whenever the stuff inside changes.
+
+<h3>Options</h3>
+  <dt>growDuration</dt>
+  <dd>
+    The maximum amount of time to spend growing. For small changes, we
+    may spend less than this time depending on
+    growPixelsPerSecond. Defaults to 250 milliseconds.
+  </dd>
+
+  <dt>growPixelsPerSecond</dt>
+  <dd>
+    The minimum speed in at which we will grow. Defaults to 200 pixels
+    per second. This lets us make small size adjustments in times
+    shorter than a full growDuration.
+  </dd>
+
+  <dt>growEasing</dt>
+  <dd>A Velocity <a href="http://julian.com/research/velocity/#easing">easing
+  function</a> to use when growing the container height and
+  width. Defaults to <code>'slide'</code>.</dd>
+
+  <dt>enabled</dt>
+  <dd>Whether to animate height and width changes. Defaults to <code>true</code>.</dd>
+
+
+<h3>Demo</h3>
+
+{{!- BEGIN-SNIPPET liquid-spacer-demo -}}
+<div id="liquid-spacer-demo">
+  <label>{{input type="checkbox" checked=showLongMessage}} Show Long Message</label>
+  {{#liquid-spacer}}
+    {{#if showLongMessage}}
+      {{longMessage}}
+    {{else}}
+      {{shortMessage}}
+    {{/if}}
+  {{/liquid-spacer}}
+</div>
+{{!- END-SNIPPET -}}
+
+{{code-snippet name="liquid-spacer-demo.hbs"}}

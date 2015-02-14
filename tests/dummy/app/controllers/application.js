@@ -13,6 +13,7 @@ export default Ember.Controller.extend({
           {route: "helpers-documentation.liquid-with", title: "liquid-with"},
           {route: "helpers-documentation.liquid-bind", title: "liquid-bind"},
           {route: "helpers-documentation.liquid-if", title: "liquid-if"},
+          {route: "helpers-documentation.liquid-spacer", title: "liquid-spacer"},
         ]
       },
       { route: 'transition-map', title: 'Transition Map',
