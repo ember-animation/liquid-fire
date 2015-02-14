@@ -41,14 +41,14 @@ export function factory(invert) {
       hash.showFirstBinding = property;
       return Ember.Handlebars.helpers.view.call(this, View, options);
     }
-  };
+  }
 
   if (Ember.HTMLBars) {
     return {
       isHTMLBars: true,
       helperFunction: helperFunc,
       preprocessArguments: function() { }
-    }
+    };
   } else {
     return helperFunc;
   }
