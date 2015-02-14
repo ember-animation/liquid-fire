@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   growDuration: 250,
   growPixelsPerSecond: 200,
   growEasing: 'slide',
+  enableGrowth: true,
   
   didInsertElement: function() {
     var child = this.$('> div');
@@ -17,6 +18,11 @@ export default Ember.Component.extend({
 
   sizeChange: Ember.observer('width', 'height', function() {
     var elt = this.$();
+    if (!this.get('enableGrowth')) {
+      elt.width(this.get('width'));
+      elt.height(this.get('height'));
+      return Promise.resolve();
+    }
     return Promise.all([
       this.adaptDimension(elt, 'width'),
       this.adaptDimension(elt, 'height')
