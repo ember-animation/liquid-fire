@@ -1,6 +1,6 @@
 // Matches any transition that ends up with a model that's a Person.
 this.transition(
-  this.toModel(function(){ this instanceof Person }),
+  this.toModel(function(model){ model instanceof Person }),
   this.use('toLeft')
 );
 
@@ -15,7 +15,7 @@ this.transition(
 // and all must pass.
 this.transition(
   this.toModel({instanceOf: Person}),
-  this.toModel(function(){ return this.get('age') > 21 }),
+  this.toModel(function(model){ return model.get('age') > 21; }),
   this.use('toLeft')
 );
 
@@ -40,7 +40,7 @@ this.transition(
   this.use('fade')
 );
 
-// `true` is essentially shorthand for function(){ return this; }. And
+// `true` is essentially shorthand for function(model){ return model; }. And
 // `false` works too. These are useful when you're writing a rule that
 // targets a liquid-if and you want to animate differently for the two
 // different logical transitions.
@@ -51,13 +51,13 @@ this.transition(
   this.reverse('toDown')
 );
 
-// Your test functions also receive an argument containing the "other"
-// model, so you can do direct comparisons between them:
+// Your test functions also receive an additional argument containing
+// the "other" model, so you can do direct comparisons between them:
 this.transition(
   // compare them by id and only run this animation if we're moving to
   // a model with a higher id.
-  this.toModel(function(fromModel) {
-    return this && fromModel && this.get('id') > fromModel.get('id');
+  this.toModel(function(toModel, fromModel) {
+    return toModel && fromModel && toModel.get('id') > fromModel.get('id');
   }),
 
   this.use('toLeft')
@@ -68,8 +68,8 @@ this.transition(
 // and betweenNonEmptyModels:
 this.transition(
   this.betweenNonEmptyModels(),
-  this.toModel(function(fromModel) {
-    return this.get('id') > fromModel.get('id');
+  this.toModel(function(toModel, fromModel) {
+    return toModel.get('id') > fromModel.get('id');
   }),
   this.use('toLeft')
 );

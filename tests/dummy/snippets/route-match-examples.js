@@ -8,7 +8,7 @@ this.transition(
 // This is equivalent to the previous example, but showing a more
 // generic form that lets you provide an arbitrary test.
 this.transition(
-  this.toRoute(function(){ return this === 'foo'; }),
+  this.toRoute(function(routeName){ return routeName === 'foo'; }),
   this.use('toLeft')
 );
 
@@ -23,7 +23,7 @@ this.transition(
 // You can mix and match strings and functions. This is equivalent to
 // the previous example.
 this.transition(
-  this.toRoute('foo', function(){ return this === 'bar'; }),
+  this.toRoute('foo', function(routeName){ return routeName === 'bar'; }),
   this.use('toLeft')
 );
 
@@ -32,7 +32,7 @@ this.transition(
 // starting with 'q'.
 this.transition(
   this.fromRoute('foo'),
-  this.toRoute('bar', function(){ return /^q/.test(this); }),
+  this.toRoute('bar', function(routeName){ return /^q/.test(routeName); }),
   this.use('toLeft')
 );
 
