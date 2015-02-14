@@ -3,7 +3,7 @@
 var mergeTrees = require('broccoli-merge-trees');
 var pickFiles = require('broccoli-static-compiler');
 var compileES6 = require('broccoli-es6-concatenator');
-var templateCompiler = require('broccoli-ember-hbs-template-compiler');
+var TemplateCompiler = require('ember-cli-htmlbars');
 var es3Safe = require('broccoli-es3-safe-recast');
 var Funnel = require('broccoli-funnel');
 var registry = require('./registry');
@@ -12,7 +12,10 @@ var version = require('../package.json').version;
 
 var appTree = pickFiles('../app', { srcDir: '/', destDir: 'app'});
 
-var templateTree = templateCompiler('../app/templates', { module: true });
+var templateTree = new TemplateCompiler('../app/templates', {
+  isHTMLBars: true,
+  templateCompiler: require('../bower_components/ember/ember-template-compiler')
+});
 templateTree = pickFiles(templateTree, {srcDir: '/', destDir: 'app/templates'});
 
 var addonTree = pickFiles('../addon', {srcDir: '/', destDir: 'liquid-fire'});

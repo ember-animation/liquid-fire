@@ -1,1 +1,1 @@
-../packaging/dist/liquid-fire-0.15.1.js
+../packaging/dist/liquid-fire-0.17.0.js
