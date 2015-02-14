@@ -1,5 +1,38 @@
 # Changelog
 
+### 0.17.0
+
+ - BREAKING: the API for route and model matcher functions in your
+   transition rules has changed. Instead of passing the
+   object-to-be-tested as `this`, we pass it as the first argument. So
+   if you have a rule like:
+
+      this.fromRoute(function(){ return /special_/.test(this); })
+
+   You need to change it to:
+
+      this.fromRoute(function(routeName){ return /special_/.test(routeName); })
+
+   Similarly, a rule like:
+
+      this.fromModel(function(){ return this.get('age') > 21; })
+
+   Becomes:
+
+      this.fromModel(function(model){ return model.get('age') > 21; })
+
+   This change is necessary to gracefully handle all the cases where
+   the object being tested may be undefined, since `this` is not
+   necessarily allowed to be undefined.
+
+ - ENHANCEMENT: liquid-spacer is ready to go and documented. This is a
+   new helper that provides a standalone growable container that
+   animates whenever its content changes.
+
+ - ENHANCEMENT: added an ember-cli blueprint for generating
+   transitions. Run `ember generate transition some-name`. Thanks
+   @lukesargeant.
+
 ### 0.16.3
 
  - BUGFIX: previous change introduced a new requirement for apps to
