@@ -5,7 +5,7 @@ export default LiquidOutlet.extend({
   liquidUpdate: Ember.on('init', Ember.observer('boundContext', function(){
     var context = this.get('boundContext');
     if (Ember.isEmpty(context)) {
-      this.set('currentView', null);
+      this._newCurrentView(null);
       return;
     }
     var view = Ember._MetamorphView.create({
@@ -16,7 +16,7 @@ export default LiquidOutlet.extend({
       liquidContext: context,
       hasLiquidContext: true,
     });
-    this.set('currentView', view);
+    this._newCurrentView(view);
   }))
 
 });

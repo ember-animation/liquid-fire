@@ -7,7 +7,7 @@ export default LiquidOutlet.extend({
   liquidUpdate: Ember.on('init', Ember.observer('showFirst', function(){
     var template = this.get('templates')[this.get('showFirst') ? 0 : 1];
     if (!template || !isHTMLBars && template === Ember.Handlebars.VM.noop) {
-      this.set('currentView', null);
+      this._newCurrentView(null);
       return;
     }
     var view = Ember._MetamorphView.create({
@@ -18,7 +18,7 @@ export default LiquidOutlet.extend({
       liquidContext: this.get("showFirst"),
       hasLiquidContext: true
     });
-    this.set('currentView', view);
+    this._newCurrentView(view);
   }))
 
 });

@@ -159,7 +159,7 @@ DSL.prototype = {
       payload: function(parentView) {
         var elt;
         return parentView &&
-          (parentView._morph && Ember.$(parentView._morph.start.parentElement).is(selector)) ||
+          (parentView._morph && Ember.$(parentView._morph.contextualElement).is(selector)) ||
           (parentView.morph  && Ember.$('#' + parentView.morph.start).parent().is(selector)) ||
           ((elt=parentView.$()) && elt.parent().is(selector));
       }

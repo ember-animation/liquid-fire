@@ -2,7 +2,13 @@ import Ember from "ember";
 import { Promise, animate, stop } from "liquid-fire";
 var capitalize = Ember.String.capitalize;
 
-export default Ember.ContainerView.extend({
+if (!Ember.OutletView) {
+  throw new Error("This version of liquid-fire requires a new Ember");
+}
+
+// OutletView.superclass is CoreOutletView, which is currently pending
+// behind a feature flag to become an official public API.
+export default Ember.OutletView.superclass.extend({
   classNames: ['liquid-container'],
   growDuration: 250,
   growPixelsPerSecond: 200,
@@ -10,12 +16,7 @@ export default Ember.ContainerView.extend({
   enableGrowth: true,
 
   init: function(){
-    // The ContainerView constructor normally sticks our "currentView"
-    // directly into _childViews, but we want to leave that up to
-    // _currentViewDidChange so we have the opportunity to launch a
-    // transition.
     this._super();
-    Ember.A(this._childViews).clear();
 
     if (this.get('containerless')) {
       // This prevents Ember from throwing an assertion when we try to
@@ -25,24 +26,26 @@ export default Ember.ContainerView.extend({
     }
   },
 
-  // Deliberately overriding a private method from
-  // Ember.ContainerView!
-  //
-  // We need to stop it from destroying our outgoing child view
-  // prematurely.
-  _currentViewWillChange: Ember.beforeObserver('currentView', function() {}),
+  setOutletState: function(state) {
+    if (!this._diffState(state)) {
+      var children = this._childOutlets;
+      for (var i = 0 ; i < children.length; i++) {
+        var child = children[i];
+        child.setOutletState(this._outletState && this._outletState.outlets[child._outletName]);
+      }
+    } else {
+      this._newCurrentView(this._buildView(this._outletState));
+    }
+  },
 
-  // Deliberately overriding a private method from
-  // Ember.ContainerView!
-  _currentViewDidChange: Ember.on('init', Ember.observer('currentView', function() {
+  _newCurrentView: function(newView) {
     // Normally there is only one child (the view we're
     // replacing). But sometimes there may be two children (because a
     // transition is already in progress). In any case, we tell all of
     // them to start heading for the exits now.
 
-    var oldView = this.get('childViews.lastObject'),
-        newView = this.get('currentView'),
-        firstTime;
+    var oldView = this.get('lastObject');
+    var firstTime;
 
     // For the convenience of the transition rules, we explicitly
     // track our first transition, which happens at initial render.
@@ -75,7 +78,7 @@ export default Ember.ContainerView.extend({
       // EOL.
       Ember.RSVP.Promise.resolve()._onerror(err);
     });
-  })),
+  },
 
   _liquidChildFor: function(content) {
     if (content && !content.get('hasLiquidContext')){
