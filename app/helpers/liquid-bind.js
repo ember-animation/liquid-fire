@@ -1,42 +1,36 @@
 /* liquid-bind is really just liquid-with with a pre-provided block
    that just says {{this}} */
-
-var isHTMLBars = !!Ember.HTMLBars;
+import Ember from "ember";
 
 function liquidBindHelperFunc() {
   var options, container;
 
-  if (isHTMLBars) {
-    options = arguments[2];
-    container = this.container;
-  } else {
-    options = arguments[arguments.length - 1];
-    container = options.data.view.container;
-  }
+  options = arguments[arguments.length - 1];
+  container = options.data.view.container;
 
   var liquidWithSelf = container.lookupFactory('template:liquid-with-self');
   var liquidWith = container.lookupFactory('helper:liquid-with');
 
-  if (isHTMLBars) {
-    options.template = liquidWithSelf;
-  } else {
-    options.fn = liquidWithSelf;
-  }
-
-  if (isHTMLBars) {
-    liquidWith.helperFunction.apply(this, arguments);
-  } else {
-    return liquidWith.apply(this, arguments);
-  }
+  options.fn = liquidWithSelf;
+  return liquidWith.apply(this, arguments);
 }
 
-var liquidBindHelper = liquidBindHelperFunc;
+function htmlbarsLiquidBindHelper(params, hash, options, env) {
+  var cls = this.container.lookupFactory('component:liquid-bind-c');
+  hash.value = params[0];
+  env.helpers.view.helperFunction.call(this, [cls], hash, options, env);
+}
+
+var liquidBindHelper;
+
 if (Ember.HTMLBars) {
   liquidBindHelper = {
     isHTMLBars: true,
-    helperFunction: liquidBindHelperFunc,
+    helperFunction: htmlbarsLiquidBindHelper,
     preprocessArguments: function() { }
   };
+} else {
+  liquidBindHelper = liquidBindHelperFunc;
 }
 
 export default liquidBindHelper;
