@@ -88,29 +88,6 @@ test("nested {{with}} blocks shadow the outer scoped variable properly.", functi
   check("Limbo-Wrath-Treachery-Wrath-Limbo", "should be properly scoped after updating");
 });
 
-(function(){
-  var originalLookup;
-  makeModuleFor("Handlebars {{#liquid-with}} globals helper", {
-    setup: function(){
-      originalLookup = Ember.lookup;
-      Ember.lookup = { Foo: { bar: 'baz' }};
-    },
-    template: "{{#liquid-with Foo.bar as qux}}{{qux}}{{/liquid-with}}",
-    teardown: function() {
-      Ember.lookup = originalLookup;
-    }
-  });
-
-  test("it should support #liquid-with Foo.bar as qux", function() {
-    check("baz", "should be properly scoped");
-
-    run(function() {
-      set(Ember.lookup.Foo, 'bar', 'updated');
-    });
-
-    check("updated", "should update");
-  });
-})();
 
 makeModuleFor("Handlebars {{#liquid-with keyword as foo}}", {
   template: "{{#liquid-with view as myView}}{{myView.name}}{{/liquid-with}}",
