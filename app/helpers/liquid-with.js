@@ -47,8 +47,8 @@ function liquidWithHelperFunc() {
     innerTemplate: options.fn || options.template
   });
 
-  if (hash.containerless) {
-    View = View.extend(Ember._Metamorph);
+  if (hash.containerless && (!hash.containerless.isStream || hash.containerless.value())) {
+     View = View.extend(Ember._Metamorph);
   }
 
 
