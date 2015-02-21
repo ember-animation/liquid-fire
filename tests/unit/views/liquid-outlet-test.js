@@ -5,7 +5,8 @@ import { view, check } from "../../helpers/fire-helpers";
 
 var run = Ember.run,
     compile = Ember.Handlebars.compile,
-    container;
+    container,
+    top;
 
 function makeView(attrs) {
   if (attrs.template) {
@@ -21,6 +22,16 @@ function appendView() {
   });
 }
 
+function runDestroy(thing) {
+  run(function() {
+    thing.destroy();
+  });
+}
+
+function runAppend(view) {
+  run(view, "appendTo", "#qunit-fixture");
+}
+
 function makeModuleFor(title) {
   moduleFor('helper:liquid-outlet', title, {
 
@@ -29,123 +40,114 @@ function makeModuleFor(title) {
     setup: function(){
       initialize(this.container);
       container = this.container;
+      container.register('view:-core-outlet', Ember.OutletView.superclass);
+      container.register('view:default', Ember.View.extend(Ember._Metamorph));
+      top = container.lookup('view:-core-outlet');
     },
 
     teardown: function(){
-      run(function(){ view().destroy(); });
-      view(null);
+      runDestroy(container);
+      runDestroy(top);
     }
   });
 }
 
+var trim = Ember.$.trim;
+
 makeModuleFor('{{liquid-outlet}} Basics');
 
-test("view should support connectOutlet for the main outlet", function() {
-  makeView({
-    template: "<h1>HI</h1>{{liquid-outlet}}",
-  });
-  appendView();
-  check('HI');
+test("view should render the outlet when set after dom insertion", function() {
+  var routerState = withTemplate("<h1>HI</h1>{{liquid-outlet}}");
+  top.setOutletState(routerState);
+  runAppend(top);
+
+  equal(top.$().text(), 'HI');
+
+  routerState.outlets.main = withTemplate("<p>BYE</p>");
+
   run(function() {
-    view().connectOutlet('main', Ember.View.create({
-      template: compile("<p>BYE</p>")
-    }));
+    top.setOutletState(routerState);
   });
-  check('HIBYE');
+
+  // Replace whitespace for older IE
+  equal(trim(top.$().text()), 'HIBYE');
 });
 
-test("outlet should support connectOutlet in slots in prerender state", function() {
-  makeView({
-    template: "<h1>HI</h1>{{liquid-outlet}}"
-  });
+test("view should render the outlet when set before dom insertion", function() {
+  var routerState = withTemplate("<h1>HI</h1>{{liquid-outlet}}");
+  routerState.outlets.main = withTemplate("<p>BYE</p>");
+  top.setOutletState(routerState);
+  runAppend(top);
 
-  view().connectOutlet('main', Ember.View.create({
-    template: compile("<p>BYE</p>")
-  }));
-
-  appendView();
-
-  check('HIBYE');
+  // Replace whitespace for older IE
+  equal(trim(top.$().text()), 'HIBYE');
 });
 
-test("outlet should support an optional name", function() {
-  makeView({
-    template: "<h1>HI</h1>{{liquid-outlet \"mainView\"}}"
-  });
-  appendView(view());
-  check('HI');
+QUnit.test("outlet should support an optional name", function() {
+  var routerState = withTemplate("<h1>HI</h1>{{liquid-outlet 'mainView'}}");
+  top.setOutletState(routerState);
+  runAppend(top);
+
+  equal(top.$().text(), 'HI');
+
+  routerState.outlets.mainView = withTemplate("<p>BYE</p>");
 
   run(function() {
-    view().connectOutlet('mainView', Ember.View.create({
-      template: compile("<p>BYE</p>")
-    }));
+    top.setOutletState(routerState);
   });
 
-  check('HIBYE');
+  // Replace whitespace for older IE
+  equal(trim(top.$().text()), 'HIBYE');
 });
 
 
-test("Outlets bind to the current view, not the current concrete view", function() {
-  var parentTemplate = "<h1>HI</h1>{{liquid-outlet}}";
-  var middleTemplate = "<h2>MIDDLE</h2>{{liquid-outlet}}";
-  var bottomTemplate = "<h3>BOTTOM</h3>";
-
-  var middleView = Ember._MetamorphView.create({
-    template: compile(middleTemplate),
-    container: container
-  });
-
-  var bottomView = Ember._MetamorphView.create({
-    template: compile(bottomTemplate),
-    container: container
-  });
-
-  makeView({
-    template: parentTemplate
-  });
-
-  appendView();
-
+QUnit.test("Outlets bind to the current view, not the current concrete view", function() {
+  var routerState = withTemplate("<div id=\"one\">HI{{liquid-outlet}}</div>");
+  top.setOutletState(routerState);
+  runAppend(top);
+  routerState.outlets.main = withTemplate("<div id=\"two\">MIDDLE{{liquid-outlet}}</div>");
   run(function() {
-    view().connectOutlet('main', middleView);
+    top.setOutletState(routerState);
   });
-
+  routerState.outlets.main.outlets.main = withTemplate("<div id=\"three\">BOTTOM</div>");
   run(function() {
-    middleView.connectOutlet('main', bottomView);
+    top.setOutletState(routerState);
   });
 
-  var output = $('#qunit-fixture h3').text();
+  var output = Ember.$('#qunit-fixture #one #two #three').text();
   equal(output, "BOTTOM", "all templates were rendered");
 });
 
 
 test("outlet should support bound class on liquid children", function() {
-  makeView({
-    template: '{{liquid-outlet class=mood}}',
-    context: {
-      mood: 'happy'
-    }
-  });
   run(function() {
-    view().connectOutlet('main', Ember.View.create({
-      template: compile("<p>BYE</p>")
-    }));
+    top.setOutletState({
+      render: {
+        template: compile("{{liquid-outlet class=mood}}"),
+        controller: Ember.Controller.create({ mood: 'happy' })
+      },
+      outlets: {
+        main: withTemplate("<p>BYE</p>")
+      }
+    });
+    runAppend(top);  
   });
-  appendView(view());
-  equal(view().$('.liquid-container.happy').length, 1, "should have class");
+  equal(Ember.$('#qunit-fixture .liquid-container.happy').length, 1, "should have class");
 });
 
 test("outlet should support static class on liquid children", function() {
-  makeView({
-    template: '{{liquid-outlet class="foo"}}'
-  });
   run(function() {
-    view().connectOutlet('main', Ember.View.create({
-      template: compile("<p>BYE</p>")
-    }));
+    top.setOutletState({
+      render: {
+        template: compile("{{liquid-outlet class=\"happy\"}}"),
+      },
+      outlets: {
+        main: withTemplate("<p>BYE</p>")
+      }
+    });
+    runAppend(top);    
   });
-  appendView(view());
-  equal(view().$('.liquid-container.foo').length, 1, "should have class");
+  equal(Ember.$('#qunit-fixture .liquid-container.happy').length, 1, "should have class");
 });
 
 test("outlet should support directly specifying a transition to use", function() {
@@ -156,68 +158,86 @@ test("outlet should support directly specifying a transition to use", function()
     return insertNewView();
   });
 
-  makeView({
-    template: '{{liquid-outlet use="foo"}}'
-  });
+  var routerState = {
+    render: {
+      template: compile('{{liquid-outlet use="foo"}}')
+    },
+    outlets: {
+      main: withTemplate("<p>FIRST</p>")
+    }
+  };
+
   run(function() {
-    view().connectOutlet('main', Ember.View.create({
-      template: compile("<p>FIRST</p>")
-    }));
+    top.setOutletState(routerState);
+    runAppend(top);    
   });
-  appendView(view());
+  
   ok(!fooCalled, "foo transition was not used during initial render");
+  
   run(function() {
-    view().connectOutlet('main', Ember.View.create({
-      template: compile("<p>Second</p>")
-    }));
+    routerState.outlets.main = withTemplate("<p>Second</p>");
+    top.setOutletState(routerState);
   });
   ok(fooCalled, "foo transition was used during subsequent render");
-
 });
 
 test("liquid-outlet should respect containerless", function() {
-  makeView({
-    template: '{{liquid-outlet containerless=true}}'
-  });
   run(function() {
-    view().connectOutlet('main', Ember.View.create({
-      template: compile("<p>FIRST</p>")
-    }));
+    top.setOutletState({
+      render: {
+        template: compile('{{liquid-outlet containerless=true}}')
+      },
+      outlets: {
+        main: withTemplate("<p>FIRST</p>")
+      }
+    });
+    runAppend(top);
   });
-  appendView(view());
   equal($('#qunit-fixture .liquid-child').length, 1, "Has liquid child");
   equal($('#qunit-fixture .liquid-container').length, 0, "Doesn't have liquid container");
 });
 
 test("containless liquid-outlet should propagate class names to liquid-child", function() {
-  makeView({
-    template: '{{liquid-outlet containerless=true class="foo"}}'
-  });
   run(function() {
-    view().connectOutlet('main', Ember.View.create({
-      template: compile("<p>FIRST</p>")
-    }));
+    top.setOutletState({
+      render: {
+        template: compile('{{liquid-outlet containerless=true class="foo"}}')
+      },
+      outlets: {
+        main: withTemplate("<p>FIRST</p>")
+      }
+    });
+    runAppend(top);
   });
-  appendView(view());
   equal($('#qunit-fixture .liquid-child.foo').length, 1, "Has liquid child");
 });
 
 test("containless liquid-outlet should propagate bound class names to liquid-child", function() {
-  makeView({
-    template: '{{liquid-outlet containerless=true class=mood}}',
-    context: {
-      mood: 'happy'
-    }
-  });
+  var controller = Ember.Controller.create({ mood: 'happy' });
   run(function() {
-    view().connectOutlet('main', Ember.View.create({
-      template: compile("<p>BYE</p>")
-    }));
+    top.setOutletState({
+      render: {
+        template: compile('{{liquid-outlet containerless=true class=mood}}'),
+        controller: controller
+      },
+      outlets: {
+        main: withTemplate("<p>FIRST</p>")
+      }
+    });
+    runAppend(top);
   });
-  appendView(view());
-  equal(view().$('.liquid-child.happy').length, 1, "should have class");
+  equal(Ember.$('#qunit-fixture .liquid-child.happy').length, 1, "should have class");
   Ember.run(function(){
-    Ember.set(view(), 'context.mood', 'pensive');
+    Ember.set(controller, 'mood', 'pensive');
   });
-  equal(view().$('.liquid-child.pensive').length, 1, "should update class");
+  equal(Ember.$('#qunit-fixture .liquid-child.pensive').length, 1, "should update class");
 });
+
+function withTemplate(string) {
+  return {
+    render: {
+      template: compile(string)
+    },
+    outlets: {}
+  };
+}

@@ -374,13 +374,23 @@ test("is containerless", function(){
 makeModuleFor("outlets inside {{#liquid-with}}", {
   template: "{{#liquid-with view.thing as fromView}}{{outlet}}{{/liquid-with}}",
   thing: { name: 'me' },
+  setup: function() {
+    this.container.register('view:-outlet', Ember.OutletView);
+    this.container.register('view:default', Ember.View.extend(Ember._Metamorph));
+  }
 });
 
 test("should render", function(){
+
   run(function(){
-    view().connectOutlet('main', Ember.View.create({
-      template: compileTemplate("hello world")
-    }));
+    var outlet = view().get('childViews').find(function(v) {
+      return v.setOutletState;
+    });
+    outlet.setOutletState({
+      render: {
+        template: compileTemplate("hello world")
+      }
+    });
   });
   check("hello world");
 });

@@ -22,8 +22,7 @@ script:
 
 env:
   matrix:
-    - EMBER_CHANNEL=1.8.1
-    - EMBER_CHANNEL=1.9.1
-    - EMBER_CHANNEL=1.10.0
+    - EMBER_CHANNEL=beta
+    - EMBER_CHANNEL=canary
 
 
