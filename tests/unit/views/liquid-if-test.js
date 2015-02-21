@@ -10,7 +10,8 @@ var run = Ember.run,
 var makeModuleFor = moduleMaker("helper:liquid-if", {
   needs: ['view:liquid-if', 'helper:liquid-with',
           'view:liquid-with', 'view:liquid-child',
-          'template:liquid-with', 'helper:with-apply'
+          'template:liquid-with', 'helper:with-apply',
+          'helper:liquid-unless'
          ]
 });
 
@@ -68,4 +69,27 @@ makeModuleFor("{{liquid-if}} containerless", {
 test("is containerless", function(){
   equal(Ember.$('#qunit-fixture .liquid-child').length, 1, "has liquid-child");
   equal(Ember.$('#qunit-fixture .liquid-container').length, 0, "doesn't have liquid-container");
+});
+
+makeModuleFor("{{#liquid-unless}} helper basics", {
+  template: "{{#liquid-unless isReady class=\"magical-unicorn\"}}{{person.name}} is not ready{{else}}{{person.name}} is ready{{/liquid-unless}}",
+  context: {
+    isReady: true,
+    person: { name: "Tom Dale" }
+  }
+});
+
+test("it should render", function() {
+  check("Tom Dale is ready");
+});
+
+test("it should have static class name", function() {
+  equal(view().$('.liquid-container.magical-unicorn').length, 1, "found static class");
+});
+
+test("it should update", function(){
+  Ember.run(function(){
+    view().get('context').set('isReady', false);
+  });
+  check("Tom Dale is not ready");
 });
