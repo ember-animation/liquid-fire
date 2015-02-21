@@ -49,7 +49,7 @@ function liquidWithHelperFunc() {
     View = View.extend(Ember._Metamorph);
   }
 
-  innerHash.boundContextBinding = context;
+  innerHash.boundContext = context;
 
   [
     'class',
