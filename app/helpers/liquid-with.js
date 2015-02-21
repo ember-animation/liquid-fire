@@ -47,11 +47,16 @@ function liquidWithHelperFunc() {
     innerTemplate: options.fn || options.template
   });
 
-  if (hash.containerless && (!hash.containerless.isStream || hash.containerless.value())) {
-     View = View.extend(Ember._Metamorph);
+  var containerless = (isHTMLBars && hash.containerless &&
+                       (!hash.containerless.isStream || hash.containerless.value())) ||
+      (!isHTMLBars &&
+       ((options.hashTypes.containerless === 'BOOLEAN' && hash.containerless) ||
+        (options.hashTypes.containerless === 'ID' && this.containerless))
+      );
+
+  if (containerless) {
+    View = View.extend(Ember._Metamorph);
   }
-
-
 
 
   [
@@ -72,10 +77,14 @@ function liquidWithHelperFunc() {
     }
   });
 
-
   if (isHTMLBars) {
     env.helpers.view.helperFunction.call(this, [View], innerHash, innerOptions, env);
   } else {
+    if (containerless) {
+      delete innerOptions.hash['class'];
+      delete innerOptions.hash['classNames'];
+      delete innerOptions.hash['classNameBindings'];
+    }
     return Ember.Handlebars.helpers.view.call(this, View, innerOptions);
   }
 }

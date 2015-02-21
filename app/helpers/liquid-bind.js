@@ -3,16 +3,20 @@
 import Ember from "ember";
 
 function liquidBindHelperFunc() {
-  var options, container;
+  var options = arguments[arguments.length - 1];
+  var container = options.data.view.container;
+  var componentLookup = container.lookup('component-lookup:main');
+  var cls = componentLookup.lookupFactory('liquid-bind-c');
+  options.hash.value = arguments[0];
+  options.hashTypes.value = options.types[0];
 
-  options = arguments[arguments.length - 1];
-  container = options.data.view.container;
-
-  var liquidWithSelf = container.lookupFactory('template:liquid-with-self');
-  var liquidWith = container.lookupFactory('helper:liquid-with');
-
-  options.fn = liquidWithSelf;
-  return liquidWith.apply(this, arguments);
+  if (options.hash['class']) {
+    options.hash['innerClass'] = options.hash['class'];
+    delete options.hash['class'];
+    options.hashTypes['innerClass'] = options.hashTypes['class'];
+    delete options.hashTypes['class'];
+  }
+  Ember.Handlebars.helpers.view.call(this, cls, options);
 }
 
 function htmlbarsLiquidBindHelper(params, hash, options, env) {
