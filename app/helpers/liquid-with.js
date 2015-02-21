@@ -2,31 +2,15 @@ import Ember from "ember";
 
 export default {
   isHTMLBars: true,
-  helperFunction: function liquidWithHelperFunc() {
-    var params, context, options, container, data, hash, env;
-
-    var innerOptions = {
-      hashTypes: {}
-    };
-
+  helperFunction: function liquidWithHelperFunc(params, hash, options, env) {
     var innerHash = {};
-
-    params = arguments[0];
-    hash = arguments[1];
-    options = arguments[2];
-    env = arguments[3];
-    context = params[0];
-    container = this.container;
-    data = arguments[3].data;
-    innerOptions.morph = options.morph;
-
-    if (params.length === 3) {
-      hash.keywordName = params[2]._label;
-      params = [context];
-    }
-    innerHash.boundContext = context;
-
-    var View = container.lookupFactory('view:liquid-with');
+    var View = this.container.lookupFactory('view:liquid-with');
+    var innerOptions = {
+      hashTypes: {},
+      morph: options.morph
+    };
+    
+    innerHash.boundContext = params[0];
 
     View = View.extend({
       originalArgs: params,
@@ -41,7 +25,6 @@ export default {
     if (containerless) {
       View = View.extend(Ember._Metamorph);
     }
-
 
     [
       'class',

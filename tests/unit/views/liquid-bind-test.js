@@ -8,8 +8,7 @@ var run = Ember.run,
     get = Ember.get;
 
 var makeModuleFor = moduleMaker("helper:liquid-bind", {
-  needs: ['template:liquid-with-self', 'helper:liquid-with',
-          'view:liquid-with', 'view:liquid-child',
+  needs: ['helper:liquid-with', 'view:liquid-with', 'view:liquid-child',
           'template:liquid-with', 'helper:with-apply',
           'component:liquid-bind-c', 'template:components/liquid-bind-c']
 });
