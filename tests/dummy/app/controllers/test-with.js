@@ -1,6 +1,6 @@
 import Ember from "ember";
 
-export default Ember.ObjectController.extend({
+export default Ember.Controller.extend({
   actions: {
     increment: function(){
       this.transitionToRoute('test-with', parseInt(this.get('model.id'))+1);

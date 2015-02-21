@@ -368,7 +368,7 @@ test("matches instanceOf contexts", function() {
   setContexts(Owner.create(), Pet.create());
   equal(lookupAnimation(), otherAction, 'Owner to Pet');
 
-  setContexts(Ember.ObjectController.create({model: Owner.create()}), Pet.create());
+  setContexts(Ember.Controller.create({model: Owner.create()}), Pet.create());
   equal(lookupAnimation(), otherAction, 'Sees through controllers');
 
 });

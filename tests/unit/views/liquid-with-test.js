@@ -140,7 +140,7 @@ test("it should support #liquid-with this as qux", function() {
   var parentController, person;
 
   makeModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function() {
-    var Controller = Ember.ObjectController.extend({
+    var Controller = Ember.Controller.extend({
       controllerName: Ember.computed(function() {
         return "controller:"+this.get('model.name') + ' and ' + this.get('parentController.name');
       })
@@ -193,7 +193,7 @@ test("it should support #liquid-with this as qux", function() {
   var parentController, person, people;
 
   makeModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function() {
-    var Controller = Ember.ObjectController.extend({
+    var Controller = Ember.Controller.extend({
       controllerName: Ember.computed(function() {
         return "controller:"+this.get('model.name') + ' and ' + this.get('parentController.name');
       })
@@ -224,7 +224,7 @@ test("it should support #liquid-with this as qux", function() {
   var PersonController, person, parentController;
   makeModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function(){
 
-    PersonController = Ember.ObjectController.extend({
+    PersonController = Ember.Controller.extend({
       name: Ember.computed('model.name', function() {
         return get(this, 'model.name').toUpperCase();
       })
@@ -276,7 +276,7 @@ test("it should support #liquid-with this as qux", function() {
   var destroyed, Controller, person, parentController;
   makeModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function(){
     destroyed = false;
-    Controller = Ember.ObjectController.extend({
+    Controller = Ember.Controller.extend({
       willDestroy: function() {
         this._super();
         destroyed = true;
@@ -308,7 +308,7 @@ test("it should support #liquid-with this as qux", function() {
   var destroyed, Controller, person, parentController;
   makeModuleFor("Handlebars {{#liquid-with foo}} with defined controller", function(){
     destroyed = false;
-    Controller = Ember.ObjectController.extend({
+    Controller = Ember.Controller.extend({
       willDestroy: function() {
         this._super();
         destroyed = true;
