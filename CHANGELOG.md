@@ -1,12 +1,16 @@
 # Changelog
 
-### master
+### 1.18.0
 
- - master is now only compatible with Ember 1.11 and newer. Older
-   versions of Ember are still supported on the oldstable branch,
-   which is released to npm as 0.17.x.
+ - COMPAT: fully compatible with the current Ember 1.11 beta series
+   and canary.
 
- - We require full ES6 transpilation. The future is now.
+ - BREAKING: master is now only compatible with Ember 1.11 and
+   newer. Older versions of Ember are still supported on the oldstable
+   branch, which is released to npm as 0.17.x.
+
+ - BREAKING: We require full ES6 transpilation. The future is
+   now. `npm install --save-dev ember-cli-6to5`.
 
  - Dropped large swaths of code for pre-HTMLBars support.
 
