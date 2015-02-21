@@ -155,7 +155,7 @@ test("it should support #liquid-with this as qux", function() {
     this.container.register('controller:person', Controller);
 
     return {
-      template: '{{#liquid-with view.person controller="person"}}{{controllerName}}{{/liquid-with}}',
+      template: '{{#liquid-with view.person as p controller="person"}}{{p.controllerName}}{{/liquid-with}}',
       person: person,
       controller: parentController
     };
@@ -209,7 +209,7 @@ test("it should support #liquid-with this as qux", function() {
     this.container.register('controller:person', Controller);
 
     return {
-      template: '{{#each person in people}}{{#liquid-with person controller="person"}}{{controllerName}}{{/liquid-with}}{{/each}}',
+      template: '{{#each person in people}}{{#liquid-with person as p controller="person"}}{{p.controllerName}}{{/liquid-with}}{{/each}}',
       controller: parentController
     };
   });
@@ -293,7 +293,7 @@ test("it should support #liquid-with this as qux", function() {
     });
 
     return {
-      template: '{{#liquid-with person controller="person"}}{{controllerName}}{{/liquid-with}}',
+      template: '{{#liquid-with person as p controller="person"}}{{p.controllerName}}{{/liquid-with}}',
       controller: parentController
     };
   });
@@ -360,7 +360,7 @@ test("{{liquid-with}} helper can bind classes", function(){
 });
 
 makeModuleFor("{{#liquid-with}} containerless", {
-  template: "{{#liquid-with person containerless=true}}{{name}}{{/liquid-with}}",
+  template: "{{#liquid-with person as p containerless=true}}{{p.name}}{{/liquid-with}}",
   context: {
     person: { name: "Tom Dale" }
   }

@@ -22,7 +22,7 @@ function liquidOutletHelperFunc(property, options) {
     if (property && property.data && property.data.isRenderData) {
       options = property;
       property = 'main';
-      options.types.push('STRING');
+      options.types = ['STRING'];
     }
 
     container = options.data.view.container;

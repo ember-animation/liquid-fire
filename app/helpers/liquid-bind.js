@@ -26,7 +26,7 @@ function liquidBindHelperFunc() {
   if (isHTMLBars) {
     liquidWith.helperFunction.apply(this, arguments);
   } else {
-    return liquidWith.apply(this, arguments);
+    return liquidWith.apply(this, [arguments[0], 'as', 'value', options]du);
   }
 }
 
