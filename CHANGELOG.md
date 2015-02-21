@@ -1,5 +1,13 @@
 # Changelog
 
+### 0.17.1
+
+ - COMPAT: This release cleans up all deprecation warnings through
+   Ember 1.10. The 0.17.x series will be in maintenance mode from here
+   on out on the `oldstable` branch, while future work on `master`
+   will be compatible only with Ember 1.11 and newer.
+
+
 ### 0.17.0
 
  - BREAKING: the API for route and model matcher functions in your
