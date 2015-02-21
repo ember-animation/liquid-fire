@@ -25,6 +25,7 @@ function liquidWithHelperFunc() {
       hash.keywordName = params[2]._label;
       params = [context];
     }
+    innerHash.boundContext = context;
   } else {
     params = Array.prototype.slice.apply(arguments, [0, -1]);
     context = arguments[0];
@@ -34,6 +35,7 @@ function liquidWithHelperFunc() {
     container = data.view.container;
     innerOptions.data = data;
     innerOptions.hash = innerHash;
+    innerHash.boundContextBinding = context;
   }
 
   var View = container.lookupFactory('view:liquid-with');
@@ -49,7 +51,8 @@ function liquidWithHelperFunc() {
     View = View.extend(Ember._Metamorph);
   }
 
-  innerHash.boundContextBinding = context;
+
+
 
   [
     'class',
