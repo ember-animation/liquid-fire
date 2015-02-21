@@ -45,6 +45,7 @@
     "ember-code-snippet": "^0.1.0",
     "ember-export-application-global": "^1.0.0",
     "express": "^4.8.5",
+    "git-repo-info": "^1.0.4",
     "github": "git://github.com/ef4/node-github",
     "glob": "^4.0.5",
     "ncp": "^0.6.0",

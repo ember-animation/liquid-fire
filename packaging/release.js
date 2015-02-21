@@ -10,6 +10,7 @@ var stat = RSVP.denodeify(fs.stat);
 var readdir = RSVP.denodeify(fs.readdir);
 var copy = RSVP.denodeify(require('ncp').ncp);
 var program = require('commander');
+var gitRepoInfo = require('git-repo-info');
 
 function version() {
   return require('../package.json').version;
@@ -94,7 +95,7 @@ var steps = [
     step: function(github) {
       return github.releases.createRelease({
         tag_name: 'v' + version(),
-        target_commitish: 'master',
+        target_commitish: gitRepoInfo().sha,
         owner: 'ef4',
         repo: 'liquid-fire',
         draft: true
