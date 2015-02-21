@@ -1,5 +1,15 @@
 # Changelog
 
+### master
+
+ - master is now only compatible with Ember 1.11 and newer. Older
+   versions of Ember are still supported on the oldstable branch,
+   which is released to npm as 0.17.x.
+
+ - We require full ES6 transpilation. The future is now.
+
+ - Dropped large swaths of code for pre-HTMLBars support.
+
 ### 0.17.1
 
  - COMPAT: This release cleans up all deprecation warnings through
