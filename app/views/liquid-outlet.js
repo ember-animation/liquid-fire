@@ -2,10 +2,6 @@ import Ember from "ember";
 import { Promise, animate, stop } from "liquid-fire";
 var capitalize = Ember.String.capitalize;
 
-if (!Ember.OutletView) {
-  throw new Error("This version of liquid-fire requires a new Ember");
-}
-
 // OutletView.superclass is CoreOutletView, which is currently pending
 // behind a feature flag to become an official public API.
 export default Ember.OutletView.superclass.extend({
