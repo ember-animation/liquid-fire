@@ -57,16 +57,19 @@ export default Ember.Component.extend({
 
     for (var i = 0; i < length; i++) {
       var version = versions[i];
-      if (version.isNew) {
-        version.isNew = false;
-        fadeIn(version);
-      } else {
+      if (!version.isNew) {
         promises.push(fadeOut(version));
       }
     }
-    Ember.RSVP.all(promises).then((toRemove) => {
-      for (var i = toRemove.length; i > 0; i--) {
-        versions.removeObject(toRemove[i-1]);
+    Ember.RSVP.all(promises).then(() => {
+      for (var i = length-1; i >= 0; i--) {
+        var version = versions[i];
+        if (version.isNew) {
+          version.isNew = false;
+          fadeIn(version);
+        } else {
+          versions.removeObject(version);
+        }
       }
       this.notifyContainer("afterTransition", versions);
     });
@@ -106,5 +109,5 @@ function fadeOut(version) {
     opacity: 0
   }, {
     duration: 1000
-  }).then(() => version );
+  });
 }
