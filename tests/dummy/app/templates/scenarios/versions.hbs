@@ -1,8 +1,19 @@
-Versions
+<div id="versions-test">
 
-{{input type="text" value=nextName action="submitName" on="insert-newline"}}
-<button {{action "submitName"}}>Go</button>
+  Versions
 
-{{#liquid-versions value=name as |nameVersion|}}
-  <div>Hello {{nameVersion}}</div>
-{{/liquid-versions}}
+  {{input type="text" value=nextName action="submitName" on="insert-newline"}}
+  <button {{action "submitName"}}>Go</button>
+
+  {{#liquid-container as |container|}}
+    {{#liquid-versions value=name notify=container as |nameVersion|}}
+      {{#if showBiggerThing}}
+        <div>Yo Ed</div>
+        <div>Yo Ed</div>
+        <div>Yo Ed</div>
+      {{else}}
+        <div>Hello {{nameVersion}}</div>
+      {{/if}}
+    {{/liquid-versions}}
+  {{/liquid-container}}
+</div>

@@ -3,7 +3,8 @@ var get = Ember.get;
 var set = Ember.set;
 
 export default Ember.Component.extend({
-  
+  tagName: "",
+
   appendVersion: Ember.on('init', Ember.observer('value', function() {
     var versions = get(this, 'versions');
     var firstTime = false;
@@ -24,6 +25,8 @@ export default Ember.Component.extend({
       return;
     }
 
+    this.notifyContainer('willTransition', versions);
+
     if (newValue) {
       // if we're inserting a new child, we will wait until it sends
       // us the childDidRender action.
@@ -36,7 +39,7 @@ export default Ember.Component.extend({
       // transition (which may animate out any existing child(ren)).
       this._transition();
     }
-    
+
     if (firstTime) {
       set(this, 'versions', versions);
     }
@@ -49,6 +52,9 @@ export default Ember.Component.extend({
     var versions = get(this, 'versions');
     var length = versions.length;
     var promises = [];
+
+    this.notifyContainer('afterChildInsertion', versions);
+
     for (var i = 0; i < length; i++) {
       var version = versions[i];
       if (version.isNew) {
@@ -58,11 +64,21 @@ export default Ember.Component.extend({
         promises.push(fadeOut(version));
       }
     }
-    Ember.RSVP.all(promises).then(function(version) {
-      versions.removeObject(version);
+    Ember.RSVP.all(promises).then((toRemove) => {
+      for (var i = toRemove.length; i > 0; i--) {
+        versions.removeObject(toRemove[i-1]);
+      }
+      this.notifyContainer("afterTransition", versions);
     });
   },
-  
+
+  notifyContainer: function(method, versions) {
+    var target = get(this, 'notify');
+    if (target) {
+      target[method](versions);
+    }
+  },
+
   actions: {
     childDidRender: function(child) {
       var version = get(child, 'version');
@@ -70,6 +86,7 @@ export default Ember.Component.extend({
       this._transition();
     }
   }
+
 });
 
 
@@ -89,5 +106,5 @@ function fadeOut(version) {
     opacity: 0
   }, {
     duration: 1000
-  });
+  }).then(() => version );
 }
