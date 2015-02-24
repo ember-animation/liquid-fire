@@ -1,5 +1,7 @@
 import Ember from "ember";
 import Promise from "liquid-fire/promise";
+import { measure } from "./liquid-measured";
+var capitalize = Ember.String.capitalize;
 
 export default Ember.Component.extend({
   growDuration: 250,
@@ -9,34 +11,34 @@ export default Ember.Component.extend({
   
   didInsertElement: function() {
     var child = this.$('> div');
+    var measurements = measure(child);
     this.$().css({
       overflow: 'hidden',
-      width: child.width(),
-      height: child.height()
+      width: measurements.width,
+      height: measurements.height
     });
   },
 
-  sizeChange: Ember.observer('width', 'height', function() {
+  sizeChange: Ember.observer('measurements', function() {
+    if (!this.get('enabled')) { return; }
     var elt = this.$();
-    if (!this.get('enabled')) {
-      elt.width(this.get('width'));
-      elt.height(this.get('height'));
-      return Promise.resolve();
-    }
-    return Promise.all([
-      this.adaptDimension(elt, 'width'),
-      this.adaptDimension(elt, 'height')
+    if (!elt || !elt[0]) { return; }
+    var want = this.get('measurements');
+    var have = measure(this.$());
+    Promise.all([
+      this.adaptDimension(elt, 'width', have, want),
+      this.adaptDimension(elt, 'height', have, want)
     ]);
   }),
 
-  adaptDimension: function(elt, dimension) {
-    var have = elt[dimension]();
-    var want = this.get(dimension);
+  adaptDimension: function(elt, dimension, have, want) {
     var target = {};
-    target[dimension] = want;
-
+    target[dimension] = [
+      want['literal'+capitalize(dimension)],
+      have['literal'+capitalize(dimension)],
+    ];
     return Ember.$.Velocity(elt[0], target, {
-      duration: this.durationFor(have, want),
+      duration: this.durationFor(have[dimension], want[dimension]),
       queue: false,
       easing: this.get('growEasing')      
     });
@@ -44,7 +46,7 @@ export default Ember.Component.extend({
 
   durationFor: function(before, after) {
     return Math.min(this.get('growDuration'), 1000*Math.abs(before - after)/this.get('growPixelsPerSecond'));
-  },
+  }
 
   
 });
