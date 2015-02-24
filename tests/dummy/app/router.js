@@ -83,6 +83,7 @@ Router.map(function() {
       }
     });
     this.route('spacer');
+    this.route('versions');
   });
 
 });

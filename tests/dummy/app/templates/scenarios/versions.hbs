@@ -1,0 +1,8 @@
+Versions
+
+{{input type="text" value=nextName action="submitName" on="insert-newline"}}
+<button {{action "submitName"}}>Go</button>
+
+{{#liquid-versions value=name as |nameVersion|}}
+  <div>Hello {{nameVersion}}</div>
+{{/liquid-versions}}

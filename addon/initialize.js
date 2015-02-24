@@ -7,7 +7,7 @@ export function initialize(container) {
   ['outlet', 'with', 'if'].forEach(function(viewName) {
     container.injection('view:liquid-' + viewName, 'transitions', 'transitions:map');
   });
-
+  container.injection('component:liquid-versions', 'transitions', 'transitions:map');
   container.register('liquid-modals:main', Modals);
   container.injection('component:liquid-modal', 'owner', 'liquid-modals:main');
 
