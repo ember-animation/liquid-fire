@@ -15,7 +15,7 @@ function emberVersion() {
 export default {
   name: 'liquid-fire',
 
-  initialize: function(container) {
+  initialize: function(container, application) {
     if (Ember.compare(minEmberVersion, emberVersion()) === 1) {
       Ember.warn(`This version of liquid fire requires Ember ${ minEmberVersion.join('.') } or newer`);
     }
@@ -29,6 +29,6 @@ export default {
       }
     }
 
-    initialize(container);
+    initialize(application);
   }
 };

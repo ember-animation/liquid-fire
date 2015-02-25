@@ -1,20 +1,17 @@
 import Transitions from "./transitions";
 import Modals from "./modals";
 
-export function initialize(container) {
-  container.register('transitions:map', Transitions);
+export function initialize(application) {
+  application.register('transitions:map', Transitions);
 
   ['outlet', 'with', 'if'].forEach(function(viewName) {
-    container.injection('view:liquid-' + viewName, 'transitions', 'transitions:map');
+    application.inject('view:liquid-' + viewName, 'transitions', 'transitions:map');
   });
-  container.injection('component:liquid-versions', 'transitions', 'transitions:map');
-  container.register('liquid-modals:main', Modals);
-  container.injection('component:liquid-modal', 'owner', 'liquid-modals:main');
 
+  application.inject('component:liquid-versions', 'transitions', 'transitions:map');
+  application.inject('transition', 'transitions', 'transitions:map');
 
-  var lwTemplate = container.lookup('template:liquid-with');
-  if (lwTemplate) {
-    // This is a hack to make outlets work inside liquid-with.
-    lwTemplate.isTop = false;
-  }
+  application.register('liquid-modals:main', Modals);
+  application.inject('component:liquid-modal', 'owner', 'liquid-modals:main');
+
 }
