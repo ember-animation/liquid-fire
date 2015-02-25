@@ -9,14 +9,13 @@ if (!Velocity.Promise) {
   Velocity.Promise = Promise;
 }
 
-export function animate(view, props, opts, label) {
+export function animate(elt, props, opts, label) {
   // These numbers are just sane defaults in the probably-impossible
   // case where somebody tries to read our state before the first
   // 'progress' callback has fired.
-  var state = { percentComplete: 0, timeRemaining: 100, timeSpent: 0 },
-      elt;
+  var state = { percentComplete: 0, timeRemaining: 100, timeSpent: 0 };
 
-  if (!view || !(elt = view.$()) || !elt[0]) {
+  if (!elt || elt.length === 0) {
     return Promise.resolve();
   }
 
@@ -52,20 +51,19 @@ export function animate(view, props, opts, label) {
 
   if (label) {
     state.promise = state.promise.then(function(){
-      clearLabel(view, label);
+      clearLabel(elt, label);
     }, function(err) {
-      clearLabel(view, label);
+      clearLabel(elt, label);
       throw err;
     });
-    applyLabel(view, label, state);
+    applyLabel(elt, label, state);
   }
 
   return state.promise;
 }
 
-export function stop(view) {
-  var elt;
-  if (view && (elt = view.$())) {
+export function stop(elt) {
+  if (elt) {
     elt.velocity('stop', true);
   }
 }
@@ -81,40 +79,38 @@ export function setDefaults(props) {
   }
 }
 
-export function isAnimating(view, animationLabel) {
-  return view && view._lfTags && view._lfTags[animationLabel];
+export function isAnimating(elt, animationLabel) {
+  return elt && elt.data('lfTags_' + animationLabel);
 }
 
-export function finish(view, animationLabel) {
-  return stateForLabel(view, animationLabel).promise;
+export function finish(elt, animationLabel) {
+  return stateForLabel(elt, animationLabel).promise;
 }
 
-export function timeSpent(view, animationLabel) {
-  return stateForLabel(view, animationLabel).timeSpent;
+export function timeSpent(elt, animationLabel) {
+  return stateForLabel(elt, animationLabel).timeSpent;
 }
 
-export function timeRemaining(view, animationLabel) {
-  return stateForLabel(view, animationLabel).timeRemaining;
+export function timeRemaining(elt, animationLabel) {
+  return stateForLabel(elt, animationLabel).timeRemaining;
 }
 
-function stateForLabel(view, label) {
-  var state = isAnimating(view, label);
+function stateForLabel(elt, label) {
+  var state = isAnimating(elt, label);
   if (!state) {
     throw new Error("no animation labeled " + label + " is in progress");
   }
   return state;
 }
 
-function applyLabel(view, label, state) {
-  if (!view){ return; }
-  if (!view._lfTags) {
-    view._lfTags = {};
+function applyLabel(elt, label, state) {
+  if (elt){
+    elt.data('lfTag_' + label, state);
   }
-  view._lfTags[label] = state;
 }
 
-function clearLabel(view, label) {
-  if (view && view._lfTags) {
-    delete view._lfTags[label];
+function clearLabel(elt, label) {
+  if (elt) {
+    elt.data('lfTags_' + label, null);
   }
 }
