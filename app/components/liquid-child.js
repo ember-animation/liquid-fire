@@ -5,7 +5,7 @@ export default Ember.Component.extend({
   style: Ember.computed('visible', function() {
     return this.get('visible') ? '' : 'visibility:hidden';
   }),
-  resolveInsertionPromise: Ember.on('didInsertElement', function(){
+  tellContainerWeRendered: Ember.on('didInsertElement', function(){
     this.sendAction('didRender', this);
   })
 });

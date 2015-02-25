@@ -25,54 +25,63 @@ export default Ember.Component.extend({
       return;
     }
 
-    this.notifyContainer('willTransition', versions);
-
     if (newValue) {
-      // if we're inserting a new child, we will wait until it sends
-      // us the childDidRender action.
+      this.notifyContainer('willTransition', versions);
       versions.unshiftObject({
         value: newValue,
         isNew: true
       });
+      if (firstTime) {
+        this.firstTime = true;
+        set(this, 'versions', versions);
+      }
     } else {
-      // if there's no new child, we launch directly into the
-      // transition (which may animate out any existing child(ren)).
-      this._transition();
+      // If this isn't our first render, we may need to transition out
+      // any previous versions, even though there's no new version.
+      if (!firstTime) {
+        this.notifyContainer('willTransition', versions);
+        this._transition();
+      }
     }
-
-    if (firstTime) {
-      set(this, 'versions', versions);
-    }
-
   })),
 
-  // This is a placeholder until I can wire this up to the transition
-  // rules engine.
   _transition: function() {
     var versions = get(this, 'versions');
-    var length = versions.length;
-    var promises = [];
+    var transition;
+    var firstTime = this.firstTime;
+    this.firstTime = false;
+
 
     this.notifyContainer('afterChildInsertion', versions);
 
-    for (var i = 0; i < length; i++) {
-      var version = versions[i];
-      if (!version.isNew) {
-        promises.push(fadeOut(version));
-      }
-    }
-    Ember.RSVP.all(promises).then(() => {
-      for (var i = length-1; i >= 0; i--) {
-        var version = versions[i];
-        if (version.isNew) {
-          version.isNew = false;
-          fadeIn(version);
-        } else {
-          versions.removeObject(version);
-        }
-      }
-      this.notifyContainer("afterTransition", versions);
+    transition = this.transitions.transitionFor({
+      versions: versions,
+      element: get(this, 'element'),
+      use: get(this, 'use'),
+      firstTime: firstTime
     });
+
+    if (this._runningTransition) {
+      this._runningTransition.interrupt();
+    }
+    this._runningTransition = transition;
+
+    transition.run().then((wasInterrupted) => {
+      // if we were interrupted, we don't handle the cleanup because
+      // another transition has already taken over.
+      if (!wasInterrupted) {
+        for (var i = versions.length-1; i >= 0; i--) {
+          var version = versions[i];
+          if (version.isNew) {
+            version.isNew = false;
+          } else {
+            versions.removeObject(version);
+          }
+        }
+        this.notifyContainer("afterTransition", versions);
+      }
+    });
+
   },
 
   notifyContainer: function(method, versions) {
@@ -91,23 +100,3 @@ export default Ember.Component.extend({
   }
 
 });
-
-
-var Velocity = Ember.$.Velocity;
-
-function fadeIn(version) {
-  Velocity.animate(get(version, 'view.element'), {
-    opacity: [1, 0]
-  }, {
-    duration: 1000,
-    visibility: 'visible'
-  }).then(function() { return version; });
-}
-
-function fadeOut(version) {
-  return Velocity.animate(get(version, 'view.element'), {
-    opacity: 0
-  }, {
-    duration: 1000
-  });
-}
