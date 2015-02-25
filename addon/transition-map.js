@@ -41,7 +41,7 @@ import rules from "./internal-rules";
 
 
 
-var Transitions = Ember.Object.extend({
+var TransitionMap = Ember.Object.extend({
   init: function() {
     this.activeCount = 0;
     this.rules = [];
@@ -86,12 +86,12 @@ var Transitions = Ember.Object.extend({
 });
 
 
-Transitions.reopenClass({
+TransitionMap.reopenClass({
   map: function(handler) {
-    var t = Transitions.create();
+    var t = TransitionMap.create();
     t.map(handler);
     return t;
   }
 });
 
-export default Transitions;
+export default TransitionMap;

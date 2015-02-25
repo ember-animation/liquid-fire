@@ -1,8 +1,8 @@
-import Transitions from "./transitions";
+import TransitionMap from "./transition-map";
 import Modals from "./modals";
 
 export function initialize(application) {
-  application.register('transitions:map', Transitions);
+  application.register('transitions:map', TransitionMap);
 
   ['outlet', 'with', 'if'].forEach(function(viewName) {
     application.inject('view:liquid-' + viewName, 'transitions', 'transitions:map');
