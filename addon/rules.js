@@ -47,16 +47,25 @@ export class Constraint {
     // constrain, like "fromRoute", "toValue", etc.
     this.target = target;
 
-    if (typeof matcher === 'undefined') {
-      this.keys = [ Constraint.EMPTY ];
-    } else if (matcher instanceof RegExp) {
+    if (matcher instanceof RegExp) {
       this.predicate = function(value) { return matcher.test(value); };
     } else if (typeof matcher === 'function') {
       this.predicate = matcher;
-    } else if (Ember.isArray(matcher)) {
-      this.keys = matcher;
+    } else if (typeof matcher === 'boolean') {
+      this.predicate = function(value) { return matcher ? value : !value; };
     } else {
-      this.keys = [ matcher ];
+      if (typeof matcher === 'undefined') {
+        matcher = [ Constraint.EMPTY ];
+      } else if (!Ember.isArray(matcher)) {
+        matcher = [matcher];
+      }
+      this.keys = matcher.map((elt) => {
+        if (typeof elt === 'string') {
+          return elt;
+        } else {
+          return Ember.guidFor(elt);
+        }
+      });
     }
   }
 }

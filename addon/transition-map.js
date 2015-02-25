@@ -3,6 +3,7 @@ import DSL from "./dsl";
 import Ember from "ember";
 import { Action } from "./rules";
 import internalRules from "./internal-rules";
+import Constraints from "./constraints";
 
 /*
   Working on a new constraint-based rules implementation:
@@ -46,6 +47,7 @@ var TransitionMap = Ember.Object.extend({
   init: function() {
     this.activeCount = 0;
     this.rules = [];
+    this.constraints = new Constraints();
     this.map(internalRules);
     var config = this.container.lookupFactory('transitions:main');
     if (config) {
@@ -91,6 +93,7 @@ var TransitionMap = Ember.Object.extend({
 
   addRule: function(rule) {
     rule.validate(this);
+    this.constraints.addRule(rule);
     this.rules.push(rule);
   }
 
@@ -104,5 +107,6 @@ TransitionMap.reopenClass({
     return t;
   }
 });
+
 
 export default TransitionMap;
