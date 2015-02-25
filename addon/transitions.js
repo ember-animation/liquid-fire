@@ -14,7 +14,9 @@ import rules from "./internal-rules";
   order-dependency, easier to implement wildcards that don't override
   more-specific rules.
 
-  Add nice debug logging capability while we go.
+  Add nice debug logging capability while we go. Make the rules
+  themselves know how to print themselves back out with helpful
+  annotations.
 
   Constraints:
 
@@ -42,6 +44,7 @@ import rules from "./internal-rules";
 var Transitions = Ember.Object.extend({
   init: function() {
     this.activeCount = 0;
+    this.rules = [];
     this.map(rules);
     var config = this.container.lookupFactory('transitions:main');
     if (config) {
@@ -82,7 +85,8 @@ var Transitions = Ember.Object.extend({
     return this;
   },
 
-  register: function(routes, contexts, parent, action) {
+  addRule: function(rule) {
+    this.rules.push(rule);
   }
 
 });
