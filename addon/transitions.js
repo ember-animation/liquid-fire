@@ -68,13 +68,7 @@ var Transitions = Ember.Object.extend({
   },
 
   transitionFor: function(conditions) {
-    // TODO: this is a placeholder that always returns a hard-coded
-    // fade transition.
-    var handler;
-    if (!conditions.firstTime) {
-      handler = fade;
-    }
-    return new Transition(this, conditions.versions, handler, []);
+    return new Transition(this, conditions.versions, this.lookup('fade'), []);
   },
 
 
@@ -101,45 +95,3 @@ Transitions.reopenClass({
 });
 
 export default Transitions;
-
-var Velocity = Ember.$.Velocity;
-
-function fade(versions) {
-  var length = versions.length;
-  var promises = [];
-
-  for (var i = 0; i < length; i++) {
-    var version = versions[i];
-    if (!version.isNew) {
-      promises.push(fadeOut(version));
-    }
-  }
-  return Ember.RSVP.all(promises).then(function() {
-    for (var i = length-1; i >= 0; i--) {
-      var version = versions[i];
-      if (version.isNew) {
-        fadeIn(version);
-      } else {
-        versions.removeObject(version);
-      }
-    }
-  });
-}
-
-
-function fadeIn(version) {
-  Velocity.animate(Ember.get(version, 'view.element'), {
-    opacity: [1, 0]
-  }, {
-    duration: 1000,
-    visibility: ''
-  }).then(function() { return version; });
-}
-
-function fadeOut(version) {
-  return Velocity.animate(Ember.get(version, 'view.element'), {
-    opacity: 0
-  }, {
-    duration: 1000
-  });
-}
