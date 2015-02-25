@@ -1,4 +1,4 @@
-import Transition from "./transition";
+import RunningTransition from "./running-transition";
 import DSL from "./dsl";
 import Ember from "ember";
 import rules from "./internal-rules";
@@ -68,7 +68,7 @@ var Transitions = Ember.Object.extend({
   },
 
   transitionFor: function(conditions) {
-    return new Transition(this, conditions.versions, this.lookup('fade'), []);
+    return new RunningTransition(this, conditions.versions, this.lookup('fade'), []);
   },
 
 

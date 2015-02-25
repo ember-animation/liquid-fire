@@ -1,15 +1,15 @@
 import Promise from "./promise";
 import Ember from "ember";
 
-function Transition(transitionMap, versions, animation, animationArgs) {
-  this.transitionMap = transitionMap;
-  this.animation = animation || defaultBehavior;
-  this.animationArgs = animationArgs;
-  this.animationContext = publicAnimationContext(versions);
-}
+export default class RunningTransition {
+  constructor(transitionMap, versions, animation, animationArgs) {
+    this.transitionMap = transitionMap;
+    this.animation = animation || defaultBehavior;
+    this.animationArgs = animationArgs;
+    this.animationContext = publicAnimationContext(versions);
+  }
 
-Transition.prototype = {
-  run: function() {
+  run() {
     if (this._ran) {
       return this._ran;
     }
@@ -24,13 +24,13 @@ Transition.prototype = {
     }).finally(() => {
       this.transitionMap.activeCount -= 1;
     });
-  },
+  }
 
-  interrupt: function() {
+  interrupt() {
     this.interrupted = true;
-  },
+  }
 
-  _invokeAnimation: function() {
+  _invokeAnimation() {
     var animation = this.animation;
     var args = [this.versions].concat(this.animationArgs);
     var self = this;
@@ -43,8 +43,7 @@ Transition.prototype = {
       return self.interrupted;
     });
   }
-
-};
+}
 
 function defaultBehavior() {
   if (this.newest) {
@@ -90,5 +89,3 @@ function addPublicVersion(context, prefix, version) {
     }
   }
 }
-
-export default Transition;
