@@ -21,7 +21,6 @@ export default class DSL {
       rule.add(parts[i]);
     }
 
-    rule.validate();
     this.map.addRule(rule);
   }
 
@@ -70,12 +69,12 @@ export default class DSL {
     return this.matchSelector(selector + ' > *');
   }
 
-  use(nameOrHandler) {
-    return new Action(nameOrHandler);
+  use(nameOrHandler, ...args) {
+    return new Action(nameOrHandler, args);
   }
 
-  reverse(nameOrHandler) {
-    return new Action(nameOrHandler, { reversed: true });
+  reverse(nameOrHandler, ...args) {
+    return new Action(nameOrHandler, args, { reversed: true });
   }
 
   debug() {

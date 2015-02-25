@@ -1,3 +1,4 @@
+import Promise from "./promise";
 import Ember from "ember";
 
 export class Rule {
@@ -25,9 +26,13 @@ export class Rule {
     }
   }
 
-  validate() {
+  validate(transitionMap) {
     if (!this.use) {
       throw new Error(`Every transition rule must include a "use" statement`);
+    }
+    this.use.validateHandler(transitionMap);
+    if (this.reverse) {
+      this.reverse.validateHandler(transitionMap);
     }
   }
 }
@@ -59,12 +64,25 @@ export class Constraint {
 Constraint.EMPTY = {};
 
 export class Action {
-  constructor(nameOrHandler, opts={}) {
+  constructor(nameOrHandler, args, opts={}) {
     if (typeof nameOrHandler === 'function') {
       this.handler = nameOrHandler;
     } else {
       this.name = nameOrHandler;
     }
     this.reversed = opts.reversed;
+    this.args = args;
+  }
+
+  validateHandler(transitionMap) {
+    if (!this.handler) {
+      this.handler = transitionMap.lookup(this.name);
+    }
+  }
+
+  run(context) {
+    return new Promise((resolve, reject) => {
+      this.handler.apply(context, this.args).then(resolve, reject);
+    });
   }
 }

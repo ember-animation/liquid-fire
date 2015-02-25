@@ -1,11 +1,9 @@
-import Promise from "./promise";
 import Ember from "ember";
 
 export default class RunningTransition {
-  constructor(transitionMap, versions, animation, animationArgs) {
+  constructor(transitionMap, versions, animation) {
     this.transitionMap = transitionMap;
-    this.animation = animation || defaultBehavior;
-    this.animationArgs = animationArgs;
+    this.animation = animation || transitionMap.lookup('default');
     this.animationContext = publicAnimationContext(versions);
   }
 
@@ -18,9 +16,8 @@ export default class RunningTransition {
     return this._ran = this._invokeAnimation().catch((err) => {
       // If the animation blew up, try to leave the DOM in a
       // non-broken state as best we can before rethrowing.
-      return defaultBehavior.apply(this.animationContext).then(function(){
-        throw err;
-      });
+      return this.transitionMap.lookup('default').apply(this.animationContext)
+        .then(function(){ throw err; });
     }).finally(() => {
       this.transitionMap.activeCount -= 1;
     });
@@ -31,26 +28,14 @@ export default class RunningTransition {
   }
 
   _invokeAnimation() {
-    var animation = this.animation;
-    var args = [this.versions].concat(this.animationArgs);
-    var self = this;
-
-    // The extra Promise means we will trap an exception thrown
-    // immediately by the animation.
-    return new Promise((resolve, reject) => {
-      animation.apply(this.animationContext, args).then(resolve, reject);
-    }).then(function() {
-      return self.interrupted;
+    return this.animation.run(this.animationContext).then(() => {
+      return this.interrupted;
     });
   }
 }
 
-function defaultBehavior() {
-  if (this.newest) {
-    this.newest.view.set('visible', true);
-  }
-  return Promise.resolve();
-}
+
+
 
 // This defines the public set of things that user's transition
 // implementations can access as `this`.

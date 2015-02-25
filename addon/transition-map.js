@@ -1,7 +1,8 @@
 import RunningTransition from "./running-transition";
 import DSL from "./dsl";
 import Ember from "ember";
-import rules from "./internal-rules";
+import { Action } from "./rules";
+import internalRules from "./internal-rules";
 
 /*
   Working on a new constraint-based rules implementation:
@@ -45,7 +46,7 @@ var TransitionMap = Ember.Object.extend({
   init: function() {
     this.activeCount = 0;
     this.rules = [];
-    this.map(rules);
+    this.map(internalRules);
     var config = this.container.lookupFactory('transitions:main');
     if (config) {
       this.map(config);
@@ -67,8 +68,17 @@ var TransitionMap = Ember.Object.extend({
     return handler;
   },
 
+  defaultAction: function() {
+    if (!this._defaultAction) {
+      this._defaultAction = new Action(this.lookup('default'), []);
+    }
+    return this._defaultAction;
+  },
+
   transitionFor: function(conditions) {
-    return new RunningTransition(this, conditions.versions, this.lookup('fade'), []);
+    var rule = this.rules[this.rules.length-1];
+    return new RunningTransition(this, conditions.versions,
+                                 rule ? rule.use : this.defaultAction());
   },
 
 
@@ -80,6 +90,7 @@ var TransitionMap = Ember.Object.extend({
   },
 
   addRule: function(rule) {
+    rule.validate(this);
     this.rules.push(rule);
   }
 
