@@ -20,6 +20,7 @@
   "dependencies": {
     "ember-cli-babel": "git://github.com/rwjblue/ember-cli-babel.git#make-compatible-with-ember-cli-0-2-0",
     "ember-cli-htmlbars": "^0.7.4",
+    "ember-cli-version-checker": "^1.0.2",
     "velocity-animate": ">= 0.11.8"
   },
   "devDependencies": {
