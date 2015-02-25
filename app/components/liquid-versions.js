@@ -54,7 +54,7 @@ export default Ember.Component.extend({
 
     this.notifyContainer('afterChildInsertion', versions);
 
-    transition = this.transitions.transitionFor({
+    transition = this.transitionMap.transitionFor({
       versions: versions,
       element: get(this, 'element'),
       use: get(this, 'use'),
