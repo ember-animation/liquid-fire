@@ -79,18 +79,26 @@ export default Ember.Component.extend({
       // if we were interrupted, we don't handle the cleanup because
       // another transition has already taken over.
       if (!wasInterrupted) {
-        for (var i = versions.length-1; i >= 0; i--) {
-          var version = versions[i];
-          if (version.isNew) {
-            version.isNew = false;
-          } else {
-            versions.removeObject(version);
-          }
-        }
+        this.finalizeVersions(versions);
         this.notifyContainer("afterTransition", versions);
       }
+    }, (err) => {
+      this.finalizeVersions(versions);
+      this.notifyContainer("afterTransition", versions);
+      throw err;
     });
 
+  },
+
+  finalizeVersions: function(versions) {
+    for (var i = versions.length-1; i >= 0; i--) {
+      var version = versions[i];
+      if (version.isNew) {
+        version.isNew = false;
+      } else {
+        versions.removeObject(version);
+      }
+    }
   },
 
   notifyContainer: function(method, versions) {
