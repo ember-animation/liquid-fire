@@ -33,6 +33,9 @@ export default class Constraints {
 
   addRule(rule) {
     var seen = {};
+    if (rule.debug) {
+      this.debug = true;
+    }
     rule.constraints.forEach((constraint) => {
       seen[constraint.target] = true;
       this.addConstraint(rule, constraint);
@@ -66,7 +69,9 @@ export default class Constraints {
   }
 
   bestMatch(conditions) {
-    debugger;
+    if (this.debug) {
+      console.log("[liquid-fire] Checking transition rules for", conditions.parentElement[0]);
+    }
     // TODO: take most specific
     return this.match(conditions)[0];
   }
@@ -92,10 +97,26 @@ export default class Constraints {
     var context = this.targets[prop];
     for (var i = 0; i < keys.length; i++) {
       if (context[keys[i]]) {
+        this.logDebugRules(context, keys[i], `because ${prop}=${value}`);
         return context[keys[i]];
       }
     }
+    this.logDebugRules(context, ANY, `because ${prop}=${value}`);
     return context[ANY] || {};
+  }
+
+  logDebugRules(context, matchedKey, reason) {
+    if (!this.debug) {
+      return;
+    }
+    Ember.A(Ember.keys(context)).forEach((key) => {
+      Ember.A(Ember.keys(context[key])).forEach((ruleId) => {
+        var rule = context[key][ruleId];
+        if (rule.debug && key !== matchedKey) {
+          console.log(`[liquid-fire] rule rejected ${reason}`);
+        }
+      });
+    });
   }
 
   matchPredicates(conditions, rules) {
@@ -108,6 +129,12 @@ export default class Constraints {
         var value = conditionAccessor(conditions, constraint.target);
         if (constraint.predicate && !constraint.predicate(value)) {
           matched = false;
+          if (rule.debug) {
+            if (constraint.target === 'parentElement') {
+              value = value[0];
+            }
+            console.log(`[liquid-fire] rule rejected because of a constraint on ${constraint.target}. ${constraint.target} was`, value);
+          }
           break;
         }
       }

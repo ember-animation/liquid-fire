@@ -7,7 +7,6 @@ export default class Rule {
     this.constraints = Ember.A();
     this.use = null;
     this.reverse = null;
-    this.debug = false;
   }
 
   add(thing) {
