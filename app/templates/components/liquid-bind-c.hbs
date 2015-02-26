@@ -1,3 +1,5 @@
-{{#liquid-with value as boundValue class=innerClass use=use containerless=containerless }}
-  {{boundValue}}
-{{/liquid-with}}
+{{#liquid-container as |container|}}
+  {{#liquid-versions value=value notify=container as |version|}}
+    {{version}}
+  {{/liquid-versions}}
+{{/liquid-container}}
