@@ -1,6 +1,6 @@
 import { stop, animate, Promise, isAnimating, finish } from "liquid-fire";
 
-export default function moveOver(oldView, insertNewView, dimension, direction, opts) {
+export default function moveOver(dimension, direction, opts) {
   var oldParams = {},
       newParams = {},
       firstStep,
@@ -15,18 +15,17 @@ export default function moveOver(oldView, insertNewView, dimension, direction, o
     measure = 'height';
   }
 
-  if (isAnimating(oldView, 'moving-in')) {
-    firstStep = finish(oldView, 'moving-in');
+  if (isAnimating(this.oldElement, 'moving-in')) {
+    firstStep = finish(this.oldElement, 'moving-in');
   } else {
-    stop(oldView);
+    stop(this.oldElement);
     firstStep = Promise.resolve();
   }
 
-
-  return firstStep.then(insertNewView).then(function(newView){
-    if (newView && newView.$() && oldView && oldView.$()) {
-      var sizes = [parseInt(newView.$().css(measure), 10),
-                   parseInt(oldView.$().css(measure), 10)];
+  return firstStep.then(() => {
+    if (this.newElement && this.oldElement) {
+      var sizes = [parseInt(this.newElement.css(measure), 10),
+                   parseInt(this.oldElement.css(measure), 10)];
       var bigger = Math.max.apply(null, sizes);
       oldParams[property] = (bigger * direction) + 'px';
       newParams[property] = ["0px", (-1 * bigger * direction) + 'px'];
@@ -36,8 +35,8 @@ export default function moveOver(oldView, insertNewView, dimension, direction, o
     }
 
     return Promise.all([
-      animate(oldView, oldParams, opts),
-      animate(newView, newParams, opts, 'moving-in')
+      animate(this.oldElement, oldParams, opts),
+      animate(this.newElement, newParams, opts, 'moving-in')
     ]);
   });
 }

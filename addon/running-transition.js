@@ -34,9 +34,6 @@ export default class RunningTransition {
   }
 }
 
-
-
-
 // This defines the public set of things that user's transition
 // implementations can access as `this`.
 function publicAnimationContext(versions) {
