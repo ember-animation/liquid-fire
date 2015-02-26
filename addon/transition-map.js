@@ -78,7 +78,7 @@ var TransitionMap = Ember.Object.extend({
 
   transitionFor: function(conditions) {
     var action;
-    if (conditions.use && !conditions.firstTime) {
+    if (conditions.use && conditions.firstTime !== 'yes') {
       action = new Action(this.lookup(conditions.use));
     } else {
       var rule = this.constraints.bestMatch(conditions);
