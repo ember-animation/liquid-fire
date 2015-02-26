@@ -26,6 +26,7 @@ export var constrainables = {
 export default class Constraints {
   constructor() {
     this.targets = {};
+    this.ruleCounter = 0;
     for (var i = 0; i < constrainableKeys.length; i++) {
       this.targets[constrainableKeys[i]] = {};
     }
@@ -33,6 +34,7 @@ export default class Constraints {
 
   addRule(rule) {
     var seen = {};
+    rule.id = this.ruleCounter++;
     if (rule.debug) {
       this.debug = true;
     }
@@ -75,8 +77,16 @@ export default class Constraints {
     // TODO: take most specific
     var rules = this.match(conditions);
     var best = rules[0];
+
+    if (rules.length > 1 && this.debug) {
+      rules.forEach((rule) => {
+        if (rule !== best && rule.debug) {
+          console.log(`${describeRule(rule)} matched, but it was superceded by another rule`);
+        }
+      });
+    }
     if (best && best.debug) {
-      console.log("[liquid-fire] rule matched");
+      console.log(`${describeRule(best)} matched`);
     }
     return best;
   }
@@ -118,7 +128,7 @@ export default class Constraints {
       Ember.A(Ember.keys(context[key])).forEach((ruleId) => {
         var rule = context[key][ruleId];
         if (rule.debug && key !== matchedKey) {
-          console.log(`[liquid-fire] rule rejected ${reason}`);
+          console.log(`${describeRule(rule)} rejected ${reason}`);
         }
       });
     });
@@ -138,7 +148,7 @@ export default class Constraints {
             if (constraint.target === 'parentElement') {
               value = value[0];
             }
-            console.log(`[liquid-fire] rule rejected because of a constraint on ${constraint.target}. ${constraint.target} was`, value);
+            console.log(`${describeRule(rule)} rejected because of a constraint on ${constraint.target}. ${constraint.target} was`, value);
           }
           break;
         }
@@ -196,6 +206,10 @@ function intersection(sets) {
     }
   }
   return result;
+}
+
+function describeRule(rule) {
+  return `[liquid-fire rule ${rule.id}]`;
 }
 
 var constrainableKeys = Ember.A(Ember.keys(constrainables));

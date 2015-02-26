@@ -46,7 +46,6 @@ import Constraints from "./constraints";
 var TransitionMap = Ember.Object.extend({
   init: function() {
     this.activeCount = 0;
-    this.rules = [];
     this.constraints = new Constraints();
     this.map(internalRules);
     var config = this.container.lookupFactory('transitions:main');
@@ -104,7 +103,6 @@ var TransitionMap = Ember.Object.extend({
   addRule: function(rule) {
     rule.validate(this);
     this.constraints.addRule(rule);
-    this.rules.push(rule);
   }
 
 });
