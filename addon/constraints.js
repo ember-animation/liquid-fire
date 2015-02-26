@@ -73,7 +73,12 @@ export default class Constraints {
       console.log("[liquid-fire] Checking transition rules for", conditions.parentElement[0]);
     }
     // TODO: take most specific
-    return this.match(conditions)[0];
+    var rules = this.match(conditions);
+    var best = rules[0];
+    if (best && best.debug) {
+      console.log("[liquid-fire] rule matched");
+    }
+    return best;
   }
 
   match(conditions) {
