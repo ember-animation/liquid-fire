@@ -1,5 +1,3 @@
-{{#liquid-container as |container|}}
-  {{#liquid-versions value=value notify=container as |version|}}
-    {{version}}
-  {{/liquid-versions}}
-{{/liquid-container}}
+{{#liquid-with value use=use class=innerClass as |version|}}
+  {{version}}
+{{/liquid-with}}
