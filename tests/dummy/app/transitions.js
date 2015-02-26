@@ -63,4 +63,9 @@ export default function(){
     this.use('fade', {duration: 1000}),
     this.reverse('fade', {duration: 1000})
   );
+
+  this.transition(
+    this.childOf('#versions-test'),
+    this.use('fade', { duration: 500 })
+  );
 }

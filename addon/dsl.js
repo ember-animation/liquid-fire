@@ -1,5 +1,7 @@
 import { setDefaults } from "./animate";
-import { Rule, Constraint, Action } from "./rules";
+import Rule from "./rules";
+import Constraint from "./constraint";
+import Action from "./action";
 
 export default class DSL {
 
@@ -55,11 +57,11 @@ export default class DSL {
   }
 
   hasClass(name) {
-    return new Constraint('elementClass', name);
+    return new Constraint('parentElementClass', name);
   }
 
   matchSelector(selector) {
-    return new Constraint('element', function(elt) {
+    return new Constraint('parentElement', function(elt) {
       return elt.is(selector);
     });
   }
@@ -75,6 +77,10 @@ export default class DSL {
 
   reverse(nameOrHandler, ...args) {
     return new Action(nameOrHandler, args, { reversed: true });
+  }
+
+  onInitialRender() {
+    return new Constraint('firstTime', true);
   }
 
   debug() {

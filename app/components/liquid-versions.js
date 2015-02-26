@@ -1,9 +1,12 @@
 import Ember from "ember";
+import { containingElement } from "liquid-fire/ember-internals";
+
 var get = Ember.get;
 var set = Ember.set;
 
 export default Ember.Component.extend({
   tagName: "",
+  name: 'liquid-versions',
 
   appendVersion: Ember.on('init', Ember.observer('value', function() {
     var versions = get(this, 'versions');
@@ -56,9 +59,10 @@ export default Ember.Component.extend({
 
     transition = this.transitionMap.transitionFor({
       versions: versions,
-      element: get(this, 'element'),
+      parentElement: Ember.$(containingElement(this)),
       use: get(this, 'use'),
-      firstTime: firstTime
+      firstTime: firstTime,
+      helperName: get(this, 'name')
     });
 
     if (this._runningTransition) {

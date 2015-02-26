@@ -1,7 +1,7 @@
 import RunningTransition from "./running-transition";
 import DSL from "./dsl";
 import Ember from "ember";
-import { Action } from "./rules";
+import Action from "./action";
 import internalRules from "./internal-rules";
 import Constraints from "./constraints";
 
@@ -72,15 +72,25 @@ var TransitionMap = Ember.Object.extend({
 
   defaultAction: function() {
     if (!this._defaultAction) {
-      this._defaultAction = new Action(this.lookup('default'), []);
+      this._defaultAction = new Action(this.lookup('default'));
     }
     return this._defaultAction;
   },
 
   transitionFor: function(conditions) {
-    var rule = this.rules[this.rules.length-1];
-    return new RunningTransition(this, conditions.versions,
-                                 rule ? rule.use : this.defaultAction());
+    var action;
+    if (conditions.use && !conditions.firstTime) {
+      action = new Action(this.lookup(conditions.use));
+    } else {
+      var rule = this.constraints.bestMatch(conditions);
+      if (rule) {
+        action = rule.use;
+      } else {
+        action = this.defaultAction();
+      }
+    }
+
+    return new RunningTransition(this, conditions.versions, action);
   },
 
 

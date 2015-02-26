@@ -1,9 +1,10 @@
-import Promise from "./promise";
 import Ember from "ember";
+import Action from "./action";
+import Constraint from "./constraint";
 
-export class Rule {
+export default class Rule {
   constructor() {
-    this.constraints = [];
+    this.constraints = Ember.A();
     this.use = null;
     this.reverse = null;
     this.debug = false;
@@ -34,64 +35,8 @@ export class Rule {
     if (this.reverse) {
       this.reverse.validateHandler(transitionMap);
     }
-  }
-}
-
-// Every rule constraint has a target and either `keys` or
-// `predicate`. key-based constraints are cheaper, because we can just
-// do an O(1) lookup see which constraints may match given
-// transition. Predicate-based constraints must be searched instead.
-export class Constraint {
-  constructor(target, matcher) {
-    // targets are the properties of a transition that we can
-    // constrain, like "fromRoute", "toValue", etc.
-    this.target = target;
-
-    if (matcher instanceof RegExp) {
-      this.predicate = function(value) { return matcher.test(value); };
-    } else if (typeof matcher === 'function') {
-      this.predicate = matcher;
-    } else if (typeof matcher === 'boolean') {
-      this.predicate = function(value) { return matcher ? value : !value; };
-    } else {
-      if (typeof matcher === 'undefined') {
-        matcher = [ Constraint.EMPTY ];
-      } else if (!Ember.isArray(matcher)) {
-        matcher = [matcher];
-      }
-      this.keys = matcher.map((elt) => {
-        if (typeof elt === 'string') {
-          return elt;
-        } else {
-          return Ember.guidFor(elt);
-        }
-      });
+    if (!this.constraints.find((c) => c.target === 'firstTime')) {
+      this.constraints.push(new Constraint('firstTime', false));
     }
-  }
-}
-
-Constraint.EMPTY = {};
-
-export class Action {
-  constructor(nameOrHandler, args, opts={}) {
-    if (typeof nameOrHandler === 'function') {
-      this.handler = nameOrHandler;
-    } else {
-      this.name = nameOrHandler;
-    }
-    this.reversed = opts.reversed;
-    this.args = args;
-  }
-
-  validateHandler(transitionMap) {
-    if (!this.handler) {
-      this.handler = transitionMap.lookup(this.name);
-    }
-  }
-
-  run(context) {
-    return new Promise((resolve, reject) => {
-      this.handler.apply(context, this.args).then(resolve, reject);
-    });
   }
 }
