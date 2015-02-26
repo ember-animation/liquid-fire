@@ -1,12 +1,10 @@
 // BEGIN-SNIPPET cross-fade-definition
 import { animate, stop, Promise } from "liquid-fire";
-export default function crossFade(oldView, insertNewView, opts) {
-  stop(oldView);
-  return insertNewView().then(function(newView) {
-    return Promise.all([
-      animate(oldView, {opacity: 0}, opts),
-      animate(newView, {opacity: [1, 0]}, opts)
-    ]);
-  });
+export default function crossFade(opts) {
+  stop(this.oldElement);
+  return Promise.all([
+    animate(this.oldElement, {opacity: 0}, opts),
+    animate(this.newElement, {opacity: [1, 0]}, opts)
+  ]);
 }
 // END-SNIPPET
