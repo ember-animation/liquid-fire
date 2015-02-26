@@ -61,7 +61,12 @@ export default Ember.Component.extend({
       versions: versions,
       parentElement: Ember.$(containingElement(this)),
       use: get(this, 'use'),
-      firstTime: firstTime,
+      // Using strings instead of booleans here is an
+      // optimization. The constraint system can match them more
+      // efficiently, since it treats boolean constraints as generic
+      // "match anything truthy/falsy" predicates, whereas string
+      // checks are a direct object property lookup.
+      firstTime: firstTime ? 'yes' : 'no',
       helperName: get(this, 'name')
     });
 

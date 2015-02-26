@@ -80,7 +80,7 @@ export default class DSL {
   }
 
   onInitialRender() {
-    return new Constraint('firstTime', true);
+    return new Constraint('firstTime', 'yes');
   }
 
   debug() {

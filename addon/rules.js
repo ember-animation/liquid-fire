@@ -35,7 +35,7 @@ export default class Rule {
       this.reverse.validateHandler(transitionMap);
     }
     if (!this.constraints.find((c) => c.target === 'firstTime')) {
-      this.constraints.push(new Constraint('firstTime', false));
+      this.constraints.push(new Constraint('firstTime', 'no'));
     }
   }
 }
