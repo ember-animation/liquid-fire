@@ -1,9 +1,7 @@
-{{#liquid-container class=innerClass as |container|}}
-  {{#liquid-versions value=value notify=container use=use as |valueVersion|}}
-    {{#if valueVersion}}
-      {{yield}}
-    {{else}}
-      {{lf-yield-inverse}}
-    {{/if}}
-  {{/liquid-versions}}
-{{/liquid-container}}
+{{#liquid-with value class=innerClass use=use as |valueVersion|}}
+  {{#if valueVersion}}
+    {{yield}}
+  {{else}}
+    {{lf-yield-inverse}}
+  {{/if}}
+{{/liquid-with}}
