@@ -10,7 +10,7 @@ export function containingElement(view) {
   return view._morph.contextualElement;
 }
 
-export function makeHelperShim(componentName) {
+export function makeHelperShim(componentName, tweak) {
   return {
     isHTMLBars: true,
     helperFunction: function liquidFireHelper(params, hash, options, env) {
@@ -22,6 +22,9 @@ export function makeHelperShim(componentName) {
         delete hash['class'];
       }
       hash.tagName = "";
+      if (tweak) {
+        tweak(params, hash, options, env);
+      }
       env.helpers.view.helperFunction.call(this, [cls], hash, options, env);
     }
   };
