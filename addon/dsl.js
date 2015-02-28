@@ -1,5 +1,5 @@
 import { setDefaults } from "./animate";
-import Rule from "./rules";
+import Rule from "./rule";
 import Constraint from "./constraint";
 import Action from "./action";
 
