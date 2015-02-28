@@ -28,23 +28,14 @@ export default Ember.Component.extend({
       return;
     }
 
-    if (newValue) {
-      this.notifyContainer('willTransition', versions);
-      versions.unshiftObject({
-        value: newValue,
-        isNew: true
-      });
-      if (firstTime) {
-        this.firstTime = true;
-        set(this, 'versions', versions);
-      }
-    } else {
-      // If this isn't our first render, we may need to transition out
-      // any previous versions, even though there's no new version.
-      if (!firstTime) {
-        this.notifyContainer('willTransition', versions);
-        this._transition();
-      }
+    this.notifyContainer('willTransition', versions);
+    versions.unshiftObject({
+      value: newValue,
+      isNew: true
+    });
+    if (firstTime) {
+      this.firstTime = true;
+      set(this, 'versions', versions);
     }
   })),
 

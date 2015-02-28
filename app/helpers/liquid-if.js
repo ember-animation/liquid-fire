@@ -1,27 +1,15 @@
-import Ember from "ember";
-
-export function factory(invert) {
-  return {
+export default {
     isHTMLBars: true,
-    helperFunction: function liquidIfHelper(params, hash, options, env) {
-      var View = this.container.lookupFactory('view:liquid-if');    
-      var templates = [options.template, options.inverse];
-      
-      if (invert) {
-        templates.reverse();
+    helperFunction: function liquidFireHelper(params, hash, options, env) {
+      var componentLookup = this.container.lookup('component-lookup:main');
+      var cls = componentLookup.lookupFactory('liquid-if');
+      hash.value = params[0];
+      if (hash['class']) {
+        hash.innerClass = hash['class'];
+        delete hash['class'];
       }
-      delete options.template;
-      delete options.inverse;
-
-      if (hash.containerless) {
-        View = View.extend(Ember._Metamorph);
-      }
-
-      hash.templates = templates;
-      hash.showFirst = params[0];
-      env.helpers.view.helperFunction.call(this, [View], hash, options, env);
+      hash.tagName = "";
+      hash.inverseTemplate = options.inverse;
+      env.helpers.view.helperFunction.call(this, [cls], hash, options, env);
     }
-  };
-}
-
-export default factory(false);
+};
