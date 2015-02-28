@@ -86,8 +86,8 @@ function goAbsolute(elt, size) {
   if (!size) {
     size = measure(elt);
   }
-  elt.width(size.width);
-  elt.height(size.height);
+  elt.outerWidth(size.width);
+  elt.outerHeight(size.height);
   elt.css({
     position: 'absolute',
     top: 0,
