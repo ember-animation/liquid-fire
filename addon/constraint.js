@@ -1,4 +1,5 @@
 import Ember from "ember";
+import constrainables from "./constrainables";
 
 // Every rule constraint has a target and either `keys` or
 // `predicate`. key-based constraints are cheaper because we can check
@@ -17,6 +18,21 @@ export default class Constraint {
     } else {
       this.keys = constraintKeys(matcher);
     }
+  }
+
+  invert() {
+    if (!constrainables[this.target].reversesTo) {
+      return this;
+    }
+    var inverted = new this.constructor();
+    inverted.target = constrainables[this.target].reversesTo;
+    if (this.predicate) {
+      inverted.predicate = this.predicate;
+    }
+    if (this.keys) {
+      inverted.keys = this.keys;
+    }
+    return inverted;
   }
 }
 

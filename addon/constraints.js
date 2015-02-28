@@ -1,49 +1,6 @@
 import Ember from 'ember';
 import { constraintKeys } from './constraint';
-
-export var constrainables = {
-  oldValue : {
-    reversesTo: 'newValue',
-    accessor: function(conditions) {
-      return [versionValue(conditions, false)];
-    }
-  },
-  newValue: {
-    reversesTo: 'oldValue',
-    accessor: function(conditions) {
-      return [versionValue(conditions, true)];
-    }
-  },
-  oldRoute: {
-    reversesTo: 'newRoute',
-    accessor: function(conditions) {
-      var value = versionValue(conditions, false);
-      if (value && value.render) {
-        return [value.render.name];
-      }
-    }
-  },
-  newRoute: {
-    reversesTo: 'oldRoute',
-    accessor: function(conditions) {
-      var value = versionValue(conditions, true);
-      if (value && value.render) {
-        return [value.render.name];
-      }
-    }
-  },
-  helperName: {},
-  parentElementClass: {
-    accessor: function(conditions) {
-      var cls = conditions.parentElement.attr('class');
-      if (cls) {
-        return cls.split(/\s+/);
-      }
-    }
-  },
-  parentElement: {},
-  firstTime: {}
-};
+import constrainables from "./constrainables";
 
 export default class Constraints {
   constructor() {
@@ -55,11 +12,20 @@ export default class Constraints {
   }
 
   addRule(rule) {
-    var seen = {};
     rule.id = this.ruleCounter++;
     if (rule.debug) {
       this.debug = true;
     }
+    this.addHalfRule(rule);
+    if (rule.reverse) {
+      var inverted = rule.invert();
+      inverted.id = rule.id + ' reverse';
+      this.addHalfRule(inverted);
+    }
+  }
+
+  addHalfRule(rule) {
+    var seen = {};
     rule.constraints.forEach((constraint) => {
       seen[constraint.target] = true;
       this.addConstraint(rule, constraint);
@@ -180,18 +146,6 @@ export default class Constraints {
       }
     }
     return output;
-  }
-}
-
-function versionValue(conditions, newFlag) {
-  var versions = conditions.versions;
-  var length = versions.length;
-  var version;
-  for (var i = 0; i < length; i++) {
-    version = versions[i];
-    if (newFlag ? version.isNew : !version.isNew) {
-      return version.value;
-    }
   }
 }
 

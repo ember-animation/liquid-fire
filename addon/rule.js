@@ -38,4 +38,13 @@ export default class Rule {
       this.constraints.push(new Constraint('firstTime', 'no'));
     }
   }
+
+  invert() {
+    var rule = new this.constructor();
+    rule.use = this.reverse;
+    rule.reverse = this.use;
+    rule.constraints = this.constraints.map((c) => c.invert());
+    rule.debug = this.debug;
+    return rule;
+  }
 }
