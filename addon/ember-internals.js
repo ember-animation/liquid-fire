@@ -62,3 +62,48 @@ export function inverseYieldMethod(context, options, morph, blockArguments) {
     });
   }
 }
+
+export var OutletBehavior = {
+  _isOutlet: true,
+
+  setOutletState: function(state) {
+    this.set('outletState', state);
+  },
+
+  _parentOutlet: function() {
+    var parent = this._parentView;
+    while (parent && !parent._isOutlet) {
+      parent = parent._parentView;
+    }
+    return parent;
+  },
+
+  _linkParent: Ember.on('init', 'parentViewDidChange', function() {
+    var parent = this._parentOutlet();
+    if (parent) {
+      this._parentOutletLink = parent;
+      parent._childOutlets.push(this);
+      if (parent._outletState) {
+        this.setOutletState(parent._outletState.outlets[this._outletName]);
+      }
+    }
+  }),
+
+  willDestroy: function() {
+    if (this._parentOutletLink) {
+      this._parentOutletLink._childOutlets.removeObject(this);
+    }
+    this._super();
+  }
+};
+
+export var StaticOutlet = Ember.OutletView.superclass.extend({
+  tagName: '',
+
+  // Disable normal outletstate propagation
+  _parentOutlet: function() {},
+
+  setStaticState: Ember.on('init', Ember.observer('staticState', function() {
+    this.setOutletState(this.get('staticState'));
+  }))
+});

@@ -4,11 +4,33 @@ import { constraintKeys } from './constraint';
 export var constrainables = {
   oldValue : {
     reversesTo: 'newValue',
-    accessor: versionValue(false)
+    accessor: function(conditions) {
+      return [versionValue(conditions, false)];
+    }
   },
   newValue: {
     reversesTo: 'oldValue',
-    accessor: versionValue(true)
+    accessor: function(conditions) {
+      return [versionValue(conditions, true)];
+    }
+  },
+  oldRoute: {
+    reversesTo: 'newRoute',
+    accessor: function(conditions) {
+      var value = versionValue(conditions, false);
+      if (value && value.render) {
+        return [value.render.name];
+      }
+    }
+  },
+  newRoute: {
+    reversesTo: 'oldRoute',
+    accessor: function(conditions) {
+      var value = versionValue(conditions, true);
+      if (value && value.render) {
+        return [value.render.name];
+      }
+    }
   },
   helperName: {},
   parentElementClass: {
@@ -161,17 +183,16 @@ export default class Constraints {
   }
 }
 
-function versionValue(newFlag) {
-  return function(versions) {
-    var length = versions.length;
-    var version;
-    for (var i = 0; i < length; i++) {
-      version = versions[i];
-      if (newFlag ? version.isNew : !version.isNew) {
-        return [version.value];
-      }
+function versionValue(conditions, newFlag) {
+  var versions = conditions.versions;
+  var length = versions.length;
+  var version;
+  for (var i = 0; i < length; i++) {
+    version = versions[i];
+    if (newFlag ? version.isNew : !version.isNew) {
+      return version.value;
     }
-  };
+  }
 }
 
 function conditionAccessor(conditions, key) {

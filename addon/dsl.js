@@ -28,15 +28,13 @@ export default class DSL {
 
   fromRoute(...routeNames) {
     return [
-      new Constraint('oldValue', routeNames),
-      new Constraint('helperName', 'outlet')
+      new Constraint('oldRoute', routeNames),
     ];
   }
 
   toRoute(...routeNames) {
     return [
-      new Constraint('newValue', routeNames),
-      new Constraint('helperName', 'outlet')
+      new Constraint('newRoute', routeNames),
     ];
   }
 
