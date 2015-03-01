@@ -89,12 +89,12 @@ export default class DSL {
     return new Constraint('helperName', names);
   }
 
-  toModal(...names) {
-    return new Constraint('newModalComponent', names);
+  toModal(matcher) {
+    return new Constraint('newModalComponent', matcher);
   }
 
-  fromModal(...names) {
-    return new Constraint('oldModalComponent', names);
+  fromModal(matcher) {
+    return new Constraint('oldModalComponent', matcher);
   }
 
   debug() {
