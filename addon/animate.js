@@ -95,6 +95,46 @@ export function timeRemaining(elt, animationLabel) {
   return stateForLabel(elt, animationLabel).timeRemaining;
 }
 
+// Splits out input context into separate pieces that can be animated
+// separately. Also pushes the visibility flags downward from
+// newElement to its parts, so that they are each revealed by their
+// own followup animation.
+export function explode(context, selectors) {
+  var output = [];
+  var childContext;
+
+  for (var i = 0; i < selectors.length; i++) {
+    childContext = Ember.copy(context);
+    _explodePart(context, 'newElement', childContext, selectors[i]);
+    _explodePart(context, 'oldElement', childContext, selectors[i]);
+    output.push(childContext);
+  }
+  if (context.newElement) {
+    context.newElement.css({visibility: ''});
+  }
+  if (context.oldElement) {
+    context.oldElement.css({visibility: ''});
+  }
+  return output;
+}
+
+function _explodePart(context, field, childContext, selector) {
+  var child;
+  var elt = context[field];
+  childContext[field] = null;
+  if (elt) {
+    child = elt.find(selector);
+    if (child.length > 0) {
+      childContext[field] = child;
+      if (elt.css('visibility') === 'hidden') {
+        child.css({ visibility: 'hidden' });
+      }
+    }
+  }
+  return childContext;
+}
+
+
 function stateForLabel(elt, label) {
   var state = isAnimating(elt, label);
   if (!state) {
