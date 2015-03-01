@@ -25,6 +25,9 @@ export default Ember.Component.extend({
     // key-based diffing that htmlbars is doing.
     if ((!oldValue && !newValue) ||
         (oldValue  === newValue)) {
+      if (firstTime) {
+        set(this, 'versions', versions);
+      }
       return;
     }
 
