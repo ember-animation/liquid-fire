@@ -35,7 +35,7 @@ function runAppend(view) {
 function makeModuleFor(title) {
   moduleFor('helper:liquid-outlet', title, {
 
-    needs: ['component:liquid-outlet', 'template:components/liquid-outlet', 'helper:liquid-with', 'template:components/liquid-with', 'component:liquid-container', 'template:components/liquid-container', 'component:liquid-versions', 'template:components/liquid-versions', 'component:liquid-child', 'template:components/liquid-child', 'component:lf-outlet', 'transition:modal-popup', 'transition:default'],
+    needs: ['component:liquid-outlet', 'template:components/liquid-outlet', 'helper:liquid-with', 'template:components/liquid-with', 'component:liquid-container', 'template:components/liquid-container', 'component:liquid-versions', 'template:components/liquid-versions', 'component:liquid-child', 'component:lf-outlet', 'transition:modal-popup', 'transition:default'],
 
     setup: function(){
       container = this.container;
