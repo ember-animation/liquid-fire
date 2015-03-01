@@ -62,9 +62,9 @@ export default class Constraints {
     if (this.debug) {
       console.log("[liquid-fire] Checking transition rules for", conditions.parentElement[0]);
     }
-    // TODO: take most specific
+
     var rules = this.match(conditions);
-    var best = rules[0];
+    var best = highestPriority(rules);
 
     if (rules.length > 1 && this.debug) {
       rules.forEach((rule) => {
@@ -211,6 +211,20 @@ function union(sets) {
 
 function describeRule(rule) {
   return `[liquid-fire rule ${rule.id}]`;
+}
+
+function highestPriority(rules) {
+  var best;
+  var bestScore = 0;
+  for (var i = 0; i < rules.length; i++) {
+    var rule = rules[i];
+    var score = rules[i].constraints.length;
+    if (!best || score > bestScore || (score === bestScore && rule.id > best.id)) {
+      best = rule;
+      bestScore = score;
+    }
+  }
+  return best;
 }
 
 var constrainableKeys = Ember.A(Ember.keys(constrainables));

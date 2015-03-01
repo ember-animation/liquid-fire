@@ -9,11 +9,11 @@ var TransitionMap = Ember.Object.extend({
   init: function() {
     this.activeCount = 0;
     this.constraints = new Constraints();
+    this.map(internalRules);
     var config = this.container.lookupFactory('transitions:main');
     if (config) {
       this.map(config);
     }
-    this.map(internalRules);
     if (Ember.testing) {
       this._registerWaiter();
     }
