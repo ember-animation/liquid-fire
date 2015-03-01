@@ -23,7 +23,7 @@ export default function moveOver(dimension, direction, opts) {
   }
 
   return firstStep.then(() => {
-    var bigger = biggestParentSize(this, measure);
+    var bigger = biggestSize(this, measure);
     oldParams[property] = (bigger * direction) + 'px';
     newParams[property] = ["0px", (-1 * bigger * direction) + 'px'];
 
@@ -34,12 +34,14 @@ export default function moveOver(dimension, direction, opts) {
   });
 }
 
-function biggestParentSize(context, dimension) {
+function biggestSize(context, dimension) {
   var sizes = [];
   if (context.newElement) {
+    sizes.push(parseInt(context.newElement.css(dimension), 10));
     sizes.push(parseInt(context.newElement.parent().css(dimension), 10));
   }
   if (context.oldElement) {
+    sizes.push(parseInt(context.oldElement.css(dimension), 10));
     sizes.push(parseInt(context.oldElement.parent().css(dimension), 10));
   }
   return Math.max.apply(null, sizes);
