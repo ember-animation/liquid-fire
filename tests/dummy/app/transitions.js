@@ -68,4 +68,12 @@ export default function(){
     this.childOf('#versions-test'),
     this.use('fade', { duration: 500 })
   );
+
+  this.transition(
+    this.fromRoute('scenarios.hero.index'),
+    this.toRoute('scenarios.hero.second'),
+    this.use('hero', {
+    })
+  );
+
 }

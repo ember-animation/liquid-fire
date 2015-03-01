@@ -84,6 +84,9 @@ Router.map(function() {
     });
     this.route('spacer');
     this.route('versions');
+    this.route('hero', function() {
+      this.route('second');
+    });
   });
 
 });
