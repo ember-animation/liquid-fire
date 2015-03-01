@@ -14,7 +14,8 @@ export function makeHelperShim(componentName, tweak) {
   return {
     isHTMLBars: true,
     helperFunction: function liquidFireHelper(params, hash, options, env) {
-      var componentLookup = this.container.lookup('component-lookup:main');
+      var view = env.data.view;
+      var componentLookup = view.container.lookup('component-lookup:main');
       var cls = componentLookup.lookupFactory(componentName);
       hash.value = params[0];
       if (hash['class']) {
@@ -25,13 +26,13 @@ export function makeHelperShim(componentName, tweak) {
       if (tweak) {
         tweak(params, hash, options, env);
       }
-      env.helpers.view.helperFunction.call(this, [cls], hash, options, env);
+      env.helpers.view.helperFunction.call(view, [cls], hash, options, env);
     }
   };
 }
 
 export function inverseYieldHelper(params, hash, options, env) {
-  var view = this;
+  var view = env.data.view;
 
   while (view && !get(view, 'layout')) {
     if (view._contextView) {
@@ -41,7 +42,7 @@ export function inverseYieldHelper(params, hash, options, env) {
     }
   }
 
-  return view._yieldInverse(this, env, options.morph, params);
+  return view._yieldInverse(env.data.view, env, options.morph, params);
 }
 
 export function inverseYieldMethod(context, options, morph, blockArguments) {
