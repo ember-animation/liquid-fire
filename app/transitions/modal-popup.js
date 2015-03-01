@@ -1,3 +1,4 @@
+import Ember from "ember";
 import { animate, explode, Promise } from "liquid-fire";
 
 // The default transition for animating the background overlay element
@@ -23,12 +24,31 @@ export default function modalPopup(opts={}) {
     '.lm-container > div'
   ]);
 
-  var overlayAnimation = opts.overlay ? this.lookup(opts.overlay) : animateOverlay;
-  var boxAnimation = opts.box ? this.lookup(opts.box) : animateDialog;
+  var overlayAnimation = animateOverlay;
+  var overlayAnimationArgs = [];
+  if (opts.overlay) {
+    if (Ember.isArray(opts.overlay)) {
+      overlayAnimation = this.lookup(opts.overlay[0]);
+      overlayAnimationArgs = opts.overlay.slice(1);
+    } else {
+      overlayAnimation = this.lookup(opts.overlay);
+    }
+  }
+
+  var boxAnimation = animateDialog;
+  var boxAnimationArgs = [];
+  if (opts.box) {
+    if (Ember.isArray(opts.box)) {
+      boxAnimation = this.lookup(opts.box[0]);
+      boxAnimationArgs = opts.box.slice(1);
+    } else {
+      boxAnimation = this.lookup(opts.box);
+    }
+  }
 
   return Promise.all([
-    overlayAnimation.call(overlay),
-    boxAnimation.call(box)
+    overlayAnimation.apply(overlay, overlayAnimationArgs),
+    boxAnimation.apply(box, boxAnimationArgs)
   ]);
 
 }
