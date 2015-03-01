@@ -129,15 +129,8 @@ export default class Constraints {
       var matched = true;
       for (var j = 0; j < rule.constraints.length; j++) {
         var constraint = rule.constraints[j];
-        var value = conditionAccessor(conditions, constraint.target);
-        if (constraint.predicate && !constraint.predicate(value)) {
+        if (constraint.predicate && !this.matchConstraintPredicate(conditions, rule, constraint)) {
           matched = false;
-          if (rule.debug) {
-            if (constraint.target === 'parentElement') {
-              value = value[0];
-            }
-            console.log(`${describeRule(rule)} rejected because of a constraint on ${constraint.target}. ${constraint.target} was`, value);
-          }
           break;
         }
       }
@@ -147,6 +140,21 @@ export default class Constraints {
     }
     return output;
   }
+
+  matchConstraintPredicate(conditions, rule, constraint) {
+    var values = conditionAccessor(conditions, constraint.target);
+    for (var i = 0; i < values.length; i++) {
+      if (constraint.predicate(values[i])) {
+        return true;
+      }
+    }
+    if (rule.debug) {
+      if (constraint.target === 'parentElement') {
+        values = values.map((v)=>v[0]);
+      }
+      console.log(`${describeRule(rule)} rejected because of a constraint on ${constraint.target}. ${constraint.target} was`, ...values);
+    }
+  }
 }
 
 function conditionAccessor(conditions, key) {
@@ -154,7 +162,7 @@ function conditionAccessor(conditions, key) {
   if (constrainable.accessor) {
     return constrainable.accessor(conditions);
   } else {
-    return conditions[key];
+    return [conditions[key]];
   }
 }
 

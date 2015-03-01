@@ -2,19 +2,19 @@ export default {
   oldValue : {
     reversesTo: 'newValue',
     accessor: function(conditions) {
-      return [versionValue(conditions, false)];
+      return [versionValue(conditions, 1)];
     }
   },
   newValue: {
     reversesTo: 'oldValue',
     accessor: function(conditions) {
-      return [versionValue(conditions, true)];
+      return [versionValue(conditions, 0)];
     }
   },
   oldRoute: {
     reversesTo: 'newRoute',
     accessor: function(conditions) {
-      var value = versionValue(conditions, false);
+      var value = versionValue(conditions, 1);
       if (value && value.render) {
         return [value.render.name];
       }
@@ -23,7 +23,7 @@ export default {
   newRoute: {
     reversesTo: 'oldRoute',
     accessor: function(conditions) {
-      var value = versionValue(conditions, true);
+      var value = versionValue(conditions, 0);
       if (value && value.render) {
         return [value.render.name];
       }
@@ -42,14 +42,7 @@ export default {
   firstTime: {}
 };
 
-function versionValue(conditions, newFlag) {
+function versionValue(conditions, index) {
   var versions = conditions.versions;
-  var length = versions.length;
-  var version;
-  for (var i = 0; i < length; i++) {
-    version = versions[i];
-    if (newFlag ? version.isNew : !version.isNew) {
-      return version.value;
-    }
-  }
+  return versions[index] ? versions[index].value : null;
 }

@@ -9,6 +9,7 @@ export default class Constraint {
     // targets are the properties of a transition that we can
     // constrain
     this.target = target;
+    if (arguments.length === 1) { return; }
     if (matcher instanceof RegExp) {
       this.predicate = function(value) { return matcher.test(value); };
     } else if (typeof matcher === 'function') {
@@ -24,15 +25,10 @@ export default class Constraint {
     if (!constrainables[this.target].reversesTo) {
       return this;
     }
-    var inverted = new this.constructor();
-    inverted.target = constrainables[this.target].reversesTo;
-    if (this.predicate) {
-      inverted.predicate = this.predicate;
-    }
-    if (this.keys) {
-      inverted.keys = this.keys;
-    }
-    return inverted;
+    var inverse = new this.constructor(constrainables[this.target].reversesTo);
+    inverse.predicate = this.predicate;
+    inverse.keys = this.keys;
+    return inverse;
   }
 }
 

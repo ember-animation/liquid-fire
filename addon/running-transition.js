@@ -38,17 +38,11 @@ export default class RunningTransition {
 // implementations can access as `this`.
 function publicAnimationContext(versions) {
   var c = {};
-  var index = 0;
-
-  if (versions[index].isNew) {
-    addPublicVersion(c, 'new', versions[index]);
-    index++;
+  addPublicVersion(c, 'new', versions[0]);
+  if (versions[1]) {
+    addPublicVersion(c, 'old', versions[1]);
   }
-  if (versions[index]) {
-    addPublicVersion(c, 'old', versions[index]);
-    index++;
-  }
-  c.older = versions.slice(index).map((v) => {
+  c.older = versions.slice(2).map((v) => {
     var context = {};
     addPublicVersion(context, null, v);
     return context;
@@ -59,7 +53,7 @@ function publicAnimationContext(versions) {
 function addPublicVersion(context, prefix, version) {
   var props = {
     view: version.view,
-    element: version.view.$(),
+    element: version.view ? version.view.$() : null,
     value: version.value
   };
   for (var key in props) {

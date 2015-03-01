@@ -29,13 +29,19 @@ export default Ember.Component.extend({
     }
 
     this.notifyContainer('willTransition', versions);
-    versions.unshiftObject({
+    var newVersion = {
       value: newValue,
-      isNew: true
-    });
+      shouldRender: newValue || get(this, 'renderWhenFalse')
+    };
+    versions.unshiftObject(newVersion);
+
     if (firstTime) {
       this.firstTime = true;
       set(this, 'versions', versions);
+    }
+
+    if (!newVersion.shouldRender) {
+      this._transition();
     }
   })),
 
@@ -82,14 +88,7 @@ export default Ember.Component.extend({
   },
 
   finalizeVersions: function(versions) {
-    for (var i = versions.length-1; i >= 0; i--) {
-      var version = versions[i];
-      if (version.isNew) {
-        version.isNew = false;
-      } else {
-        versions.removeObject(version);
-      }
-    }
+    versions.replace(1, versions.length - 1);
   },
 
   notifyContainer: function(method, versions) {

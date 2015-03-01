@@ -39,17 +39,17 @@ export default Ember.Component.extend(Growable, {
 
     // And make any children absolutely positioned with fixed sizes.
     for (var i = 0; i < versions.length; i++) {
-      goAbsolute(versions[i].view.$());
+      goAbsolute(versions[i]);
     }
   },
 
   afterChildInsertion: function(versions) {
     var elt = this.$();
 
-    // Measure any new children
+    // Measure  children
     var sizes = [];
     for (var i = 0; i < versions.length; i++) {
-      if (versions[i].isNew) {
+      if (versions[i].view) {
         sizes[i] = measure(versions[i].view.$());
       }
     }
@@ -62,11 +62,9 @@ export default Ember.Component.extend(Growable, {
     // Make ourself absolute
     this.lockSize(elt, have);
 
-    // Make the new children absolute and fixed size.
+    // Make the children absolute and fixed size.
     for (i = 0; i < versions.length; i++) {
-      if (versions[i].isNew) {
-        goAbsolute(versions[i].view.$(), sizes[i]);
-      }
+      goAbsolute(versions[i], sizes[i]);
     }
 
     // Kick off our growth animation
@@ -75,14 +73,18 @@ export default Ember.Component.extend(Growable, {
 
   afterTransition: function(versions) {
     for (var i = 0; i < versions.length; i++) {
-      goStatic(versions[i].view.$());
+      goStatic(versions[i]);
     }
     this.unlockSize();
   }
 
 });
 
-function goAbsolute(elt, size) {
+function goAbsolute(version, size) {
+  if (!version.view) {
+    return;
+  }
+  var elt = version.view.$();
   if (!size) {
     size = measure(elt);
   }
@@ -95,6 +97,8 @@ function goAbsolute(elt, size) {
   });
 }
 
-function goStatic(elt) {
-  elt.css({width: '', height: '', position: ''});
+function goStatic(version) {
+  if (version.view) {
+    version.view.$().css({width: '', height: '', position: ''});
+  }
 }

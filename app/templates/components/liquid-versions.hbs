@@ -1,5 +1,7 @@
 {{#each versions as |version|}}
-  {{#liquid-child version=version visible=false didRender="childDidRender"}}
-    {{yield version.value}}
-  {{/liquid-child}}
+  {{#if version.shouldRender}}
+    {{#liquid-child version=version visible=false didRender="childDidRender"}}
+      {{yield version.value}}
+    {{/liquid-child}}
+  {{/if}}
 {{/each}}
