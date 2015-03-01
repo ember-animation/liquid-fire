@@ -39,7 +39,25 @@ export default {
     }
   },
   parentElement: {},
-  firstTime: {}
+  firstTime: {},
+  oldModalComponent: {
+    reversesTo: 'newModalComponent',
+    accessor: function(conditions) {
+      var value = versionValue(conditions, 1);
+      if (value) {
+        return [value.name];
+      }
+    }
+  },
+  newModalComponent: {
+    reversesTo: 'oldModalComponent',
+    accessor: function(conditions) {
+      var value = versionValue(conditions, 0);
+      if (value) {
+        return [value.name];
+      }
+    }
+  },
 };
 
 function versionValue(conditions, index) {

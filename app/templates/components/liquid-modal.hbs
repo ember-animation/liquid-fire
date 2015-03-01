@@ -1,8 +1,8 @@
-{{#liquid-with currentContext as cc class="lm-with" containerless=true}}
+{{#liquid-versions name="liquid-modal" value=currentContext as |cc|}}
   {{#lm-container action="escape"}}
-    <div {{bind-attr class=":lf-dialog cc.options.dialogClass"}} role="dialog" {{bind-attr aria-labelledby="cc.options.ariaLabelledBy" aria-label="cc.options.ariaLabel"}}>
+  <div {{bind-attr class=":lf-dialog cc.options.dialogClass"}} role="dialog" {{bind-attr aria-labelledby="cc.options.ariaLabelledBy" aria-label="cc.options.ariaLabel"}}>
       {{view innerView dismiss="dismiss"}}
     </div>
     {{lf-overlay clickAway="outsideClick"}}
   {{/lm-container}}
-{{/liquid-with}}
+{{/liquid-versions}}

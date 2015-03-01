@@ -7,7 +7,7 @@ function hideModal(oldElement) {
   if (!oldElement ||
       !(box = oldElement.find('.lm-container > div')) ||
       !(box = box[0]) ||
-      !(obscure = oldElement.$('.lf-overlay')) ||
+      !(obscure = oldElement.find('.lf-overlay')) ||
       !(obscure = obscure[0])) {
     return Promise.resolve();
   }

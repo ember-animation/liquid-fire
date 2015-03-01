@@ -81,6 +81,22 @@ export default class DSL {
     return new Constraint('firstTime', 'yes');
   }
 
+  includingInitialRender() {
+    return new Constraint('firstTime', ['yes', 'no']);
+  }
+
+  inHelper(...names) {
+    return new Constraint('helperName', names);
+  }
+
+  toModal(...names) {
+    return new Constraint('newModalComponent', names);
+  }
+
+  fromModal(...names) {
+    return new Constraint('oldModalComponent', names);
+  }
+
   debug() {
     return 'debug';
   }
