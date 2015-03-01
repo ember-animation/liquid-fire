@@ -16,10 +16,9 @@ export default Ember.Object.extend({
   }),
 
   update: Ember.observer('controller', Ember.on('init', function() {
-    var name = get(this, 'name');
     var context = this.makeContext();
     var activeContexts = get(this, 'modals.modalContexts');
-    var matchingContext = activeContexts.find(function(c){ return get(c, 'name') === name; });
+    var matchingContext = activeContexts.find((c) => get(c, 'modal') === this);
 
     if (context) {
       if (matchingContext) {
@@ -43,6 +42,7 @@ export default Ember.Object.extend({
     params = currentParams(controller, get(this, 'options.withParams'));
     if (params) {
       return Ember.Object.create({
+        modal: this,
         source: controller,
         name: get(this, 'name'),
         options: get(this, 'options'),
