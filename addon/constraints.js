@@ -98,25 +98,29 @@ export default class Constraints {
   matchingSet(prop, value) {
     var keys = constraintKeys(value);
     var context = this.targets[prop];
+    var matched = Ember.A();
     for (var i = 0; i < keys.length; i++) {
       if (context[keys[i]]) {
-        this.logDebugRules(context, keys[i], `because ${prop}=${value}`);
-        return context[keys[i]];
+        matched.push(context[keys[i]]);
       }
     }
-    this.logDebugRules(context, ANY, `because ${prop}=${value}`);
-    return context[ANY] || {};
+    if (context[ANY]) {
+      matched.push(context[ANY]);
+    }
+    matched = union(matched);
+    if (this.debug) {
+      this.logDebugRules(matched, context, prop, value);
+    }
+    return matched;
   }
 
-  logDebugRules(context, matchedKey, reason) {
-    if (!this.debug) {
-      return;
-    }
-    Ember.A(Ember.keys(context)).forEach((key) => {
-      Ember.A(Ember.keys(context[key])).forEach((ruleId) => {
-        var rule = context[key][ruleId];
-        if (rule.debug && key !== matchedKey) {
-          console.log(`${describeRule(rule)} rejected ${reason}`);
+  logDebugRules(matched, context, target, value) {
+    Ember.A(Ember.keys(context)).forEach((setKey) => {
+      var set = context[setKey];
+      Ember.A(Ember.keys(set)).forEach((ruleKey) => {
+        var rule = set[ruleKey];
+        if (rule.debug && !matched[Ember.guidFor(rule)]) {
+          console.log(`${describeRule(rule)} rejected because ${target} was`, ...value);
         }
       });
     });
@@ -160,7 +164,7 @@ export default class Constraints {
 function conditionAccessor(conditions, key) {
   var constrainable = constrainables[key];
   if (constrainable.accessor) {
-    return constrainable.accessor(conditions);
+    return constrainable.accessor(conditions) || [];
   } else {
     return [conditions[key]];
   }
@@ -189,6 +193,20 @@ function intersection(sets) {
     }
   }
   return result;
+}
+
+function union(sets) {
+  var setsLength = sets.length;
+  var output = {};
+  for (var i = 0; i < setsLength; i++) {
+    var set = sets[i];
+    var keys = Ember.keys(set);
+    for (var j = 0; j < keys.length; j++) {
+      var key = keys[j];
+      output[key] = set[key];
+    }
+  }
+  return output;
 }
 
 function describeRule(rule) {
