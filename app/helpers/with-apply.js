@@ -5,17 +5,18 @@ import Ember from "ember";
 export default {
   isHTMLBars: true,
   helperFunction: function withApplyHelperFunc(params, hash, options, env) {
-    var parent = this.get('liquidWithParent');
+    var view = env.data.view;
+    var parent = view.get('liquidWithParent');
     var withArgs = parent.get('originalArgs').slice();
     withArgs[0] = 'lwith-view.boundContext';
     options = Ember.copy(options);
-    if (!this._keywords) {
-      this._keywords = {};
+    if (!view._keywords) {
+      view._keywords = {};
     }
-    this._keywords['lwith-view'] = this;
+    view._keywords['lwith-view'] = view;
     options.template = parent.get('innerTemplate');
     hash = parent.get('originalHash');
     options.hashTypes = parent.get('originalHashTypes');
-    env.helpers.with.helperFunction.call(this, [this.getStream(withArgs[0])], hash, options, env);
+    env.helpers.with.helperFunction.call(this, [view.getStream(withArgs[0])], hash, options, env);
   }
 };

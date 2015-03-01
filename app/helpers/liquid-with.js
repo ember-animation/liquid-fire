@@ -3,13 +3,14 @@ import Ember from "ember";
 export default {
   isHTMLBars: true,
   helperFunction: function liquidWithHelperFunc(params, hash, options, env) {
+    var view = env.data.view;
     var innerHash = {};
-    var View = this.container.lookupFactory('view:liquid-with');
+    var View = view.container.lookupFactory('view:liquid-with');
     var innerOptions = {
       hashTypes: {},
       morph: options.morph
     };
-    
+
     innerHash.boundContext = params[0];
 
     View = View.extend({
