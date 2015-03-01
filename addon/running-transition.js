@@ -48,9 +48,10 @@ function publicAnimationContext(versions) {
     addPublicVersion(c, 'old', versions[index]);
     index++;
   }
-  c.oldest = versions.slice(index).map((v) => {
+  c.older = versions.slice(index).map((v) => {
     var context = {};
     addPublicVersion(context, null, v);
+    return context;
   });
   return c;
 }
