@@ -5,44 +5,6 @@ import Action from "./action";
 import internalRules from "./internal-rules";
 import Constraints from "./constraints";
 
-/*
-  Working on a new constraint-based rules implementation:
-
-  - keep a flat set of rules instead of the current nested thing.
-  - filter it by the constraints, running the cheapest ones first.
-  - choose from among the rules that match based on most-specific wins
-
-  This should end up much simpler. No backtracking, no
-  order-dependency, easier to implement wildcards that don't override
-  more-specific rules.
-
-  Add nice debug logging capability while we go. Make the rules
-  themselves know how to print themselves back out with helpful
-  annotations.
-
-  Constraints:
-
-    - each of these with string, regex, and predicate versions
-      - fromRoute
-      - toRoute
-      - withinRoute
-      - fromValue (possibly keep fromModel as an alias)
-      - toVaue
-    - isSelector (generalized hasClass, maybe keep hasClass too)
-    - childOf (I think this may also just be a special case of isSelector)
-    - helperName
-
-  Priority
-
-    - more total constraints matched wins (shorthands like withinRoute
-      count as two constraints)
-
-    - ties broken like isSelector > toValue > fromValue > toRoute > fromRoute
-
-*/
-
-
-
 var TransitionMap = Ember.Object.extend({
   init: function() {
     this.activeCount = 0;
