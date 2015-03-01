@@ -23,20 +23,24 @@ export default function moveOver(dimension, direction, opts) {
   }
 
   return firstStep.then(() => {
-    if (this.newElement && this.oldElement) {
-      var sizes = [parseInt(this.newElement.css(measure), 10),
-                   parseInt(this.oldElement.css(measure), 10)];
-      var bigger = Math.max.apply(null, sizes);
-      oldParams[property] = (bigger * direction) + 'px';
-      newParams[property] = ["0px", (-1 * bigger * direction) + 'px'];
-    } else {
-      oldParams[property] = (100 * direction) + '%';
-      newParams[property] = ["0%", (-100 * direction) + '%'];
-    }
+    var bigger = biggestParentSize(this, measure);
+    oldParams[property] = (bigger * direction) + 'px';
+    newParams[property] = ["0px", (-1 * bigger * direction) + 'px'];
 
     return Promise.all([
       animate(this.oldElement, oldParams, opts),
       animate(this.newElement, newParams, opts, 'moving-in')
     ]);
   });
+}
+
+function biggestParentSize(context, dimension) {
+  var sizes = [];
+  if (context.newElement) {
+    sizes.push(parseInt(context.newElement.parent().css(dimension), 10));
+  }
+  if (context.oldElement) {
+    sizes.push(parseInt(context.oldElement.parent().css(dimension), 10));
+  }
+  return Math.max.apply(null, sizes);
 }
