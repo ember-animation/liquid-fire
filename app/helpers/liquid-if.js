@@ -4,9 +4,10 @@ export function factory(invert) {
   return {
     isHTMLBars: true,
     helperFunction: function liquidIfHelper(params, hash, options, env) {
-      var View = this.container.lookupFactory('view:liquid-if');    
+      var view = env.data.view;
+      var View = view.container.lookupFactory('view:liquid-if');
       var templates = [options.template, options.inverse];
-      
+
       if (invert) {
         templates.reverse();
       }
