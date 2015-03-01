@@ -41,7 +41,8 @@ var TransitionMap = Ember.Object.extend({
   transitionFor: function(conditions) {
     var action;
     if (conditions.use && conditions.firstTime !== 'yes') {
-      action = new Action(this.lookup(conditions.use));
+      action = new Action(conditions.use);
+      action.validateHandler(this);
     } else {
       var rule = this.constraints.bestMatch(conditions);
       if (rule) {
@@ -65,6 +66,21 @@ var TransitionMap = Ember.Object.extend({
   addRule: function(rule) {
     rule.validate(this);
     this.constraints.addRule(rule);
+  },
+
+  _registerWaiter: function() {
+    var self = this;
+    this._waiter = function() {
+      return self.runningTransitions() === 0;
+    };
+    Ember.Test.registerWaiter(this._waiter);
+  },
+
+  willDestroy: function() {
+    if (this._waiter) {
+      Ember.Test.unregisterWaiter(this._waiter);
+      this._waiter = null;
+    }
   }
 
 });

@@ -5,21 +5,30 @@ function transitionMap(app) {
   return app.__container__.lookup('transitions:map');
 }
 
-Ember.Test.registerHelper('ranTransition',
-  function(app, name) {
-    ok(transitionMap(app).lookup.calledWith(name), 'ran transition ' + name);
-  }
-);
+function transitionName(name) {
+  return sinon.match(function(value) {
+    return value.animation ? value.animation.name === name : false;
+  }, 'expected transition ' + name);
+}
 
-Ember.Test.registerHelper('noTransitionsYet',
+Ember.Test.registerHelper(
+  'ranTransition',
   function(app, name) {
-    equal(transitionMap(app).lookup.callCount, 0, 'expected no transitions');
+    ok(transitionMap(app).transitionFor.returned(transitionName(name)), "expected transition " + name);
+  });
+
+Ember.Test.registerHelper(
+  'noTransitionsYet',
+  function(app, name) {
+    var tmap = transitionMap(app);
+    var ranTransitions = Ember.A(tmap.transitionFor.returnValues);
+    ok(!ranTransitions.any((transition) => transition.animation !== tmap.defaultAction()), 'expected no transitions');
   }
 );
 
 export function injectTransitionSpies(app) {
   var tmap = app.__container__.lookup('transitions:map');
-  sinon.spy(tmap, 'lookup');
+  sinon.spy(tmap, 'transitionFor');
 }
 
 
