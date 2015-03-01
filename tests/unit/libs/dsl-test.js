@@ -1,4 +1,4 @@
-import { Transitions } from "liquid-fire";
+import { TransitionMap } from "liquid-fire";
 import Ember from "ember";
 
 var t, oldView, newContent, parentView;
@@ -55,7 +55,7 @@ function setContexts(o, n) {
 
 module("Transitions DSL", {
   setup: function(){
-    t = Transitions.create();
+    t = TransitionMap.create();
   },
   teardown: function(){
     t = oldView = newContent = null;

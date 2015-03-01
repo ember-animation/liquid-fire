@@ -1,6 +1,6 @@
 import Ember from "ember";
 import { test, moduleFor } from 'ember-qunit';
-import { initialize } from "liquid-fire";
+import { TransitionMap } from "liquid-fire";
 import { view, check } from "../../helpers/fire-helpers";
 
 var run = Ember.run,
@@ -35,13 +35,14 @@ function runAppend(view) {
 function makeModuleFor(title) {
   moduleFor('helper:liquid-outlet', title, {
 
-    needs: ['view:liquid-child', 'view:liquid-outlet'],
+    needs: ['component:liquid-outlet', 'template:components/liquid-outlet', 'helper:liquid-with', 'template:components/liquid-with', 'component:liquid-container', 'template:components/liquid-container', 'component:liquid-versions', 'template:components/liquid-versions', 'component:liquid-child', 'template:components/liquid-child', 'component:lf-outlet', 'transition:modal-popup', 'transition:default'],
 
     setup: function(){
-      initialize(this.container);
       container = this.container;
       container.register('view:-core-outlet', Ember.OutletView.superclass);
       container.register('view:default', Ember.View.extend(Ember._Metamorph));
+      container.register('transitions:map', TransitionMap);
+      container.injection('component:liquid-versions', 'transitionMap', 'transitions:map');
       top = container.lookup('view:-core-outlet');
     },
 
@@ -130,7 +131,7 @@ test("outlet should support bound class on liquid children", function() {
         main: withTemplate("<p>BYE</p>")
       }
     });
-    runAppend(top);  
+    runAppend(top);
   });
   equal(Ember.$('#qunit-fixture .liquid-container.happy').length, 1, "should have class");
 });
@@ -145,7 +146,7 @@ test("outlet should support static class on liquid children", function() {
         main: withTemplate("<p>BYE</p>")
       }
     });
-    runAppend(top);    
+    runAppend(top);
   });
   equal(Ember.$('#qunit-fixture .liquid-container.happy').length, 1, "should have class");
 });
@@ -169,11 +170,11 @@ test("outlet should support directly specifying a transition to use", function()
 
   run(function() {
     top.setOutletState(routerState);
-    runAppend(top);    
+    runAppend(top);
   });
-  
+
   ok(!fooCalled, "foo transition was not used during initial render");
-  
+
   run(function() {
     routerState.outlets.main = withTemplate("<p>Second</p>");
     top.setOutletState(routerState);
