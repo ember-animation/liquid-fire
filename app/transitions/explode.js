@@ -6,7 +6,13 @@ import { Promise } from "liquid-fire";
 // animations.
 
 export default function explode(...pieces) {
-  return Promise.all(Ember.A(pieces).map((piece) => explodePiece(this, piece))).then(() => {
+  return Promise.all(pieces.map((piece) => {
+    if (piece.matchBy) {
+      return matchAndExplode(this, piece);
+    } else {
+      return explodePiece(this, piece);
+    }
+  })).then(() => {
     // The default transition guarantees that we didn't leave our
     // original new element invisible
     this.lookup('default').apply(this);
@@ -96,4 +102,18 @@ function animationFor(context, piece) {
   return function() {
     return Promise.resolve(func.apply(this, args));
   };
+}
+
+function matchAndExplode(context, piece) {
+  if (!context.oldElement) {
+    return Promise.resolve();
+  }
+
+  var hits = Ember.A(context.oldElement.find(`[${piece.matchBy}]`).toArray());
+  return Promise.all(hits.map((elt) => {
+    return explodePiece(context, {
+      pick: `[${piece.matchBy}=${Ember.$(elt).attr(piece.matchBy)}]`,
+      use: piece.use
+    });
+  }));
 }

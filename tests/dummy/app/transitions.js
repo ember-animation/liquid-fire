@@ -86,7 +86,14 @@ export default function(){
     }, {
       use: [ 'toRight', { duration: 500 } ]
     })
+  );
 
+  this.transition(
+    this.hasClass('hero-sort'),
+    this.use('explode', {
+      matchBy: 'data-model-id',
+      use: ['flyTo', { duration: 500 } ]
+    })
   );
 
 }

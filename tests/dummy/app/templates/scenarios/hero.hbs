@@ -3,9 +3,19 @@
 {{#liquid-if showFirst class="hero-scenario"}}
   <div class="index">
     <div class="bluebox"></div>
+    <div data-match-id=1></div>
   </div>
 {{else}}
   <div class="second">
     <div class="redbox"></div>
   </div>
 {{/liquid-if}}
+
+
+<button {{action "toggleSort"}}>Toggle Sort</button>
+
+{{#liquid-with sortedModels class="hero-sort" as |currentModels|}}
+  {{#each currentModels as |model|}}
+    <div data-model-id={{model.id}}>{{model.firstName}} {{model.lastName}}</div>
+  {{/each}}
+{{/liquid-with}}
