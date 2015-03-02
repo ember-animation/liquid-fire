@@ -6,7 +6,11 @@ import { Promise } from "liquid-fire";
 // animations.
 
 export default function explode(...pieces) {
-  return Promise.all(Ember.A(pieces).map((piece) => explodePiece(this, piece)));
+  return Promise.all(Ember.A(pieces).map((piece) => explodePiece(this, piece))).then(() => {
+    // The default transition guarantees that we didn't leave our
+    // original new element invisible
+    this.lookup('default').apply(this);
+  });
 }
 
 function explodePiece(context, piece) {
@@ -79,8 +83,12 @@ function animationFor(context, piece) {
     name = piece.use;
     args = [];
   }
-  func = context.lookup(name);
+  if (typeof name === 'function') {
+    func = name;
+  } else {
+    func = context.lookup(name);
+  }
   return function() {
-    return func.apply(this, args);
+    return Promise.resolve(func.apply(this, args));
   };
 }

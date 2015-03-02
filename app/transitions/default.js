@@ -5,8 +5,8 @@ import { Promise } from "liquid-fire";
 // out invisible so that transitions can control their initial
 // appearance).
 export default function defaultTransition() {
-  if (this.newView) {
-    this.newView.set('visible', true);
+  if (this.newElement) {
+    this.newElement.css({visibility: ''});
   }
   return Promise.resolve();
 }

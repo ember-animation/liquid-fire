@@ -1,6 +1,6 @@
 import { animate, Promise } from "liquid-fire";
 
-export default function flyTo() {
+export default function flyTo(opts={}) {
   if (!this.newElement) {
     return Promise.resolve();
   } else if (!this.oldElement) {
@@ -20,8 +20,7 @@ export default function flyTo() {
   };
 
   this.newElement.css({ visibility: 'hidden' });
-
-  return animate(this.oldElement, motion, { duration: 500 }).then(() => {
+  return animate(this.oldElement, motion, opts).then(() => {
     this.newElement.css({ visibility: ''});
   });
 }

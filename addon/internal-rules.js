@@ -5,9 +5,9 @@ export default function() {
     this.inHelper('liquid-modal'),
     this.use('explode', {
       pick: '.lf-overlay',
-      use: ['fade', { maxOpacity: 0.5 }]
+      use: ['cross-fade', { maxOpacity: 0.5 }]
     }, {
-      pick: '.lf-dialog',
+      pick: '.lm-container',
       use: 'scale'
     })
   );

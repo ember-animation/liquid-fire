@@ -75,10 +75,18 @@ export default function(){
     this.use('explode', {
       pickOld: '.bluebox',
       pickNew: '.redbox',
-      use: 'flyTo'
+      use: ['flyTo', { duration: 500 } ]
     }, {
       use: [ 'toLeft', { duration: 500 } ]
+    }),
+    this.reverse('explode', {
+      pickOld: '.redbox',
+      pickNew: '.bluebox',
+      use: ['flyTo', { duration: 500 } ]
+    }, {
+      use: [ 'toRight', { duration: 500 } ]
     })
+
   );
 
 }
