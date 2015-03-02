@@ -83,7 +83,9 @@ export default Ember.Component.extend({
     tabbable[event.shiftKey ? 'last' : 'first']()[0].focus();
   },
 
-  click: function() {
-    this.sendAction('clickAway');
+  click: function(event) {
+    if (event.target === this.get('element')) {
+      this.sendAction('clickAway');
+    }
   }
 });
