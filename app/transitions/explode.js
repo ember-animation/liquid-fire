@@ -75,7 +75,13 @@ function _explodePart(context, field, childContext, selector) {
       newChild.width(width);
       newChild.height(height);
       newChild.appendTo(elt.parent());
-      newChild.offset(childOffset);
+      var newParentOffset = newChild.offsetParent().offset();
+      newChild.css({
+        position: 'absolute',
+        top: childOffset.top - newParentOffset.top,
+        left: childOffset.left - newParentOffset.left,
+        margin: 0
+      });
 
       // Pass the clone to the next animation
       childContext[field] = newChild;
