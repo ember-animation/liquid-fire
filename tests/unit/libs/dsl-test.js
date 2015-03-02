@@ -92,44 +92,6 @@ test("matches source & destination contexts", function(){
 
 });
 
-test("matches routes & contexts", function(){
-  t.map(function(){
-    this.transition(
-      this.fromRoute('one'),
-      this.toRoute('two'),
-      this.fromModel(function(model){ return model && model.isMySource; }),
-      this.toModel(function(model){ return model && model.isMyDestination; }),
-      this.use(dummyAction)
-    );
-  });
-
-  setRoutes('one', 'two');
-
-  setContexts({isMySource: true}, {isMyDestination: true});
-  equal(lookupAnimation(), dummyAction, 'both match');
-
-  setContexts(null, {isMyDestination: true});
-  equal(lookupAnimation(), undefined, 'empty source');
-
-  setContexts({isMySource: true}, null);
-  equal(lookupAnimation(), undefined, 'empty destination');
-
-  setContexts({isMySource: false}, {isMyDestination: true});
-  equal(lookupAnimation(), undefined, 'other source');
-
-  setContexts({isMySource: true}, {isMyDestination: false});
-  equal(lookupAnimation(), undefined, 'other destination');
-
-  setRoutes('one', 'three');
-  setContexts({isMySource: true}, {isMyDestination: true});
-  equal(lookupAnimation(), undefined, 'wrong destination route');
-
-  setRoutes('three', 'two');
-  setContexts({isMySource: true}, {isMyDestination: true});
-  equal(lookupAnimation(), undefined, 'wrong source route');
-
-});
-
 test("backtracks past partial route matches", function(){
   t.map(function(){
     this.transition(
@@ -144,15 +106,14 @@ test("backtracks past partial route matches", function(){
     );
   });
 
-  setRoutes('one', 'three');
-  equal(lookupAnimation(), dummyAction, 'both match');
+  expectAnimation(routes('one', 'three'), dummyAction, 'both match');
 });
 
 test("backtracks past partial context matches", function(){
   t.map(function(){
     this.transition(
-      this.fromModel(function(){ return true; }),
-      this.toModel(function(){ return false; }),
+      this.fromValue(function(){ return true; }),
+      this.toValue(function(){ return false; }),
       this.use(otherAction)
     );
     this.transition(
@@ -432,7 +393,8 @@ function dummyAction() {}
 function otherAction() {}
 
 function routes(a,b) {
-  return values({ render: { name: a } }, { render: { name: b } });
+  return values(a ? { render: { name: a } } : null,
+                b ? { render: { name: b } } : null);
 }
 
 function values(a,b) {
