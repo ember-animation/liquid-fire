@@ -1,3 +1,11 @@
 <button {{action "toggle"}}>Toggle</button>
 
-{{liquid-outlet class="hero-scenario"}}
+{{#liquid-if showFirst class="hero-scenario"}}
+  <div class="index">
+    <div class="bluebox"></div>
+  </div>
+{{else}}
+  <div class="second">
+    <div class="redbox"></div>
+  </div>
+{{/liquid-if}}

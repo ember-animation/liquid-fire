@@ -70,8 +70,8 @@ export default function(){
   );
 
   this.transition(
-    this.fromRoute('scenarios.hero.index'),
-    this.toRoute('scenarios.hero.second'),
+    this.hasClass('hero-scenario'),
+    this.fromModel(true),
     this.use('explode', {
       pickOld: '.bluebox',
       pickNew: '.redbox',
