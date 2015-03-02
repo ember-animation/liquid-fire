@@ -1,6 +1,6 @@
 // BEGIN-SNIPPET fade-definition
 import { isAnimating, finish, timeSpent, animate, stop } from "liquid-fire";
-export default function fade(opts) {
+export default function fade(opts={}) {
   var firstStep;
   var outOpts = opts;
 
@@ -18,7 +18,7 @@ export default function fade(opts) {
   }
 
   return firstStep.then(() => {
-    return animate(this.newElement, {opacity: [1, 0]}, opts, 'fade-in');
+    return animate(this.newElement, {opacity: [(opts.maxOpacity || 1), 0]}, opts, 'fade-in');
   });
 }
 // END-SNIPPET

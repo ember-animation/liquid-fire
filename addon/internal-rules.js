@@ -3,7 +3,13 @@ export default function() {
 
   this.transition(
     this.inHelper('liquid-modal'),
-    this.use('modal-popup')
+    this.use('explode', {
+      pick: '.lf-overlay',
+      use: ['fade', { maxOpacity: 0.5 }]
+    }, {
+      pick: '.lf-dialog',
+      use: 'scale'
+    })
   );
 
 }
