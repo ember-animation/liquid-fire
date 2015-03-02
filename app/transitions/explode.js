@@ -40,13 +40,15 @@ function explodePiece(context, piece) {
 }
 
 function _explodePart(context, field, childContext, selector) {
-  var child, childOffset, newChild;
+  var child, childOffset, width, height, newChild;
   var elt = context[field];
   childContext[field] = null;
   if (elt) {
     child = elt.find(selector);
     if (child.length > 0) {
       childOffset = child.offset();
+      width = child.width();
+      height = child.height();
       newChild = child.clone();
 
       // Hide the original element
@@ -57,7 +59,8 @@ function _explodePart(context, field, childContext, selector) {
       if (elt.css('visibility') === 'hidden') {
         newChild.css({ visibility: 'hidden' });
       }
-
+      newChild.width(width);
+      newChild.height(height);
       newChild.appendTo(elt.parent());
       newChild.offset(childOffset);
 
