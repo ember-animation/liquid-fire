@@ -92,7 +92,7 @@ export default function(){
     this.hasClass('hero-sort'),
     this.use('explode', {
       matchBy: 'data-model-id',
-      use: ['flyTo', { duration: 500 } ]
+      use: ['flyTo', { duration: 500, easing: [250, 15] } ]
     })
   );
 
