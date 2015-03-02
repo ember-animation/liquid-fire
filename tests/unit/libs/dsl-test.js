@@ -85,13 +85,9 @@ test("matches source & destination contexts", function(){
   });
 
   expectAnimation(values({isMySource: true}, {isMyDestination: true}), dummyAction, 'both match');
-
   expectNoAnimation(values(null, {isMyDestination: true}), 'empty source');
-
   expectNoAnimation(values({isMySource: true}, null), 'empty destination');
-
   expectNoAnimation(values({isMySource: false}, {isMyDestination: true}), 'other source');
-
   expectNoAnimation(values({isMySource: true}, {isMyDestination: false}), 'other destination');
 
 });
