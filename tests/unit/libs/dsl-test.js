@@ -1,68 +1,23 @@
-import { TransitionMap } from "liquid-fire";
 import Ember from "ember";
+import Application from '../../../app';
 
-var t, oldView, newContent, parentView;
-var explicitUse = null;
-var firstTime = false;
+var application, t, defaultHandler;
 
-function dummyAction() {}
-function otherAction() {}
-
-function lookupTransition() {
-  return t.transitionFor(parentView, oldView, newContent, explicitUse, firstTime);
-}
-
-function lookupAnimation() {
-  return lookupTransition().animation;
-}
-
-function setRoutes(o, n) {
-  if (o) {
-    oldView = Ember.View.create({
-      currentView: Ember.View.create({renderedName: o})
-    });
-  } else {
-    oldView = null;
-  }
-  if (n) {
-    newContent = Ember.View.create({renderedName: n});
-  } else {
-    newContent = null;
-  }
-}
-
-function setContexts(o, n) {
-  if (o && !(o instanceof Ember.Object)) {
-    o = Ember.Object.create(o);
-  }
-
-  if (n && !(n instanceof Ember.Object)) {
-    n = Ember.Object.create(n);
-  }
-
-
-  if (o) {
-    oldView.get('currentView').set('liquidContext', o);
-  } else {
-    oldView.get('currentView').set('liquidContext', null);
-  }
-  if (n) {
-    newContent.set('liquidContext', n);
-  } else {
-    newContent.set('liquidContext', null);
-  }
-}
+Ember.run(function(){
+  application = Application.create({ autoboot: false});
+});
 
 module("Transitions DSL", {
   setup: function(){
-    t = TransitionMap.create();
+    var instance = application.buildInstance();
+    t = instance.container.lookup('transitions:map');
+    defaultHandler = t.defaultAction().handler;
   },
   teardown: function(){
-    t = oldView = newContent = null;
-    explicitUse = null;
-    firstTime = false;
+    t = null;
   }
 });
+
 
 test("matches source & destination routes", function(){
   t.map(function(){
@@ -72,21 +27,11 @@ test("matches source & destination routes", function(){
       this.use(dummyAction)
     );
   });
-  setRoutes('one', 'two');
-  equal(lookupAnimation(), dummyAction);
-
-  setRoutes('x', 'two');
-  equal(lookupAnimation(), undefined);
-
-  setRoutes(null, 'two');
-  equal(lookupAnimation(), undefined);
-
-  setRoutes('one', 'x');
-  equal(lookupAnimation(), undefined);
-
-  setRoutes('one', null);
-  equal(lookupAnimation(), undefined);
-
+  expectAnimation(routes('one', 'two'), dummyAction);
+  expectNoAnimation(routes('x', 'two'));
+  expectNoAnimation(routes(null, 'two'));
+  expectNoAnimation(routes('one', 'x'));
+  expectNoAnimation(routes('one', null));
 });
 
 test("matches just source route", function(){
@@ -97,17 +42,10 @@ test("matches just source route", function(){
     );
   });
 
-  setRoutes('one', 'bogus');
-  equal(lookupAnimation(), dummyAction);
-
-  setRoutes('one', null);
-  equal(lookupAnimation(), dummyAction);
-
-  setRoutes('other', 'two');
-  equal(lookupAnimation(), undefined);
-
-  setRoutes(null, 'two');
-  equal(lookupAnimation(), undefined);
+  expectAnimation(routes('one', 'bogus'), dummyAction);
+  expectAnimation(routes('one', null), dummyAction);
+  expectNoAnimation(routes('other', 'two'));
+  expectNoAnimation(routes(null, 'two'));
 });
 
 test("matches just destination route", function(){
@@ -118,18 +56,10 @@ test("matches just destination route", function(){
     );
   });
 
-  setRoutes('bogus', 'two');
-  equal(lookupAnimation(), dummyAction, 'with a source route');
-
-  setRoutes(null, 'two');
-  equal(lookupAnimation(), dummyAction, 'with empty source route');
-
-  setRoutes('bogus', 'twox');
-  equal(lookupAnimation(), undefined, 'with other destination');
-
-  setRoutes('bogus', null);
-  equal(lookupAnimation(), undefined, 'with empty destination');
-
+  expectAnimation(routes('bogus', 'two'), dummyAction, 'with a source route');
+  expectAnimation(routes(null, 'two'), dummyAction, 'with empty source route');
+  expectNoAnimation(routes('bogus', 'twox'), 'with other destination');
+  expectNoAnimation(routes('bogus', null), 'with empty destination');
 });
 
 test("matches empty source route", function(){
@@ -141,11 +71,8 @@ test("matches empty source route", function(){
     );
   });
 
-  setRoutes('bogus', 'two');
-  equal(lookupAnimation(), undefined, 'non-empty source');
-
-  setRoutes(null, 'two');
-  equal(lookupAnimation(), dummyAction, 'empty source');
+  expectNoAnimation(routes('bogus', 'two'), 'non-empty source');
+  expectAnimation(routes(null, 'two'), dummyAction, 'empty source');
 });
 
 test("matches source & destination contexts", function(){
@@ -157,22 +84,15 @@ test("matches source & destination contexts", function(){
     );
   });
 
-  setRoutes('one', 'one');
+  expectAnimation(values({isMySource: true}, {isMyDestination: true}), dummyAction, 'both match');
 
-  setContexts({isMySource: true}, {isMyDestination: true});
-  equal(lookupAnimation(), dummyAction, 'both match');
+  expectNoAnimation(values(null, {isMyDestination: true}), 'empty source');
 
-  setContexts(null, {isMyDestination: true});
-  equal(lookupAnimation(), undefined, 'empty source');
+  expectNoAnimation(values({isMySource: true}, null), 'empty destination');
 
-  setContexts({isMySource: true}, null);
-  equal(lookupAnimation(), undefined, 'empty destination');
+  expectNoAnimation(values({isMySource: false}, {isMyDestination: true}), 'other source');
 
-  setContexts({isMySource: false}, {isMyDestination: true});
-  equal(lookupAnimation(), undefined, 'other source');
-
-  setContexts({isMySource: true}, {isMyDestination: false});
-  equal(lookupAnimation(), undefined, 'other destination');
+  expectNoAnimation(values({isMySource: true}, {isMyDestination: false}), 'other destination');
 
 });
 
@@ -512,3 +432,30 @@ test("matches initial render when asked explicitly", function(){
   firstTime = true;
   equal(lookupAnimation(), dummyAction);
 });
+function dummyAction() {}
+function otherAction() {}
+
+function routes(a,b) {
+  return values({ render: { name: a } }, { render: { name: b } });
+}
+
+function values(a,b) {
+  return {
+    versions: [{ value: b}, { value: a }],
+    firstTime: 'no',
+    parentElement: Ember.$('body')
+  };
+}
+
+function expectAnimation(conditions, nameOrHandler, msg) {
+  var runningTransition = t.transitionFor(conditions);
+  if (typeof nameOrHandler === 'string') {
+    equal(runningTransition.animation.name, nameOrHandler, msg);
+  } else {
+    equal(runningTransition.animation.handler, nameOrHandler, msg);
+  }
+}
+
+function expectNoAnimation(conditions, msg) {
+  expectAnimation(conditions, defaultHandler, msg);
+}
