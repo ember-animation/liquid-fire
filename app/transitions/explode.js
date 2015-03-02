@@ -33,7 +33,9 @@ function explodePiece(context, piece) {
     cleanupNew = _explodePart(context, 'newElement', childContext, selectors[1]);
   }
 
-  return animationFor(context, piece).apply(childContext).then(() => {
+  return new Promise((resolve, reject) => {
+    animationFor(context, piece).apply(childContext).then(resolve, reject);
+  }).finally(() => {
     if (cleanupOld) { cleanupOld(); }
     if (cleanupNew) { cleanupNew(); }
   });
