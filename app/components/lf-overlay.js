@@ -19,9 +19,5 @@ export default Ember.Component.extend({
     if (counter < 2) {
       body.removeClass('lf-modal-open');
     }
-  },
-
-  click: function() {
-    this.sendAction('clickAway');
   }
 });
