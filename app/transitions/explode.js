@@ -6,17 +6,22 @@ import { Promise } from "liquid-fire";
 // animations.
 
 export default function explode(...pieces) {
-  return Promise.all(pieces.map((piece) => {
+  var result = Promise.all(pieces.map((piece) => {
     if (piece.matchBy) {
       return matchAndExplode(this, piece);
     } else {
       return explodePiece(this, piece);
     }
-  })).then(() => {
-    // The default transition guarantees that we didn't leave our
-    // original new element invisible
-    this.lookup('default').apply(this);
-  });
+  }));
+
+  if (this.newElement) {
+    this.newElement.css({visibility: ''});
+  }
+  if (this.oldElement) {
+    this.oldElement.css({visibility: 'hidden'});
+  }
+
+  return result;
 }
 
 function explodePiece(context, piece) {
