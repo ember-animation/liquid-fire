@@ -6,53 +6,47 @@ import { Promise } from "liquid-fire";
 // animations.
 
 export default function explode(...pieces) {
-  var promises = [];
-  var childContext;
-  var keepingSelf = false;
-
-  for (var i = 0; i < pieces.length; i++) {
-    var piece = pieces[i];
-    if (piece.pick) {
-      childContext = Ember.copy(this);
-      _explodePart(this, 'newElement', childContext, piece);
-      _explodePart(this, 'oldElement', childContext, piece);
-    } else {
-      keepingSelf = true;
-      childContext = this;
-    }
-    promises.push(animationFor(this, piece).apply(childContext));
-  }
-
-  // If our original top-level elements are not getting passed onward
-  // for more animation, mark them as visible so their children can
-  // reveal themselves independently.
-  if (!keepingSelf) {
-    if (this.newElement) {
-      this.newElement.css({visibility: ''});
-    }
-    if (this.oldElement) {
-      this.oldElement.css({visibility: ''});
-    }
-  }
-  return Promise.all(promises);
+  return Promise.all(Ember.A(pieces).map((piece) => explodePiece(this, piece)));
 }
 
-function _explodePart(context, field, childContext, piece) {
+function explodePiece(context, piece) {
+  var childContext = Ember.copy(context);
+  var selectors = [piece.pick, piece.pick];
+  var cleanupOld, cleanupNew;
+
+  if (piece.pickOld) {
+    selectors[0] = piece.pickOld;
+  }
+  if (piece.pickNew) {
+    selectors[1] = piece.pickNew;
+  }
+
+  if (selectors[0]) {
+    cleanupOld = _explodePart(context, 'oldElement', childContext, selectors[0]);
+  }
+
+  if (selectors[1]) {
+    cleanupNew = _explodePart(context, 'newElement', childContext, selectors[1]);
+  }
+
+  return animationFor(context, piece).apply(childContext).then(() => {
+    if (cleanupOld) { cleanupOld(); }
+    if (cleanupNew) { cleanupNew(); }
+  });
+}
+
+function _explodePart(context, field, childContext, selector) {
   var child, childOffset, newChild;
   var elt = context[field];
   childContext[field] = null;
   if (elt) {
-    child = elt.find(piece.pick);
+    child = elt.find(selector);
     if (child.length > 0) {
-      if (piece.hoist) {
-        childOffset = child.offset();
-        newChild = child.clone();
+      childOffset = child.offset();
+      newChild = child.clone();
 
-        // Hide the original element
-        child.css({visibility: 'hidden'});
-      } else {
-        newChild = child;
-      }
+      // Hide the original element
+      child.css({visibility: 'hidden'});
 
       // If the original element's parent was hidden, hide our clone
       // too.
@@ -60,16 +54,17 @@ function _explodePart(context, field, childContext, piece) {
         newChild.css({ visibility: 'hidden' });
       }
 
-      if (piece.hoise) {
-        newChild.appendTo(elt.parent());
-        newChild.offset(childOffset);
-      }
+      newChild.appendTo(elt.parent());
+      newChild.offset(childOffset);
 
       // Pass the clone to the next animation
       childContext[field] = newChild;
+      return function cleanup() {
+        newChild.remove();
+        child.css({visibility: ''});
+      };
     }
   }
-  return childContext;
 }
 
 function animationFor(context, piece) {

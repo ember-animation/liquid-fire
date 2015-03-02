@@ -72,7 +72,12 @@ export default function(){
   this.transition(
     this.fromRoute('scenarios.hero.index'),
     this.toRoute('scenarios.hero.second'),
-    this.use('hero', {
+    this.use('explode', {
+      pickOld: '.bluebox',
+      pickNew: '.redbox',
+      use: 'flyTo'
+    }, {
+      use: [ 'toLeft', { duration: 500 } ]
     })
   );
 
