@@ -188,7 +188,7 @@ test('warn-popup - dismiss with overlay', function() {
   visit('/modals?warn=1');
   andThen(function(){
     findWithAssert('#warn-popup');
-    click('.lf-overlay');
+    click('.lm-container');
   });
   andThen(function(){
     equal(find('#warn-popup').length, 0, "dismissed popup");
