@@ -65,7 +65,6 @@ export default class DSL {
   }
 
   childOf(selector) {
-    console.warn("childOf is deprecated in favor of matchSelector");
     return this.matchSelector(selector + ' > *');
   }
 
