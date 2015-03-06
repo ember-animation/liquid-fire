@@ -1,3 +1,5 @@
+import { routeName, routeModel } from "liquid-fire/ember-internals";
+
 export default {
   oldValue : {
     reversesTo: 'newValue',
@@ -14,19 +16,25 @@ export default {
   oldRoute: {
     reversesTo: 'newRoute',
     accessor: function(conditions) {
-      var value = versionValue(conditions, 1);
-      if (value && value.render) {
-        return [value.render.name];
-      }
+      return routeName(versionValue(conditions, 1));
     }
   },
   newRoute: {
     reversesTo: 'oldRoute',
     accessor: function(conditions) {
-      var value = versionValue(conditions, 0);
-      if (value && value.render) {
-        return [value.render.name];
-      }
+      return routeName(versionValue(conditions, 0));
+    }
+  },
+  oldModel: {
+    reversesTo: 'newModel',
+    accessor: function(conditions) {
+      return routeModel(versionValue(conditions, 1));
+    }
+  },
+  newModel: {
+    reversesTo: 'oldModel',
+    accessor: function(conditions) {
+      return routeModel(versionValue(conditions, 0));
     }
   },
   helperName: {},

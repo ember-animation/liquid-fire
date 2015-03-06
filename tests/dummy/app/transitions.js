@@ -24,7 +24,7 @@ export default function(){
 
     // this makes our rule apply when the liquid-if transitions to the
     // true state.
-    this.toModel(true),
+    this.toValue(true),
     this.use('crossFade', {duration: 1000}),
 
     // which means we can also apply a reverse rule for transitions to
@@ -45,7 +45,7 @@ export default function(){
 
   this.transition(
     this.childOf("#inline-scenario"),
-    this.toModel(true),
+    this.toValue(true),
     this.use('toLeft', {duration: 1000}),
     this.reverse('toRight', {duration: 1000})
   );
@@ -71,7 +71,7 @@ export default function(){
 
   this.transition(
     this.hasClass('hero-scenario'),
-    this.fromModel(true),
+    this.fromValue(true),
     this.use('explode', {
       pickOld: '.bluebox',
       pickNew: '.redbox',
@@ -96,4 +96,12 @@ export default function(){
     })
   );
 
+  this.transition(
+    this.withinRoute('scenarios.model-dependent-rule.page'),
+    this.fromModel(function(fromModel, toModel) {
+      return fromModel && toModel && parseInt(fromModel.id) < parseInt(toModel.id);
+    }),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
 }

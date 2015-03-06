@@ -85,6 +85,9 @@ Router.map(function() {
     this.route('spacer');
     this.route('versions');
     this.route('hero');
+    this.route('model-dependent-rule', function() {
+      this.route('page', { path: '/:id' });
+    });
   });
 
 });

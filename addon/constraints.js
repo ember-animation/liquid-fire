@@ -147,8 +147,13 @@ export default class Constraints {
 
   matchConstraintPredicate(conditions, rule, constraint) {
     var values = conditionAccessor(conditions, constraint.target);
+    var reverse = constrainables[constraint.target].reversesTo;
+    var inverseValues;
+    if (reverse) {
+      inverseValues = conditionAccessor(conditions, reverse);
+    }
     for (var i = 0; i < values.length; i++) {
-      if (constraint.predicate(values[i])) {
+      if (constraint.predicate(values[i], inverseValues ? inverseValues[i] : null)) {
         return true;
       }
     }

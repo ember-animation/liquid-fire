@@ -28,25 +28,41 @@ export default class DSL {
 
   fromRoute(...routeNames) {
     return [
-      new Constraint('oldRoute', routeNames),
+      new Constraint('oldRoute', routeNames)
     ];
   }
 
   toRoute(...routeNames) {
     return [
-      new Constraint('newRoute', routeNames),
+      new Constraint('newRoute', routeNames)
     ];
   }
 
-  fromModel(matcher) {
+  withinRoute(...routeNames) {
+    return this.fromRoute(...routeNames).concat(this.toRoute(...routeNames));
+  }
+
+  fromValue(matcher) {
     return [
       new Constraint('oldValue', matcher)
     ];
   }
 
-  toModel(matcher) {
+  toValue(matcher) {
     return [
       new Constraint('newValue', matcher)
+    ];
+  }
+
+  fromModel(matcher) {
+    return [
+      new Constraint('oldModel', matcher)
+    ];
+  }
+
+  toModel(matcher) {
+    return [
+      new Constraint('newModel', matcher)
     ];
   }
 
