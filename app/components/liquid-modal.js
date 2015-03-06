@@ -4,7 +4,7 @@ export default Ember.Component.extend({
   classNames: ['liquid-modal'],
   currentContext: Ember.computed.oneWay('owner.modalContexts.lastObject'),
 
-  owner: null, // set by injection
+  owner: Ember.inject.service('liquid-fire-modals'),
 
   innerView: Ember.computed('currentContext', function() {
     var self = this,

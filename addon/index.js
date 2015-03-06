@@ -1,8 +1,15 @@
 import TransitionMap from "./transition-map";
 import { animate, stop, isAnimating, timeSpent, timeRemaining, finish } from "./animate";
 import Promise from "./promise";
-import { initialize } from "./initialize";
 import MutationObserver from "./mutation-observer";
-import "./router-dsl-ext";
+import versionWarnings from "./version-warnings";
+
+
+versionWarnings({
+  minEmberVersion: [1, 11],
+  minVelocityVersion: [0, 11, 8]
+});
+
+
 export { TransitionMap, animate, stop, isAnimating, timeSpent, timeRemaining, finish,
-         Promise, initialize, MutationObserver };
+         Promise, MutationObserver };
