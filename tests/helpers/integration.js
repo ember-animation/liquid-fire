@@ -2,7 +2,7 @@
 import Ember from "ember";
 
 function transitionMap(app) {
-  return app.__container__.lookup('transitions:map');
+  return app.__container__.lookup('service:liquid-fire-transitions');
 }
 
 function transitionName(name) {
@@ -27,7 +27,7 @@ Ember.Test.registerHelper(
 );
 
 export function injectTransitionSpies(app) {
-  var tmap = app.__container__.lookup('transitions:map');
+  var tmap = transitionMap(app);
   sinon.spy(tmap, 'transitionFor');
 }
 
