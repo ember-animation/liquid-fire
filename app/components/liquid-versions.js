@@ -8,6 +8,8 @@ export default Ember.Component.extend({
   tagName: "",
   name: 'liquid-versions',
 
+  transitionMap: Ember.inject.service('liquid-fire-transitions'),
+
   appendVersion: Ember.on('init', Ember.observer('value', function() {
     var versions = get(this, 'versions');
     var firstTime = false;
@@ -54,7 +56,7 @@ export default Ember.Component.extend({
 
     this.notifyContainer('afterChildInsertion', versions);
 
-    transition = this.transitionMap.transitionFor({
+    transition = get(this, 'transitionMap').transitionFor({
       versions: versions,
       parentElement: Ember.$(containingElement(this)),
       use: get(this, 'use'),
