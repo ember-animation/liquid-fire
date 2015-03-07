@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { constraintKeys } from './constraint';
+import { constraintKeys, EMPTY, ANY } from './constraint';
 import constrainables from "./constrainables";
 
 export default class Constraints {
@@ -103,6 +103,9 @@ export default class Constraints {
       if (context[keys[i]]) {
         matched.push(context[keys[i]]);
       }
+    }
+    if (keys.length === 0 && context[EMPTY]) {
+      matched.push(context[EMPTY]);
     }
     if (context[ANY]) {
       matched.push(context[ANY]);
@@ -233,4 +236,3 @@ function highestPriority(rules) {
 }
 
 var constrainableKeys = Ember.A(Ember.keys(constrainables));
-var ANY = '__liquid_fire_ANY__';

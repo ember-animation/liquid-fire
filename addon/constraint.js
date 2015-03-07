@@ -32,7 +32,8 @@ export default class Constraint {
   }
 }
 
-export var EMPTY = {};
+export var EMPTY = '__liquid_fire_EMPTY__';
+export var ANY = '__liquid_fire_ANY__';
 
 export function constraintKeys(matcher) {
   if (typeof matcher === 'undefined' || matcher === null) {

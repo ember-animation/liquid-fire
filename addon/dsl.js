@@ -54,6 +54,10 @@ export default class DSL {
     ];
   }
 
+  betweenValues(matcher) {
+    return this.fromValue(matcher).concat(this.toValue(matcher));
+  }
+
   fromModel(matcher) {
     return [
       new Constraint('oldModel', matcher)
