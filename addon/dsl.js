@@ -26,20 +26,20 @@ export default class DSL {
     this.map.addRule(rule);
   }
 
-  fromRoute(...routeNames) {
+  fromRoute(routeName) {
     return [
-      new Constraint('oldRoute', routeNames)
+      new Constraint('oldRoute', routeName)
     ];
   }
 
-  toRoute(...routeNames) {
+  toRoute(routeName) {
     return [
-      new Constraint('newRoute', routeNames)
+      new Constraint('newRoute', routeName)
     ];
   }
 
-  withinRoute(...routeNames) {
-    return this.fromRoute(...routeNames).concat(this.toRoute(...routeNames));
+  withinRoute(routeName) {
+    return this.fromRoute(routeName).concat(this.toRoute(routeName));
   }
 
   fromValue(matcher) {

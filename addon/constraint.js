@@ -35,7 +35,7 @@ export default class Constraint {
 export var EMPTY = {};
 
 export function constraintKeys(matcher) {
-  if (typeof matcher === 'undefined') {
+  if (typeof matcher === 'undefined' || matcher === null) {
     matcher = [ EMPTY ];
   } else if (!Ember.isArray(matcher)) {
     matcher = [matcher];
