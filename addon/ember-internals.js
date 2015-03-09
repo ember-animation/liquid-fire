@@ -102,7 +102,7 @@ export var OutletBehavior = {
     if (parent) {
       this._parentOutletLink = parent;
       parent._childOutlets.push(this);
-      if (parent._outletState) {
+      if (parent._outletState && parent._outletState.outlets[this._outletName]) {
         this.setOutletState(parent._outletState.outlets[this._outletName]);
       }
     }

@@ -42,7 +42,7 @@ export default Ember.Component.extend({
       set(this, 'versions', versions);
     }
 
-    if (!newVersion.shouldRender) {
+    if (!newVersion.shouldRender && !firstTime) {
       this._transition();
     }
   })),

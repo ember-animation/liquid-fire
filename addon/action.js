@@ -19,7 +19,7 @@ export default class Action {
 
   run(context) {
     return new Promise((resolve, reject) => {
-      this.handler.apply(context, this.args).then(resolve, reject);
+      Promise.resolve(this.handler.apply(context, this.args)).then(resolve, reject);
     });
   }
 }

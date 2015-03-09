@@ -1,3 +1,7 @@
-{{#liquid-with value use=use class=innerClass name="liquid-bind" as |version|}}
-  {{version}}
-{{/liquid-with}}
+{{#liquid-container class=innerClass as |container| ~}}
+  {{#liquid-versions value=value notify=container use=use
+                     name="liquid-bind" renderWhenFalse=true as |version| ~}}
+    {{version ~}}
+  {{/liquid-versions}}
+{{/liquid-container}}
+
