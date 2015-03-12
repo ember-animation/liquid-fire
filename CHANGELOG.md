@@ -10,7 +10,7 @@
    branch, which is released to npm as 0.17.x.
 
  - BREAKING: We require full ES6 transpilation. The future is
-   now. `npm install --save-dev ember-cli-6to5`.
+   now. `ember install:addon ember-cli-babel`.
 
  - Dropped large swaths of code for pre-HTMLBars support.
 
@@ -24,42 +24,50 @@
 
 ### 0.17.0
 
- - BREAKING: the API for route and model matcher functions in your
-   transition rules has changed. Instead of passing the
-   object-to-be-tested as `this`, we pass it as the first argument. So
-   if you have a rule like:
+- BREAKING: the API for route and model matcher functions in your
+  transition rules has changed. Instead of passing the
+  object-to-be-tested as `this`, we pass it as the first argument. So
+  if you have a rule like:
 
-      this.fromRoute(function(){ return /special_/.test(this); })
+ ```js
+ this.fromRoute(function(){ return /special_/.test(this); })
+ ```
 
-   You need to change it to:
+  You need to change it to:
+ 
+  ```js
+  this.fromRoute(function(routeName){ return /special_/.test(routeName); })
+  ```
 
-      this.fromRoute(function(routeName){ return /special_/.test(routeName); })
+  Similarly, a rule like:
 
-   Similarly, a rule like:
+  ```js
+  this.fromModel(function(){ return this.get('age') > 21; })
+  ```
 
-      this.fromModel(function(){ return this.get('age') > 21; })
+  Becomes:
 
-   Becomes:
+  ```js
+  this.fromModel(function(model){ return model.get('age') > 21; })
+  ```
 
-      this.fromModel(function(model){ return model.get('age') > 21; })
+  This change is necessary to gracefully handle all the cases where
+  the object being tested may be undefined, since `this` is not
+  necessarily allowed to be undefined.
 
-   This change is necessary to gracefully handle all the cases where
-   the object being tested may be undefined, since `this` is not
-   necessarily allowed to be undefined.
+- ENHANCEMENT: liquid-spacer is ready to go and documented. This is a
+  new helper that provides a standalone growable container that
+  animates whenever its content changes.
 
- - ENHANCEMENT: liquid-spacer is ready to go and documented. This is a
-   new helper that provides a standalone growable container that
-   animates whenever its content changes.
-
- - ENHANCEMENT: added an ember-cli blueprint for generating
-   transitions. Run `ember generate transition some-name`. Thanks
-   @lukesargeant.
+- ENHANCEMENT: added an ember-cli blueprint for generating
+  transitions. Run `ember generate transition some-name`. Thanks
+  @lukesargeant.
 
 ### 0.16.3
 
- - BUGFIX: previous change introduced a new requirement for apps to
-   use ember-cli-6to5. This was unintentional and if we do start to
-   require it, we will do so with a major version bump.
+- BUGFIX: previous change introduced a new requirement for apps to
+  use ember-cli-6to5. This was unintentional and if we do start to
+  require it, we will do so with a major version bump.
 
 ### 0.16.2
 
@@ -90,25 +98,24 @@
 
 - ENHANCEMENT: improved liquid-modal API by @rlivsey.
 
-   * `otherParams` is a new option that lets you bind parameters
-     through to the modal component. Unlike `withParams`, they will
-     not be used to determine if the modal should be rendered.
+  * `otherParams` is a new option that lets you bind parameters
+    through to the modal component. Unlike `withParams`, they will
+    not be used to determine if the modal should be rendered.
 
-   * both `otherParams` and `withParams` now allows parameter names to
-     be arbitrarily remapped, so:
+  * both `otherParams` and `withParams` now allows parameter names to
+    be arbitrarily remapped, so:
 
-        ````javascript
-        this.modal('your-modal', {
-          withParams: ['foo', { bar: 'baz'}]
-        });
-        ````
+    ```javascript
+      this.modal('your-modal', {
+        withParams: ['foo', { bar: 'baz'}]
+      });
+    ```
 
-        Is equivalent to a normal in-template component invoked like this:
+    Is equivalent to a normal in-template component invoked like this:
 
-        ````javascript
-        {{your-modal foo=foo bar=baz}}
-        ````
-
+    ```hbs
+    {{your-modal foo=foo bar=baz}}
+    ```
 
 ### 0.14.0
 
@@ -117,11 +124,15 @@
   way liquid-fire exports values to your code. You will need to change
   imports like this:
 
-        import animate from "vendor/liquid-fire";
+  ```js
+  import animate from "vendor/liquid-fire";
+  ```
 
-    Like this:
+  Like this:
 
-        import animate from "liquid-fire";
+  ```js
+  import animate from "liquid-fire";
+  ```
 
 - ENHANCEMENT: Now compatible with the newest 1.9 beta series and 1.10
   canary.
