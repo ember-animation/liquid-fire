@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.18.0
+### 0.18.0
 
  - COMPAT: fully compatible with the current Ember 1.11 beta series
    and canary.
