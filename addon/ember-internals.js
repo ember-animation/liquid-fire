@@ -5,6 +5,7 @@
 
 import Ember from "ember";
 var get = Ember.get;
+var set = Ember.set;
 
 // Given an Ember.View, return the containing element
 export function containingElement(view) {
@@ -78,6 +79,18 @@ export function inverseYieldMethod(context, options, morph, blockArguments) {
 export var OutletBehavior = {
   _isOutlet: true,
 
+  init: function() {
+    this._super();
+    this._childOutlets = [];
+
+    // Our outlet state is named differently than a normal ember
+    // outlet ("_outletState"), so that our child outlets don't
+    // automatically discover it. Instead we will always push state
+    // down to them, so we can version it as we wish.
+    this.outletState = null;
+  },
+
+
   setOutletState: function(state) {
     if (state.render && state.render.controller && !state._lf_model) {
       // This is a hack to compensate for Ember 1.0's remaining use of
@@ -90,8 +103,30 @@ export var OutletBehavior = {
       // problem and we can eventually drop the hack.
       state._lf_model = get(state.render.controller, 'model');
     }
-    this.set('outletState', state);
+
+    if (!this._diffState(state)) {
+      var children = this._childOutlets;
+      for (var i = 0 ; i < children.length; i++) {
+        var child = children[i];
+        child.setOutletState(state);
+      }
+
+    }
   },
+
+  _diffState: function(state) {
+    while (state && emptyRouteState(state)) {
+      state = state.outlets.main;
+    }
+    var different = !sameRouteState(this.outletState, state);
+
+    if (different) {
+      set(this, 'outletState', state);
+    }
+
+    return different;
+  },
+
 
   _parentOutlet: function() {
     var parent = this._parentView;
@@ -120,14 +155,36 @@ export var OutletBehavior = {
   }
 };
 
+function emptyRouteState(state) {
+  return !state.render.ViewClass && !state.render.template;
+}
+
+function sameRouteState(a, b) {
+  if (!a && !b) {
+    return true;
+  }
+  if (!a || !b) {
+    return false;
+  }
+  a = a.render;
+  b = b.render;
+  for (var key in a) {
+    if (a.hasOwnProperty(key)) {
+      // name is only here for logging & debugging. If two different
+      // names result in otherwise identical states, they're still
+      // identical.
+      if (a[key] !== b[key] && key !== 'name') {
+        return false;
+      }
+    }
+  }
+  return true;
+}
 
 // This lets us invoke an outlet with an explicitly passed outlet
 // state, rather than inheriting it implicitly from its context.
 export var StaticOutlet = Ember.OutletView.superclass.extend({
   tagName: '',
-
-  // Disable normal outletstate propagation
-  _parentOutlet: function() {},
 
   setStaticState: Ember.on('init', Ember.observer('staticState', function() {
     this.setOutletState(this.get('staticState'));
