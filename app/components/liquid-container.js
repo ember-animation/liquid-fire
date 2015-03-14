@@ -85,7 +85,6 @@ function goAbsolute(version, size) {
     return;
   }
   var elt = version.view.$();
-  var pos = elt.position();
   if (!size) {
     size = measure(elt);
   }
@@ -93,8 +92,8 @@ function goAbsolute(version, size) {
   elt.outerHeight(size.height);
   elt.css({
     position: 'absolute',
-    top: pos.top,
-    left: pos.left
+    top: 0,
+    left: 0
   });
 }
 

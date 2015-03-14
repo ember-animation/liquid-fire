@@ -11,6 +11,10 @@
     transform: translateY(0);
 }
 
+.liquid-child {
+    overflow: hidden; /* Prevent margin collapse */
+}
+
 .lm-container {
     overflow: hidden;
     display: -webkit-flex;
