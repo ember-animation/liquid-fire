@@ -60,8 +60,8 @@ function _explodePart(context, field, childContext, selector) {
     child = elt.find(selector);
     if (child.length > 0) {
       childOffset = child.offset();
-      width = child.width();
-      height = child.height();
+      width = child.outerWidth();
+      height = child.outerHeight();
       newChild = child.clone();
 
       // Hide the original element
