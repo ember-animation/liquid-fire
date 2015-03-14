@@ -25,6 +25,10 @@ export function makeHelperShim(componentName, tweak) {
         hash.innerClass = hash['class'];
         delete hash['class'];
       }
+      if (hash.id) {
+        hash.innerId = hash.id;
+        delete hash.id;
+      }
       hash.tagName = "";
       if (tweak) {
         tweak(params, hash, options, env);

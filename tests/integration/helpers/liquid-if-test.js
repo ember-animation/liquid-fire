@@ -48,6 +48,11 @@ test("it should update dynamic class name", function(assert) {
   assert.equal(this.$('.liquid-container.bar2').length, 1, 'found class bar2');
 });
 
+test('it should support element id', function(assert) {
+  this.render('{{#liquid-if isReady id="foo"}}hi{{/liquid-if}}');
+  assert.equal(this.$('.liquid-container#foo').length, 1, "found element by id");
+});
+
 test("it should support liquid-unless", function(assert) {
   this.set('isReady', true);
   this.render('{{#liquid-unless isReady}}A{{else}}B{{/liquid-unless}}');

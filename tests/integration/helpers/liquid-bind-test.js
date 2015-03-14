@@ -38,6 +38,11 @@ test('it should update a dynamic class name', function(assert) {
   assert.equal(this.$('.liquid-container.sparkle').length, 1, "found updated class");
 });
 
+test('it should support element id', function(assert) {
+  this.render('{{liquid-bind id="foo"}}');
+  assert.equal(this.$('.liquid-container#foo').length, 1, "found element by id");
+});
+
 test('it should support `use` option', function(assert) {
   var tmap = this.container.lookup('service:liquid-fire-transitions');
   sinon.spy(tmap, 'transitionFor');

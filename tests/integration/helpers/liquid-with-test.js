@@ -37,3 +37,8 @@ test('outlets inside {{liquid-with}}', function(assert) {
   setOutletState(routerState);
   assert.equal(this.$().text().trim(), 'OtherPurple');
 });
+
+test('it should support element id', function(assert) {
+  this.render('{{#liquid-with foo id="foo" as |bar|}} {{/liquid-with}}');
+  assert.equal(this.$('.liquid-container#foo').length, 1, "found element by id");
+});

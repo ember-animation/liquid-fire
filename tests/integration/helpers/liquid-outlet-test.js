@@ -45,6 +45,11 @@ test('it should support dynamic class', function(assert) {
   assert.equal(this.$('.liquid-container.sparkly').length, 1, "found dynamic class");
 });
 
+test('it should support element id', function(assert) {
+  this.render('{{liquid-outlet id="foo"}}');
+  assert.equal(this.$('.liquid-container#foo').length, 1, "found element by id");
+});
+
 test('it should support `use` option', function(assert) {
   var tmap = this.container.lookup('service:liquid-fire-transitions');
   sinon.spy(tmap, 'transitionFor');
