@@ -27,6 +27,15 @@ test('nested liquid-outlets wait for their ancestors to animate', function() {
   });
 });
 
+test('inner nested liquid-outlets can animate', function() {
+  visit('/scenarios/nested-outlets/middle/inner');
+  visit('/scenarios/nested-outlets/middle');
+  andThen(function(){
+    ranTransition('fade');
+  });
+});
+
+
 test('modal with remapped parameters receives them', function() {
   expect(2);
   visit('/scenarios/remapped-modal');
