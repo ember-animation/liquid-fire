@@ -2,8 +2,15 @@
 import Ember from "ember";
 import moduleForIntegration from "../../helpers/module-for-integration";
 import { test } from "ember-qunit";
+import QUnit from 'qunit';
 
-moduleForIntegration('Integration: liquid-bind');
+moduleForIntegration('Integration: liquid-bind', {
+  teardown: function() {
+    QUnit.stop();
+    var tmap = this.container.lookup('service:liquid-fire-transitions');
+    tmap.waitUntilIdle().then(QUnit.start);
+  }
+});
 
 test('it should render', function(assert) {
   this.set('name', 'Tomster');

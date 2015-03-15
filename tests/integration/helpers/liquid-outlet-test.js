@@ -3,8 +3,15 @@ import Ember from "ember";
 import moduleForIntegration from "../../helpers/module-for-integration";
 import { test } from "ember-qunit";
 import { setOutletState, withTemplate } from "../../helpers/outlet";
+import QUnit from 'qunit';
 
-moduleForIntegration('Integration: liquid-outlet');
+moduleForIntegration('Integration: liquid-outlet', {
+  teardown: function() {
+    QUnit.stop();
+    var tmap = this.container.lookup('service:liquid-fire-transitions');
+    tmap.waitUntilIdle().then(QUnit.start);
+  }
+});
 
 test('it should render when state is set after insertion', function(assert) {
   this.render('{{liquid-outlet}}');
@@ -60,4 +67,5 @@ test('it should support `use` option', function(assert) {
   routerState.outlets.main = withTemplate('byte');
   setOutletState(routerState);
   assert.equal(tmap.transitionFor.lastCall.returnValue.animation.name, 'fade');
+  //return tmap.waitUntilIdle();
 });

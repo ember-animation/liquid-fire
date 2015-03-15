@@ -23,6 +23,36 @@ var TransitionMap = Ember.Object.extend({
     return this.activeCount;
   },
 
+  incrementRunningTransitions: function() {
+    this.activeCount++;
+  },
+
+  decrementRunningTransitions: function() {
+    this.activeCount--;
+    Ember.run.later(() => {
+      this._maybeResolveIdle();
+    });
+  },
+
+  waitUntilIdle: function() {
+    if (this._waitingPromise) {
+      return this._waitingPromise;
+    }
+    return this._waitingPromise = new Ember.RSVP.Promise((resolve) => {
+      this._resolveWaiting = resolve;
+      this._maybeResolveIdle();
+    });
+  },
+
+  _maybeResolveIdle: function() {
+    if (this.activeCount === 0 && this._resolveWaiting) {
+      var resolveWaiting = this._resolveWaiting;
+      this._resolveWaiting = null;
+      this._waitingPromise = null;
+      resolveWaiting();
+    }
+  },
+
   lookup: function(transitionName) {
     var handler = this.container.lookupFactory('transition:' + transitionName);
     if (!handler) {

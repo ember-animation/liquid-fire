@@ -12,14 +12,14 @@ export default class RunningTransition {
       return this._ran;
     }
 
-    this.transitionMap.activeCount += 1;
+    this.transitionMap.incrementRunningTransitions();
     return this._ran = this._invokeAnimation().catch((err) => {
       // If the animation blew up, try to leave the DOM in a
       // non-broken state as best we can before rethrowing.
       return this.transitionMap.lookup('default').apply(this.animationContext)
         .then(function(){ throw err; });
     }).finally(() => {
-      this.transitionMap.activeCount -= 1;
+      this.transitionMap.decrementRunningTransitions();
     });
   }
 

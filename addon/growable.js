@@ -10,12 +10,12 @@ export default Ember.Mixin.create({
   transitionMap: Ember.inject.service('liquid-fire-transitions'),
 
   animateGrowth: function(elt, have, want) {
-    this.transitionMap.activeCount++;
+    this.get('transitionMap').incrementRunningTransitions();
     return Promise.all([
       this._adaptDimension(elt, 'width', have, want),
       this._adaptDimension(elt, 'height', have, want)
     ]).then(()=>{
-      this.transitionMap.activeCount--;
+      this.get('transitionMap').decrementRunningTransitions();
     });
   },
 
