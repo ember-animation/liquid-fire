@@ -25,6 +25,11 @@ export default class RunningTransition {
 
   interrupt() {
     this.interrupted = true;
+    this.animationContext.oldElement = null;
+    this.animationContext.newElement = null;
+    this.animationContext.older.forEach((entry) => {
+      entry.element = null;
+    });
   }
 
   _invokeAnimation() {
