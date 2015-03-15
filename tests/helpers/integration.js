@@ -37,7 +37,12 @@ export function classFound(name) {
 }
 
 export function clickWithoutWaiting(selector, text) {
-  find(selector).filter(function() {
-    return $(this).text() === text;
-  }).click();
+  // The runloop ensures that all the synchronous action happens, but
+  // we don't wait around for async stuff. This is used to test
+  // animation interruptions, for example.
+  Ember.run(() => {
+    find(selector).filter(function() {
+      return $(this).text() === text;
+    }).click();
+  });
 }

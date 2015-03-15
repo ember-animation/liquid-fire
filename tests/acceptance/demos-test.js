@@ -126,34 +126,94 @@ test('interruption demo, normal transition', function() {
   });
 });
 
-test('interruption demo, early interruption', function() {
+test('interruption demo, early interruption', function(assert) {
   visit('/transitions/primitives');
   andThen(function(){
     classFound('one');
     clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
     Ember.run.later(function(){
+      isPartiallyOpaque(assert, '.one');
       clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
-    }, 300);
+      Ember.run.later(function(){
+        isTransparent(assert, '.one');
+        isHidden(assert, '.two');
+        isPartiallyOpaque(assert, '.three');
+      }, 50);
+
+    }, 50);
   });
   andThen(function(){
     classFound('three');
   });
 });
 
-test('interruption demo, late interruption', function() {
+test('interruption demo, two early interruptions', function(assert) {
+  visit('/transitions/primitives');
+  andThen(function(){
+    classFound('one');
+    clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
+    clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
+    Ember.run.later(function(){
+      isPartiallyOpaque(assert, '.one');
+      isHidden(assert, '.two');
+      isHidden(assert, '.three');
+      Ember.run.later(function(){
+        isTransparent(assert, '.one');
+        isHidden(assert, '.two');
+        isPartiallyOpaque(assert, '.three');
+      }, 100);
+    }, 40);
+  });
+  andThen(function(){
+    classFound('three');
+  });
+});
+
+
+test('interruption demo, late interruption', function(assert) {
   visit('/transitions/primitives');
   andThen(function(){
     classFound('one');
     clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
     Ember.run.later(function(){
-      classFound('two');
+      isPartiallyOpaque(assert, '.two');
       clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
+      Ember.run.later(function() {
+        isTransparent(assert, '.one');
+        isTransparent(assert, '.two');
+        isPartiallyOpaque(assert, '.three');
+      }, 100);
     }, 150);
   });
   andThen(function(){
     classFound('three');
   });
 });
+
+test('interruption demo, two late interruptions', function(assert) {
+  visit('/transitions/primitives');
+  andThen(function(){
+    classFound('one');
+    clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
+    Ember.run.later(function(){
+      isPartiallyOpaque(assert, '.two');
+      clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
+      Ember.run.later(function() {
+        isPartiallyOpaque(assert, '.three');
+        clickWithoutWaiting('#interrupted-fade-demo a', 'One');
+        Ember.run.later(function() {
+          isTransparent(assert, '.three');
+          isTransparent(assert, '.two');
+          isPartiallyOpaque(assert, '.one');
+        }, 100);
+      }, 100);
+    }, 150);
+  });
+  andThen(function(){
+    classFound('one');
+  });
+});
+
 
 test('modal demo', function() {
   visit('/modals');
@@ -205,3 +265,17 @@ test('warn-popup - dismiss with url', function() {
     equal(find('#warn-popup').length, 0, "dismissed popup");
   });
 });
+
+function isPartiallyOpaque(assert, selector) {
+  var opacity = parseFloat(findWithAssert(selector).parent().css('opacity'));
+  assert.ok(opacity > 0 && opacity < 1, `${selector} opacity: ${opacity}`);
+}
+
+function isTransparent(assert, selector) {
+  var opacity = parseFloat(findWithAssert(selector).parent().css('opacity'));
+  assert.ok(opacity === 0, `${selector} opacity: ${opacity}`);
+}
+
+function isHidden(assert, selector) {
+  assert.equal(findWithAssert(selector).parent().css('visibility'), 'hidden', `${selector} hidden`);
+}
