@@ -106,7 +106,7 @@ function stateForLabel(elt, label) {
 
 function applyLabel(elt, label, state) {
   if (elt){
-    elt.data('lfTag_' + label, state);
+    elt.data('lfTags_' + label, state);
   }
 }
 
