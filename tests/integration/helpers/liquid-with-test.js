@@ -49,3 +49,23 @@ test('it should support element id', function(assert) {
   this.render('{{#liquid-with foo id="foo" as |bar|}} {{/liquid-with}}');
   assert.equal(this.$('.liquid-container#foo').length, 1, "found element by id");
 });
+
+test('it should animate after initially rendering empty', function(assert) {
+  var tmap = this.container.lookup('service:liquid-fire-transitions');
+  var dummyAnimation = function(){ return Ember.RSVP.resolve(); };
+  tmap.map(function() {
+    this.transition(
+      'debug',
+      this.inHelper('liquid-with'),
+      this.use(dummyAnimation)
+    );
+  });
+  sinon.spy(tmap, 'transitionFor');
+  this.render('{{#liquid-with foo as |bar|}} {{/liquid-with}}');
+  assert.equal(this.$('.liquid-child').length, 0, "initially no child");
+  assert.ok(tmap.transitionFor.notCalled, "did not animate");
+  this.set('foo', 'hi');
+  assert.equal(this.$('.liquid-child').length, 1, "child rendered");
+  assert.ok(tmap.transitionFor.called, "animated");
+  assert.equal(tmap.transitionFor.lastCall.returnValue.animation.handler, dummyAnimation);
+});

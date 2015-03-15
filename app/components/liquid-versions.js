@@ -37,8 +37,8 @@ export default Ember.Component.extend({
     };
     versions.unshiftObject(newVersion);
 
+    this.firstTime = firstTime;
     if (firstTime) {
-      this.firstTime = true;
       set(this, 'versions', versions);
     }
 
