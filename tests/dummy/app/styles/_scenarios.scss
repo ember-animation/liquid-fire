@@ -91,3 +91,23 @@ td {
         border: 1px solid transparent; /* Prevent margin collapse */
     }    
 }
+
+.interrupted-move-scenario {
+    width: 300px;
+    height: 200px;
+
+    .one, .two, .three {
+        line-height: 200px;
+        text-align: center;
+        color: white;
+    }
+    .one {
+        background-color: red;
+    }
+    .two {
+        background-color: green;
+    }
+    .three {
+        background-color: blue;
+    }
+}

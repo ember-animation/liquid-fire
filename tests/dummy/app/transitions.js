@@ -104,4 +104,23 @@ export default function(){
     this.use('toLeft'),
     this.reverse('toRight')
   );
+
+  this.transition(
+    this.fromRoute('scenarios.interrupted-move.index'),
+    this.toRoute('scenarios.interrupted-move.two'),
+    this.use('toLeft', { duration: 1500 }),
+    this.reverse('toRight', { duration: 1500 })
+  );
+  this.transition(
+    this.fromRoute('scenarios.interrupted-move.two'),
+    this.toRoute('scenarios.interrupted-move.three'),
+    this.use('toLeft', { duration: 1500 }),
+    this.reverse('toRight', { duration: 1500 })
+  );
+  this.transition(
+    this.fromRoute('scenarios.interrupted-move.index'),
+    this.toRoute('scenarios.interrupted-move.three'),
+    this.use('toLeft', { duration: 1500 }),
+    this.reverse('toRight', { duration: 1500 })
+  );
 }

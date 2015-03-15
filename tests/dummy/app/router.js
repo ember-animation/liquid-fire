@@ -88,6 +88,10 @@ Router.map(function() {
     this.route('model-dependent-rule', function() {
       this.route('page', { path: '/:id' });
     });
+    this.route('interrupted-move', function() {
+      this.route('two');
+      this.route('three');
+    });
   });
 
 });
