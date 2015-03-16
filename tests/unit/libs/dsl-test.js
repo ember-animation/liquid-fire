@@ -293,6 +293,19 @@ test("matches initial render when asked explicitly", function(){
   conditions.firstTime = 'yes';
   expectAnimation(conditions, dummyAction);
 });
+
+
+test("matches routes by regex", function(){
+  t.map(function(){
+    this.transition(
+      this.withinRoute(/^foo/),
+      this.use(dummyAction)
+    );
+  });
+  expectAnimation(routes('foo.bar', 'foo.baz'), dummyAction);
+});
+
+
 function dummyAction() {}
 function otherAction() {}
 
