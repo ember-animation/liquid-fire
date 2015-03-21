@@ -35,7 +35,8 @@
     "ember-cli-qunit": "~0.3.9",
     "ember-cli-uglify": "1.0.1",
     "ember-code-snippet": "^0.1.0",
-    "ember-export-application-global": "^1.0.2"
+    "ember-export-application-global": "^1.0.2",
+    "rsvp": "^3.0.17"
   },
   "keywords": [
     "ember-addon"
