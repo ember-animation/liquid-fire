@@ -8,8 +8,7 @@ export default Ember.Component.extend({
 
     // This prevents margin collapse
     this.$().css({
-      border: '1px solid transparent',
-      margin: '-1px'
+      overflow: 'hidden'
     });
 
     this.didMutate();
@@ -39,8 +38,7 @@ export default Ember.Component.extend({
     var elt = this.$();
     if (!elt || !elt[0]) { return; }
     this.set('measurements', measure(elt));
-  }  
-
+  }
 });
 
 export function measure($elt) {
