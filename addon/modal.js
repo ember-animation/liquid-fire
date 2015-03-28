@@ -57,13 +57,17 @@ function currentParams(controller, paramMap) {
   var params = {};
   var proto = controller.constructor.proto();
   var foundNonDefault = false;
-  var to, from, value;
+  var to, from, value, defaultValue;
 
   for (from in paramMap) {
     to = paramMap[from];
     value = controller.get(from);
     params[to] = value;
-    if (value !== proto[from]) {
+    defaultValue = proto[from];
+    if (defaultValue instanceof Ember.ComputedProperty) {
+      defaultValue = undefined;
+    }
+    if (value !== defaultValue) {
       foundNonDefault = true;
     }
   }
