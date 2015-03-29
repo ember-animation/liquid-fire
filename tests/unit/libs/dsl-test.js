@@ -62,6 +62,20 @@ test("matches just destination route", function(){
   expectNoAnimation(routes('bogus', null), 'with empty destination');
 });
 
+test("matches lists of routes", function(){
+  t.map(function(){
+    this.transition(
+      this.toRoute(['one', 'two', 'three']),
+      this.use(dummyAction)
+    );
+  });
+
+  expectAnimation(routes('x', 'one'), dummyAction);
+  expectAnimation(routes('x', 'two'), dummyAction);
+  expectAnimation(routes('x', 'three'), dummyAction);
+});
+
+
 test("matches empty source route", function(){
   t.map(function(){
     this.transition(
