@@ -26,6 +26,7 @@ Router.map(function() {
     this.route('model-constraints');
     this.route('dom-constraints');
     this.route('choosing-transitions');
+    this.route('debugging-constraints');
   });
 
   this.resource('transitions', function(){
