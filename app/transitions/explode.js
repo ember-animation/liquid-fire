@@ -44,6 +44,14 @@ function explodePiece(context, piece) {
     cleanupNew = _explodePart(context, 'newElement', childContext, selectors[1]);
   }
 
+  // if we were trying to target specific selectors and didn't find
+  // any matches, there's no transition to run (if there were no
+  // selectors, we deliberately fall through an animate the underlying
+  // "background" elements).
+  if (!cleanupOld && !cleanupNew && (selectors[0] || selectors[1])) {
+    return Promise.resolve();
+  }
+
   return new Promise((resolve, reject) => {
     animationFor(context, piece).apply(childContext).then(resolve, reject);
   }).finally(() => {

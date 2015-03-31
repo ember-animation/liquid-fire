@@ -75,16 +75,24 @@ export default function(){
     this.use('explode', {
       pickOld: '.bluebox',
       pickNew: '.redbox',
-      use: ['flyTo', { duration: 500 } ]
+      use: ['flyTo', { duration: 1500 } ]
     }, {
-      use: [ 'toLeft', { duration: 500 } ]
+      pickOld: '.blue-abs-box',
+      pickNew: '.red-abs-box',
+      use: ['flyTo', {duration: 1500 } ]
+    }, {
+      use: [ 'toLeft', { duration: 1500 } ]
     }),
     this.reverse('explode', {
       pickOld: '.redbox',
       pickNew: '.bluebox',
-      use: ['flyTo', { duration: 500 } ]
+      use: ['flyTo', { duration: 1500 } ]
     }, {
-      use: [ 'toRight', { duration: 500 } ]
+      pickOld: '.red-abs-box',
+      pickNew: '.blue-abs-box',
+      use: ['flyTo', {duration: 1500 } ]
+    }, {
+      use: [ 'toRight', { duration: 1500 } ]
     })
   );
 
