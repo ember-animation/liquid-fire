@@ -8,8 +8,7 @@ export default Ember.Component.extend({
 
     // This prevents margin collapse
     this.$().css({
-      border: '1px solid transparent',
-      margin: '-1px'
+      overflow: 'auto'
     });
 
     this.didMutate();
