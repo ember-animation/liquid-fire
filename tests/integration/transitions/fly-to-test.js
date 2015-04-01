@@ -4,18 +4,21 @@ import moduleForIntegration from "../../helpers/module-for-integration";
 import { test } from "ember-qunit";
 import QUnit from 'qunit';
 
+var tmap;
+
 moduleForIntegration('Integration: fly-to transition', {
+  setup: function () {
+    tmap = this.container.lookup('service:liquid-fire-transitions');
+  },
   teardown: function() {
-    QUnit.stop();
-    var tmap = this.container.lookup('service:liquid-fire-transitions');
-    tmap.waitUntilIdle().then(QUnit.start);
+    tmap = null;
   }
 });
 
 ['border-box', 'content-box'].forEach(function(boxSizing) {
   test(`it avoids a jump at end of animation, with absolutely positioned elements (${boxSizing})`, function(assert) {
     expect(6);
-    this.container.lookup('service:liquid-fire-transitions').map(function() {
+    tmap.map(function() {
       this.transition(
         this.hasClass('fly-to-test'),
         this.use('explode', {
@@ -45,11 +48,12 @@ moduleForIntegration('Integration: fly-to transition', {
                 `);
 
     this.set('showBlue', true);
+    return tmap.waitUntilIdle();
   });
 
   test(`it avoids a jump at end of animation, with statically positioned elements (${boxSizing})`, function(assert) {
     expect(6);
-    this.container.lookup('service:liquid-fire-transitions').map(function() {
+    tmap.map(function() {
       this.transition(
         this.hasClass('fly-to-test'),
         this.use('explode', {
@@ -79,8 +83,8 @@ moduleForIntegration('Integration: fly-to transition', {
                 `);
 
     this.set('showYellow', true);
+    return tmap.waitUntilIdle();
   });
-
 
 
 
