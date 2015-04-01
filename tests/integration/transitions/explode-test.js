@@ -4,17 +4,20 @@ import moduleForIntegration from "../../helpers/module-for-integration";
 import { test } from "ember-qunit";
 import QUnit from 'qunit';
 
+var tmap;
+
 moduleForIntegration('Integration: explode transition', {
+  setup: function() {
+    tmap = this.container.lookup('service:liquid-fire-transitions');
+  },
   teardown: function() {
-    QUnit.stop();
-    var tmap = this.container.lookup('service:liquid-fire-transitions');
-    tmap.waitUntilIdle().then(QUnit.start);
+    tmap = null;
   }
 });
 
 test(`it doesn't runs parts with no matching elements`, function(assert) {
   expect(0);
-  this.container.lookup('service:liquid-fire-transitions').map(function() {
+  tmap.map(function() {
     this.transition(
       this.hasClass('explode-transition-test'),
       this.use('explode', {
@@ -33,11 +36,12 @@ test(`it doesn't runs parts with no matching elements`, function(assert) {
               {{/liquid-if}}
               `);
   this.set('showBlue', true);
+  return tmap.waitUntilIdle();
 });
 
 test("it matches the background", function(assert) {
   expect(2);
-  this.container.lookup('service:liquid-fire-transitions').map(function() {
+  tmap.map(function() {
     this.transition(
       this.hasClass('explode-transition-test'),
       this.use('explode', {
@@ -57,13 +61,14 @@ test("it matches the background", function(assert) {
               {{/liquid-if}}
               `);
   this.set('showBlue', true);
+  return tmap.waitUntilIdle();
 });
 
 ['border-box', 'content-box'].forEach(function(boxSizing) {
 
   test(`it avoids a jump at start of animation, with absolutely positioned elements (${boxSizing})`, function(assert) {
     var didTransition = false;
-    this.container.lookup('service:liquid-fire-transitions').map(function() {
+    tmap.map(function() {
       this.transition(
         this.hasClass('explode-transition-test'),
         this.use('explode', {
@@ -100,14 +105,16 @@ test("it matches the background", function(assert) {
                 `);
 
     this.set('showBlue', true);
-    assert.ok(didTransition, 'didTransition');
+    return tmap.waitUntilIdle().then(() => {
+      assert.ok(didTransition, 'didTransition');
+    });
   });
 
 
 
   test(`it avoids a jump at start of animation, with statically positioned elements (${boxSizing})`, function(assert) {
     var didTransition = false;
-    this.container.lookup('service:liquid-fire-transitions').map(function() {
+    tmap.map(function() {
       this.transition(
         this.hasClass('explode-transition-test'),
         this.use('explode', {
@@ -145,7 +152,9 @@ test("it matches the background", function(assert) {
                 `);
 
     this.set('showYellow', true);
-    assert.ok(didTransition, 'didTransition');
+    return tmap.waitUntilIdle().then(() => {
+      assert.ok(didTransition, 'didTransition');
+    });
   });
 
 });
