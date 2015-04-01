@@ -3,7 +3,7 @@ import { animate, stop, isAnimating, timeSpent, timeRemaining, finish } from "./
 import Promise from "./promise";
 import MutationObserver from "./mutation-observer";
 import versionWarnings from "./version-warnings";
-
+import "./velocity-ext";
 
 versionWarnings({
   minEmberVersion: [1, 11],

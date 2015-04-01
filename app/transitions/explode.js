@@ -44,6 +44,14 @@ function explodePiece(context, piece) {
     cleanupNew = _explodePart(context, 'newElement', childContext, selectors[1]);
   }
 
+  // if we were trying to target specific selectors and didn't find
+  // any matches, there's no transition to run (if there were no
+  // selectors, we deliberately fall through an animate the underlying
+  // "background" elements).
+  if (!cleanupOld && !cleanupNew && (selectors[0] || selectors[1])) {
+    return Promise.resolve();
+  }
+
   return new Promise((resolve, reject) => {
     animationFor(context, piece).apply(childContext).then(resolve, reject);
   }).finally(() => {
@@ -60,8 +68,8 @@ function _explodePart(context, field, childContext, selector) {
     child = elt.find(selector);
     if (child.length > 0) {
       childOffset = child.offset();
-      width = child.width();
-      height = child.height();
+      width = child.outerWidth();
+      height = child.outerHeight();
       newChild = child.clone();
 
       // Hide the original element
@@ -72,9 +80,9 @@ function _explodePart(context, field, childContext, selector) {
       if (elt.css('visibility') === 'hidden') {
         newChild.css({ visibility: 'hidden' });
       }
-      newChild.width(width);
-      newChild.height(height);
       newChild.appendTo(elt.parent());
+      newChild.outerWidth(width);
+      newChild.outerHeight(height);
       var newParentOffset = newChild.offsetParent().offset();
       newChild.css({
         position: 'absolute',
