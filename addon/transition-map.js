@@ -40,7 +40,12 @@ var TransitionMap = Ember.Object.extend({
     }
     return this._waitingPromise = new Ember.RSVP.Promise((resolve) => {
       this._resolveWaiting = resolve;
-      this._maybeResolveIdle();
+      // We wait until next runloop because our mutation-observer
+      // based size animations do the same, and we want to be sure we
+      // catch any that are already pending.
+      Ember.run.next(() => {
+        this._maybeResolveIdle();
+      });
     });
   },
 
