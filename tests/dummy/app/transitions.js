@@ -1,7 +1,9 @@
 import Ember from "ember";
 
 export default function(){
-
+  if (Ember.testing) {
+    this.setDefault({duration: 10 });
+  }
   // BEGIN-SNIPPET transition-demo
   this.transition(
     this.fromRoute('helpers-documentation.liquid-outlet.index'),
@@ -18,6 +20,7 @@ export default function(){
   );
   // END-SNIPPET
 
+  var duration = Ember.testing ? 0: 1000;
   // BEGIN-SNIPPET liquid-box-demo-transition
   this.transition(
     this.hasClass('vehicles'),
@@ -25,11 +28,11 @@ export default function(){
     // this makes our rule apply when the liquid-if transitions to the
     // true state.
     this.toValue(true),
-    this.use('crossFade', {duration: 1000}),
+    this.use('crossFade', {duration}),
 
     // which means we can also apply a reverse rule for transitions to
     // the false state.
-    this.reverse('toLeft', {duration: 1000})
+    this.reverse('toLeft', {duration})
   );
   // END-SNIPPET
 
@@ -54,14 +57,14 @@ export default function(){
     this.fromRoute('scenarios.nested-outlets.middle'),
     this.toRoute('scenarios.nested-outlets.middle2'),
     this.use('fade', {duration: Ember.testing ? 100 : 1000}),
-    this.reverse('fade', {duration: 1000})
+    this.reverse('fade', {duration: Ember.testing ? 10 : 1000})
   );
 
   this.transition(
     this.fromRoute('scenarios.nested-outlets.middle.index'),
     this.toRoute('scenarios.nested-outlets.middle.inner'),
-    this.use('fade', {duration: 1000}),
-    this.reverse('fade', {duration: 1000})
+    this.use('fade', {duration: Ember.testing ? 10: 1000 }),
+    this.reverse('fade', {duration: Ember.testing ? 10 : 1000})
   );
 
   this.transition(
