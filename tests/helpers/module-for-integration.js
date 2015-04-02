@@ -75,6 +75,7 @@ var TestModuleForIntegration = TestModule.extend({
   setupContext: function() {
     setContext({
       container:  this.container,
+      registry: this.registry,
       factory: function() {},
       dispatcher: null
     });

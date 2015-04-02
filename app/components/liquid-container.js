@@ -4,6 +4,7 @@ import { measure } from "./liquid-measured";
 
 export default Ember.Component.extend(Growable, {
   classNames: ['liquid-container'],
+  classNameBindings: ['liquidAnimating'],
 
   lockSize: function(elt, want) {
     elt.outerWidth(want.width);
@@ -12,6 +13,9 @@ export default Ember.Component.extend(Growable, {
 
   unlockSize: function() {
     var doUnlock = () => {
+      if (!this.isDestroyed) {
+        this.set('liquidAnimating', false);
+      }
       var elt = this.$();
       if (elt) {
         elt.css({width: '', height: ''});
@@ -46,7 +50,7 @@ export default Ember.Component.extend(Growable, {
 
       // Apply '.liquid-animating' to liquid-container allowing
       // any customizable CSS control while an animating is occuring
-      applyAnimatingClass(elt[0]);
+      this.set('liquidAnimating', true);
     },
 
     afterChildInsertion: function(versions) {
@@ -82,10 +86,6 @@ export default Ember.Component.extend(Growable, {
         goStatic(versions[i]);
       }
       this.unlockSize();
-
-      // Clear '.liquid-animating' from liquid-container
-      var elt = this.$();
-      clearAnimatingClass(elt[0]);
     }
   }
 });
@@ -112,24 +112,4 @@ function goStatic(version) {
   if (version.view) {
     version.view.$().css({width: '', height: '', position: ''});
   }
-}
-
-function applyAnimatingClass(elt) {
-  var existingClasses = elt.className.split(/\s+/),
-      hasAnimatingClass = false;
-
-  for (var i=0; i<existingClasses.length; i++) {
-    if (existingClasses[i] === 'liquid-animating') {
-      hasAnimatingClass = true;
-      break;
-    }
-  }
-  if (!hasAnimatingClass) {
-    elt.className += ' liquid-animating';
-  }
-}
-
-function clearAnimatingClass(elt) {
-  elt.className =
-    elt.className.replace(/\b liquid-animating\b/, '');
 }

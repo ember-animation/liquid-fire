@@ -84,3 +84,32 @@ moduleForIntegration('Integration: liquid-container', {
     });
   });
 });
+
+test(`has liquid-animating class during animation`, function(assert) {
+  var resolveAnimation;
+  this.registry.register('transition:blocking', function() {
+    return new Ember.RSVP.Promise(function(resolve) {
+      resolveAnimation = resolve;
+    });
+  });
+
+  this.render(`
+                {{#liquid-container class="test-container" growDuration=1 as |c|}}
+                  {{#liquid-versions notify=c value=value use="blocking" as |valueVersion|}}
+                    <div class={{valueVersion}}></div>
+                  {{/liquid-versions}}
+                {{/liquid-container}}
+              `);
+
+  assert.equal(this.$('.test-container').length, 1, "have test-container");
+  assert.ok(!this.$('.test-container').is('.liquid-animating'), "it doesn't have liquid-animating class");
+
+  this.set('value', 'new-value');
+
+  assert.equal(this.$('.test-container.liquid-animating').length, 1, "found liquid-animating class");
+  resolveAnimation();
+  return tmap.waitUntilIdle().then(() => {
+    assert.equal(this.$('.test-container').length, 1, "still have test-container");
+    assert.ok(!this.$('.test-container').is('.liquid-animating'), "liquid-animating class was removed");
+  });
+});
