@@ -55,7 +55,6 @@ test('it should animate after initially rendering empty', function(assert) {
   var dummyAnimation = function(){ return Ember.RSVP.resolve(); };
   tmap.map(function() {
     this.transition(
-      'debug',
       this.inHelper('liquid-with'),
       this.use(dummyAnimation)
     );

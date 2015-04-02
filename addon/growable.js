@@ -21,9 +21,9 @@ export default Ember.Mixin.create({
 
   _adaptDimension: function(elt, dimension, have, want) {
     var target = {};
-    target[dimension] = [
-      want['literal'+capitalize(dimension)],
-      have['literal'+capitalize(dimension)],
+    target['outer'+capitalize(dimension)] = [
+      want[dimension],
+      have[dimension],
     ];
     return Ember.$.Velocity(elt[0], target, {
       duration: this._durationFor(have[dimension], want[dimension]),

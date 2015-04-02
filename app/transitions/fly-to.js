@@ -14,8 +14,8 @@ export default function flyTo(opts={}) {
   var motion = {
     translateX: newOffset.left - oldOffset.left,
     translateY: newOffset.top - oldOffset.top,
-    width: this.newElement.width(),
-    height: this.newElement.height()
+    outerWidth: this.newElement.outerWidth(),
+    outerHeight: this.newElement.outerHeight()
   };
 
   this.newElement.css({ visibility: 'hidden' });

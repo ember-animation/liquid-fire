@@ -29,7 +29,7 @@ var TransitionMap = Ember.Object.extend({
 
   decrementRunningTransitions: function() {
     this.activeCount--;
-    Ember.run.later(() => {
+    Ember.run.next(() => {
       this._maybeResolveIdle();
     });
   },
@@ -40,7 +40,9 @@ var TransitionMap = Ember.Object.extend({
     }
     return this._waitingPromise = new Ember.RSVP.Promise((resolve) => {
       this._resolveWaiting = resolve;
-      this._maybeResolveIdle();
+      Ember.run.next(() => {
+        this._maybeResolveIdle();
+      });
     });
   },
 

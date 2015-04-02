@@ -43,7 +43,6 @@ test('modal with remapped parameters receives them', function() {
     click('a:contains(Go)');
   });
   andThen(function(){
-    console.log("finding with assert");
     findWithAssert('.lf-dialog:contains(Hi Tomster)');
     ok(true);
     click('button:contains(Thanks)');

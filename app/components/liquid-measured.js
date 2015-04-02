@@ -8,8 +8,7 @@ export default Ember.Component.extend({
 
     // This prevents margin collapse
     this.$().css({
-      border: '1px solid transparent',
-      margin: '-1px'
+      overflow: 'auto'
     });
 
     this.didMutate();
@@ -18,7 +17,8 @@ export default Ember.Component.extend({
     this.observer.observe(this.get('element'), {
       attributes: true,
       subtree: true,
-      childList: true
+      childList: true,
+      characterData: true
     });
     this.$().bind('webkitTransitionEnd', function() { self.didMutate(); });
     // Chrome Memory Leak: https://bugs.webkit.org/show_bug.cgi?id=93661
@@ -31,20 +31,31 @@ export default Ember.Component.extend({
     }
   },
 
+  transitionMap: Ember.inject.service('liquid-fire-transitions'),
+
   didMutate: function() {
-    Ember.run.next(this, function() { this._didMutate(); });
+    // by incrementing the running transitions counter here we prevent
+    // tests from falling through the gap between the time they
+    // triggered mutation the time we may actually animate in
+    // response.
+    var tmap = this.get('transitionMap');
+    tmap.incrementRunningTransitions();
+    Ember.run.next(this, function() {
+      this._didMutate();
+      tmap.decrementRunningTransitions();
+    });
   },
 
   _didMutate: function() {
     var elt = this.$();
     if (!elt || !elt[0]) { return; }
     this.set('measurements', measure(elt));
-  }  
+  }
 
 });
 
 export function measure($elt) {
-  var width, height, literalWidth, literalHeight;
+  var width, height;
 
   // if jQuery sees a zero dimension, it will temporarily modify the
   // element's css to try to make its size measurable. But that's bad
@@ -62,17 +73,8 @@ export function measure($elt) {
     height = $elt.outerHeight();
   }
 
-  // We're tracking both jQuery's box-sizing dependent measurements
-  // and the literal CSS properties, because it's nice to get/set
-  // dimensions with jQuery and not worry about boz-sizing *but*
-  // Velocity needs the raw values.
-  literalWidth = parseInt($elt.css('width'),10);
-  literalHeight = parseInt($elt.css('height'),10);
-
   return {
     width: width,
-    height: height,
-    literalWidth: literalWidth,
-    literalHeight: literalHeight
+    height: height
   };
 }

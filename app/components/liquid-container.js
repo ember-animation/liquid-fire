@@ -28,64 +28,66 @@ export default Ember.Component.extend(Growable, {
     this._wasInserted = true;
   }),
 
-  willTransition: function(versions) {
-    if (!this._wasInserted) {
-      return;
-    }
+  actions: {
 
-    // Remember our own size before anything changes
-    var elt = this.$();
-    this._cachedSize = measure(elt);
-
-    // And make any children absolutely positioned with fixed sizes.
-    for (var i = 0; i < versions.length; i++) {
-      goAbsolute(versions[i]);
-    }
-
-    // Apply '.liquid-animating' to liquid-container allowing
-    // any customizable CSS control while an animating is occuring
-    applyAnimatingClass(elt[0]);
-  },
-
-  afterChildInsertion: function(versions) {
-    var elt = this.$();
-
-    // Measure  children
-    var sizes = [];
-    for (var i = 0; i < versions.length; i++) {
-      if (versions[i].view) {
-        sizes[i] = measure(versions[i].view.$());
+    willTransition: function(versions) {
+      if (!this._wasInserted) {
+        return;
       }
+
+      // Remember our own size before anything changes
+      var elt = this.$();
+      this._cachedSize = measure(elt);
+
+      // And make any children absolutely positioned with fixed sizes.
+      for (var i = 0; i < versions.length; i++) {
+        goAbsolute(versions[i]);
+      }
+
+      // Apply '.liquid-animating' to liquid-container allowing
+      // any customizable CSS control while an animating is occuring
+      applyAnimatingClass(elt[0]);
+    },
+
+    afterChildInsertion: function(versions) {
+      var elt = this.$();
+
+      // Measure  children
+      var sizes = [];
+      for (var i = 0; i < versions.length; i++) {
+        if (versions[i].view) {
+          sizes[i] = measure(versions[i].view.$());
+        }
+      }
+
+      // Measure ourself again to see how big the new children make
+      // us.
+      var want = measure(elt);
+      var have = this._cachedSize || want;
+
+      // Make ourself absolute
+      this.lockSize(elt, have);
+
+      // Make the children absolute and fixed size.
+      for (i = 0; i < versions.length; i++) {
+        goAbsolute(versions[i], sizes[i]);
+      }
+
+      // Kick off our growth animation
+      this._scaling = this.animateGrowth(elt, have, want);
+    },
+
+    afterTransition: function(versions) {
+      for (var i = 0; i < versions.length; i++) {
+        goStatic(versions[i]);
+      }
+      this.unlockSize();
+
+      // Clear '.liquid-animating' from liquid-container
+      var elt = this.$();
+      clearAnimatingClass(elt[0]);
     }
-
-    // Measure ourself again to see how big the new children make
-    // us.
-    var want = measure(elt);
-    var have = this._cachedSize || want;
-
-    // Make ourself absolute
-    this.lockSize(elt, have);
-
-    // Make the children absolute and fixed size.
-    for (i = 0; i < versions.length; i++) {
-      goAbsolute(versions[i], sizes[i]);
-    }
-
-    // Kick off our growth animation
-    this._scaling = this.animateGrowth(elt, have, want);
-  },
-
-  afterTransition: function(versions) {
-    for (var i = 0; i < versions.length; i++) {
-      goStatic(versions[i]);
-    }
-    this.unlockSize();
-
-    // Clear '.liquid-animating' from liquid-container
-    var elt = this.$();
-    clearAnimatingClass(elt[0]);
   }
-
 });
 
 function goAbsolute(version, size) {

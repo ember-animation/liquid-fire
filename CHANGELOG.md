@@ -1,5 +1,123 @@
 # Changelog
 
+### master
+
+ - This is a major refactor with many new features and many API
+   changes, as we move rapidly toward a stable 1.0 release.
+
+ - NEW: add `this.debug()` to any transition rule to make it verbosely
+   log why it is or isn't matching every possible transition.
+
+        this.transition(
+          this.fromRoute('foo'),
+          this.toRoute('bar'),
+          this.use('fade'),
+          this.debug()
+        );
+
+ - NEW: the `explode` transition lets you pull apart the elements
+   you're animating and then target each of the separate pieces with
+   other transitions. By allowing arbitrary pairwise matching, it
+   enables powerful new things like hero transitions and animated list
+   changes.
+
+ - NEW: the `flyTo` transition makes its oldElement fly to the
+   position of newElement, growing or shrinking its dimensions to
+   match by the time it gets there. Used in conjunction with `explode`
+   it enables rich hero transitions.
+
+ - NEW: the `inHelper` transition constraint lets you limit a rule to
+   a particular template helper name. For example
+   `inHelper('liquid-if')` is a constraint that only matches
+   `liquid-if` helpers.
+
+ - NEW: the `matchSelector` transition constraint lets you limit your
+   transition rule to an arbitrary CSS selector. The older `childOf`
+   becomes just a special case of `matchSelector`.
+
+ - NEW: the `onInitialRender` constraint makes a transition rule only
+   match only elements that are rendering for the first time. This
+   replaces the old and ambiguous `fromRoute(null)`, and it also
+   handles non-outlet helpers like liquid-if.
+
+ - NEW: `includingInitialRender` is just like `onInitialRender` except
+   it matches both initial and non-initial renders.
+
+ - NEW: it is much easier to override or customize the animations used
+   for showing and hiding modals. Just write a rule like
+   `inHelper('liquid-modal')` and give it an animation. You can
+   manipaulate the background overlay and dialog box separately using
+   the `explode` transition. See the default liquid-modal rule in
+   `internal-rules.js` for an example.
+
+ - BREAKING: when more than one transition rule matches a transition,
+   we used to just pick whichever one we found first via depth-first
+   search. Now we use the one that is more specific (that has more
+   constraints). Ties are broken in favor of rules that appear later
+   in the transition map.
+
+ - BREAKING: the API for implementing custom transition animations has
+   been significantly simplified. The old API was to implement a
+   function like:
+
+        function myAnimation(oldView, insertNewView) {
+          return insertNewView().then(function(newView) {
+            return Promise.all([
+              doSomethingWith(oldView.$()),
+              doAnotherThingWith(newView.$())
+            ]);
+          });
+        }
+
+    That has been simplified to:
+
+        function myAnimation() {
+          return Promise.all([
+            doSomethingWith(this.oldElement),
+            doAnotherThingWith(this.newElement)
+          ]);
+        }
+
+    Full docs for the API forthcoming.
+
+ - BREAKING: to correspond with the above change, the animation
+   helpers `animate`, `stop`, etc, have been updated to take a jQuery
+   element instead of a View.
+
+ - BREAKING: the `fromRoute`, `toRoute`, and `withinRoute` rule
+   constraints used to accept a variable number of route names as
+   arguments, any of which would satisfy the constraint. This is no
+   longer supported. You can get the same effect by passing a single
+   array argument. So change:
+
+        this.fromRoute('a', 'b');
+
+    to
+
+        this.fromRoute(['a', 'b']);
+
+ - BREAKING: route constraints only apply to liquid-outlets. Other
+   helpers like liquid-if used to try to figure out what route they
+   were in so they could respect `withinRoute` constraints, but this
+   is both complicated and not a good idea. Only outlets are supposed
+   to know about routes -- each helper should only animate based on
+   its own well-encapsulated state.
+
+ - BREAKING: `fromModel`, `toModel`, `betweenModels` now only apply to
+   actual models during route transitions in a liquid-outlet. They
+   don't apply to the values you pass to other liquid helpers.
+
+   There is are separate `fromValue`, `toValue`, `betweenValues` rules
+   for matching the values passed to liquid-if, liquid-with, or
+   liquid-bind. It didn't make sense to always call this "model", and
+   it complicates the architecture to conflate them.
+
+ - EXPERIMENTAL: the `toModal` and `fromModal` constraints let you
+   target specific modals by name. This is marked experimental because
+   I'm planning to try to revamp the whole modal API to make it nicer
+   before stabilizing in 1.0, possibly by cooperating with another
+   ember modal addon.
+
 ### 0.18.0
 
  - COMPAT: fully compatible with the current Ember 1.11 beta series

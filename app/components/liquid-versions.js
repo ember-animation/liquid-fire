@@ -96,7 +96,7 @@ export default Ember.Component.extend({
   notifyContainer: function(method, versions) {
     var target = get(this, 'notify');
     if (target) {
-      target[method](versions);
+      target.send(method, versions);
     }
   },
 
