@@ -41,6 +41,10 @@ export default Ember.Component.extend(Growable, {
     for (var i = 0; i < versions.length; i++) {
       goAbsolute(versions[i]);
     }
+
+    // Apply '.liquid-animating' to liquid-container allowing
+    // any customizable CSS control while an animating is occuring
+    applyAnimatingClass(elt[0]);
   },
 
   afterChildInsertion: function(versions) {
@@ -76,6 +80,10 @@ export default Ember.Component.extend(Growable, {
       goStatic(versions[i]);
     }
     this.unlockSize();
+
+    // Clear '.liquid-animating' from liquid-container
+    var elt = this.$();
+    clearAnimatingClass(elt[0]);
   }
 
 });
@@ -102,4 +110,24 @@ function goStatic(version) {
   if (version.view) {
     version.view.$().css({width: '', height: '', position: ''});
   }
+}
+
+function applyAnimatingClass(elt) {
+  var existingClasses = elt.className.split(/\s+/),
+      hasAnimatingClass = false;
+
+  for (var i=0; i<existingClasses.length; i++) {
+    if (existingClasses[i] === 'liquid-animating') {
+      hasAnimatingClass = true;
+      break;
+    }
+  }
+  if (!hasAnimatingClass) {
+    elt.className += ' liquid-animating';
+  }
+}
+
+function clearAnimatingClass(elt) {
+  elt.className =
+    elt.className.replace(/\b liquid-animating\b/, '');
 }

@@ -47,18 +47,12 @@ export function animate(elt, props, opts, label) {
     state.timeSpent = state.timeRemaining / (1/state.percentComplete - 1);
   };
 
-  // Apply '.liquid-animating' to liquid-container allowing
-  // any customizable CSS control while an animating is occuring
-  applyAnimatingClass(elt[0]);
-
   state.promise = Promise.resolve(Velocity.animate(elt[0], props, opts));
 
   if (label) {
     state.promise = state.promise.then(function(){
-      clearAnimatingClass(elt[0]);
       clearLabel(elt, label);
     }, function(err) {
-      clearAnimatingClass(elt[0]);
       clearLabel(elt, label);
       throw err;
     });
@@ -120,27 +114,4 @@ function clearLabel(elt, label) {
   if (elt) {
     elt.data('lfTags_' + label, null);
   }
-}
-
-function applyAnimatingClass(element) {
-  var parentContainer = element.parentNode,
-      existingClasses = parentContainer.className.split(/\s+/),
-      hasAnimatingClass = false;
-
-  for (var i=0; i<existingClasses.length; i++) {
-    if (existingClasses[i] === 'liquid-animating') {
-      hasAnimatingClass = true;
-      break;
-    }
-  }
-  if (!hasAnimatingClass) {
-    parentContainer.className += ' liquid-animating';
-  }
-}
-
-function clearAnimatingClass(element) {
-  var parentContainer = element.parentNode;
-
-  parentContainer.className =
-    parentContainer.className.replace(/\b liquid-animating\b/, '');
 }
