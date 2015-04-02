@@ -1,10 +1,21 @@
 <button {{action "addThing"   }}>More Things</button>
 <button {{action "removeThing"}}>Less Things</button>
 
-{{#liquid-spacer id="spacer-test"}}
+{{#liquid-spacer id="spacer-test-1"}}
   <ol>
   {{#each thing in things}}
     <li>{{thing.number}}</li>
   {{/each}}
   </ol>
 {{/liquid-spacer}}
+
+<div id="spacer-test-2">
+  <label>{{input type="checkbox" checked=showLongMessage}} Show Long Message</label>
+  {{#liquid-spacer}}
+    {{#if showLongMessage}}
+      {{longMessage}}
+    {{else}}
+      {{shortMessage}}
+    {{/if}}
+  {{/liquid-spacer}}
+</div>

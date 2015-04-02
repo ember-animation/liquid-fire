@@ -27,6 +27,21 @@ test('nested liquid-outlets wait for their ancestors to animate', function() {
   });
 });
 
+test('Test width does not change when re-measuring', function() {
+  visit('/scenarios/spacer');
+  andThen(function(){
+    Ember.run.later(function(){
+      var initialWidth = find('#spacer-test-2 .ember-view:nth-child(2)').outerWidth();
+      andThen(function(){
+          click('.ember-checkbox');
+          andThen(function(){
+              equal(find('#spacer-test-2 .ember-view:nth-child(2)').outerWidth(), initialWidth, "Width has changed during re-calculation");
+          });
+      });
+    }, 30);
+  });
+});
+
 test('inner nested liquid-outlets can animate', function() {
   visit('/scenarios/nested-outlets/middle/inner');
   visit('/scenarios/nested-outlets/middle');

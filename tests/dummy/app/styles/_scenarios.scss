@@ -39,11 +39,18 @@ td {
     border: 1px solid black;
 }
 
-#spacer-test {
+#spacer-test-1 {
     border: 1px solid black;
     ol {
         padding: 0 2em;
     }
+}
+
+
+#spacer-test-2 {
+    border: 1px solid black;
+    width: 20em;
+    padding: 0.5em 1.5em;
 }
 
 #versions-test {
