@@ -55,7 +55,7 @@ export default Ember.Component.extend({
 });
 
 export function measure($elt) {
-  var width, height, literalWidth, literalHeight;
+  var width, height;
 
   // if jQuery sees a zero dimension, it will temporarily modify the
   // element's css to try to make its size measurable. But that's bad
@@ -73,17 +73,8 @@ export function measure($elt) {
     height = $elt.outerHeight();
   }
 
-  // We're tracking both jQuery's box-sizing dependent measurements
-  // and the literal CSS properties, because it's nice to get/set
-  // dimensions with jQuery and not worry about boz-sizing *but*
-  // Velocity needs the raw values.
-  literalWidth = parseInt($elt.css('width'),10);
-  literalHeight = parseInt($elt.css('height'),10);
-
   return {
     width: width,
-    height: height,
-    literalWidth: literalWidth,
-    literalHeight: literalHeight
+    height: height
   };
 }

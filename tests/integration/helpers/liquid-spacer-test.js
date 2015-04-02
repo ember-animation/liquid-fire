@@ -3,6 +3,7 @@ import Ember from "ember";
 import moduleForIntegration from "../../helpers/module-for-integration";
 import { test } from "ember-qunit";
 import QUnit from 'qunit';
+import { testingKick } from "liquid-fire/mutation-observer";
 
 var tmap;
 
@@ -23,7 +24,7 @@ moduleForIntegration('Integration: liquid-spacer', {
                <style>
                 #my-spacer {
                   padding: 2px;
-                  margin: 3px;
+                  margin: 4px;
                   border: 1px solid black;
                   box-sizing: ${boxSizing};
                }
@@ -45,12 +46,14 @@ moduleForIntegration('Integration: liquid-spacer', {
     var initialWidth = this.$('#my-spacer').outerWidth();
     var initialHeight = this.$('#my-spacer').outerHeight();
     this.set('message', shortMessage);
+    testingKick();
     return tmap.waitUntilIdle().then(() => {
       this.set('message', longMessage);
+      testingKick();
       return tmap.waitUntilIdle();
     }).then(() => {
-      assert.equal(this.$('#my-spacer').outerWidth(), initialWidth);
-      assert.equal(this.$('#my-spacer').outerHeight(), initialHeight);
+      assert.equal(this.$('#my-spacer').outerWidth(), initialWidth, 'width');
+      assert.equal(this.$('#my-spacer').outerHeight(), initialHeight, 'height');
     });
   });
 });
