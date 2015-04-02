@@ -17,10 +17,9 @@ moduleForIntegration('Integration: liquid-spacer', {
 
 ['content-box', 'border-box'].forEach(function(boxSizing) {
   test(`it should maintain size stability (${boxSizing})`, function(assert) {
-    this.set('shortMessage', "Hi.");
-    this.set('longMessage', longMessage);
-    this.set('showLongMessage', true);
+    this.set('message', longMessage);
     this.render(`
+               <button {{action "toggle"}}>Toggle</button>
                <style>
                 #my-spacer {
                   padding: 2px;
@@ -29,30 +28,30 @@ moduleForIntegration('Integration: liquid-spacer', {
                   box-sizing: ${boxSizing};
                }
                </style>
-               {{#liquid-spacer id="my-spacer" growDuration=1 finishedGrowing="finished"}}
-                 {{#if showLongMessage}}
-                   {{longMessage}}
-                 {{else}}
-                   {{shortMessage}}
-                 {{/if}}
+               {{#liquid-spacer id="my-spacer" growDuration=2000 growPixelsPerSecond=1 }}
+                 {{message}}
                {{/liquid-spacer}}
                `);
 
 
+    this.on('toggle', () => {
+      if (this.get('message') === longMessage) {
+        this.set('message', shortMessage);
+      } else {
+        this.set('message', longMessage);
+      }
+    });
+
     var initialWidth = this.$('#my-spacer').outerWidth();
     var initialHeight = this.$('#my-spacer').outerHeight();
-    console.log('setting to false');
-    this.set('showLongMessage', false);
-    return new Ember.RSVP.Promise((resolve) => {
-      this.on('finished', resolve);
+    console.log("kicking off motion");
+    this.set('message', shortMessage);
+    return tmap.waitUntilIdle().then(() => {
+      console.log("first wait finished");
+      this.set('message', longMessage);
+      return tmap.waitUntilIdle();
     }).then(() => {
-      console.log('setting to true');
-      this.set('showLongMessage', true);
-      return new Ember.RSVP.Promise((resolve) => {
-        this.on('finished', resolve);
-      });
-    }).then(() => {
-      console.log('asserting');
+      console.log("second wait finished");
       assert.equal(this.$('#my-spacer').outerWidth(), initialWidth);
       assert.equal(this.$('#my-spacer').outerHeight(), initialHeight);
     });
@@ -61,5 +60,5 @@ moduleForIntegration('Integration: liquid-spacer', {
 
 
 
-
+var shortMessage = "Hi.";
 var longMessage = "This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. ";

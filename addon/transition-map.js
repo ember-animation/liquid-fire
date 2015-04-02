@@ -29,7 +29,7 @@ var TransitionMap = Ember.Object.extend({
 
   decrementRunningTransitions: function() {
     this.activeCount--;
-    Ember.run.later(() => {
+    Ember.run.next(() => {
       this._maybeResolveIdle();
     });
   },
@@ -40,9 +40,6 @@ var TransitionMap = Ember.Object.extend({
     }
     return this._waitingPromise = new Ember.RSVP.Promise((resolve) => {
       this._resolveWaiting = resolve;
-      // We wait until next runloop because our mutation-observer
-      // based size animations do the same, and we want to be sure we
-      // catch any that are already pending.
       Ember.run.next(() => {
         this._maybeResolveIdle();
       });

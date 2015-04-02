@@ -10,22 +10,20 @@ export default Ember.Mixin.create({
   transitionMap: Ember.inject.service('liquid-fire-transitions'),
 
   animateGrowth: function(elt, have, want) {
-    this.sendAction('startedGrowing');
     this.get('transitionMap').incrementRunningTransitions();
     return Promise.all([
       this._adaptDimension(elt, 'width', have, want),
       this._adaptDimension(elt, 'height', have, want)
     ]).then(()=>{
-      this.sendAction('finishedGrowing');
       this.get('transitionMap').decrementRunningTransitions();
     });
   },
 
   _adaptDimension: function(elt, dimension, have, want) {
     var target = {};
-    target[dimension] = [
-      want['literal'+capitalize(dimension)],
-      have['literal'+capitalize(dimension)],
+    target['outer'+capitalize(dimension)] = [
+      want[dimension],
+      have[dimension],
     ];
     return Ember.$.Velocity(elt[0], target, {
       duration: this._durationFor(have[dimension], want[dimension]),

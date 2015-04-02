@@ -17,7 +17,8 @@ export default Ember.Component.extend({
     this.observer.observe(this.get('element'), {
       attributes: true,
       subtree: true,
-      childList: true
+      childList: true,
+      characterData: true
     });
     this.$().bind('webkitTransitionEnd', function() { self.didMutate(); });
     // Chrome Memory Leak: https://bugs.webkit.org/show_bug.cgi?id=93661
@@ -30,15 +31,26 @@ export default Ember.Component.extend({
     }
   },
 
+  transitionMap: Ember.inject.service('liquid-fire-transitions'),
+
   didMutate: function() {
-    Ember.run.next(this, function() { this._didMutate(); });
+    // by incrementing the running transitions counter here we prevent
+    // tests from falling through the gap between the time they
+    // triggered mutation the time we may actually animate in
+    // response.
+    var tmap = this.get('transitionMap');
+    tmap.incrementRunningTransitions();
+    Ember.run.next(this, function() {
+      this._didMutate();
+      tmap.decrementRunningTransitions();
+    });
   },
 
   _didMutate: function() {
     var elt = this.$();
     if (!elt || !elt[0]) { return; }
     this.set('measurements', measure(elt));
-  }  
+  }
 
 });
 
