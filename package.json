@@ -18,6 +18,8 @@
   "author": "Edward Faulkner <ef@alum.mit.edu>",
   "license": "MIT",
   "dependencies": {
+    "broccoli-merge-trees": "^0.2.1",
+    "broccoli-static-compiler": "^0.2.1",
     "ember-cli-babel": "4.1.0",
     "ember-cli-htmlbars": "^0.7.4",
     "ember-cli-version-checker": "^1.0.2",
