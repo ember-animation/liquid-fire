@@ -28,7 +28,7 @@ moduleForIntegration('Integration: liquid-spacer', {
                   box-sizing: ${boxSizing};
                }
                </style>
-               {{#liquid-spacer id="my-spacer" growDuration=2000 growPixelsPerSecond=1 }}
+               {{#liquid-spacer id="my-spacer" growDuration=1 }}
                  {{message}}
                {{/liquid-spacer}}
                `);
@@ -44,14 +44,11 @@ moduleForIntegration('Integration: liquid-spacer', {
 
     var initialWidth = this.$('#my-spacer').outerWidth();
     var initialHeight = this.$('#my-spacer').outerHeight();
-    console.log("kicking off motion");
     this.set('message', shortMessage);
     return tmap.waitUntilIdle().then(() => {
-      console.log("first wait finished");
       this.set('message', longMessage);
       return tmap.waitUntilIdle();
     }).then(() => {
-      console.log("second wait finished");
       assert.equal(this.$('#my-spacer').outerWidth(), initialWidth);
       assert.equal(this.$('#my-spacer').outerHeight(), initialHeight);
     });
