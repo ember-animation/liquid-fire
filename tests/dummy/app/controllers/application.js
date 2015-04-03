@@ -7,6 +7,7 @@ export default Ember.Controller.extend({
   tableOfContents: function(){
     return [
       { route: "index",   title: "Introduction"},
+      { route: "installation",   title: "Installation & Compatibility"},
       { route: "helpers-documentation", title: "Template Helpers",
         children: [
           {route: "helpers-documentation.liquid-outlet", title: "liquid-outlet"},

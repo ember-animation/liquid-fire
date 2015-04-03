@@ -8,7 +8,7 @@ var Router = Ember.Router.extend({
 Router.map(function() {
 
   /* Interactive Documentation */
-
+  this.route('installation');
   this.resource("helpers-documentation", { path: 'helpers'}, function(){
     this.route('liquid-outlet', function(){
       this.route('other');
