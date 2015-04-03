@@ -1,7 +1,13 @@
-{{~#liquid-container id=innerId class=innerClass as |container| ~}}
-  {{~#liquid-versions value=value notify=container use=use
+{{#if containerless}}
+  {{~#liquid-versions value=value use=use
                      name="liquid-bind" renderWhenFalse=true as |version| ~}}
     {{~version ~}}
   {{/liquid-versions ~}}
-{{/liquid-container ~}}
-
+{{else}}
+  {{~#liquid-container id=innerId class=innerClass as |container| ~}}
+    {{~#liquid-versions value=value notify=container use=use
+                       name="liquid-bind" renderWhenFalse=true as |version| ~}}
+      {{~version ~}}
+    {{/liquid-versions ~}}
+  {{/liquid-container ~}}
+{{/if}}

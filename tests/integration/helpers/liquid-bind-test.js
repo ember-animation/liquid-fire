@@ -78,3 +78,9 @@ test('should render child even when false', function(assert) {
   this.render('{{liquid-bind foo}}');
   assert.equal(this.$('.liquid-child').length, 1);
 });
+
+test('should support containerless mode', function(assert) {
+  this.render('{{liquid-bind foo containerless=true}}');
+  assert.equal(this.$('.liquid-container').length, 0, "no container");
+  assert.equal(this.$(' > .liquid-child').length, 1, "direct liquid child");
+});

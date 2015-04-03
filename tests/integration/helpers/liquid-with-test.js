@@ -68,3 +68,10 @@ test('it should animate after initially rendering empty', function(assert) {
   assert.ok(tmap.transitionFor.called, "animated");
   assert.equal(tmap.transitionFor.lastCall.returnValue.animation.handler, dummyAnimation);
 });
+
+test('should support containerless mode', function(assert) {
+  this.set('foo', 'Hi');
+  this.render('{{#liquid-with foo containerless=true as |bar| }}{{foo}}{{/liquid-with}}');
+  assert.equal(this.$('.liquid-container').length, 0, "no container");
+  assert.equal(this.$(' > .liquid-child').length, 1, "direct liquid child");
+});

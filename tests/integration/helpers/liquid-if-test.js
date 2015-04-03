@@ -98,3 +98,24 @@ test('liquid-unless should match correct helper name', function(assert) {
   this.set('isReady', true);
   assert.equal(tmap.transitionFor.lastCall.returnValue.animation.handler, dummyAnimation);
 });
+
+test('it should have no content when false and there is no else block', function(assert) {
+  this.render('{{#liquid-if isReady }}hi{{/liquid-if}}');
+  assert.equal(this.$('.liquid-container').length, 1, "have container");
+  assert.equal(this.$('.liquid-child').length, 0, "no child");
+});
+
+test('it should have no content when false and there is no else block in containerless mode', function(assert) {
+  this.render('{{#liquid-if isReady containerless=true }}hi{{/liquid-if}}');
+  assert.equal(this.$('.liquid-container').length, 0, "no container");
+  assert.equal(this.$('.liquid-child').length, 0, "no child");
+});
+
+
+test('it should support containerless mode', function(assert) {
+  this.set('isReady', true);
+  this.render('{{#liquid-if isReady containerless=true}}hi{{/liquid-if}}');
+  assert.equal(this.$('.liquid-container').length, 0, "no container");
+  assert.equal(this.$('> .liquid-child').length, 1, "direct child");
+  assert.equal(this.$('> .liquid-child').text().trim(), 'hi');
+});

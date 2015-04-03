@@ -69,3 +69,10 @@ test('it should support `use` option', function(assert) {
   assert.equal(tmap.transitionFor.lastCall.returnValue.animation.name, 'fade');
   //return tmap.waitUntilIdle();
 });
+
+test('should support containerless mode', function(assert) {
+  this.render('{{liquid-outlet containerless=true}}');
+  setOutletState(withTemplate('<h1>Hello world</h1>'));
+  assert.equal(this.$('.liquid-container').length, 0, "no container");
+  assert.equal(this.$(' > .liquid-child').length, 1, "direct liquid child");
+});
