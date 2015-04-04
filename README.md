@@ -63,15 +63,10 @@ addon format.
 
 ### Selecting Ember Versions
 
-Liquid Fire is tested against release, beta, canary, and canary +
-HTMLbars versions of Ember. While developing Liquid Fire, you can
-switch to a different Ember environment by using the
-`packaging/select-ember-version.js` script in conjunction with
-the environment variables used within the `env.matrix` section of
-`.travis.yml`, e.g.:
-
-    # switch to Ember Canary with HTMLbars enabled
-    $ EMBER_CHANNEL=canary HTMLBARS=true packaging/select-ember-version.js
+Liquid Fire is tested against release, beta, and canaryversions of Ember.
+While developing Liquid Fire, you can switch to a different Ember
+environment by using [ember-try](https://github.com/kategengler/ember-try)'s
+`ember try ember-1.11.0` script.
 
 After running this command and re-running `ember serve`, the ember-cli
 server (and QUnit test suite) will be running against Ember Canary +

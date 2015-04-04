@@ -1,5 +1,7 @@
 ---
 language: node_js
+node_js:
+  - "0.12"
 
 sudo: false
 
@@ -14,16 +16,14 @@ before_install:
 install:
   - npm install -g bower
   - npm install
-  - ./packaging/select-ember-version.js
-
+  - bower install
 
 script:
-  - npm test
+  - ./node_modules/.bin/ember try $EMBER_TRY_SCENARIO test
 
 env:
   matrix:
-    - EMBER_CHANNEL=1.11.0
-    - EMBER_CHANNEL=beta
-    - EMBER_CHANNEL=canary
-
-
+    - EMBER_TRY_SCENARIO=ember-1.11.1
+    - EMBER_TRY_SCENARIO=ember-release
+    - EMBER_TRY_SCENARIO=ember-beta
+    - EMBER_TRY_SCENARIO=ember-canary
