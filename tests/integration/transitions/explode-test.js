@@ -4,6 +4,7 @@ import moduleForIntegration from "../../helpers/module-for-integration";
 import { test } from "ember-qunit";
 import QUnit from 'qunit';
 
+var Promise = Ember.RSVP.Promise;
 var tmap;
 
 moduleForIntegration('Integration: explode transition', {
@@ -63,6 +64,178 @@ test("it matches the background", function(assert) {
   this.set('showBlue', true);
   return tmap.waitUntilIdle();
 });
+
+test("it provides default visibility control for background", function(assert) {
+  var liquidContainer;
+  expect(2);
+  tmap.map(function() {
+    this.transition(
+      this.hasClass('explode-transition-test'),
+      this.use('explode', {
+        pick: '.something',
+        use: function() {
+          return new Promise((resolve)=>{
+            Ember.run.next(() => {
+              assert.equal(liquidContainer.find('.liquid-child .bluebox').parent().css('visibility'), 'visible', 'new element');
+              assert.equal(liquidContainer.find('.liquid-child .redbox').parent().css('visibility'), 'hidden', 'old element');
+              resolve();
+            });
+          });
+        }
+      })
+    );
+  });
+  this.render(`
+              {{#liquid-if showBlue class="explode-transition-test"}}
+              <div class="bluebox something"></div>
+              {{else}}
+              <div class="redbox something"></div>
+              {{/liquid-if}}
+              `);
+  liquidContainer = this.$('.liquid-container');
+  this.set('showBlue', true);
+  return tmap.waitUntilIdle();
+});
+
+
+test("it can pick", function(assert) {
+  expect(2);
+  tmap.map(function() {
+    this.transition(
+      this.hasClass('explode-transition-test'),
+      this.use('explode', {
+        pick: 'h1',
+        use: function() {
+          assert.equal(this.oldElement && this.oldElement.text(), "Old Title");
+          assert.equal(this.newElement && this.newElement.text(), "New Title");
+          return Ember.RSVP.resolve();
+        }
+      })
+    );
+  });
+  this.render(`
+              {{#liquid-if otherMode class="explode-transition-test"}}
+                <h1>New Title</h1>
+              {{else}}
+                <h1>Old Title</h1>
+              {{/liquid-if}}
+              `);
+  this.set('otherMode', true);
+  return tmap.waitUntilIdle();
+});
+
+test("it can use pickOld and pickNew together", function(assert) {
+  expect(2);
+  tmap.map(function() {
+    this.transition(
+      this.hasClass('explode-transition-test'),
+      this.use('explode', {
+        pickOld: 'h1',
+        pickNew: 'h2',
+        use: function() {
+          assert.equal(this.oldElement && this.oldElement.text(), "Old Title");
+          assert.equal(this.newElement && this.newElement.text(), "New Title");
+          return Ember.RSVP.resolve();
+        }
+      })
+    );
+  });
+  this.render(`
+              {{#liquid-if otherMode class="explode-transition-test"}}
+                <h2>New Title</h2>
+              {{else}}
+                <h1>Old Title</h1>
+              {{/liquid-if}}
+              `);
+  this.set('otherMode', true);
+  return tmap.waitUntilIdle();
+});
+
+
+test("it can pickOld by itself", function(assert) {
+  expect(2);
+  tmap.map(function() {
+    this.transition(
+      this.hasClass('explode-transition-test'),
+      this.use('explode', {
+        pickOld: 'h1',
+        use: function() {
+          assert.equal(this.oldElement && this.oldElement.text(), "Old Title");
+          assert.ok(!this.newElement, "Should be no new element");
+          return Ember.RSVP.resolve();
+        }
+      })
+    );
+  });
+  this.render(`
+              {{#liquid-if otherMode class="explode-transition-test"}}
+                <h1>New Title</h1>
+              {{else}}
+                <h1>Old Title</h1>
+              {{/liquid-if}}
+              `);
+  this.set('otherMode', true);
+  return tmap.waitUntilIdle();
+});
+
+test("it can pickNew by itself", function(assert) {
+  expect(2);
+  tmap.map(function() {
+    this.transition(
+      this.hasClass('explode-transition-test'),
+      this.use('explode', {
+        pickNew: 'h1',
+        use: function() {
+          assert.equal(this.newElement && this.newElement.text(), "New Title");
+          assert.ok(!this.oldElement, "Should be no old element");
+          return Ember.RSVP.resolve();
+        }
+      })
+    );
+  });
+  this.render(`
+              {{#liquid-if otherMode class="explode-transition-test"}}
+                <h1>New Title</h1>
+              {{else}}
+                <h1>Old Title</h1>
+              {{/liquid-if}}
+              `);
+  this.set('otherMode', true);
+  return tmap.waitUntilIdle();
+});
+
+
+test("it can matchBy", function(assert) {
+  expect(6);
+  tmap.map(function() {
+    this.transition(
+      this.hasClass('explode-transition-test'),
+      this.use('explode', {
+        matchBy: 'data-model-id',
+        use: function() {
+          var oldText = this.oldElement && this.oldElement.text();
+          var newText = this.newElement && this.newElement.text();
+          assert.ok(/Old/.test(oldText), "old text");
+          assert.ok(/New/.test(newText), "new text");
+          assert.equal(oldText && oldText.slice(4), newText && newText.slice(4));
+          return Ember.RSVP.resolve();
+        }
+      })
+    );
+  });
+  this.render(`
+              {{#liquid-if otherMode class="explode-transition-test"}}
+                <div data-model-id=1>New One</div>
+                <div data-model-id=2>New Two</div>
+              {{else}}
+                <div data-model-id=1>Old One</div>
+                <div data-model-id=2>Old Two</div>
+              {{/liquid-if}}
+              `);
+  this.set('otherMode', true);
+  return tmap.waitUntilIdle();
+});
+
 
 ['border-box', 'content-box'].forEach(function(boxSizing) {
 

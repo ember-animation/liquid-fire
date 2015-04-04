@@ -6,55 +6,42 @@ import { Promise } from "liquid-fire";
 // animations.
 
 export default function explode(...pieces) {
-  var result = Promise.all(pieces.map((piece) => {
+  var sawBackgroundPiece = false;
+  var promises = pieces.map((piece) => {
     if (piece.matchBy) {
       return matchAndExplode(this, piece);
-    } else {
+    } else if (piece.pick || piece.pickOld || piece.pickNew){
       return explodePiece(this, piece);
+    } else {
+      sawBackgroundPiece = true;
+      return runAnimation(this, piece);
     }
-  }));
-
-  if (this.newElement) {
-    this.newElement.css({visibility: ''});
+  });
+  if (!sawBackgroundPiece) {
+    if (this.newElement) {
+      this.newElement.css({visibility: ''});
+    }
+    if (this.oldElement) {
+      this.oldElement.css({visibility: 'hidden'});
+    }
   }
-  if (this.oldElement) {
-    this.oldElement.css({visibility: 'hidden'});
-  }
-
-  return result;
+  return Promise.all(promises);
 }
 
 function explodePiece(context, piece) {
   var childContext = Ember.copy(context);
-  var selectors = [piece.pick, piece.pick];
+  var selectors = [piece.pickOld || piece.pick, piece.pickNew || piece.pick];
   var cleanupOld, cleanupNew;
 
-  if (piece.pickOld) {
-    selectors[0] = piece.pickOld;
-  }
-  if (piece.pickNew) {
-    selectors[1] = piece.pickNew;
-  }
-
-  if (selectors[0]) {
+  if (selectors[0] || selectors[1]) {
     cleanupOld = _explodePart(context, 'oldElement', childContext, selectors[0]);
-  }
-
-  if (selectors[1]) {
     cleanupNew = _explodePart(context, 'newElement', childContext, selectors[1]);
+    if (!cleanupOld && !cleanupNew) {
+      return Promise.resolve();
+    }
   }
 
-  // if we were trying to target specific selectors and didn't find
-  // any matches, there's no transition to run (if there were no
-  // selectors, we deliberately fall through an animate the underlying
-  // "background" elements).
-  if (!cleanupOld && !cleanupNew && (selectors[0] || selectors[1])) {
-    return Promise.resolve();
-  }
-
-  return new Promise((resolve, reject) => {
-    animationFor(context, piece).apply(childContext).then(resolve, reject);
-  }).finally(() => {
+  return runAnimation(childContext, piece).finally(() => {
     if (cleanupOld) { cleanupOld(); }
     if (cleanupNew) { cleanupNew(); }
   });
@@ -64,7 +51,7 @@ function _explodePart(context, field, childContext, selector) {
   var child, childOffset, width, height, newChild;
   var elt = context[field];
   childContext[field] = null;
-  if (elt) {
+  if (elt && selector) {
     child = elt.find(selector);
     if (child.length > 0) {
       childOffset = child.offset();
@@ -121,6 +108,12 @@ function animationFor(context, piece) {
   return function() {
     return Promise.resolve(func.apply(this, args));
   };
+}
+
+function runAnimation(context, piece) {
+  return new Promise((resolve, reject) => {
+    animationFor(context, piece).apply(context).then(resolve, reject);
+  });
 }
 
 function matchAndExplode(context, piece) {
