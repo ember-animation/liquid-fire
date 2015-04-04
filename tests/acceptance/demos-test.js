@@ -1,4 +1,4 @@
-/* global ranTransition, noTransitionsYet */
+/* global ranTransition, noTransitionsYet, notDeepEqual */
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
 import { injectTransitionSpies,
@@ -263,6 +263,37 @@ test('warn-popup - dismiss with url', function() {
   });
   andThen(function(){
     equal(find('#warn-popup').length, 0, "dismissed popup");
+  });
+});
+
+test('explode demo 1', function() {
+  visit('/transitions/explode');
+  andThen(function(){
+    equal(find('h3:contains(Welcome)').length, 1, "first state");
+    click('button:contains(Toggle Detail View)');
+  });
+  andThen(function(){
+    equal(find('h3:contains(Detail)').length, 1, "second state");
+    ranTransition('explode');
+  });
+});
+
+test('explode demo 2', function() {
+  var ids;
+  visit('/transitions/explode');
+  andThen(function(){
+    ids = find('#explode-demo-2 img').toArray().map((elt) => {
+      return $(elt).attr('data-photo-id');
+    });
+    click('button:contains(Shuffle)');
+  });
+  andThen(function(){
+    var newIds = find('#explode-demo-2 img').toArray().map((elt) => {
+      return $(elt).attr('data-photo-id');
+    });
+    notDeepEqual(ids, newIds);
+    deepEqual(ids.sort(), newIds.sort());
+    ranTransition('explode');
   });
 });
 
