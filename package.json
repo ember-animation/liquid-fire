@@ -39,6 +39,7 @@
     "ember-cli-uglify": "1.0.1",
     "ember-code-snippet": "^1.0.0",
     "ember-export-application-global": "^1.0.2",
+    "ember-try": "0.0.3",
     "git-repo-info": "^1.0.4",
     "github": "git://github.com/mikedeboer/node-github#ca90bf27d5820812c3b76908189d666446ed97cd",
     "ncp": "^2.0.0",
