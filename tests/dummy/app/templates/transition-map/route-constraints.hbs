@@ -1,7 +1,6 @@
 <h2>Route Constraints</h2>
 
-<p>The following three constraints apply to route names. They all
-accept the same arguments.</p>
+<p>The following three constraints apply to route names. They will only work with <code>\{{liquid-outlet}}</code> because only <code>\{{liquid-outlet}}</code> has visibility into routes. (The other helpers like <code>\{{liquid-if}}</code>) don't know anything about routes.)</p>
 
 <dl class="dl-horizontal">
   <dt>fromRoute</dt>
@@ -17,12 +16,24 @@ accept the same arguments.</p>
   </dd>
 </dl>
 
-<p>Each of them accepts one or more arguments. The arguments can be
-strings containing route names, or functions that test route
-names. Best illustrated by example:</p>
+<p>Each of them accepts one argument. The argument can be a string
+route name, a function that tests route names, or a list of either of
+those.</p>
 
-<div class="callout callout-danger">There is <a href="https://github.com/ef4/liquid-fire/issues/18">an open
-issue</a> that affects you if you're trying to target named outlets or
-using non-default template names.</div>
+<p>The next three constraint apply to routes' models. They too only
+work with <code>\{{liquid-outlet}}</code>.</p>
+
+<dl class="dl-horizontal">
+  <dt>fromModel</dt>
+  <dd>Matches the route's model at the start of a transition.</dd>
+
+  <dt>toModel</dt>
+  <dd>Matches the route's model at the start of a transition.</dd>
+
+  <dt>betweenModels</dt>
+  <dd>A shorthand for both fromModel and toModel.</dd>
+</dl>
+
+<p>Each of them accepts a function for testing the model.</p>
 
 {{code-snippet name="route-match-examples.js"}}

@@ -16,14 +16,14 @@ this.transition(
 // by any of them. This wil match any transition that ends up in 'foo'
 // or 'bar'.
 this.transition(
-  this.toRoute('foo', 'bar'),
+  this.toRoute(['foo', 'bar']),
   this.use('toLeft')
 );
 
 // You can mix and match strings and functions. This is equivalent to
 // the previous example.
 this.transition(
-  this.toRoute('foo', function(routeName){ return routeName === 'bar'; }),
+  this.toRoute(['foo', function(routeName){ return routeName === 'bar'; }]),
   this.use('toLeft')
 );
 
@@ -32,7 +32,7 @@ this.transition(
 // starting with 'q'.
 this.transition(
   this.fromRoute('foo'),
-  this.toRoute('bar', function(routeName){ return /^q/.test(routeName); }),
+  this.toRoute(['bar', function(routeName){ return /^q/.test(routeName); }]),
   this.use('toLeft')
 );
 
@@ -46,14 +46,4 @@ this.transition(
 this.transition(
   this.withinRoute('foo'),
   this.use('toLeft')
-);
-
-// All of the route constraints also accept null to match the empty
-// route. The empty route is the initial route the very first time an
-// outlet is rendered.  So this example causes the 'foo' route to fade
-// in during the initial render:
-this.transition(
-  this.fromRoute(null),
-  this.toRoute('foo'),
-  this.use('fade')
 );
