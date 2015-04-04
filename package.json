@@ -28,6 +28,7 @@
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.0",
     "broccoli-sass": "^0.4.0",
+    "command": "0.0.5",
     "commander": "^2.3.0",
     "ember-cli": "0.2.0",
     "ember-cli-app-version": "0.3.1",
@@ -38,6 +39,9 @@
     "ember-cli-uglify": "1.0.1",
     "ember-code-snippet": "^1.0.0",
     "ember-export-application-global": "^1.0.2",
+    "git-repo-info": "^1.0.4",
+    "github": "git://github.com/mikedeboer/node-github#ca90bf27d5820812c3b76908189d666446ed97cd",
+    "ncp": "^2.0.0",
     "rsvp": "^3.0.17"
   },
   "keywords": [
