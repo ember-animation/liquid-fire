@@ -1,6 +1,6 @@
 # Changelog
 
-### master
+### 0.19.0
 
  - This is a major refactor with many new features and many API
    changes, as we move rapidly toward a stable 1.0 release.
