@@ -1,6 +1,6 @@
 export default function() {
   this.setDefault({duration: 250});
-
+  // BEGIN-SNIPPET default-modal-rule
   this.transition(
     this.inHelper('liquid-modal'),
     this.use('explode', {
@@ -11,5 +11,6 @@ export default function() {
       use: 'scale'
     })
   );
+  // END-SNIPPET
 
 }

@@ -1,47 +1,49 @@
 <h2>Defining Transition Animations</h2>
 
-<p>Transitions are defined by creating a module
-like <code>app/transitions/my-transition.js</code> that exports a
-function like this:</p>
+<p>Transitions are defined by creating a module like
+<code>app/transitions/my-transition.js</code> that exports a
+function. The function must return a Promise that resolves when the
+transition is done.</p>
 
-{{code-snippet name="transition-skeleton.js"}}
-
-<div class="callout callout-danger">Old school apps without a module
-resolver can call <code>LiquidFire.defineTransition</code> instead. <a href="https://github.com/ef4/liquid-fire/blob/master/example/prebuilt-example.html">See the example</a>.</div>
-
-<p>The function always receives at least two arguments:</p>
+<p>The function has access to the current transition context via
+<code>this</code>. The context includes:</p>
 
 <dl class="dl-horizontal">
-  <dt><code>oldView</code></dt>
+  <dt><code>oldElement</code></dt>
 
-  <dd>The outgoing view for this transition. It may be undefined when
-  transitioning from an empty initial state.</dd>
+  <dd>The outgoing jQuery-wrapped element for this transition. It may
+  be undefined when transitioning from an empty initial state, and it
+  may become undefined if your transition gets interrupted.</dd>
 
-  <dt><code>insertNewView</code></dt>
+  <dt><code>newElement</code></dt>
 
-  <dd>This is always a function that returns a promise. Call this
-  function when you're ready to insert the new view into the DOM. It
-  will resolve to the newView. The newView may be undefined if your
-  transition has already been interrupted, so you should always
-  tolerate an undefined newView.</dd>
+  <dd>The incoming jQuery-wrapped element for this transition. It may
+  be undefined when transitioning into an empty state or if your
+  transition gets interrupted.</dd>
+
+  <dt><code>oldValue, newValue</code></dt>
+
+  <dd>The corresponding values that go with your old and new states
+  (this is the valued passed into a helper like
+  <code>\{{liquid-bind}}</code>).</dd>
+
+  <dt><code>oldView, newView</code></dt>
+
+  <dd>The corresponding Ember View's that go with your old and new
+    states.</dd>
+
+  <dt><code>older</code></dt> <dd>If a running transition is interrupted before it
+  finishes, you may have more than two active versions in the DOM at
+  once. This is a list of those older versions, newest first. Each entry is an object with with the properties <code>{ element, value, view }</code>. </dd>
+
+  <dt><code>lookup</code></dt> <dd>A function that allows you to
+  lookup other transitions by name. This makes it easier to compose
+  new transitions out of existing transitions. <code>this.lookup('other').apply(this).then(...)</code>.</dd>
+
 </dl>
 
-<div class="callout callout-info">
-  <h3>Why "insertNewView" instead of "newView"?</h3>
 
-  Because sometimes you want to animate the views in parallel, and
-  sometimes you want to animate them in series. In the series case,
-  your transition may get interrupted before the new view is even
-  needed, in which case we can avoid inserting it entirely.
-</div>
-
-<p>Any remaining arguments will come directly from <code>use</code>
+<p>Your transition can receive arguments directly from <code>use</code>
 statements in transition rules. For example:</p>
 
 {{code-snippet name="transition-arguments.js"}}
-
-<p>You can define new transitions in terms of existing transitions
-by currying arguments:</p>
-
-{{code-snippet name="curried-transition.js"}}
-

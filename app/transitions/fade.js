@@ -18,12 +18,10 @@ export default function fade(opts={}) {
     stop(this.oldElement);
     firstStep = animate(this.oldElement, {opacity: 0}, outOpts, 'fade-out');
   }
-
   return firstStep.then(() => {
     return animate(this.newElement, {opacity: [(opts.maxOpacity || 1), 0]}, opts, 'fade-in');
   });
 }
-// END-SNIPPET
 
 function findFadingElement(context) {
   for (var i = 0; i < context.older.length; i++) {
@@ -36,3 +34,4 @@ function findFadingElement(context) {
     return context.oldElement;
   }
 }
+// END-SNIPPET

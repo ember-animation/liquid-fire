@@ -1,10 +1,10 @@
 /* app/transitions/my-animation.js */
-export default function(oldView, insertNewView, color, opts) {
+export default function(color, opts) {
   //...
 });
 
 /* within app/transitions.js */
 this.transition(
-  this.withinRoute('home'),
+  this.toRoute('home'),
   this.use('myAnimation', 'red', { duration: 100 })
 );

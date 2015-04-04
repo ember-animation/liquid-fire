@@ -43,6 +43,7 @@ Router.map(function() {
   this.resource("modal-documentation", { path: 'modals'}, function(){
     this.route('modal');
     this.route('component');
+    this.route('animation');
 
     // BEGIN-SNIPPET hello-modal-map
     this.modal('hello-modal', {

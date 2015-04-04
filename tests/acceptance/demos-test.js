@@ -22,7 +22,7 @@ module('Acceptance: Demos', {
 });
 
 test('visit every link in sidebar', function() {
-  var lastRouteName = 'modal-documentation.component';
+  var lastRouteName = 'modal-documentation.animation';
   expect(1);
 
   function navigateForward() {

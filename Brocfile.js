@@ -6,7 +6,7 @@ var path = require('path');
 
 var app = new EmberAddon({
   snippetPaths: ['tests/dummy/snippets'],
-  snippetSearchPaths: ['app', 'tests/dummy/app'],
+  snippetSearchPaths: ['app', 'tests/dummy/app', 'addon'],
   trees: {
     'public': 'tests/dummy/public'
   }

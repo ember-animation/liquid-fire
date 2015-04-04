@@ -38,7 +38,8 @@ export default Ember.Controller.extend({
       { route: 'modal-documentation', title: 'Modal Dialogs',
         children: [
           {route: 'modal-documentation.modal', title: 'modal()'},
-          {route: 'modal-documentation.component', title: 'Modal Components'}
+          {route: 'modal-documentation.component', title: 'Modal Components'},
+          {route: 'modal-documentation.animation', title: 'Customizing Animation'}
         ]
       }
     ];

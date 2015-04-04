@@ -3,45 +3,44 @@
 <p>The library exports these animation primitives:</p>
 
 <dl>
-  <dt><code>animate(view, props, opts, <em>label</em>)</code></dt>
+  <dt><code>animate($elt, props, opts, <em>label</em>)</code></dt>
 
   <dd>
-    This operates on the given <code>view</code>'s element, and always
-    returns a promise (even if the view is undefined or otherwise
-    lacking an element). <code>props</code> and <code>opts</code> are
+    This operates on the given jQuery-wrapped <code>$elt</code>, and always
+    returns a promise (even if the $elt is undefined). <code>props</code> and <code>opts</code> are
     passed directly through
     to <a href="http://julian.com/research/velocity/#arguments">Velocity's
     animate function</a>. <code>label</code> is an optional string
     that you can use to refer to this animation while it's running.
   </dd>
 
-  <dt><code>stop(view)</code></dt>
+  <dt><code>stop($elt)</code></dt>
   <dd>
-    This stops any currently running animations on the given view.
+    This stops any currently running animations on the given element.
   </dd>
 
-  <dt><code>isAnimating(view, label)</code></dt>
+  <dt><code>isAnimating($elt, label)</code></dt>
   <dd>Tests whether an animation with the given label is currently
-    running on this view.
+    running on this element.
   </dd>
 
-  <dt><code>timeSpent(view, label)</code></dt>
+  <dt><code>timeSpent($elt, label)</code></dt>
   <dd>
     Returns the number of milliseconds already spent running the
     labeled animation. Useful when adaptively interrupting in-progress
     animations.
   </dd>
 
-  <dt><code>timeRemaining(view, label)</code></dt>
+  <dt><code>timeRemaining($elt, label)</code></dt>
   <dd>
     Returns the number of milliseconds remaining for the labeled
     animation. Useful when adaptively interrupting in-progress
     animations.
   </dd>
 
-  <dt><code>finish(view, label)</code></dt>
+  <dt><code>finish($elt, label)</code></dt>
   <dd>Returns a promise that resolves when the running animation with
-  the given label on the given view completes.</dd>
+  the given label on the given element completes.</dd>
 
 </dl>
 
