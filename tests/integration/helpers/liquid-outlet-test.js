@@ -76,3 +76,31 @@ test('should support containerless mode', function(assert) {
   assert.equal(this.$('.liquid-container').length, 0, "no container");
   assert.equal(this.$(' > .liquid-child').length, 1, "direct liquid child");
 });
+
+test('can see model-to-model transitions on the same route', function(assert) {
+  var state = {
+    render: {
+      template: Ember.Handlebars.compile('<div class="content">{{model.id}}</div>'),
+      controller: Ember.Controller.create({
+        model: Ember.Object.create({
+          id: 1
+        })
+      })
+    },
+    outlets: {}
+  };
+  var tmap = this.container.lookup('service:liquid-fire-transitions');
+  sinon.spy(tmap, 'transitionFor');
+  this.render('{{liquid-outlet}}');
+  setOutletState(state);
+  assert.equal(this.$('.content').text().trim(), '1');
+  tmap.transitionFor.reset();
+  Ember.run(() => {
+    state.render.controller.set('model', Ember.Object.create({
+      id: 2
+    }));
+  });
+  setOutletState(state);
+  assert.equal(this.$('.content').text().trim(), '2');
+  assert.ok(tmap.transitionFor.called, 'transitionFor called');
+});

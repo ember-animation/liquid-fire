@@ -101,6 +101,7 @@ export var OutletBehavior = {
       //
       // The Ember 2.0 component attributes shouldn't suffer this
       // problem and we can eventually drop the hack.
+      state = Ember.copy(state);
       state._lf_model = get(state.render.controller, 'model');
     }
 
@@ -164,6 +165,9 @@ function sameRouteState(a, b) {
     return true;
   }
   if (!a || !b) {
+    return false;
+  }
+  if (a._lf_model !== b._lf_model) {
     return false;
   }
   a = a.render;

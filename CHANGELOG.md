@@ -122,6 +122,14 @@
    while an animation is in progress. This allows any customized CSS rules
    to be added if needed.
 
+ - EXPERIMENTAL: `liquid-outlet` can now detect and animate
+   model-to-model transitions on the same route. HOWEVER, this is not
+   a complete solution, due to the fact that both your old and new
+   views will usually be bound to the same singleton controller, so
+   the old state will instantly rerender instead of preserving the old
+   values until animation is done. Ember 2.0 will eliminate the
+   singleton controller, solving this problem completely.
+
 ### 0.18.0
 
  - COMPAT: fully compatible with the current Ember 1.11 beta series
