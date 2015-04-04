@@ -34,6 +34,11 @@ work with <code>\{{liquid-outlet}}</code>.</p>
   <dd>A shorthand for both fromModel and toModel.</dd>
 </dl>
 
-<p>Each of them accepts a function for testing the model.</p>
+<p>Each of them accepts a function for testing the model, which
+receives the model as its first argument and should return a
+boolean. You have optional access to the <em>other</em> model in the
+second argument (that is, a <code>fromModel</code> matcher receives <code>(oldModel, newModel)</code> and a <code>toModel</code> matcher receives <code>(newModel, oldModel)</code>).</p>
+
+<p>Examples:</p>
 
 {{code-snippet name="route-match-examples.js"}}
