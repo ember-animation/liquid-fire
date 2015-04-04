@@ -22,6 +22,7 @@ export default Ember.Controller.extend({
           {route: 'transition-map.route-constraints', title: 'Matching by route & model'},
           {route: 'transition-map.value-constraints', title: 'Matching by value'},
           {route: 'transition-map.dom-constraints', title: 'Matching by DOM context'},
+          {route: 'transition-map.initial-constraints', title: 'Matching initial renders'},
           {route: 'transition-map.choosing-transitions', title: 'Choosing transition animations'},
           {route: 'transition-map.debugging-constraints', title: 'Debugging transition matching'}
         ]

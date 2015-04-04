@@ -25,6 +25,7 @@ Router.map(function() {
     this.route('route-constraints');
     this.route('value-constraints');
     this.route('dom-constraints');
+    this.route('initial-constraints');
     this.route('choosing-transitions');
     this.route('debugging-constraints');
   });

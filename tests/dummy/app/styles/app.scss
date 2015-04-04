@@ -96,10 +96,10 @@ body {
     text-align: right;
 }
 
-.helpers-list {
-    dt {
-        white-space: inherit;
-    }
+
+.dl-horizontal dt {
+    white-space: inherit;
+    overflow: visible;
 }
 
 @import "demos";
