@@ -41,6 +41,50 @@ export default function(){
     this.use('fade', { duration: Ember.testing ? 100 : 1500 })
   );
 
+  // BEGIN-SNIPPET explode-demo-1
+  this.transition(
+    this.childOf('#explode-demo-1'),
+    this.use('explode', {
+      pickOld: 'h3',                // Find an "h3" in the old template. This
+                                    // can be any CSS selector.
+
+      use: ['toUp', { duration }]   // And animate it upward. This can
+                                    // be any arbitrary transition, and
+                                    // its optional parameters.
+
+    }, {
+      pickNew: 'h3',                // Find an "h3" in the new template
+
+      use: ['toDown', { duration }] // And animate it downward.
+
+    }, {
+      // For everything else that didn't match the above, use a
+      // fade. I'm giving the fade half as much duration because fade
+      // includes both fading out and fading in steps, each of which
+      // spends `duration` milliseconds.
+      use: ['fade', { duration: duration/2 }]
+    })
+  );
+  // END-SNIPPET
+
+  // BEGIN-SNIPPET explode-demo-2
+  this.transition(
+    this.childOf('#explode-demo-2'),
+    this.use('explode', {
+      matchBy: 'data-photo-id',      // matchBy will look for the same
+                                     // HTML attribute value in both
+                                     // the old and new elements, and
+                                     // for each matching pair, it
+                                     // runs the given transition.
+
+      // fly-to is a built in transition that animate the element
+      // moving from the position of oldElement to the position of
+      // newElement.
+      use: ['fly-to', { duration, easing: 'spring'}]
+    })
+  );
+  // END-SNIPPET
+
   this.transition(
     this.childOf("#inline-serial-scenario"),
     this.use('fade', {duration: 1000})
@@ -134,4 +178,5 @@ export default function(){
     this.use('toLeft', { duration: 1500 }),
     this.reverse('toRight', { duration: 1500 })
   );
+
 }

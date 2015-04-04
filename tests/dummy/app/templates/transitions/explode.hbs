@@ -1,0 +1,89 @@
+<h2>The explode transition</h2>
+
+<p><code>explode</code> lets you break apart your old and new
+templates and animate the pieces separately. First we show examples,
+and then below we document all the options in detail.</p>
+
+<h3>Explode Demo #1</h3>
+
+<p>Click the button to see the demo:</p>
+
+{{!- BEGIN-SNIPPET explode-demo-1 }}
+<div id="explode-demo-1">
+  <button {{action "toggleDetail"}}>Toggle Detail View</button>
+  {{#liquid-if showDetail}}
+    <div class="details">
+      <h3>Details</h3>
+      <p>
+        Bacon ipsum dolor amet shank pork belly boudin flank
+        prosciutto alcatra andouille pig short ribs biltong kevin
+        salami tail turkey beef ribs.
+      </p>
+    </div>
+  {{else}}
+    <div class="overview">
+      <h3>Welcome</h3>
+      <p>This is the overview.</p>
+    </div>
+  {{/liquid-if}}
+</div>
+{{!- END-SNIPPET }}
+
+<p>The transition rule:</p>
+{{code-snippet name="explode-demo-1.js"}}
+
+<p>The template:</p>
+{{code-snippet name="explode-demo-1.hbs"}}
+
+<h3>Explode Demo #2</h3>
+
+<p>Click "Shuffle":</p>
+
+{{!- BEGIN-SNIPPET explode-demo-2 }}
+<div id="explode-demo-2">
+  <button {{action "shuffle"}}>Shuffle</button>
+  {{#liquid-with photos as |photosVersion|}}
+    {{#each photosVersion as |photo|}}
+      <img data-photo-id={{photo.id}} src={{{photo.url}}}>
+    {{/each}}
+  {{/liquid-with}}
+</div>
+{{!- END-SNIPPET }}
+
+<p>The transition rule:</p>
+{{code-snippet name="explode-demo-2.js"}}
+
+<p>The template:</p>
+{{code-snippet name="explode-demo-2.hbs"}}
+
+<h3>API details</h3>
+
+<p><code>explode</code> accepts any number of arguments. Each argument
+must be an object. Each object describes one piece of the
+transition.</p>
+
+<p>Each piece must have a <code>use</code> property, which can be:</p>
+
+<ul>
+  <li>the name of another transition. Example: <code>"toLeft"</code></li>
+  <li>a list whose first element is the name of another transition and whose remaining members are the arguments for that transitions. Example: <code>["toLeft", { duration: 100 }]</code></li>
+  <li>a function that directly implements a transition. Example: <code>function(){ return animate(this.newElement, { opacity: 0 }); }</code></li>
+  <li>a list whose first element is a function that directly implements a transition and whose remaining members are arguments for the function. Example: <code>[myTransitionFunction, { duration: 400 }]</code></li>
+</ul>
+
+<p>Each piece may also have one of these options:</p>
+
+<ul>
+  <li>a <code>pick</code> property whose value is a CSS selector
+  that will be matched against both the old and new elements.</li>
+  <li>a <code>pickOld</code> property whose value is a CSS selector
+  that will be matched against the old elements. May be combined with <code>pickNew</code>.</li>
+  <li>a <code>pickNew</code> property whose value is a CSS selector
+  that will be matched against the old elements. May be combined with <code>pickOld</code>.</li>
+  <li>a <code>matchBy</code> property whose value is the name of an
+  HTML attribute that will be matched against both old and new
+  elements for pairwise transitions.</li>
+</ul>
+
+<p>A piece that has only a <code>use</code> and no further options may
+be used to control everything else that doesn't match another section.</p>

@@ -15,8 +15,8 @@
     @include baselined(3);
     text-align: center;
     .liquid-container {
-	display: inline-block;
-	vertical-align: top;
+        display: inline-block;
+        vertical-align: top;
     }
     .liquid-child {
         /* This prevents a slight horizontal wobble in firefox. */
@@ -58,7 +58,7 @@
     }
     .two {
         background-color: green;
-    }    
+    }
     .three {
         background-color: blue;
     }
@@ -79,4 +79,24 @@
     border: 1px solid black;
     width: 20em;
     padding: 0.5em 1.5em;
+}
+
+#explode-demo-1 {
+    margin-bottom: 1.5em;
+    border: 1px solid black;
+    padding: 0.5em 1.5em;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#explode-demo-2 {
+    margin-bottom: 1.5em;
+    .liquid-container {
+        overflow: initial;
+    }
+    img {
+        width: 150px;
+        height: 150px;
+    }
 }

@@ -1,10 +1,11 @@
 <h2>Predefined Transitions</h2>
 
-<p>So far, the library includes a small set of predefined transitions
-to get you started.</p>
+<p>The library includes a small set of predefined transitions. They
+are intended as a starting point, and you are encouraged to add your
+own transitions that expand up on them.</p>
 
-<dl class="dl-horizontal">
-  <dt>toLeft<br>toRight<br>toUp<br>toDown</dt>
+<dl class="dl-horizontal helpers-list">
+  <dt>toLeft, toRight, toUp, toDown</dt>
   <dd>These are slide animations powered by the
   CSS <code>transform</code> property. They all accept an optional
   hash that's passed onward to Velocity for both the outgoing and
@@ -18,6 +19,12 @@ to get you started.</p>
   <dd>Old content fades away toward opacity 0, then new content fades
   in. This is a good example of a serial animation with support for
   interruption.</dd>
+
+  <dt>{{#link-to "transitions.explode"}}explode{{/link-to}}</dt><dd>This lets you break apart an element and use
+    other transitions on each of the separate pieces.</dd>
+
+  <dt>fly-to</dt>
+  <dd>Animates the old content's position and dimensions to match the new content.</dd>
 </dl>
 
 <p>It may be instructive to <a href="https://github.com/ef4/liquid-fire/tree/master/app/transitions">read the source for these predefined transitions</a>.</p>

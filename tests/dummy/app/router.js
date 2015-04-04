@@ -31,6 +31,7 @@ Router.map(function() {
 
   this.resource('transitions', function(){
     this.route('predefined');
+    this.route('explode');
     this.route('defining');
     this.route('primitives', function(){
       this.route('two');

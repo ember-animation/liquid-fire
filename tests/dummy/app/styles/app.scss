@@ -51,12 +51,12 @@ body {
     list-style: none;
     padding: 0;
     margin: 0;
-    
+
     @include make-xs-column(3);
     @include make-xs-column-pull(9);
     background-color: lighten($secondary-vl, 8%);
     border: 1px solid $secondary-vl;
-    
+
     > li {
         a {
             display: block;
@@ -96,6 +96,11 @@ body {
     text-align: right;
 }
 
+.helpers-list {
+    dt {
+        white-space: inherit;
+    }
+}
 
 @import "demos";
 @import "scenarios";

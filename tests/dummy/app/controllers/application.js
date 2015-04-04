@@ -29,6 +29,7 @@ export default Ember.Controller.extend({
       { route: 'transitions', title: 'Transitions',
         children: [
           {route: 'transitions.predefined', title: "Predefined transitions"},
+          {route: 'transitions.explode', title: "explode"},
           {route: 'transitions.defining', title: 'Defining custom transitions'},
           {route: 'transitions.primitives', title: 'Animation Primitives'}
         ]
