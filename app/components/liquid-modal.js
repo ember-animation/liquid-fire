@@ -74,7 +74,11 @@ export default Ember.Component.extend({
           clearThem = {};
 
       for (var key in params) {
-        clearThem[key] = proto[key];
+        if (proto[key] instanceof Ember.ComputedProperty) {
+          clearThem[key] = undefined;
+        } else {
+          clearThem[key] = proto[key];
+        }
       }
       source.setProperties(clearThem);
     }
