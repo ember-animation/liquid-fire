@@ -77,7 +77,7 @@ test('should support containerless mode', function(assert) {
   assert.equal(this.$(' > .liquid-child').length, 1, "direct liquid child");
 });
 
-test('can see model-to-model transitions on the same route', function(assert) {
+QUnit.skip('can see model-to-model transitions on the same route', function(assert) {
   var state = {
     render: {
       template: Ember.Handlebars.compile('<div class="content">{{model.id}}</div>'),

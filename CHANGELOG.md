@@ -1,5 +1,12 @@
 # Changelog
 
+### master
+
+ - BUGFIX: the experimental model-to-model liquid-outlet transitions
+   are not compatible with the current way we use liquid-outlet and
+   liquid-with nested together. I'm reverting this capability until we
+   can make it the default and only supported way. (Issue #235).
+
 ### 0.19.0
 
  - This is a major refactor with many new features and many API

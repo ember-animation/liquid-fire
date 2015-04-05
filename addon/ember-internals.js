@@ -167,9 +167,6 @@ function sameRouteState(a, b) {
   if (!a || !b) {
     return false;
   }
-  if (a._lf_model !== b._lf_model) {
-    return false;
-  }
   a = a.render;
   b = b.render;
   for (var key in a) {
