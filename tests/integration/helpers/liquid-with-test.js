@@ -75,3 +75,9 @@ test('should support containerless mode', function(assert) {
   assert.equal(this.$('.liquid-container').length, 0, "no container");
   assert.equal(this.$(' > .liquid-child').length, 1, "direct liquid child");
 });
+
+test('should support `class` in containerless mode', function(assert) {
+  this.set('foo', 'Hi');
+  this.render('{{#liquid-with foo class="bar" containerless=true as |bar| }}{{foo}}{{/liquid-with}}');
+  assert.equal(this.$(' > .liquid-child.bar').length, 1, "direct liquid child");
+});

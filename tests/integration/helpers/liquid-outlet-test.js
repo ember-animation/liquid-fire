@@ -77,6 +77,12 @@ test('should support containerless mode', function(assert) {
   assert.equal(this.$(' > .liquid-child').length, 1, "direct liquid child");
 });
 
+test('should support `class` on children in containerless mode', function(assert) {
+  this.render('{{liquid-outlet class="bar" containerless=true}}');
+  setOutletState(withTemplate('<h1>Hello world</h1>'));
+  assert.equal(this.$(' > .liquid-child.bar').length, 1, "child class");
+});
+
 QUnit.skip('can see model-to-model transitions on the same route', function(assert) {
   var state = {
     render: {

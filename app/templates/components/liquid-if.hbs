@@ -1,6 +1,6 @@
 {{#if containerless}}
   {{#liquid-versions value=value name=helperName
-                       use=use renderWhenFalse=hasInverse as |valueVersion|}}
+                       use=use renderWhenFalse=hasInverse innerClass=innerClass as |valueVersion|}}
     {{#if valueVersion}}
       {{yield}}
     {{else}}

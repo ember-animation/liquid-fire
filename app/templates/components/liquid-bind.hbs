@@ -1,6 +1,6 @@
 {{#if containerless}}
   {{~#liquid-versions value=value use=use
-                     name="liquid-bind" renderWhenFalse=true as |version| ~}}
+                     name="liquid-bind" renderWhenFalse=true innerClass=innerClass as |version| ~}}
     {{~version ~}}
   {{/liquid-versions ~}}
 {{else}}
