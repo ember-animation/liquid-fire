@@ -1,0 +1,1 @@
+../bower_components/ember/ember.debug.js

@@ -1,11 +1,10 @@
 <html>
 <head>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="http://builds.emberjs.com/tags/v1.10.0/ember.debug.js"></script>
-<script src="http://builds.emberjs.com/tags/v1.10.0/ember-template-compiler.js"></script>
-<script src="velocity.js"></script>
-<script src="liquid-fire.js"></script>
-<link rel="stylesheet" href="liquid-fire.css">
+<script src="ember.debug.js"></script>
+<script src="ember-template-compiler.js"></script>
+<script src="addons.js"></script>
+<link rel="stylesheet" href="addons.css">
 
 <style type="text/css">
   #container .liquid-child {
@@ -27,27 +26,29 @@
 
 App = Ember.Application.create();
 
+GiftWrap.install(App);
+LiquidFire = GiftWrap.require('liquid-fire');
+
 App.Router.map(function() {
   this.route('other');
 });
 
-LiquidFire.defineTransition('rotateBelow', function (oldView, insertNewView, opts) {
+App.register('transition:rotate-below', function (opts) {
   var direction = 1;
   if (opts && opts.direction === 'cw') {
     direction = -1;
   }
-  LiquidFire.stop(oldView);
-  return insertNewView().then(function(newView) {
-    oldView.$().css('transform-origin', '50% 150%');
-    newView.$().css('transform-origin', '50% 150%');
-    return LiquidFire.Promise.all([
-      LiquidFire.animate(oldView, { rotateZ: -90*direction + 'deg' }, opts),
-      LiquidFire.animate(newView, { rotateZ: ['0deg', 90*direction+'deg'] }, opts),
-    ]);
-  });
+  LiquidFire.stop(this.oldElement);
+
+  this.oldElement.css('transform-origin', '50% 150%');
+  this.newElement.css('transform-origin', '50% 150%');
+  return LiquidFire.Promise.all([
+    LiquidFire.animate(this.oldElement, { rotateZ: -90*direction + 'deg' }, opts),
+    LiquidFire.animate(this.newElement, { rotateZ: ['0deg', 90*direction+'deg'] }, opts),
+  ]);
 });
 
-LiquidFire.map(function(){
+App.register('transitions:main', function(){
   this.transition(
     this.fromRoute('index'),
     this.toRoute('other'),
@@ -56,7 +57,7 @@ LiquidFire.map(function(){
   this.transition(
     this.fromRoute('other'),
     this.toRoute('index'),
-    this.use('rotateBelow')
+    this.use('rotate-below')
   );
 });
 
