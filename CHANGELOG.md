@@ -1,6 +1,14 @@
 # Changelog
 
-### master
+### 0.19.2
+
+ - BUGFIX: fix `class` in containerless mode. (Issue #236)
+
+ - NEW: it should now be possible to build non-ember-cli releases of
+   liquid-fire using
+   [Ember Giftwrap](https://github.com/ef4/ember-giftwrap). 
+
+### 0.19.1
 
  - BUGFIX: the experimental model-to-model liquid-outlet transitions
    are not compatible with the current way we use liquid-outlet and
