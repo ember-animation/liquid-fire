@@ -205,7 +205,7 @@ test("it can pickNew by itself", function(assert) {
 });
 
 
-test("it can matchBy", function(assert) {
+test("it can matchBy data attribute", function(assert) {
   expect(6);
   tmap.map(function() {
     this.transition(
@@ -287,6 +287,67 @@ test("elements matched in earlier pieces don't also match later pieces", functio
                 <div class="late">A</div>
               {{else}}
                 <div class="early late">B</div>
+              {{/liquid-if}}
+              `);
+  this.set('otherMode', true);
+  return tmap.waitUntilIdle();
+});
+
+test("it doesn't throw an error if no match is found", function(assert) {
+  expect(1);
+  tmap.map(function() {
+    this.transition(
+      this.hasClass('explode-transition-test'),
+      this.use('explode', {
+        matchBy: 'data-model-id',
+        use: function() {
+          assert.ok(true);
+          return Ember.RSVP.resolve();
+        }
+      })
+    );
+  });
+  this.render(`
+              {{#liquid-if otherMode class="explode-transition-test"}}
+                <div data-model-id=1>New One</div>
+                <div data-model-id=2>New Two</div>
+              {{else}}
+                <div data-model-id=1>Old One</div>
+                <div data-model-id>Old Two</div>
+              {{/liquid-if}}
+              `);
+  this.set('otherMode', true);
+  return tmap.waitUntilIdle();
+});
+
+test("it can matchBy id", function(assert) {
+  expect(6);
+  tmap.map(function() {
+    this.transition(
+      this.hasClass('explode-transition-test'),
+      this.use('explode', {
+        pickNew: '.reducedScope',
+        matchBy: 'id',
+        use: function() {
+          var oldText = this.oldElement && this.oldElement.text();
+          var newText = this.newElement && this.newElement.text();
+          assert.ok(/Old/.test(oldText), "old text");
+          assert.ok(/New/.test(newText), "new text");
+          assert.equal(oldText && oldText.slice(4), newText && newText.slice(4));
+          return Ember.RSVP.resolve();
+        }
+      })
+    );
+  });
+  this.render(`
+              {{#liquid-if otherMode class="explode-transition-test"}}
+                <div class='reducedScope'>
+                  <div id='one'>New One</div>
+                  <div id='two'>New Two</div>
+                </div>
+              {{else}}
+                <div id='one'>Old One</div>
+                <div id='two'>Old Two</div>
               {{/liquid-if}}
               `);
   this.set('otherMode', true);
