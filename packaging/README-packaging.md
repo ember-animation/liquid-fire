@@ -16,16 +16,13 @@ branch. You can run directly against master like this:
 Building for non-ember-cli apps
 -------------------------------
 
-If you want something not in the
-[prebuilt releases](https://github.com/ef4/liquid-fire/releases), you
-can build your own by installing the Broccoli cli tool:
+You can use [Giftwrap](http://github.com/ef4/ember-giftwrap) to
+produce builds of liquid-fire for use in non-ember-cli apps. The
+`example/prebuilt-example.html` illustrates how to use the output of
+giftwrap.
 
-    sudo npm install -g broccoli-cli
-
-And doing a Broccoli build in this directory:
-
-    broccoli build ./dist
-
+Remember that your build will only be compatible with the precise
+Ember version you used to build it.
 
 Releasing
 ---------
