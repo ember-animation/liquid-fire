@@ -1,13 +1,13 @@
 /* global sinon */
 import Ember from "ember";
-import moduleForIntegration from "../../helpers/module-for-integration";
-import { test } from "ember-qunit";
+import { test, moduleForComponent } from "ember-qunit";
 import QUnit from 'qunit';
 
 var Promise = Ember.RSVP.Promise;
 var tmap;
 
-moduleForIntegration('Integration: explode transition', {
+moduleForComponent('explode transition', {
+  integration: true,
   setup: function() {
     tmap = this.container.lookup('service:liquid-fire-transitions');
   },

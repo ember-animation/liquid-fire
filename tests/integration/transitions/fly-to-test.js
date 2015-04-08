@@ -1,12 +1,12 @@
 /* global sinon */
 import Ember from "ember";
-import moduleForIntegration from "../../helpers/module-for-integration";
-import { test } from "ember-qunit";
+import { test, moduleForComponent } from "ember-qunit";
 import QUnit from 'qunit';
 
 var tmap;
 
-moduleForIntegration('Integration: fly-to transition', {
+moduleForComponent('fly-to transition', {
+  integration: true,
   setup: function () {
     tmap = this.container.lookup('service:liquid-fire-transitions');
   },

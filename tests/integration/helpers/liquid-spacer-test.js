@@ -1,13 +1,13 @@
 /* global sinon */
 import Ember from "ember";
-import moduleForIntegration from "../../helpers/module-for-integration";
-import { test } from "ember-qunit";
+import { test, moduleForComponent } from "ember-qunit";
 import QUnit from 'qunit';
 import { testingKick } from "liquid-fire/mutation-observer";
 
 var tmap;
 
-moduleForIntegration('Integration: liquid-spacer', {
+moduleForComponent('liquid-spacer', {
+  integration: true,
   setup: function() {
     tmap = this.container.lookup('service:liquid-fire-transitions');
   },
