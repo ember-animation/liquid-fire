@@ -92,7 +92,7 @@ export var OutletBehavior = {
 
 
   setOutletState: function(state) {
-    if (state.render && state.render.controller && !state._lf_model) {
+    if (state && state.render && state.render.controller && !state._lf_model) {
       // This is a hack to compensate for Ember 1.0's remaining use of
       // mutability within the route state -- the controller is a
       // singleton whose model will keep changing on us. By locking it

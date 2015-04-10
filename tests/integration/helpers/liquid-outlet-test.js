@@ -110,3 +110,23 @@ QUnit.skip('can see model-to-model transitions on the same route', function(asse
   assert.equal(this.$('.content').text().trim(), '2');
   assert.ok(tmap.transitionFor.called, 'transitionFor called');
 });
+
+test('tolerates empty content when parent outlet is stable', function(assert) {
+  this.render('A{{liquid-outlet}}B');
+
+  var state = {
+    render: {
+      template: Ember.Handlebars.compile('C{{liquid-outlet "a"}}D{{liquid-outlet "b"}}E')
+    },
+    outlets: {}
+  };
+
+  setOutletState(state);
+  assert.equal(this.$().text().trim(), 'ACDEB');
+  state.outlets.a = {
+    render: { template: Ember.Handlebars.compile('foo') },
+    outlets: {}
+  };
+  setOutletState(state);
+  assert.equal(this.$().text().trim(), 'ACfooDEB');
+});
