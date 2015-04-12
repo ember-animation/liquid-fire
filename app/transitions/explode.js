@@ -117,15 +117,21 @@ function runAnimation(context, piece) {
 }
 
 function matchAndExplode(context, piece) {
-  if (!context.oldElement) {
+  if (!context.oldElement || !context.newElement) {
     return Promise.resolve();
   }
 
   var hits = Ember.A(context.oldElement.find(`[${piece.matchBy}]`).toArray());
   return Promise.all(hits.map((elt) => {
-    return explodePiece(context, {
-      pick: `[${piece.matchBy}=${Ember.$(elt).attr(piece.matchBy)}]`,
-      use: piece.use
-    });
+    var propValue = Ember.$(elt).attr(piece.matchBy);
+    var selector = `[${piece.matchBy}=${propValue}]`;
+    if (context.newElement.find(selector).length > 0) {
+      return explodePiece(context, {
+        pick: selector,
+        use: piece.use
+      });
+    } else {
+      return Promise.resolve();
+    }
   }));
 }

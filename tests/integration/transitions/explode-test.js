@@ -236,6 +236,30 @@ test("it can matchBy", function(assert) {
   return tmap.waitUntilIdle();
 });
 
+test("matchBy only animates when both sides match", function(assert) {
+  expect(0);
+  tmap.map(function() {
+    this.transition(
+      this.hasClass('explode-transition-test'),
+      this.use('explode', {
+        matchBy: 'data-model-id',
+        use: function() {
+          throw new Error("should not get here");
+        }
+      })
+    );
+  });
+  this.render(`
+              {{#liquid-if otherMode class="explode-transition-test"}}
+                <div data-model-id=2>New Two</div>
+              {{else}}
+                <div data-model-id=1>Old One</div>
+              {{/liquid-if}}
+              `);
+  this.set('otherMode', true);
+  return tmap.waitUntilIdle();
+});
+
 
 ['border-box', 'content-box'].forEach(function(boxSizing) {
 
