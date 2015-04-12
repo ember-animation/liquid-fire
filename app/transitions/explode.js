@@ -6,12 +6,13 @@ import { Promise } from "liquid-fire";
 // animations.
 
 export default function explode(...pieces) {
+  var seenElements = {};
   var sawBackgroundPiece = false;
   var promises = pieces.map((piece) => {
     if (piece.matchBy) {
-      return matchAndExplode(this, piece);
+      return matchAndExplode(this, piece, seenElements);
     } else if (piece.pick || piece.pickOld || piece.pickNew){
-      return explodePiece(this, piece);
+      return explodePiece(this, piece, seenElements);
     } else {
       sawBackgroundPiece = true;
       return runAnimation(this, piece);
@@ -28,14 +29,14 @@ export default function explode(...pieces) {
   return Promise.all(promises);
 }
 
-function explodePiece(context, piece) {
+function explodePiece(context, piece, seen) {
   var childContext = Ember.copy(context);
   var selectors = [piece.pickOld || piece.pick, piece.pickNew || piece.pick];
   var cleanupOld, cleanupNew;
 
   if (selectors[0] || selectors[1]) {
-    cleanupOld = _explodePart(context, 'oldElement', childContext, selectors[0]);
-    cleanupNew = _explodePart(context, 'newElement', childContext, selectors[1]);
+    cleanupOld = _explodePart(context, 'oldElement', childContext, selectors[0], seen);
+    cleanupNew = _explodePart(context, 'newElement', childContext, selectors[1], seen);
     if (!cleanupOld && !cleanupNew) {
       return Promise.resolve();
     }
@@ -47,13 +48,16 @@ function explodePiece(context, piece) {
   });
 }
 
-function _explodePart(context, field, childContext, selector) {
+function _explodePart(context, field, childContext, selector, seen) {
   var child, childOffset, width, height, newChild;
   var elt = context[field];
+  var guid;
+
   childContext[field] = null;
   if (elt && selector) {
     child = elt.find(selector);
-    if (child.length > 0) {
+    if (child.length > 0 && !seen[guid=Ember.guidFor(child[0])]) {
+      seen[guid] = true;
       childOffset = child.offset();
       width = child.outerWidth();
       height = child.outerHeight();
@@ -116,7 +120,7 @@ function runAnimation(context, piece) {
   });
 }
 
-function matchAndExplode(context, piece) {
+function matchAndExplode(context, piece, seen) {
   if (!context.oldElement || !context.newElement) {
     return Promise.resolve();
   }
@@ -129,7 +133,7 @@ function matchAndExplode(context, piece) {
       return explodePiece(context, {
         pick: selector,
         use: piece.use
-      });
+      }, seen);
     } else {
       return Promise.resolve();
     }

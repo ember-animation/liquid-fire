@@ -260,6 +260,38 @@ test("matchBy only animates when both sides match", function(assert) {
   return tmap.waitUntilIdle();
 });
 
+test("elements matched in earlier pieces don't also match later pieces", function(assert) {
+  expect(4);
+  tmap.map(function() {
+    this.transition(
+      this.hasClass('explode-transition-test'),
+      this.use('explode', {
+        pick: '.early',
+        use: function() {
+          assert.ok(this.oldElement, 'expected old element with class=early');
+          assert.ok(!this.newElement, 'expected no new element with class=early');
+          return Ember.RSVP.resolve();
+        }
+      }, {
+        pick: '.late',
+        use: function() {
+          assert.ok(!this.oldElement, 'expected old element with class=late to already match elsewhere');
+          assert.ok(this.newElement, 'expected new element with class=late');
+          return Ember.RSVP.resolve();
+        }
+      })
+    );
+  });
+  this.render(`
+              {{#liquid-if otherMode class="explode-transition-test"}}
+                <div class="late">A</div>
+              {{else}}
+                <div class="early late">B</div>
+              {{/liquid-if}}
+              `);
+  this.set('otherMode', true);
+  return tmap.waitUntilIdle();
+});
 
 ['border-box', 'content-box'].forEach(function(boxSizing) {
 
