@@ -51,13 +51,17 @@ function explodePiece(context, piece, seen) {
 function _explodePart(context, field, childContext, selector, seen) {
   var child, childOffset, width, height, newChild;
   var elt = context[field];
-  var guid;
 
   childContext[field] = null;
   if (elt && selector) {
-    child = elt.find(selector);
-    if (child.length > 0 && !seen[guid=Ember.guidFor(child[0])]) {
-      seen[guid] = true;
+    child = elt.find(selector).filter(function() {
+      var guid = Ember.guidFor(this);
+      if (!seen[guid]) {
+        seen[guid] = true;
+        return true;
+      }
+    });
+    if (child.length > 0) {
       childOffset = child.offset();
       width = child.outerWidth();
       height = child.outerHeight();
