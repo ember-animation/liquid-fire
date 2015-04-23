@@ -1,10 +1,16 @@
 import Ember from "ember";
 export default Ember.Component.extend({
   classNames: ['liquid-child'],
-  attributeBindings: ['style'],
-  style: Ember.computed('visible', function() {
-    return new Ember.Handlebars.SafeString(this.get('visible') ? '' : 'visibility:hidden');
-  }),
+
+  updateElementVisibility: function() {
+    let visible = this.get('visible');
+    let $container = this.$();
+
+    if ($container && $container.length) {
+      $container.css('visibility', visible ? 'visible' : 'hidden');
+    }
+  }.on('willInsertElement').observes('visible'),
+
   tellContainerWeRendered: Ember.on('didInsertElement', function(){
     this.sendAction('didRender', this);
   })
