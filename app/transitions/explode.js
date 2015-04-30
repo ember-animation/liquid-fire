@@ -129,13 +129,17 @@ function matchAndExplode(context, piece, seen) {
     return Promise.resolve();
   }
 
-  var hits = Ember.A(context.oldElement.find(`[${piece.matchBy}]`).toArray());
+  var oldPrefix = piece.pickOld || piece.pick || '';
+  var newPrefix = piece.pickNew || piece.pick || '';
+
+  var hits = Ember.A(context.oldElement.find(`${oldPrefix}[${piece.matchBy}]`).toArray());
   return Promise.all(hits.map((elt) => {
     var propValue = Ember.$(elt).attr(piece.matchBy);
     var selector = `[${piece.matchBy}=${propValue}]`;
-    if (context.newElement.find(selector).length > 0) {
+    if (context.newElement.find(`${newPrefix}${selector}`).length > 0) {
       return explodePiece(context, {
-        pick: selector,
+        pickOld: `${oldPrefix}[${piece.matchBy}=${propValue}]`,
+        pickNew: `${newPrefix}[${piece.matchBy}=${propValue}]`,
         use: piece.use
       }, seen);
     } else {
