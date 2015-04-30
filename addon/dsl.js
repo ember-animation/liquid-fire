@@ -96,6 +96,13 @@ export default class DSL {
     return new Action(nameOrHandler, args, { reversed: true });
   }
 
+  useAndReverse(nameOrHandler, ...args) {
+    return [
+      this.use(nameOrHandler, ...args),
+      this.reverse(nameOrHandler, ...args)
+    ];
+  }
+
   onInitialRender() {
     return new Constraint('firstTime', 'yes');
   }
