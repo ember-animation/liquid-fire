@@ -1,3 +1,13 @@
-{{#liquid-with outletState id=innerId class=innerClass use=use name="liquid-outlet" containerless=containerless as |outletStateVersion| ~}}
+{{#liquid-with outletState
+    id=innerId
+    class=innerClass
+    use=use
+    name="liquid-outlet"
+    containerless=containerless
+    growDuration=growDuration
+    growPixelsPerSecond=growPixelsPerSecond
+    growEasing=growEasing
+    enableGrowth=enableGrowth
+    as |outletStateVersion| ~}}
   {{~lf-outlet staticState=outletStateVersion ~}}
 {{/liquid-with}}
