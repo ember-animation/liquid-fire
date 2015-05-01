@@ -125,3 +125,11 @@ test('should support `class` on liquid-children in containerless mode', function
   this.render('{{#liquid-if isReady class="bar" containerless=true}}hi{{/liquid-if}}');
   assert.equal(this.$('> .liquid-child.bar').length, 1, "child with class");
 });
+
+test('should pass container arguments through', function(assert) {
+  this.set('isReady', true);
+  this.render('{{#liquid-if isReady enableGrowth=false}}hi{{/liquid-if}}');
+  var containerElement = this.$(' > .liquid-container');
+  var container = Ember.View.views[containerElement.attr('id')];
+  assert.equal(container.get('enableGrowth'), false, 'liquid-container enableGrowth');
+});

@@ -57,6 +57,13 @@ test('it should support element id', function(assert) {
   assert.equal(this.$('.liquid-container#foo').length, 1, "found element by id");
 });
 
+test('should pass container arguments through', function(assert) {
+  this.render('{{liquid-outlet enableGrowth=false}}');
+  var containerElement = this.$(' > .liquid-container');
+  var container = Ember.View.views[containerElement.attr('id')];
+  assert.equal(container.get('enableGrowth'), false, 'liquid-container enableGrowth');
+});
+
 test('it should support `use` option', function(assert) {
   var tmap = this.container.lookup('service:liquid-fire-transitions');
   sinon.spy(tmap, 'transitionFor');

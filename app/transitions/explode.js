@@ -129,20 +129,18 @@ function matchAndExplode(context, piece, seen) {
     return Promise.resolve();
   }
 
-  var matchContext = Ember.copy(context);
-
   // reduce the matchBy scope
   if (piece.pick) {
-    matchContext.oldElement = matchContext.oldElement.find(piece.pick)
-    matchContext.newElement = matchContext.newElement.find(piece.pick)
+    context.oldElement = context.oldElement.find(piece.pick)
+    context.newElement = context.newElement.find(piece.pick)
   }
 
   if (piece.pickOld) {
-    matchContext.oldElement = matchContext.oldElement.find(piece.pickOld)
+    context.oldElement = context.oldElement.find(piece.pickOld)
   }
 
   if (piece.pickNew) {
-    matchContext.newElement = matchContext.newElement.find(piece.pickNew)
+    context.newElement = context.newElement.find(piece.pickNew)
   }
 
   // use the fastest selector available
@@ -155,22 +153,18 @@ function matchAndExplode(context, piece, seen) {
     selector = (attrValue) => { return `[${piece.matchBy}=${attrValue}]`; }
   }
 
-  var hits = Ember.A(matchContext.oldElement.find(`[${piece.matchBy}]`).toArray());
+  var hits = Ember.A(context.oldElement.find(`[${piece.matchBy}]`).toArray());
   return Promise.all(hits.map((elt) => {
     var attrValue = Ember.$(elt).attr(piece.matchBy);
 
     // if there is no match for a particular item just skip it
-    if (attrValue === "") {
+    if (attrValue === "" || context.newElement.find(selector(attrValue)).length === 0) {
       return Promise.resolve();
     }
 
-    if (context.newElement.find(selector(attrValue)).length > 0) {
-      return explodePiece(matchContext, {
-        pick: selector(attrValue),
-        use: piece.use
-      }, seen);
-    } else {
-      return Promise.resolve();
-    }
+    return explodePiece(context, {
+      pick: selector(attrValue),
+      use: piece.use
+    }, seen);
   }));
 }

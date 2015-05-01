@@ -90,3 +90,10 @@ test('should support `class` on liquid-children in containerless mode', function
   assert.equal(this.$('.liquid-container').length, 0, "no container");
   assert.equal(this.$(' > .liquid-child.bar').length, 1, "direct liquid with class");
 });
+
+test('should pass container arguments through', function(assert) {
+  this.render('{{liquid-bind foo enableGrowth=false}}');
+  var containerElement = this.$(' > .liquid-container');
+  var container = Ember.View.views[containerElement.attr('id')];
+  assert.equal(container.get('enableGrowth'), false, 'liquid-container enableGrowth');
+});

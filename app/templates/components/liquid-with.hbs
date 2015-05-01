@@ -3,7 +3,14 @@
     {{~yield version ~}}
   {{/liquid-versions~}}
 {{else}}
-  {{#liquid-container id=innerId class=innerClass as |container| ~}}
+  {{#liquid-container
+      id=innerId
+      class=innerClass
+      growDuration=growDuration
+      growPixelsPerSecond=growPixelsPerSecond
+      growEasing=growEasing
+      enableGrowth=enableGrowth
+      as |container| ~}}
     {{~#liquid-versions value=value notify=container use=use name=name as |version| ~}}
       {{~yield version ~}}
     {{/liquid-versions~}}
