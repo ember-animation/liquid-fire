@@ -3,11 +3,8 @@ export default Ember.Component.extend({
   classNames: ['liquid-child'],
 
   updateElementVisibility: function() {
-    let visible = this.get('visible');
-    let $container = this.$();
-
-    if ($container && $container.length) {
-      $container.css('visibility', visible ? 'visible' : 'hidden');
+    if (this.element) {
+      this.element.style.visibility = this.get('visible') ? '' : 'hidden';
     }
   }.on('willInsertElement').observes('visible'),
 
