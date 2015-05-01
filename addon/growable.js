@@ -28,12 +28,12 @@ export default Ember.Mixin.create({
     return Ember.$.Velocity(elt[0], target, {
       duration: this._durationFor(have[dimension], want[dimension]),
       queue: false,
-      easing: this.get('growEasing')
+      easing: this.get('growEasing') || this.constructor.prototype.growEasing
     });
   },
 
   _durationFor: function(before, after) {
-    return Math.min(this.get('growDuration'), 1000*Math.abs(before - after)/this.get('growPixelsPerSecond'));
+    return Math.min(this.get('growDuration') || this.constructor.prototype.growDuration, 1000*Math.abs(before - after)/(this.get('growPixelsPerSecond')) || this.constructor.prototype.growPixelsPerSecond);
   }
 
 });
