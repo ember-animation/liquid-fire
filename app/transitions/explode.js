@@ -131,26 +131,26 @@ function matchAndExplode(context, piece, seen) {
 
   // reduce the matchBy scope
   if (piece.pick) {
-    context.oldElement = context.oldElement.find(piece.pick)
-    context.newElement = context.newElement.find(piece.pick)
+    context.oldElement = context.oldElement.find(piece.pick);
+    context.newElement = context.newElement.find(piece.pick);
   }
 
   if (piece.pickOld) {
-    context.oldElement = context.oldElement.find(piece.pickOld)
+    context.oldElement = context.oldElement.find(piece.pickOld);
   }
 
   if (piece.pickNew) {
-    context.newElement = context.newElement.find(piece.pickNew)
+    context.newElement = context.newElement.find(piece.pickNew);
   }
 
   // use the fastest selector available
   var selector;
   if (piece.matchBy === 'id') {
-    selector = (attrValue) => { return `#${attrValue}`; }
+    selector = (attrValue) => { return `#${attrValue}`; };
   } else if (piece.matchBy === 'class') {
-    selector = (attrValue) => { return `.${attrValue}`; }
+    selector = (attrValue) => { return `.${attrValue}`; };
   } else {
-    selector = (attrValue) => { return `[${piece.matchBy}=${attrValue}]`; }
+    selector = (attrValue) => { return `[${piece.matchBy}=${attrValue}]`; };
   }
 
   var hits = Ember.A(context.oldElement.find(`[${piece.matchBy}]`).toArray());
