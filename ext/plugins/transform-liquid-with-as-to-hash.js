@@ -31,7 +31,7 @@ TransformLiquidWithAsToHash.prototype.transform = function TransformWithAsToHash
         throw new Error('You cannot use keyword (`{{liquid-with foo as bar}}`) and block params (`{{liquid-with foo as |bar|}}`) at the same time.');
       }
 
-      var removedParams = node.sexpr.params.splice(1, 2);
+      var removedParams = sexpr(node).params.splice(1, 2);
       var keyword = removedParams[1].original;
       node.program.blockParams = [keyword];
     }
@@ -42,10 +42,19 @@ TransformLiquidWithAsToHash.prototype.transform = function TransformWithAsToHash
 
 TransformLiquidWithAsToHash.prototype.validate = function TransformWithAsToHash_validate(node) {
   return node.type === 'BlockStatement' &&
-    node.sexpr.path.original === 'liquid-with' &&
-    node.sexpr.params.length === 3 &&
-    node.sexpr.params[1].type === 'PathExpression' &&
-    node.sexpr.params[1].original === 'as';
+    sexpr(node).path.original === 'liquid-with' &&
+    sexpr(node).params.length === 3 &&
+    sexpr(node).params[1].type === 'PathExpression' &&
+    sexpr(node).params[1].original === 'as';
 };
+
+// For compatibility with pre- and post-glimmer
+function sexpr(node) {
+  if (node.sexpr) {
+    return node.sexpr;
+  } else {
+    return node;
+  }
+}
 
 module.exports = TransformLiquidWithAsToHash;
