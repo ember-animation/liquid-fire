@@ -9,7 +9,7 @@ var set = Ember.set;
 
 // Given an Ember.View, return the containing element
 export function containingElement(view) {
-  return view._morph.contextualElement;
+  return view.renderNode.contextualElement;
 }
 
 // Create a helper that wraps one of our components. We mostly do this
