@@ -11,7 +11,7 @@
       growEasing=growEasing
       enableGrowth=enableGrowth
       as |container| ~}}
-    {{~#liquid-versions value=value notify=container use=use name=name as |version| ~}}
+    {{~#liquid-versions value=(readonly attrs.value) notify=container use=use name=name as |version| ~}}
       {{~yield version ~}}
     {{/liquid-versions~}}
   {{/liquid-container}}
