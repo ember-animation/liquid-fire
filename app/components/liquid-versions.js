@@ -10,10 +10,17 @@ export default Ember.Component.extend({
 
   transitionMap: Ember.inject.service('liquid-fire-transitions'),
 
-  appendVersion: Ember.on('init', Ember.observer('value', function() {
-    var versions = get(this, 'versions');
+  willRender() {
+    if (this._lastVersion !== this.attrs.value) {
+      this.appendVersion();
+      this._lastVersion = this.attrs.value;
+    }
+  },
+
+  appendVersion() {
+    var versions = this.versions;
     var firstTime = false;
-    var newValue = get(this, 'value');
+    var newValue = this.attrs.value;
     var oldValue;
 
     if (!versions) {
@@ -45,7 +52,7 @@ export default Ember.Component.extend({
     if (!newVersion.shouldRender && !firstTime) {
       this._transition();
     }
-  })),
+  },
 
   _transition: function() {
     var versions = get(this, 'versions');
