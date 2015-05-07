@@ -1,6 +1,6 @@
 {{#each versions key="guid" as |version| ~}}
   {{#if version.shouldRender ~}}
-    {{#liquid-child version=version visible=false didRender="childDidRender" class=innerClass ~}}
+    {{#liquid-child version=version didRender="childDidRender" class=class ~}}
       {{yield version.value ~}}
     {{/liquid-child}}
   {{/if}}

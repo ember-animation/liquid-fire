@@ -1,13 +1,18 @@
-{{#liquid-with outletState
-    id=innerId
-    class=innerClass
-    use=use
-    name="liquid-outlet"
-    containerless=containerless
-    growDuration=growDuration
-    growPixelsPerSecond=growPixelsPerSecond
-    growEasing=growEasing
-    enableGrowth=enableGrowth
-    as |outletStateVersion| ~}}
-  {{~lf-outlet staticState=outletStateVersion ~}}
-{{/liquid-with}}
+{{#getenv "outletState" as |outletState|}}
+  {{#liquid-with (pack-up state=outletState name=outletName)
+      class=class
+      use=use
+      name="liquid-outlet"
+      containerless=containerless
+      growDuration=growDuration
+      growPixelsPerSecond=growPixelsPerSecond
+      growEasing=growEasing
+      enableGrowth=enableGrowth
+    as |version| ~}}
+
+      {{#setenv outletState=version.state}}
+        {{outlet outletName}}
+      {{/setenv}}
+
+  {{/liquid-with}}
+{{/getenv}}

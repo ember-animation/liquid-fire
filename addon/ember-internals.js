@@ -5,7 +5,6 @@
 
 import Ember from "ember";
 var get = Ember.get;
-var set = Ember.set;
 
 // Given an Ember.View, return the containing element
 export function containingElement(view) {
@@ -75,128 +74,12 @@ export function inverseYieldMethod(context, options, morph, blockArguments) {
   }
 }
 
-// This lets us hook into the outlet state.
-export var OutletBehavior = {
-  _isOutlet: true,
-
-  init: function() {
-    this._super();
-    this._childOutlets = [];
-
-    // Our outlet state is named differently than a normal ember
-    // outlet ("_outletState"), so that our child outlets don't
-    // automatically discover it. Instead we will always push state
-    // down to them, so we can version it as we wish.
-    this.outletState = null;
-  },
-
-
-  setOutletState: function(state) {
-    if (state && state.render && state.render.controller && !state._lf_model) {
-      // This is a hack to compensate for Ember 1.0's remaining use of
-      // mutability within the route state -- the controller is a
-      // singleton whose model will keep changing on us. By locking it
-      // down the first time we see the state, we can more closely
-      // emulate ember 2.0 semantics.
-      //
-      // The Ember 2.0 component attributes shouldn't suffer this
-      // problem and we can eventually drop the hack.
-      state = Ember.copy(state);
-      state._lf_model = get(state.render.controller, 'model');
-    }
-
-    if (!this._diffState(state)) {
-      var children = this._childOutlets;
-      for (var i = 0 ; i < children.length; i++) {
-        var child = children[i];
-        child.setOutletState(state);
-      }
-
-    }
-  },
-
-  _diffState: function(state) {
-    while (state && emptyRouteState(state)) {
-      state = state.outlets.main;
-    }
-    var different = !sameRouteState(this.outletState, state);
-
-    if (different) {
-      set(this, 'outletState', state);
-    }
-
-    return different;
-  },
-
-
-  _parentOutlet: function() {
-    var parent = this._parentView;
-    while (parent && !parent._isOutlet) {
-      parent = parent._parentView;
-    }
-    return parent;
-  },
-
-  _linkParent: Ember.on('init', 'parentViewDidChange', function() {
-    var parent = this._parentOutlet();
-    if (parent) {
-      this._parentOutletLink = parent;
-      parent._childOutlets.push(this);
-      if (parent._outletState && parent._outletState.outlets[this._outletName]) {
-        this.setOutletState(parent._outletState.outlets[this._outletName]);
-      }
-    }
-  }),
-
-  willDestroy: function() {
-    if (this._parentOutletLink) {
-      this._parentOutletLink._childOutlets.removeObject(this);
-    }
-    this._super();
-  }
-};
-
-function emptyRouteState(state) {
-  return !state.render.ViewClass && !state.render.template;
-}
-
-function sameRouteState(a, b) {
-  if (!a && !b) {
-    return true;
-  }
-  if (!a || !b) {
-    return false;
-  }
-  a = a.render;
-  b = b.render;
-  for (var key in a) {
-    if (a.hasOwnProperty(key)) {
-      // name is only here for logging & debugging. If two different
-      // names result in otherwise identical states, they're still
-      // identical.
-      if (a[key] !== b[key] && key !== 'name') {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
-// This lets us invoke an outlet with an explicitly passed outlet
-// state, rather than inheriting it implicitly from its context.
-export var StaticOutlet = Ember.OutletView.superclass.extend({
-  tagName: '',
-
-  setStaticState: Ember.on('init', Ember.observer('staticState', function() {
-    this.setOutletState(this.get('staticState'));
-  }))
-});
 
 // Finds the route name from a route state so we can apply our
 // matching rules to it.
-export function routeName(routeState) {
-  if (routeState && routeState.render) {
-    return [routeState.render.name];
+export function routeName(routeDesc) {
+  if (routeDesc && routeDesc.state && routeDesc.state[routeDesc.name]) {
+    return [routeDesc.state[routeDesc.name].render.name];
   }
 }
 
@@ -206,4 +89,51 @@ export function routeModel(routeState) {
   if (routeState) {
     return [routeState._lf_model];
   }
+}
+
+var internal = Ember.__loader.require('htmlbars-runtime').internal;
+var registerKeyword = Ember.__loader.require('ember-htmlbars/keywords').registerKeyword;
+var o_create = Ember.__loader.require('ember-metal/platform/create').default;
+
+export function registerKeywords() {
+  registerKeyword('getenv', {
+    willRender(renderNode, env) {
+      env.view.ownerView._outlets.push(renderNode);
+    },
+
+    setupState(state, env, scope, params) {
+      var variableName = env.hooks.getValue(params[0]);
+      return { value: env[variableName] };
+    },
+
+    render(renderNode, env, scope, params, hash, template, inverse, visitor) {
+      internal.hostBlock(renderNode, env, scope, template, null, null, visitor, function(options) {
+        options.templates.template.yield([renderNode.state.value]);
+      });
+    }
+  });
+
+  registerKeyword('setenv', {
+    setupState(state, env, scope, params, hash) {
+      var read = env.hooks.getValue;
+      var newEnv = o_create(null);
+      for (var k in hash) {
+        if (hash.hasOwnProperty(k)) {
+          newEnv[k] = read(hash[k]);
+        }
+      }
+      return { newEnv };
+    },
+
+    childEnv(state) {
+      return state.newEnv;
+    },
+
+    render(renderNode, env, scope, params, hash, template, inverse, visitor) {
+      internal.hostBlock(renderNode, env, scope, template, null, null, visitor, function(options) {
+        options.templates.template.yield();
+      });
+    }
+
+  });
 }

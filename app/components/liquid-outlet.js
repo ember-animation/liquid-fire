@@ -1,3 +1,9 @@
 import Ember from "ember";
-import { OutletBehavior } from "liquid-fire/ember-internals";
-export default Ember.Component.extend(OutletBehavior);
+
+export default Ember.Component.extend({
+  positionalParams: ['inputOutletName'],
+  tagName: '',
+  willRender() {
+    this.set('outletName', this.attrs.inputOutletName || 'main');
+  }
+});
