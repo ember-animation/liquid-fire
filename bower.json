@@ -2,7 +2,7 @@
   "name": "liquid-fire",
   "dependencies": {
     "jquery": "^1.11.1",
-    "ember": "components/ember#beta",
+    "ember": "components/ember#canary",
     "ember-resolver": "~0.1.12",
     "loader.js": "3.2.0",
     "ember-cli-shims": "ember-cli/ember-cli-shims#0.0.3",
@@ -17,6 +17,6 @@
     "moment": "~2.8.3"
   },
   "resolutions": {
-    "ember": "beta"
+    "ember": "canary"
   }
 }
