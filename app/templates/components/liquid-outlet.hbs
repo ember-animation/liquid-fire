@@ -1,5 +1,5 @@
-{{#get-outlet-state as |outletState|}}
-  {{#liquid-with (pack-up state=outletState name=outletName)
+{{#get-outlet-state outletName as |outletState|}}
+  {{#liquid-with outletState
       class=class
       use=use
       name="liquid-outlet"
@@ -10,7 +10,7 @@
       enableGrowth=enableGrowth
     as |version| ~}}
 
-      {{#set-outlet-state version.state}}
+      {{#set-outlet-state outletName version.outletState}}
         {{outlet outletName}}
       {{/set-outlet-state}}
 

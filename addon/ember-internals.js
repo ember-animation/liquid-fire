@@ -77,9 +77,10 @@ export function inverseYieldMethod(context, options, morph, blockArguments) {
 
 // Finds the route name from a route state so we can apply our
 // matching rules to it.
-export function routeName(routeDesc) {
-  if (routeDesc && routeDesc.state && routeDesc.state[routeDesc.name]) {
-    return [routeDesc.state[routeDesc.name].render.name];
+export function routeName(routeIdentity) {
+  var o, r;
+  if (routeIdentity && (o = routeIdentity.outletState) && (r = o.render)) {
+    return [ r.name ];
   }
 }
 
@@ -91,9 +92,11 @@ export function routeModel(routeState) {
   }
 }
 
-var internal = Ember.__loader.require('htmlbars-runtime').internal;
-var registerKeyword = Ember.__loader.require('ember-htmlbars/keywords').registerKeyword;
-var Stream = Ember.__loader.require('ember-metal/streams/stream').default;
+var require = Ember.__loader.require;
+var internal = require('htmlbars-runtime').internal;
+var registerKeyword = require('ember-htmlbars/keywords').registerKeyword;
+var Stream = require('ember-metal/streams/stream').default;
+var isStable = require('ember-htmlbars/keywords/real_outlet').default.isStable;
 
 export function registerKeywords() {
   registerKeyword('get-outlet-state', {
@@ -101,20 +104,38 @@ export function registerKeywords() {
       env.view.ownerView._outlets.push(renderNode);
     },
 
+    setupState(lastState, env, scope, params) {
+      var outletName = env.hooks.getValue(params[0]);
+      var stream = lastState.stream;
+      var source = lastState.source;
+      if (!stream) {
+        source = { identity: { outletState: env.outletState[outletName] } };
+        stream = new Stream(function() {
+          return source.identity;
+        });
+      }
+      return { stream, source, outletName };
+    },
+
     render(renderNode, env, scope, params, hash, template, inverse, visitor) {
-      renderNode.outletStateSource = { value: env.outletState };
-      renderNode.outletStateStream = new Stream(function() {
-        return renderNode.outletStateSource.value;
-      });
       internal.hostBlock(renderNode, env, scope, template, null, null, visitor, function(options) {
-        options.templates.template.yield([renderNode.outletStateStream]);
+        options.templates.template.yield([renderNode.state.stream]);
       });
 
     },
     rerender(morph, env) {
-      var stream = morph.outletStateStream;
-      morph.outletStateSource.value = env.outletState;
-      stream.notify();
+      var newState = env.outletState[morph.state.outletName];
+      if (isStable(morph.state.source.identity, { outletState: newState })) {
+        // If our own view was stable, we preserve the same object
+        // identity so that liquid-versions will not animate us. But
+        // we still need to propagate any child changes forward.
+        Ember.set(morph.state.source.identity, 'outletState', newState);
+      } else {
+        // If our own view has changed, we present a whole new object,
+        // so that liquid-versions will see the change.
+        morph.state.source.identity = { outletState: newState };
+      }
+      morph.state.stream.notify();
     },
     isStable() {
       return true;
@@ -123,9 +144,9 @@ export function registerKeywords() {
 
   registerKeyword('set-outlet-state', {
     setupState(state, env, scope, params) {
-      return {
-        outletState: env.hooks.getValue(params[0])
-      };
+      var outletName = env.hooks.getValue(params[0]);
+      var outletState = env.hooks.getValue(params[1]);
+      return { outletState: { [ outletName ] : outletState }};
     },
 
     childEnv(state) {
@@ -136,7 +157,10 @@ export function registerKeywords() {
       internal.hostBlock(renderNode, env, scope, template, null, null, visitor, function(options) {
         options.templates.template.yield();
       });
-    }
+    },
 
+    isStable() {
+      return true;
+    }
   });
 }
