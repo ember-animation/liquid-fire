@@ -11,33 +11,6 @@ export function containingElement(view) {
   return view.renderNode.contextualElement;
 }
 
-// Create a helper that wraps one of our components. We mostly do this
-// just to get position-argument syntax.
-export function makeHelperShim(componentName, tweak) {
-  return {
-    isHTMLBars: true,
-    helperFunction: function liquidFireHelper(params, hash, options, env) {
-      var view = env.data.view;
-      var componentLookup = view.container.lookup('component-lookup:main');
-      var cls = componentLookup.lookupFactory(componentName);
-      hash.value = params[0];
-      if (hash['class']) {
-        hash.innerClass = hash['class'];
-        delete hash['class'];
-      }
-      if (hash.id) {
-        hash.innerId = hash.id;
-        delete hash.id;
-      }
-      hash.tagName = "";
-      if (tweak) {
-        tweak(params, hash, options, env);
-      }
-      env.helpers.view.helperFunction.call(view, [cls], hash, options, env);
-    }
-  };
-}
-
 // We use this as {{lf-yield-inverse}} to yield to our inverse
 // template, for the {{else}} case in liquid-if and liquid-unless.
 export function inverseYieldHelper(params, hash, options, env) {
