@@ -11,7 +11,7 @@ export default Ember.Component.extend({
   transitionMap: Ember.inject.service('liquid-fire-transitions'),
 
   willRender() {
-    if (this._lastVersion !== this.attrs.value) {
+    if (!this.versions || this._lastVersion !== this.attrs.value) {
       this.appendVersion();
       this._lastVersion = this.attrs.value;
     }

@@ -93,7 +93,7 @@ export function routeModel(routeState) {
 
 var internal = Ember.__loader.require('htmlbars-runtime').internal;
 var registerKeyword = Ember.__loader.require('ember-htmlbars/keywords').registerKeyword;
-var o_create = Ember.__loader.require('ember-metal/platform/create').default;
+var Stream = Ember.__loader.require('ember-metal/streams/stream').default;
 
 export function registerKeywords() {
   registerKeyword('get-outlet-state', {
@@ -101,14 +101,23 @@ export function registerKeywords() {
       env.view.ownerView._outlets.push(renderNode);
     },
 
-    setupState(state, env) {
-      return { value: env.outletState };
-    },
-
     render(renderNode, env, scope, params, hash, template, inverse, visitor) {
-      internal.hostBlock(renderNode, env, scope, template, null, null, visitor, function(options) {
-        options.templates.template.yield([renderNode.state.value]);
+      renderNode.outletStateSource = { value: env.outletState };
+      renderNode.outletStateStream = new Stream(function() {
+        return renderNode.outletStateSource.value;
       });
+      internal.hostBlock(renderNode, env, scope, template, null, null, visitor, function(options) {
+        options.templates.template.yield([renderNode.outletStateStream]);
+      });
+
+    },
+    rerender(morph, env) {
+      var stream = morph.outletStateStream;
+      morph.outletStateSource.value = env.outletState;
+      stream.notify();
+    },
+    isStable() {
+      return true;
     }
   });
 
