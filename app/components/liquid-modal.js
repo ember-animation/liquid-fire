@@ -2,13 +2,18 @@ import Ember from "ember";
 
 export default Ember.Component.extend({
   classNames: ['liquid-modal'],
-  currentContext: Ember.computed.oneWay('owner.modalContexts.lastObject'),
+  currentContext: Ember.computed('owner.modalContexts.lastObject', function(){
+    var context = this.get('owner.modalContexts.lastObject');
+    if (context) {
+      context.view = this.innerView(context);
+    }
+    return context;
+  }),
 
   owner: Ember.inject.service('liquid-fire-modals'),
 
-  innerView: Ember.computed('currentContext', function() {
+  innerView: function(current) {
     var self = this,
-        current = this.get('currentContext'),
         name = current.get('name'),
         container = this.get('container'),
         component = container.lookup('component-lookup:main').lookupFactory(name);
@@ -50,7 +55,7 @@ export default Ember.Component.extend({
     };
 
     return component.extend(args);
-  }),
+  },
 
   actions: {
     outsideClick: function() {
