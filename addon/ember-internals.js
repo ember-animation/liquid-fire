@@ -96,14 +96,13 @@ var registerKeyword = Ember.__loader.require('ember-htmlbars/keywords').register
 var o_create = Ember.__loader.require('ember-metal/platform/create').default;
 
 export function registerKeywords() {
-  registerKeyword('getenv', {
+  registerKeyword('get-outlet-state', {
     willRender(renderNode, env) {
       env.view.ownerView._outlets.push(renderNode);
     },
 
-    setupState(state, env, scope, params) {
-      var variableName = env.hooks.getValue(params[0]);
-      return { value: env[variableName] };
+    setupState(state, env) {
+      return { value: env.outletState };
     },
 
     render(renderNode, env, scope, params, hash, template, inverse, visitor) {
@@ -113,20 +112,15 @@ export function registerKeywords() {
     }
   });
 
-  registerKeyword('setenv', {
-    setupState(state, env, scope, params, hash) {
-      var read = env.hooks.getValue;
-      var newEnv = o_create(null);
-      for (var k in hash) {
-        if (hash.hasOwnProperty(k)) {
-          newEnv[k] = read(hash[k]);
-        }
-      }
-      return { newEnv };
+  registerKeyword('set-outlet-state', {
+    setupState(state, env, scope, params) {
+      return {
+        outletState: env.hooks.getValue(params[0])
+      };
     },
 
     childEnv(state) {
-      return state.newEnv;
+      return { outletState: state.outletState };
     },
 
     render(renderNode, env, scope, params, hash, template, inverse, visitor) {

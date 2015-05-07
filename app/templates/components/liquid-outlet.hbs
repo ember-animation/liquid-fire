@@ -1,4 +1,4 @@
-{{#getenv "outletState" as |outletState|}}
+{{#get-outlet-state as |outletState|}}
   {{#liquid-with (pack-up state=outletState name=outletName)
       class=class
       use=use
@@ -10,9 +10,9 @@
       enableGrowth=enableGrowth
     as |version| ~}}
 
-      {{#setenv outletState=version.state}}
+      {{#set-outlet-state version.state}}
         {{outlet outletName}}
-      {{/setenv}}
+      {{/set-outlet-state}}
 
   {{/liquid-with}}
-{{/getenv}}
+{{/get-outlet-state}}
