@@ -1,4 +1,4 @@
-{{#get-outlet-state outletName as |outletState|}}
+{{~#get-outlet-state outletName as |outletState|~}}
   {{#liquid-with outletState
       id=id
       class=class
@@ -11,9 +11,9 @@
       enableGrowth=enableGrowth
     as |version| ~}}
 
-      {{#set-outlet-state outletName version.outletState}}
+      {{#set-outlet-state outletName version.outletState~}}
         {{outlet outletName}}
-      {{/set-outlet-state}}
+      {{~/set-outlet-state}}
 
-  {{/liquid-with}}
+  {{~/liquid-with~}}
 {{/get-outlet-state}}
