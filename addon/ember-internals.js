@@ -8,7 +8,7 @@ var get = Ember.get;
 
 // Given an Ember.View, return the containing element
 export function containingElement(view) {
-  return view.renderNode.contextualElement;
+  return view._renderNode.contextualElement;
 }
 
 // We use this as {{lf-yield-inverse}} to yield to our inverse
