@@ -27,24 +27,6 @@ test('it should update', function(assert) {
   assert.equal(this.$().text().trim(), 'AYehuaB');
 });
 
-test('outlets inside {{liquid-with}}', function(assert) {
-
-  var routerState = withTemplate("{{#liquid-with thing as |thingVersion|}}{{thingVersion}}{{outlet}}{{/liquid-with}}");
-  routerState.outlets.main = withTemplate("Hello");
-  routerState.render.controller = Ember.Object.create({
-    thing: 'Goodbye'
-  });
-  this.render('{{outlet}}');
-  setOutletState(routerState);
-  assert.equal(this.$().text().trim(), 'GoodbyeHello');
-  Ember.run(() => {
-    routerState.render.controller.set('thing', 'Other');
-  });
-  routerState.outlets.main = withTemplate("Purple");
-  setOutletState(routerState);
-  assert.equal(this.$().text().trim(), 'OtherPurple');
-});
-
 test('it should support element id', function(assert) {
   this.render('{{#liquid-with foo id="foo" as |bar|}} {{/liquid-with}}');
   assert.equal(this.$('.liquid-container#foo').length, 1, "found element by id");

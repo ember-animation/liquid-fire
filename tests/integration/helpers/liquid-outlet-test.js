@@ -2,11 +2,54 @@
 import Ember from "ember";
 import moduleForIntegration from "../../helpers/module-for-integration";
 import { test } from "ember-qunit";
-import { setOutletState, withTemplate } from "../../helpers/outlet";
+import { withTemplate } from "../../helpers/outlet";
 import QUnit from 'qunit';
 
+var top, topState, controller, stageView;
+
+function setOutletState(state) {
+  Ember.run(() => {
+    topState.outlets.main = state;
+    top.setOutletState(topState);
+  });
+}
+
 moduleForIntegration('Integration: liquid-outlet', {
+  setup: function() {
+    controller = Ember.Controller.create();
+    topState = {
+      render: {},
+      outlets: {}
+    };
+    top = this.container.lookup('view:-outlet');
+    top.setOutletState(topState);
+
+    this.render = function(template) {
+      topState = withTemplate(template);
+      topState.render.controller = controller;
+      topState.render.ViewClass = Ember.View.extend({
+        didInsertElement() {
+          stageView = this;
+        }
+      });
+      Ember.run(() => top.setOutletState(topState));
+    };
+
+    this.$ = function() {
+      return stageView.$.apply(stageView, arguments);
+    };
+
+    this.set = function(k,v) {
+      controller.set(k,v);
+    };
+
+    Ember.run(() => top.appendTo('#ember-testing'));
+  },
   teardown: function() {
+    Ember.run(() => {
+      top.destroy();
+      controller.destroy();
+    });
     QUnit.stop();
     var tmap = this.container.lookup('service:liquid-fire-transitions');
     tmap.waitUntilIdle().then(QUnit.start);
@@ -59,7 +102,7 @@ test('it should support element id', function(assert) {
 
 test('should pass container arguments through', function(assert) {
   this.render('{{liquid-outlet enableGrowth=false}}');
-  var containerElement = this.$(' > .liquid-container');
+  var containerElement = this.$('.liquid-container');
   var container = Ember.View.views[containerElement.attr('id')];
   assert.equal(container.get('enableGrowth'), false, 'liquid-container enableGrowth');
 });
@@ -136,4 +179,22 @@ test('tolerates empty content when parent outlet is stable', function(assert) {
   };
   setOutletState(state);
   assert.equal(this.$().text().trim(), 'ACfooDEB');
+});
+
+test('outlets inside {{liquid-with}}', function(assert) {
+
+  var routerState = withTemplate("{{#liquid-with thing as |thingVersion|}}{{thingVersion}}{{outlet}}{{/liquid-with}}");
+  routerState.outlets.main = withTemplate("Hello");
+  routerState.render.controller = Ember.Object.create({
+    thing: 'Goodbye'
+  });
+  this.render('{{outlet}}');
+  setOutletState(routerState);
+  assert.equal(this.$().text().trim(), 'GoodbyeHello');
+  Ember.run(() => {
+    routerState.render.controller.set('thing', 'Other');
+  });
+  routerState.outlets.main = withTemplate("Purple");
+  setOutletState(routerState);
+  assert.equal(this.$().text().trim(), 'OtherPurple');
 });
