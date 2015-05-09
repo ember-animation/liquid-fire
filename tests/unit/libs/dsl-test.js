@@ -189,7 +189,7 @@ test("matching context takes precedence over default", function(){
 });
 
 
-test("matches between contexts", function(){
+test("matches between models", function(){
   t.map(function(){
     this.transition(
       this.betweenModels(function(model){ return model && model.isThing; }),
@@ -222,7 +222,7 @@ test("can target empty routes", function() {
   expectNoAnimation(routes('two', 'one'), 'should not match');
 });
 
-test("can target empty context", function() {
+test("can target empty model", function() {
   t.map(function(){
     this.transition(
       this.fromModel(null),
@@ -324,8 +324,8 @@ function dummyAction() {}
 function otherAction() {}
 
 function routes(a,b) {
-  return values(a ? { render: { name: a } } : null,
-                b ? { render: { name: b } } : null);
+  return values(a ? { outletState: { render: { name: a } } } : null,
+                b ? { outletState: { render: { name: b } } }: null);
 }
 
 function models(a,b) {
