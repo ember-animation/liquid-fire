@@ -68,6 +68,21 @@ test("it should support liquid-unless", function(assert) {
   assert.equal(this.$().text().trim(), 'A');
 });
 
+test('liquid-unless should have no content when true and there is no else block', function(assert) {
+  this.set('isReady', true);
+  this.render('{{#liquid-unless isReady }}hi{{/liquid-unless}}');
+  assert.equal(this.$('.liquid-container').length, 1, "have container");
+  assert.equal(this.$('.liquid-child').length, 0, "no child");
+});
+
+test('liquid-unless should have no content when true and there is no else block in containerless mode', function(assert) {
+  this.set('isReady', true);
+  this.render('{{#liquid-unless isReady containerless=true }}hi{{/liquid-unless}}');
+  assert.equal(this.$('.liquid-container').length, 0, "no container");
+  assert.equal(this.$('.liquid-child').length, 0, "no child");
+});
+
+
 test('liquid-if should match correct helper name', function(assert) {
   var tmap = this.container.lookup('service:liquid-fire-transitions');
   var dummyAnimation = function(){ return Ember.RSVP.resolve(); };

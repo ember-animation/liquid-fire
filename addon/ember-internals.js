@@ -1,52 +1,23 @@
 /*
   This module is intended to encapsulate all the known places where
   liquid-fire depends on non-public Ember APIs.
-*/
+ */
 
 import Ember from "ember";
-var get = Ember.get;
+var require = Ember.__loader.require;
+var internal = require('htmlbars-runtime').internal;
+var registerKeyword = require('ember-htmlbars/keywords').registerKeyword;
+var Stream = require('ember-metal/streams/stream').default;
+var isStable = require('ember-htmlbars/keywords/real_outlet').default.isStable;
 
 // Given an Ember.View, return the containing element
 export function containingElement(view) {
   return view._renderNode.contextualElement;
 }
 
-// We use this as {{lf-yield-inverse}} to yield to our inverse
-// template, for the {{else}} case in liquid-if and liquid-unless.
-export function inverseYieldHelper(params, hash, options, env) {
-  var view = env.data.view;
-
-  while (view && !get(view, 'layout')) {
-    if (view._contextView) {
-      view = view._contextView;
-    } else {
-      view = view._parentView;
-    }
-  }
-
-  return view._yieldInverse(env.data.view, env, options.morph, params);
-}
-
-// We add this method to our components to help implement lf-inverse-yield.
-export function inverseYieldMethod(context, options, morph, blockArguments) {
-  var view = options.data.view;
-  var parentView = this._parentView;
-  var template = get(this, 'inverseTemplate');
-
-  if (template) {
-    view.appendChild(Ember.View, {
-      isVirtual: true,
-      tagName: '',
-      template: template,
-      _blockArguments: blockArguments,
-      _contextView: parentView,
-      _morph: morph,
-      context: get(parentView, 'context'),
-      controller: get(parentView, 'controller')
-    });
-  }
-}
-
+// This is Ember's {{#if}} predicate semantics (where empty lists
+// count as false, etc).
+export var shouldDisplay = require('ember-views/streams/should_display').default;
 
 // Finds the route name from a route state so we can apply our
 // matching rules to it.
@@ -65,11 +36,6 @@ export function routeModel(routeState) {
   }
 }
 
-var require = Ember.__loader.require;
-var internal = require('htmlbars-runtime').internal;
-var registerKeyword = require('ember-htmlbars/keywords').registerKeyword;
-var Stream = require('ember-metal/streams/stream').default;
-var isStable = require('ember-htmlbars/keywords/real_outlet').default.isStable;
 
 export function registerKeywords() {
   registerKeyword('get-outlet-state', {
@@ -136,4 +102,6 @@ export function registerKeywords() {
       return true;
     }
   });
+
+
 }
