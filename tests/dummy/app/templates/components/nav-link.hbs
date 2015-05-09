@@ -2,21 +2,20 @@
   {{#if topic.route}}
     {{#link-to topic.route}}
       {{#if preGlyphicon}}
-        <div {{bind-attr class=":glyphicon preGlyphicon"}}></div>
+        <div class="glyphicon {{preGlyphicon}}"></div>
       {{/if}}
       {{topic.title}}
       {{#if postGlyphicon}}
-        <div {{bind-attr class=":glyphicon postGlyphicon"}}></div>
+        <div class="glyphicon {{postGlyphicon}}"></div>
       {{/if}}
     {{/link-to}}
   {{else}}
     {{#if preGlyphicon}}
-      <div {{bind-attr class=":glyphicon preGlyphicon"}}></div>
+      <div class="glyphicon {{preGlyphicon}}"></div>
     {{/if}}
     {{#if topic.title}}{{topic.title}}{{else}}{{topic}}{{/if}}
     {{#if postGlyphicon}}
-      <div {{bind-attr class=":glyphicon postGlyphicon"}}></div>
+      <div class="glyphicon {{postGlyphicon}}"></div>
     {{/if}}
   {{/if}}
 {{/if}}
-

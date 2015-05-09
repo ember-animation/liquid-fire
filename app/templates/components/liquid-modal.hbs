@@ -1,6 +1,6 @@
 {{#liquid-versions name="liquid-modal" value=currentContext renderWhenFalse=false as |cc|}}
   {{#lm-container action="escape" clickAway="outsideClick"}}
-    <div {{bind-attr class=":lf-dialog cc.options.dialogClass"}} role="dialog" {{bind-attr aria-labelledby="cc.options.ariaLabelledBy" aria-label="cc.options.ariaLabel"}}>
+    <div class="lf-dialog {{cc.options.dialogClass}}" role="dialog" aria-labelledby={{cc.options.ariaLabelledBy}} aria-label={{cc.options.ariaLabel}}>
       {{view cc.view dismiss="dismiss"}}
     </div>
   {{/lm-container}}
