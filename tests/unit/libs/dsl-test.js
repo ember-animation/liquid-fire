@@ -329,8 +329,8 @@ function routes(a,b) {
 }
 
 function models(a,b) {
-  return values(a ? { _lf_model: a } : null,
-                b ? { _lf_model: b } : null);
+  return values(a ? { outletState: { _lf_model: a } } : null,
+                b ? { outletState: { _lf_model: b } } : null);
 }
 
 function values(a,b) {

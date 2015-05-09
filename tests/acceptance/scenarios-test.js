@@ -51,3 +51,16 @@ test('modal with remapped parameters receives them', function() {
     equal(find('.lf-dialog').length, 0, "expected dialog to be dismissed");
   });
 });
+
+
+test('model-dependent transitions are matching correctly', function() {
+  visit('/scenarios/model-dependent-rule/1');
+  andThen(() => click('a:contains(Next)'));
+  andThen(() => {
+    ranTransition('toLeft');
+    click('a:contains(Previous)');
+  });
+  andThen(() => {
+    ranTransition('toRight');
+  });
+});

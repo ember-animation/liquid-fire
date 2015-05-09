@@ -152,7 +152,7 @@ export default function(){
   );
 
   this.transition(
-    this.withinRoute('scenarios.model-dependent-rule.page'),
+    this.withinRoute(/^scenarios.model-dependent-rule\./),
     this.fromModel(function(fromModel, toModel) {
       return fromModel && toModel && parseInt(fromModel.id) < parseInt(toModel.id);
     }),

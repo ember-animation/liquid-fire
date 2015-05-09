@@ -30,12 +30,21 @@ export function routeName(routeIdentity) {
 
 // Finds the route's model from a route state so we can apply our
 // matching rules to it.
-export function routeModel(routeState) {
-  if (routeState) {
-    return [routeState._lf_model];
+export function routeModel(routeIdentity) {
+  var o;
+  if (routeIdentity && (o = routeIdentity.outletState)) {
+    return [ o._lf_model ];
   }
 }
 
+function withLockedModel(outletState) {
+  var r, c;
+  if (outletState && (r = outletState.render) && (c = r.controller) && !outletState._lf_model) {
+    outletState = Ember.copy(outletState);
+    outletState._lf_model = c.get('model');
+  }
+  return outletState;
+}
 
 export function registerKeywords() {
   registerKeyword('get-outlet-state', {
@@ -48,7 +57,9 @@ export function registerKeywords() {
       var stream = lastState.stream;
       var source = lastState.source;
       if (!stream) {
-        source = { identity: { outletState: env.outletState[outletName] } };
+        source = { identity: {
+            outletState: withLockedModel(env.outletState[outletName])
+        }};
         stream = new Stream(function() {
           return source.identity;
         });
@@ -63,7 +74,7 @@ export function registerKeywords() {
 
     },
     rerender(morph, env) {
-      var newState = env.outletState[morph.state.outletName];
+      var newState = withLockedModel(env.outletState[morph.state.outletName]);
       if (isStable(morph.state.source.identity, { outletState: newState })) {
         // If our own view was stable, we preserve the same object
         // identity so that liquid-versions will not animate us. But

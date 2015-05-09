@@ -91,6 +91,7 @@ Router.map(function() {
     this.route('hero');
     this.route('model-dependent-rule', function() {
       this.route('page', { path: '/:id' });
+      this.route('other', { path: '/other/:id' });
     });
     this.route('interrupted-move', function() {
       this.route('two');
