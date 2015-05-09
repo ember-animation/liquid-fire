@@ -1,6 +1,6 @@
 {{#if containerless}}
-  {{#liquid-versions value=(readonly showFirstBlock) name=helperName
-                       use=use renderWhenFalse=hasInverseBlock class=class as |valueVersion|}}
+  {{#liquid-versions value=showFirstBlock name=helperName
+                       use=use renderWhenFalse=(hasBlock "inverse") class=class as |valueVersion|}}
     {{#if valueVersion}}
       {{yield}}
     {{else}}
@@ -16,8 +16,8 @@
       growEasing=growEasing
       enableGrowth=enableGrowth
       as |container|}}
-    {{#liquid-versions value=(readonly showFirstBlock) notify=container name=helperName
-    use=use renderWhenFalse=hasInverseBlock as |valueVersion|}}
+    {{#liquid-versions value=showFirstBlock notify=container name=helperName
+    use=use renderWhenFalse=(hasBlock "inverse") as |valueVersion|}}
       {{#if valueVersion}}
         {{yield}}
       {{else}}

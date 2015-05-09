@@ -1,4 +1,4 @@
-{{#liquid-versions name="liquid-modal" value=(readonly currentContext) renderWhenFalse=false as |cc|}}
+{{#liquid-versions name="liquid-modal" value=currentContext renderWhenFalse=false as |cc|}}
   {{#lm-container action="escape" clickAway="outsideClick"}}
     <div {{bind-attr class=":lf-dialog cc.options.dialogClass"}} role="dialog" {{bind-attr aria-labelledby="cc.options.ariaLabelledBy" aria-label="cc.options.ariaLabel"}}>
       {{view cc.view dismiss="dismiss"}}

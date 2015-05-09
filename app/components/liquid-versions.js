@@ -11,16 +11,16 @@ export default Ember.Component.extend({
   transitionMap: Ember.inject.service('liquid-fire-transitions'),
 
   willRender() {
-    if (!this.versions || this._lastVersion !== this.attrs.value) {
+    if (!this.versions || this._lastVersion !== this.getAttr('value')) {
       this.appendVersion();
-      this._lastVersion = this.attrs.value;
+      this._lastVersion = this.getAttr('value');
     }
   },
 
   appendVersion() {
     var versions = this.versions;
     var firstTime = false;
-    var newValue = this.attrs.value;
+    var newValue = this.getAttr('value');
     var oldValue;
 
     if (!versions) {
