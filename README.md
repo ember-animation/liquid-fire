@@ -32,7 +32,12 @@ The `master` branch is compatible with Ember 1.11 and newer.
 ## Installation
 
 This is an ember-cli addon, so all you need is an npm install. 
-For Ember 1.11 or newer, use:
+
+If you're using ember-cli > 0.2.3:
+
+    ember install liquid-fire
+
+Otherwise, for Ember 1.11 or newer, use:
 
     npm install --save-dev liquid-fire
 
