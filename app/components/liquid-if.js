@@ -5,7 +5,7 @@ export default Ember.Component.extend({
   positionalParams: ['predicate'],
   tagName: '',
   helperName: 'liquid-if',
-  willRender() {
+  didReceiveAttrs() {
     var predicate = shouldDisplay(this.getAttr('predicate'));
     this.set('showFirstBlock', this.inverted ? !predicate : predicate);
   }
