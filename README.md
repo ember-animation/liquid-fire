@@ -22,23 +22,31 @@ Comprehensive animation support for ambitious Ember applications. [Interactive D
   if there's interest.
   
 
-## Ember Compatibility
+## Ember Compatibility Table
 
-The `oldstable` branch is compatible with Ember 1.8 through 1.10. It
-is released to npm as the 0.17.x series.
+We support a wide range of Ember versions, but you must choose the
+correct version of liquid-fire:
 
-The `master` branch is compatible with Ember 1.11 and newer. 
+| Ember Version    | Liquid Fire Branch   | Liquid Fire Release  |
+| -----------------|----------------------| ---------------------|
+| 1.8 through 1.10 | oldstable            | 0.17                 |
+| 1.11 through 1.12| stable               | 0.19                 |
+| 1.13 and beyond  | master               | 0.20                 |
+
+`stable` and `oldstable` branches still receive bugfixes and PRs are
+welcome, but new feature work happens on `master`.
 
 ## Installation
 
 This is an ember-cli addon, so all you need is an npm install. 
-For Ember 1.11 or newer, use:
+For Ember 1.13 or newer, use:
 
-    npm install --save-dev liquid-fire
+    ember install liquid-fire
 
-If you're using Ember 1.10 or older, use:
+For older ember versions, consult the compatibility table above to pick the right liquid-fire version and then install with one of these:
 
-    npm install --save-dev liquid-fire@^0.17.0
+    ember install liquid-fire@^0.19.0
+    ember install liquid-fire@^0.19.0
 
 
 ### Documentation 
