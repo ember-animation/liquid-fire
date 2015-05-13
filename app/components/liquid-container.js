@@ -4,7 +4,6 @@ import { measure } from "./liquid-measured";
 
 export default Ember.Component.extend(Growable, {
   classNames: ['liquid-container'],
-  classNameBindings: ['liquidAnimating'],
 
   lockSize: function(elt, want) {
     elt.outerWidth(want.width);
@@ -13,9 +12,7 @@ export default Ember.Component.extend(Growable, {
 
   unlockSize: function() {
     var doUnlock = () => {
-      if (!this.isDestroyed) {
-        this.set('liquidAnimating', false);
-      }
+      this.updateAnimatingClass(false);
       var elt = this.$();
       if (elt) {
         elt.css({width: '', height: ''});
@@ -28,8 +25,28 @@ export default Ember.Component.extend(Growable, {
     }
   },
 
+  // We're doing this manually instead of via classNameBindings
+  // because it depends on upward-data-flow, which generates warnings
+  // under Glimmer.
+  updateAnimatingClass(on){
+    if (this.isDestroyed || !this._wasInserted) {
+      return;
+    }
+    if (arguments.length === 0) {
+      on = this.get('liquidAnimating');
+    } else {
+      this.set('liquidAnimating', on);
+    }
+    if (on) {
+      this.$().addClass('liquid-animating');
+    } else {
+      this.$().removeClass('liquid-animating');
+    }
+  },
+
   startMonitoringSize: Ember.on('didInsertElement', function() {
     this._wasInserted = true;
+    this.updateAnimatingClass();
   }),
 
   actions: {
@@ -50,7 +67,7 @@ export default Ember.Component.extend(Growable, {
 
       // Apply '.liquid-animating' to liquid-container allowing
       // any customizable CSS control while an animating is occuring
-      this.set('liquidAnimating', true);
+      this.updateAnimatingClass(true);
     },
 
     afterChildInsertion: function(versions) {
