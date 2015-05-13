@@ -92,26 +92,12 @@ export var OutletBehavior = {
 
 
   setOutletState: function(state) {
-    if (state && state.render && state.render.controller && !state._lf_model) {
-      // This is a hack to compensate for Ember 1.0's remaining use of
-      // mutability within the route state -- the controller is a
-      // singleton whose model will keep changing on us. By locking it
-      // down the first time we see the state, we can more closely
-      // emulate ember 2.0 semantics.
-      //
-      // The Ember 2.0 component attributes shouldn't suffer this
-      // problem and we can eventually drop the hack.
-      state = Ember.copy(state);
-      state._lf_model = get(state.render.controller, 'model');
-    }
-
     if (!this._diffState(state)) {
       var children = this._childOutlets;
       for (var i = 0 ; i < children.length; i++) {
         var child = children[i];
         child.setOutletState(state);
       }
-
     }
   },
 
@@ -122,6 +108,18 @@ export var OutletBehavior = {
     var different = !sameRouteState(this.outletState, state);
 
     if (different) {
+      if (state && state.render && state.render.controller && !state._lf_model) {
+        // This is a hack to compensate for Ember 1.0's remaining use of
+        // mutability within the route state -- the controller is a
+        // singleton whose model will keep changing on us. By locking it
+        // down the first time we see the state, we can more closely
+        // emulate ember 2.0 semantics.
+        //
+        // The Ember 2.0 component attributes shouldn't suffer this
+        // problem and we can eventually drop the hack.
+        state = Ember.copy(state);
+        state._lf_model = get(state.render.controller, 'model');
+      }
       set(this, 'outletState', state);
     }
 
