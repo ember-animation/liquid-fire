@@ -1,5 +1,10 @@
 # Changelog
 
+### 0.20.0
+
+ - Glimmer compatibility: this is the liquid-fire version you want to
+   be using with Ember 1.13 and beyond.
+
 ### 0.19.2
 
  - BUGFIX: fix `class` in containerless mode. (Issue #236)
