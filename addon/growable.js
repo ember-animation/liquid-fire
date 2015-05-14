@@ -33,7 +33,7 @@ export default Ember.Mixin.create({
   },
 
   _durationFor: function(before, after) {
-    return Math.min(this.get('growDuration') || this.constructor.prototype.growDuration, 1000*Math.abs(before - after)/(this.get('growPixelsPerSecond')) || this.constructor.prototype.growPixelsPerSecond);
+    return Math.min(this.get('growDuration') || this.constructor.prototype.growDuration, 1000*Math.abs(before - after)/(this.get('growPixelsPerSecond') || this.constructor.prototype.growPixelsPerSecond));
   }
 
 });
