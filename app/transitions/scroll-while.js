@@ -26,4 +26,4 @@ export default function(nextTransitionName, options, ...rest) {
     window.$.Velocity(el, 'scroll', options),
     nextTransition.apply(this, rest)
   ]);
-};
+}
