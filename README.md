@@ -45,14 +45,14 @@ For Ember 1.13 or newer, use:
 
 For older ember versions, consult the compatibility table above to pick the right liquid-fire version and then install with one of these:
 
-    ember install liquid-fire@^0.19.0
+    ember install liquid-fire@^0.17.0
     ember install liquid-fire@^0.19.0
 
 
 ### Documentation 
 
-Liquid Fire itself is an ember-cli application that runs an
-interactive demo & documentation. [The docs are here](http://ef4.github.io/liquid-fire).
+[Liquid Fire website](http://ef4.github.io/liquid-fire) is an ember-cli application that contains an
+interactive demo & documentation. It runs from Liquid Fire's [test dummy app](https://github.com/ef4/liquid-fire/tree/master/tests/dummy/app).
 
 You can also see some examples in my [Ember Animation Demo](http://github.com/ef4/ember-animation-demo) repo, and this [video presentation from the Boston Ember Meetup](https://www.youtube.com/watch?v=S4M78SO3gAc).
 
