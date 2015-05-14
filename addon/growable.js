@@ -20,6 +20,9 @@ export default Ember.Mixin.create({
   },
 
   _adaptDimension: function(elt, dimension, have, want) {
+    if (have[dimension] === want[dimension]) {
+      return Promise.resolve();
+    }
     var target = {};
     target['outer'+capitalize(dimension)] = [
       want[dimension],
