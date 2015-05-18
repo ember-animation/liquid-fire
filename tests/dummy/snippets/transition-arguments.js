@@ -1,7 +1,7 @@
 /* app/transitions/my-animation.js */
 export default function(color, opts) {
   //...
-});
+}
 
 /* within app/transitions.js */
 this.transition(
