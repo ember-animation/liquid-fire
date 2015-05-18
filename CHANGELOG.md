@@ -1,5 +1,15 @@
 # Changelog
 
+### 0.19.4
+
+ - minor improvements to `fly-to` and `explode`
+ - better compatibility with content security policy
+
+### 0.19.3
+
+ - improvements to `explode` transition
+ - BUGFIX for #239
+
 ### 0.19.2
 
  - BUGFIX: fix `class` in containerless mode. (Issue #236)
