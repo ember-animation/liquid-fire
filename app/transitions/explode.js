@@ -145,12 +145,16 @@ function matchAndExplode(context, piece, seen) {
 
   // use the fastest selector available
   var selector;
+
   if (piece.matchBy === 'id') {
     selector = (attrValue) => { return `#${attrValue}`; };
   } else if (piece.matchBy === 'class') {
     selector = (attrValue) => { return `.${attrValue}`; };
   } else {
-    selector = (attrValue) => { return `[${piece.matchBy}=${attrValue}]`; };
+    selector = (attrValue) => {
+      var escapedAttrValue = attrValue.replace(/'/g, "\\'");
+      return `[${piece.matchBy}='${escapedAttrValue}']`;
+    };
   }
 
   var hits = Ember.A(context.oldElement.find(`[${piece.matchBy}]`).toArray());
