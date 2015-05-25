@@ -1,7 +1,7 @@
 import Ember from "ember";
 import Modal from "./modal";
 
-export default Ember.Controller.extend({
+export default Ember.Service.extend({
   needs: ['application'],
 
   setup: Ember.on('init', function() {

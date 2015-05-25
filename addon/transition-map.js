@@ -5,7 +5,7 @@ import Action from "./action";
 import internalRules from "./internal-rules";
 import Constraints from "./constraints";
 
-var TransitionMap = Ember.Object.extend({
+var TransitionMap = Ember.Service.extend({
   init: function() {
     this.activeCount = 0;
     this.constraints = new Constraints();
