@@ -1,5 +1,14 @@
 # Changelog
 
+### 0.20.1
+
+ - PR #293 byjimnanney: matchBy data elements whose value needs quotes
+ - PR #294 from salzhrani: Canary expects services to be a subclass of Ember.Service
+ - PR #288 from raycohen: documentation fix
+ - PR #241 from albertodotcom: improved explode
+ - PR #284 from lolmaus: documentation
+ - PR #291 from jrjohnson: documentation
+ 
 ### 0.20.0
 
  - Glimmer compatibility: this is the liquid-fire version you want to
