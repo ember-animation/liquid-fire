@@ -35,7 +35,7 @@ and shrinking a container, whenever the stuff inside changes.</p>
 {{!- BEGIN-SNIPPET liquid-spacer-demo -}}
 <div id="liquid-spacer-demo">
   <label>{{input type="checkbox" checked=showLongMessage}} Show Long Message</label>
-  {{#liquid-spacer}}
+  {{#liquid-spacer growDuration=250}}
     {{#if showLongMessage}}
       {{longMessage}}
     {{else}}
