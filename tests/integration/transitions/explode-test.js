@@ -236,6 +236,36 @@ test("it can matchBy data attribute", function(assert) {
   return tmap.waitUntilIdle();
 });
 
+test("it can matchBy data elements whose value needs quotes", function(assert) {
+  expect(4);
+  tmap.map(function() {
+    this.transition(
+      this.hasClass('explode-transition-test'),
+      this.use('explode', {
+        matchBy: 'data-model-name',
+        use: function() {
+          var oldText = this.oldElement && this.oldElement.text();
+          var newText = this.newElement && this.newElement.text();
+          assert.ok(/Old/.test(oldText), "old text");
+          assert.ok(/New/.test(newText), "new text");
+          return Ember.RSVP.resolve();
+        }
+      })
+    );
+  });
+  this.render(`
+              {{#liquid-if otherMode class="explode-transition-test"}}
+                <div data-model-name="Smith, Granny">New One</div>
+                <div data-model-name="Appleseed, Johnny's">New Two</div>
+              {{else}}
+                <div data-model-name="Smith, Granny">Old One</div>
+                <div data-model-name="Appleseed, Johnny's">Old Two</div>
+              {{/liquid-if}}
+              `);
+  this.set('otherMode', true);
+  return tmap.waitUntilIdle();
+});
+
 test("matchBy only animates when both sides match", function(assert) {
   expect(0);
   tmap.map(function() {
