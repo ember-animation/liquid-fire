@@ -99,8 +99,8 @@ export function registerKeywords() {
       return { outletState: { [ outletName ] : outletState }};
     },
 
-    childEnv(state) {
-      return { outletState: state.outletState };
+    childEnv(state, env) {
+      return env.childWithOutletState(state.outletState);
     },
 
     render(renderNode, env, scope, params, hash, template, inverse, visitor) {
