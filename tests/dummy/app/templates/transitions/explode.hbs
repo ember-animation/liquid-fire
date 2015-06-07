@@ -43,7 +43,7 @@ and then below we document all the options in detail.</p>
 <div id="explode-demo-2">
   <button {{action "shuffle"}}>Shuffle</button>
   {{#liquid-with photos as |photosVersion|}}
-    {{#each photosVersion as |photo|}}
+    {{#each photosVersion key="id" as |photo|}}
       <img data-photo-id={{photo.id}} src={{{photo.url}}}>
     {{/each}}
   {{/liquid-with}}

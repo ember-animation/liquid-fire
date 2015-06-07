@@ -3,7 +3,7 @@
 
 {{#liquid-spacer id="spacer-test"}}
   <ol>
-  {{#each thing in things}}
+  {{#each things key="number" as |thing|}}
     <li>{{thing.number}}</li>
   {{/each}}
   </ol>
