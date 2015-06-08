@@ -4,6 +4,7 @@ import moduleForIntegration from "../../helpers/module-for-integration";
 import { test } from "ember-qunit";
 import QUnit from 'qunit';
 import { testingKick } from "liquid-fire/mutation-observer";
+import LiquidSpacer from "liquid-fire/components/liquid-spacer";
 
 var tmap;
 
@@ -14,6 +15,30 @@ moduleForIntegration('Integration: liquid-spacer', {
   teardown: function() {
     tmap = null;
   }
+});
+
+test('it should animate', function(assert) {
+  var theSpacer;
+  this.registry.register('component:x-spacer', LiquidSpacer.extend({
+    didInsertElement() {
+      this._super();
+      theSpacer = this;
+    }
+  }));
+  this.set('message', longMessage);
+  this.render(`
+               {{#x-spacer id="my-spacer" growDuration=1 }}
+                 {{message}}
+               {{/x-spacer}}
+              `);
+
+  sinon.spy(theSpacer, 'animateGrowth');
+  this.set('message', shortMessage);
+  testingKick();
+  return tmap.waitUntilIdle().then(() => {
+    let [, have, want] = theSpacer.animateGrowth.lastCall.args;
+    assert.ok(want.height < have.height);
+  });
 });
 
 ['content-box', 'border-box'].forEach(function(boxSizing) {
