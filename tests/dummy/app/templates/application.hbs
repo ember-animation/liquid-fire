@@ -28,7 +28,7 @@
     </div>
 
     <ul>
-      {{#each entry in tableOfContents}}
+      {{#each tableOfContents key="route" as |entry|}}
       <li>
         {{#if entry.route}}
           {{#link-to entry.route}}{{entry.title}}{{/link-to}}
@@ -38,7 +38,7 @@
 
         {{#if entry.children}}
           <ul>
-          {{#each child in entry.children}}
+          {{#each entry.children key="route" as |child|}}
             <li>
               {{#if child.route}}
                 {{#link-to child.route}}{{child.title}}{{/link-to}}

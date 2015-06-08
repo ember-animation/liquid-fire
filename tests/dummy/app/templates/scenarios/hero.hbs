@@ -17,7 +17,7 @@
 <button {{action "restoreModels"}}>Reset</button>
 
 {{#liquid-with sortedModels class="hero-sort" as |currentModels|}}
-  {{#each currentModels as |model|}}
+  {{#each currentModels key="id" as |model|}}
     <div {{action "deleteModel" model}} data-model-id={{model.id}}>{{model.firstName}} {{model.lastName}}</div>
   {{/each}}
 {{/liquid-with}}

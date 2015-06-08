@@ -1,5 +1,18 @@
 # Changelog
 
+### 0.20.4
+
+ - Shouldn't have hit publish on 0.20.3 until waiting for travis to go
+   green. :-p
+
+### 0.20.3
+
+ - Bugfix for liquid-spacer (#302)
+
+### 0.20.2
+
+ - Update to match a changed private API in Ember.
+
 ### 0.20.1
 
  - PR #293 byjimnanney: matchBy data elements whose value needs quotes
