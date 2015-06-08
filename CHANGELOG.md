@@ -1,5 +1,10 @@
 # Changelog
 
+### 0.20.4
+
+ - Shouldn't have hit publish on 0.20.3 until waiting for travis to go
+   green. :-p
+
 ### 0.20.3
 
  - Bugfix for liquid-spacer (#302)

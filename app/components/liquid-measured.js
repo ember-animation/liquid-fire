@@ -1,1 +1,1 @@
-export { default } from "liquid-fire/components/liquid-measured";
+export { default, measure } from "liquid-fire/components/liquid-measured";
