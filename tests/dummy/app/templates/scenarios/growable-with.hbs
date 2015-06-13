@@ -1,7 +1,7 @@
 <div id="growable-with-scenario" >
   <label>{{input type="checkbox" checked=otherState}} Swap Em</label>
 
-  {{#liquid-with myThing as m use="to-left" }}
+  {{#liquid-bind myThing use="to-left" as |m|}}
     {{m.description}}
-  {{/liquid-with}}
+  {{/liquid-bind}}
 </div>

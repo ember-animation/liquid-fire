@@ -4,11 +4,8 @@
   <dt>{{#link-to "helpers-documentation.liquid-outlet"}}\{{#liquid-outlet}}{{/link-to}}</dt>
   <dd>Transitions between routes.</dd>
 
-  <dt>{{#link-to "helpers-documentation.liquid-with"}}\{{#liquid-with}}{{/link-to}}</dt>
-  <dd>Transitions between models or contexts within a single route.</dd>
-
   <dt>{{#link-to "helpers-documentation.liquid-bind"}}\{{#liquid-bind}}{{/link-to}}</dt>
-  <dd>Updates to simple bound values.</dd>
+  <dd>Transitions between models or other values within a single route.</dd>
 
   <dt>{{#link-to "helpers-documentation.liquid-if"}}\{{#liquid-if}}{{/link-to}}</dt>
   <dd>Switching between true and false branches in an #if statement.</dd>
@@ -28,7 +25,7 @@ options:</p>
   <li>Each helper is a semantic drop-in replacement for the
   corresponding normal Ember helper.</li>
 
-  <li><em>Except</em> they generate DOM elements: 
+  <li><em>Except</em> they generate DOM elements:
     <ul>
       <li> a <code>&lt;div class="liquid-container"&gt;</code> to
         serve as a container for animations. It

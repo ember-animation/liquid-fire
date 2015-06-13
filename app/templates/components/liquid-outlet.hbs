@@ -1,5 +1,5 @@
 {{~#get-outlet-state outletName as |outletState|~}}
-  {{#liquid-with outletState
+  {{#liquid-bind outletState
       id=id
       class=class
       use=use
@@ -15,5 +15,5 @@
         {{outlet outletName}}
       {{~/set-outlet-state}}
 
-  {{~/liquid-with~}}
+  {{~/liquid-bind~}}
 {{/get-outlet-state}}

@@ -184,9 +184,9 @@ test('tolerates empty content when parent outlet is stable', function(assert) {
   assert.equal(this.$().text().trim(), 'ACfooDEB');
 });
 
-test('outlets inside {{liquid-with}}', function(assert) {
+test('outlets inside {{liquid-bind}}', function(assert) {
 
-  var routerState = withTemplate("{{#liquid-with thing as |thingVersion|}}{{thingVersion}}{{outlet}}{{/liquid-with}}");
+  var routerState = withTemplate("{{#liquid-bind thing as |thingVersion|}}{{thingVersion}}{{outlet}}{{/liquid-bind}}");
   routerState.outlets.main = withTemplate("Hello");
   routerState.render.controller = Ember.Object.create({
     thing: 'Goodbye'

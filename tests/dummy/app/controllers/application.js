@@ -11,8 +11,8 @@ export default Ember.Controller.extend({
       { route: "helpers-documentation", title: "Template Helpers",
         children: [
           {route: "helpers-documentation.liquid-outlet", title: "liquid-outlet"},
-          {route: "helpers-documentation.liquid-with", title: "liquid-with"},
-          {route: "helpers-documentation.liquid-bind", title: "liquid-bind"},
+          {route: "helpers-documentation.liquid-bind", title: "liquid-bind (inline form)"},
+          {route: "helpers-documentation.liquid-bind-block", title: "liquid-bind (block form)"},
           {route: "helpers-documentation.liquid-if", title: "liquid-if"},
           {route: "helpers-documentation.liquid-spacer", title: "liquid-spacer"},
         ]

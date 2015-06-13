@@ -19,13 +19,6 @@ including named outlets (like <code>\{{liquid-outlet "sidebar"}}</code>).</p>
 <p>Use this when you want to animate the transitions between
 routes.</p>
 
-<div class="callout callout-danger"><code>\{{liquid-outlet}}</code>
-can animate between two different models on the same route. But due to
-Ember 1.x's singleton controllers, we cannot prevent the old view from
-instantly rerendering to reflect the new model. This limiation will be
-lifted in Ember 2.0. If you want perfect model-to-model transitions
-now, you can use {{#link-to
-"helpers-documentation.liquid-with"}}\{{#liquid-with}}{{/link-to}}.</div>
 
 <h3>Demo</h3>
 

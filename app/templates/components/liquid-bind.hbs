@@ -1,8 +1,13 @@
 {{#if containerless}}
   {{~#liquid-versions value=attrs.value use=use
                      name="liquid-bind" renderWhenFalse=true class=class as |version| ~}}
-    {{~version ~}}
-  {{/liquid-versions ~}}
+    {{~#if hasBlock}}
+      {{~yield version ~}}
+    {{else}}
+      {{~version ~}}
+    {{/if~}}
+
+{{/liquid-versions ~}}
 {{else}}
   {{~#liquid-container
       id=id
@@ -14,7 +19,13 @@
       as |container| ~}}
     {{~#liquid-versions value=attrs.value notify=container use=use
                        name="liquid-bind" renderWhenFalse=true as |version| ~}}
-      {{~version ~}}
+
+      {{~#if hasBlock}}
+        {{~yield version ~}}
+      {{else}}
+        {{~version ~}}
+      {{/if~}}
+
     {{/liquid-versions ~}}
   {{/liquid-container ~}}
 {{/if}}

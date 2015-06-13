@@ -60,8 +60,8 @@ test('liquid outlet demo', function() {
   });
 });
 
-test('liquid with demo', function() {
-  visit('/helpers/liquid-with');
+test('liquid bind block-form demo', function() {
+  visit('/helpers/liquid-bind-block');
   andThen(function(){
     ok(/\b1\b/.test(find('.demo-container').text()), 'Has 1');
     noTransitionsYet();

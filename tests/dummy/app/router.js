@@ -13,10 +13,10 @@ Router.map(function() {
     this.route('liquid-outlet', function(){
       this.route('other');
     });
-    this.route('liquid-with', function(){
+    this.route('liquid-bind');
+    this.route('liquid-bind-block', function(){
       this.route('page', { path: '/:id' });
     });
-    this.route('liquid-bind');
     this.route('liquid-if');
     this.route('liquid-spacer');
   });

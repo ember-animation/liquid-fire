@@ -1,0 +1,33 @@
+<h2>\{{#liquid-bind}} with a block</h2>
+
+<p>If you pass a block to \{{#liquid-bind}}, each new version of your
+bound value will cause the block to render</p>
+
+<h3>When to use it</h3>
+
+<p>Use this when you want to animate the transitions between
+different models on the same route.</p>
+
+<h3>Demo</h3>
+
+<p>Notice that the ID being rendered maps correctly to the URL in both
+directions.</p>
+
+{{!- BEGIN-SNIPPET with-demo -}}
+
+{{#liquid-bind model use="rotateBelow" class="demo-container" as |currentModel|}}
+  {{currentModel.id}}
+  <button {{action "higher" currentModel}}>Go</button>
+{{/liquid-bind}}
+
+{{!- END-SNIPPET -}}
+
+<h4>Template</h4>
+
+{{code-snippet name="with-demo.hbs"}}
+
+<h4>Transition Implementation</h4>
+
+<p>This appears in <code>app/transitions/rotate-below.js</code>:</p>
+
+{{code-snippet name="rotate-below.js"}}
