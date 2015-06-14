@@ -24,3 +24,4 @@ script:
 env:
   matrix:
     - EMBER_TRY_SCENARIO=ember-canary
+    - EMBER_TRY_SCENARIO=ember-beta
