@@ -10,7 +10,7 @@ var registerKeyword = require('ember-htmlbars/keywords').registerKeyword;
 var Stream = require('ember-metal/streams/stream').default;
 var isStable = require('ember-htmlbars/keywords/real_outlet').default.isStable;
 
-// Given an Ember.View, return the containing element
+// Given an Ember Component, return the containing element
 export function containingElement(view) {
   return view._renderNode.contextualElement;
 }

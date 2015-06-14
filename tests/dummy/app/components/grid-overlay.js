@@ -37,7 +37,7 @@ function toggleGrid(leading, leading_offset) {
   }
 }
 
-export default Ember.View.extend({
+export default Ember.Component.extend({
   didInsertElement: function(){
     $(document).bind('keydown', function(e){
       // Ctrl-Alt-g shows vertical rhythm
