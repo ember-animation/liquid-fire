@@ -74,7 +74,7 @@ test('liquid bind block-form demo', function() {
 });
 
 test('liquid bind demo', function() {
-  var first, second, self = this;
+  var first, second;
   function clock() {
     var m = /(\d\d)\s*:\s*(\d\d)\s*:\s*(\d\d)/.exec($('#liquid-bind-demo').text());
     ok(m, "Read the clock");

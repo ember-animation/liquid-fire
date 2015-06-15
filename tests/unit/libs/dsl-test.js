@@ -197,9 +197,6 @@ test("matches between models", function(){
     );
   });
 
-  var aThing = { isThing: true};
-  var notAThing = { isThing: false };
-
   expectAnimation(models({isThing: true}, {isThing: true}), dummyAction, 'both match');
 
   expectNoAnimation(models(null, {isThing: true}), 'empty source');

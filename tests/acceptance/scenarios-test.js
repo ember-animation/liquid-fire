@@ -1,9 +1,7 @@
-/* global ranTransition, noTransitionsYet */
+/* global ranTransition */
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
-import { injectTransitionSpies,
-         classFound,
-         clickWithoutWaiting } from '../helpers/integration';
+import { injectTransitionSpies } from '../helpers/integration';
 
 var App;
 

@@ -19,7 +19,7 @@ Ember.Test.registerHelper(
 
 Ember.Test.registerHelper(
   'noTransitionsYet',
-  function(app, name) {
+  function(app) {
     var tmap = transitionMap(app);
     var ranTransitions = Ember.A(tmap.transitionFor.returnValues);
     ok(!ranTransitions.any((transition) => transition.animation !== tmap.defaultAction()), 'expected no transitions');

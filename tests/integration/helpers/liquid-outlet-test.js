@@ -1,7 +1,6 @@
 /* global sinon */
 import Ember from "ember";
-import moduleForIntegration from "../../helpers/module-for-integration";
-import { test } from "ember-qunit";
+import { test, moduleForComponent } from "ember-qunit";
 import { withTemplate } from "../../helpers/outlet";
 import QUnit from 'qunit';
 
@@ -14,7 +13,8 @@ function setOutletState(state) {
   });
 }
 
-moduleForIntegration('Integration: liquid-outlet', {
+moduleForComponent('Integration: liquid-outlet', {
+  integration: true,
   setup: function() {
     controller = Ember.Controller.create();
     topState = {
@@ -27,7 +27,7 @@ moduleForIntegration('Integration: liquid-outlet', {
     this.render = function(template) {
       topState = withTemplate(template);
       topState.render.controller = controller;
-      topState.render.ViewClass = Ember.View.extend({
+      topState.render.ViewClass = Ember.Component.extend({
         didInsertElement() {
           stageView = this;
         }

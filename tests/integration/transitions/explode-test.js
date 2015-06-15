@@ -1,13 +1,11 @@
-/* global sinon */
 import Ember from "ember";
-import moduleForIntegration from "../../helpers/module-for-integration";
-import { test } from "ember-qunit";
-import QUnit from 'qunit';
+import { test, moduleForComponent } from "ember-qunit";
 
 var Promise = Ember.RSVP.Promise;
 var tmap;
 
-moduleForIntegration('Integration: explode transition', {
+moduleForComponent('Integration: explode transition', {
+  integration: true,
   setup: function() {
     tmap = this.container.lookup('service:liquid-fire-transitions');
   },
@@ -16,7 +14,7 @@ moduleForIntegration('Integration: explode transition', {
   }
 });
 
-test(`it doesn't runs parts with no matching elements`, function(assert) {
+test(`it doesn't runs parts with no matching elements`, function() {
   expect(0);
   tmap.map(function() {
     this.transition(
@@ -266,7 +264,7 @@ test("it can matchBy data elements whose value needs quotes", function(assert) {
   return tmap.waitUntilIdle();
 });
 
-test("matchBy only animates when both sides match", function(assert) {
+test("matchBy only animates when both sides match", function() {
   expect(0);
   tmap.map(function() {
     this.transition(
