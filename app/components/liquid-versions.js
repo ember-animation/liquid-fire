@@ -42,7 +42,6 @@ export default Ember.Component.extend({
       value: newValue,
       shouldRender: newValue || get(this, 'renderWhenFalse')
     };
-    newVersion.guid = Ember.guidFor(newVersion);
     versions.unshiftObject(newVersion);
 
     this.firstTime = firstTime;
