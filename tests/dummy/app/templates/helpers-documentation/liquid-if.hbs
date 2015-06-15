@@ -22,7 +22,7 @@ the transition rules.</p>
 {{!- BEGIN-SNIPPET liquid-box-demo -}}
 <div id="liquid-box-demo">
   <label>I'm renting a </label>
-  {{view "select" value=vehicle content=vehicles}}
+  {{simple-select value=vehicle choices=vehicles}}
 
   {{#liquid-if isBike class="vehicles"}}
     <label>
@@ -32,7 +32,7 @@ the transition rules.</p>
     <label>License Number</label>
     {{input type="text" value=license}}
     <label>License State</label>
-    {{view "select" value=state content=states}}
+    {{simple-select value=state choices=states}}
   {{/liquid-if}}
 
   <button type="button" class="btn btn-success">Yay, let's go!</button>
