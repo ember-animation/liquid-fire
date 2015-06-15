@@ -1,5 +1,25 @@
 # Changelog
 
+### master
+
+ - ENHANCEMENT: liquid-bind in block form
+
+    `liquid-bind` can now accept a block, in which case it will yield
+    it's value to the block, and allow you to animate the whole block
+    when the value changes. This is the best way to animate
+    model-to-model transitions.
+
+ - DEPRECATED: liquid-with
+
+    `liquid-with` was originally named because it matched Ember's
+    normal `with` helper. But the normal `with` helper lost much of
+    its raison d'être when it's scope-shifting forms were
+    deprecated, and I don't expect most new Ember users to ever encounter it.
+
+    Therefore, I'm deprecating `liquid-with` in favor of using
+    `liquid-bind` in block form, because I think `liquid-bind` reads
+    better.
+
 ### 0.20.4
 
  - Shouldn't have hit publish on 0.20.3 until waiting for travis to go
