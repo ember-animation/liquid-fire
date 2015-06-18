@@ -185,11 +185,14 @@ function sameRouteState(a, b) {
 // This lets us invoke an outlet with an explicitly passed outlet
 // state, rather than inheriting it implicitly from its context.
 export var StaticOutlet = Ember.OutletView.superclass.extend({
-  tagName: '',
+  //tagName: '',
 
   setStaticState: Ember.on('init', Ember.observer('staticState', function() {
     this.setOutletState(this.get('staticState'));
-  }))
+  })),
+  onWillDestroy: Ember.on('willDestroyElement', function(){
+    this.$().removeData();
+  })
 });
 
 // Finds the route name from a route state so we can apply our

@@ -86,6 +86,7 @@ export default Ember.Component.extend(Growable, {
         goStatic(versions[i]);
       }
       this.unlockSize();
+      $(this.$()).removeData('velocity');
     }
   }
 });

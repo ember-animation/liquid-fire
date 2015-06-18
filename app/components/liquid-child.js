@@ -13,5 +13,8 @@ export default Ember.Component.extend({
 
   tellContainerWeRendered: Ember.on('didInsertElement', function(){
     this.sendAction('didRender', this);
+  }),
+  onWillDestroy: Ember.on('willDestroyElement', function(){
+    this.$().removeData();
   })
 });
