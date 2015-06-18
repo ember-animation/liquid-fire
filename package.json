@@ -23,7 +23,7 @@
     "ember-cli-babel": "4.1.0",
     "ember-cli-htmlbars": "^0.7.4",
     "ember-cli-version-checker": "^1.0.2",
-    "velocity-animate": ">= 0.11.8"
+    "velocity-animate": "git+https://github.com/nonmanifold/velocity"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.0",
