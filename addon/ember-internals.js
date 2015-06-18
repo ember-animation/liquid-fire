@@ -8,7 +8,9 @@ var require = Ember.__loader.require;
 var internal = require('htmlbars-runtime').internal;
 var registerKeyword = require('ember-htmlbars/keywords').registerKeyword;
 var Stream = require('ember-metal/streams/stream').default;
+var KeyStream = require('ember-metal/streams/key-stream').default;
 var isStable = require('ember-htmlbars/keywords/real_outlet').default.isStable;
+var componentKeyword = require('ember-htmlbars/keywords/component').default;
 
 // Given an Ember Component, return the containing element
 export function containingElement(view) {
@@ -44,6 +46,26 @@ function withLockedModel(outletState) {
     outletState._lf_model = c.get('model');
   }
   return outletState;
+}
+
+function extendedComponentKeyword() {
+  var keyword = Ember.copy(componentKeyword);
+  var origRender = keyword.render;
+  keyword.render = function(morph, env, scope, params, hash, template, inverse, visitor) {
+    if (hash.attrs) {
+      let attrsStream = hash.attrs;
+      let attrs = env.hooks.getValue(attrsStream);
+      hash = Ember.copy(hash);
+      delete hash.attrs;
+      for (let key in attrs) {
+        if (attrs.hasOwnProperty(key)) {
+          hash[key] = new KeyStream(attrsStream, key);
+        }
+      }
+    }
+    return origRender(morph, env, scope, params, hash, template, inverse, visitor);
+  };
+  return keyword;
 }
 
 export function registerKeywords() {
@@ -114,5 +136,6 @@ export function registerKeywords() {
     }
   });
 
+  registerKeyword('lf-component', extendedComponentKeyword());
 
 }
