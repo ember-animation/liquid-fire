@@ -48,10 +48,9 @@ function withLockedModel(outletState) {
   return outletState;
 }
 
-function extendedComponentKeyword() {
-  var keyword = Ember.copy(componentKeyword);
-  var origRender = keyword.render;
-  keyword.render = function(morph, env, scope, params, hash, template, inverse, visitor) {
+
+function splat(orig){
+  return function(morph, env, scope, params, hash, template, inverse, visitor) {
     if (hash.attrs) {
       let attrsStream = hash.attrs;
       let attrs = env.hooks.getValue(attrsStream);
@@ -63,8 +62,16 @@ function extendedComponentKeyword() {
         }
       }
     }
-    return origRender(morph, env, scope, params, hash, template, inverse, visitor);
+    return orig(morph, env, scope, params, hash, template, inverse, visitor);
   };
+}
+
+function extendedComponentKeyword() {
+  var keyword = Ember.copy(componentKeyword);
+  var origRender = keyword.render;
+  var origReRender = keyword.rerender;
+  keyword.render = splat(origRender);
+  keyword.rerender = splat(origReRender);
   return keyword;
 }
 
