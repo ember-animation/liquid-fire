@@ -1,7 +1,7 @@
 {{#liquid-versions name="liquid-modal" value=currentContext renderWhenFalse=false as |cc|}}
   {{#lm-container action="escape" clickAway="outsideClick"}}
     <div class="lf-dialog {{cc.options.dialogClass}}" role="dialog" aria-labelledby={{cc.options.ariaLabelledBy}} aria-label={{cc.options.ariaLabel}}>
-      {{view cc.view dismiss="dismiss"}}
+      {{lf-vue cc.view dismiss="dismiss"}}
     </div>
   {{/lm-container}}
   {{lf-overlay}}
