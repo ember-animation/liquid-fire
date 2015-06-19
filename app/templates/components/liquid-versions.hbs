@@ -1,4 +1,4 @@
-{{#each versions key="@guid" as |version| ~}}
+{{#each versions key="@identity" as |version| ~}}
   {{#if version.shouldRender ~}}
     {{#liquid-child version=version didRender="childDidRender" class=class ~}}
       {{yield version.value ~}}
