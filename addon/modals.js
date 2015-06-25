@@ -2,17 +2,22 @@ import Ember from "ember";
 import Modal from "./modal";
 
 export default Ember.Service.extend({
-  needs: ['application'],
+  // needs: ['application'],
 
   setup: Ember.on('init', function() {
 
     this.set('modalContexts', Ember.A());
     this.set('modals', Ember.A());
 
-    var modalConfigs = this.container.lookup('router:main').router.modals;
+    var router = this.container.lookup('router:main');
+    var controller = this.container.lookup('controller:application');
+    var modalConfigs = router.router.modals;
     if (modalConfigs && modalConfigs.length > 0) {
       var self = this;
       modalConfigs.forEach(function(m){ self.registerModal(m); });
+      router.on('didTransition', function() {
+        self.set('currentRoute', controller.get('currentRouteName'));
+      });
     }
   }),
 
@@ -31,7 +36,7 @@ export default Ember.Service.extend({
     );
   },
 
-  currentRoute: Ember.computed.alias('controllers.application.currentRouteName'),
+  // currentRoute: Ember.computed.alias('controllers.application.currentRouteName'),
 
   activeRouteNames: Ember.computed('currentRoute', function() {
     var infos = this.container.lookup('router:main').router.currentHandlerInfos;
