@@ -36,3 +36,11 @@ this.transition(
       });
   })
 );
+
+// This declares two equivalent rules: "from foo to bar use fade" and
+// "from bar to foo use fade".
+this.transition(
+  this.fromRoute('foo'),
+  this.toRoute('bar'),
+  this.useAndReverse('fade')
+);
