@@ -118,9 +118,9 @@ export default class Constraints {
   }
 
   logDebugRules(matched, context, target, value) {
-    Ember.A(Ember.keys(context)).forEach((setKey) => {
+    Ember.A(Object.keys(context)).forEach((setKey) => {
       var set = context[setKey];
-      Ember.A(Ember.keys(set)).forEach((ruleKey) => {
+      Ember.A(Object.keys(set)).forEach((ruleKey) => {
         var rule = set[ruleKey];
         if (rule.debug && !matched[Ember.guidFor(rule)]) {
           console.log(`${describeRule(rule)} rejected because ${target} was`, ...value);
@@ -183,7 +183,7 @@ function conditionAccessor(conditions, key) {
 function intersection(sets) {
   var source = sets[0];
   var rest = sets.slice(1);
-  var keys = Ember.keys(source);
+  var keys = Object.keys(source);
   var keysLength = keys.length;
   var restLength = rest.length;
   var result = [];
@@ -208,7 +208,7 @@ function union(sets) {
   var output = {};
   for (var i = 0; i < setsLength; i++) {
     var set = sets[i];
-    var keys = Ember.keys(set);
+    var keys = Object.keys(set);
     for (var j = 0; j < keys.length; j++) {
       var key = keys[j];
       output[key] = set[key];
@@ -235,4 +235,4 @@ function highestPriority(rules) {
   return best;
 }
 
-var constrainableKeys = Ember.A(Ember.keys(constrainables));
+var constrainableKeys = Ember.A(Object.keys(constrainables));
