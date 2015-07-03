@@ -9,7 +9,7 @@ Router.map(function() {
 
   /* Interactive Documentation */
   this.route('installation');
-  this.resource("helpers-documentation", { path: 'helpers'}, function(){
+  this.route("helpers-documentation", { path: 'helpers'}, function(){
     this.route('liquid-outlet', function(){
       this.route('other');
     });
@@ -21,7 +21,7 @@ Router.map(function() {
     this.route('liquid-spacer');
   });
 
-  this.resource('transition-map', function(){
+  this.route('transition-map', function(){
     this.route('route-constraints');
     this.route('value-constraints');
     this.route('dom-constraints');
@@ -30,7 +30,7 @@ Router.map(function() {
     this.route('debugging-constraints');
   });
 
-  this.resource('transitions', function(){
+  this.route('transitions', function(){
     this.route('predefined');
     this.route('explode');
     this.route('defining');
@@ -40,7 +40,7 @@ Router.map(function() {
     });
   });
 
-  this.resource("modal-documentation", { path: 'modals'}, function(){
+  this.route("modal-documentation", { path: 'modals'}, function(){
     this.route('modal');
     this.route('component');
     this.route('animation');
@@ -65,7 +65,7 @@ Router.map(function() {
 
   /* Test Scenarios */
 
-  this.resource('scenarios', function() {
+  this.route('scenarios', function() {
     this.route('inline');
     this.route('inline-serial');
     this.route('empty-if');
