@@ -55,6 +55,7 @@ export default Ember.Component.extend(Growable, {
 
     afterChildInsertion: function(versions) {
       var elt = this.$();
+      var enableGrowth = this.get('enableGrowth') !== false;
 
       // Measure  children
       var sizes = [];
@@ -70,7 +71,14 @@ export default Ember.Component.extend(Growable, {
       var have = this._cachedSize || want;
 
       // Make ourself absolute
-      this.lockSize(elt, have);
+      if (enableGrowth) {
+        this.lockSize(elt, have);
+      } else {
+        this.lockSize(elt, {
+          height: Math.max(want.height, have.height),
+          width: Math.max(want.width, have.width),
+        });
+      }
 
       // Make the children absolute and fixed size.
       for (i = 0; i < versions.length; i++) {
@@ -78,7 +86,9 @@ export default Ember.Component.extend(Growable, {
       }
 
       // Kick off our growth animation
-      this._scaling = this.animateGrowth(elt, have, want);
+      if (enableGrowth) {
+        this._scaling = this.animateGrowth(elt, have, want);
+      }
     },
 
     afterTransition: function(versions) {
