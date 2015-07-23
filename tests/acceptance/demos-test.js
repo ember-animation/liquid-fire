@@ -266,6 +266,20 @@ test('warn-popup - dismiss with url', function() {
   });
 });
 
+test('modal demo after navigation', function() {
+  visit('/');
+  visit('/modals');
+  click('#basic-modal-demo button');
+  andThen(function(){
+    findWithAssert('.hello-modal');
+    click('.hello-modal button.done');
+  });
+  andThen(function(){
+    equal(find('.hello-modal').length, 0, "dismissed hello-modal");
+  });
+});
+
+
 test('explode demo 1', function() {
   visit('/transitions/explode');
   andThen(function(){

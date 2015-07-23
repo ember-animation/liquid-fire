@@ -31,9 +31,11 @@ export default Ember.Service.extend({
     );
   },
 
-  currentRoute: Ember.computed.alias('routing.currentRouteName'),
+  activeRouteNames: Ember.computed('routing.currentRouteName', function() {
+    // We need this to force the right observers to all be in place
+    // for invalidation, even though we aren't use it directly.
+    this.get('routing.currentRouteName');
 
-  activeRouteNames: Ember.computed('currentRoute', function() {
     var infos = this.container.lookup('router:main').router.currentHandlerInfos;
     if (infos) {
       return infos.map(function(h){  return h.name;  });
