@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.19.5
+
+ - BUGFIX: PR #335 by jamesreggio: respect enableGrowth=false
+
 ### 0.19.4
 
  - minor improvements to `fly-to` and `explode`
