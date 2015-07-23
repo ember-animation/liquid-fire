@@ -31,7 +31,7 @@ correct version of liquid-fire:
 | -----------------|----------------------| ---------------------|
 | 1.8 through 1.10 | oldstable            | 0.17                 |
 | 1.11 through 1.12| stable               | 0.19                 |
-| 1.13 and beyond  | master               | 0.20                 |
+| 1.13 and beyond  | master               | 0.21                 |
 
 `stable` and `oldstable` branches still receive bugfixes and PRs are
 welcome, but new feature work happens on `master`.

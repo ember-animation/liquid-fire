@@ -1,6 +1,6 @@
 # Changelog
 
-### master
+### 0.21.0
 
  - ENHANCEMENT: liquid-bind in block form
 
@@ -19,6 +19,12 @@
     Therefore, I'm deprecating `liquid-with` in favor of using
     `liquid-bind` in block form, because I think `liquid-bind` reads
     better.
+
+ - BUGFIX: made liquid-modals fully compatible with Ember 1.13.
+ - BUGFIX: clean up many uses of deprecated Ember APIs
+ - PR #334 from jamesreggio: respect enableGrowth=false
+ - PR #322 from machty: Ember.keys deprecation
+ - PR #321 from EricSchank: Document useAndReverse
 
 ### 0.20.4
 
