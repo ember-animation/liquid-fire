@@ -9,7 +9,12 @@ var internal = require('htmlbars-runtime').internal;
 var keyword = require('htmlbars-runtime').hooks.keyword;
 var registerKeyword = require('ember-htmlbars/keywords').registerKeyword;
 var Stream = require('ember-metal/streams/stream').default;
-var isStable = require('ember-htmlbars/keywords/real_outlet').default.isStable;
+var isStable;
+try {
+  isStable = require('ember-htmlbars/keywords/real_outlet').default.isStable;
+} catch (err) {
+  isStable = require('ember-htmlbars/keywords/outlet').default.isStable;
+}
 
 // Given an Ember Component, return the containing element
 export function containingElement(view) {
