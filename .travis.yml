@@ -23,6 +23,6 @@ script:
 
 env:
   matrix:
-    - EMBER_TRY_SCENARIO=ember-1.11.3
-    - EMBER_TRY_SCENARIO=ember-1.12.1
+    - EMBER_TRY_SCENARIO=ember-1.11
+    - EMBER_TRY_SCENARIO=ember-1.12
 
