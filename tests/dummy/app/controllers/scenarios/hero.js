@@ -10,7 +10,6 @@ var allModels = Ember.A([
 
 
 export default Ember.Controller.extend({
-  needs: ['application'],
   showFirst: true,
 
   sortBy: 'firstName',
