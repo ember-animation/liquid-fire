@@ -1,5 +1,6 @@
 {{#if containerless}}
   {{~#liquid-versions value=attrs.value use=use
+                     outletName=attrs.outletName
                      name="liquid-bind" renderWhenFalse=true class=class as |version| ~}}
     {{~#if hasBlock}}
       {{~yield version ~}}
@@ -18,6 +19,7 @@
       enableGrowth=enableGrowth
       as |container| ~}}
     {{~#liquid-versions value=attrs.value notify=container use=use
+                       outletName=attrs.outletName
                        name="liquid-bind" renderWhenFalse=true as |version| ~}}
 
       {{~#if hasBlock}}

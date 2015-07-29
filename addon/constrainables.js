@@ -38,6 +38,7 @@ export default {
     }
   },
   helperName: {},
+  outletName: {},
   parentElementClass: {
     accessor: function(conditions) {
       var cls = conditions.parentElement.attr('class');

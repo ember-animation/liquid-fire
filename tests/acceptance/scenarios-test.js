@@ -33,6 +33,12 @@ test('inner nested liquid-outlets can animate', function() {
   });
 });
 
+test('liquid-outlet animate by outlet name', function() {
+  visit('/scenarios/in-test-outlet');
+  andThen(function(){
+    ranTransition('toLeft');
+  });
+});
 
 test('modal with remapped parameters receives them', function() {
   expect(2);

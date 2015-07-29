@@ -316,6 +316,19 @@ test("matches routes by regex", function(){
   expectAnimation(routes('foo.bar', 'foo.baz'), dummyAction);
 });
 
+test("matches routes by outletName", function(){
+  t.map(function(){
+    this.transition(
+      this.outletName('panel'),
+      this.use(dummyAction)
+    );
+  });
+
+  var conditions = routes('one', 'two');
+  conditions.outletName = 'panel';
+  expectAnimation(conditions, dummyAction);
+});
+
 
 function dummyAction() {}
 function otherAction() {}
