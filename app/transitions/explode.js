@@ -32,11 +32,12 @@ export default function explode(...pieces) {
 function explodePiece(context, piece, seen) {
   var childContext = Ember.copy(context);
   var selectors = [piece.pickOld || piece.pick, piece.pickNew || piece.pick];
+  let preserve = piece.preserve || [];
   var cleanupOld, cleanupNew;
 
   if (selectors[0] || selectors[1]) {
-    cleanupOld = _explodePart(context, 'oldElement', childContext, selectors[0], seen);
-    cleanupNew = _explodePart(context, 'newElement', childContext, selectors[1], seen);
+    cleanupOld = _explodePart(context, 'oldElement', childContext, selectors[0], seen, preserve);
+    cleanupNew = _explodePart(context, 'newElement', childContext, selectors[1], seen, preserve);
     if (!cleanupOld && !cleanupNew) {
       return Promise.resolve();
     }
@@ -48,7 +49,15 @@ function explodePiece(context, piece, seen) {
   });
 }
 
-function _explodePart(context, field, childContext, selector, seen) {
+function clone(child, preserve) {
+  let newChild = child.clone();
+  for (let prop of preserve) {
+    newChild.css(prop, child.css(prop));
+  }
+  return newChild;
+}
+
+function _explodePart(context, field, childContext, selector, seen, preserve) {
   var child, childOffset, width, height, newChild;
   var elt = context[field];
 
@@ -65,7 +74,7 @@ function _explodePart(context, field, childContext, selector, seen) {
       childOffset = child.offset();
       width = child.outerWidth();
       height = child.outerHeight();
-      newChild = child.clone();
+      newChild = clone(child, preserve);
 
       // Hide the original element
       child.css({visibility: 'hidden'});
@@ -168,7 +177,8 @@ function matchAndExplode(context, piece, seen) {
 
     return explodePiece(context, {
       pick: selector(attrValue),
-      use: piece.use
+      use: piece.use,
+      preserve: piece.preserve
     }, seen);
   }));
 }
