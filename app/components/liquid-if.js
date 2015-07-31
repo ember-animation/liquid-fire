@@ -1,8 +1,8 @@
 import Ember from 'ember';
 import { shouldDisplay } from 'liquid-fire/ember-internals';
 
-export default Ember.Component.extend({
-  positionalParams: ['predicate'],
+var LiquidIf = Ember.Component.extend({
+  positionalParams: ['predicate'], // needed for Ember 1.13.[0-5] and 2.0.0-beta.[1-3] support
   tagName: '',
   helperName: 'liquid-if',
   didReceiveAttrs() {
@@ -10,3 +10,9 @@ export default Ember.Component.extend({
     this.set('showFirstBlock', this.inverted ? !predicate : predicate);
   }
 });
+
+LiquidIf.reopenClass({
+  positionalParams: ['predicate']
+});
+
+export default LiquidIf;
