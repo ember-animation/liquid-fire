@@ -6,13 +6,13 @@ import { Promise } from "liquid-fire";
 // animations.
 
 export default function explode(...pieces) {
-  var seenElements = {};
+  this._seenElements = {};
   var sawBackgroundPiece = false;
   var promises = pieces.map((piece) => {
     if (piece.matchBy) {
-      return matchAndExplode(this, piece, seenElements);
+      return matchAndExplode(this, piece);
     } else if (piece.pick || piece.pickOld || piece.pickNew){
-      return explodePiece(this, piece, seenElements);
+      return explodePiece(this, piece);
     } else {
       sawBackgroundPiece = true;
       return runAnimation(this, piece);
@@ -29,15 +29,15 @@ export default function explode(...pieces) {
   return Promise.all(promises);
 }
 
-function explodePiece(context, piece, seen) {
+function explodePiece(context, piece) {
   var childContext = Ember.copy(context);
   var selectors = [piece.pickOld || piece.pick, piece.pickNew || piece.pick];
   let preserve = piece.preserve || [];
   var cleanupOld, cleanupNew;
 
   if (selectors[0] || selectors[1]) {
-    cleanupOld = _explodePart(context, 'oldElement', childContext, selectors[0], seen, preserve);
-    cleanupNew = _explodePart(context, 'newElement', childContext, selectors[1], seen, preserve);
+    cleanupOld = _explodePart(context, 'oldElement', childContext, selectors[0], preserve);
+    cleanupNew = _explodePart(context, 'newElement', childContext, selectors[1], preserve);
     if (!cleanupOld && !cleanupNew) {
       return Promise.resolve();
     }
@@ -57,7 +57,7 @@ function clone(child, preserve) {
   return newChild;
 }
 
-function _explodePart(context, field, childContext, selector, seen, preserve) {
+function _explodePart(context, field, childContext, selector, preserve) {
   var child, childOffset, width, height, newChild;
   var elt = context[field];
 
@@ -65,8 +65,8 @@ function _explodePart(context, field, childContext, selector, seen, preserve) {
   if (elt && selector) {
     child = elt.find(selector).filter(function() {
       var guid = Ember.guidFor(this);
-      if (!seen[guid]) {
-        seen[guid] = true;
+      if (!context._seenElements[guid]) {
+        context._seenElements[guid] = true;
         return true;
       }
     });
@@ -179,6 +179,6 @@ function matchAndExplode(context, piece, seen) {
       pick: selector(attrValue),
       use: piece.use,
       preserve: piece.preserve
-    }, seen);
+    });
   }));
 }
