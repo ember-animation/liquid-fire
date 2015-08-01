@@ -1,5 +1,5 @@
 import Ember from "ember";
-import { Promise } from "liquid-fire";
+import { Promise, inNextFrame } from "liquid-fire";
 
 // Explode is not, by itself, an animation. It exists to pull apart
 // other elements so that each of the pieces can be targeted by
@@ -19,90 +19,113 @@ export default function explode(...pieces) {
     }
   });
   if (!sawBackgroundPiece) {
-    if (this.newElement) {
-      this.newElement.css({visibility: ''});
-    }
-    if (this.oldElement) {
-      this.oldElement.css({visibility: 'hidden'});
-    }
+    promises.push(inNextFrame(() => {
+      if (this.newElement) {
+        this.newElement.css({visibility: ''});
+      }
+      if (this.oldElement) {
+        this.oldElement.css({visibility: 'hidden'});
+      }
+    }));
   }
   return Promise.all(promises);
 }
 
+// Handles one of the users configuration pieces
 function explodePiece(context, piece) {
   var childContext = Ember.copy(context);
   var selectors = [piece.pickOld || piece.pick, piece.pickNew || piece.pick];
   let preserve = piece.preserve || [];
-  var cleanupOld, cleanupNew;
 
-  if (selectors[0] || selectors[1]) {
-    cleanupOld = _explodePart(context, 'oldElement', childContext, selectors[0], preserve);
-    cleanupNew = _explodePart(context, 'newElement', childContext, selectors[1], preserve);
-    if (!cleanupOld && !cleanupNew) {
+  return Promise.all(['oldElement', 'newElement'].map(
+    (whichElement, index) =>
+      _explodePart(context, whichElement, childContext, selectors[index], preserve)
+  ).filter(p => p)).then((cleanups) => {
+    cleanups = cleanups.filter(c => c);
+    if (cleanups.length === 0) {
       return Promise.resolve();
     }
-  }
-
-  return runAnimation(childContext, piece).finally(() => {
-    if (cleanupOld) { cleanupOld(); }
-    if (cleanupNew) { cleanupNew(); }
+    return runAnimation(childContext, piece).finally(() => {
+      for (let cleanup of cleanups) {
+        if (cleanup) {
+          cleanup();
+        }
+      }
+    });
   });
 }
 
 function clone(child, preserve) {
   let newChild = child.clone();
   for (let prop of preserve) {
+    // these writes dont force layout because the clone is not in DOM yet
     newChild.css(prop, child.css(prop));
   }
   return newChild;
 }
 
+// Handles half of one configuration piece (either oldElement or newElement)
 function _explodePart(context, field, childContext, selector, preserve) {
-  var child, childOffset, width, height, newChild;
   var elt = context[field];
-
   childContext[field] = null;
   if (elt && selector) {
-    child = elt.find(selector).filter(function() {
+    let seen = context._seenElements;
+    let child = elt.find(selector).filter(function() {
       var guid = Ember.guidFor(this);
-      if (!context._seenElements[guid]) {
-        context._seenElements[guid] = true;
+      if (!seen[guid]) {
+        seen[guid] = true;
         return true;
       }
     });
     if (child.length > 0) {
-      childOffset = child.offset();
-      width = child.outerWidth();
-      height = child.outerHeight();
-      newChild = clone(child, preserve);
-
-      // Hide the original element
-      child.css({visibility: 'hidden'});
-
-      // If the original element's parent was hidden, hide our clone
-      // too.
-      if (elt.css('visibility') === 'hidden') {
-        newChild.css({ visibility: 'hidden' });
-      }
-      newChild.appendTo(elt.parent());
-      newChild.outerWidth(width);
-      newChild.outerHeight(height);
-      var newParentOffset = newChild.offsetParent().offset();
-      newChild.css({
-        position: 'absolute',
-        top: childOffset.top - newParentOffset.top,
-        left: childOffset.left - newParentOffset.left,
-        margin: 0
-      });
-
-      // Pass the clone to the next animation
-      childContext[field] = newChild;
-      return function cleanup() {
-        newChild.remove();
-        child.css({visibility: ''});
-      };
+      return _explodeChild(field, elt, child, childContext, preserve);
     }
   }
+  return Promise.resolve();
+}
+
+// Implements the actual manipulation of a found child element
+function _explodeChild(field, elt, child, childContext, preserve) {
+  let childOffset = child.offset();
+  let width = child.outerWidth();
+  let height = child.outerHeight();
+  let newChild = clone(child, preserve);
+
+  // If the original element's parent was hidden, hide our clone
+  // too.
+  if (elt.css('visibility') === 'hidden') {
+    // this is not a forced layout because newChild is not in DOM yet
+    newChild.css({ visibility: 'hidden' });
+  }
+
+  let newParentOffset = elt.offsetParent().offset();
+
+  // Here we're cutting over from reading to writing DOM, so we put in
+  // a frame barrier so that all other parallel reads will finish
+  // before we start writing.
+  return inNextFrame(() => {
+    // Hide the original element
+    child.css({visibility: 'hidden'}); // write!
+
+    newChild.appendTo(elt.parent()); //write
+    newChild.outerWidth(width); //write
+    newChild.outerHeight(height); //write
+
+
+    newChild.css({ // write
+      position: 'absolute',
+      top: childOffset.top - newParentOffset.top,
+      left: childOffset.left - newParentOffset.left,
+      margin: 0
+    });
+
+    // Pass the clone to the next animation
+    childContext[field] = newChild;
+    return function cleanup() {
+      newChild.remove();
+      child.css({visibility: ''});
+    };
+  });
 }
 
 function animationFor(context, piece) {
@@ -127,13 +150,14 @@ function animationFor(context, piece) {
   };
 }
 
+// maybe wait for writes to flush
 function runAnimation(context, piece) {
   return new Promise((resolve, reject) => {
     animationFor(context, piece).apply(context).then(resolve, reject);
   });
 }
 
-function matchAndExplode(context, piece, seen) {
+function matchAndExplode(context, piece) {
   if (!context.oldElement || !context.newElement) {
     return Promise.resolve();
   }

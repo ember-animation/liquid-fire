@@ -3,6 +3,7 @@ import { animate, stop, isAnimating, timeSpent, timeRemaining, finish } from "./
 import Promise from "./promise";
 import MutationObserver from "./mutation-observer";
 import versionWarnings from "./version-warnings";
+import inNextFrame from "./next-frame";
 import "./velocity-ext";
 
 versionWarnings({
@@ -12,4 +13,4 @@ versionWarnings({
 
 
 export { TransitionMap, animate, stop, isAnimating, timeSpent, timeRemaining, finish,
-         Promise, MutationObserver };
+         Promise, MutationObserver, inNextFrame };
