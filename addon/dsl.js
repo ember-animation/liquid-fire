@@ -115,6 +115,10 @@ export default class DSL {
     return new Constraint('helperName', names);
   }
 
+  outletName(...names) {
+    return new Constraint('outletName', names);
+  }
+
   toModal(matcher) {
     return new Constraint('newModalComponent', matcher);
   }

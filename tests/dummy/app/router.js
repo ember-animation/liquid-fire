@@ -97,6 +97,7 @@ Router.map(function() {
       this.route('two');
       this.route('three');
     });
+    this.route('in-test-outlet');
   });
 
 });

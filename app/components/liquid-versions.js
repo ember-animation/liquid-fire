@@ -73,7 +73,8 @@ export default Ember.Component.extend({
       // "match anything truthy/falsy" predicates, whereas string
       // checks are a direct object property lookup.
       firstTime: firstTime ? 'yes' : 'no',
-      helperName: get(this, 'name')
+      helperName: get(this, 'name'),
+      outletName: get(this, 'outletName')
     });
 
     if (this._runningTransition) {
