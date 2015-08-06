@@ -1,5 +1,11 @@
 # Changelog
 
+### 0.21.1
+
+ - ENHANCEMENT: new `outletName` constraint by @knownasilya.
+ - BUGFIX: deprecation cleanups by @rwjblue.
+ - BUGFIX: updated liquid-modal to work with newest canary by @rwjblue.
+
 ### 0.21.0
 
  - ENHANCEMENT: liquid-bind in block form
