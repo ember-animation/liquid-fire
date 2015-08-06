@@ -16,6 +16,7 @@ export default function flyTo(opts={}) {
     let motion = withMutations({
       translateX: [0, oldOffset.left - newOffset.left],
       translateY: [0, oldOffset.top - newOffset.top],
+      // FIXME: my outerwidth extension to velocity causes layout thrashing
       outerWidth: [this.newElement.outerWidth(), this.oldElement.outerWidth()],
       outerHeight: [this.newElement.outerHeight(), this.oldElement.outerHeight()]
     }, this, opts.mutate);
