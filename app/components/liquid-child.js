@@ -7,7 +7,7 @@ export default Ember.Component.extend({
     if ($container) {
       $container.css('visibility','hidden');
     }
-    this.sendAction('didRender', this);
+    this.sendAction('liquidChildDidRender', this);
   }
 
 });
