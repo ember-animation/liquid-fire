@@ -136,7 +136,7 @@ function goAbsolute(version, size) {
 }
 
 function goStatic(version) {
-  if (version.view) {
+  if (version.view && !version.view.isDestroyed) {
     version.view.$().css({width: '', height: '', position: ''});
   }
 }

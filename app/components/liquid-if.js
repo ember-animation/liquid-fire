@@ -6,6 +6,7 @@ var LiquidIf = Ember.Component.extend({
   tagName: '',
   helperName: 'liquid-if',
   didReceiveAttrs() {
+    this._super();
     var predicate = shouldDisplay(this.getAttr('predicate'));
     this.set('showFirstBlock', this.inverted ? !predicate : predicate);
   }
