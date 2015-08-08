@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.21.2
+
+ - BUGFIX: compatibility with internal Ember changes on 1.13.7.
+
 ### 0.21.1
 
  - ENHANCEMENT: new `outletName` constraint by @knownasilya.
