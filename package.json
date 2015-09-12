@@ -36,7 +36,6 @@
     "ember-code-snippet": "^1.0.0",
     "ember-cli-qunit": "0.3.19",
     "ember-cli-uglify": "^1.0.1",
-    "ember-export-application-global": "^1.0.2",
     "ember-giftwrap": "0.0.2",
     "git-repo-info": "^1.0.4",
     "github": "git://github.com/mikedeboer/node-github#ca90bf27d5820812c3b76908189d666446ed97cd",
