@@ -10,7 +10,11 @@ Ember.run(function(){
 module("Transitions DSL", {
   setup: function(){
     var instance = application.buildInstance();
-    t = instance.container.lookup('service:liquid-fire-transitions');
+    if (instance.lookup) {
+      t = instance.lookup('service:liquid-fire-transitions');
+    } else {
+      t = instance.container.lookup('service:liquid-fire-transitions');
+    }
     defaultHandler = t.defaultAction().handler;
   },
   teardown: function(){
