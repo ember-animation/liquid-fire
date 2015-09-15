@@ -8,7 +8,10 @@ var require = Ember.__loader.require;
 var internal = require('htmlbars-runtime').internal;
 var registerKeyword = require('ember-htmlbars/keywords').registerKeyword;
 var legacyViewKeyword = require('ember-htmlbars/keywords/view').default;
-var Stream = require('ember-metal/streams/stream').default;
+var _Stream = require('ember-metal/streams/stream');
+var BasicStream = _Stream.default;
+var Stream = _Stream.Stream;
+
 var isStable;
 try {
   isStable = require('ember-htmlbars/keywords/real_outlet').default.isStable;
@@ -66,32 +69,43 @@ export function registerKeywords() {
         source = { identity: {
             outletState: withLockedModel(env.outletState[outletName])
         }};
-        stream = new Stream(function() {
-          return source.identity;
-        });
+
+        if (!!Stream) {
+          stream = new Stream(function() {
+            return source.identity;
+          });
+        } else {
+          stream = new BasicStream(function() {
+            return source.identity;
+          });
+        }
       }
       return { stream, source, outletName };
     },
 
     render(renderNode, env, scope, params, hash, template, inverse, visitor) {
       internal.hostBlock(renderNode, env, scope, template, null, null, visitor, function(options) {
-        options.templates.template.yield([renderNode.state.stream]);
+        var stream = renderNode.getState ? renderNode.getState().stream : renderNode.state.stream;
+        options.templates.template.yield([stream]);
       });
 
     },
     rerender(morph, env) {
-      var newState = withLockedModel(env.outletState[morph.state.outletName]);
-      if (isStable(morph.state.source.identity, { outletState: newState })) {
+      var state = morph._state ? morph._state : morph.state;
+      var newState = withLockedModel(env.outletState[state.outletName]);
+
+      if (isStable(state.source.identity, { outletState: newState })) {
         // If our own view was stable, we preserve the same object
         // identity so that liquid-versions will not animate us. But
         // we still need to propagate any child changes forward.
-        Ember.set(morph.state.source.identity, 'outletState', newState);
+        Ember.set(state.source.identity, 'outletState', newState);
       } else {
         // If our own view has changed, we present a whole new object,
         // so that liquid-versions will see the change.
-        morph.state.source.identity = { outletState: newState };
+        state.source.identity = { outletState: newState };
       }
-      morph.state.stream.notify();
+
+      state.stream.notify();
     },
     isStable() {
       return true;
