@@ -1,3 +1,5 @@
+/* globals console */
+
 import Ember from 'ember';
 import { constraintKeys, EMPTY, ANY } from './constraint';
 import constrainables from "./constrainables";
