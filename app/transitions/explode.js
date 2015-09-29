@@ -35,21 +35,22 @@ function explodePiece(context, piece, seen) {
   var cleanupOld, cleanupNew;
 
   if (selectors[0] || selectors[1]) {
-    let exploder = piece.keepInline ? _explodeChildInline : _explodeChild;
-    cleanupOld = _explodePart(context, 'oldElement', childContext, selectors[0], seen, exploder);
-    cleanupNew = _explodePart(context, 'newElement', childContext, selectors[1], seen, exploder);
+    cleanupOld = _explodePart(context, 'oldElement', childContext, selectors[0], seen);
+    cleanupNew = _explodePart(context, 'newElement', childContext, selectors[1], seen);
     if (!cleanupOld && !cleanupNew) {
       return Promise.resolve();
     }
   }
 
-  return runAnimation(childContext, piece).finally(() => {
-    if (cleanupOld) { cleanupOld(); }
-    if (cleanupNew) { cleanupNew(); }
+  return Promise.all([cleanupOld, cleanupNew]).then(([cleanupOld, cleanupNew]) => {
+    return runAnimation(childContext, piece).finally(() => {
+      if (cleanupOld) { cleanupOld(); }
+      if (cleanupNew) { cleanupNew(); }
+    });
   });
 }
 
-function _explodePart(context, field, childContext, selector, seen, exploder) {
+function _explodePart(context, field, childContext, selector, seen) {
   var child;
   var elt = context[field];
 
@@ -63,7 +64,7 @@ function _explodePart(context, field, childContext, selector, seen, exploder) {
       }
     });
     if (child.length > 0) {
-      return exploder(elt, child, childContext, field);
+      return _explodeChild(elt, child, childContext, field);
     }
   }
 }
@@ -73,9 +74,6 @@ function _explodeChild(elt, child, childContext, field) {
   let width = child.outerWidth();
   let height = child.outerHeight();
   let newChild = child.clone();
-
-  // Hide the original element
-  child.css({visibility: 'hidden'});
 
   // If the original element's parent was hidden, hide our clone
   // too.
@@ -95,35 +93,23 @@ function _explodeChild(elt, child, childContext, field) {
 
   // Pass the clone to the next animation
   childContext[field] = newChild;
-  return function cleanup() {
-    newChild.remove();
-    child.css({visibility: ''});
-  };
+
+  return waitForElementLoading(newChild).then(() => {
+    // Hide the original element
+    child.css({visibility: 'hidden'});
+    return function cleanup() {
+      newChild.remove();
+      child.css({visibility: ''});
+    };
+  });
 }
 
-function _explodeChildInline(elt, child, childContext, field) {
-  let childOffset = child.offset();
-  let width = child.outerWidth();
-  let height = child.outerHeight();
-
-  let original = child.attr('style') || "";
-
-  child.outerWidth(width);
-  child.outerHeight(height);
-
-  child.css({
-    position: 'absolute',
-    top: childOffset.top,
-    left: childOffset.left,
-    margin: 0
-  });
-
-  // Pass the child to the next animation
-  childContext[field] = child;
-  return function cleanup() {
-    child.attr('style', original);
-  };
-
+function waitForElementLoading(newChild) {
+  let selector = 'iframe';
+  let elements = newChild.find(selector).add(newChild.filter(selector)).toArray();
+  return Promise.all(
+    elements.map(elt => new Promise(resolve => Ember.$(elt).on('load', resolve)))
+  );
 }
 
 function animationFor(context, piece) {
