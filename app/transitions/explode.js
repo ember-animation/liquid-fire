@@ -35,8 +35,9 @@ function explodePiece(context, piece, seen) {
   var cleanupOld, cleanupNew;
 
   if (selectors[0] || selectors[1]) {
-    cleanupOld = _explodePart(context, 'oldElement', childContext, selectors[0], seen);
-    cleanupNew = _explodePart(context, 'newElement', childContext, selectors[1], seen);
+    let exploder = piece.keepInline ? _explodeChildInline : _explodeChild;
+    cleanupOld = _explodePart(context, 'oldElement', childContext, selectors[0], seen, exploder);
+    cleanupNew = _explodePart(context, 'newElement', childContext, selectors[1], seen, exploder);
     if (!cleanupOld && !cleanupNew) {
       return Promise.resolve();
     }
@@ -48,8 +49,8 @@ function explodePiece(context, piece, seen) {
   });
 }
 
-function _explodePart(context, field, childContext, selector, seen) {
-  var child, childOffset, width, height, newChild;
+function _explodePart(context, field, childContext, selector, seen, exploder) {
+  var child;
   var elt = context[field];
 
   childContext[field] = null;
@@ -62,38 +63,67 @@ function _explodePart(context, field, childContext, selector, seen) {
       }
     });
     if (child.length > 0) {
-      childOffset = child.offset();
-      width = child.outerWidth();
-      height = child.outerHeight();
-      newChild = child.clone();
-
-      // Hide the original element
-      child.css({visibility: 'hidden'});
-
-      // If the original element's parent was hidden, hide our clone
-      // too.
-      if (elt.css('visibility') === 'hidden') {
-        newChild.css({ visibility: 'hidden' });
-      }
-      newChild.appendTo(elt.parent());
-      newChild.outerWidth(width);
-      newChild.outerHeight(height);
-      var newParentOffset = newChild.offsetParent().offset();
-      newChild.css({
-        position: 'absolute',
-        top: childOffset.top - newParentOffset.top,
-        left: childOffset.left - newParentOffset.left,
-        margin: 0
-      });
-
-      // Pass the clone to the next animation
-      childContext[field] = newChild;
-      return function cleanup() {
-        newChild.remove();
-        child.css({visibility: ''});
-      };
+      return exploder(elt, child, childContext, field);
     }
   }
+}
+
+function _explodeChild(elt, child, childContext, field) {
+  let childOffset = child.offset();
+  let width = child.outerWidth();
+  let height = child.outerHeight();
+  let newChild = child.clone();
+
+  // Hide the original element
+  child.css({visibility: 'hidden'});
+
+  // If the original element's parent was hidden, hide our clone
+  // too.
+  if (elt.css('visibility') === 'hidden') {
+    newChild.css({ visibility: 'hidden' });
+  }
+  newChild.appendTo(elt.parent());
+  newChild.outerWidth(width);
+  newChild.outerHeight(height);
+  var newParentOffset = newChild.offsetParent().offset();
+  newChild.css({
+    position: 'absolute',
+    top: childOffset.top - newParentOffset.top,
+    left: childOffset.left - newParentOffset.left,
+    margin: 0
+  });
+
+  // Pass the clone to the next animation
+  childContext[field] = newChild;
+  return function cleanup() {
+    newChild.remove();
+    child.css({visibility: ''});
+  };
+}
+
+function _explodeChildInline(elt, child, childContext, field) {
+  let childOffset = child.offset();
+  let width = child.outerWidth();
+  let height = child.outerHeight();
+
+  let original = child.attr('style') || "";
+
+  child.outerWidth(width);
+  child.outerHeight(height);
+
+  child.css({
+    position: 'absolute',
+    top: childOffset.top,
+    left: childOffset.left,
+    margin: 0
+  });
+
+  // Pass the child to the next animation
+  childContext[field] = child;
+  return function cleanup() {
+    child.attr('style', original);
+  };
+
 }
 
 function animationFor(context, piece) {
