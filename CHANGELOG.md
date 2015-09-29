@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.21.3
+
+ - BUGFIX: several minor bugfixes and compatibility updates
+
 ### 0.21.2
 
  - BUGFIX: compatibility with internal Ember changes on 1.13.7.
