@@ -2,12 +2,15 @@ import Ember from "ember";
 import { test, moduleForComponent } from "ember-qunit";
 
 var Promise = Ember.RSVP.Promise;
-var tmap;
+var tmap, sameBoundingRect;
 
 moduleForComponent('Integration: explode transition', {
   integration: true,
-  setup: function() {
+  setup: function(assert) {
     tmap = this.container.lookup('service:liquid-fire-transitions');
+    sameBoundingRect = function(oldElement, newElement) {
+      assert.deepEqual(newElement[0].getBoundingClientRect(), oldElement[0].getBoundingClientRect(), "element has same bounding rect");
+    };
   },
   teardown: function() {
     tmap = null;
@@ -405,9 +408,7 @@ test("it can matchBy id", function(assert) {
             var realOldElement = this.oldElement.parent().find('.liquid-child .redbox');
             assert.equal(realOldElement.length, 1, 'found actual old element');
             assert.equal(realOldElement.css('visibility'), 'hidden');
-            assert.deepEqual(realOldElement.offset(), this.oldElement.offset(), "element didn't jump");
-            assert.equal(realOldElement.outerWidth(), this.oldElement.outerWidth(), "same width");
-            assert.equal(realOldElement.outerHeight(), this.oldElement.outerHeight(), "same height");
+            sameBoundingRect(realOldElement, this.oldElement);
             didTransition = true;
             return Ember.RSVP.resolve();
           }
@@ -451,9 +452,7 @@ test("it can matchBy id", function(assert) {
             var realOldElement = this.oldElement.parent().find('.liquid-child .greenbox');
             assert.equal(realOldElement.length, 1, 'found actual old element');
             assert.equal(realOldElement.css('visibility'), 'hidden');
-            assert.deepEqual(realOldElement.offset(), this.oldElement.offset(), "element didn't jump");
-            assert.equal(realOldElement.outerWidth(), this.oldElement.outerWidth(), "same width");
-            assert.equal(realOldElement.outerHeight(), this.oldElement.outerHeight(), "same height");
+            sameBoundingRect(realOldElement, this.oldElement);
             didTransition = true;
             return Ember.RSVP.resolve();
           }
