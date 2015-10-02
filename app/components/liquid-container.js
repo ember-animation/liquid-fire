@@ -93,7 +93,7 @@ export default Ember.Component.extend(Growable, {
       } else {
         this.lockSize(elt, {
           height: Math.max(want.height, have.height),
-          width: Math.max(want.width, have.width),
+          width: Math.max(want.width, have.width)
         });
       }
 
