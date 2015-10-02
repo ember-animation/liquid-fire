@@ -33,9 +33,13 @@ class Matrix {
   }
 }
 
+function identity() {
+  return new Matrix(1, 0, 0, 1, 0, 0);
+}
+
 export function parseMatrix(matrixString) {
   let match = /matrix\((.*)\)/.exec(matrixString);
-  if (!match) { return new Matrix(1, 0, 0, 1, 0, 0); }
+  if (!match) { return identity(); }
   return new Matrix(...match[1].split(',').map(parseFloat));
 }
 
@@ -45,6 +49,9 @@ export function parseOrigin(originString) {
 }
 
 export function currentTransform($elt) {
+  if (!$elt || $elt.length === 0) {
+    return identity;
+  }
   let matrix = parseMatrix($elt.css('transform'));
   let origin = parseOrigin($elt.css('transform-origin'));
   return origin.mult(matrix);

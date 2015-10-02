@@ -1,18 +1,22 @@
 import { stop, animate, Promise, isAnimating, finish } from "liquid-fire";
+import { currentTransform } from "liquid-fire/matrix";
 
 export default function moveOver(dimension, direction, opts) {
   var oldParams = {},
       newParams = {},
       firstStep,
       property,
-      measure;
+      measure,
+      component;
 
   if (dimension.toLowerCase() === 'x') {
     property = 'translateX';
     measure = 'width';
+    component = 'tx';
   } else {
     property = 'translateY';
     measure = 'height';
+    component = 'ty';
   }
 
   if (isAnimating(this.oldElement, 'moving-in')) {
@@ -24,8 +28,17 @@ export default function moveOver(dimension, direction, opts) {
 
   return firstStep.then(() => {
     var bigger = biggestSize(this, measure);
-    oldParams[property] = (bigger * direction) + 'px';
-    newParams[property] = ["0px", (-1 * bigger * direction) + 'px'];
+    var oldTransform = currentTransform(this.oldElement)[component];
+    var newTransform = currentTransform(this.newElement)[component];
+
+    oldParams[property] = [
+      ((bigger * direction) + oldTransform) + 'px',
+      oldTransform + 'px'
+    ];
+    newParams[property] = [
+      newTransform + 'px',
+      (newTransform - (bigger * direction)) + 'px'
+    ];
 
     return Promise.all([
       animate(this.oldElement, oldParams, opts),
