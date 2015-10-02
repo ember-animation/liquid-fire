@@ -1,25 +1,16 @@
 import Ember from "ember";
 import { test, moduleForComponent } from "ember-qunit";
+import { intBoundingRect } from '../../helpers/geometry';
 
 var Promise = Ember.RSVP.Promise;
 var tmap, sameBoundingRect;
-
-function normalizedRect($elt) {
-  let rect = $elt[0].getBoundingClientRect();
-  return {
-    top: Math.round(rect.top),
-    bottom: Math.round(rect.bottom),
-    left: Math.round(rect.left),
-    right: Math.round(rect.right)
-  };
-}
 
 moduleForComponent('Integration: explode transition', {
   integration: true,
   setup: function(assert) {
     tmap = this.container.lookup('service:liquid-fire-transitions');
     sameBoundingRect = function(oldElement, newElement) {
-      assert.deepEqual(normalizedRect(newElement), normalizedRect(oldElement), "element has same bounding rect");
+      assert.deepEqual(intBoundingRect(newElement), intBoundingRect(oldElement), "element has same bounding rect");
     };
   },
   teardown: function() {
