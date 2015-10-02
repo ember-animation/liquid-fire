@@ -1,5 +1,6 @@
 import Ember from "ember";
 import { Promise } from "liquid-fire";
+import { currentTransform } from "liquid-fire/matrix";
 
 // Explode is not, by itself, an animation. It exists to pull apart
 // other elements so that each of the pieces can be targeted by
@@ -79,7 +80,7 @@ function _explodePart(context, field, childContext, selector, seen, preserve) {
 }
 
 function _explodeChild(elt, child, childContext, field, preserve) {
-  let childOffset = child.offset();
+  let childRect = child[0].getBoundingClientRect();
   let width = child.outerWidth();
   let height = child.outerHeight();
   let newChild = clone(child, preserve);
@@ -92,12 +93,17 @@ function _explodeChild(elt, child, childContext, field, preserve) {
   newChild.appendTo(elt.parent());
   newChild.outerWidth(width);
   newChild.outerHeight(height);
-  var newParentOffset = newChild.offsetParent().offset();
+  var newParentRect = newChild.offsetParent()[0].getBoundingClientRect();
+  let transform = currentTransform(child);
+  transform.tx = childRect.left - newParentRect.left;
+  transform.ty = childRect.top - newParentRect.top;
   newChild.css({
     position: 'absolute',
-    top: childOffset.top - newParentOffset.top,
-    left: childOffset.left - newParentOffset.left,
-    margin: 0
+    top: 0,
+    left: 0,
+    margin: 0,
+    transform: transform.serialize(),
+    transformOrigin: '0 0'
   });
 
   // Pass the clone to the next animation

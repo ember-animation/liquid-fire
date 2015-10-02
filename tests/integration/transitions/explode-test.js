@@ -4,12 +4,22 @@ import { test, moduleForComponent } from "ember-qunit";
 var Promise = Ember.RSVP.Promise;
 var tmap, sameBoundingRect;
 
+function normalizedRect($elt) {
+  let rect = $elt[0].getBoundingClientRect();
+  return {
+    top: Math.round(rect.top),
+    bottom: Math.round(rect.bottom),
+    left: Math.round(rect.left),
+    right: Math.round(rect.right)
+  };
+}
+
 moduleForComponent('Integration: explode transition', {
   integration: true,
   setup: function(assert) {
     tmap = this.container.lookup('service:liquid-fire-transitions');
     sameBoundingRect = function(oldElement, newElement) {
-      assert.deepEqual(newElement[0].getBoundingClientRect(), oldElement[0].getBoundingClientRect(), "element has same bounding rect");
+      assert.deepEqual(normalizedRect(newElement), normalizedRect(oldElement), "element has same bounding rect");
     };
   },
   teardown: function() {
@@ -474,6 +484,49 @@ test("it can matchBy id", function(assert) {
     });
   });
 
+  test(`it avoids a jump at start of animation, with transformed elements (${boxSizing})`, function(assert) {
+    var didTransition = false;
+    tmap.map(function() {
+      this.transition(
+        this.hasClass('explode-transition-test'),
+        this.use('explode', {
+          pickNew: '.greenbox',
+          pickOld: '.transformed-box',
+          use: function() {
+            // sanity checks
+            assert.equal(this.oldElement && this.oldElement.length, 1, 'found old element');
+            assert.equal(this.newElement && this.newElement.length, 1, 'found new element');
+            assert.equal(this.oldElement && this.oldElement.css('background-color'), "rgb(255, 255, 0)");
+
+            // the explode transition actually animates a copy of the
+            // original oldElement, which we can still find inside a
+            // liquid-child (the copy is not inside a liquid-child, that
+            // is part of the point of explode).
+            var realOldElement = this.oldElement.parent().find('.liquid-child .transformed-box');
+            assert.equal(realOldElement.length, 1, 'found actual old element');
+            assert.equal(realOldElement.css('visibility'), 'hidden');
+            sameBoundingRect(realOldElement, this.oldElement);
+            didTransition = true;
+            return Ember.RSVP.resolve();
+          }
+        })
+      );
+    });
+    this.render(stylesheet(boxSizing) + `
+                {{#liquid-if showGreen class="explode-transition-test"}}
+                  <div class="greenbox"></div>
+                {{else}}
+                  <div class="transformed-box"></div>
+                {{/liquid-if}}
+                `);
+
+    this.set('showGreen', true);
+    return tmap.waitUntilIdle().then(() => {
+      assert.ok(didTransition, 'didTransition');
+    });
+  });
+
+
 });
 
 function stylesheet(boxSizing) {
@@ -527,6 +580,20 @@ function stylesheet(boxSizing) {
       padding: 4px;
       border: 2px solid black;
       box-sizing: ${boxSizing};
+    }
+    .transformed-box {
+      background-color: yellow;
+      margin-top: 1px;
+      margin-left: 1px;
+      width: 20px;
+      height: 25px;
+      padding: 2px;
+      border: 1px solid black;
+      box-sizing: ${boxSizing};
+      position: absolute;
+      top: 10px;
+      left: 11px;
+      transform: translateX(25px) translateY(30px) scaleX(1.3) scaleY(1.5);
     }
               </style>
 
