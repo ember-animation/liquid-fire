@@ -17,6 +17,7 @@ export default Ember.Component.extend(Growable, {
       if (elt) {
         elt.css({width: '', height: ''});
       }
+      this.sendAction('didAnimate');
     };
     if (this._scaling) {
       this._scaling.then(doUnlock);
@@ -105,6 +106,13 @@ export default Ember.Component.extend(Growable, {
       // Kick off our growth animation
       if (enableGrowth) {
         this._scaling = this.animateGrowth(elt, have, want);
+      }
+
+      if (have !== want) {
+        this.sendAction('willAnimate', {
+          from: have,
+          to: want
+        });
       }
     },
 
