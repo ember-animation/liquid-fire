@@ -1,6 +1,6 @@
 import Ember from "ember";
 
-export default function () {
+export default function() {
   if (Ember.testing) {
     this.setDefault({duration: 10});
   }
@@ -119,12 +119,6 @@ export default function () {
     this.use('scale', {duration})
   );
   // END-SNIPPET
-
-
-/*  this.transition(
-    this.childOf("#transition-examples"),
-    this.use('fade', {duration: 1000})
-  );*/
 
 this.transition(
     this.childOf("#inline-serial-scenario"),

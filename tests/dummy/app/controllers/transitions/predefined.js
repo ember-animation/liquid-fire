@@ -5,7 +5,7 @@ export default Ember.Controller.extend({
   activeTab: 'toLeft',
 
   actions: {
-    toggleDetail: function() {
+    toggleDetail() {
       this.toggleProperty('showDetail');
     },
     changeTab(tabName){
