@@ -1,6 +1,7 @@
 import Ember from "ember";
 import Growable from "liquid-fire/growable";
 import { measure } from "./liquid-measured";
+import { publicAnimationContext } from "liquid-fire/running-transition";
 
 export default Ember.Component.extend(Growable, {
   classNames: ['liquid-container'],
@@ -10,14 +11,16 @@ export default Ember.Component.extend(Growable, {
     elt.outerHeight(want.height);
   },
 
-  unlockSize: function() {
+  unlockSize: function(versions) {
     var doUnlock = () => {
       this.updateAnimatingClass(false);
       var elt = this.$();
       if (elt) {
         elt.css({width: '', height: ''});
       }
-      this.sendAction('didAnimate');
+      this.sendAction('didAnimate', {
+        transition: publicAnimationContext(null, versions)
+      });
     };
     if (this._scaling) {
       this._scaling.then(doUnlock);
@@ -111,7 +114,8 @@ export default Ember.Component.extend(Growable, {
       if (have !== want) {
         this.sendAction('willAnimate', {
           from: have,
-          to: want
+          to: want,
+          transition: publicAnimationContext(null, versions)
         });
       }
     },
@@ -120,7 +124,7 @@ export default Ember.Component.extend(Growable, {
       for (var i = 0; i < versions.length; i++) {
         goStatic(versions[i]);
       }
-      this.unlockSize();
+      this.unlockSize(versions);
     }
   }
 });

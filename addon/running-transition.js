@@ -41,7 +41,7 @@ export default class RunningTransition {
 
 // This defines the public set of things that user's transition
 // implementations can access as `this`.
-function publicAnimationContext(rt, versions) {
+export function publicAnimationContext(rt, versions) {
   var c = {};
   addPublicVersion(c, 'new', versions[0]);
   if (versions[1]) {
@@ -53,10 +53,12 @@ function publicAnimationContext(rt, versions) {
     return context;
   });
 
-  // Animations are allowed to look each other up.
-  c.lookup = function(name) {
-    return rt.transitionMap.lookup(name);
-  };
+  if (rt) {
+    // Animations are allowed to look each other up.
+    c.lookup = function(name) {
+      return rt.transitionMap.lookup(name);
+    };
+  }
 
   return c;
 }
