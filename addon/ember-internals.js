@@ -12,11 +12,11 @@ var _Stream = require('ember-metal/streams/stream');
 var BasicStream = _Stream.default;
 var Stream = _Stream.Stream;
 
-var isStable;
+var routeIsStable;
 try {
-  isStable = require('ember-htmlbars/keywords/real_outlet').default.isStable;
+  routeIsStable = require('ember-htmlbars/keywords/real_outlet').default.isStable;
 } catch (err) {
-  isStable = require('ember-htmlbars/keywords/outlet').default.isStable;
+  routeIsStable = require('ember-htmlbars/keywords/outlet').default.isStable;
 }
 
 // Given an Ember Component, return the containing element
@@ -61,8 +61,9 @@ export function registerKeywords() {
       env.view.ownerView._outlets.push(renderNode);
     },
 
-    setupState(lastState, env, scope, params) {
+    setupState(lastState, env, scope, params, hash) {
       var outletName = env.hooks.getValue(params[0]);
+      var watchModels = env.hooks.getValue(hash.watchModels);
       var stream = lastState.stream;
       var source = lastState.source;
       if (!stream) {
@@ -80,7 +81,7 @@ export function registerKeywords() {
           });
         }
       }
-      return { stream, source, outletName };
+      return { stream, source, outletName, watchModels };
     },
 
     render(renderNode, env, scope, params, hash, template, inverse, visitor) {
@@ -94,7 +95,7 @@ export function registerKeywords() {
       var state = morph._state ? morph._state : morph.state;
       var newState = withLockedModel(env.outletState[state.outletName]);
 
-      if (isStable(state.source.identity, { outletState: newState })) {
+      if (isStable(state.source.identity, { outletState: newState }, state.watchModels)) {
         // If our own view was stable, we preserve the same object
         // identity so that liquid-versions will not animate us. But
         // we still need to propagate any child changes forward.
@@ -139,4 +140,12 @@ export function registerKeywords() {
   // people's apps. liquid-modal itself is deprecated and will ship in
   // 1.13 but not 2.0.
   registerKeyword('lf-vue', legacyViewKeyword);
+}
+
+function isStable(oldState, newState, watchModels) {
+  return routeIsStable(oldState, newState) && (!watchModels || modelIsStable(oldState, newState));
+}
+
+function modelIsStable(oldState, newState) {
+  return routeModel(oldState) === routeModel(newState);
 }
