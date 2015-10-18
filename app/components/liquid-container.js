@@ -33,13 +33,8 @@ export default Ember.Component.extend(Growable, {
   // because it depends on upward-data-flow, which generates warnings
   // under Glimmer.
   updateAnimatingClass(on){
-    if (this.isDestroyed || !this._wasInserted) {
+    if (this.isDestroyed) {
       return;
-    }
-    if (arguments.length === 0) {
-      on = this.get('liquidAnimating');
-    } else {
-      this.set('liquidAnimating', on);
     }
     if (on) {
       this.$().addClass('liquid-animating');
@@ -50,7 +45,6 @@ export default Ember.Component.extend(Growable, {
 
   startMonitoringSize: Ember.on('didInsertElement', function() {
     this._wasInserted = true;
-    this.updateAnimatingClass();
   }),
 
   actions: {
