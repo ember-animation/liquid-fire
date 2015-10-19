@@ -2,6 +2,7 @@ import Ember from 'ember';
 import layout from '../templates/components/liquid-sync';
 
 export default Ember.Component.extend({
+  tagName: '',
   layout: layout,
   didInsertElement() {
     const context = this.nearestWithProperty('_isLiquidChild');
