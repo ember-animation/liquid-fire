@@ -13,13 +13,21 @@ export default Ember.Component.extend({
       $container.css('visibility','hidden');
     }
     this._waitForAll().then(() => {
+      this._waitingFor = null;
       this.sendAction('liquidChildDidRender', this);
     });
   },
 
   _isLiquidChild: true,
   _waitForMe(promise) {
+    if (!this._waitingFor) {
+      return;
+    }
     this._waitingFor.push(promise);
+    let ancestor = this.nearestWithProperty('_isLiquidChild');
+    if (ancestor) {
+      ancestor._waitForMe(promise);
+    }
   },
   _waitForAll() {
     const promises = this._waitingFor;
