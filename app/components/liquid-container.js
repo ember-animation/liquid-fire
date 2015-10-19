@@ -68,7 +68,7 @@ export default Ember.Component.extend(Growable, {
       var elt = this.$();
       var enableGrowth = this.get('enableGrowth') !== false;
 
-      // Measure  children
+      // Measure children
       var sizes = [];
       for (var i = 0; i < versions.length; i++) {
         if (versions[i].view) {
