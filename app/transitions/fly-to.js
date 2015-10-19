@@ -29,7 +29,10 @@ export default function flyTo(opts={}) {
     // the currentTransform function above consumes transform-origin
     // and accounts for it in the initialTransform. So we zero-out the
     // actual transform-origin and all is well.
-    this.newElement.css('transform-origin', '0 0');
+    this.newElement.css({
+      'transform-origin': '0 0',
+      'will-change': 'transform'
+    });
     return animate(this.newElement, motion, opts);
   } else {
     let initialTransform = currentTransform(this.oldElement);
@@ -40,7 +43,10 @@ export default function flyTo(opts={}) {
       scaleY: [ initialTransform.d * relativeScaleY, initialTransform.d ]
     };
     this.newElement.css({ visibility: 'hidden' });
-    this.oldElement.css('transform-origin', '0 0');
+    this.oldElement.css({
+      'transform-origin': '0 0',
+      'will-change': 'transform'
+    });
     return animate(this.oldElement, motion, opts).then(() => {
       this.newElement.css({ visibility: ''});
     });
