@@ -73,6 +73,7 @@ export default Ember.Component.extend({
       }
     },
     dismiss: function() {
+      Ember.$('body').addClass('lf-modal-closing');
       var source = this.get('currentContext.source'),
           proto = source.constructor.proto(),
           params = this.get('currentContext.options.withParams'),
