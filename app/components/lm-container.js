@@ -8,6 +8,7 @@
 
 import Ember from "ember";
 import "liquid-fire/tabbable";
+import isBrowser from "liquid-fire/is-browser";
 
 /**
  * If you do something to move focus outside of the browser (like
@@ -16,7 +17,11 @@ import "liquid-fire/tabbable";
  * modal.
  */
 var lastOpenedModal = null;
-Ember.$(document).on('focusin', handleTabIntoBrowser);
+
+if (isBrowser()) {
+  Ember.$(document).on('focusin', handleTabIntoBrowser);
+}
+
 
 function handleTabIntoBrowser() {
   if (lastOpenedModal) {
