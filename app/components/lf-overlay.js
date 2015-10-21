@@ -17,7 +17,7 @@ export default Ember.Component.extend({
     var counter = body.data(COUNTER) || 0;
     body.data(COUNTER, counter-1);
     if (counter < 2) {
-      body.removeClass('lf-modal-open');
+      body.removeClass('lf-modal-open lf-modal-closing');
     }
   }
 });
