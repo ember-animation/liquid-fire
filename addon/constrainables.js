@@ -67,6 +67,7 @@ export default {
       }
     }
   },
+  media: {}
 };
 
 function versionValue(conditions, index) {

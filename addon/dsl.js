@@ -127,6 +127,12 @@ export default class DSL {
     return new Constraint('oldModalComponent', matcher);
   }
 
+  media(query) {
+    return new Constraint('media', function() {
+      return window.matchMedia(query).matches;
+    });
+  }
+
   debug() {
     return 'debug';
   }

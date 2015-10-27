@@ -333,6 +333,25 @@ test("matches routes by outletName", function(){
   expectAnimation(conditions, dummyAction);
 });
 
+test("matches media", function() {
+  t.map(function(){
+    this.transition(
+      this.toRoute('two'),
+      this.media('(max-width: 480px)'),
+      this.use(dummyAction)
+    );
+  });
+
+  // Save and stub the matchMedia method
+  var matchMedia = window.matchMedia;
+  window.matchMedia = function() { return { matches: true }; };
+
+  expectAnimation(routes('one', 'two'), dummyAction);
+
+  // Restore matchMedia
+  window.matchMedia = matchMedia;
+});
+
 
 function dummyAction() {}
 function otherAction() {}

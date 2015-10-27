@@ -25,6 +25,8 @@ module.exports = {
   included: function(app){
     app.import('vendor/velocity/velocity.js');
     app.import('vendor/liquid-fire.css');
+    // Polyfill for matchMedia
+    app.import(app.bowerDirectory+'/matchMedia/matchMedia.js');
   },
 
   setupPreprocessorRegistry: function(type, registry) {
