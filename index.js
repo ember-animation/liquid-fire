@@ -23,7 +23,10 @@ module.exports = {
   },
 
   included: function(app){
+    app.import('vendor/liquid-fire/dom-guard-begin.js');
     app.import('vendor/velocity/velocity.js');
+    app.import('vendor/liquid-fire/dom-guard-end.js');
+
     app.import('vendor/liquid-fire.css');
   },
 
