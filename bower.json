@@ -10,8 +10,7 @@
     "ember-qunit-notifications": "0.0.7",
     "ember-resolver": "~0.1.15",
     "loader.js": "ember-cli/loader.js#3.2.0",
-    "qunit": "~1.17.1",
-    "matchMedia": "~0.2.0"
+    "qunit": "~1.17.1"
   },
   "devDependencies": {
     "bootstrap-sass-official": "~3.3.1",
