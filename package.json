@@ -23,6 +23,7 @@
     "ember-cli-babel": "^5.0.0",
     "ember-cli-htmlbars": "0.7.6",
     "ember-cli-version-checker": "^1.0.2",
+    "match-media": "^0.2.0",
     "velocity-animate": ">= 0.11.8"
   },
   "devDependencies": {
@@ -39,7 +40,6 @@
     "ember-giftwrap": "0.0.2",
     "git-repo-info": "^1.0.4",
     "github": "git://github.com/mikedeboer/node-github#ca90bf27d5820812c3b76908189d666446ed97cd",
-    "match-media": "^0.2.0",
     "ncp": "^2.0.0",
     "rsvp": "^3.0.17",
     "ember-try": "0.0.6"
