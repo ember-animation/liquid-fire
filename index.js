@@ -19,12 +19,18 @@ module.exports = {
       srcDir: '/',
       destDir: 'velocity'
     });
-    return mergeTrees([tree, velocityTree]);
+    var matchMediaPath = path.dirname(require.resolve('match-media'));
+    var matchMediaTree = pickFiles(this.treeGenerator(matchMediaPath), {
+      srcDir: '/',
+      destDir: 'match-media'
+    });
+    return mergeTrees([tree, velocityTree, matchMediaTree]);
   },
 
   included: function(app){
     app.import('vendor/velocity/velocity.js');
     app.import('vendor/liquid-fire.css');
+    app.import('vendor/match-media/matchMedia.js');
   },
 
   setupPreprocessorRegistry: function(type, registry) {

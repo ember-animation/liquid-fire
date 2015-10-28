@@ -24,6 +24,7 @@ Router.map(function() {
   this.route('transition-map', function(){
     this.route('route-constraints');
     this.route('value-constraints');
+    this.route('media-constraints');
     this.route('dom-constraints');
     this.route('initial-constraints');
     this.route('choosing-transitions');
