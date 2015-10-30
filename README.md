@@ -71,7 +71,7 @@ addon format.
 
 ### Selecting Ember Versions
 
-Liquid Fire is tested against release, beta, and canaryversions of Ember.
+Liquid Fire is tested against release, beta, and canary versions of Ember.
 While developing Liquid Fire, you can switch to a different Ember
 environment by using [ember-try](https://github.com/kategengler/ember-try)'s
 `ember try ember-1.11.0` script.
