@@ -32,7 +32,7 @@ proto.modal = function(componentName, opts) {
 Router.reopen({
   _initRouterJs: function() {
     currentMap = [];
-    this._super();
+    this._super.apply(this, arguments);
     this.router.modals = currentMap;
   }
 });
