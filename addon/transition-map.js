@@ -4,13 +4,15 @@ import Ember from "ember";
 import Action from "./action";
 import internalRules from "./internal-rules";
 import Constraints from "./constraints";
+import getOwner from 'ember-getowner-polyfill';
 
 var TransitionMap = Ember.Service.extend({
   init: function() {
     this.activeCount = 0;
     this.constraints = new Constraints();
     this.map(internalRules);
-    var config = this.container.lookupFactory('transitions:main');
+    var owner = getOwner(this);
+    var config = owner._lookupFactory('transitions:main');
     if (config) {
       this.map(config);
     }
@@ -56,7 +58,8 @@ var TransitionMap = Ember.Service.extend({
   },
 
   lookup: function(transitionName) {
-    var handler = this.container.lookupFactory('transition:' + transitionName);
+    var owner = getOwner(this);
+    var handler = owner._lookupFactory('transition:' + transitionName);
     if (!handler) {
       throw new Error("unknown transition name: " + transitionName);
     }

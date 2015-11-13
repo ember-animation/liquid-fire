@@ -1,4 +1,5 @@
 import Ember from "ember";
+import getOwner from 'ember-getowner-polyfill';
 var get = Ember.get;
 
 
@@ -10,9 +11,9 @@ export default Ember.Object.extend({
 
   controller: Ember.computed('enabled', function() {
     if (!get(this, 'enabled')) { return; }
-    var container = get(this, 'container');
+    var owner = getOwner(this);
     var name = get(this, 'options.controller') || get(this, 'route');
-    return container.lookup('controller:' + name);
+    return owner.lookup('controller:' + name);
   }),
 
   update: Ember.observer('controller', Ember.on('init', function() {

@@ -1,4 +1,5 @@
 import Ember from "ember";
+import getOwner from 'ember-getowner-polyfill';
 
 export default Ember.Component.extend({
   classNames: ['liquid-modal'],
@@ -15,8 +16,8 @@ export default Ember.Component.extend({
   innerView: function(current) {
     var self = this,
         name = current.get('name'),
-        container = this.get('container'),
-        component = container.lookup('component-lookup:main').lookupFactory(name);
+        owner = getOwner(this),
+        component = owner.lookup('component-lookup:main').lookupFactory(name);
     Ember.assert("Tried to render a modal using component '" + name + "', but couldn't find it.", !!component);
 
     var args = Ember.copy(current.get('params'));
