@@ -1,10 +1,22 @@
 import Ember from "ember";
 import Application from '../../../app';
+import hasEmberVersion from 'ember-test-helpers/has-ember-version';
 
 var application, t, defaultHandler;
 
 Ember.run(function(){
-  application = Application.create({ autoboot: false});
+  var options = {
+    autoboot: false
+  };
+
+  if (hasEmberVersion(2,2) && !hasEmberVersion(2,3)) {
+    // autoboot: false does not work in Ember 2.2 (it was never public API),
+    // this prevents various things from happening that cause failures (like
+    // starting the event dispatcher on `body`)
+    options._bootSync = function() { };
+  }
+
+  application = Application.create(options);
 });
 
 module("Transitions DSL", {
