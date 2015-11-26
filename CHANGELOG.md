@@ -1,5 +1,16 @@
 # Changelog
 
+### 0.22.0:
+
+ - ENHANCEMENT: Adds a `media` contraint for matching transitions by media query by @mattgrannary.
+ - ENHANCEMENT: Add lf-modal-closing class while a modal closing by @Cryrivers
+ - ENHANCEMENT: improved documentation for predefined transitions by @IgorKvasn
+ - ENHANCEMENT: documentation fixes by @ScottLNorvell and @kalmanh
+ - ENHANCEMENT: fastboot compatibility guards by @rondale-sc
+ - ENHANCEMENT: get-owner-polyfill for compatibility with Ember 2.3 by @rwjblue
+ - ENHANCEMENT: Fix tests for lack of `autoboot: false` support in Ember 2.2 by @rwjblue.
+ - BUGFIX: Fixes loading substates not being called by @erkie
+
 ### 0.21.3
 
  - BUGFIX: several minor bugfixes and compatibility updates
