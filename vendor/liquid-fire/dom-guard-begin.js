@@ -1,0 +1,2 @@
+
+if (typeof(document) !== "undefined") {
