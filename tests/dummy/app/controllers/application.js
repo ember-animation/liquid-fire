@@ -8,13 +8,14 @@ export default Ember.Controller.extend({
     return [
       { route: "index",   title: "Introduction"},
       { route: "installation",   title: "Installation & Compatibility"},
+      { route: "cookbook",   title: "Cookbook"},
       { route: "helpers-documentation", title: "Template Helpers",
         children: [
           {route: "helpers-documentation.liquid-outlet", title: "liquid-outlet"},
           {route: "helpers-documentation.liquid-bind", title: "liquid-bind (inline form)"},
           {route: "helpers-documentation.liquid-bind-block", title: "liquid-bind (block form)"},
           {route: "helpers-documentation.liquid-if", title: "liquid-if"},
-          {route: "helpers-documentation.liquid-spacer", title: "liquid-spacer"},
+          {route: "helpers-documentation.liquid-spacer", title: "liquid-spacer"}
         ]
       },
       { route: 'transition-map', title: 'Transition Map',
