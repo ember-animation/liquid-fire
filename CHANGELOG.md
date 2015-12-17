@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.22.1:
+ - BUGFIX: safer fastboot build guards by @tomdale.
+
 ### 0.22.0:
 
  - ENHANCEMENT: Adds a `media` contraint for matching transitions by media query by @mattgrannary.
