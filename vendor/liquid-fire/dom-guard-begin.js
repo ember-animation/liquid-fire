@@ -1,2 +1,0 @@
-
-if (typeof(document) !== "undefined") {

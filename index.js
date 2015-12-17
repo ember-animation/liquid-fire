@@ -19,21 +19,23 @@ module.exports = {
       srcDir: '/',
       destDir: 'velocity'
     });
+
     var matchMediaPath = path.dirname(require.resolve('match-media'));
     var matchMediaTree = new Funnel(this.treeGenerator(matchMediaPath), {
       srcDir: '/',
       destDir: 'match-media'
     });
+
     return mergeTrees([tree, velocityTree, matchMediaTree]);
   },
 
   included: function(app){
-    app.import('vendor/liquid-fire/dom-guard-begin.js');
-    app.import('vendor/velocity/velocity.js');
-    app.import('vendor/liquid-fire/dom-guard-end.js');
+    if (!process.env.EMBER_CLI_FASTBOOT) {
+      app.import('vendor/velocity/velocity.js');
+      app.import('vendor/match-media/matchMedia.js');
+    }
 
     app.import('vendor/liquid-fire.css');
-    app.import('vendor/match-media/matchMedia.js');
   },
 
   setupPreprocessorRegistry: function(type, registry) {
