@@ -30,6 +30,11 @@ module.exports = {
   },
 
   included: function(app){
+    // see: https://github.com/ember-cli/ember-cli/issues/3718
+    if (typeof app.import !== 'function' && app.app) {
+      app = app.app;
+    }
+
     if (!process.env.EMBER_CLI_FASTBOOT) {
       app.import('vendor/velocity/velocity.js');
       app.import('vendor/match-media/matchMedia.js');
