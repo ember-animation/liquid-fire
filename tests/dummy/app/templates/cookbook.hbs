@@ -1,0 +1,60 @@
+<h1>Cookbook: how to embed Liquid Fire into your Ember app</h1>
+
+<p>In order to embed Liquid Fire into your application, there are a very few steps take. Since you are here, you
+probably {{#link-to "installation"}}already followed the installation guide{{/link-to}}. Now it is time to
+setup your transitions.</p>
+
+<h3>1. Setup transitions</h3>
+
+<p>The first step is to create the file transitions.js file next to router.js in the applications root folder, so you
+get <em>app/transitions.js</em>. Below you will find an example what the content of such file may look like.</p>
+
+{{code-snippet name="single-level-route-transition-map.js"}}
+
+<p>Here we have chosen to create a swipe transition, from right to left, when the user moves from the <em>index</em>
+route to the <em>posts</em> route. The reverse call indicates what should happen when the user goes moves from the
+<em>posts</em> to the <em>index</em> route: the swipe should be into the other direction. There many more
+{{#link-to "transitions.predefined"}}transitions included by default{{/link-to}}.</p>
+
+<h3>2. Replace outlets in your templates</h3>
+
+<p>Now we have defined our transitions, the next step is to replace Embers native <code>\{{outlet}}</code> in your
+template files. You should replace it with the outlet component by Liquid Fire: <code>\{{liquid-outlet}}</code>. It is
+most likely that you will find this <code>\{{outlet}}</code> in your application template file. So now your
+<em>app/templates/application.hbs</em> might look like this.</p>
+
+{{code-snippet name="simple-application.hbs"}}
+
+<h3>3. Create a transition to another route</h3>
+
+<p>When your create a link-to from the <em>index</em> route to the <em>posts</em> route, and click it, it will now show
+you the beautiful transitions that you created in your transitions.js file. The example template from the previous step
+already includes such a <code>\{{#link-to}}</code>. That's it, you now configured Liquid Fire!</p>
+
+<h3>4. Transitions for nested routes</h3>
+
+<p>Since you are done with the first steps, you are ready for some more action! What if I want to create a transition
+to a <a href="http://guides.emberjs.com/v2.2.0/routing/defining-your-routes/#toc_nested-routes">nested route</a>? This
+requires a little extra step! Suppose our <em>app/routes.js</em> looks as follows.</p>
+
+{{code-snippet name="nested-router-example.js"}}
+
+<p>We now want to create a transition when the user clicks on a button to create a new post. First we add another
+transition into our <em>app/transitions.js</em> from the first step.</p>
+
+{{code-snippet name="nested-router-transition-map.js"}}
+
+<p>Next, place the content template from <em>app/templates/posts.hbs</em> into
+<em>app/templates/posts/index.hbs</em>, if you have not done that already. And in <em>app/templates/posts.hbs</em> we
+place a new liquid outlet component, so the file looks like this.</p>
+
+{{code-snippet name="nested-route-template.hbs"}}
+
+<p>Finally, create a button in your <em>app/templates/posts/index.hbs</em> route that links to the <em>posts.new</em> route.
+And click it. You will now see (another build-in) cross-fade transition!</p>
+
+<p>Remember, you will have to include a
+<code>\{{liquid-outlet}}</code> in any nested route's master template. Otherwise, there will be no transition visible.
+This is how Ember works. A nested master template contains <code>\{{outlet}}</code> by default and you should overwrite
+it with a <code>\{{liquid-outlet}}</code>. But that is easy, right?</p>
+

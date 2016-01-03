@@ -9,6 +9,7 @@ Router.map(function() {
 
   /* Interactive Documentation */
   this.route('installation');
+  this.route('cookbook');
   this.route("helpers-documentation", { path: 'helpers'}, function(){
     this.route('liquid-outlet', function(){
       this.route('other');
