@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.0",
-    "ember-cli-sass": "^4.0.1",
+    "ember-cli-sass": "^5.2.1",
     "command": "0.0.5",
     "commander": "^2.3.0",
     "ember-cli": "git://github.com/ember-cli/ember-cli#a60f0fac0454778266a6c5aa78c14a54d8dcfdb6",
