@@ -1,7 +1,7 @@
 Liquid Fire
 ===========
 
-Comprehensive animation support for ambitious Ember applications. [Interactive Documentation is here](http://ef4.github.io/liquid-fire).
+Comprehensive animation support for ambitious Ember applications. [Interactive Documentation is here](http://ember-animation.github.io/liquid-fire/).
 
 ## Features
 
@@ -51,7 +51,7 @@ For older ember versions, consult the compatibility table above to pick the righ
 
 ### Documentation 
 
-[Liquid Fire website](http://ef4.github.io/liquid-fire) is an ember-cli application that contains an
+[Liquid Fire website](http://ember-animation.github.io/liquid-fire) is an ember-cli application that contains an
 interactive demo & documentation. It runs from Liquid Fire's [test dummy app](https://github.com/ef4/liquid-fire/tree/master/tests/dummy/app).
 
 You can also see some examples in my [Ember Animation Demo](http://github.com/ef4/ember-animation-demo) repo, and this [video presentation from the Boston Ember Meetup](https://www.youtube.com/watch?v=S4M78SO3gAc).
