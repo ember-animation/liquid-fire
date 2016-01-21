@@ -40,6 +40,12 @@
             scale
         </a>
     </li>
+    <li role="presentation" class={{if (is-equal activeTab 'wait') 'active'}}>
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action 'changeTab' 'wait'}}>
+            wait
+        </a>
+    </li>
+
 </ul>
 
 <div id="transition-examples">
@@ -260,6 +266,41 @@
           </div>
         {{!- END-SNIPPET }}
       </div>
+  {{/if}}
+
+  {{#if (is-equal activeTab 'wait')}}
+      <dt>wait</dt>
+      <dd>Waits a given number of milliseconds before proceeding with another transition. If no other transition is given, proceeds with the default behavior (making new elements visible and allowing old elements to be destroyed).
+      </dd>
+      <div class="well">
+          <div class="panel panel-default">
+              <div class="panel-body">
+                <button {{action "toggleDetail"}}>Toggle Detail View</button>
+                {{#liquid-if showDetail class='wait-demo'}}
+                  <div class="details">
+                    <h3>Details</h3>
+
+                    <p>
+                      Bacon ipsum dolor amet shank pork belly boudin flank
+                      prosciutto alcatra andouille pig short ribs biltong kevin
+                      salami tail turkey beef ribs.
+                    </p>
+                  </div>
+                {{else}}
+                  <div class="overview">
+                    <h3>Welcome</h3>
+                    <p>This is the overview.</p>
+                  </div>
+                {{/liquid-if}}
+              </div>
+          </div>
+
+        <p>The transition rule:</p>
+        {{code-snippet name="wait-demo.js"}}
+
+      </div>
+
+
   {{/if}}
 
 </div>

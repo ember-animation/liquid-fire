@@ -120,6 +120,15 @@ export default function() {
   );
   // END-SNIPPET
 
+  // BEGIN-SNIPPET wait-demo
+  this.transition(
+    this.hasClass('wait-demo'),
+    this.use('wait', 1000, { then: 'fade' })
+  );
+  // END-SNIPPET
+
+
+
 this.transition(
     this.childOf("#inline-serial-scenario"),
     this.use('fade', {duration: 1000})
