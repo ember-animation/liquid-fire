@@ -1,5 +1,13 @@
 # Changelog
 
+### 0.23.0:
+ - BUGFIX: make liquid-fire build correctly when included by another addon by @knownasilya
+ - DOC FIXES by @kiwiupover
+ - ENHANCEMENT: added `wait` transition
+ - ENHANCEMENT: new cookbook section in the docs by @frederikbosch
+ - ENHANCEMENT: expanded demos of predefined transitions in the docs by @IgorKvasn
+ - NOTICE: we have moved into a new GitHub organization, so update references to ef4/liquid-fire to ember-animation/liquid-fire.
+
 ### 0.22.1:
  - BUGFIX: safer fastboot build guards by @tomdale.
 
