@@ -19,6 +19,7 @@ Router.map(function() {
       this.route('page', { path: '/:id' });
     });
     this.route('liquid-if');
+    this.route('liquid-each');
     this.route('liquid-spacer');
   });
 

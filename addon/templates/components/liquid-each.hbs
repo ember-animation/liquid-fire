@@ -1,0 +1,5 @@
+{{#each elements as |element|}}
+  {{#liquid-tracker tagName=elementTag for=element}}
+    {{yield element}}
+  {{/liquid-tracker}}
+{{/each}}

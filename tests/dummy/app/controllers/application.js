@@ -15,6 +15,7 @@ export default Ember.Controller.extend({
           {route: "helpers-documentation.liquid-bind", title: "liquid-bind (inline form)"},
           {route: "helpers-documentation.liquid-bind-block", title: "liquid-bind (block form)"},
           {route: "helpers-documentation.liquid-if", title: "liquid-if"},
+          {route: "helpers-documentation.liquid-each", title: "liquid-each"},
           {route: "helpers-documentation.liquid-spacer", title: "liquid-spacer"}
         ]
       },

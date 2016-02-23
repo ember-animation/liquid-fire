@@ -1,0 +1,15 @@
+<h2>\{{#liquid-each}}</h2>
+
+<h3>Demo</h3>
+
+<div id="liquid-each-demo" class="well">
+  <h3>Inbox</h3>
+  <button {{action "addMessage"}}>Add a message</button>
+  {{#liquid-each messages tagName="table" elementTag="tr" as |message|}}
+      <td class="from">{{message.from}}</td>
+      <td class="subject">{{message.id}} {{message.subject}}</td>
+      <td class="controls">
+        <button {{action "deleteMessage" message}}>Delete</button>
+      </td>
+  {{/liquid-each}}
+</div>

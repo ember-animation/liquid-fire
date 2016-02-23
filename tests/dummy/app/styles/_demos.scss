@@ -104,3 +104,17 @@
 #transition-examples{
   margin-top: 1em;
 }
+
+#liquid-each-demo {
+    margin: 0 4em;
+    table {
+        width: 100%;
+    }
+    .from {
+        width: 14em;
+        overflow: ellipsis;
+    }
+    .subject {
+        overflow: ellipsis;
+    }
+}
