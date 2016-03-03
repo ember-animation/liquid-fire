@@ -21,6 +21,7 @@ export default Ember.Controller.extend({
       { route: 'transition-map', title: 'Transition Map',
         children: [
           {route: 'transition-map.route-constraints', title: 'Matching by route & model'},
+          {route: 'transition-map.outlet-constraints', title: 'Matching by outlet'},
           {route: 'transition-map.value-constraints', title: 'Matching by value'},
           {route: 'transition-map.media-constraints', title: 'Matching by media query'},
           {route: 'transition-map.dom-constraints', title: 'Matching by DOM context'},
