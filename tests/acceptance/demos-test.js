@@ -127,7 +127,7 @@ test('interruption demo, normal transition', function() {
   });
 });
 
-test('interruption demo, early interruption', function(assert) {
+skip('interruption demo, early interruption', function(assert) {
   visit('/transitions/primitives');
   andThen(function(){
     classFound('one');
@@ -148,7 +148,7 @@ test('interruption demo, early interruption', function(assert) {
   });
 });
 
-test('interruption demo, two early interruptions', function(assert) {
+skip('interruption demo, two early interruptions', function(assert) {
   visit('/transitions/primitives');
   andThen(function(){
     classFound('one');
