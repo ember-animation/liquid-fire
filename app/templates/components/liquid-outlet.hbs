@@ -1,4 +1,4 @@
-{{~#get-outlet-state outletName as |outletState|~}}
+{{~#get-outlet-state outletName watchModels=attrs.watchModels as |outletState|~}}
   {{#liquid-bind outletState
       id=id
       class=class
