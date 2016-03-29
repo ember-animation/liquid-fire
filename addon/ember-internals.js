@@ -147,5 +147,7 @@ function isStable(oldState, newState, watchModels) {
 }
 
 function modelIsStable(oldState, newState) {
-  return routeModel(oldState) === routeModel(newState);
+  let oldModel = routeModel(oldState) || [];
+  let newModel = routeModel(newState) || [];
+  return  oldModel[0] === newModel[0];
 }
