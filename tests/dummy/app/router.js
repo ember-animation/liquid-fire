@@ -9,7 +9,8 @@ Router.map(function() {
 
   /* Interactive Documentation */
   this.route('installation');
-  this.route("helpers-documentation", { path: 'helpers'}, function(){
+  this.route('cookbook');
+  this.route('helpers-documentation', { path: 'helpers'}, function(){
     this.route('liquid-outlet', function(){
       this.route('other');
     });
@@ -23,7 +24,9 @@ Router.map(function() {
 
   this.route('transition-map', function(){
     this.route('route-constraints');
+    this.route('outlet-constraints');
     this.route('value-constraints');
+    this.route('media-constraints');
     this.route('dom-constraints');
     this.route('initial-constraints');
     this.route('choosing-transitions');
@@ -40,7 +43,7 @@ Router.map(function() {
     });
   });
 
-  this.route("modal-documentation", { path: 'modals'}, function(){
+  this.route('modal-documentation', { path: 'modals' }, function(){
     this.route('modal');
     this.route('component');
     this.route('animation');
@@ -49,10 +52,10 @@ Router.map(function() {
     this.modal('hello-modal', {
       withParams: ['salutation', 'person'],
       otherParams: {
-        modalMessage: "message"
+        modalMessage: 'message'
       },
       actions: {
-        changeSalutation: "changeSalutation"
+        changeSalutation: 'changeSalutation'
       }
     });
     // END-SNIPPET

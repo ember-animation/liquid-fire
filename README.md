@@ -1,7 +1,7 @@
 Liquid Fire
 ===========
 
-Comprehensive animation support for ambitious Ember applications. [Interactive Documentation is here](http://ef4.github.io/liquid-fire).
+Comprehensive animation support for ambitious Ember applications. [Interactive Documentation is here](http://ember-animation.github.io/liquid-fire/).
 
 ## Features
 
@@ -51,8 +51,8 @@ For older ember versions, consult the compatibility table above to pick the righ
 
 ### Documentation 
 
-[Liquid Fire website](http://ef4.github.io/liquid-fire) is an ember-cli application that contains an
-interactive demo & documentation. It runs from Liquid Fire's [test dummy app](https://github.com/ef4/liquid-fire/tree/master/tests/dummy/app).
+[Liquid Fire website](http://ember-animation.github.io/liquid-fire) is an ember-cli application that contains an
+interactive demo & documentation. It runs from Liquid Fire's [test dummy app](https://github.com/ember-animation/liquid-fire/tree/master/tests/dummy/app).
 
 You can also see some examples in my [Ember Animation Demo](http://github.com/ef4/ember-animation-demo) repo, and this [video presentation from the Boston Ember Meetup](https://www.youtube.com/watch?v=S4M78SO3gAc).
 
@@ -66,12 +66,12 @@ addon format.
 
  - app: is code that's loaded directly into the user's application
  - addon: is code that can be imported by the user from the `liquid-fire` namespace
- - tests/dummy: is the testing, demo, and documentation application that runs at http://ef4.github.com/liquid-fire
+ - tests/dummy: is the testing, demo, and documentation application
  - packaging: extra tooling for building non-ember-cli releases
 
 ### Selecting Ember Versions
 
-Liquid Fire is tested against release, beta, and canaryversions of Ember.
+Liquid Fire is tested against release, beta, and canary versions of Ember.
 While developing Liquid Fire, you can switch to a different Ember
 environment by using [ember-try](https://github.com/kategengler/ember-try)'s
 `ember try ember-1.11.0` script.

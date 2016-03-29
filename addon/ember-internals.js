@@ -4,19 +4,19 @@
  */
 
 import Ember from "ember";
-var require = Ember.__loader.require;
-var internal = require('htmlbars-runtime').internal;
-var registerKeyword = require('ember-htmlbars/keywords').registerKeyword;
-var legacyViewKeyword = require('ember-htmlbars/keywords/view').default;
-var _Stream = require('ember-metal/streams/stream');
+var emberRequire = Ember.__loader.require;
+var internal = emberRequire('htmlbars-runtime').internal;
+var registerKeyword = emberRequire('ember-htmlbars/keywords').registerKeyword;
+var legacyViewKeyword = emberRequire('ember-htmlbars/keywords/view').default;
+var _Stream = emberRequire('ember-metal/streams/stream');
 var BasicStream = _Stream.default;
 var Stream = _Stream.Stream;
 
 var routeIsStable;
 try {
-  routeIsStable = require('ember-htmlbars/keywords/real_outlet').default.isStable;
+  routeIsStable = emberRequire('ember-htmlbars/keywords/real_outlet').default.isStable;
 } catch (err) {
-  routeIsStable = require('ember-htmlbars/keywords/outlet').default.isStable;
+  routeIsStable = emberRequire('ember-htmlbars/keywords/outlet').default.isStable;
 }
 
 // Given an Ember Component, return the containing element
@@ -26,7 +26,7 @@ export function containingElement(view) {
 
 // This is Ember's {{#if}} predicate semantics (where empty lists
 // count as false, etc).
-export var shouldDisplay = require('ember-views/streams/should_display').default;
+export var shouldDisplay = emberRequire('ember-views/streams/should_display').default;
 
 // Finds the route name from a route state so we can apply our
 // matching rules to it.

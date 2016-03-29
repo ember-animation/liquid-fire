@@ -1,10 +1,22 @@
 import Ember from "ember";
 import Application from '../../../app';
+import hasEmberVersion from 'ember-test-helpers/has-ember-version';
 
 var application, t, defaultHandler;
 
 Ember.run(function(){
-  application = Application.create({ autoboot: false});
+  var options = {
+    autoboot: false
+  };
+
+  if (hasEmberVersion(2,2) && !hasEmberVersion(2,3)) {
+    // autoboot: false does not work in Ember 2.2 (it was never public API),
+    // this prevents various things from happening that cause failures (like
+    // starting the event dispatcher on `body`)
+    options._bootSync = function() { };
+  }
+
+  application = Application.create(options);
 });
 
 module("Transitions DSL", {
@@ -331,6 +343,25 @@ test("matches routes by outletName", function(){
   var conditions = routes('one', 'two');
   conditions.outletName = 'panel';
   expectAnimation(conditions, dummyAction);
+});
+
+test("matches media", function() {
+  t.map(function(){
+    this.transition(
+      this.toRoute('two'),
+      this.media('(max-width: 480px)'),
+      this.use(dummyAction)
+    );
+  });
+
+  // Save and stub the matchMedia method
+  var matchMedia = window.matchMedia;
+  window.matchMedia = function() { return { matches: true }; };
+
+  expectAnimation(routes('one', 'two'), dummyAction);
+
+  // Restore matchMedia
+  window.matchMedia = matchMedia;
 });
 
 

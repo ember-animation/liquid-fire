@@ -4,7 +4,7 @@
 var checker = require('ember-cli-version-checker');
 var path = require('path');
 var mergeTrees = require('broccoli-merge-trees');
-var pickFiles = require('broccoli-static-compiler');
+var Funnel = require('broccoli-funnel');
 
 module.exports = {
   name: 'liquid-fire',
@@ -15,15 +15,31 @@ module.exports = {
 
   treeForVendor: function(tree){
     var velocityPath = path.dirname(require.resolve('velocity-animate'));
-    var velocityTree = pickFiles(this.treeGenerator(velocityPath), {
+    var velocityTree = new Funnel(this.treeGenerator(velocityPath), {
       srcDir: '/',
       destDir: 'velocity'
     });
-    return mergeTrees([tree, velocityTree]);
+
+    var matchMediaPath = path.dirname(require.resolve('match-media'));
+    var matchMediaTree = new Funnel(this.treeGenerator(matchMediaPath), {
+      srcDir: '/',
+      destDir: 'match-media'
+    });
+
+    return mergeTrees([tree, velocityTree, matchMediaTree]);
   },
 
   included: function(app){
-    app.import('vendor/velocity/velocity.js');
+    // see: https://github.com/ember-cli/ember-cli/issues/3718
+    if (typeof app.import !== 'function' && app.app) {
+      app = app.app;
+    }
+
+    if (!process.env.EMBER_CLI_FASTBOOT) {
+      app.import('vendor/velocity/velocity.js');
+      app.import('vendor/match-media/matchMedia.js');
+    }
+
     app.import('vendor/liquid-fire.css');
   },
 

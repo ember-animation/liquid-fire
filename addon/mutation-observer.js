@@ -1,3 +1,4 @@
+import isBrowser from './is-browser';
 var activePollers = [];
 
 function MutationPoller(callback){
@@ -15,7 +16,13 @@ MutationPoller.prototype = {
   }
 };
 
-var M = (window.MutationObserver || window.WebkitMutationObserver || MutationPoller);
+var M;
+if (isBrowser()) {
+  M = (window.MutationObserver || window.WebkitMutationObserver || MutationPoller);
+} else {
+  M = MutationPoller;
+}
+
 
 export default M;
 
