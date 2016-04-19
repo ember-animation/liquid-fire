@@ -10,9 +10,14 @@ export default Ember.Component.extend(Growable, {
   didInsertElement: function() {
     var child = this.$('> div');
     var measurements = this.myMeasurements(measure(child));
-    this.$().css('overflow', 'hidden')
-      .outerWidth(measurements.width)
-      .outerHeight(measurements.height);
+    var elt = this.$();
+    elt.css('overflow', 'hidden');
+    if (this.get('growWidth')) {
+      elt.outerWidth(measurements.width);
+    }
+    if (this.get('growHeight')) {
+      elt.outerHeight(measurements.height);
+    }
   },
 
   sizeChange: Ember.observer('measurements', function() {
