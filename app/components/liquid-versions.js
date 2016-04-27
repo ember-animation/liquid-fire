@@ -90,6 +90,13 @@ export default Ember.Component.extend({
   },
 
   finalizeVersions: function(versions) {
+    if(versions.length>1){
+      for(var i=1;i<versions.length; i++){
+        if(versions[i].view && versions[i].view.element) {
+          Ember.$.removeData(versions[i].view.element, 'velocity');
+        }
+      }
+    }
     versions.replace(1, versions.length - 1);
   },
 
