@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.19.6
+
+ - BUGFIX: PR #428 by gregone
+
 ### 0.19.5
 
  - BUGFIX: PR #335 by jamesreggio: respect enableGrowth=false
