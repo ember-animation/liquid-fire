@@ -1,5 +1,8 @@
-Liquid Fire
-===========
+<p align="center">
+  <a href="http://ef4.github.io/liquid-fire">
+    <img src="https://raw.githubusercontent.com/ryannpierce/open-source-branding/master/liquid-fire/liquid-fire_github-banner.png" title="Liquid Fire">
+  </a>
+</p>
 
 Comprehensive animation support for ambitious Ember applications. [Interactive Documentation is here](http://ember-animation.github.io/liquid-fire/).
 
