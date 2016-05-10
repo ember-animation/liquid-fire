@@ -1,26 +1,16 @@
 import Ember from 'ember';
 import layout from '../templates/components/liquid-sync';
+import Pausable from '../mixins/pausable';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(Pausable, {
   tagName: '',
   layout: layout,
   didInsertElement() {
-    const context = this.nearestWithProperty('_isLiquidChild');
-    if (context) {
-      this._defer = new Ember.RSVP.defer();
-      context._waitForMe(this._defer.promise);
-    }
-  },
-  willDestroyElement() {
-    if (this._defer) {
-      this._defer.resolve();
-    }
+    this.pauseLiquidFire();
   },
   actions: {
     ready() {
-      if (this._defer) {
-        this._defer.resolve();
-      }
+      this.resumeLiquidFire();
     }
   }
 });

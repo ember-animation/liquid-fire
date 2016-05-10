@@ -4,6 +4,7 @@ import Promise from "./promise";
 import MutationObserver from "./mutation-observer";
 import versionWarnings from "./version-warnings";
 import "./velocity-ext";
+export { default as Pausable } from './mixins/pausable';
 
 versionWarnings({
   minEmberVersion: [1, 11],
