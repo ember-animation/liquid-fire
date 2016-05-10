@@ -81,6 +81,35 @@ test('it should animate', function(assert) {
   });
 });
 
+test('it should not set width style if growWidth is false', function(assert) {
+  assert.expect(2);
+
+  this.render(`
+               {{#liquid-spacer id="my-spacer" growWidth=false}}
+                 Hi.
+               {{/liquid-spacer}}
+              `);
+
+  var style = this.$('#my-spacer').get(0).style;
+
+  assert.equal(style.width, '', 'width style is unset');
+  assert.ok(/^\d+px$/.test(style.height), 'height style is set to ' + style.height);
+});
+
+test('it should not set height style if growHeight is false', function(assert) {
+  assert.expect(2);
+
+  this.render(`
+               {{#liquid-spacer id="my-spacer" growHeight=false}}
+                 Hi.
+               {{/liquid-spacer}}
+              `);
+
+  var style = this.$('#my-spacer').get(0).style;
+
+  assert.equal(style.height, '', 'height style is unset');
+  assert.ok(/^\d+px$/.test(style.width), 'width style is set to ' + style.width);
+});
 
 
 var shortMessage = "Hi.";

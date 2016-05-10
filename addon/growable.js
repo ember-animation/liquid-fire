@@ -6,15 +6,24 @@ export default Ember.Mixin.create({
   growDuration: 250,
   growPixelsPerSecond: 200,
   growEasing: 'slide',
+  growWidth: true,
+  growHeight: true,
 
   transitionMap: Ember.inject.service('liquid-fire-transitions'),
 
   animateGrowth: function(elt, have, want) {
     this.get('transitionMap').incrementRunningTransitions();
-    return Promise.all([
-      this._adaptDimension(elt, 'width', have, want),
-      this._adaptDimension(elt, 'height', have, want)
-    ]).then(()=>{
+    var adaptations = [];
+
+    if (this.get('growWidth')) {
+      adaptations.push(this._adaptDimension(elt, 'width', have, want));
+    }
+
+    if (this.get('growHeight')) {
+      adaptations.push(this._adaptDimension(elt, 'height', have, want));
+    }
+
+    return Promise.all(adaptations).then(()=>{
       this.get('transitionMap').decrementRunningTransitions();
     });
   },

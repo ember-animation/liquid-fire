@@ -150,7 +150,7 @@ test('can see model-to-model transitions on the same route', function(assert) {
   };
   var tmap = this.container.lookup('service:liquid-fire-transitions');
   sinon.spy(tmap, 'transitionFor');
-  this.render('{{liquid-outlet}}');
+  this.render('{{liquid-outlet watchModels=true}}');
   setOutletState(state);
   assert.equal(this.$('.content').text().trim(), '1');
   tmap.transitionFor.reset();
