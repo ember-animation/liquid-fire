@@ -5,7 +5,7 @@ If you're using ember-cli, you probably don't need anything in this
 directory, even if you want to work with the latest unreleased master
 branch. You can run directly against master like this:
 
-    git clone https://github.com/ef4/liquid-fire
+    git clone https://github.com/ember-animation/liquid-fire
     cd liquid-fire
     npm install
     bower install
@@ -29,5 +29,5 @@ Releasing
 
 The `release.js` tool automates the process of publishing a full
 liquid-fire release to Github, the
-[liquid-fire docs website](http://ef4.github.com/liquid-fire), and
+[liquid-fire docs website](http://ember-animation.github.com/liquid-fire), and
 npm. Run `release.js --help`.
