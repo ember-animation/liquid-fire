@@ -142,6 +142,17 @@ export function registerKeywords() {
   registerKeyword('lf-vue', legacyViewKeyword);
 }
 
+export function getComponentFactory(owner, name) {
+  let looker = owner.lookup('component-lookup:main');
+  if (looker.lookupFactory) {
+    return looker.lookupFactory(name);
+  } else {
+    let Component = looker.componentFor(name, owner);
+    let layout = looker.layoutFor(name, owner);
+    return (Component || Ember.Component).extend({ layout });
+  }
+}
+
 function isStable(oldState, newState, watchModels) {
   return routeIsStable(oldState, newState) && (!watchModels || modelIsStable(oldState, newState));
 }
