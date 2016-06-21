@@ -10,6 +10,8 @@ module.exports = {
   name: 'liquid-fire',
 
   init: function() {
+    this._super.init && this._super.init.apply(this, arguments);
+    
     checker.assertAbove(this, '0.2.0');
   },
 
