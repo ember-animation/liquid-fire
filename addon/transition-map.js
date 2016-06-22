@@ -8,6 +8,8 @@ import getOwner from 'ember-getowner-polyfill';
 
 var TransitionMap = Ember.Service.extend({
   init: function() {
+    this._super(...arguments);
+    
     this.activeCount = 0;
     this.constraints = new Constraints();
     this.map(internalRules);

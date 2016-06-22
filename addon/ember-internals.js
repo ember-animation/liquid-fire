@@ -8,7 +8,7 @@ var emberRequire = Ember.__loader.require;
 var internal = emberRequire('htmlbars-runtime').internal;
 var registerKeyword = emberRequire('ember-htmlbars/keywords').registerKeyword;
 var legacyViewKeyword = emberRequire('ember-htmlbars/keywords/view').default;
-var _Stream = emberRequire('ember-metal/streams/stream');
+var _Stream = Ember.__loader.registry['ember-metal/streams/stream'] ? emberRequire('ember-metal/streams/stream') : emberRequire('ember-htmlbars/streams/stream');
 var BasicStream = _Stream.default;
 var Stream = _Stream.Stream;
 
@@ -26,7 +26,7 @@ export function containingElement(view) {
 
 // This is Ember's {{#if}} predicate semantics (where empty lists
 // count as false, etc).
-export var shouldDisplay = emberRequire('ember-views/streams/should_display').default;
+export var shouldDisplay = Ember.__loader.registry['ember-metal/streams/stream'] ? emberRequire('ember-views/streams/should_display').default : emberRequire('ember-htmlbars/streams/should_display').default;
 
 // Finds the route name from a route state so we can apply our
 // matching rules to it.
@@ -140,6 +140,17 @@ export function registerKeywords() {
   // people's apps. liquid-modal itself is deprecated and will ship in
   // 1.13 but not 2.0.
   registerKeyword('lf-vue', legacyViewKeyword);
+}
+
+export function getComponentFactory(owner, name) {
+  let looker = owner.lookup('component-lookup:main');
+  if (looker.lookupFactory) {
+    return looker.lookupFactory(name);
+  } else {
+    let Component = looker.componentFor(name, owner);
+    let layout = looker.layoutFor(name, owner);
+    return (Component || Ember.Component).extend({ layout });
+  }
 }
 
 function isStable(oldState, newState, watchModels) {
