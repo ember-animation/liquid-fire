@@ -13,8 +13,10 @@ export default Ember.Component.extend({
       $container.css('visibility','hidden');
     }
     this._waitForAll().then(() => {
-      this._waitingFor = null;
-      this.sendAction('liquidChildDidRender', this);
+      if (!this.isDestroying) {
+        this._waitingFor = null;
+        this.sendAction('liquidChildDidRender', this);
+      }
     });
   },
 
