@@ -45,16 +45,14 @@ test('it causes the transition to wait', function(assert) {
 
   this.set('activated', true);
 
+  assert.equal(animationStarted, false, "No animation yet");
+  assert.equal(this.$('.off').length, 1, "Found Off");
+  assert.equal(this.$('.sample').length, 1, "Found sample");
+
+  Ember.run(() => sample.sendAction('ready'));
+
+  assert.equal(animationStarted, true, "Animation started");
   return tmap.waitUntilIdle().then(() => {
-    assert.equal(animationStarted, false, "No animation yet");
-    assert.equal(this.$('.off').length, 1, "Found Off");
-    assert.equal(this.$('.sample').length, 1, "Found sample");
-
-    Ember.run(() => sample.sendAction('ready'));
-
-    assert.equal(animationStarted, true, "Animation started");
-    return tmap.waitUntilIdle();
-  }).then(() => {
     assert.equal(this.$('.sample').length, 1, "Found sample");
     assert.equal(this.$('.off').length, 0, "Off is gone");
   });
@@ -80,17 +78,33 @@ test('transition moves on if component is destroyed', function(assert) {
 
   this.set('activated', true);
 
+  assert.equal(animationStarted, false, "No animation yet");
+  assert.equal(this.$('.off').length, 1, "Found Off");
+  assert.equal(this.$('.sample').length, 1, "Found sample");
+
+  this.set('innerThing', true);
+
+  assert.equal(animationStarted, true, "Animation started");
   return tmap.waitUntilIdle().then(() => {
-    assert.equal(animationStarted, false, "No animation yet");
-    assert.equal(this.$('.off').length, 1, "Found Off");
-    assert.equal(this.$('.sample').length, 1, "Found sample");
-
-    this.set('innerThing', true);
-
-    assert.equal(animationStarted, true, "Animation started");
-    return tmap.waitUntilIdle();
-  }).then(() => {
     assert.equal(this.$('.alt').length, 1, "Found alt");
     assert.equal(this.$('.off').length, 0, "Off is gone");
   });
+});
+
+test('it considers liquid-fire non-idle when waiting for liquid-sync to resolve', function(assert) {
+  this.render(hbs`
+    {{#liquid-if activated use="spy"}}
+      {{#liquid-sync as |sync|}}
+        {{x-sample ready=sync}}
+      {{/liquid-sync}}
+    {{else}}
+      <div class="off">Off</div>
+    {{/liquid-if}}
+  `);
+
+
+  this.set('activated', true);
+
+  assert.equal(animationStarted, false, "No animation yet");
+  assert.ok(tmap.runningTransitions() > 0, "Isn't idle");
 });
