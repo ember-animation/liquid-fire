@@ -1,5 +1,14 @@
 # Changelog
 
+### master:
+ - DOC: outletName by @knownasilya
+ - DOC: readme update by @coryondemand
+ - ENHANCEMENT: configurable directions for liquid-spacer by @alisdair
+ - HOUSEKEEPING: updated addon layout to match modern conventions
+
+### 0.23.1:
+ - noop release, because I published a backport release (0.19.6) to the latest "npm tag" (which in git terms is a lot closer to a branch than a tag), which was causing users to get 0.19.6 preferentially over 0.23.0.
+
 ### 0.23.0:
  - BUGFIX: make liquid-fire build correctly when included by another addon by @knownasilya
  - DOC FIXES by @kiwiupover
