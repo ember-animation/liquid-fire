@@ -70,6 +70,7 @@ export default Ember.Component.extend({
       versions: versions,
       parentElement: Ember.$(containingElement(this)),
       use: get(this, 'use'),
+      rules: get(this, 'rules'),
       // Using strings instead of booleans here is an
       // optimization. The constraint system can match them more
       // efficiently, since it treats boolean constraints as generic

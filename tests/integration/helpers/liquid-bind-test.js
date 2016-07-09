@@ -68,6 +68,28 @@ test('it should support `use` option with a function', function(assert) {
   assert.ok(transition.called, 'expected my custom transition to be called');
 });
 
+test('it should support locally-scoped `rules`', function(assert) {
+  let transitionA = sinon.stub().returns(Ember.RSVP.resolve());
+  let transitionB = sinon.stub().returns(Ember.RSVP.resolve());
+  this.set('rules', function() {
+    this.transition(
+      this.toValue('other'),
+      this.use(transitionA),
+      this.reverse(transitionB)
+    );
+  });
+  this.set('name', 'unicorn');
+  this.render('{{liquid-bind name rules=rules}}');
+  this.set('name', 'other');
+  assert.ok(transitionA.called, 'expected transitionA to run');
+  assert.ok(transitionB.notCalled, 'expected transitionB to not run');
+  transitionA.reset();
+  transitionB.reset();
+  this.set('name', 'unicorn');
+  assert.ok(transitionB.called, 'expected transitionB to run on second set');
+  assert.ok(transitionA.notCalled, 'expected transitionA to not run on second set');
+});
+
 
 test('if should match correct helper name', function(assert) {
   var tmap = this.container.lookup('service:liquid-fire-transitions');

@@ -1,5 +1,5 @@
 {{#if containerless}}
-  {{~#liquid-versions value=attrs.value use=use
+  {{~#liquid-versions value=attrs.value use=use rules=rules
                      outletName=attrs.outletName
                      name="liquid-bind" renderWhenFalse=true class=class as |version| ~}}
     {{~#if hasBlock}}
@@ -18,7 +18,7 @@
       growEasing=growEasing
       enableGrowth=enableGrowth
       as |container| ~}}
-    {{~#liquid-versions value=attrs.value notify=container use=use
+    {{~#liquid-versions value=attrs.value notify=container use=use rules=rules
                        outletName=attrs.outletName
                        name="liquid-bind" renderWhenFalse=true as |version| ~}}
 

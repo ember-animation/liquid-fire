@@ -5,8 +5,9 @@ import Action from "./action";
 
 export default class DSL {
 
-  constructor(map) {
+  constructor(map, constraints) {
     this.map = map;
+    this.constraints = constraints;
   }
 
   setDefault(props) {
@@ -23,7 +24,8 @@ export default class DSL {
       rule.add(parts[i]);
     }
 
-    this.map.addRule(rule);
+    rule.validate(this.map);
+    this.constraints.addRule(rule);
   }
 
   fromRoute(routeName) {

@@ -148,3 +148,25 @@ QUnit.skip('should pass container arguments through', function(assert) {
   var container = Ember.View.views[containerElement.attr('id')];
   assert.equal(container.get('enableGrowth'), false, 'liquid-container enableGrowth');
 });
+
+test('it should support locally-scoped `rules`', function(assert) {
+  let transitionA = sinon.stub().returns(Ember.RSVP.resolve());
+  let transitionB = sinon.stub().returns(Ember.RSVP.resolve());
+  this.set('rules', function() {
+    this.transition(
+      this.toValue(true),
+      this.use(transitionA),
+      this.reverse(transitionB)
+    );
+  });
+  this.set('predicate', false);
+  this.render('{{#liquid-if predicate rules=rules}}hi{{/liquid-if}}');
+  this.set('predicate', true);
+  assert.ok(transitionA.called, 'expected transitionA to run');
+  assert.ok(transitionB.notCalled, 'expected transitionB to not run');
+  transitionA.reset();
+  transitionB.reset();
+  this.set('predicate', false);
+  assert.ok(transitionB.called, 'expected transitionB to run on second set');
+  assert.ok(transitionA.notCalled, 'expected transitionA to not run on second set');
+});

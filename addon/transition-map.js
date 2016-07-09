@@ -75,34 +75,38 @@ var TransitionMap = Ember.Service.extend({
     return this._defaultAction;
   },
 
-  transitionFor: function(conditions) {
+  constraintsFor(conditions) {
+    if (conditions.rules) {
+      let constraints = new Constraints();
+      this.map(conditions.rules, constraints);
+      return constraints;
+    } else {
+      return this.constraints;
+    }
+  },
+
+  transitionFor(conditions) {
     var action;
     if (conditions.use && conditions.firstTime !== 'yes') {
       action = new Action(conditions.use);
       action.validateHandler(this);
     } else {
-      var rule = this.constraints.bestMatch(conditions);
+      let rule = this.constraintsFor(conditions).bestMatch(conditions);
       if (rule) {
         action = rule.use;
       } else {
         action = this.defaultAction();
       }
     }
-
     return new RunningTransition(this, conditions.versions, action);
   },
 
 
-  map: function(handler) {
+  map: function(handler, constraints) {
     if (handler){
-      handler.apply(new DSL(this));
+      handler.apply(new DSL(this, constraints || this.constraints));
     }
     return this;
-  },
-
-  addRule: function(rule) {
-    rule.validate(this);
-    this.constraints.addRule(rule);
   },
 
   _registerWaiter: function() {
