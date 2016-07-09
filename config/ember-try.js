@@ -1,3 +1,7 @@
 module.exports = {
-  useVersionCompatibility: true
+  useVersionCompatibility: true,
+  scenarios: [{
+    "name": "ember-beta",
+    "allowedToFail": false
+  }]
 };
