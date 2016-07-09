@@ -29,9 +29,9 @@ correct version of liquid-fire:
 
 | Ember Version    | Liquid Fire Branch   | Liquid Fire Release  |
 | -----------------|----------------------| ---------------------|
-| 1.8 through 1.10 | oldstable            | 0.17                 |
-| 1.11 through 1.12| stable               | 0.19                 |
-| 1.13 and beyond  | master               | 0.21                 |
+| 1.8 through 1.10 | oldstable            | 0.17.x               |
+| 1.11 through 1.12| stable               | 0.19.x               |
+| 1.13 and beyond  | master               | latest               |
 
 `stable` and `oldstable` branches still receive bugfixes and PRs are
 welcome, but new feature work happens on `master`.
@@ -67,17 +67,10 @@ addon format.
  - app: is code that's loaded directly into the user's application
  - addon: is code that can be imported by the user from the `liquid-fire` namespace
  - tests/dummy: is the testing, demo, and documentation application
- - packaging: extra tooling for building non-ember-cli releases
 
 ### Selecting Ember Versions
 
-Liquid Fire is tested against release, beta, and canary versions of Ember.
-While developing Liquid Fire, you can switch to a different Ember
-environment by using [ember-try](https://github.com/kategengler/ember-try)'s
-`ember try ember-1.11.0` script.
+Liquid Fire is tested against many versions of Ember using [ember-try](https://github.com/ember-cli/ember-try). The oldest supported version is listed in `versionCompatibility` in `package.json`, and in CI we test every minor release since then, through beta and canary.
 
-After running this command and re-running `ember serve`, the ember-cli
-server (and QUnit test suite) will be running against Ember Canary +
-HTMLBars.
 
 
