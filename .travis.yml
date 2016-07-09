@@ -25,12 +25,3 @@ install:
 script:
   - ./node_modules/.bin/ember try:each
 
-deploy:
-  - provider: script
-    skip_cleanup: true
-    script: node_modules/.bin/ember deploy production --verbose
-    on:
-      branch: master
-env:
-  global:
-    secure: hVBPd3JlL3rWo+ajwTTGnNNltEOhfaITrY9P0hBYsFrSOqt4hcIkr5X3mXmoKbN+TuEbDh9wtuVVe+twR+dLPErFZRuNdlYyZsGIJxucL7tvEG+iLda77yvCiwrwOdYWwJEqqsvsMiizlwDyd8Xk+htLMiHJTKrEx1IJ9pb3C7s=
