@@ -39,7 +39,6 @@
     "ember-cli-sass": "^5.2.1",
     "ember-cli-uglify": "^1.0.1",
     "ember-code-snippet": "^1.0.0",
-    "ember-giftwrap": "0.0.2",
     "ember-load-initializers": "^0.5.0",
     "ember-resolver": "^2.0.3",
     "git-repo-info": "^1.0.4",
