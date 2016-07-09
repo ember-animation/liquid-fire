@@ -50,7 +50,7 @@ test('it should support element id', function(assert) {
   assert.equal(this.$('.liquid-container#foo').length, 1, "found element by id");
 });
 
-test('it should support `use` option', function(assert) {
+test('it should support `use` option with a name', function(assert) {
   var tmap = this.container.lookup('service:liquid-fire-transitions');
   sinon.spy(tmap, 'transitionFor');
   this.set('name', 'unicorn');
@@ -58,6 +58,16 @@ test('it should support `use` option', function(assert) {
   this.set('name', 'other');
   assert.equal(tmap.transitionFor.lastCall.returnValue.animation.name, 'fade');
 });
+
+test('it should support `use` option with a function', function(assert) {
+  let transition = sinon.stub().returns(Ember.RSVP.resolve());
+  this.set('transition', transition);
+  this.set('name', 'unicorn');
+  this.render('{{liquid-bind name use=transition}}');
+  this.set('name', 'other');
+  assert.ok(transition.called, 'expected my custom transition to be called');
+});
+
 
 test('if should match correct helper name', function(assert) {
   var tmap = this.container.lookup('service:liquid-fire-transitions');
