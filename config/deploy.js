@@ -2,9 +2,14 @@
 
 module.exports = function(deployTarget) {
   var ENV = {
-    build: {}
+    build: {},
+    git: {}
     // include other plugin configuration that applies to all deploy targets here
   };
+
+  if (process.env.GITHUB_CREDENTIALS) {
+    ENV.git.repo = "https://" + process.env.GITHUB_CREDENTIALS + "@github.com/ember-animation/liquid-fire";
+  }
 
   if (deployTarget === 'development') {
     ENV.build.environment = 'development';
