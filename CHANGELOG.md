@@ -1,10 +1,20 @@
 # Changelog
 
-### master:
+### 0.24.0:
  - DOC: outletName by @knownasilya
  - DOC: readme update by @coryondemand
+ - BUGFIX: Updated transition blueprint by @alexspeller
+ - BUGFIX: Renaming to match new repo location by @tricknotes
+ - BUGFIX: Renaming to match new repo location by @tricknotes
+ - BUGFIX: fixed ember-cli deprecation about this._super.init by @rwjblue
+ - BUGFIX: compatibility update for ember canary by @cryrivers
+ - ENHANCEMENT: we now use ember-try's `useVersionCompatibility` option in CI to test every minor release since 1.13.x
  - ENHANCEMENT: configurable directions for liquid-spacer by @alisdair
- - HOUSEKEEPING: updated addon layout to match modern conventions
+ - ENHANCEMENT: locally scoped rules (see af74d3)
+ - ENHANCEMENT: liquid-sync component lets you declare that something needs to happen before a component is ready to be animated
+ - EXPERIMENTAL: added watchModels option to liquid-outlet and added illiquid-model component. Together they allow model-to-model transitions to be animated directly from the liquid-outlet.
+ - HOUSEKEEPING: updated our repo organization to match modern conventions
+ - HOUSEKEEPING: removed liquid-with, which had been deprecated for a long time
 
 ### 0.23.1:
  - noop release, because I published a backport release (0.19.6) to the latest "npm tag" (which in git terms is a lot closer to a branch than a tag), which was causing users to get 0.19.6 preferentially over 0.23.0.
