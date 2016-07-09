@@ -45,14 +45,6 @@ module.exports = {
     }
 
     app.import('vendor/liquid-fire.css');
-  },
-
-  setupPreprocessorRegistry: function(type, registry) {
-    var TransformLiquidWithAsToHash = require('./ext/plugins/transform-liquid-with-as-to-hash');
-
-    registry.add('htmlbars-ast-plugin', {
-      name: "transform-liquid-with-as-to-hash",
-      plugin: TransformLiquidWithAsToHash
-    });
   }
+
 };
