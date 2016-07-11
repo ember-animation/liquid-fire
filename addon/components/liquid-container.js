@@ -67,7 +67,7 @@ export default Ember.Component.extend(Growable, {
       var elt = this.$();
       var enableGrowth = this.get('enableGrowth') !== false;
 
-      // Measure  children
+      // Measure children
       var sizes = [];
       for (var i = 0; i < versions.length; i++) {
         if (versions[i].view) {
@@ -86,7 +86,7 @@ export default Ember.Component.extend(Growable, {
       } else {
         this.lockSize(elt, {
           height: Math.max(want.height, have.height),
-          width: Math.max(want.width, have.width),
+          width: Math.max(want.width, have.width)
         });
       }
 
