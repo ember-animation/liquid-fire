@@ -61,9 +61,6 @@ export default Ember.Component.extend(Growable, {
         goAbsolute(versions[i]);
       }
 
-      // Apply '.liquid-animating' to liquid-container allowing
-      // any customizable CSS control while an animating is occuring
-      this.updateAnimatingClass(true);
     },
 
     afterChildInsertion: function(versions) {
@@ -92,6 +89,10 @@ export default Ember.Component.extend(Growable, {
           width: Math.max(want.width, have.width),
         });
       }
+
+      // Apply '.liquid-animating' to liquid-container allowing
+      // any customizable CSS control while an animating is occuring
+      this.updateAnimatingClass(true);
 
       // Make the children absolute and fixed size.
       for (i = 0; i < versions.length; i++) {
