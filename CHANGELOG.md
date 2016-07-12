@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.24.1:
+
+ - BUGFIX: more useful timing for the liquid-animating class (563adc)
+
 ### 0.24.0:
  - DOC: outletName by @knownasilya
  - DOC: readme update by @coryondemand
