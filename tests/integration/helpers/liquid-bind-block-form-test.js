@@ -27,7 +27,7 @@ test('it should update', function(assert) {
 });
 
 test('it should support element id', function(assert) {
-  this.render('{{#liquid-bind foo id="foo" as |bar|}} {{/liquid-bind}}');
+  this.render('{{#liquid-bind foo containerId="foo" as |bar|}} {{/liquid-bind}}');
   assert.equal(this.$('.liquid-container#foo').length, 1, "found element by id");
 });
 

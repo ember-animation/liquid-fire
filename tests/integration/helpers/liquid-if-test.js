@@ -56,7 +56,7 @@ test("it should update dynamic class name", function(assert) {
 });
 
 test('it should support element id', function(assert) {
-  this.render('{{#liquid-if isReady id="foo"}}hi{{/liquid-if}}');
+  this.render('{{#liquid-if isReady containerId="foo"}}hi{{/liquid-if}}');
   assert.equal(this.$('.liquid-container#foo').length, 1, "found element by id");
 });
 

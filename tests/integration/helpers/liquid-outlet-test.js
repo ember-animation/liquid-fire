@@ -96,7 +96,7 @@ test('it should support dynamic class', function(assert) {
 });
 
 test('it should support element id', function(assert) {
-  this.render('{{liquid-outlet id="foo"}}');
+  this.render('{{liquid-outlet containerId="foo"}}');
   assert.equal(this.$('.liquid-container#foo').length, 1, "found element by id");
 });
 
