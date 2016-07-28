@@ -37,13 +37,6 @@ export default Ember.Controller.extend({
           {route: 'transitions.defining', title: 'Defining custom transitions'},
           {route: 'transitions.primitives', title: 'Animation Primitives'}
         ]
-      },
-      { route: 'modal-documentation', title: 'Modal Dialogs',
-        children: [
-          {route: 'modal-documentation.modal', title: 'modal()'},
-          {route: 'modal-documentation.component', title: 'Modal Components'},
-          {route: 'modal-documentation.animation', title: 'Customizing Animation'}
-        ]
       }
     ];
   }.property(),

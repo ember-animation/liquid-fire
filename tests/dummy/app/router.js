@@ -43,29 +43,6 @@ Router.map(function() {
     });
   });
 
-  this.route('modal-documentation', { path: 'modals' }, function(){
-    this.route('modal');
-    this.route('component');
-    this.route('animation');
-
-    // BEGIN-SNIPPET hello-modal-map
-    this.modal('hello-modal', {
-      withParams: ['salutation', 'person'],
-      otherParams: {
-        modalMessage: 'message'
-      },
-      actions: {
-        changeSalutation: 'changeSalutation'
-      }
-    });
-    // END-SNIPPET
-
-  });
-
-  this.modal('warning-popup', {
-    withParams: 'warn'
-  });
-
   /* Test Scenarios */
 
   this.route('scenarios', function() {
@@ -82,13 +59,6 @@ Router.map(function() {
       this.route('middle2');
     });
     this.route('table-row');
-    this.route('remapped-modal');
-    this.modal('hello-modal', {
-      withParams: {
-        testSalutation : 'salutation',
-        testPerson : 'person'
-      }
-    });
     this.route('spacer');
     this.route('versions');
     this.route('hero');

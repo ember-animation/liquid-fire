@@ -2,17 +2,15 @@ import RunningTransition from "./running-transition";
 import DSL from "./dsl";
 import Ember from "ember";
 import Action from "./action";
-import internalRules from "./internal-rules";
 import Constraints from "./constraints";
 import getOwner from 'ember-getowner-polyfill';
 
 var TransitionMap = Ember.Service.extend({
   init: function() {
     this._super(...arguments);
-    
+
     this.activeCount = 0;
     this.constraints = new Constraints();
-    this.map(internalRules);
     var owner = getOwner(this);
     var config = owner._lookupFactory('transitions:main');
     if (config) {

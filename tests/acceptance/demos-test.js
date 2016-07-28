@@ -23,7 +23,7 @@ module('Acceptance: Demos', {
 });
 
 test('visit every link in sidebar', function() {
-  var lastRouteName = 'modal-documentation.animation';
+  var lastRouteName = 'transitions.primitives.index';
   expect(1);
 
   function navigateForward() {
@@ -212,71 +212,6 @@ skip('interruption demo, two late interruptions', function(assert) {
   });
   andThen(function(){
     classFound('one');
-  });
-});
-
-
-test('modal demo', function() {
-  visit('/modals');
-  click('#basic-modal-demo button');
-  andThen(function(){
-    findWithAssert('.hello-modal');
-    click('.hello-modal button.change');
-  });
-  andThen(function(){
-    ok(find('.hello-modal').text().match(/Hello/), "Salutation has changed");
-  });
-  andThen(function(){
-    click('.hello-modal button.done');
-  });
-  andThen(function(){
-    equal(find('.hello-modal').length, 0, "dismissed hello-modal");
-  });
-});
-
-test('modal demo with bound otherParams', function() {
-  visit('/modals');
-  click('#basic-modal-demo button');
-  andThen(function(){
-    fillIn('.modal-input', 'some new text');
-  });
-  andThen(function(){
-    ok(find('.template-input').val() === 'some new text', "Bound value has updated");
-  });
-});
-
-test('warn-popup - dismiss with overlay', function() {
-  visit('/modals?warn=1');
-  andThen(function(){
-    findWithAssert('#warn-popup');
-    click('.lm-container');
-  });
-  andThen(function(){
-    equal(find('#warn-popup').length, 0, "dismissed popup");
-  });
-});
-
-test('warn-popup - dismiss with url', function() {
-  visit('/modals?warn=1');
-  andThen(function(){
-    findWithAssert('#warn-popup');
-    visit('/');
-  });
-  andThen(function(){
-    equal(find('#warn-popup').length, 0, "dismissed popup");
-  });
-});
-
-test('modal demo after navigation', function() {
-  visit('/');
-  visit('/modals');
-  click('#basic-modal-demo button');
-  andThen(function(){
-    findWithAssert('.hello-modal');
-    click('.hello-modal button.done');
-  });
-  andThen(function(){
-    equal(find('.hello-modal').length, 0, "dismissed hello-modal");
   });
 });
 

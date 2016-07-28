@@ -7,7 +7,6 @@ import Ember from "ember";
 var emberRequire = Ember.__loader.require;
 var internal = emberRequire('htmlbars-runtime').internal;
 var registerKeyword = emberRequire('ember-htmlbars/keywords').registerKeyword;
-var legacyViewKeyword = emberRequire('ember-htmlbars/keywords/view').default;
 var _Stream = Ember.__loader.registry['ember-metal/streams/stream'] ? emberRequire('ember-metal/streams/stream') : emberRequire('ember-htmlbars/streams/stream');
 var BasicStream = _Stream.default;
 var Stream = _Stream.Stream;
@@ -134,12 +133,6 @@ export function registerKeywords() {
       return true;
     }
   });
-
-  // This gives us a non-deprecated view keyword so we can continue to
-  // ship the old liquid-modal template for now without breaking
-  // people's apps. liquid-modal itself is deprecated and will ship in
-  // 1.13 but not 2.0.
-  registerKeyword('lf-vue', legacyViewKeyword);
 }
 
 export function getComponentFactory(owner, name) {
