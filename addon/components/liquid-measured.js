@@ -66,12 +66,12 @@ export function measure($elt) {
   if ($elt[0].offsetWidth === 0) {
       width = 0;
   } else {
-    width = $elt.outerWidth();
+    width = $elt[0].getBoundingClientRect().width;
   }
   if ($elt[0].offsetHeight === 0) {
     height = 0;
   } else {
-    height = $elt.outerHeight();
+    height = $elt[0].getBoundingClientRect().height;
   }
 
   return {
