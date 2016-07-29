@@ -89,6 +89,11 @@ Router.map(function() {
         testPerson : 'person'
       }
     });
+    this.route('initially-truthy-modal', function() {
+      this.modal('initially-truthy-modal', {
+        withParams: 'foo'
+      });
+    });
     this.route('spacer');
     this.route('versions');
     this.route('hero');

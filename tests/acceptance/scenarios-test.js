@@ -57,6 +57,16 @@ test('modal with remapped parameters receives them', function() {
 });
 
 
+test('modal with initially truthy parameter is shown', function() {
+  expect(1);
+  visit('/scenarios/initially-truthy-modal');
+  andThen(function(){
+    findWithAssert('.lf-dialog:contains(Initially Truthy)');
+    ok(true);
+  });
+});
+
+
 test('model-dependent transitions are matching correctly', function() {
   visit('/scenarios/model-dependent-rule/1');
   andThen(() => click('a:contains(Next)'));
