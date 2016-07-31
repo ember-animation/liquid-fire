@@ -4,6 +4,9 @@ module.exports = {
     name: "ember-beta",
     allowedToFail: false,
   },{
+    name: "ember-canary",
+    allowedToFail: false,
+  },{
     name: "ember-alpha",
     allowedToFail: true,
     bower: {
