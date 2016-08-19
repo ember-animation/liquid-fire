@@ -7,7 +7,7 @@ var LiquidOutlet = Ember.Component.extend({
   tagName: '',
   didReceiveAttrs() {
     this._super();
-    this.set('outletName', this.attrs.inputOutletName || 'main');
+    this.set('outletName', this.get('inputOutletName') || 'main');
   }
 });
 
