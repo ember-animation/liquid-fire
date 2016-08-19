@@ -1,5 +1,4 @@
-{{~#get-outlet-state outletName watchModels=watchModels as |outletState|~}}
-  {{#liquid-bind outletState
+{{#liquid-bind (lf-preprocess-outlet-state outletState=(-get-dynamic-var "outletState") watchModels=watchModels outletName=outletName)
       containerId=containerId
       class=class
       use=use
@@ -11,11 +10,8 @@
       growPixelsPerSecond=growPixelsPerSecond
       growEasing=growEasing
       enableGrowth=enableGrowth
-    as |version| ~}}
-
-      {{#set-outlet-state outletName version.outletState~}}
+      as |version| ~}}
+      {{#-with-dynamic-var "outletState" version.outletState ~}}
         {{outlet outletName}}
-      {{~/set-outlet-state}}
-
-  {{~/liquid-bind~}}
-{{/get-outlet-state}}
+      {{~/-with-dynamic-var}}
+{{~/liquid-bind~}}

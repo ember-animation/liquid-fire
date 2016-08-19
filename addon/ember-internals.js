@@ -4,34 +4,42 @@
  */
 
 import Ember from "ember";
-var emberRequire = Ember.__loader.require;
-var internal = emberRequire('htmlbars-runtime').internal;
-var registerKeyword = emberRequire('ember-htmlbars/keywords').registerKeyword;
-var _Stream = Ember.__loader.registry['ember-metal/streams/stream'] ? emberRequire('ember-metal/streams/stream') : emberRequire('ember-htmlbars/streams/stream');
-var BasicStream = _Stream.default;
-var Stream = _Stream.Stream;
+let emberRequire = Ember.__loader.require;
+let usingGlimmer;
 
-var routeIsStable;
-try {
-  routeIsStable = emberRequire('ember-htmlbars/keywords/real_outlet').default.isStable;
-} catch (err) {
-  routeIsStable = emberRequire('ember-htmlbars/keywords/outlet').default.isStable;
+export function initialize() {
+  let rendererModule;
+  try {
+    rendererModule = emberRequire('ember-glimmer/renderer');
+    usingGlimmer = true;
+  } catch(err)  {}
+
+  if (usingGlimmer) {
+    let declareDynamicVariable = rendererModule.declareDynamicVariable;
+    if (!declareDynamicVariable) {
+      throw new Error("to work with glimmer2, liquid-fire depends on changes in Ember that you don't have");
+    }
+    declareDynamicVariable('liquidParent');
+  } else {
+    registerKeywords();
+  }
 }
 
 // Given an Ember Component, return the containing element
 export function containingElement(view) {
-  return view._renderNode.contextualElement;
+  if (usingGlimmer) {
+    // FIXME: this is not really the same thing
+    return view.parentView.element;
+  } else {
+    return view._renderNode.contextualElement;
+  }
 }
-
-// This is Ember's {{#if}} predicate semantics (where empty lists
-// count as false, etc).
-export var shouldDisplay = Ember.__loader.registry['ember-metal/streams/stream'] ? emberRequire('ember-views/streams/should_display').default : emberRequire('ember-htmlbars/streams/should_display').default;
 
 // Finds the route name from a route state so we can apply our
 // matching rules to it.
-export function routeName(routeIdentity) {
-  var o, r;
-  if (routeIdentity && (o = routeIdentity.outletState) && (r = o.render)) {
+export function routeName(value) {
+  let o, r;
+  if (value && (o = value.childOutletState) && (r = o.render)) {
     return [ r.name ];
   }
 }
@@ -45,7 +53,7 @@ export function routeModel(routeIdentity) {
   }
 }
 
-function withLockedModel(outletState) {
+export function withLockedModel(outletState) {
   var r, c;
   if (outletState && (r = outletState.render) && (c = r.controller) && !outletState._lf_model) {
     outletState = Ember.copy(outletState);
@@ -54,7 +62,13 @@ function withLockedModel(outletState) {
   return outletState;
 }
 
-export function registerKeywords() {
+function registerKeywords() {
+  let internal = emberRequire('htmlbars-runtime').internal;
+  let registerKeyword = emberRequire('ember-htmlbars/keywords').registerKeyword;
+  let _Stream = Ember.__loader.registry['ember-metal/streams/stream'] ? emberRequire('ember-metal/streams/stream') : emberRequire('ember-htmlbars/streams/stream');
+  let BasicStream = _Stream.default;
+  let Stream = _Stream.Stream;
+
   registerKeyword('get-outlet-state', {
     willRender(renderNode, env) {
       env.view.ownerView._outlets.push(renderNode);
@@ -154,4 +168,18 @@ function modelIsStable(oldState, newState) {
   let oldModel = routeModel(oldState) || [];
   let newModel = routeModel(newState) || [];
   return  oldModel[0] === newModel[0];
+}
+
+function routeIsStable(lastState, newState) {
+  if (!lastState && !newState) {
+    return true;
+  }
+
+  if (!lastState && newState || lastState && !newState) {
+    return false;
+  }
+
+  return newState.render.template === lastState.render.template &&
+    newState.render.controller === lastState.render.controller;
+
 }

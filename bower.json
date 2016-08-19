@@ -1,7 +1,7 @@
 {
   "name": "liquid-fire",
   "dependencies": {
-    "ember": "2.6.1",
+    "ember": "components/ember#alpha",
     "ember-cli-shims": "ember-cli/ember-cli-shims#0.1.1",
     "ember-cli-test-loader": "ember-cli-test-loader#0.2.2"
   },
@@ -10,6 +10,6 @@
     "moment": "~2.8.3"
   },
   "resolutions": {
-    "ember": "canary"
+    "ember": "alpha"
   }
 }

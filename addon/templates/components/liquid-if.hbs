@@ -1,5 +1,15 @@
 {{#if containerless}}
-  {{#liquid-versions value=showFirstBlock name=helperName
+
+  {{!- Why are we using inline-ifs here? Because we want to force
+    conversion to a boolean while respecting Ember's built in `if`
+    semantics.
+
+    Why not just defer the conversion until the real block `if` below?
+    Because we don't want liquid-versions to treat distinct values of
+    the same truthiness as distinct.
+  }}
+
+  {{#liquid-versions value=(if inverted (if predicate false true) (if predicate true false)) name=helperName
                        use=use rules=rules renderWhenFalse=(hasBlock "inverse") class=class as |valueVersion|}}
     {{#if valueVersion}}
       {{yield}}
@@ -16,7 +26,7 @@
       growEasing=growEasing
       enableGrowth=enableGrowth
       as |container|}}
-    {{#liquid-versions value=showFirstBlock notify=container name=helperName
+    {{#liquid-versions value=(if inverted (if predicate false true) (if predicate true false)) notify=container name=helperName
     use=use rules=rules renderWhenFalse=(hasBlock "inverse") as |valueVersion|}}
       {{#if valueVersion}}
         {{yield}}
