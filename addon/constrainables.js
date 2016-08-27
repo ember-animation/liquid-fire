@@ -16,13 +16,13 @@ export default {
   oldRoute: {
     reversesTo: 'newRoute',
     accessor: function(conditions) {
-      return routeName(versionValue(conditions, 1));
+      return routeName(versionValue(conditions, 1), conditions.matchContext.outletName);
     }
   },
   newRoute: {
     reversesTo: 'oldRoute',
     accessor: function(conditions) {
-      return routeName(versionValue(conditions, 0));
+      return routeName(versionValue(conditions, 0), conditions.matchContext.outletName);
     }
   },
   oldModel: {
@@ -37,8 +37,16 @@ export default {
       return routeModel(versionValue(conditions, 0));
     }
   },
-  helperName: {},
-  outletName: {},
+  helperName: {
+    accessor(conditions) {
+      return conditions.matchContext.helperName;
+    }
+  },
+  outletName: {
+    accessor(conditions) {
+      return conditions.matchContext.outletName;
+    }
+  },
   parentElementClass: {
     accessor: function(conditions) {
       var cls = conditions.parentElement.attr('class');

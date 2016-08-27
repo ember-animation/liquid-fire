@@ -9,7 +9,7 @@
     the same truthiness as distinct.
   }}
 
-  {{#liquid-versions value=(if inverted (if predicate false true) (if predicate true false)) name=helperName
+  {{#liquid-versions value=(if inverted (if predicate false true) (if predicate true false)) matchContext=(hash helperName=helperName)
                        use=use rules=rules renderWhenFalse=(hasBlock "inverse") class=class as |valueVersion|}}
     {{#if valueVersion}}
       {{yield}}
@@ -26,7 +26,7 @@
       growEasing=growEasing
       enableGrowth=enableGrowth
       as |container|}}
-    {{#liquid-versions value=(if inverted (if predicate false true) (if predicate true false)) notify=container name=helperName
+    {{#liquid-versions value=(if inverted (if predicate false true) (if predicate true false)) notify=container matchContext=(hash helperName=helperName)
     use=use rules=rules renderWhenFalse=(hasBlock "inverse") as |valueVersion|}}
       {{#if valueVersion}}
         {{yield}}

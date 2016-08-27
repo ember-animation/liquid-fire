@@ -1,17 +1,17 @@
-{{#liquid-bind (lf-preprocess-outlet-state outletState=(-get-dynamic-var "outletState") watchModels=watchModels outletName=outletName)
+{{#liquid-bind (-get-dynamic-var "outletState")
       containerId=containerId
+      versionEquality=versionEquality
+      matchContext=(hash outletName=outletName helperName="liquid-outlet")
       class=class
       use=use
       rules=rules
-      name="liquid-outlet"
-      outletName=outletName
       containerless=containerless
       growDuration=growDuration
       growPixelsPerSecond=growPixelsPerSecond
       growEasing=growEasing
       enableGrowth=enableGrowth
       as |version| ~}}
-      {{#-with-dynamic-var "outletState" version.outletState ~}}
+      {{#-with-dynamic-var "outletState" version ~}}
         {{outlet outletName}}
       {{~/-with-dynamic-var}}
 {{~/liquid-bind~}}

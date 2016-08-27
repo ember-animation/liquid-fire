@@ -8,16 +8,12 @@ var set = Ember.set;
 export default Ember.Component.extend({
   layout,
   tagName: "",
-  name: 'liquid-versions',
 
   transitionMap: Ember.inject.service('liquid-fire-transitions'),
 
   didReceiveAttrs() {
     this._super();
-    if (!this.versions || this._lastVersion !== this.getAttr('value')) {
-      this.appendVersion();
-      this._lastVersion = this.getAttr('value');
-    }
+    this.appendVersion();
   },
 
   appendVersion() {
@@ -25,25 +21,31 @@ export default Ember.Component.extend({
     var firstTime = false;
     var newValue = this.getAttr('value');
     var oldValue;
+    let versionEquality = this.get('versionEquality') || defaultEqualityCheck;
 
     if (!versions) {
       firstTime = true;
       versions = Ember.A();
     } else {
-      oldValue = versions[0];
+      if (versions[0]) {
+        oldValue = versions[0].value;
+      }
     }
 
-    // TODO: may need to extend the comparison to do the same kind of
-    // key-based diffing that htmlbars is doing.
-    if (!firstTime && ((!oldValue && !newValue) ||
-                       (oldValue  === newValue))) {
+    if (!firstTime && versionEquality(oldValue, newValue)) {
+      if (versions[0] && versionEquality !== defaultEqualityCheck) {
+        // When using custom equality checkers, we may consider values
+        // equal for our purposes that are not `===`. In that case, we
+        // still need to thread updated values through to our children
+        // so they have their own opportunity to react.
+        Ember.set(versions[0], 'value', newValue);
+      }
       return;
     }
 
     this.notifyContainer('willTransition', versions);
     var newVersion = {
-      value: newValue,
-      shouldRender: newValue || get(this, 'renderWhenFalse')
+      value: newValue
     };
     versions.unshiftObject(newVersion);
 
@@ -52,7 +54,7 @@ export default Ember.Component.extend({
       set(this, 'versions', versions);
     }
 
-    if (!newVersion.shouldRender && !firstTime) {
+    if (!(newValue || this.get('renderWhenFalse') || firstTime)) {
       this._transition();
     }
   },
@@ -71,14 +73,13 @@ export default Ember.Component.extend({
       parentElement: Ember.$(containingElement(this)),
       use: get(this, 'use'),
       rules: get(this, 'rules'),
+      matchContext: get(this, 'matchContext') || {},
       // Using strings instead of booleans here is an
       // optimization. The constraint system can match them more
       // efficiently, since it treats boolean constraints as generic
       // "match anything truthy/falsy" predicates, whereas string
       // checks are a direct object property lookup.
       firstTime: firstTime ? 'yes' : 'no',
-      helperName: get(this, 'name'),
-      outletName: get(this, 'outletName')
     });
 
     if (this._runningTransition) {
@@ -121,3 +122,9 @@ export default Ember.Component.extend({
   }
 
 });
+
+// All falsey values are considered equal, everything else gets strict
+// equality.
+function defaultEqualityCheck(a, b) {
+  return (!a && !b) || a === b;
+}

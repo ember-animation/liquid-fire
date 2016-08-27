@@ -1,7 +1,8 @@
 {{#if containerless}}
   {{~#liquid-versions value=value use=use rules=rules
-                     outletName=outletName
-                     name="liquid-bind" renderWhenFalse=true class=class as |version| ~}}
+                     matchContext=forwardMatchContext
+                     versionEquality=versionEquality
+                     renderWhenFalse=true class=class as |version| ~}}
     {{~#if hasBlock}}
       {{~yield version ~}}
     {{else}}
@@ -19,8 +20,9 @@
       enableGrowth=enableGrowth
       as |container| ~}}
     {{~#liquid-versions value=value notify=container use=use rules=rules
-                       outletName=outletName
-                       name="liquid-bind" renderWhenFalse=true as |version| ~}}
+                       matchContext=forwardMatchContext
+                       versionEquality=versionEquality
+                       renderWhenFalse=true as |version| ~}}
 
       {{~#if hasBlock}}
         {{~yield version ~}}

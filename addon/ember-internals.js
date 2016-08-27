@@ -37,10 +37,14 @@ export function containingElement(view) {
 
 // Finds the route name from a route state so we can apply our
 // matching rules to it.
-export function routeName(value) {
-  let o, r;
-  if (value && (o = value.childOutletState) && (r = o.render)) {
-    return [ r.name ];
+export function routeName(routeInfo, outletName) {
+  let outlets, child;
+  // TODO: the middle condition is only necessary because every
+  // constrainable accessor runs against every value all the time. It
+  // would be better to add a precondition on helperName that would
+  // short-circuit this elsewhere.
+  if (routeInfo && (outlets = routeInfo.outlets) && (child = outlets[outletName])) {
+    return [child.render.name];
   }
 }
 
@@ -160,26 +164,33 @@ export function getComponentFactory(owner, name) {
   }
 }
 
-function isStable(oldState, newState, watchModels) {
-  return routeIsStable(oldState, newState) && (!watchModels || modelIsStable(oldState, newState));
+export function routeIsStable(oldRouteInfo, newRouteInfo, outletName) {
+  if (!oldRouteInfo && !newRouteInfo) {
+    return true;
+  }
+
+  if (!oldRouteInfo || !newRouteInfo) {
+    return false;
+  }
+
+  let oldChild = oldRouteInfo.outlets[outletName];
+  let newChild = newRouteInfo.outlets[outletName];
+
+  if (!oldChild && !newChild) {
+    return true;
+  }
+
+  if (!oldChild || !newChild) {
+    return false;
+  }
+
+
+  return oldChild.render.template === newChild.render.template &&
+    oldChild.render.controller === newChild.render.controller;
 }
 
 function modelIsStable(oldState, newState) {
   let oldModel = routeModel(oldState) || [];
   let newModel = routeModel(newState) || [];
   return  oldModel[0] === newModel[0];
-}
-
-function routeIsStable(lastState, newState) {
-  if (!lastState && !newState) {
-    return true;
-  }
-
-  if (!lastState && newState || lastState && !newState) {
-    return false;
-  }
-
-  return newState.render.template === lastState.render.template &&
-    newState.render.controller === lastState.render.controller;
-
 }
