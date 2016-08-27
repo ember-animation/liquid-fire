@@ -7,10 +7,10 @@ var tmap;
 
 moduleForComponent('Integration: liquid-spacer', {
   integration: true,
-  setup: function() {
+  beforeEach() {
     tmap = this.container.lookup('service:liquid-fire-transitions');
   },
-  teardown: function() {
+  afterEach() {
     tmap = null;
   }
 });

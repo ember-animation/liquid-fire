@@ -1,14 +1,14 @@
 /* global sinon */
 import Ember from "ember";
+import { skip } from 'qunit';
 import { test, moduleForComponent } from "ember-qunit";
-import QUnit from 'qunit';
 
 moduleForComponent('Integration: liquid-if', {
   integration: true,
-  teardown: function() {
-    QUnit.stop();
+  afterEach(assert) {
+    let done = assert.async();
     var tmap = this.container.lookup('service:liquid-fire-transitions');
-    tmap.waitUntilIdle().then(QUnit.start);
+    tmap.waitUntilIdle().then(done);
   }
 });
 
@@ -141,7 +141,7 @@ test('should support `class` on liquid-children in containerless mode', function
   assert.equal(this.$('> .liquid-child.bar').length, 1, "child with class");
 });
 
-QUnit.skip('should pass container arguments through', function(assert) {
+skip('should pass container arguments through', function(assert) {
   this.set('isReady', true);
   this.render('{{#liquid-if isReady enableGrowth=false}}hi{{/liquid-if}}');
   var containerElement = this.$(' > .liquid-container');

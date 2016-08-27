@@ -1,8 +1,8 @@
 /* global sinon */
 import Ember from "ember";
+import { skip } from 'qunit';
 import { test, moduleForComponent } from "ember-qunit";
 import { withTemplate } from "../../helpers/outlet";
-import QUnit from 'qunit';
 
 var top, topState, controller, stageView;
 
@@ -15,7 +15,7 @@ function setOutletState(state) {
 
 moduleForComponent('Integration: liquid-outlet', {
   integration: true,
-  setup: function() {
+  beforeEach() {
     controller = Ember.Controller.create();
     topState = {
       render: {},
@@ -45,14 +45,14 @@ moduleForComponent('Integration: liquid-outlet', {
 
     Ember.run(() => top.appendTo('#ember-testing'));
   },
-  teardown: function() {
+  afterEach(assert) {
     Ember.run(() => {
       top.destroy();
       controller.destroy();
     });
-    QUnit.stop();
+    let done = assert.async();
     var tmap = this.container.lookup('service:liquid-fire-transitions');
-    tmap.waitUntilIdle().then(QUnit.start);
+    tmap.waitUntilIdle().then(done);
   }
 });
 
@@ -103,7 +103,7 @@ test('it should support element id', function(assert) {
 // This test was making fragile use of internals that broke. Needs to
 // get rewritten to actually observe enableGrowth=false having the
 // intended effect.
-QUnit.skip('should pass container arguments through', function(assert) {
+skip('should pass container arguments through', function(assert) {
   this.render('{{liquid-outlet enableGrowth=false}}');
   var containerElement = this.$('.liquid-container');
   var container = Ember.View.views[containerElement.attr('id')];

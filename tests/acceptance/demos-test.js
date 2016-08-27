@@ -1,30 +1,24 @@
-/* global ranTransition, noTransitionsYet, notDeepEqual */
+/* global ranTransition, noTransitionsYet */
 import Ember from 'ember';
-import startApp from '../helpers/start-app';
-import { skip } from 'qunit';
+import { test, skip } from 'qunit';
+import moduleForAcceptance from '../helpers/module-for-acceptance';
 import { injectTransitionSpies,
          classFound,
          clickWithoutWaiting } from '../helpers/integration';
 
-var App;
-
-module('Acceptance: Demos', {
-  setup: function() {
-    App = startApp();
+moduleForAcceptance('Acceptance: Demos', {
+  beforeEach() {
     // Conceptually, integration tests shouldn't be digging around in
     // the container. But animations are slippery, and it's easier to
     // just spy on them to make sure they're being run than to try to
     // observe their behavior more directly.
-    injectTransitionSpies(App);
-  },
-  teardown: function() {
-    Ember.run(App, 'destroy');
+    injectTransitionSpies(this.application);
   }
 });
 
-test('visit every link in sidebar', function() {
+test('visit every link in sidebar', function(assert) {
   var lastRouteName = 'transitions.primitives.index';
-  expect(1);
+  assert.expect(1);
 
   function navigateForward() {
     var forward = find('.nav-link.forward a');
@@ -32,7 +26,7 @@ test('visit every link in sidebar', function() {
       click('.nav-link.forward a');
       andThen(navigateForward);
     } else {
-      equal(currentRouteName(), lastRouteName);
+      assert.equal(currentRouteName(), lastRouteName);
     }
   }
 
@@ -40,45 +34,45 @@ test('visit every link in sidebar', function() {
   andThen(navigateForward);
 });
 
-test('liquid outlet demo', function() {
+test('liquid outlet demo', function(assert) {
   visit('/helpers/liquid-outlet');
   andThen(function(){
-    equal(currentRouteName(), 'helpers-documentation.liquid-outlet.index');
-    equal(find('.demo-container a').text(), 'Click me!');
-    noTransitionsYet();
+    assert.equal(currentRouteName(), 'helpers-documentation.liquid-outlet.index');
+    assert.equal(find('.demo-container a').text(), 'Click me!');
+    noTransitionsYet(assert);
   });
   click('.demo-container a');
   andThen(function(){
-    equal(currentRouteName(), 'helpers-documentation.liquid-outlet.other');
-    equal(find('.demo-container a').text(), 'Go back!');
-    ranTransition('toLeft');
+    assert.equal(currentRouteName(), 'helpers-documentation.liquid-outlet.other');
+    assert.equal(find('.demo-container a').text(), 'Go back!');
+    ranTransition(assert, 'toLeft');
   });
   click('.demo-container a');
   andThen(function(){
-    equal(currentRouteName(), 'helpers-documentation.liquid-outlet.index');
-    equal(find('.demo-container a').text(), 'Click me!');
-    ranTransition('toRight');
+    assert.equal(currentRouteName(), 'helpers-documentation.liquid-outlet.index');
+    assert.equal(find('.demo-container a').text(), 'Click me!');
+    ranTransition(assert, 'toRight');
   });
 });
 
-test('liquid bind block-form demo', function() {
+test('liquid bind block-form demo', function(assert) {
   visit('/helpers/liquid-bind-block');
   andThen(function(){
-    ok(/\b1\b/.test(find('.demo-container').text()), 'Has 1');
-    noTransitionsYet();
+    assert.ok(/\b1\b/.test(find('.demo-container').text()), 'Has 1');
+    noTransitionsYet(assert);
   });
   click('.demo-container button');
   andThen(function(){
-    ranTransition('rotateBelow');
-    ok(/\b2\b/.test(find('.demo-container').text()), 'Has 2');
+    ranTransition(assert, 'rotateBelow');
+    assert.ok(/\b2\b/.test(find('.demo-container').text()), 'Has 2');
   });
 });
 
-test('liquid bind demo', function() {
+test('liquid bind demo', function(assert) {
   var first, second;
   function clock() {
     var m = /(\d\d)\s*:\s*(\d\d)\s*:\s*(\d\d)/.exec($('#liquid-bind-demo').text());
-    ok(m, "Read the clock");
+    assert.ok(m, "Read the clock");
     return parseInt(m[3]);
   }
 
@@ -89,48 +83,48 @@ test('liquid bind demo', function() {
   click('#force-tick');
   andThen(function(){
     second = clock();
-    notEqual(first, second, "clock readings differ, " + first + ", " + second);
-    ranTransition('toUp');
+    assert.notEqual(first, second, "clock readings differ, " + first + ", " + second);
+    ranTransition(assert, 'toUp');
   });
 });
 
-test('liquid if demo', function() {
+test('liquid if demo', function(assert) {
   visit('/helpers/liquid-if');
   andThen(function(){
-    noTransitionsYet();
-    equal(find('#liquid-box-demo input[type=checkbox]').length, 1, "found checkbox");
-    equal(find('#liquid-box-demo input[type=text]').length, 0, "no text input");
+    noTransitionsYet(assert);
+    assert.equal(find('#liquid-box-demo input[type=checkbox]').length, 1, "found checkbox");
+    assert.equal(find('#liquid-box-demo input[type=text]').length, 0, "no text input");
     find('select').val('car').trigger('change');
   });
   andThen(function(){
-    ranTransition('toLeft');
-    equal(find('#liquid-box-demo input[type=checkbox]').length, 0, "no more checkbox");
-    equal(find('#liquid-box-demo input[type=text]').length, 1, "has text input");
+    ranTransition(assert, 'toLeft');
+    assert.equal(find('#liquid-box-demo input[type=checkbox]').length, 0, "no more checkbox");
+    assert.equal(find('#liquid-box-demo input[type=text]').length, 1, "has text input");
     find('select').val('bike').trigger('change');
   });
   andThen(function(){
-    ranTransition('crossFade');
+    ranTransition(assert, 'crossFade');
   });
 });
 
 
-test('interruption demo, normal transition', function() {
+test('interruption demo, normal transition', function(assert) {
   visit('/transitions/primitives');
   andThen(function(){
-    noTransitionsYet();
-    classFound('one');
+    noTransitionsYet(assert);
+    classFound(assert, 'one');
     clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
   });
   andThen(function(){
-    ranTransition('fade');
-    classFound('two');
+    ranTransition(assert, 'fade');
+    classFound(assert, 'two');
   });
 });
 
 skip('interruption demo, early interruption', function(assert) {
   visit('/transitions/primitives');
   andThen(function(){
-    classFound('one');
+    classFound(assert, 'one');
     clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
     Ember.run.later(function(){
       isPartiallyOpaque(assert, '.one');
@@ -144,14 +138,14 @@ skip('interruption demo, early interruption', function(assert) {
     }, 50);
   });
   andThen(function(){
-    classFound('three');
+    classFound(assert, 'three');
   });
 });
 
 skip('interruption demo, two early interruptions', function(assert) {
   visit('/transitions/primitives');
   andThen(function(){
-    classFound('one');
+    classFound(assert, 'one');
     clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
     clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
     Ember.run.later(function(){
@@ -166,7 +160,7 @@ skip('interruption demo, two early interruptions', function(assert) {
     }, 40);
   });
   andThen(function(){
-    classFound('three');
+    classFound(assert, 'three');
   });
 });
 
@@ -174,7 +168,7 @@ skip('interruption demo, two early interruptions', function(assert) {
 skip('interruption demo, late interruption', function(assert) {
   visit('/transitions/primitives');
   andThen(function(){
-    classFound('one');
+    classFound(assert, 'one');
     clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
     Ember.run.later(function(){
       isPartiallyOpaque(assert, '.two');
@@ -187,14 +181,14 @@ skip('interruption demo, late interruption', function(assert) {
     }, 150);
   });
   andThen(function(){
-    classFound('three');
+    classFound(assert, 'three');
   });
 });
 
 skip('interruption demo, two late interruptions', function(assert) {
   visit('/transitions/primitives');
   andThen(function(){
-    classFound('one');
+    classFound(assert, 'one');
     clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
     Ember.run.later(function(){
       isPartiallyOpaque(assert, '.two');
@@ -211,24 +205,24 @@ skip('interruption demo, two late interruptions', function(assert) {
     }, 150);
   });
   andThen(function(){
-    classFound('one');
+    classFound(assert, 'one');
   });
 });
 
 
-test('explode demo 1', function() {
+test('explode demo 1', function(assert) {
   visit('/transitions/explode');
   andThen(function(){
-    equal(find('h3:contains(Welcome)').length, 1, "first state");
+    assert.equal(find('h3:contains(Welcome)').length, 1, "first state");
     click('button:contains(Toggle Detail View)');
   });
   andThen(function(){
-    equal(find('h3:contains(Detail)').length, 1, "second state");
-    ranTransition('explode');
+    assert.equal(find('h3:contains(Detail)').length, 1, "second state");
+    ranTransition(assert, 'explode');
   });
 });
 
-test('explode demo 2', function() {
+test('explode demo 2', function(assert) {
   var ids;
   visit('/transitions/explode');
   andThen(function(){
@@ -241,9 +235,9 @@ test('explode demo 2', function() {
     var newIds = find('#explode-demo-2 img').toArray().map((elt) => {
       return $(elt).attr('data-photo-id');
     });
-    notDeepEqual(ids, newIds);
-    deepEqual(ids.sort(), newIds.sort());
-    ranTransition('explode');
+    assert.notDeepEqual(ids, newIds);
+    assert.deepEqual(ids.sort(), newIds.sort());
+    ranTransition(assert, 'explode');
   });
 });
 
