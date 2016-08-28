@@ -13,16 +13,16 @@ function transitionName(name) {
 
 Ember.Test.registerHelper(
   'ranTransition',
-  function(app, name) {
-    ok(transitionMap(app).transitionFor.returned(transitionName(name)), "expected transition " + name);
+  function(app, assert, name) {
+    assert.ok(transitionMap(app).transitionFor.returned(transitionName(name)), "expected transition " + name);
   });
 
 Ember.Test.registerHelper(
   'noTransitionsYet',
-  function(app) {
+  function(app, assert) {
     var tmap = transitionMap(app);
     var ranTransitions = Ember.A(tmap.transitionFor.returnValues);
-    ok(!ranTransitions.any((transition) => transition.animation !== tmap.defaultAction()), 'expected no transitions');
+    assert.ok(!ranTransitions.any((transition) => transition.animation !== tmap.defaultAction()), 'expected no transitions');
   }
 );
 
@@ -32,8 +32,8 @@ export function injectTransitionSpies(app) {
 }
 
 
-export function classFound(name) {
-  equal(find('.'+name).length, 1, 'found ' + name);
+export function classFound(assert, name) {
+  assert.equal(find('.'+name).length, 1, 'found ' + name);
 }
 
 export function clickWithoutWaiting(selector, text) {

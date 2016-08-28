@@ -1,6 +1,7 @@
 import Ember from "ember";
 import Application from '../../../app';
 import hasEmberVersion from 'ember-test-helpers/has-ember-version';
+import { module, test } from 'qunit';
 
 var application, t, defaultHandler;
 
@@ -20,7 +21,7 @@ Ember.run(function(){
 });
 
 module("Transitions DSL", {
-  setup: function(){
+  beforeEach(){
     var instance = application.buildInstance();
     if (instance.lookup) {
       t = instance.lookup('service:liquid-fire-transitions');
@@ -29,13 +30,13 @@ module("Transitions DSL", {
     }
     defaultHandler = t.defaultAction().handler;
   },
-  teardown: function(){
+  afterEach(){
     t = null;
   }
 });
 
 
-test("matches source & destination routes", function(){
+test("matches source & destination routes", function(assert){
   t.map(function(){
     this.transition(
       this.fromRoute('one'),
@@ -43,14 +44,14 @@ test("matches source & destination routes", function(){
       this.use(dummyAction)
     );
   });
-  expectAnimation(routes('one', 'two'), dummyAction);
-  expectNoAnimation(routes('x', 'two'));
-  expectNoAnimation(routes(null, 'two'));
-  expectNoAnimation(routes('one', 'x'));
-  expectNoAnimation(routes('one', null));
+  expectAnimation(assert, routes('one', 'two'), dummyAction);
+  expectNoAnimation(assert, routes('x', 'two'));
+  expectNoAnimation(assert, routes(null, 'two'));
+  expectNoAnimation(assert, routes('one', 'x'));
+  expectNoAnimation(assert, routes('one', null));
 });
 
-test("matches just source route", function(){
+test("matches just source route", function(assert){
   t.map(function(){
     this.transition(
       this.fromRoute('one'),
@@ -58,13 +59,13 @@ test("matches just source route", function(){
     );
   });
 
-  expectAnimation(routes('one', 'bogus'), dummyAction);
-  expectAnimation(routes('one', null), dummyAction);
-  expectNoAnimation(routes('other', 'two'));
-  expectNoAnimation(routes(null, 'two'));
+  expectAnimation(assert, routes('one', 'bogus'), dummyAction);
+  expectAnimation(assert, routes('one', null), dummyAction);
+  expectNoAnimation(assert, routes('other', 'two'));
+  expectNoAnimation(assert, routes(null, 'two'));
 });
 
-test("matches just destination route", function(){
+test("matches just destination route", function(assert){
   t.map(function(){
     this.transition(
       this.toRoute('two'),
@@ -72,13 +73,13 @@ test("matches just destination route", function(){
     );
   });
 
-  expectAnimation(routes('bogus', 'two'), dummyAction, 'with a source route');
-  expectAnimation(routes(null, 'two'), dummyAction, 'with empty source route');
-  expectNoAnimation(routes('bogus', 'twox'), 'with other destination');
-  expectNoAnimation(routes('bogus', null), 'with empty destination');
+  expectAnimation(assert, routes('bogus', 'two'), dummyAction, 'with a source route');
+  expectAnimation(assert, routes(null, 'two'), dummyAction, 'with empty source route');
+  expectNoAnimation(assert, routes('bogus', 'twox'), 'with other destination');
+  expectNoAnimation(assert, routes('bogus', null), 'with empty destination');
 });
 
-test("matches lists of routes", function(){
+test("matches lists of routes", function(assert){
   t.map(function(){
     this.transition(
       this.toRoute(['one', 'two', 'three']),
@@ -86,13 +87,13 @@ test("matches lists of routes", function(){
     );
   });
 
-  expectAnimation(routes('x', 'one'), dummyAction);
-  expectAnimation(routes('x', 'two'), dummyAction);
-  expectAnimation(routes('x', 'three'), dummyAction);
+  expectAnimation(assert, routes('x', 'one'), dummyAction);
+  expectAnimation(assert, routes('x', 'two'), dummyAction);
+  expectAnimation(assert, routes('x', 'three'), dummyAction);
 });
 
 
-test("matches empty source route", function(){
+test("matches empty source route", function(assert){
   t.map(function(){
     this.transition(
       this.fromRoute(null),
@@ -101,11 +102,11 @@ test("matches empty source route", function(){
     );
   });
 
-  expectNoAnimation(routes('bogus', 'two'), 'non-empty source');
-  expectAnimation(routes(null, 'two'), dummyAction, 'empty source');
+  expectNoAnimation(assert, routes('bogus', 'two'), 'non-empty source');
+  expectAnimation(assert, routes(null, 'two'), dummyAction, 'empty source');
 });
 
-test("matches source & destination values", function(){
+test("matches source & destination values", function(assert){
   t.map(function(){
     this.transition(
       this.fromValue(function(model){ return model && model.isMySource; }),
@@ -114,15 +115,15 @@ test("matches source & destination values", function(){
     );
   });
 
-  expectAnimation(values({isMySource: true}, {isMyDestination: true}), dummyAction, 'both match');
-  expectNoAnimation(values(null, {isMyDestination: true}), 'empty source');
-  expectNoAnimation(values({isMySource: true}, null), 'empty destination');
-  expectNoAnimation(values({isMySource: false}, {isMyDestination: true}), 'other source');
-  expectNoAnimation(values({isMySource: true}, {isMyDestination: false}), 'other destination');
+  expectAnimation(assert,values({isMySource: true}, {isMyDestination: true}), dummyAction, 'both match');
+  expectNoAnimation(assert,values(null, {isMyDestination: true}), 'empty source');
+  expectNoAnimation(assert,values({isMySource: true}, null), 'empty destination');
+  expectNoAnimation(assert,values({isMySource: false}, {isMyDestination: true}), 'other source');
+  expectNoAnimation(assert,values({isMySource: true}, {isMyDestination: false}), 'other destination');
 
 });
 
-test("matches source & destination models", function(){
+test("matches source & destination models", function(assert){
   t.map(function(){
     this.transition(
       this.fromModel(function(model){ return model && model.isMySource; }),
@@ -131,16 +132,16 @@ test("matches source & destination models", function(){
     );
   });
 
-  expectAnimation(models({isMySource: true}, {isMyDestination: true}), dummyAction, 'both match');
-  expectNoAnimation(models(null, {isMyDestination: true}), 'empty source');
-  expectNoAnimation(models({isMySource: true}, null), 'empty destination');
-  expectNoAnimation(models({isMySource: false}, {isMyDestination: true}), 'other source');
-  expectNoAnimation(values({isMySource: true}, {isMyDestination: false}), 'other destination');
+  expectAnimation(assert,models({isMySource: true}, {isMyDestination: true}), dummyAction, 'both match');
+  expectNoAnimation(assert,models(null, {isMyDestination: true}), 'empty source');
+  expectNoAnimation(assert,models({isMySource: true}, null), 'empty destination');
+  expectNoAnimation(assert,models({isMySource: false}, {isMyDestination: true}), 'other source');
+  expectNoAnimation(assert,values({isMySource: true}, {isMyDestination: false}), 'other destination');
 
 });
 
 
-test("skips past partial route matches", function(){
+test("skips past partial route matches", function(assert){
   t.map(function(){
     this.transition(
       this.fromRoute('one'),
@@ -154,10 +155,10 @@ test("skips past partial route matches", function(){
     );
   });
 
-  expectAnimation(routes('one', 'three'), dummyAction, 'both match');
+  expectAnimation(assert, routes('one', 'three'), dummyAction, 'both match');
 });
 
-test("skips past partial context matches", function(){
+test("skips past partial context matches", function(assert){
   t.map(function(){
     this.transition(
       this.fromValue('one'),
@@ -171,10 +172,10 @@ test("skips past partial context matches", function(){
     );
   });
 
-  expectAnimation(values('one', 'three'), dummyAction);
+  expectAnimation(assert,values('one', 'three'), dummyAction);
 });
 
-test("skips to default route", function(){
+test("skips to default route", function(assert){
   t.map(function(){
     this.transition(
       this.fromRoute('x'),
@@ -187,10 +188,10 @@ test("skips to default route", function(){
     );
   });
 
-  expectAnimation(routes('x', 'three'), dummyAction);
+  expectAnimation(assert, routes('x', 'three'), dummyAction);
 });
 
-test("matching context takes precedence over default", function(){
+test("matching context takes precedence over default", function(assert){
   t.map(function(){
     this.transition(
       this.use(otherAction)
@@ -201,11 +202,11 @@ test("matching context takes precedence over default", function(){
     );
   });
 
-  expectAnimation(routes('x', 'three'), dummyAction);
+  expectAnimation(assert, routes('x', 'three'), dummyAction);
 });
 
 
-test("matches between models", function(){
+test("matches between models", function(assert){
   t.map(function(){
     this.transition(
       this.betweenModels(function(model){ return model && model.isThing; }),
@@ -213,17 +214,17 @@ test("matches between models", function(){
     );
   });
 
-  expectAnimation(models({isThing: true}, {isThing: true}), dummyAction, 'both match');
+  expectAnimation(assert,models({isThing: true}, {isThing: true}), dummyAction, 'both match');
 
-  expectNoAnimation(models(null, {isThing: true}), 'empty source');
-  expectNoAnimation(models({isThing: true}, null), 'empty destination');
+  expectNoAnimation(assert,models(null, {isThing: true}), 'empty source');
+  expectNoAnimation(assert,models({isThing: true}, null), 'empty destination');
 
-  expectNoAnimation(models({isThing: false}, null), 'other destination');
-  expectNoAnimation(models(null, {isThing: false}), 'other destination');
+  expectNoAnimation(assert,models({isThing: false}, null), 'other destination');
+  expectNoAnimation(assert,models(null, {isThing: false}), 'other destination');
 
 });
 
-test("can target empty routes", function() {
+test("can target empty routes", function(assert) {
   t.map(function(){
     this.transition(
       this.fromRoute(null),
@@ -231,11 +232,11 @@ test("can target empty routes", function() {
       this.use(dummyAction)
     );
   });
-  expectAnimation(routes(null, 'one'), dummyAction, 'should match');
-  expectNoAnimation(routes('two', 'one'), 'should not match');
+  expectAnimation(assert, routes(null, 'one'), dummyAction, 'should match');
+  expectNoAnimation(assert, routes('two', 'one'), 'should not match');
 });
 
-test("can target empty model", function() {
+test("can target empty model", function(assert) {
   t.map(function(){
     this.transition(
       this.fromModel(null),
@@ -243,20 +244,21 @@ test("can target empty model", function() {
       this.use(dummyAction)
     );
   });
-  expectAnimation(routes(null, {}), dummyAction, 'should match');
-  expectNoAnimation(routes({}, {}), 'should not match');
+  expectAnimation(assert, routes(null, {}), dummyAction, 'should match');
+  expectNoAnimation(assert, routes({}, {}), 'should not match');
 });
 
-test("passes arguments through to transitions", function(done) {
-  expect(3);
+test("passes arguments through to transitions", function(assert) {
+  let done = assert.async();
+  assert.expect(3);
   t.map(function(){
     this.transition(
       this.fromRoute('one'),
       this.toRoute('two'),
       this.use(function(a,b,c){
-        equal(a, 1);
-        equal(b, 2);
-        equal(c, 3);
+        assert.equal(a, 1);
+        assert.equal(b, 2);
+        assert.equal(c, 3);
       }, 1, 2, 3)
     );
   });
@@ -265,7 +267,7 @@ test("passes arguments through to transitions", function(done) {
   action.run().then(done, done);
 });
 
-test("combines multiple value constraints", function(){
+test("combines multiple value constraints", function(assert){
   var Pet = Ember.Object.extend();
 
   t.map(function(){
@@ -276,13 +278,13 @@ test("combines multiple value constraints", function(){
     );
   });
 
-  expectNoAnimation(values(null, Pet.create()), "should not match because of name");
-  expectNoAnimation(values(null, Ember.Object.create({name: 'Fluffy'})), "should not match because of instanceof");
-  expectAnimation(values(null, Pet.create({name: 'Fluffy'})), dummyAction, "should match both");
+  expectNoAnimation(assert,values(null, Pet.create()), "should not match because of name");
+  expectNoAnimation(assert,values(null, Ember.Object.create({name: 'Fluffy'})), "should not match because of instanceof");
+  expectAnimation(assert,values(null, Pet.create({name: 'Fluffy'})), dummyAction, "should match both");
 
 });
 
-test("matches reverse routes", function(){
+test("matches reverse routes", function(assert){
   t.map(function(){
     this.transition(
       this.fromRoute('one'),
@@ -292,11 +294,11 @@ test("matches reverse routes", function(){
     );
   });
 
-  expectAnimation(routes('one', 'two'), dummyAction, 'forward');
-  expectAnimation(routes('two', 'one'), otherAction, 'reverse');
+  expectAnimation(assert, routes('one', 'two'), dummyAction, 'forward');
+  expectAnimation(assert, routes('two', 'one'), otherAction, 'reverse');
 });
 
-test("doesn't match initial render by default", function(){
+test("doesn't match initial render by default", function(assert){
   t.map(function(){
     this.transition(
       this.toRoute('two'),
@@ -305,10 +307,10 @@ test("doesn't match initial render by default", function(){
   });
   var conditions = routes('one', 'two');
   conditions.firstTime = 'yes';
-  expectNoAnimation(conditions);
+  expectNoAnimation(assert,conditions);
 });
 
-test("matches initial render when asked explicitly", function(){
+test("matches initial render when asked explicitly", function(assert){
   t.map(function(){
     this.transition(
       this.toRoute('two'),
@@ -318,21 +320,21 @@ test("matches initial render when asked explicitly", function(){
   });
   var conditions = routes('one', 'two');
   conditions.firstTime = 'yes';
-  expectAnimation(conditions, dummyAction);
+  expectAnimation(assert,conditions, dummyAction);
 });
 
 
-test("matches routes by regex", function(){
+test("matches routes by regex", function(assert){
   t.map(function(){
     this.transition(
       this.withinRoute(/^foo/),
       this.use(dummyAction)
     );
   });
-  expectAnimation(routes('foo.bar', 'foo.baz'), dummyAction);
+  expectAnimation(assert, routes('foo.bar', 'foo.baz'), dummyAction);
 });
 
-test("matches routes by outletName", function(){
+test("matches routes by outletName", function(assert){
   t.map(function(){
     this.transition(
       this.outletName('panel'),
@@ -342,10 +344,10 @@ test("matches routes by outletName", function(){
 
   var conditions = routes('one', 'two');
   conditions.outletName = 'panel';
-  expectAnimation(conditions, dummyAction);
+  expectAnimation(assert,conditions, dummyAction);
 });
 
-test("matches media", function() {
+test("matches media", function(assert) {
   t.map(function(){
     this.transition(
       this.toRoute('two'),
@@ -358,7 +360,7 @@ test("matches media", function() {
   var matchMedia = window.matchMedia;
   window.matchMedia = function() { return { matches: true }; };
 
-  expectAnimation(routes('one', 'two'), dummyAction);
+  expectAnimation(assert, routes('one', 'two'), dummyAction);
 
   // Restore matchMedia
   window.matchMedia = matchMedia;
@@ -386,15 +388,15 @@ function values(a,b) {
   };
 }
 
-function expectAnimation(conditions, nameOrHandler, msg) {
+function expectAnimation(assert, conditions, nameOrHandler, msg) {
   var runningTransition = t.transitionFor(conditions);
   if (typeof nameOrHandler === 'string') {
-    equal(runningTransition.animation.name, nameOrHandler, msg);
+    assert.equal(runningTransition.animation.name, nameOrHandler, msg);
   } else {
-    equal(runningTransition.animation.handler, nameOrHandler, msg);
+    assert.equal(runningTransition.animation.handler, nameOrHandler, msg);
   }
 }
 
-function expectNoAnimation(conditions, msg) {
-  expectAnimation(conditions, defaultHandler, msg);
+function expectNoAnimation(assert, conditions, msg) {
+  expectAnimation(assert, conditions, defaultHandler, msg);
 }

@@ -4,6 +4,12 @@ import layout from "liquid-fire/templates/components/liquid-measured";
 
 export default Ember.Component.extend({
   layout,
+
+  init() {
+    this._super(...arguments);
+    this._destroyOnUnload = this._destroyOnUnload.bind(this);
+  },
+
   didInsertElement: function() {
     var self = this;
 
@@ -23,13 +29,14 @@ export default Ember.Component.extend({
     });
     this.$().bind('webkitTransitionEnd', function() { self.didMutate(); });
     // Chrome Memory Leak: https://bugs.webkit.org/show_bug.cgi?id=93661
-    window.addEventListener('unload', function(){ self.willDestroyElement(); });
+    window.addEventListener('unload', this._destroyOnUnload);
   },
 
   willDestroyElement: function() {
     if (this.observer) {
       this.observer.disconnect();
     }
+    window.removeEventListener('unload', this._destroyOnUnload);
   },
 
   transitionMap: Ember.inject.service('liquid-fire-transitions'),
@@ -51,8 +58,11 @@ export default Ember.Component.extend({
     var elt = this.$();
     if (!elt || !elt[0]) { return; }
     this.set('measurements', measure(elt));
-  }
+  },
 
+  _destroyOnUnload() {
+    this.willDestroyElement();
+  }
 });
 
 export function measure($elt) {

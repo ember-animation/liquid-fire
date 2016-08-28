@@ -17,4 +17,4 @@ this.transition(
   this.toRoute('foo'),
   this.media('(orientation:landscape)'),
   this.use('toBottom')
-)
+);

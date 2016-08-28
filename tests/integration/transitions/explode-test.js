@@ -1,4 +1,5 @@
 import Ember from "ember";
+import $ from 'jquery';
 import { test, moduleForComponent } from "ember-qunit";
 
 var Promise = Ember.RSVP.Promise;
@@ -6,16 +7,26 @@ var tmap;
 
 moduleForComponent('Integration: explode transition', {
   integration: true,
-  setup: function() {
+  beforeEach() {
     tmap = this.container.lookup('service:liquid-fire-transitions');
+
+    // TODO: our tests don't pass when we're inside a transformed
+    // element. I think this is a legit bug in the implementation that
+    // we should fix.
+    $('#ember-testing').css('transform', 'none');
   },
-  teardown: function() {
+  afterEach() {
     tmap = null;
+
+    // TODO: our tests don't pass when we're inside a transformed
+    // element. I think this is a legit bug in the implementation that
+    // we should fix.
+    $('#ember-testing').css('transform', '');
   }
 });
 
-test(`it doesn't runs parts with no matching elements`, function() {
-  expect(0);
+test(`it doesn't runs parts with no matching elements`, function(assert) {
+  assert.expect(0);
   tmap.map(function() {
     this.transition(
       this.hasClass('explode-transition-test'),
@@ -39,7 +50,7 @@ test(`it doesn't runs parts with no matching elements`, function() {
 });
 
 test("it matches the background", function(assert) {
-  expect(2);
+  assert.expect(2);
   tmap.map(function() {
     this.transition(
       this.hasClass('explode-transition-test'),
@@ -65,7 +76,7 @@ test("it matches the background", function(assert) {
 
 test("it provides default visibility control for background", function(assert) {
   var liquidContainer;
-  expect(2);
+  assert.expect(2);
   tmap.map(function() {
     this.transition(
       this.hasClass('explode-transition-test'),
@@ -97,7 +108,7 @@ test("it provides default visibility control for background", function(assert) {
 
 
 test("it can pick", function(assert) {
-  expect(2);
+  assert.expect(2);
   tmap.map(function() {
     this.transition(
       this.hasClass('explode-transition-test'),
@@ -123,7 +134,7 @@ test("it can pick", function(assert) {
 });
 
 test("it can use pickOld and pickNew together", function(assert) {
-  expect(2);
+  assert.expect(2);
   tmap.map(function() {
     this.transition(
       this.hasClass('explode-transition-test'),
@@ -151,7 +162,7 @@ test("it can use pickOld and pickNew together", function(assert) {
 
 
 test("it can pickOld by itself", function(assert) {
-  expect(2);
+  assert.expect(2);
   tmap.map(function() {
     this.transition(
       this.hasClass('explode-transition-test'),
@@ -177,7 +188,7 @@ test("it can pickOld by itself", function(assert) {
 });
 
 test("it can pickNew by itself", function(assert) {
-  expect(2);
+  assert.expect(2);
   tmap.map(function() {
     this.transition(
       this.hasClass('explode-transition-test'),
@@ -204,7 +215,7 @@ test("it can pickNew by itself", function(assert) {
 
 
 test("it can matchBy data attribute", function(assert) {
-  expect(6);
+  assert.expect(6);
   tmap.map(function() {
     this.transition(
       this.hasClass('explode-transition-test'),
@@ -235,7 +246,7 @@ test("it can matchBy data attribute", function(assert) {
 });
 
 test("it can matchBy data elements whose value needs quotes", function(assert) {
-  expect(4);
+  assert.expect(4);
   tmap.map(function() {
     this.transition(
       this.hasClass('explode-transition-test'),
@@ -264,8 +275,8 @@ test("it can matchBy data elements whose value needs quotes", function(assert) {
   return tmap.waitUntilIdle();
 });
 
-test("matchBy only animates when both sides match", function() {
-  expect(0);
+test("matchBy only animates when both sides match", function(assert) {
+  assert.expect(0);
   tmap.map(function() {
     this.transition(
       this.hasClass('explode-transition-test'),
@@ -289,7 +300,7 @@ test("matchBy only animates when both sides match", function() {
 });
 
 test("elements matched in earlier pieces don't also match later pieces", function(assert) {
-  expect(4);
+  assert.expect(4);
   tmap.map(function() {
     this.transition(
       this.hasClass('explode-transition-test'),
@@ -322,7 +333,7 @@ test("elements matched in earlier pieces don't also match later pieces", functio
 });
 
 test("it doesn't throw an error if no match is found", function(assert) {
-  expect(1);
+  assert.expect(1);
   tmap.map(function() {
     this.transition(
       this.hasClass('explode-transition-test'),
@@ -349,7 +360,7 @@ test("it doesn't throw an error if no match is found", function(assert) {
 });
 
 test("it can matchBy id", function(assert) {
-  expect(6);
+  assert.expect(6);
   tmap.map(function() {
     this.transition(
       this.hasClass('explode-transition-test'),
@@ -488,8 +499,8 @@ function stylesheet(boxSizing) {
     .bluebox {
       background-color: blue;
       position: absolute;
-      top: 0;
-      left: 0;
+      top: 0px;
+      left: 0px;
       width: 20px;
       height: 25px;
       padding: 2px;
@@ -500,8 +511,8 @@ function stylesheet(boxSizing) {
     .redbox {
       background-color: red;
       position: absolute;
-      top: 200;
-      left: 100;
+      top: 200px;
+      left: 100px;
       width: 25px;
       height: 30px;
       padding: 4px;
