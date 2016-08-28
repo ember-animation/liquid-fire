@@ -1,20 +1,31 @@
 import { test, moduleForComponent } from "ember-qunit";
+import $ from 'jquery';
 
 var tmap;
 
 moduleForComponent('Integration: fly-to transition', {
   integration: true,
-  setup: function () {
+  beforeEach() {
     tmap = this.container.lookup('service:liquid-fire-transitions');
+
+    // TODO: our tests don't pass when we're inside a transformed
+    // element. I think this is a legit bug in the implementation that
+    // we should fix.
+    $('#ember-testing').css('transform', 'none');
   },
-  teardown: function() {
+  aftrEach() {
     tmap = null;
+
+    // TODO: our tests don't pass when we're inside a transformed
+    // element. I think this is a legit bug in the implementation that
+    // we should fix.
+    $('#ember-testing').css('transform', '');
   }
 });
 
 ['border-box', 'content-box'].forEach(function(boxSizing) {
   test(`it avoids a jump at end of animation, with absolutely positioned elements (${boxSizing})`, function(assert) {
-    expect(6);
+    assert.expect(6);
     tmap.map(function() {
       this.transition(
         this.hasClass('fly-to-test'),
@@ -49,7 +60,7 @@ moduleForComponent('Integration: fly-to transition', {
   });
 
   test(`it avoids a jump at end of animation, with statically positioned elements (${boxSizing})`, function(assert) {
-    expect(6);
+    assert.expect(6);
     tmap.map(function() {
       this.transition(
         this.hasClass('fly-to-test'),

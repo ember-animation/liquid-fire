@@ -1,14 +1,13 @@
 /* global sinon */
 import Ember from "ember";
 import { test, moduleForComponent } from "ember-qunit";
-import QUnit from "qunit";
 
 moduleForComponent('Integration: liquid-bind block form', {
   integration: true,
-  teardown: function() {
-    QUnit.stop();
+  afterEach(assert) {
+    let done = assert.async();
     var tmap = this.container.lookup('service:liquid-fire-transitions');
-    tmap.waitUntilIdle().then(QUnit.start);
+    tmap.waitUntilIdle().then(done);
   }
 });
 

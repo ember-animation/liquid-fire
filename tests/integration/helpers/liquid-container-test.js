@@ -5,10 +5,10 @@ var tmap;
 
 moduleForComponent('Integration: liquid-container', {
   integration: true,
-  setup: function() {
+  beforeEach() {
     tmap = this.container.lookup('service:liquid-fire-transitions');
   },
-  teardown: function() {
+  afterEach() {
     tmap = null;
   }
 });
