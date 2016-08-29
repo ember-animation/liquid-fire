@@ -1,6 +1,7 @@
 /* global sinon */
 import Ember from "ember";
 import { test, moduleForComponent } from "ember-qunit";
+import { skip } from "qunit";
 
 moduleForComponent('Integration: liquid-bind', {
   integration: true,
@@ -122,7 +123,7 @@ test('should support `class` on liquid-children in containerless mode', function
   assert.equal(this.$(' > .liquid-child.bar').length, 1, "direct liquid with class");
 });
 
-QUnit.skip('should pass container arguments through', function(assert) {
+skip('should pass container arguments through', function(assert) {
   this.render('{{liquid-bind foo enableGrowth=false}}');
   var containerElement = this.$(' > .liquid-container');
   var container = Ember.View.views[containerElement.attr('id')];
