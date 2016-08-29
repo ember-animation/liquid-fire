@@ -61,14 +61,19 @@ export function routeName(routeInfo) {
 // us avoid the problem of singleton controllers changing underneath
 // us.
 export function routeModel(routeInfo) {
-  let r, c;
-  if (routeInfo) {
-    if (routeInfo.hasOwnProperty('_lf_model')) {
-      return [ routeInfo._lf_model ];
-    }
+  if (routeInfo && !routeInfo.hasOwnProperty('_lf_model')) {
+    let r, c;
     if ((r = routeInfo.render) && (c = r.controller)) {
-      return [ (routeInfo._lf_model = c.get('model')) ];
+      routeInfo._lf_model = c.get('model');
+    } else {
+      routeInfo._lf_model = null;
     }
+  }
+
+  if (routeInfo) {
+    return [routeInfo._lf_model];
+  } else {
+    return [];
   }
 }
 

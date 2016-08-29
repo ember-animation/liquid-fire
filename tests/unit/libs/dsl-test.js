@@ -240,12 +240,11 @@ test("can target empty model", function(assert) {
   t.map(function(){
     this.transition(
       this.fromModel(null),
-      this.toModel(function(){ return true; }),
       this.use(dummyAction)
     );
   });
-  expectAnimation(assert, routes(null, {}), dummyAction, 'should match');
-  expectNoAnimation(assert, routes({}, {}), 'should not match');
+  expectAnimation(assert, models(null, {}), dummyAction, 'should match');
+  expectNoAnimation(assert, models({}, {}), 'should not match');
 });
 
 test("passes arguments through to transitions", function(assert) {
@@ -376,8 +375,8 @@ function routes(a,b) {
 }
 
 function models(a,b) {
-  return values(a ? { outletState: { _lf_model: a } } : null,
-                b ? { outletState: { _lf_model: b } } : null);
+  return values(a ? { outlets: { main: { render: {}, _lf_model: a } } }: null,
+                b ? { outlets: { main: { render: {}, _lf_model: b } } }: null);
 }
 
 function values(a,b) {
