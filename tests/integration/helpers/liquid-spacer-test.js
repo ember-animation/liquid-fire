@@ -34,9 +34,11 @@ test('it should animate', function(assert) {
   }));
   this.set('message', longMessage);
   this.render(`
+               <div style="width: 20em">
                {{#x-spacer id="my-spacer" growDuration=1 }}
                  {{message}}
                {{/x-spacer}}
+               </div>
               `);
 
   sinon.spy(theSpacer, 'animateGrowth');
@@ -61,9 +63,11 @@ test('it should animate', function(assert) {
                   box-sizing: ${boxSizing};
                }
                </style>
+               <div style="width: 20em">
                {{#liquid-spacer id="my-spacer" growDuration=1 }}
                  {{message}}
                {{/liquid-spacer}}
+               </div>
                `);
 
 
