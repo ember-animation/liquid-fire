@@ -343,7 +343,7 @@ test("matches routes by outletName", function(assert){
   });
 
   var conditions = routes('one', 'two');
-  conditions.outletName = 'panel';
+  conditions.matchContext.outletName = 'panel';
   expectAnimation(assert,conditions, dummyAction);
 });
 
@@ -371,8 +371,8 @@ function dummyAction() {}
 function otherAction() {}
 
 function routes(a,b) {
-  return values(a ? { outletState: { render: { name: a } } } : null,
-                b ? { outletState: { render: { name: b } } }: null);
+  return values(a ? { outlets: { main: { render: { name: a } } } } : null,
+                b ? { outlets: { main: { render: { name: b } } } }: null);
 }
 
 function models(a,b) {
@@ -384,7 +384,8 @@ function values(a,b) {
   return {
     versions: [{ value: b}, { value: a }],
     firstTime: 'no',
-    parentElement: Ember.$('body')
+    parentElement: Ember.$('body'),
+    matchContext: { outletName: 'main' }
   };
 }
 
