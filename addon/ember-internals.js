@@ -8,32 +8,20 @@
 
 import Ember from "ember";
 let emberRequire = Ember.__loader.require;
-let usingGlimmer;
+export let getViewBounds;
 
 export function initialize() {
-  let rendererModule;
   try {
-    rendererModule = emberRequire('ember-glimmer/renderer');
-    usingGlimmer = true;
-  } catch(err)  {}
-  if (!usingGlimmer) {
+    emberRequire('ember-glimmer');
+  } catch(err)  {
     throw new Error("this build of liquid-fire only works with glimmer2");
   }
-  let declareDynamicVariable = rendererModule.declareDynamicVariable;
-  if (!declareDynamicVariable) {
-    throw new Error("to work with glimmer2, liquid-fire depends on changes in Ember that you don't have");
-  }
-  declareDynamicVariable('liquidParent');
+  getViewBounds = emberRequire('ember-views/system/utils').getViewBounds;
 }
 
 // Given an Ember Component, return the containing element
 export function containingElement(view) {
-  if (usingGlimmer) {
-    // FIXME: this is not really the same thing
-    return view.parentView.element;
-  } else {
-    return view._renderNode.contextualElement;
-  }
+  return getViewBounds(view).parentElement;
 }
 
 // Traverses down to the child routeInfo with the given name.
