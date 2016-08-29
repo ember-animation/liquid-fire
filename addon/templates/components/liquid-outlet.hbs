@@ -1,4 +1,4 @@
-{{#liquid-bind (-get-dynamic-var "outletState")
+{{#liquid-bind (lf-lock-model (-get-dynamic-var "outletState") outletName)
       containerId=containerId
       versionEquality=versionEquality
       matchContext=(hash outletName=outletName helperName="liquid-outlet")

@@ -35,122 +35,45 @@ export function containingElement(view) {
   }
 }
 
-// Finds the route name from a route state so we can apply our
-// matching rules to it.
-export function routeName(routeInfo, outletName) {
-  let outlets, child;
-  // TODO: the middle condition is only necessary because every
+// Traverses down to the child routeInfo with the given name.
+export function childRoute(routeInfo, outletName) {
+  let outlets;
+  // TODO: the second condition is only necessary because every
   // constrainable accessor runs against every value all the time. It
   // would be better to add a precondition on helperName that would
   // short-circuit this elsewhere.
-  if (routeInfo && (outlets = routeInfo.outlets) && (child = outlets[outletName])) {
-    return [child.render.name];
+  if (routeInfo && (outlets = routeInfo.outlets)) {
+    return outlets[outletName];
+  }
+}
+
+// Finds the route name from a route state so we can apply our
+// matching rules to it.
+export function routeName(routeInfo) {
+  if (routeInfo) {
+    return [routeInfo.render.name];
   }
 }
 
 // Finds the route's model from a route state so we can apply our
-// matching rules to it.
-export function routeModel(routeIdentity) {
-  var o;
-  if (routeIdentity && (o = routeIdentity.outletState)) {
-    return [ o._lf_model ];
+// matching rules to it. On first access, will lock down the value of
+// the model so that future changes don't change the answer. This lets
+// us avoid the problem of singleton controllers changing underneath
+// us.
+export function routeModel(routeInfo) {
+  let r, c;
+  if (routeInfo) {
+    if (routeInfo.hasOwnProperty('_lf_model')) {
+      return [ routeInfo._lf_model ];
+    }
+    if ((r = routeInfo.render) && (c = r.controller)) {
+      return [ (routeInfo._lf_model = c.get('model')) ];
+    }
   }
-}
-
-export function withLockedModel(outletState) {
-  var r, c;
-  if (outletState && (r = outletState.render) && (c = r.controller) && !outletState._lf_model) {
-    outletState = Ember.copy(outletState);
-    outletState._lf_model = c.get('model');
-  }
-  return outletState;
 }
 
 function registerKeywords() {
-  let internal = emberRequire('htmlbars-runtime').internal;
-  let registerKeyword = emberRequire('ember-htmlbars/keywords').registerKeyword;
-  let _Stream = Ember.__loader.registry['ember-metal/streams/stream'] ? emberRequire('ember-metal/streams/stream') : emberRequire('ember-htmlbars/streams/stream');
-  let BasicStream = _Stream.default;
-  let Stream = _Stream.Stream;
-
-  registerKeyword('get-outlet-state', {
-    willRender(renderNode, env) {
-      env.view.ownerView._outlets.push(renderNode);
-    },
-
-    setupState(lastState, env, scope, params, hash) {
-      var outletName = env.hooks.getValue(params[0]);
-      var watchModels = env.hooks.getValue(hash.watchModels);
-      var stream = lastState.stream;
-      var source = lastState.source;
-      if (!stream) {
-        source = { identity: {
-            outletState: withLockedModel(env.outletState[outletName])
-        }};
-
-        if (!!Stream) {
-          stream = new Stream(function() {
-            return source.identity;
-          });
-        } else {
-          stream = new BasicStream(function() {
-            return source.identity;
-          });
-        }
-      }
-      return { stream, source, outletName, watchModels };
-    },
-
-    render(renderNode, env, scope, params, hash, template, inverse, visitor) {
-      internal.hostBlock(renderNode, env, scope, template, null, null, visitor, function(options) {
-        var stream = renderNode.getState ? renderNode.getState().stream : renderNode.state.stream;
-        options.templates.template.yield([stream]);
-      });
-
-    },
-    rerender(morph, env) {
-      var state = morph._state ? morph._state : morph.state;
-      var newState = withLockedModel(env.outletState[state.outletName]);
-
-      if (isStable(state.source.identity, { outletState: newState }, state.watchModels)) {
-        // If our own view was stable, we preserve the same object
-        // identity so that liquid-versions will not animate us. But
-        // we still need to propagate any child changes forward.
-        Ember.set(state.source.identity, 'outletState', newState);
-      } else {
-        // If our own view has changed, we present a whole new object,
-        // so that liquid-versions will see the change.
-        state.source.identity = { outletState: newState };
-      }
-
-      state.stream.notify();
-    },
-    isStable() {
-      return true;
-    }
-  });
-
-  registerKeyword('set-outlet-state', {
-    setupState(state, env, scope, params) {
-      var outletName = env.hooks.getValue(params[0]);
-      var outletState = env.hooks.getValue(params[1]);
-      return { outletState: { [ outletName ] : outletState }};
-    },
-
-    childEnv(state, env) {
-      return env.childWithOutletState(state.outletState);
-    },
-
-    render(renderNode, env, scope, params, hash, template, inverse, visitor) {
-      internal.hostBlock(renderNode, env, scope, template, null, null, visitor, function(options) {
-        options.templates.template.yield();
-      });
-    },
-
-    isStable() {
-      return true;
-    }
-  });
+  throw new Error("haven't backported this branch onto pre-glimmer2 Ember");
 }
 
 export function getComponentFactory(owner, name) {
@@ -164,7 +87,7 @@ export function getComponentFactory(owner, name) {
   }
 }
 
-export function routeIsStable(oldRouteInfo, newRouteInfo, outletName) {
+export function routeIsStable(oldRouteInfo, newRouteInfo) {
   if (!oldRouteInfo && !newRouteInfo) {
     return true;
   }
@@ -173,24 +96,13 @@ export function routeIsStable(oldRouteInfo, newRouteInfo, outletName) {
     return false;
   }
 
-  let oldChild = oldRouteInfo.outlets[outletName];
-  let newChild = newRouteInfo.outlets[outletName];
-
-  if (!oldChild && !newChild) {
-    return true;
-  }
-
-  if (!oldChild || !newChild) {
-    return false;
-  }
-
-
-  return oldChild.render.template === newChild.render.template &&
-    oldChild.render.controller === newChild.render.controller;
+  return oldRouteInfo.render.template === newRouteInfo.render.template &&
+    oldRouteInfo.render.controller === newRouteInfo.render.controller;
 }
 
-function modelIsStable(oldState, newState) {
-  let oldModel = routeModel(oldState) || [];
-  let newModel = routeModel(newState) || [];
+// Only valid for states that already satisfy routeIsStable
+export function modelIsStable(oldRouteInfo, newRouteInfo) {
+  let oldModel = routeModel(oldRouteInfo) || [];
+  let newModel = routeModel(newRouteInfo) || [];
   return  oldModel[0] === newModel[0];
 }

@@ -1,4 +1,4 @@
-import { routeName, routeModel } from "liquid-fire/ember-internals";
+import { childRoute, routeName, routeModel } from "liquid-fire/ember-internals";
 
 export default {
   oldValue : {
@@ -16,25 +16,25 @@ export default {
   oldRoute: {
     reversesTo: 'newRoute',
     accessor: function(conditions) {
-      return routeName(versionValue(conditions, 1), conditions.matchContext.outletName);
+      return routeName(childRoute(versionValue(conditions, 1), conditions.matchContext.outletName));
     }
   },
   newRoute: {
     reversesTo: 'oldRoute',
     accessor: function(conditions) {
-      return routeName(versionValue(conditions, 0), conditions.matchContext.outletName);
+      return routeName(childRoute(versionValue(conditions, 0), conditions.matchContext.outletName));
     }
   },
   oldModel: {
     reversesTo: 'newModel',
     accessor: function(conditions) {
-      return routeModel(versionValue(conditions, 1));
+      return routeModel(childRoute(versionValue(conditions, 1), conditions.matchContext.outletName));
     }
   },
   newModel: {
     reversesTo: 'oldModel',
     accessor: function(conditions) {
-      return routeModel(versionValue(conditions, 0));
+      return routeModel(childRoute(versionValue(conditions, 0), conditions.matchContext.outletName));
     }
   },
   helperName: {

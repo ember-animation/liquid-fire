@@ -1,25 +1,29 @@
 import Ember from "ember";
 import layout from 'liquid-fire/templates/components/liquid-outlet';
-import { routeIsStable } from 'liquid-fire/ember-internals';
+import {
+  childRoute,
+  routeIsStable,
+  modelIsStable
+} from 'liquid-fire/ember-internals';
 
 var LiquidOutlet = Ember.Component.extend({
   layout,
-  positionalParams: ['inputOutletName'], // needed for Ember 1.13.[0-5] and 2.0.0-beta.[1-3] support
+  outletName: 'main',
+  positionalParams: ['outletName'], // needed for Ember 1.13.[0-5] and 2.0.0-beta.[1-3] support
   tagName: '',
-  didReceiveAttrs() {
-    this._super();
-    this.set('outletName', this.get('inputOutletName') || 'main');
-  },
-  versionEquality: Ember.computed('outletName', function() {
+  versionEquality: Ember.computed('outletName', 'watchModels', function() {
     let outletName = this.get('outletName');
+    let watchModels = this.get('watchModels');
     return function(oldValue, newValue) {
-      return routeIsStable(oldValue, newValue, outletName);
+      let oldChild = childRoute(oldValue, outletName);
+      let newChild = childRoute(newValue, outletName);
+      return routeIsStable(oldChild, newChild) && (!watchModels || modelIsStable(oldChild, newChild));
     };
   })
 });
 
 LiquidOutlet.reopenClass({
-  positionalParams: ['inputOutletName']
+  positionalParams: ['outletName']
 });
 
 export default LiquidOutlet;
