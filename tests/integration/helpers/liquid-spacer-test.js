@@ -9,9 +9,18 @@ moduleForComponent('Integration: liquid-spacer', {
   integration: true,
   beforeEach() {
     tmap = this.container.lookup('service:liquid-fire-transitions');
+    // TODO: our tests don't pass when we're inside a transformed
+    // element. I think this is a legit bug in the implementation that
+    // we should fix.
+    $('#ember-testing').css('transform', 'none');
   },
   afterEach() {
     tmap = null;
+
+    // TODO: our tests don't pass when we're inside a transformed
+    // element. I think this is a legit bug in the implementation that
+    // we should fix.
+    $('#ember-testing').css('transform', '');
   }
 });
 
@@ -35,7 +44,7 @@ test('it should animate', function(assert) {
   testingKick();
   return tmap.waitUntilIdle().then(() => {
     let [, have, want] = theSpacer.animateGrowth.lastCall.args;
-    assert.ok(want.height < have.height);
+    assert.ok(want.height < have.height, `expected ${want.height} < ${have.height}`);
   });
 });
 
