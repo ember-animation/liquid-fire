@@ -2,6 +2,7 @@ import Ember from "ember";
 import Application from '../../../app';
 import hasEmberVersion from 'ember-test-helpers/has-ember-version';
 import { module, test } from 'qunit';
+import { RouteBuilder } from '../../helpers/ember-testing-internals';
 
 var application, t, defaultHandler;
 
@@ -370,13 +371,15 @@ function dummyAction() {}
 function otherAction() {}
 
 function routes(a,b) {
-  return values(a ? { outlets: { main: { render: { name: a } } } } : null,
-                b ? { outlets: { main: { render: { name: b } } } }: null);
+  let builder = RouteBuilder.create();
+  return values(a ? builder.makeRoute({ name: a }).asTop() : null,
+                b ? builder.makeRoute({ name: b }).asTop():  null);
 }
 
 function models(a,b) {
-  return values(a ? { outlets: { main: { render: {}, _lf_model: a } } }: null,
-                b ? { outlets: { main: { render: {}, _lf_model: b } } }: null);
+  let builder = RouteBuilder.create();
+  return values(a ? builder.makeRoute({ controller: { model: a } }).asTop(): null,
+                b ? builder.makeRoute({ controller: { model: b } }).asTop(): null);
 }
 
 function values(a,b) {

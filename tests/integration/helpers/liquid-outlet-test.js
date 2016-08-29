@@ -3,7 +3,7 @@ import Ember from "ember";
 import { skip } from 'qunit';
 import { test, moduleForComponent } from "ember-qunit";
 import hbs from 'htmlbars-inline-precompile';
-import RouteBuilder from '../../helpers/route-builder';
+import { RouteBuilder } from '../../helpers/ember-testing-internals';
 
 moduleForComponent('Integration: liquid-outlet', {
   integration: true,

@@ -1,12 +1,13 @@
 import Ember from 'ember';
 
 class RouteInfo {
-  constructor(builder, { template, controller }, outlets = {}) {
+  constructor(builder, { template, controller, name }, outlets = {}) {
     this.builder = builder;
     this.outlets = outlets;
     this.render = {
       template,
-      controller
+      controller,
+      name
     };
   }
   setChild(name, args) {
@@ -31,7 +32,7 @@ class RouteInfo {
   }
 }
 
-export default Ember.Service.extend({
+export const RouteBuilder = Ember.Service.extend({
   makeRoute(args) {
     if (args.template) {
       args.template = this._prepareTemplate(args.template);

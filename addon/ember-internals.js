@@ -1,6 +1,9 @@
 /*
   This module is intended to encapsulate all the known places where
   liquid-fire depends on non-public Ember APIs.
+
+  See also tests/helpers/ember-testing-internals.js, which does the
+  same thing but for code that is only needed in the test environment.
  */
 
 import Ember from "ember";
@@ -21,7 +24,7 @@ export function initialize() {
     }
     declareDynamicVariable('liquidParent');
   } else {
-    registerKeywords();
+    throw new Error("this build of liquid-fire only works with glimmer2");
   }
 }
 
@@ -64,7 +67,7 @@ export function routeModel(routeInfo) {
   if (routeInfo && !routeInfo.hasOwnProperty('_lf_model')) {
     let r, c;
     if ((r = routeInfo.render) && (c = r.controller)) {
-      routeInfo._lf_model = c.get('model');
+      routeInfo._lf_model = Ember.get(c, 'model');
     } else {
       routeInfo._lf_model = null;
     }
@@ -74,21 +77,6 @@ export function routeModel(routeInfo) {
     return [routeInfo._lf_model];
   } else {
     return [];
-  }
-}
-
-function registerKeywords() {
-  throw new Error("haven't backported this branch onto pre-glimmer2 Ember");
-}
-
-export function getComponentFactory(owner, name) {
-  let looker = owner.lookup('component-lookup:main');
-  if (looker.lookupFactory) {
-    return looker.lookupFactory(name);
-  } else {
-    let Component = looker.componentFor(name, owner);
-    let layout = looker.layoutFor(name, owner);
-    return (Component || Ember.Component).extend({ layout });
   }
 }
 
