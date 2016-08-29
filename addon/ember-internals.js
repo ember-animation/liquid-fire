@@ -16,16 +16,14 @@ export function initialize() {
     rendererModule = emberRequire('ember-glimmer/renderer');
     usingGlimmer = true;
   } catch(err)  {}
-
-  if (usingGlimmer) {
-    let declareDynamicVariable = rendererModule.declareDynamicVariable;
-    if (!declareDynamicVariable) {
-      throw new Error("to work with glimmer2, liquid-fire depends on changes in Ember that you don't have");
-    }
-    declareDynamicVariable('liquidParent');
-  } else {
+  if (!usingGlimmer) {
     throw new Error("this build of liquid-fire only works with glimmer2");
   }
+  let declareDynamicVariable = rendererModule.declareDynamicVariable;
+  if (!declareDynamicVariable) {
+    throw new Error("to work with glimmer2, liquid-fire depends on changes in Ember that you don't have");
+  }
+  declareDynamicVariable('liquidParent');
 }
 
 // Given an Ember Component, return the containing element
