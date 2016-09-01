@@ -11,7 +11,7 @@
       growEasing=growEasing
       enableGrowth=enableGrowth
       as |version| ~}}
-      {{#-with-dynamic-var "outletState" version ~}}
+      {{#-with-dynamic-vars outletState=version ~}}
         {{outlet outletName}}
-      {{~/-with-dynamic-var}}
+      {{~/-with-dynamic-vars}}
 {{~/liquid-bind~}}

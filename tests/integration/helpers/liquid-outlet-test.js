@@ -12,7 +12,7 @@ moduleForComponent('Integration: liquid-outlet', {
     this.inject.service('route-builder', { as: 'builder' });
     this.register('component:set-route', Ember.Component.extend({
       tagName: '',
-      layout: hbs`{{#-with-dynamic-var "outletState" state}}{{yield}}{{/-with-dynamic-var}}`
+      layout: hbs`{{#-with-dynamic-vars outletState=state}}{{yield}}{{/-with-dynamic-vars}}`
     }));
     this.setState = function(routeInfo) {
       this.set('state', routeInfo.asTop());
