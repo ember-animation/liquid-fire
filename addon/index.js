@@ -7,7 +7,6 @@ import "./velocity-ext";
 export { default as Pausable } from './mixins/pausable';
 
 versionWarnings({
-  minEmberVersion: [1, 11],
   minVelocityVersion: [0, 11, 8]
 });
 

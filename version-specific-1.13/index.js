@@ -1,8 +1,3 @@
-/*
-  This module is intended to encapsulate all the known places where
-  liquid-fire depends on non-public Ember APIs.
- */
-
 import Ember from "ember";
 var emberRequire = Ember.__loader.require;
 var internal = emberRequire('htmlbars-runtime').internal;
@@ -23,38 +18,7 @@ export function containingElement(view) {
   return view._renderNode.contextualElement;
 }
 
-// This is Ember's {{#if}} predicate semantics (where empty lists
-// count as false, etc).
-export var shouldDisplay = Ember.__loader.registry['ember-metal/streams/stream'] ? emberRequire('ember-views/streams/should_display').default : emberRequire('ember-htmlbars/streams/should_display').default;
-
-// Finds the route name from a route state so we can apply our
-// matching rules to it.
-export function routeName(routeIdentity) {
-  var o, r;
-  if (routeIdentity && (o = routeIdentity.outletState) && (r = o.render)) {
-    return [ r.name ];
-  }
-}
-
-// Finds the route's model from a route state so we can apply our
-// matching rules to it.
-export function routeModel(routeIdentity) {
-  var o;
-  if (routeIdentity && (o = routeIdentity.outletState)) {
-    return [ o._lf_model ];
-  }
-}
-
-function withLockedModel(outletState) {
-  var r, c;
-  if (outletState && (r = outletState.render) && (c = r.controller) && !outletState._lf_model) {
-    outletState = Ember.copy(outletState);
-    outletState._lf_model = c.get('model');
-  }
-  return outletState;
-}
-
-export function registerKeywords() {
+export function initialize() {
   registerKeyword('get-outlet-state', {
     willRender(renderNode, env) {
       env.view.ownerView._outlets.push(renderNode);
@@ -133,25 +97,4 @@ export function registerKeywords() {
       return true;
     }
   });
-}
-
-export function getComponentFactory(owner, name) {
-  let looker = owner.lookup('component-lookup:main');
-  if (looker.lookupFactory) {
-    return looker.lookupFactory(name);
-  } else {
-    let Component = looker.componentFor(name, owner);
-    let layout = looker.layoutFor(name, owner);
-    return (Component || Ember.Component).extend({ layout });
-  }
-}
-
-function isStable(oldState, newState, watchModels) {
-  return routeIsStable(oldState, newState) && (!watchModels || modelIsStable(oldState, newState));
-}
-
-function modelIsStable(oldState, newState) {
-  let oldModel = routeModel(oldState) || [];
-  let newModel = routeModel(newState) || [];
-  return  oldModel[0] === newModel[0];
 }

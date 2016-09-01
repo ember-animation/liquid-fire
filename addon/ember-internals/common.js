@@ -1,28 +1,4 @@
-/*
-  This module is intended to encapsulate all the known places where
-  liquid-fire depends on non-public Ember APIs.
-
-  See also tests/helpers/ember-testing-internals.js, which does the
-  same thing but for code that is only needed in the test environment.
- */
-
 import Ember from "ember";
-let emberRequire = Ember.__loader.require;
-export let getViewBounds;
-
-export function initialize() {
-  try {
-    emberRequire('ember-glimmer');
-  } catch(err)  {
-    throw new Error("this build of liquid-fire only works with glimmer2");
-  }
-  getViewBounds = emberRequire('ember-views/system/utils').getViewBounds;
-}
-
-// Given an Ember Component, return the containing element
-export function containingElement(view) {
-  return getViewBounds(view).parentElement;
-}
 
 // Traverses down to the child routeInfo with the given name.
 export function childRoute(routeInfo, outletName) {

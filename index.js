@@ -22,14 +22,17 @@ module.exports = {
   treeForAddon: function() {
     var tree = this._super.treeForAddon.apply(this, arguments);
     let emberVersion = this.versionChecker.for('ember', 'bower');
-
-    if (emberVersion.isAbove('2.9.0-glimmer2')) {
-      return mergeTrees([tree, new Funnel('addon-2.9', { destDir: 'modules/liquid-fire' })]);
-    } else if (emberVersion.isAbove('1.13.0')) {
-      return mergeTrees([tree, new Funnel('addon-1.13', { destDir: 'modules/liquid-fire' })]);
+    if (!emberVersion.lt('2.9.0-glimmer2')) {
+      return this._withVersionSpecific(tree, '2.9');
+    } else if (!emberVersion.lt('1.13.0')) {
+      return this._withVersionSpecific(tree, '1.13');
     } else {
       throw new Error("This version of liquid-fire supports Ember versions >= 1.13.0.");
     }
+  },
+
+  _withVersionSpecific(tree, version) {
+    return mergeTrees([tree, new Funnel('version-specific-' + version, { destDir: 'modules/liquid-fire/ember-internals/version-specific' })]);
   },
 
   treeForVendor: function(tree){
