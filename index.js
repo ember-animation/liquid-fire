@@ -23,9 +23,9 @@ module.exports = {
     var tree = this._super.treeForAddon.apply(this, arguments);
     let emberVersion = this.versionChecker.for('ember', 'bower');
 
-    if (emberVersion.satisfies('>= 2.9.0-glimmer2')) {
+    if (emberVersion.isAbove('2.9.0-glimmer2')) {
       return mergeTrees([tree, new Funnel('addon-2.9', { destDir: 'modules/liquid-fire' })]);
-    } else if (emberVersion.satisfies('>= 1.13.0')) {
+    } else if (emberVersion.isAbove('1.13.0')) {
       return mergeTrees([tree, new Funnel('addon-1.13', { destDir: 'modules/liquid-fire' })]);
     } else {
       throw new Error("This version of liquid-fire supports Ember versions >= 1.13.0.");
