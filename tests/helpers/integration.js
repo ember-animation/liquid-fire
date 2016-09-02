@@ -1,5 +1,5 @@
-/* global sinon */
 import Ember from "ember";
+import sinon from 'sinon';
 
 function transitionMap(app) {
   return app.__container__.lookup('service:liquid-fire-transitions');

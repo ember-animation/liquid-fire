@@ -1,7 +1,7 @@
-/* global sinon */
 import { test, moduleForComponent } from "ember-qunit";
 import { testingKick } from "liquid-fire/mutation-observer";
 import LiquidSpacer from "liquid-fire/components/liquid-spacer";
+import sinon from 'sinon';
 
 var tmap;
 
