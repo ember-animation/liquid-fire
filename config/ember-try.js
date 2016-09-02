@@ -5,7 +5,7 @@ module.exports = {
     allowedToFail: false,
   },{
     name: "ember-canary",
-    allowedToFail: false,
+    allowedToFail: true,
   },{
     name: "ember-alpha",
     allowedToFail: true,
