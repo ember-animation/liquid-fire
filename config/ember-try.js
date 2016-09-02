@@ -6,16 +6,5 @@ module.exports = {
   },{
     name: "ember-canary",
     allowedToFail: false,
-  },{
-    name: "ember-alpha",
-    allowedToFail: true,
-    bower: {
-      dependencies: {
-        ember: "alpha"
-      },
-      resolutions: {
-        ember: "alpha"
-      }
-    }
   }]
 };
