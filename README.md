@@ -1,5 +1,6 @@
 Liquid Fire
 ===========
+[![Build Status](https://travis-ci.org/ember-animation/liquid-fire.svg?branch=master)](https://travis-ci.org/ember-animation/liquid-fire)
 
 Comprehensive animation support for ambitious Ember applications. [Interactive Documentation is here](http://ember-animation.github.io/liquid-fire/).
 
