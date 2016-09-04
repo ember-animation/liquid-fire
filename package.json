@@ -9,7 +9,7 @@
   "scripts": {
     "start": "ember server",
     "build": "ember build",
-    "test": "ember test"
+    "test": "ember try:each"
   },
   "repository": "https://github.com/ember-animation/liquid-fire",
   "engines": {
@@ -55,9 +55,6 @@
     "ember-addon"
   ],
   "ember-addon": {
-    "configPath": "tests/dummy/config",
-    "versionCompatibility": {
-      "ember": ">= 1.13.0"
-    }
+    "configPath": "tests/dummy/config"
   }
 }
