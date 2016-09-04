@@ -1,8 +1,8 @@
-/* global sinon */
 import Ember from "ember";
 import { skip } from 'qunit';
 import { test, moduleForComponent } from "ember-qunit";
 import { withTemplate } from "../../helpers/outlet";
+import sinon from 'sinon';
 
 var top, topState, controller, stageView;
 
