@@ -1,15 +1,11 @@
 {
   "name": "liquid-fire",
   "dependencies": {
-    "ember": "components/ember#alpha",
-    "ember-cli-shims": "ember-cli/ember-cli-shims#0.1.1",
-    "ember-cli-test-loader": "ember-cli-test-loader#0.2.2"
+    "ember": "~2.7.0",
+    "ember-cli-shims": "0.1.1"
   },
   "devDependencies": {
     "bootstrap-sass-official": "~3.3.1",
     "moment": "~2.8.3"
-  },
-  "resolutions": {
-    "ember": "alpha"
   }
 }

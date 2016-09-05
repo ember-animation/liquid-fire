@@ -1,4 +1,4 @@
-/*jshint node: true */
+/* jshint node: true */
 'use strict';
 
 var VersionChecker = require('ember-cli-version-checker');

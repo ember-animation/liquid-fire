@@ -1,7 +1,7 @@
 ---
 language: node_js
 node_js:
-  - "0.12"
+  - "4"
 
 sudo: false
 
@@ -10,18 +10,15 @@ cache:
     - node_modules
 
 before_install:
-  - mkdir travis-phantomjs
-  - wget https://s3.amazonaws.com/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -O $PWD/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2
-  - tar -xvf $PWD/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -C $PWD/travis-phantomjs
-  - export PATH=$PWD/travis-phantomjs:$PATH
-  - "npm config set spin false"
-  - "npm install -g npm@^2"
+  - npm config set spin false
+  - npm install -g bower
+  - bower --version
+  - npm install phantomjs-prebuilt
+  - phantomjs --version
 
 install:
-  - npm install -g bower
   - npm install
   - bower install
 
 script:
-  - ./node_modules/.bin/ember try:each
-
+  - ember try:each
