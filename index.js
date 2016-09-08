@@ -22,8 +22,8 @@ module.exports = {
 
   treeForAddon: function() {
     var tree = this._super.treeForAddon.apply(this, arguments);
-    let emberVersion = this.versionChecker.for('ember', 'bower');
-    if (!emberVersion.lt('2.9.0-glimmer2')) {
+    var emberVersion = this.versionChecker.for('ember', 'bower');
+    if (!emberVersion.lt('2.9.0-alpha.1')) {
       return this._withVersionSpecific(tree, '2.9');
     } else if (!emberVersion.lt('1.13.0')) {
       return this._withVersionSpecific(tree, '1.13');
@@ -32,8 +32,9 @@ module.exports = {
     }
   },
 
-  _withVersionSpecific(tree, version) {
-    return mergeTrees([tree, new Funnel('version-specific-' + version, { destDir: 'modules/liquid-fire/ember-internals/version-specific' })]);
+  _withVersionSpecific: function(tree, version) {
+    var versionSpecificPath = path.join(this.root, 'version-specific-' + version);
+    return mergeTrees([tree, new Funnel(versionSpecificPath, { destDir: 'modules/liquid-fire/ember-internals/version-specific' })]);
   },
 
   treeForVendor: function(tree){
