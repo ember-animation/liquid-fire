@@ -20,5 +20,6 @@ export {
 // version.
 export {
   containingElement,
-  initialize
+  initialize,
+  getOutletStateTemplate
 } from './ember-internals/version-specific';

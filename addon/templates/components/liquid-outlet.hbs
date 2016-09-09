@@ -1,17 +1,19 @@
-{{#liquid-bind (lf-lock-model (-get-dynamic-var "outletState") outletName)
-      containerId=containerId
-      versionEquality=versionEquality
-      matchContext=(hash outletName=outletName helperName="liquid-outlet")
-      class=class
-      use=use
-      rules=rules
-      containerless=containerless
-      growDuration=growDuration
-      growPixelsPerSecond=growPixelsPerSecond
-      growEasing=growEasing
-      enableGrowth=enableGrowth
-      as |version| ~}}
-      {{#-with-dynamic-vars outletState=version ~}}
-        {{outlet outletName}}
-      {{~/-with-dynamic-vars}}
-{{~/liquid-bind~}}
+{{#-lf-get-outlet-state as |outletState|}}
+  {{#liquid-bind (lf-lock-model outletState outletName)
+        containerId=containerId
+        versionEquality=versionEquality
+        matchContext=(hash outletName=outletName helperName="liquid-outlet")
+        class=class
+        use=use
+        rules=rules
+        containerless=containerless
+        growDuration=growDuration
+        growPixelsPerSecond=growPixelsPerSecond
+        growEasing=growEasing
+        enableGrowth=enableGrowth
+        as |version| ~}}
+        {{#-with-dynamic-vars outletState=version ~}}
+          {{outlet outletName}}
+        {{~/-with-dynamic-vars}}
+  {{~/liquid-bind~}}
+{{/-lf-get-outlet-state}}

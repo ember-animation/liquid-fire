@@ -19,32 +19,28 @@ export function containingElement(view) {
 }
 
 export function initialize() {
-  registerKeyword('get-outlet-state', {
+  registerKeyword('-get-outlet-state', {
     willRender(renderNode, env) {
       env.view.ownerView._outlets.push(renderNode);
     },
 
     setupState(lastState, env, scope, params, hash) {
-      var outletName = env.hooks.getValue(params[0]);
       var watchModels = env.hooks.getValue(hash.watchModels);
       var stream = lastState.stream;
       var source = lastState.source;
       if (!stream) {
-        source = { identity: {
-            outletState: withLockedModel(env.outletState[outletName])
-        }};
-
+        source = { env };
         if (!!Stream) {
           stream = new Stream(function() {
-            return source.identity;
+            return { outlets: source.env.outletState };
           });
         } else {
           stream = new BasicStream(function() {
-            return source.identity;
+            return { outlets: source.env.outletState };
           });
         }
       }
-      return { stream, source, outletName, watchModels };
+      return { stream, source, watchModels };
     },
 
     render(renderNode, env, scope, params, hash, template, inverse, visitor) {
@@ -55,20 +51,8 @@ export function initialize() {
 
     },
     rerender(morph, env) {
-      var state = morph._state ? morph._state : morph.state;
-      var newState = withLockedModel(env.outletState[state.outletName]);
-
-      if (isStable(state.source.identity, { outletState: newState }, state.watchModels)) {
-        // If our own view was stable, we preserve the same object
-        // identity so that liquid-versions will not animate us. But
-        // we still need to propagate any child changes forward.
-        Ember.set(state.source.identity, 'outletState', newState);
-      } else {
-        // If our own view has changed, we present a whole new object,
-        // so that liquid-versions will see the change.
-        state.source.identity = { outletState: newState };
-      }
-
+      let state = morph._state ? morph._state : morph.state;
+      state.source.env = env ;
       state.stream.notify();
     },
     isStable() {
@@ -76,15 +60,18 @@ export function initialize() {
     }
   });
 
-  registerKeyword('set-outlet-state', {
-    setupState(state, env, scope, params) {
-      var outletName = env.hooks.getValue(params[0]);
-      var outletState = env.hooks.getValue(params[1]);
-      return { outletState: { [ outletName ] : outletState }};
+  registerKeyword('-with-dynamic-vars', {
+    setupState(state, env, scope, params, hash) {
+      let keys = Object.keys(hash);
+      if (keys.length > 1 || keys[0] !== 'outletState') {
+        throw new Error("the -with-dynamic-vars polyfill in liquid-fire only handles outletState");
+      }
+      let outletState = env.hooks.getValue(hash.outletState);
+      return { outletState };
     },
 
     childEnv(state, env) {
-      return env.childWithOutletState(state.outletState);
+      return env.childWithOutletState(state.outletState ? state.outletState.outlets : {});
     },
 
     render(renderNode, env, scope, params, hash, template, inverse, visitor) {
@@ -98,3 +85,5 @@ export function initialize() {
     }
   });
 }
+
+export { default as getOutletStateTemplate } from 'liquid-fire/templates/version-specific/get-outlet-state';
