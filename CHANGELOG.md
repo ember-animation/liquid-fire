@@ -6,7 +6,7 @@
  - BREAKING: liquid-outlet, liquid-bind, liquid-if, and liquid-unless all formerly accepted an `id` parameter that would set the `id` attribute on their `.liquid-container` element. Glimmer2 has become more strict and doesn't allow this potentially-confusing reuse of the `id` parameter on a tagless component. So you must change `{{liquid-outlet id="something"}}` to `{{liquid-outlet containerId="something"}}`.
  - BUGFIX: compatibility updates for the Ember 2.8 beta series by @wagenet
  - BUGFIX: memory leak by @cibernox
- - HOUSEKEEPING: switched to ember-sinon and added travis badge by @kellyseldon
+ - HOUSEKEEPING: switched to ember-sinon and added travis badge by @kellyselden
  - HOUSEKEEPING: upgrade ember-cli-htmlbars-inline-precompile to remove warnings by @gavinjoyce
  - HOUSEKEEPING: upgrade ember-cli-qunit
 
