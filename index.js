@@ -51,7 +51,7 @@ module.exports = {
     } else {
       destDir = 'modules/liquid-fire/ember-internals/version-specific';
     }
-    var funneled = new Funnel(versionSpecificPath + version, {
+    var funneled = new Funnel(versionSpecificPath, {
       include: include,
       destDir: destDir
     });
