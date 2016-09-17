@@ -1,6 +1,6 @@
 # Changelog
 
-## master
+## 0.26.0
 
  - Significant internal refactor that includes full Glimmer2 compatibility.
  - BUGFIX: several glimmer2-relatd fixes by @rwjblue.
