@@ -3,6 +3,7 @@ import { skip } from 'qunit';
 import { test, moduleForComponent } from "ember-qunit";
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
+import getOwner from 'ember-getowner-polyfill';
 import {
   RouteBuilder,
   SetRouteComponent
@@ -81,7 +82,7 @@ skip('should pass container arguments through', function(assert) {
 });
 
 test('it should support `use` option', function(assert) {
-  var tmap = Ember.getOwner(this).lookup('service:liquid-fire-transitions');
+  var tmap = getOwner(this).lookup('service:liquid-fire-transitions');
   sinon.spy(tmap, 'transitionFor');
   this.render('{{#set-route state=state}}{{outlet}}{{/set-route}}');
   var routerState = this.makeRoute({ template: hbs`{{liquid-outlet use="fade"}}` });
@@ -108,7 +109,7 @@ test('should support `class` on children in containerless mode', function(assert
 });
 
 test('can see model-to-model transitions on the same route', function(assert) {
-  let controller = Ember.getOwner(this).lookup('controller:application');
+  let controller = getOwner(this).lookup('controller:application');
   controller.set('model', Ember.Object.create({
     id: 1
   }));
@@ -116,7 +117,7 @@ test('can see model-to-model transitions on the same route', function(assert) {
     template: hbs`'<div class="content">{{model.id}}</div>`,
     controller
   });
-  var tmap = Ember.getOwner(this).lookup('service:liquid-fire-transitions');
+  var tmap = getOwner(this).lookup('service:liquid-fire-transitions');
   sinon.spy(tmap, 'transitionFor');
   this.render(hbs`{{#set-route state=state}}{{liquid-outlet watchModels=true}}{{/set-route}}`);
   this.setState(state);

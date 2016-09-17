@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
+import getOwner from 'ember-getowner-polyfill';
 
 class RouteInfo {
   constructor(builder, { template, controller, name }, outlets = {}) {
@@ -42,7 +43,7 @@ export const RouteBuilder = Ember.Service.extend({
   },
   _prepareTemplate(compiled) {
     let name = `template:${Ember.guidFor({})}`;
-    let owner = Ember.getOwner(this);
+    let owner = getOwner(this);
     owner.register(name, compiled);
     return owner.lookup(name);
   }
