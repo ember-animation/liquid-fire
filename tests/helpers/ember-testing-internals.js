@@ -60,7 +60,7 @@ try {
 
 export const SetRouteComponent = Ember.Component.extend({
   tagName: '',
-  layout: hbs`{{#-with-dynamic-vars outletState=state}}{{yield}}{{/-with-dynamic-vars}}`,
+  layout: hbs`{{#-with-dynamic-vars outletState=outletState}}{{yield}}{{/-with-dynamic-vars}}`,
   didReceiveAttrs() {
     // before glimmer2, outlets aren't really data-down. We need to
     // trigger revalidation manually. This is only an issue during

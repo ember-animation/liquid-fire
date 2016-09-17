@@ -16,7 +16,7 @@ moduleForComponent('Integration: liquid-outlet', {
     this.inject.service('route-builder', { as: 'builder' });
     this.register('component:set-route', SetRouteComponent);
     this.setState = function(routeInfo) {
-      this.set('state', routeInfo.asTop());
+      this.set('outletState', routeInfo.asTop());
     };
     this.makeRoute = function(args) {
       return this.get('builder').makeRoute(args);
@@ -30,13 +30,13 @@ moduleForComponent('Integration: liquid-outlet', {
 });
 
 test('it should render when state is set after insertion', function(assert) {
-  this.render(hbs`{{#set-route state=state}}{{liquid-outlet}}{{/set-route}}`);
+  this.render(hbs`{{#set-route outletState=outletState}}{{liquid-outlet}}{{/set-route}}`);
   this.setState(this.makeRoute({ template: hbs`<h1>Hello world</h1>`}));
   assert.equal(this.$('h1').length, 1);
 });
 
 test('it should render when state is set before insertion', function(assert) {
-  this.render(hbs`{{#set-route state=state}}A{{outlet}}B{{/set-route}}`);
+  this.render(hbs`{{#set-route outletState=outletState}}A{{outlet}}B{{/set-route}}`);
   let hello = this.makeRoute({ template: hbs`Hello{{liquid-outlet}}` });
   this.setState(hello);
   assert.equal(this.$().text().trim(), 'AHelloB');
@@ -46,7 +46,7 @@ test('it should render when state is set before insertion', function(assert) {
 });
 
 test('it should support an optional name', function(assert) {
-  this.render(hbs`{{#set-route state=state}}A{{outlet}}B{{/set-route}}`);
+  this.render(hbs`{{#set-route outletState=outletState}}A{{outlet}}B{{/set-route}}`);
   let hello = this.makeRoute({ template: hbs`Hello{{liquid-outlet "other"}}` });
   this.setState(hello);
   assert.equal(this.$().text().trim(), 'AHelloB');
@@ -84,7 +84,7 @@ skip('should pass container arguments through', function(assert) {
 test('it should support `use` option', function(assert) {
   var tmap = getOwner(this).lookup('service:liquid-fire-transitions');
   sinon.spy(tmap, 'transitionFor');
-  this.render('{{#set-route state=state}}{{outlet}}{{/set-route}}');
+  this.render('{{#set-route outletState=outletState}}{{outlet}}{{/set-route}}');
   var routerState = this.makeRoute({ template: hbs`{{liquid-outlet use="fade"}}` });
   routerState.setChild('main', { template: hbs`hi` });
   this.setState(routerState);
@@ -96,14 +96,14 @@ test('it should support `use` option', function(assert) {
 });
 
 test('should support containerless mode', function(assert) {
-  this.render(hbs`{{#set-route state=state}}{{liquid-outlet containerless=true}}{{/set-route}}`);
+  this.render(hbs`{{#set-route outletState=outletState}}{{liquid-outlet containerless=true}}{{/set-route}}`);
   this.setState(this.makeRoute({ template: hbs`<h1>Hello world</h1>` }));
   assert.equal(this.$('.liquid-container').length, 0, "no container");
   assert.equal(this.$(' > .liquid-child').length, 1, "direct liquid child");
 });
 
 test('should support `class` on children in containerless mode', function(assert) {
-  this.render(hbs`{{#set-route state=state}}{{liquid-outlet class="bar" containerless=true}}{{/set-route}}`);
+  this.render(hbs`{{#set-route outletState=outletState}}{{liquid-outlet class="bar" containerless=true}}{{/set-route}}`);
   this.setState(this.makeRoute({ template: hbs`<h1>Hello world</h1>` }));
   assert.equal(this.$(' > .liquid-child.bar').length, 1, "child class");
 });
@@ -119,7 +119,7 @@ test('can see model-to-model transitions on the same route', function(assert) {
   });
   var tmap = getOwner(this).lookup('service:liquid-fire-transitions');
   sinon.spy(tmap, 'transitionFor');
-  this.render(hbs`{{#set-route state=state}}{{liquid-outlet watchModels=true}}{{/set-route}}`);
+  this.render(hbs`{{#set-route outletState=outletState}}{{liquid-outlet watchModels=true}}{{/set-route}}`);
   this.setState(state);
   assert.equal(this.$('.content').text().trim(), '1');
   tmap.transitionFor.reset();
@@ -134,7 +134,7 @@ test('can see model-to-model transitions on the same route', function(assert) {
 });
 
 test('tolerates empty content when parent outlet is stable', function(assert) {
-  this.render(hbs`{{#set-route state=state}}A{{liquid-outlet}}B{{/set-route}}`);
+  this.render(hbs`{{#set-route outletState=outletState}}A{{liquid-outlet}}B{{/set-route}}`);
 
   let state = this.makeRoute({
     template: hbs`C{{liquid-outlet "a"}}D{{liquid-outlet "b"}}E`
@@ -150,7 +150,7 @@ test('tolerates empty content when parent outlet is stable', function(assert) {
 test('outlets inside {{liquid-bind}}', function(assert) {
   this.set('thing', 'Goodbye');
   this.setState(this.makeRoute({ template: hbs`Hello` }));
-  this.render(hbs`{{#set-route state=state}}{{#liquid-bind thing as |thingVersion|}}{{thingVersion}}{{outlet}}{{/liquid-bind}}{{/set-route}}`);
+  this.render(hbs`{{#set-route outletState=outletState}}{{#liquid-bind thing as |thingVersion|}}{{thingVersion}}{{outlet}}{{/liquid-bind}}{{/set-route}}`);
   assert.equal(this.$().text().trim(), 'GoodbyeHello');
   this.set('thing', 'Other');
   this.setState(this.makeRoute({ template: hbs`Purple` }));
