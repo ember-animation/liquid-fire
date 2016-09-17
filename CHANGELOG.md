@@ -1,5 +1,14 @@
 # Changelog
 
+## master
+
+ - Significant internal refactor that includes full Glimmer2 compatibility.
+ - BUGFIX: several glimmer2-relatd fixes by @rwjblue.
+ - BUGFIX: element dimnsion rounding by @lawitschka (#483)
+ - No known semantic breakage since 0.25.0.
+ - We now automatically swap out Ember-version-specific implementations at build time, so we maintain wide compatibility with no runtime size overhead.
+ - This release works with Ember 1.13 through 2.10.0-canary+6dc97146.
+
 ## 0.25.0
 
  - BREAKING: Removed liquid-modal. It used too much private API and [ember-elsewhere](https://github.com/ef4/ember-elsewhere) is a superior alernative that composes nicely with liquid-fire.
