@@ -66,26 +66,5 @@ export default Ember.Component.extend({
 });
 
 export function measure($elt) {
-  var width, height;
-
-  // if jQuery sees a zero dimension, it will temporarily modify the
-  // element's css to try to make its size measurable. But that's bad
-  // for us here, because we'll get an infinite recursion of mutation
-  // events. So we trap the zero case without hitting jQuery.
-
-  if ($elt[0].offsetWidth === 0) {
-      width = 0;
-  } else {
-    width = $elt[0].getBoundingClientRect().width;
-  }
-  if ($elt[0].offsetHeight === 0) {
-    height = 0;
-  } else {
-    height = $elt[0].getBoundingClientRect().height;
-  }
-
-  return {
-    width: width,
-    height: height
-  };
+  return $elt[0].getBoundingClientRect();
 }
