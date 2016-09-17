@@ -5,6 +5,7 @@
  - Significant internal refactor that includes full Glimmer2 compatibility.
  - BUGFIX: several glimmer2-relatd fixes by @rwjblue.
  - BUGFIX: element dimnsion rounding by @lawitschka (#483)
+ - BUGFIX: Fix prebuilt-example link by @blimmer (#488)
  - No known semantic breakage since 0.25.0.
  - We now automatically swap out Ember-version-specific implementations at build time, so we maintain wide compatibility with no runtime size overhead.
  - This release works with Ember 1.13 through 2.10.0-canary+6dc97146.
