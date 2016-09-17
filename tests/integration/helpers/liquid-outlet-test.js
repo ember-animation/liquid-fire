@@ -3,17 +3,17 @@ import Ember from "ember";
 import { skip } from 'qunit';
 import { test, moduleForComponent } from "ember-qunit";
 import hbs from 'htmlbars-inline-precompile';
-import { RouteBuilder } from '../../helpers/ember-testing-internals';
+import {
+  RouteBuilder,
+  SetRouteComponent
+} from '../../helpers/ember-testing-internals';
 
 moduleForComponent('Integration: liquid-outlet', {
   integration: true,
   beforeEach() {
     this.register('service:route-builder', RouteBuilder);
     this.inject.service('route-builder', { as: 'builder' });
-    this.register('component:set-route', Ember.Component.extend({
-      tagName: '',
-      layout: hbs`{{#-with-dynamic-vars outletState=state}}{{yield}}{{/-with-dynamic-vars}}`
-    }));
+    this.register('component:set-route', SetRouteComponent);
     this.setState = function(routeInfo) {
       this.set('state', routeInfo.asTop());
     };

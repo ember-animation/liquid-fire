@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import hbs from 'htmlbars-inline-precompile';
 
 class RouteInfo {
   constructor(builder, { template, controller, name }, outlets = {}) {
@@ -44,5 +45,28 @@ export const RouteBuilder = Ember.Service.extend({
     let owner = Ember.getOwner(this);
     owner.register(name, compiled);
     return owner.lookup(name);
+  }
+});
+
+let usingGlimmer2;
+try {
+  let emberRequire = Ember.__loader.require;
+  emberRequire('ember-glimmer');
+  usingGlimmer2 = true;
+} catch(err)  {
+  usingGlimmer2 = false;
+}
+
+export const SetRouteComponent = Ember.Component.extend({
+  tagName: '',
+  layout: hbs`{{#-with-dynamic-vars outletState=state}}{{yield}}{{/-with-dynamic-vars}}`,
+  didReceiveAttrs() {
+    // before glimmer2, outlets aren't really data-down. We need to
+    // trigger revalidation manually. This is only an issue during
+    // tests, because we only set outlet states during real
+    // transitions anyway.
+    if (!usingGlimmer2) {
+      this.rerender();
+    }
   }
 });
