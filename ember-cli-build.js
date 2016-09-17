@@ -13,7 +13,6 @@ module.exports = function(defaults) {
     }
   });
   app.import('bower_components/moment/moment.js');
-  app.import('vendor/sinon.js', { type: 'test'});
 
   if (!/^1\.[89]/.test(require('./bower_components/ember/bower.json').version)) {
     app.import('bower_components/ember/ember-template-compiler.js', { type: 'test' });

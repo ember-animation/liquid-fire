@@ -1,6 +1,6 @@
-/* global sinon */
 import Ember from "ember";
 import { test, moduleForComponent } from "ember-qunit";
+import sinon from 'sinon';
 import { skip } from "qunit";
 
 moduleForComponent('Integration: liquid-bind', {

@@ -1,7 +1,7 @@
-/* global sinon */
 import Ember from "ember";
 import { test, moduleForComponent } from "ember-qunit";
 import { skip } from "qunit";
+import sinon from 'sinon';
 
 moduleForComponent('Integration: liquid-bind block form', {
   integration: true,

@@ -1,8 +1,8 @@
-/* global sinon */
 import Ember from "ember";
 import { skip } from 'qunit';
 import { test, moduleForComponent } from "ember-qunit";
 import hbs from 'htmlbars-inline-precompile';
+import sinon from 'sinon';
 import {
   RouteBuilder,
   SetRouteComponent
