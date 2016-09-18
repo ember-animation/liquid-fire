@@ -4,7 +4,7 @@ export default Ember.Controller.extend({
   queryParams: ['warn'],
   warn: 0,
 
-  tableOfContents: function(){
+  tableOfContents: Ember.computed(function(){
     return [
       { route: "index",   title: "Introduction"},
       { route: "installation",   title: "Installation & Compatibility"},
@@ -39,9 +39,9 @@ export default Ember.Controller.extend({
         ]
       }
     ];
-  }.property(),
+  }),
 
-  flatContents: function(){
+  flatContents: Ember.computed('tableOfContents', function(){
     var flattened = [];
     this.get('tableOfContents').forEach(function(entry) {
       flattened.push(entry);
@@ -50,10 +50,10 @@ export default Ember.Controller.extend({
       }
     });
     return flattened;
-  }.property('tableOfContents'),
+  }),
 
 
-  currentIndex: function(){
+  currentIndex: Ember.computed('currentRouteName', 'flatContents', function(){
     var contents = this.get('flatContents'),
         current = this.get('currentRouteName'),
         bestMatch,
@@ -68,22 +68,22 @@ export default Ember.Controller.extend({
       }
     }
     return bestMatch;
-  }.property('currentRouteName', 'flatContents'),
+  }),
 
-  nextTopic: function(){
+  nextTopic: Ember.computed('currentIndex', 'flatContents', function(){
     var contents = this.get('flatContents'),
         index = this.get('currentIndex');
     if (typeof(index) !== "undefined") {
       return contents[index+1];
     }
-  }.property('currentIndex', 'flatContents'),
+  }),
 
-  prevTopic: function(){
+  prevTopic: Ember.computed('currentIndex', 'flatContents', function(){
     var contents = this.get('flatContents'),
         index = this.get('currentIndex');
     if (typeof(index) !== "undefined") {
       return contents[index-1];
     }
-  }.property('currentIndex', 'flatContents')
+  })
 
 });

@@ -4,7 +4,7 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'dummy',
     environment: environment,
-    baseURL: '/',
+    rootURL: '/',
 
     // Personally, hash is nicer for test work. The browser knows not
     // to do a full page refresh when you manually edit the url.

@@ -12,21 +12,18 @@ var allModels = Ember.A([
 export default Ember.Controller.extend({
   showFirst: true,
 
-  sortBy: 'firstName',
+  sortBy: ['firstName'],
 
   models: allModels.slice(),
 
-  sortedModels: Ember.computed('models.[]', 'sortBy', function() {
-    var m = this.get('models').slice();
-    return m.sortBy(this.get('sortBy'));
-  }),
+  sortedModels: Ember.computed.sort('models.[]', 'sortBy'),
 
   actions: {
     toggle: function () {
       this.set('showFirst', !this.get('showFirst'));
     },
     toggleSort: function() {
-      this.set('sortBy', this.get('sortBy') === 'firstName' ? 'lastName' : 'firstName');
+      this.set('sortBy', this.get('sortBy')[0] === 'firstName' ? ['lastName'] : ['firstName']);
     },
     deleteModel: function(model) {
       this.get('models').removeObject(model);

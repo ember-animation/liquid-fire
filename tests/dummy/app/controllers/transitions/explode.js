@@ -21,7 +21,7 @@ export default Ember.Controller.extend({
       this.get('photos').forEach((photo) => {
         photo._randomPosition = Math.random();
       });
-      this.set('photos', this.get('photos').sortBy('_randomPosition'));
+      this.set('photos', Ember.A(this.get('photos')).sortBy('_randomPosition'));
     }
   }
 });
