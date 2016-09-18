@@ -16,7 +16,6 @@ module.exports = {
 
     this.versionChecker = new VersionChecker(this);
     this.versionChecker.for('ember-cli', 'npm').assertAbove('0.2.0');
-    this.versionChecker.for('velocity-animate', 'npm').assertAbove('0.11.8');
   },
 
 
