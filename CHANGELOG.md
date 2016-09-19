@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.26.1
+
+ - BUGFIX: don't attempt to assert velocity-animate version at build time (ember-cli-version-checker doesn't look into recursiv deps, and this check wasn't really necessary anyway)
+
 ## 0.26.0
 
  - Significant internal refactor that includes full Glimmer2 compatibility.
