@@ -30,7 +30,9 @@ export default function moveOver(dimension, direction, opts) {
     return Promise.all([
       animate(this.oldElement, oldParams, opts),
       animate(this.newElement, newParams, opts, 'moving-in')
-    ]);
+    ]).then(() => {
+      this.newElement.css('transform', '');
+    });
   });
 }
 

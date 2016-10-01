@@ -10,6 +10,8 @@ export default Ember.Component.extend(Growable, {
   lockSize: function(elt, want) {
     elt.outerWidth(want.width);
     elt.outerHeight(want.height);
+    elt.css('position', 'relative');
+    elt.css('overflow', 'hidden');
   },
 
   unlockSize: function() {
@@ -17,7 +19,7 @@ export default Ember.Component.extend(Growable, {
       this.updateAnimatingClass(false);
       var elt = this.$();
       if (elt) {
-        elt.css({width: '', height: ''});
+        elt.css({width: '', height: '', position: '', overflow: ''});
       }
     };
     if (this._scaling) {

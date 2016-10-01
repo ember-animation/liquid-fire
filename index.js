@@ -83,8 +83,6 @@ module.exports = {
       app.import('vendor/velocity/velocity.js');
       app.import('vendor/match-media/matchMedia.js');
     }
-
-    app.import('vendor/liquid-fire.css');
   }
 
 };
