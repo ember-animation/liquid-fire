@@ -57,7 +57,7 @@ module.exports = {
     return mergeTrees([tree, funneled]);
   },
 
-  treeForVendor: function(tree){
+  treeForVendor: function(){
     var velocityPath = path.dirname(require.resolve('velocity-animate'));
     var velocityTree = new Funnel(this.treeGenerator(velocityPath), {
       srcDir: '/',
@@ -70,7 +70,7 @@ module.exports = {
       destDir: 'match-media'
     });
 
-    return mergeTrees([tree, velocityTree, matchMediaTree]);
+    return mergeTrees([velocityTree, matchMediaTree]);
   },
 
   included: function(app){
