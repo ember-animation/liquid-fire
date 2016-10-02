@@ -1,4 +1,5 @@
 import { childRoute, routeName, routeModel } from "liquid-fire/ember-internals";
+import { deepestLeaf } from 'liquid-fire/components/liquid-outlet';
 
 export default {
   oldValue : {
@@ -23,6 +24,18 @@ export default {
     reversesTo: 'oldRoute',
     accessor: function(conditions) {
       return routeName(childRoute(versionValue(conditions, 0), conditions.matchContext.outletName));
+    }
+  },
+  oldDeepRoute: {
+    reversesTo: 'newDeepRoute',
+    accessor: function(conditions) {
+      return routeName(deepestLeaf(childRoute(versionValue(conditions, 1), conditions.matchContext.outletName)));
+    }
+  },
+  newDeepRoute: {
+    reversesTo: 'oldDeepRoute',
+    accessor: function(conditions) {
+      return routeName(deepestLeaf(childRoute(versionValue(conditions, 0), conditions.matchContext.outletName)));
     }
   },
   oldModel: {

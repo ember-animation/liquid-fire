@@ -40,6 +40,18 @@ export default class DSL {
     ];
   }
 
+  fromDeepRoute(routeName) {
+    return [
+      new Constraint('oldDeepRoute', routeName)
+    ];
+  }
+
+  toDeepRoute(routeName) {
+    return [
+      new Constraint('newDeepRoute', routeName)
+    ];
+  }
+
   withinRoute(routeName) {
     return this.fromRoute(routeName).concat(this.toRoute(routeName));
   }
