@@ -3,7 +3,7 @@ export default Ember.Component.extend({
   classNames: ['liquid-child'],
 
   init() {
-    this._super();
+    this._super(...arguments);
     this._waitingFor = [];
   },
 
