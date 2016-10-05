@@ -12,7 +12,7 @@ export default Ember.Component.extend({
   transitionMap: Ember.inject.service('liquid-fire-transitions'),
 
   didReceiveAttrs() {
-    this._super();
+    this._super(...arguments);
     this.appendVersion();
   },
 

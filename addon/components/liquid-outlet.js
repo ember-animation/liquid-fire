@@ -20,7 +20,7 @@ var LiquidOutlet = Ember.Component.extend({
     };
   }),
   didReceiveAttrs() {
-    this._super();
+    this._super(...arguments);
     this.set('outletName', this.get('inputOutletName') || 'main');
   }
 });
