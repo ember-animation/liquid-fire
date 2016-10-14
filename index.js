@@ -80,7 +80,17 @@ module.exports = {
     }
 
     if (!process.env.EMBER_CLI_FASTBOOT) {
-      app.import('vendor/velocity/velocity.js');
+      let haveShimAMDSupport = 'amdModuleNames' in app;
+      if (haveShimAMDSupport) {
+        app.import('vendor/velocity/velocity.js', {
+          using: [{
+            transformation: 'amd', as: 'velocity'
+          }]
+        });
+      } else {
+        app.import('vendor/velocity/velocity.js');
+        app.import('vendor/shims/velocity.js');
+      }
       app.import('vendor/match-media/matchMedia.js');
     }
 

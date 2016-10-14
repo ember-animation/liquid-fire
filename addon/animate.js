@@ -1,7 +1,7 @@
+/* jshint newcap: false */
 import Promise from "./promise";
 import Ember from "ember";
-
-var Velocity = Ember.$.Velocity;
+import Velocity from "velocity";
 
 // Make sure Velocity always has promise support by injecting our own
 // RSVP-based implementation if it doesn't already have one.
@@ -64,7 +64,7 @@ export function animate(elt, props, opts, label) {
 
 export function stop(elt) {
   if (elt) {
-    elt.velocity('stop', true);
+    Velocity(elt[0], 'stop', true);
   }
 }
 
