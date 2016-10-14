@@ -1,5 +1,7 @@
+/* jshint newcap: false */
 import Ember from "ember";
 import Promise from "liquid-fire/promise";
+import Velocity from "velocity";
 var capitalize = Ember.String.capitalize;
 
 export default Ember.Mixin.create({
@@ -37,7 +39,7 @@ export default Ember.Mixin.create({
       want[dimension],
       have[dimension],
     ];
-    return Ember.$.Velocity(elt[0], target, {
+    return Velocity(elt[0], target, {
       duration: this._durationFor(have[dimension], want[dimension]),
       queue: false,
       easing: this.get('growEasing') || this.constructor.prototype.growEasing

@@ -4,8 +4,8 @@
   to Velocity as PR #485.
 */
 
-import Ember from "ember";
-var VCSS = Ember.$.Velocity.CSS;
+import Velocity from "velocity";
+var VCSS = Velocity.CSS;
 
 function augmentDimension(name, element) {
   var sides = name === 'width' ? ['Left', 'Right' ] : ['Top', 'Bottom'];
