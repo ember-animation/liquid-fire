@@ -31,7 +31,7 @@ module.exports = {
 
   _versionSpecificTree: function(which, tree) {
     var emberVersion = this.versionChecker.for('ember', 'bower');
-    if (!emberVersion.lt('2.9.0-alpha.1')) {
+    if ((emberVersion.gt('2.9.0-beta') && emberVersion.lt('2.9.0'))|| emberVersion.gt('2.10.0-alpha')) {
       return this._withVersionSpecific(which, tree, '2.9');
     } else if (!emberVersion.lt('1.13.0')) {
       return this._withVersionSpecific(which, tree, '1.13');
