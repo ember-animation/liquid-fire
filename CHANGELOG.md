@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.26.2
+
+ - BUGFIX: pass args when calling super by @dwickern
+ - BUGFIX: Load velocity.js as an AMD module by @ebryn
+ - BUGFIX: update version checks due to Ember 2.9 shipping without glimmer2
+ - HOUSEKEEPING: added yarn.lock for development within liquid-fire. This does not effect consumers of the addon.
+
 ## 0.26.1
 
  - BUGFIX: don't attempt to assert velocity-animate version at build time (ember-cli-version-checker doesn't look into recursiv deps, and this check wasn't really necessary anyway)
