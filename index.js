@@ -79,22 +79,33 @@ module.exports = {
       app = app.app;
     }
 
+    if (process.env.EMBER_CLI_FASTBOOT) {
+      // in fastboot we use the shim by itself, which will make
+      // importing velocity a noop.
+      app.import('vendor/shims/velocity.js');
+    } else if (haveShimAMDSupport(app)) {
+      // if this ember-cli is new enough to do amd imports
+      // automatically, use that
+      app.import('vendor/velocity/velocity.js', {
+        using: [{
+          transformation: 'amd', as: 'velocity'
+        }]
+      });
+    } else {
+      // otherwise apply our own amd shim
+      app.import('vendor/velocity/velocity.js');
+      app.import('vendor/shims/velocity.js');
+    }
+
     if (!process.env.EMBER_CLI_FASTBOOT) {
-      var haveShimAMDSupport = 'amdModuleNames' in app;
-      if (haveShimAMDSupport) {
-        app.import('vendor/velocity/velocity.js', {
-          using: [{
-            transformation: 'amd', as: 'velocity'
-          }]
-        });
-      } else {
-        app.import('vendor/velocity/velocity.js');
-      }
       app.import('vendor/match-media/matchMedia.js');
     }
 
-    app.import('vendor/shims/velocity.js');
     app.import('vendor/liquid-fire.css');
   }
 
 };
+
+function haveShimAMDSupport(app) {
+  return 'amdModuleNames' in app;
+}
