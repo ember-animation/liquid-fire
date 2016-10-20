@@ -8,6 +8,7 @@ sudo: false
 cache:
   directories:
     - node_modules
+    - $HOME/.yarn-cache
 
 before_install:
   - mkdir travis-phantomjs
