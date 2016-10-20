@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.26.4
+
+ - BUGFIX: the previous fix for a fastboot regression broke normal usage in some versions of ember-cli
+
 ## 0.26.3
 
  - BUGFIX: regression on old node versions
