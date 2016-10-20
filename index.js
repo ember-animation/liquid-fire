@@ -1,4 +1,4 @@
-/*jshint node: true */
+/*jshint node: true, esversion: 5 */
 'use strict';
 
 var VersionChecker = require('ember-cli-version-checker');
@@ -80,7 +80,7 @@ module.exports = {
     }
 
     if (!process.env.EMBER_CLI_FASTBOOT) {
-      let haveShimAMDSupport = 'amdModuleNames' in app;
+      var haveShimAMDSupport = 'amdModuleNames' in app;
       if (haveShimAMDSupport) {
         app.import('vendor/velocity/velocity.js', {
           using: [{
