@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.26.3
+
+ - BUGFIX: regression on old node versions
+ - BUGFIX: regression in fastboot by @trabus
+
 ## 0.26.2
 
  - BUGFIX: pass args when calling super by @dwickern
