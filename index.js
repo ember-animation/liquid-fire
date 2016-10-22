@@ -29,8 +29,19 @@ module.exports = {
     return this._versionSpecificTree('templates', tree);
   },
 
+  _getEmberVersion: function() {
+    var emberVersionChecker = this.versionChecker.for('ember', 'bower');
+
+    if (emberVersionChecker.version) {
+      return emberVersionChecker;
+    }
+
+    return this.versionChecker.for('ember-source', 'npm');
+  },
+
   _versionSpecificTree: function(which, tree) {
-    var emberVersion = this.versionChecker.for('ember', 'bower');
+    var emberVersion = this._getEmberVersion();
+
     if ((emberVersion.gt('2.9.0-beta') && emberVersion.lt('2.9.0'))|| emberVersion.gt('2.10.0-alpha')) {
       return this._withVersionSpecific(which, tree, '2.9');
     } else if (!emberVersion.lt('1.13.0')) {
