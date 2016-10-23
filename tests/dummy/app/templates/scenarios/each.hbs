@@ -1,0 +1,7 @@
+<button {{action "addItem"}}>Add Item</button>
+
+<div class="scenarios-each">
+  {{#liquid-each items as |item|}}
+    <div>{{item.id}} <button {{action "removeItem" item}}>X</button></div>
+  {{/liquid-each}}
+</div>

@@ -72,6 +72,7 @@ Router.map(function() {
       this.route('three');
     });
     this.route('in-test-outlet');
+    this.route('each');
   });
 
 });
