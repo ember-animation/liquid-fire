@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/liquid-each';
 import RSVP from 'rsvp';
+import { containingElement } from 'liquid-fire/ember-internals';
 
 export default Ember.Component.extend({
   layout,
@@ -16,7 +17,7 @@ export default Ember.Component.extend({
     current.forEach(({ component, measurement}) => component.lock(measurement));
 
     Ember.run.schedule('afterRender', () => {
-      let [kept, removed] = this.partition(current);
+      let [kept, removed] = partition(current, entry => this._leaving.indexOf(entry.component) < 0);
 
       // Briefly unlock everybody
       kept.forEach(({ component }) => component.unlock());
@@ -27,16 +28,17 @@ export default Ember.Component.extend({
       kept.forEach(({ component, measurement }) => component.lock(measurement));
       inserted.forEach(({ component, measurement }) => component.lock(measurement));
       // Including ghost copies of the deleted components
-      removed.forEach(({ component, measurement, copies, parentElement }) => {
-        measurement.forEach((entry, index) => {
-          $(parentElement).append(copies[index]);
-          $(copies[index]).css({
+      let parentElement = $(containingElement(this));
+      removed.forEach(({ component, measurement }) => {
+        measurement.forEach(({elt, width, height, x, y}) => {
+          parentElement.append(elt);
+          $(elt).css({
             position: 'absolute',
             top: 0,
             left: 0,
-            width: measurement.width,
-            height: measurement.height,
-            transform: `translateX(${measurement.x}px) translateY(${measurement.y}px)`
+            width: width,
+            height: height,
+            transform: `translateX(${x}px) translateY(${y}px)`
           });
         });
       });
@@ -52,23 +54,6 @@ export default Ember.Component.extend({
     });
   },
 
-  partition(currentMeasurements) {
-    let kept = [];
-    let removed = [];
-    let leavingComponents = this._leaving.map(entry => entry.component);
-
-    currentMeasurements.forEach(entry => {
-      let index = leavingComponents.indexOf(entry.component);
-      if (index < 0) {
-        kept.push(entry);
-      } else {
-        this._leaving[index].measurement = entry.measurement;
-        removed.push(this._leaving[index]);
-      }
-    });
-    return [kept, removed];
-  },
-
   finalizeAnimation(kept, inserted) {
     this._current = kept.concat(inserted).map(entry => entry.component);
     this._entering = [];
@@ -79,11 +64,25 @@ export default Ember.Component.extend({
     childEntering(component) {
       this._entering.push(component);
     },
-    childLeaving(component, copies, parentElement) {
-      this._leaving.push({component, copies, parentElement});
+    childLeaving(component) {
+      this._leaving.push(component);
     }
   }
 
 }).reopenClass({
   positionalParams: ['items']
 });
+
+
+function partition(list, pred) {
+  let matched = [];
+  let unmatched = [];
+  list.forEach(entry => {
+    if (pred(entry)) {
+      matched.push(entry);
+    } else {
+      unmatched.push(entry);
+    }
+  });
+  return [matched, unmatched];
+}

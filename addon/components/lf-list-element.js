@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import layout from '../templates/components/lf-list-element';
-import { componentNodes, containingElement } from 'liquid-fire/ember-internals';
+import { componentNodes } from 'liquid-fire/ember-internals';
 import $ from 'jquery';
 import velocity from 'velocity';
 import RSVP from 'rsvp';
@@ -15,11 +15,7 @@ export default Ember.Component.extend({
     this.sendAction("entering", this);
   },
   willDestroyElement() {
-    let copies = [];
-    this._forEachElement(elt => {
-      copies.push($(elt).clone());
-    });
-    this.sendAction("leaving", this, copies, containingElement(this));
+    this.sendAction("leaving", this);
   },
 
   _forEachElement(fn) {
