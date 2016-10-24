@@ -96,10 +96,15 @@ export default Ember.Component.extend({
     this._forEachElement(elt => {
       let oldMeasurement = oldMeasurements.find(m => m.elt === elt);
       let newMeasurement = newMeasurements.find(m => m.elt === elt);
-      return velocity(elt, {
+
+      // This is a workaround for https://github.com/julianshapiro/velocity/issues/543
+      velocity.hook(elt, 'translateX', oldMeasurement.x);
+      velocity.hook(elt, 'translateY', oldMeasurement.y);
+
+      promises.push(velocity(elt, {
         translateX: [newMeasurement.x, oldMeasurement.x],
         translateY: [newMeasurement.y, oldMeasurement.y]
-      }, { duration: 500 });
+      }, { duration: 500 }));
     });
     return RSVP.all(promises);
   }
