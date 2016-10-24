@@ -16,32 +16,61 @@ export default Ember.Component.extend({
     current.forEach(({ component, measurement}) => component.lock(measurement));
 
     Ember.run.schedule('afterRender', () => {
-      // Children that reported they were leaving are already out of
-      // DOM here, so take them out of our working `current` list.
-      current = current.filter(({ component }) => this._leaving.indexOf(component) === -1);
+      let [kept, removed] = this.partition(current);
 
       // Briefly unlock everybody
-      current.forEach(({ component }) => component.unlock());
+      kept.forEach(({ component }) => component.unlock());
       // so we can measure the final static layout
-      current.forEach(entry => { entry.newMeasurement = entry.component.measure(); });
+      kept.forEach(entry => { entry.newMeasurement = entry.component.measure(); });
       let inserted = this._entering.map(component => ({ component, measurement: component.measure() }));
       // Then lock everything down
-      current.forEach(({ component, measurement }) => component.lock(measurement));
+      kept.forEach(({ component, measurement }) => component.lock(measurement));
       inserted.forEach(({ component, measurement }) => component.lock(measurement));
+      // Including ghost copies of the deleted components
+      removed.forEach(({ component, measurement, copies, parentElement }) => {
+        measurement.forEach((entry, index) => {
+          $(parentElement).append(copies[index]);
+          $(copies[index]).css({
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: measurement.width,
+            height: measurement.height,
+            transform: `translateX(${measurement.x}px) translateY(${measurement.y}px)`
+          });
+        });
+      });
 
       let promises = inserted.map(({ component }) => component.reveal()).concat(
-        current.map(({ component, measurement, newMeasurement }) => component.move(measurement, newMeasurement)));
+        kept.map(({ component, measurement, newMeasurement }) => component.move(measurement, newMeasurement)));
 
       RSVP.all(promises).then(() => {
-        current.forEach(({ component }) => component.unlock());
+        kept.forEach(({ component }) => component.unlock());
         inserted.forEach(({ component }) => component.unlock());
-        this.finalizeAnimation();
+        this.finalizeAnimation(kept, inserted);
       });
     });
   },
 
-  finalizeAnimation() {
-    this._current = this._current.filter(component => this._leaving.indexOf(component) === -1).concat(this._entering);
+  partition(currentMeasurements) {
+    let kept = [];
+    let removed = [];
+    let leavingComponents = this._leaving.map(entry => entry.component);
+
+    currentMeasurements.forEach(entry => {
+      let index = leavingComponents.indexOf(entry.component);
+      if (index < 0) {
+        kept.push(entry);
+      } else {
+        this._leaving[index].measurement = entry.measurement;
+        removed.push(this._leaving[index]);
+      }
+    });
+    return [kept, removed];
+  },
+
+  finalizeAnimation(kept, inserted) {
+    this._current = kept.concat(inserted).map(entry => entry.component);
     this._entering = [];
     this._leaving = [];
   },
@@ -50,8 +79,8 @@ export default Ember.Component.extend({
     childEntering(component) {
       this._entering.push(component);
     },
-    childLeaving(component) {
-      this._leaving.push(component);
+    childLeaving(component, copies, parentElement) {
+      this._leaving.push({component, copies, parentElement});
     }
   }
 
