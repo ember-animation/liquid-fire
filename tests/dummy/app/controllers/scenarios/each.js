@@ -21,6 +21,10 @@ export default Ember.Controller.extend({
     removeItem(which) {
       let items = this.get('items');
       this.set('items', items.filter(i => i !== which));
+    },
+    shuffle() {
+      let items = this.get('items');
+      this.set('items', items.concat([makeRandomItem()]).sort(random));
     }
   }
 });
@@ -29,4 +33,8 @@ function numeric(a,b) { return a.id - b.id; }
 
 function makeRandomItem() {
   return { id: Math.round(Math.random()*1000) };
+}
+
+function random() {
+  return Math.random() - 0.5;
 }
