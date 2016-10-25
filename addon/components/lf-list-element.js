@@ -49,6 +49,16 @@ class Measurement {
       translateY: [newMeasurement.y, this.y]
     }, { duration: 500 });
   }
+  enter() {
+    return velocity(this.elt, { opacity: [1, 0]}, { visibility: 'visible', duration: 500 })
+      .then(() => $(this.elt).css({
+        visibility: '',
+        opacity: ''
+      }));
+  }
+  exit() {
+    return velocity(this.elt, { translateX: ['100vw', this.x], translateY: [this.y, this.y]}, { duration: 2000 });
+  }
 }
 
 class Measurements {
@@ -71,6 +81,20 @@ class Measurements {
       if (newMeasurement) {
         promises.push(m.move(newMeasurement));
       }
+    });
+    return RSVP.all(promises);
+  }
+  enter() {
+    let promises = [];
+    this.list.forEach(m => {
+      promises.push(m.enter());
+    });
+    return RSVP.all(promises);
+  }
+  exit() {
+    let promises = [];
+    this.list.forEach(m => {
+      promises.push(m.exit());
     });
     return RSVP.all(promises);
   }
@@ -102,19 +126,6 @@ export default Ember.Component.extend({
       node = node.nextSibling;
     }
   },
-
-  reveal() {
-    let promises = [];
-    this._forEachElement(elt => {
-      promises.push(velocity(elt, { opacity: [1, 0]}, { visibility: 'visible', duration: 500 })
-        .then(() => $(elt).css({
-          visibility: '',
-          opacity: ''
-        })));
-    });
-    return RSVP.all(promises);
-  },
-
 
   measure() {
     let list = [];

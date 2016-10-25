@@ -32,8 +32,13 @@ export default Ember.Component.extend({
         measurement.lock();
       });
 
-      let promises = inserted.map(({ component }) => component.reveal()).concat(
-        kept.map(({ measurement, newMeasurement }) => measurement.move(newMeasurement)));
+      let promises = inserted.map(({ measurement }) => measurement.enter()).concat(
+        kept.map(({ measurement, newMeasurement }) => measurement.move(newMeasurement))
+      ).concat(
+          removed.map(({ measurement }) => {
+            return measurement.exit();
+          })
+        );
 
       RSVP.all(promises).then(() => {
         kept.forEach(({ measurement }) => measurement.unlock());
