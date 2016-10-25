@@ -39,6 +39,11 @@ class Measurement {
   append() {
     $(this.parentElement).append(this.elt);
   }
+  remove() {
+    if (this.elt.parentNode) {
+      this.elt.parentNode.removeChild(this.elt);
+    }
+  }
   move(newMeasurement) {
     // This is a workaround for https://github.com/julianshapiro/velocity/issues/543
     velocity.hook(this.elt, 'translateX', this.x);
@@ -50,7 +55,7 @@ class Measurement {
     }, { duration: 500 });
   }
   enter() {
-    return velocity(this.elt, { translateX: [this.x, '100vw'], translateY: [this.y, this.y]}, { duration: 2000, visibility: 'visible' }).then(() => $(this.elt).css({
+    return velocity(this.elt, { translateX: [this.x, '100vw'], translateY: [this.y, this.y]}, { duration: 1000, visibility: 'visible' }).then(() => $(this.elt).css({
       visibility: '',
       opacity: ''
     }));
@@ -59,7 +64,7 @@ class Measurement {
     // This is a workaround for https://github.com/julianshapiro/velocity/issues/543
     velocity.hook(this.elt, 'translateX', this.x);
     velocity.hook(this.elt, 'translateY', this.y);
-    return velocity(this.elt, { translateX: ['100vw', this.x], translateY: [this.y, this.y]}, { duration: 2000 });
+    return velocity(this.elt, { translateX: ['100vw', this.x], translateY: [this.y, this.y]}, { duration: 1000 }).then(() => this.remove());
   }
 }
 
