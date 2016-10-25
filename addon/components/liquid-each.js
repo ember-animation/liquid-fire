@@ -29,6 +29,14 @@ export default Ember.Component.extend({
       // so we can measure the final static layout
       kept.forEach(entry => { entry.newMeasurements = entry.component.measure(); });
       let inserted = this._entering.map(component => ({ component, measurements: component.measure(), item: component.item }));
+
+      // Update our permanent state here before we actualy
+      // animate. This leaves us consistent in case we re-enter before
+      // the animation finishes.
+      this._current = kept.concat(inserted).map(entry => entry.component);
+      this._entering = [];
+      this._leaving = [];
+
       // Then lock everything down
       kept.forEach(({ measurements }) => measurements.lock());
       inserted.forEach(({ measurements }) => measurements.lock());
@@ -50,15 +58,8 @@ export default Ember.Component.extend({
         kept.forEach(({ measurements }) => measurements.unlock());
         inserted.forEach(({ measurements }) => measurements.unlock());
         replaced.forEach(([older, { measurements }]) => measurements.unlock());
-        this.finalizeAnimation(kept, inserted, replaced);
       });
     });
-  },
-
-  finalizeAnimation(kept, inserted, replaced) {
-    this._current = kept.concat(inserted).concat(replaced.map(([older, newer]) => newer)).map(entry => entry.component);
-    this._entering = [];
-    this._leaving = [];
   },
 
   actions: {
