@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/liquid-each';
 import RSVP from 'rsvp';
+import matchReplacements from 'liquid-fire/match-replacements';
 
 export default Ember.Component.extend({
   layout,
@@ -90,42 +91,4 @@ function partition(list, pred) {
     }
   });
   return [matched, unmatched];
-}
-
-export function matchReplacements(prevItems, items, inserted, kept, removed) {
-  if (inserted.length === 0 || removed.length === 0) {
-    return [inserted, removed, []];
-  }
-
-  let outputInserted = [];
-  let outputRemoved = removed.slice();
-  let outputReplaced = [];
-
-  let keptIndices = {};
-  kept.forEach(entry => {
-    keptIndices[items.indexOf(entry.component)] = prevItems.indexOf(entry.component);
-  });
-
-  let removedIndices = {};
-  removed.forEach(entry => {
-    removedIndices[prevItems.indexOf(entry.component)] = entry;
-  });
-
-  inserted.forEach(entry => {
-    let newIndex = items.indexOf(entry.component);
-    let cursor = newIndex - 1;
-    while (cursor > -1 && keptIndices[cursor] == null) {
-      cursor--;
-    }
-    let matchedRemoval = removedIndices[cursor + 1];
-    if (matchedRemoval) {
-      outputReplaced.push([matchedRemoval, entry]);
-      outputRemoved.splice(outputRemoved.indexOf(matchedRemoval), 1);
-    } else {
-      outputInserted.push(entry);
-    }
-  });
-
-  return [outputInserted, outputRemoved, outputReplaced];
-
 }

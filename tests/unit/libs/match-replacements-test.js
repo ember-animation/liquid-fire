@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { matchReplacements } from 'liquid-fire/components/liquid-each';
+import matchReplacements from 'liquid-fire/match-replacements';
 
 module("Unit | matchReplacements", {
   beforeEach(assert){
@@ -41,12 +41,22 @@ class Harness {
   alter(fn) {
     let newList = this.items.slice();
     fn(newList);
+    this.items.forEach(elt => {
+      if (!elt.component) {
+        elt.component = {};
+      }
+    });
+    newList.forEach(elt => {
+      if (!elt.component) {
+        elt.component = {};
+      }
+    });
     let inserted = newList.filter(elt => this.items.indexOf(elt) < 0);
     let removed = this.items.filter(elt => newList.indexOf(elt) < 0);
     let kept = this.items.filter(elt => newList.indexOf(elt) >= 0);
     return matchReplacements(
-      this.items,
-      newList,
+      this.items.map(e => e.component),
+      newList.map(e => e.component),
       inserted,
       kept,
       removed
