@@ -9,16 +9,16 @@ export default function matchReplacements(prevItems, items, inserted, kept, remo
 
   let keptIndices = {};
   kept.forEach(entry => {
-    keptIndices[items.indexOf(entry.component)] = prevItems.indexOf(entry.component);
+    keptIndices[items.indexOf(entry.item)] = prevItems.indexOf(entry.item);
   });
 
   let removedIndices = {};
   removed.forEach(entry => {
-    removedIndices[prevItems.indexOf(entry.component)] = entry;
+    removedIndices[prevItems.indexOf(entry.item)] = entry;
   });
 
   inserted.forEach(entry => {
-    let newIndex = items.indexOf(entry.component);
+    let newIndex = items.indexOf(entry.item);
     let cursor = newIndex - 1;
     while (cursor > -1 && keptIndices[cursor] == null) {
       cursor--;

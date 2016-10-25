@@ -18,7 +18,7 @@ export default Ember.Component.extend({
     let items = this.get('items');
     this._prevItems = items.slice();
 
-    let current = this._current.map(component => ({ component, measurements: component.measure() }));
+    let current = this._current.map(component => ({ component, measurements: component.measure(), item: component.item }));
     current.forEach(({ measurements }) => measurements.lock());
 
     Ember.run.schedule('afterRender', () => {
@@ -28,7 +28,7 @@ export default Ember.Component.extend({
       kept.forEach(({ measurements }) => measurements.unlock());
       // so we can measure the final static layout
       kept.forEach(entry => { entry.newMeasurements = entry.component.measure(); });
-      let inserted = this._entering.map(component => ({ component, measurements: component.measure() }));
+      let inserted = this._entering.map(component => ({ component, measurements: component.measure(), item: component.item }));
       // Then lock everything down
       kept.forEach(({ measurements }) => measurements.lock());
       inserted.forEach(({ measurements }) => measurements.lock());
@@ -38,19 +38,17 @@ export default Ember.Component.extend({
         measurements.lock();
       });
 
-      // NEXT: Attempt to match replacements here. Replacement happens
-      // when we have an enter and a leave, and each has the same
-      // relationship in the list to the surrounding kept entries.
       let replaced;
       [inserted, removed, replaced] = matchReplacements(prevItems, items, inserted, kept, removed);
+      console.log("replaced " + replaced.length);
 
-      let promises = inserted.map(({ measurements }) => measurements.enter()).concat(
-        kept.map(({ measurements, newMeasurements }) => measurements.move(newMeasurements))
-      ).concat(
-          removed.map(({ measurements }) => {
-            return measurements.exit();
-          })
-        );
+      let promises = [].concat(
+        inserted.map(({ measurements }) => measurements.enter()),
+        kept.map(({ measurements, newMeasurements }) => measurements.move(newMeasurements)),
+        removed.map(({ measurements }) => {
+          return measurements.exit();
+        })
+      );
 
       RSVP.all(promises).then(() => {
         kept.forEach(({ measurements }) => measurements.unlock());

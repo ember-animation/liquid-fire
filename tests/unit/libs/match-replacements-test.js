@@ -5,7 +5,7 @@ module("Unit | matchReplacements", {
   beforeEach(assert){
     assert.containsId = function( value, expected, message ) {
       this.pushResult({
-        result: value.find(elt => elt.id === expected),
+        result: value.find(elt => elt.item.id === expected),
         actual: value,
         expected: expected,
         message: message
@@ -14,7 +14,7 @@ module("Unit | matchReplacements", {
     assert.containsReplacement = function( value, expected, message ) {
       let [oldId, newId] = expected;
       this.pushResult({
-        result: value.find(elt => elt[0].id === oldId && elt[1].id === newId),
+        result: value.find(elt => elt[0].item.id === oldId && elt[1].item.id === newId),
         actual: value,
         expected: expected,
         message: message
@@ -41,25 +41,15 @@ class Harness {
   alter(fn) {
     let newList = this.items.slice();
     fn(newList);
-    this.items.forEach(elt => {
-      if (!elt.component) {
-        elt.component = {};
-      }
-    });
-    newList.forEach(elt => {
-      if (!elt.component) {
-        elt.component = {};
-      }
-    });
     let inserted = newList.filter(elt => this.items.indexOf(elt) < 0);
     let removed = this.items.filter(elt => newList.indexOf(elt) < 0);
     let kept = this.items.filter(elt => newList.indexOf(elt) >= 0);
     return matchReplacements(
-      this.items.map(e => e.component),
-      newList.map(e => e.component),
-      inserted,
-      kept,
-      removed
+      this.items,
+      newList,
+      inserted.map(e => ({ item: e })),
+      kept.map(e => ({ item: e })),
+      removed.map(e => ({ item: e }))
     );
   }
 }
