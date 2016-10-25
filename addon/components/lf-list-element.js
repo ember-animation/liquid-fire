@@ -5,6 +5,77 @@ import $ from 'jquery';
 import velocity from 'velocity';
 import RSVP from 'rsvp';
 
+class Measurement {
+  constructor(elt) {
+    let bounds = elt.getBoundingClientRect();
+    let parentBounds = elt.offsetParent.getBoundingClientRect();
+    this.elt = elt;
+    this.parentElement = elt.parentElement;
+    this.width = bounds.width;
+    this.height = bounds.height;
+    this.x = bounds.left - parentBounds.left;
+    this.y = bounds.top - parentBounds.top;
+  }
+  lock() {
+    $(this.elt).css({
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: this.width,
+      height: this.height,
+      transform: `translateX(${this.x}px) translateY(${this.y}px)`
+    });
+  }
+  unlock() {
+    $(this.elt).css({
+      position: '',
+      top: '',
+      left: '',
+      width: '',
+      height: '',
+      transform: ''
+    });
+  }
+  append() {
+    $(this.parentElement).append(this.elt);
+  }
+  move(newMeasurement) {
+    // This is a workaround for https://github.com/julianshapiro/velocity/issues/543
+    velocity.hook(this.elt, 'translateX', this.x);
+    velocity.hook(this.elt, 'translateY', this.y);
+
+    return velocity(this.elt, {
+      translateX: [newMeasurement.x, this.x],
+      translateY: [newMeasurement.y, this.y]
+    }, { duration: 500 });
+  }
+}
+
+class Measurements {
+  constructor(list) {
+    this.list = list;
+  }
+  lock() {
+    this.list.forEach(m => m.lock());
+  }
+  unlock() {
+    this.list.forEach(m => m.unlock());
+  }
+  append() {
+    this.list.forEach(m => m.append());
+  }
+  move(newMeasurements) {
+    let promises = [];
+    this.list.forEach(m => {
+      let newMeasurement = newMeasurements.list.find(entry => entry.elt === m.elt);
+      if (newMeasurement) {
+        promises.push(m.move(newMeasurement));
+      }
+    });
+    return RSVP.all(promises);
+  }
+}
+
 export default Ember.Component.extend({
   layout,
   tagName: '',
@@ -46,62 +117,10 @@ export default Ember.Component.extend({
 
 
   measure() {
-    let measurements = [];
+    let list = [];
     this._forEachElement(elt => {
-      let bounds = elt.getBoundingClientRect();
-      let parentBounds = elt.offsetParent.getBoundingClientRect();
-      measurements.push({
-        elt,
-        width: bounds.width,
-        height: bounds.height,
-        x: bounds.left - parentBounds.left,
-        y: bounds.top - parentBounds.top
-      });
+      list.push(new Measurement(elt));
     });
-    return measurements;
-  },
-
-  lock(measurements) {
-    measurements.forEach(({elt, width, height, x, y}) => {
-      $(elt).css({
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width,
-        height,
-        transform: `translateX(${x}px) translateY(${y}px)`
-      });
-    });
-  },
-
-  unlock() {
-    this._forEachElement(elt => {
-      $(elt).css({
-        position: '',
-        top: '',
-        left: '',
-        width: '',
-        height: '',
-        transform: ''
-      });
-    });
-  },
-
-  move(oldMeasurements, newMeasurements) {
-    let promises = [];
-    this._forEachElement(elt => {
-      let oldMeasurement = oldMeasurements.find(m => m.elt === elt);
-      let newMeasurement = newMeasurements.find(m => m.elt === elt);
-
-      // This is a workaround for https://github.com/julianshapiro/velocity/issues/543
-      velocity.hook(elt, 'translateX', oldMeasurement.x);
-      velocity.hook(elt, 'translateY', oldMeasurement.y);
-
-      promises.push(velocity(elt, {
-        translateX: [newMeasurement.x, oldMeasurement.x],
-        translateY: [newMeasurement.y, oldMeasurement.y]
-      }, { duration: 500 }));
-    });
-    return RSVP.all(promises);
+    return new Measurements(list);
   }
 });
