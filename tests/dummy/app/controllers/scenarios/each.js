@@ -31,12 +31,12 @@ export default Ember.Controller.extend({
     sortNumeric() {
       let items = this.get('items');
       this.currentSort = numeric;
-      this.set('items', items.sort(this.currentSort));
+      this.set('items', items.slice().sort(this.currentSort));
     },
     shuffle() {
       let items = this.get('items');
       this.currentSort = random;
-      this.set('items', items.sort(this.currentSort));
+      this.set('items', items.slice().sort(this.currentSort));
     }
   }
 });
