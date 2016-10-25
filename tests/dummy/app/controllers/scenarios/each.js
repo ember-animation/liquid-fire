@@ -28,6 +28,9 @@ export default Ember.Controller.extend({
       let index = items.indexOf(which);
       this.set('items', items.slice(0, index).concat([makeRandomItem()]).concat(items.slice(index+1)));
     },
+    mutate(item) {
+      Ember.set(item, 'extra', !item.extra);
+    },
     sortNumeric() {
       let items = this.get('items');
       this.currentSort = numeric;

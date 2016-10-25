@@ -4,10 +4,14 @@
 
 <div class="scenarios-each">
   {{#liquid-each items as |item|}}
-  <div>
-    {{item.id}}
-    <button {{action "removeItem" item}}>X</button>
-    <button {{action "replaceItem" item}}>R</button>
-  </div>
+    <div>
+      {{item.id}}
+      <button {{action "removeItem" item}}>X</button>
+      <button {{action "replaceItem" item}}>R</button>
+      <button {{action "mutate" item}}>M</button>
+    </div>
+    {{#if item.extra}}
+      <div>I am extra</div>
+    {{/if}}
   {{/liquid-each}}
 </div>
