@@ -40,26 +40,23 @@ export default Ember.Component.extend({
 
       let replaced;
       [inserted, removed, replaced] = matchReplacements(prevItems, items, inserted, kept, removed);
-      console.log("replaced " + replaced.length);
 
-      let promises = [].concat(
+      RSVP.all([].concat(
         inserted.map(({ measurements }) => measurements.enter()),
         kept.map(({ measurements, newMeasurements }) => measurements.move(newMeasurements)),
-        removed.map(({ measurements }) => {
-          return measurements.exit();
-        })
-      );
-
-      RSVP.all(promises).then(() => {
+        removed.map(({ measurements }) => measurements.exit()),
+        replaced.map(([older, newer]) => newer.measurements.replace(older.measurements))
+      )).then(() => {
         kept.forEach(({ measurements }) => measurements.unlock());
         inserted.forEach(({ measurements }) => measurements.unlock());
-        this.finalizeAnimation(kept, inserted);
+        replaced.forEach(([older, { measurements }]) => measurements.unlock());
+        this.finalizeAnimation(kept, inserted, replaced);
       });
     });
   },
 
-  finalizeAnimation(kept, inserted) {
-    this._current = kept.concat(inserted).map(entry => entry.component);
+  finalizeAnimation(kept, inserted, replaced) {
+    this._current = kept.concat(inserted).concat(replaced.map(([older, newer]) => newer)).map(entry => entry.component);
     this._entering = [];
     this._leaving = [];
   },

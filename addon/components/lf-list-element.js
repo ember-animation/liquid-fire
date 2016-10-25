@@ -105,6 +105,12 @@ class Measurements {
     });
     return RSVP.all(promises);
   }
+  replace(otherMeasurements) {
+    return RSVP.all([
+      otherMeasurements.exit(),
+      this.enter()
+    ]);
+  }
 }
 
 export default Ember.Component.extend({
