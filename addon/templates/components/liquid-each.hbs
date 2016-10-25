@@ -1,6 +1,7 @@
 {{#each items as |item| ~}}
   {{#-lf-list-element entering=(action "childEntering")
-                       leaving=(action "childLeaving")  ~}}
+                       leaving=(action "childLeaving")
+                          item=item ~}}
     {{yield item ~}}
   {{/-lf-list-element ~}}
 {{/each}}

@@ -10,8 +10,13 @@ export default Ember.Component.extend({
     this._entering = [];
     this._current = [];
     this._leaving = [];
+    this._prevItems = [];
   },
   didReceiveAttrs() {
+    let prevItems = this._prevItems;
+    let items = this.get('items');
+    this._prevItems = items.slice();
+
     let current = this._current.map(component => ({ component, measurements: component.measure() }));
     current.forEach(({ measurements }) => measurements.lock());
 
@@ -31,6 +36,12 @@ export default Ember.Component.extend({
         measurements.append();
         measurements.lock();
       });
+
+      // NEXT: Attempt to match replacements here. Replacement happens
+      // when we have an enter and a leave, and each has the same
+      // relationship in the list to the surrounding kept entries.
+      let replaced;
+      [inserted, removed, replaced] = matchReplacements(prevItems, items, inserted, kept, removed);
 
       let promises = inserted.map(({ measurements }) => measurements.enter()).concat(
         kept.map(({ measurements, newMeasurements }) => measurements.move(newMeasurements))
@@ -79,4 +90,42 @@ function partition(list, pred) {
     }
   });
   return [matched, unmatched];
+}
+
+export function matchReplacements(prevItems, items, inserted, kept, removed) {
+  if (inserted.length === 0 || removed.length === 0) {
+    return [inserted, removed, []];
+  }
+
+  let outputInserted = [];
+  let outputRemoved = removed.slice();
+  let outputReplaced = [];
+
+  let keptIndices = {};
+  kept.forEach(entry => {
+    keptIndices[items.indexOf(entry.component)] = prevItems.indexOf(entry.component);
+  });
+
+  let removedIndices = {};
+  removed.forEach(entry => {
+    removedIndices[prevItems.indexOf(entry.component)] = entry;
+  });
+
+  inserted.forEach(entry => {
+    let newIndex = items.indexOf(entry.component);
+    let cursor = newIndex - 1;
+    while (cursor > -1 && keptIndices[cursor] == null) {
+      cursor--;
+    }
+    let matchedRemoval = removedIndices[cursor + 1];
+    if (matchedRemoval) {
+      outputReplaced.push([matchedRemoval, entry]);
+      outputRemoved.splice(outputRemoved.indexOf(matchedRemoval), 1);
+    } else {
+      outputInserted.push(entry);
+    }
+  });
+
+  return [outputInserted, outputRemoved, outputReplaced];
+
 }
