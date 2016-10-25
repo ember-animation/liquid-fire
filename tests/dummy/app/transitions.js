@@ -229,4 +229,36 @@ this.transition(
     this.reverse('toRight', {duration: 1500})
   );
 
+
+  /*
+  // experimental
+  this.transition(
+    this.inTargetNamed('my-list'),
+    this.use({
+      oldElements: 'fade-away',
+      constantElements: ['after', 'fade-away', 'move'],
+      newElements: ['after', ['fade-away', 'move'], 'fade-in']
+    })
+  );
+  this.transition(
+    this.fromTargetNamed('my-list'),
+    this.toTargetNamed('detail-pane'),
+    this.ifEqualValues(),
+    this.use({ newElements: 'moveAndScale' })
+  );
+  this.transition(
+    this.fromTargetNamed('add-button'),
+    this.toTargetNamed('my-list'),
+    this.use({ newElements: 'moveAndScale' })
+  );
+  this.transition(
+    this.inTargetNamed('my-list'),
+    this.use({
+      oldElements: 'fade-away',
+      newElements: 'fade-in',
+      constantElements: 'move'
+    })
+  );
+  */
+
 }
