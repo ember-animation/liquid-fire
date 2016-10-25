@@ -12,37 +12,37 @@ export default Ember.Component.extend({
     this._leaving = [];
   },
   didReceiveAttrs() {
-    let current = this._current.map(component => ({ component, measurement: component.measure() }));
-    current.forEach(({ measurement }) => measurement.lock());
+    let current = this._current.map(component => ({ component, measurements: component.measure() }));
+    current.forEach(({ measurements }) => measurements.lock());
 
     Ember.run.schedule('afterRender', () => {
       let [kept, removed] = partition(current, entry => this._leaving.indexOf(entry.component) < 0);
 
       // Briefly unlock everybody
-      kept.forEach(({ measurement }) => measurement.unlock());
+      kept.forEach(({ measurements }) => measurements.unlock());
       // so we can measure the final static layout
-      kept.forEach(entry => { entry.newMeasurement = entry.component.measure(); });
-      let inserted = this._entering.map(component => ({ component, measurement: component.measure() }));
+      kept.forEach(entry => { entry.newMeasurements = entry.component.measure(); });
+      let inserted = this._entering.map(component => ({ component, measurements: component.measure() }));
       // Then lock everything down
-      kept.forEach(({ measurement }) => measurement.lock());
-      inserted.forEach(({ measurement }) => measurement.lock());
+      kept.forEach(({ measurements }) => measurements.lock());
+      inserted.forEach(({ measurements }) => measurements.lock());
       // Including ghost copies of the deleted components
-      removed.forEach(({ measurement }) => {
-        measurement.append();
-        measurement.lock();
+      removed.forEach(({ measurements }) => {
+        measurements.append();
+        measurements.lock();
       });
 
-      let promises = inserted.map(({ measurement }) => measurement.enter()).concat(
-        kept.map(({ measurement, newMeasurement }) => measurement.move(newMeasurement))
+      let promises = inserted.map(({ measurements }) => measurements.enter()).concat(
+        kept.map(({ measurements, newMeasurements }) => measurements.move(newMeasurements))
       ).concat(
-          removed.map(({ measurement }) => {
-            return measurement.exit();
+          removed.map(({ measurements }) => {
+            return measurements.exit();
           })
         );
 
       RSVP.all(promises).then(() => {
-        kept.forEach(({ measurement }) => measurement.unlock());
-        inserted.forEach(({ measurement }) => measurement.unlock());
+        kept.forEach(({ measurements }) => measurements.unlock());
+        inserted.forEach(({ measurements }) => measurements.unlock());
         this.finalizeAnimation(kept, inserted);
       });
     });
