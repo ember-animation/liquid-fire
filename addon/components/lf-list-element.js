@@ -50,11 +50,10 @@ class Measurement {
     }, { duration: 500 });
   }
   enter() {
-    return velocity(this.elt, { opacity: [1, 0]}, { visibility: 'visible', duration: 500 })
-      .then(() => $(this.elt).css({
-        visibility: '',
-        opacity: ''
-      }));
+    return velocity(this.elt, { translateX: [this.x, '100vw'], translateY: [this.y, this.y]}, { duration: 2000, visibility: 'visible' }).then(() => $(this.elt).css({
+      visibility: '',
+      opacity: ''
+    }));
   }
   exit() {
     // This is a workaround for https://github.com/julianshapiro/velocity/issues/543

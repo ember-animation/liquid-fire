@@ -1,8 +1,13 @@
 <button {{action "addItem"}}>Add Item</button>
 <button {{action "shuffle"}}>Shuffle</button>
+<button {{action "sortNumeric"}}>Sort</button>
 
 <div class="scenarios-each">
   {{#liquid-each items as |item|}}
-    <div>{{item.id}} <button {{action "removeItem" item}}>X</button></div>
+  <div>
+    {{item.id}}
+    <button {{action "removeItem" item}}>X</button>
+    <button {{action "replaceItem" item}}>R</button>
+  </div>
   {{/liquid-each}}
 </div>
