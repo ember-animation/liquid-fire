@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import { task } from 'ember-concurrency';
 import Ember from 'ember';
-import rAF from './raf-promise';
+import { rAF } from './concurrency-helpers';
 
 export default Ember.Object.extend({
   init() {

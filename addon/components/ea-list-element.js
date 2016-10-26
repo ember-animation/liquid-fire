@@ -49,7 +49,7 @@ class Measurement {
       initial: { x: this.x, y: this.y },
       final: { x: newMeasurement.x, y: newMeasurement.y },
       opts: { duration: 500 }
-    });
+    }).run();
   }
   enter() {
     return Move.create({
@@ -57,7 +57,7 @@ class Measurement {
       initial: { x: '100vw', y: this.y },
       final: { x: this.x, y: this.y },
       opts: { duration: 1000 }
-    });
+    }).run();
   }
   exit() {
     return Move.create({
@@ -65,7 +65,7 @@ class Measurement {
       initial: { x: this.x, y: this.y },
       final: { x: '100vw', y: this.y },
       opts: { duration: 1000 }
-    });
+    }).run();
   }
 }
 
