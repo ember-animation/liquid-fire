@@ -47,6 +47,12 @@ export default Ember.Object.extend({
   }),
 
 
+  // --- Begin public methods you may call ---
+
+  cancel() {
+    this.get('_run').cancelAll();
+  },
+
   // --- Begin private methods ---
 
   _setupMotionList() {

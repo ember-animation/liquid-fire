@@ -58,6 +58,10 @@ export default Ember.Component.extend({
         kept.forEach(({ measurements }) => measurements.unlock());
         inserted.forEach(({ measurements }) => measurements.unlock());
         replaced.forEach(([older, { measurements }]) => measurements.unlock());
+      }).catch(err => {
+        if (err.name !== 'TaskCancelation') {
+          throw err;
+        }
       });
     });
   },

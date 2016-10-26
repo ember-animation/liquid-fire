@@ -55,16 +55,22 @@ class Measurement {
     return m.get('_run').perform();
   }
   enter() {
-    return velocity(this.elt, { translateX: [this.x, '100vw'], translateY: [this.y, this.y]}, { duration: 1000, visibility: 'visible' }).then(() => $(this.elt).css({
-      visibility: '',
-      opacity: ''
-    }));
+    let m = Move.create({
+      element: this.elt,
+      initial: { x: '100vw', y: this.y },
+      final: { x: this.x, y: this.y },
+      opts: { duration: 1000 }
+    });
+    return m.get('_run').perform();
   }
   exit() {
-    // This is a workaround for https://github.com/julianshapiro/velocity/issues/543
-    velocity.hook(this.elt, 'translateX', this.x);
-    velocity.hook(this.elt, 'translateY', this.y);
-    return velocity(this.elt, { translateX: ['100vw', this.x], translateY: [this.y, this.y]}, { duration: 1000 }).then(() => this.remove());
+    let m = Move.create({
+      element: this.elt,
+      initial: { x: this.x, y: this.y },
+      final: { x: '100vw', y: this.y },
+      opts: { duration: 1000 }
+    });
+    return m.get('_run').perform().then(() => this.remove());
   }
 }
 
