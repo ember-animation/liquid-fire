@@ -3,6 +3,7 @@ import layout from '../templates/components/ea-list-element';
 import { componentNodes } from 'liquid-fire/ember-internals';
 import $ from 'jquery';
 import Move from 'liquid-fire/motions/move';
+import { allSettled } from 'ember-concurrency';
 
 class Measurement {
   constructor(elt) {
@@ -101,7 +102,7 @@ class Measurements {
   replace(otherMeasurements) {
     return zip(otherMeasurements.list, this.list).map(([older, newer]) => {
       if (older.x === newer.x && older.y === newer.y) {
-        return older.exit().concat(newer.enter());
+        return allSettled([older.exit(), newer.enter()]);
       } else {
         older.remove();
         return Move.create({
