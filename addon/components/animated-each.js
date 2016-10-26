@@ -20,6 +20,9 @@ export default Ember.Component.extend({
     this._prevItems = items.slice();
 
     let current = this._current.map(component => ({ component, measurements: component.measure(), item: component.item }));
+    if (current.length > 0) {
+      this._notifyContainer('lock');
+    }
     current.forEach(({ measurements }) => measurements.lock());
     this._lockCounter++;
 
@@ -31,6 +34,7 @@ export default Ember.Component.extend({
       // so we can measure the final static layout
       kept.forEach(entry => { entry.newMeasurements = entry.component.measure(); });
       let inserted = this._entering.map(component => ({ component, measurements: component.measure(), item: component.item }));
+      let containerMotion = this._notifyContainer('measure');
 
       // Update our permanent state here before we actualy
       // animate. This leaves us consistent in case we re-enter before
@@ -51,7 +55,7 @@ export default Ember.Component.extend({
       let replaced;
       [inserted, removed, replaced] = matchReplacements(prevItems, items, inserted, kept, removed);
 
-      let motions = [].concat(
+      let motions = [containerMotion].concat(
         inserted.map(({ measurements }) => measurements.enter()).reduce((a,b) => a.concat(b), []),
         kept.map(({ measurements, newMeasurements }) => measurements.move(newMeasurements)).reduce((a,b) => a.concat(b), []),
         removed.map(({ measurements }) => measurements.exit()).reduce((a,b) => a.concat(b), []),
@@ -63,12 +67,18 @@ export default Ember.Component.extend({
           kept.forEach(({ measurements }) => measurements.unlock());
           inserted.forEach(({ measurements }) => measurements.unlock());
           replaced.forEach(([older, { measurements }]) => measurements.unlock());
+          this._notifyContainer('unlock');
         }
       });
     });
   },
 
-
+  _notifyContainer: function(method) {
+    var target = this.get('notify');
+    if (target && target[method]) {
+      return target[method]();
+    }
+  },
 
   actions: {
     childEntering(component) {

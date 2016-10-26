@@ -3,17 +3,19 @@
 <button {{action "sortNumeric"}}>Sort</button>
 
 <div class="scenarios-each">
-  {{#animated-each items as |item|}}
-    <div>
-      {{item.id}}
-      <button {{action "removeItem" item}}>X</button>
-      <button {{action "replaceItem" item}}>R</button>
-      <button {{action "mutate" item}}>M</button>
-    </div>
-    {{#if item.extra}}
-      <div>I am extra</div>
-    {{/if}}
-  {{/animated-each}}
+  {{#animated-container as |c|}}
+    {{#animated-each items notify=c as |item|}}
+      <div>
+        {{item.id}}
+        <button {{action "removeItem" item}}>X</button>
+        <button {{action "replaceItem" item}}>R</button>
+        <button {{action "mutate" item}}>M</button>
+      </div>
+      {{#if item.extra}}
+        <div>I am extra</div>
+      {{/if}}
+    {{/animated-each}}
+  {{/animated-container}}
 </div>
 
 This is after the list.
