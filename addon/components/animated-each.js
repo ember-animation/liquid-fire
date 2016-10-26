@@ -16,7 +16,7 @@ export default Ember.Component.extend({
   },
   didReceiveAttrs() {
     let prevItems = this._prevItems;
-    let items = this.get('items');
+    let items = this.get('items') || [];
     this._prevItems = items.slice();
 
     let current = this._current.map(component => ({ component, measurements: component.measure(), item: component.item }));

@@ -1,0 +1,20 @@
+<div class="scenario-two-lists">
+  {{#animated-container as |c|}}
+    {{#animated-each leftItems notify=c as |item|}}
+      <div>
+        {{item.id}}
+        <button {{action "moveRight" item}}>&rarr;</button>
+      </div>
+    {{/animated-each}}
+  {{/animated-container}}
+
+  {{#animated-container as |c|}}
+    {{#animated-each rightItems notify=c as |item|}}
+      <div>
+        <button {{action "moveLeft" item}}>&larr;</button>
+        {{item.id}}
+      </div>
+    {{/animated-each}}
+  {{/animated-container}}
+
+</div>

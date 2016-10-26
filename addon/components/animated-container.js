@@ -5,6 +5,7 @@ import { task } from 'ember-concurrency';
 
 export default Ember.Component.extend({
   layout,
+  classNames: ['animated-container'],
 
   animate: task(function * ($elt, initial, final) {
     let motion = new Resize({
