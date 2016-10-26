@@ -17,7 +17,8 @@ export default Ember.Controller.extend({
   actions: {
     addItem() {
       let items = this.get('items');
-      this.set('items', items.concat([makeRandomItem()]).sort(this.currentSort));
+      // This deliberately uses stable keys but unstable objects
+      this.set('items', items.concat([makeRandomItem()]).sort(this.currentSort).map(elt => ({ id: elt.id })));
     },
     removeItem(which) {
       let items = this.get('items');

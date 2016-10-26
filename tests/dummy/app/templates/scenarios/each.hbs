@@ -4,7 +4,7 @@
 
 <div class="scenarios-each">
   {{#animated-container as |c|}}
-    {{#animated-each items notify=c as |item|}}
+    {{#animated-each items notify=c key="id" as |item|}}
       <div>
         {{item.id}}
         <button {{action "removeItem" item}}>X</button>

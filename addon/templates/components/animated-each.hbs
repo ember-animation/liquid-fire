@@ -1,4 +1,4 @@
-{{#each items as |item| ~}}
+{{#each items key=key as |item| ~}}
   {{#-ea-list-element entering=(action "childEntering")
                        leaving=(action "childLeaving")
                           item=item ~}}
