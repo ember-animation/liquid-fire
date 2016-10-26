@@ -3,7 +3,7 @@
 <button {{action "sortNumeric"}}>Sort</button>
 
 <div class="scenarios-each">
-  {{#liquid-each items as |item|}}
+  {{#animated-each items as |item|}}
     <div>
       {{item.id}}
       <button {{action "removeItem" item}}>X</button>
@@ -13,7 +13,7 @@
     {{#if item.extra}}
       <div>I am extra</div>
     {{/if}}
-  {{/liquid-each}}
+  {{/animated-each}}
 </div>
 
 This is after the list.
