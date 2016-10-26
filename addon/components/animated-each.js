@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import layout from '../templates/components/liquid-each';
+import layout from '../templates/components/animated-each';
 import RSVP from 'rsvp';
 import matchReplacements from 'liquid-fire/match-replacements';
 
