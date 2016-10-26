@@ -16,6 +16,9 @@ export default Ember.Component.extend({
     this._leaving = [];
     this._prevItems = [];
   },
+  // willDestroyElement() {
+  //   this.get('motionService').leaving(this._current.map(component => ({ component, measurements: component.measure(), item: component.item })));
+  // },
   didReceiveAttrs() {
     let prevItems = this._prevItems;
     let items = this.get('items') || [];

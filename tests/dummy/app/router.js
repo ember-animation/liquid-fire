@@ -74,6 +74,7 @@ Router.map(function() {
     this.route('in-test-outlet');
     this.route('each');
     this.route('two-lists');
+    this.route('swapping-lists');
   });
 
 });
