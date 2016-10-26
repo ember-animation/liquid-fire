@@ -1,1 +1,1 @@
-export { default } from 'liquid-fire/components/lf-list-element';
+export { default } from 'liquid-fire/components/ea-list-element';

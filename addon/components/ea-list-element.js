@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import layout from '../templates/components/lf-list-element';
+import layout from '../templates/components/ea-list-element';
 import { componentNodes } from 'liquid-fire/ember-internals';
 import $ from 'jquery';
 import Move from 'liquid-fire/motions/move';
