@@ -4,6 +4,7 @@ import { componentNodes } from 'liquid-fire/ember-internals';
 import $ from 'jquery';
 import velocity from 'velocity';
 import RSVP from 'rsvp';
+import Move from 'liquid-fire/motions/move';
 
 class Measurement {
   constructor(elt) {
@@ -45,14 +46,13 @@ class Measurement {
     }
   }
   move(newMeasurement) {
-    // This is a workaround for https://github.com/julianshapiro/velocity/issues/543
-    velocity.hook(this.elt, 'translateX', this.x);
-    velocity.hook(this.elt, 'translateY', this.y);
-
-    return velocity(this.elt, {
-      translateX: [newMeasurement.x, this.x],
-      translateY: [newMeasurement.y, this.y]
-    }, { duration: 500 });
+    let m = Move.create({
+      element: this.elt,
+      initial: { x: this.x, y: this.y },
+      final: { x: newMeasurement.x, y: newMeasurement.y },
+      opts: {}
+    });
+    return m.get('_run').perform();
   }
   enter() {
     return velocity(this.elt, { translateX: [this.x, '100vw'], translateY: [this.y, this.y]}, { duration: 1000, visibility: 'visible' }).then(() => $(this.elt).css({
