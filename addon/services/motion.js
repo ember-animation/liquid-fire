@@ -7,15 +7,6 @@ export default Ember.Service.extend({
     this._super();
     this._rendezvous = [];
   },
-  // leaving(items) {
-  //   console.log("saw leaving", items);
-  //   this._leaving = this._leaving.concat(items);
-  //   Ember.run.scheduleOnce('afterRender', this, this.sweep);
-  // },
-  // sweep() {
-  //   console.log('swept');
-  //   this._leaving = [];
-  // },
   farMatch: task(function * (inserted, removed, replaced) {
     let mine = { inserted, removed, replaced };
     this._rendezvous.push(mine);
@@ -34,7 +25,7 @@ export default Ember.Service.extend({
 
 function performMatches(insertedSource, removedSource) {
   insertedSource.inserted.slice().forEach(entry => {
-    let match = removedSource.removed.find(myEntry => entry.item === myEntry.item);
+    let match = removedSource.removed.find(myEntry => entry.item.id === myEntry.item.id);
     if (match) {
       removedSource.removed.splice(removedSource.removed.indexOf(match), 1);
       insertedSource.inserted.splice(insertedSource.inserted.indexOf(entry), 1);
