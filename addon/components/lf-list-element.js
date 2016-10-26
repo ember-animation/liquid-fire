@@ -2,8 +2,6 @@ import Ember from 'ember';
 import layout from '../templates/components/lf-list-element';
 import { componentNodes } from 'liquid-fire/ember-internals';
 import $ from 'jquery';
-import velocity from 'velocity';
-import RSVP from 'rsvp';
 import Move from 'liquid-fire/motions/move';
 
 class Measurement {
@@ -46,31 +44,28 @@ class Measurement {
     }
   }
   move(newMeasurement) {
-    let m = Move.create({
+    return Move.create({
       element: this.elt,
       initial: { x: this.x, y: this.y },
       final: { x: newMeasurement.x, y: newMeasurement.y },
-      opts: {}
+      opts: { duration: 500 }
     });
-    return m.get('_run').perform();
   }
   enter() {
-    let m = Move.create({
+    return Move.create({
       element: this.elt,
       initial: { x: '100vw', y: this.y },
       final: { x: this.x, y: this.y },
       opts: { duration: 1000 }
     });
-    return m.get('_run').perform();
   }
   exit() {
-    let m = Move.create({
+    return Move.create({
       element: this.elt,
       initial: { x: this.x, y: this.y },
       final: { x: '100vw', y: this.y },
       opts: { duration: 1000 }
     });
-    return m.get('_run').perform().then(() => this.remove());
   }
 }
 
@@ -88,34 +83,23 @@ class Measurements {
     this.list.forEach(m => m.append());
   }
   move(newMeasurements) {
-    let promises = [];
+    let motions = [];
     this.list.forEach(m => {
       let newMeasurement = newMeasurements.list.find(entry => entry.elt === m.elt);
       if (newMeasurement) {
-        promises.push(m.move(newMeasurement));
+        motions.push(m.move(newMeasurement));
       }
     });
-    return RSVP.all(promises);
+    return motions;
   }
   enter() {
-    let promises = [];
-    this.list.forEach(m => {
-      promises.push(m.enter());
-    });
-    return RSVP.all(promises);
+    return this.list.map(m => m.enter());
   }
   exit() {
-    let promises = [];
-    this.list.forEach(m => {
-      promises.push(m.exit());
-    });
-    return RSVP.all(promises);
+    return this.list.map(m => m.exit());
   }
   replace(otherMeasurements) {
-    return RSVP.all([
-      otherMeasurements.exit(),
-      this.enter()
-    ]);
+    return otherMeasurements.exit().concat(this.enter());
   }
 }
 

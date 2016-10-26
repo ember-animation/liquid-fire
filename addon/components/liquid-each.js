@@ -12,6 +12,7 @@ export default Ember.Component.extend({
     this._current = [];
     this._leaving = [];
     this._prevItems = [];
+    this._lockCounter = 0;
   },
   didReceiveAttrs() {
     let prevItems = this._prevItems;
@@ -20,6 +21,7 @@ export default Ember.Component.extend({
 
     let current = this._current.map(component => ({ component, measurements: component.measure(), item: component.item }));
     current.forEach(({ measurements }) => measurements.lock());
+    this._lockCounter++;
 
     Ember.run.schedule('afterRender', () => {
       let [kept, removed] = partition(current, entry => this._leaving.indexOf(entry.component) < 0);
@@ -49,22 +51,24 @@ export default Ember.Component.extend({
       let replaced;
       [inserted, removed, replaced] = matchReplacements(prevItems, items, inserted, kept, removed);
 
-      RSVP.all([].concat(
-        inserted.map(({ measurements }) => measurements.enter()),
-        kept.map(({ measurements, newMeasurements }) => measurements.move(newMeasurements)),
-        removed.map(({ measurements }) => measurements.exit()),
-        replaced.map(([older, newer]) => newer.measurements.replace(older.measurements))
-      )).then(() => {
-        kept.forEach(({ measurements }) => measurements.unlock());
-        inserted.forEach(({ measurements }) => measurements.unlock());
-        replaced.forEach(([older, { measurements }]) => measurements.unlock());
-      }).catch(err => {
-        if (err.name !== 'TaskCancelation') {
-          throw err;
+      let motions = [].concat(
+        inserted.map(({ measurements }) => measurements.enter()).reduce((a,b) => a.concat(b), []),
+        kept.map(({ measurements, newMeasurements }) => measurements.move(newMeasurements)).reduce((a,b) => a.concat(b), []),
+        removed.map(({ measurements }) => measurements.exit()).reduce((a,b) => a.concat(b), []),
+        replaced.map(([older, newer]) => newer.measurements.replace(older.measurements)).reduce((a,b) => a.concat(b), [])
+      );
+      RSVP.allSettled(motions.map(m => m.get('_run').perform())).then(() => {
+        this._lockCounter--;
+        if (this._lockCounter < 1) {
+          kept.forEach(({ measurements }) => measurements.unlock());
+          inserted.forEach(({ measurements }) => measurements.unlock());
+          replaced.forEach(([older, { measurements }]) => measurements.unlock());
         }
       });
     });
   },
+
+
 
   actions: {
     childEntering(component) {
