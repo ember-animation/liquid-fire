@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import { task } from 'ember-concurrency';
 import Ember from 'ember';
+import rAF from './raf-promise';
 
 export default Ember.Object.extend({
   init() {
@@ -13,7 +14,6 @@ export default Ember.Object.extend({
     // this.opts = opts;
 
     this._setupMotionList();
-    this.measure();
   },
 
   // --- Begin Hooks you should Implement ---
@@ -53,6 +53,10 @@ export default Ember.Object.extend({
     this.get('_run').cancelAll();
   },
 
+  run() {
+    return this.get('_run').perform();
+  },
+
   // --- Begin private methods ---
 
   _setupMotionList() {
@@ -66,6 +70,8 @@ export default Ember.Object.extend({
   },
 
   _run: task(function * (){
+    this.measure();
+    yield rAF();
     try {
       let others = this._motionList.filter(m => m !== this);
       if (others.length > 0) {

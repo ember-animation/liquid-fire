@@ -1,9 +1,21 @@
 import Ember from 'ember';
 import layout from '../templates/components/animated-container';
 import Resize from '../motions/resize';
+import { task } from 'ember-concurrency';
 
 export default Ember.Component.extend({
   layout,
+
+  animate: task(function * ($elt, initial, final) {
+    let motion = new Resize({
+      element: $elt[0],
+      initial: { width: initial.width, height: initial.height },
+      final: { width: final.width, height: final.height },
+      opts: {}
+    });
+    yield motion.run();
+  }),
+
   actions: {
     lock() {
       let $elt = this.$();
@@ -18,12 +30,7 @@ export default Ember.Component.extend({
       let final = $elt[0].getBoundingClientRect();
       $elt.outerWidth(rect.width);
       $elt.outerHeight(rect.height);
-      return new Resize({
-        element: $elt[0],
-        initial: { width: rect.width, height: rect.height },
-        final: { width: final.width, height: final.height },
-        opts: {}
-      });
+      return this.get('animate').perform($elt, rect, final);
     },
     unlock() {
       let $elt = this.$();

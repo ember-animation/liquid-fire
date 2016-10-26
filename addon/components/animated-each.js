@@ -34,7 +34,7 @@ export default Ember.Component.extend({
       // so we can measure the final static layout
       kept.forEach(entry => { entry.newMeasurements = entry.component.measure(); });
       let inserted = this._entering.map(component => ({ component, measurements: component.measure(), item: component.item }));
-      let containerMotion = this._notifyContainer('measure');
+      let containerTaskInstance = this._notifyContainer('measure');
 
       // Update our permanent state here before we actualy
       // animate. This leaves us consistent in case we re-enter before
@@ -55,13 +55,14 @@ export default Ember.Component.extend({
       let replaced;
       [inserted, removed, replaced] = matchReplacements(prevItems, items, inserted, kept, removed);
 
-      let motions = [containerMotion].concat(
+
+      let motions = [].concat(
         inserted.map(({ measurements }) => measurements.enter()).reduce((a,b) => a.concat(b), []),
         kept.map(({ measurements, newMeasurements }) => measurements.move(newMeasurements)).reduce((a,b) => a.concat(b), []),
         removed.map(({ measurements }) => measurements.exit()).reduce((a,b) => a.concat(b), []),
         replaced.map(([older, newer]) => newer.measurements.replace(older.measurements)).reduce((a,b) => a.concat(b), [])
       );
-      RSVP.allSettled(motions.map(m => m.get('_run').perform())).then(() => {
+      RSVP.allSettled(motions.map(m => m.run()).concat([containerTaskInstance])).then(() => {
         this._lockCounter--;
         if (this._lockCounter < 1) {
           kept.forEach(({ measurements }) => measurements.unlock());
