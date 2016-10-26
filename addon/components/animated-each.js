@@ -7,6 +7,8 @@ import { afterRender } from '../concurrency-helpers';
 export default Ember.Component.extend({
   layout,
   tagName: '',
+  motionService: Ember.inject.service('-ea-motion'),
+
   init() {
     this._super();
     this._entering = [];
@@ -57,6 +59,8 @@ export default Ember.Component.extend({
 
     let replaced;
     [inserted, removed, replaced] = matchReplacements(prevItems, items, inserted, kept, removed);
+    [inserted, removed, replaced] = yield this.get('motionService.farMatch').perform(inserted, removed, replaced);
+
 
     inserted.forEach(({ measurements }) => measurements.enter().forEach(task => tasks.push(task)));
     kept.forEach(({ measurements, newMeasurements }) => measurements.move(newMeasurements).forEach(task => tasks.push(task)));

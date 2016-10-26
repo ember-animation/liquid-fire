@@ -99,7 +99,19 @@ class Measurements {
     return this.list.map(m => m.exit());
   }
   replace(otherMeasurements) {
-    return otherMeasurements.exit().concat(this.enter());
+    return zip(otherMeasurements.list, this.list).map(([older, newer]) => {
+      if (older.x === newer.x && older.y === newer.y) {
+        return older.exit().concat(newer.enter());
+      } else {
+        older.remove();
+        return Move.create({
+          element: newer.elt,
+          initial: { x: older.x, y: older.y },
+          final: { x: newer.x, y: newer.y },
+          opts: { duration: 500 }
+        }).run();
+      }
+    });
   }
 }
 
@@ -138,3 +150,11 @@ export default Ember.Component.extend({
     return new Measurements(list);
   }
 });
+
+function zip(listA, listB) {
+  let output = [];
+  for (let i = 0; i < Math.max(listA.length, listB.length); i++) {
+    output.push([listA[i], listB[i]]);
+  }
+  return output;
+}

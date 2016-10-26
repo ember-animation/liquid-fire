@@ -42,6 +42,10 @@ export function rAF() {
   }
 }
 
+export function microwait() {
+  return new Promise(resolve => resolve());
+}
+
 export function afterRender() {
   let ticket;
   let promise = new RSVP.Promise(resolve => {
