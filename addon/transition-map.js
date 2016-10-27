@@ -83,7 +83,7 @@ var TransitionMap = Ember.Service.extend({
     }
   },
 
-  transitionFor(conditions) {
+  matchingTransition(conditions) {
     var action;
     if (conditions.use && conditions.firstTime !== 'yes') {
       action = new Action(conditions.use);
@@ -92,11 +92,14 @@ var TransitionMap = Ember.Service.extend({
       let rule = this.constraintsFor(conditions).bestMatch(conditions);
       if (rule) {
         action = rule.use;
-      } else {
-        action = this.defaultAction();
       }
     }
-    return new RunningTransition(this, conditions.versions, action);
+    return action;
+  },
+
+  transitionFor(conditions) {
+    var action = this.matchingTransition(conditions);
+    return new RunningTransition(this, conditions.versions, action || this.defaultAction());
   },
 
 
