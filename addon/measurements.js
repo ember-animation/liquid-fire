@@ -14,6 +14,9 @@ export default class Measurements {
   append() {
     this.list.forEach(m => m.append());
   }
+  reveal() {
+    this.list.forEach(m => m.reveal());
+  }
   move(newMeasurements) {
     let motions = [];
     this.list.forEach(m => {

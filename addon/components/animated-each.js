@@ -15,6 +15,7 @@ export default Ember.Component.extend({
     this._current = [];
     this._leaving = [];
     this._prevItems = [];
+    this._firstTime = true;
   },
   willDestroyElement() {
     let removed = this._current.map(component => ({ component, measurements: component.measure(), item: component.item }));
@@ -66,7 +67,12 @@ export default Ember.Component.extend({
     [inserted, removed, replaced] = yield this.get('motionService.farMatch').perform(inserted, removed, replaced);
 
 
-    inserted.forEach(({ measurements }) => measurements.enter().forEach(task => tasks.push(task)));
+    if (this._firstTime) {
+      this._firstTime = false;
+      inserted.forEach(({ measurements }) => measurements.reveal());
+    } else {
+      inserted.forEach(({ measurements }) => measurements.enter().forEach(task => tasks.push(task)));
+    }
     kept.forEach(({ measurements, newMeasurements }) => measurements.move(newMeasurements).forEach(task => tasks.push(task)));
     removed.forEach(({ measurements }) => measurements.exit().forEach(task => tasks.push(task)));
     replaced.forEach(([older, newer]) => newer.measurements.replace(older.measurements).forEach(task => tasks.push(task)));

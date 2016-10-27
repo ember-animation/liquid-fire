@@ -32,6 +32,11 @@ export default class Measurement {
       transform: ''
     });
   }
+  reveal() {
+    $(this.elt).css({
+      visibility: ''
+    });
+  }
   append() {
     $(this.parentElement).append(this.elt);
   }
