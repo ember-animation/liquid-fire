@@ -1,12 +1,10 @@
 import Ember from 'ember';
-import layout from '../templates/components/ea-list-element';
 import { componentNodes } from 'liquid-fire/ember-internals';
 import $ from 'jquery';
 import Measurement from '../measurement';
 import Measurements from '../measurements';
 
 export default Ember.Component.extend({
-  layout,
   tagName: '',
   didInsertElement() {
     this._forEachElement(elt => {
