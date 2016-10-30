@@ -16,7 +16,7 @@ export default Ember.Object.extend({
 
   // Both args are instances of Measurement
   starting: task(function * (/*initial, final*/) {
-
+    yield null;
   }),
 
   // The default implementation here is often fine.
