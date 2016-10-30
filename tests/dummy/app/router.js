@@ -75,6 +75,7 @@ Router.map(function() {
     this.route('each');
     this.route('two-lists');
     this.route('swapping-lists');
+    this.route('locking');
   });
 
 });

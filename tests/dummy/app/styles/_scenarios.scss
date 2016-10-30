@@ -158,3 +158,13 @@ td {
         float: right;
     }
 }
+
+.scenario-locking {
+    .target {
+        width: 200px;
+        height: 200px;
+        background-color: red;
+        border: 1px solid black;
+        transform: translateX(400px) rotate(45deg);
+    }
+}
