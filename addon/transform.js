@@ -49,10 +49,12 @@ export function parseOrigin(originString) {
   return originString.split(' ').map(parseFloat);
 }
 
-function ownTransform($elt) {
+function _ownTransform($elt) {
   let t = $elt.css('transform');
   if (t === 'none') {
-    return  null;
+    // This constant value is an optimization, and we rely on that in
+    // cumulativeTransform
+    return identity;
   }
   let matrix = parseTransform(t);
   if (matrix.a !== 1 || matrix.b !== 0 || matrix.c !== 0 || matrix.d !== 1) {
@@ -65,12 +67,25 @@ function ownTransform($elt) {
   }
 }
 
-export function currentTransform(elt) {
+// I want the public interface for this module to be plain elements,
+// not jQuery, so that we have the option of switching to a non-query
+// implmentation.
+export function ownTransform(elt) {
+  return _ownTransform($(elt));
+}
+
+export function cumulativeTransform(elt) {
   let $elt = $(elt);
   let accumulator = null;
   while ($elt.length > 0 && $elt[0].nodeType === 1) {
-    let transform = ownTransform($elt);
-    if (transform) {
+    let transform = _ownTransform($elt);
+    // Testing for equality with our constant `identity` is an
+    // optimization for the common case where there is no transform at
+    // all. Note that this is not exactly the same thing as
+    // isIdentity(), which tests for a matrix that is present but
+    // doesn't do anything (which you could get, for example, by
+    // applying two transformations that cancel each other out).
+    if (transform !== identity && !transform.isIdentity()) {
       if (accumulator) {
         accumulator = transform.mult(accumulator);
       } else {

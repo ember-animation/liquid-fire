@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentTransform } from 'liquid-fire/transform';
+import { ownTransform } from 'liquid-fire/transform';
 import Measurement from 'liquid-fire/measurement';
 import $ from 'jquery';
 
@@ -70,6 +70,12 @@ test('Target scaled', function(assert) {
   assert.sameBounds(target, () => m.lock());
 });
 
+test('Target rotated', function(assert) {
+  target.css('transform', 'rotate(45deg)');
+  let m = measure(target);
+  assert.sameBounds(target, () => m.lock());
+});
+
 test('Margins on target', function(assert) {
   addMargins(target);
   let m = measure(target);
@@ -108,7 +114,7 @@ test("Restores original styles", function(assert) {
   assert.equal(target.css('left'), '6px', 'left');
   assert.equal(target.css('width'), '10px', 'width');
   assert.equal(target.css('height'), '11px', 'height');
-  assert.equal(currentTransform(target[0]).tx, 20, 'translateX');
+  assert.equal(ownTransform(target[0]).tx, 20, 'translateX');
 });
 
 function bounds($elt) {
