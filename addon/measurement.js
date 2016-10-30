@@ -11,6 +11,7 @@ export default class Measurement {
     this.height = bounds.height;
     this.x = bounds.left - parentBounds.left;
     this.y = bounds.top - parentBounds.top;
+    this._styleCache = $(this.elt).attr('style') || null;
   }
   lock() {
     $(this.elt).css({
@@ -23,14 +24,7 @@ export default class Measurement {
     });
   }
   unlock() {
-    $(this.elt).css({
-      position: '',
-      top: '',
-      left: '',
-      width: '',
-      height: '',
-      transform: ''
-    });
+    $(this.elt).attr('style', this._styleCache);
   }
   reveal() {
     $(this.elt).css({

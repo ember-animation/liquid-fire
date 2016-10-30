@@ -86,6 +86,8 @@ test("No leaked styles", function(assert) {
   let m = measure(target);
   m.lock();
   m.unlock();
+  // TODO: we are clearing the styles, but we leave an empty attribute
+  // behind. Seems likea jquery or browser bug.
   assert.equal(target.attr('style'), undefined);
 });
 
