@@ -81,7 +81,7 @@ function _ownTransform($elt) {
       return matrix;
     }
 
-    return (new Transform(1, 0, 0, 1, -originX, -originY)).mult(matrix).mult(new Transform(1, 0, 0, 1, originX, originY));
+    return (new Transform(1, 0, 0, 1, originX, originY)).mult(matrix).mult(new Transform(1, 0, 0, 1, -originX, -originY));
   } else {
     // This case is an optimization for when there is only translation.
     return matrix;
