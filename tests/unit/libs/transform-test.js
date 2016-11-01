@@ -130,7 +130,12 @@ test('Rotate and translate (origin top left)', function(assert) {
 
 [
   'translateX(100px) translateY(200px)',
-  'rotate(30deg)'
+  'rotate(30deg)',
+  'scale(0.5)',
+  'scaleX(0.5) scaleY(0.7)',
+  'scaleX(0.5) translateX(300px)',
+  'translateX(300px) scaleX(0.5)',
+  'rotate(10deg) translateX(300px) scaleX(0.5)'
 ].forEach(function(transform){
   test(`Adjusts transform-origin correctly for ${transform}, relative to top left`, function(assert) {
     target.css('transform', transform);
