@@ -36,6 +36,7 @@ test('Simple case', function(assert) {
 
 test('Scaled ancestor', function(assert) {
   environment.css('transform', 'scale(0.5)');
+  environment.css('transform-origin', '0 0');
   let m = measure(target);
   assert.sameBounds(target, () => m.lock());
 });
@@ -48,6 +49,7 @@ test('Translated ancestor', function(assert) {
 
 test('Scaled offsetParent', function(assert) {
   offsetParent.css('transform', 'scale(0.5)');
+  offsetParent.css('transform-origin', '0 0');
   let m = measure(target);
   assert.sameBounds(target, () => m.lock());
 });
