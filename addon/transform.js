@@ -1,5 +1,21 @@
 import $ from 'jquery';
 
+/*
+  Our Transform type is always respresented relative to
+  `transform-origin: 0px 0px`. This is different from the browser's
+  own `transform` property, which will vary based on the present value
+  of `transform-origin`, and which defaults to `50% 50%`. I am
+  standardizing on zero because it disentangles our coordinate system
+  from the size of the element, which can vary over time.
+
+  Conceptually, each of our Transforms is an 2d affine transformation
+  representd as a 3x3 matrix:
+
+      a c tx
+      b d ty
+      0 0  1
+*/
+
 export class Transform {
   constructor(a, b, c, d, tx, ty) {
     this.a = a;
@@ -58,9 +74,14 @@ function _ownTransform($elt) {
   }
   let matrix = parseTransform(t);
   if (matrix.a !== 1 || matrix.b !== 0 || matrix.c !== 0 || matrix.d !== 1) {
-    // If there is any rotation or scaling we need to do it within the context of transform-origin.
-    let [x, y] = parseOrigin($elt.css('transform-origin'));
-    return (new Transform(1, 0, 0, 1, -x, -y)).mult(matrix).mult(new Transform(1, 0, 0, 1, x, y));
+    // If there is any rotation, scaling, or skew we need to do it within the context of transform-origin.
+    let [originX, originY] = parseOrigin($elt.css('transform-origin'));
+    if (originX === 0 && originY === 0) {
+      // transform origin is at 0,0 so it will have no effect, so we're done.
+      return matrix;
+    }
+
+    return (new Transform(1, 0, 0, 1, -originX, -originY)).mult(matrix).mult(new Transform(1, 0, 0, 1, originX, originY));
   } else {
     // This case is an optimization for when there is only translation.
     return matrix;

@@ -1,5 +1,9 @@
 import { module, test } from 'qunit';
-import { cumulativeTransform, Transform } from 'liquid-fire/transform';
+import {
+  ownTransform,
+  cumulativeTransform,
+  Transform
+} from 'liquid-fire/transform';
 import $ from 'jquery';
 
 let environment, parent, target;
@@ -100,4 +104,55 @@ test('Stacked transforms (origin top left)', function(assert) {
   target.css('transform', 'translateX(123px) translateY(456px)');
   target.css('transform-origin', '0px 0px');
   assert.sameTransform(cumulativeTransform(target), new Transform(1, 0, 0, 1, 123-50, 456-20));
+});
+
+test('Rotate on center of element', function(assert) {
+  let s = Math.sin(30 * Math.PI / 180);
+  let c = Math.cos(30 * Math.PI / 180);
+  target.css('transform', 'rotate(30deg)');
+  assert.sameTransform(ownTransform(target), new Transform(c, s, -s, c, c*WIDTH/2-s*HEIGHT/2-WIDTH/2, s*WIDTH/2+c*HEIGHT/2-HEIGHT/2));
+});
+
+test('Rotate and translate', function(assert) {
+  let s = Math.sin(45 * Math.PI / 180);
+  target.css('transform', 'translateX(123px) rotate(45deg)');
+  assert.sameTransform(ownTransform(target), new Transform(s, s, -s, s, WIDTH*(2*s-1)/2 + 123,  HEIGHT/2));
+});
+
+
+test('Rotate and translate (origin top left)', function(assert) {
+  let s = Math.sin(45 * Math.PI / 180);
+  target.css('transform', 'translateX(123px) rotate(45deg)');
+  target.css('transform-origin', '0px 0px');
+  assert.sameTransform(ownTransform(target), new Transform(s, s, -s, s, 123, 0));
+});
+
+[
+  'translateX(100px) translateY(200px)',
+  'rotate(30deg)'
+].forEach(function(transform){
+  test(`Adjusts transform-origin correctly for ${transform}, real transform origin at top left`, function(assert) {
+    target.css('transform', transform);
+    target.css('transform-origin', '0px 0px');
+    let withDefaultOrigin = ownTransform(target);
+
+    target.css('transform', `translateX(-50%) translateY(-50%) ${transform} translateX(50%) translateY(50%)`);
+    target.css('transform-origin', '50% 50%');
+    let withTopLeftOrigin = ownTransform(target);
+
+    assert.sameTransform(withTopLeftOrigin, withDefaultOrigin);
+  });
+
+  test(`Adjusts transform-origin correctly for ${transform}, real transform origin at center`, function(assert) {
+    target.css('transform', transform);
+    target.css('transform-origin', '50% 50%');
+    let withDefaultOrigin = ownTransform(target);
+
+    target.css('transform', `translateX(50%) translateY(50%) ${transform} translateX(-50%) translateY(-50%)`);
+    target.css('transform-origin', '0px 0px');
+    let withTopLeftOrigin = ownTransform(target);
+
+    assert.sameTransform(withTopLeftOrigin, withDefaultOrigin);
+  });
+
 });
