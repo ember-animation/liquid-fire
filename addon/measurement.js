@@ -24,7 +24,11 @@ export default class Measurement {
     });
   }
   unlock() {
-    $(this.elt).attr('style', this._styleCache);
+    if (this._styleCache) {
+      $(this.elt).attr('style', this._styleCache);
+    } else {
+      this.elt.attributes.removeNamedItem('style');
+    }
   }
   reveal() {
     $(this.elt).css({
