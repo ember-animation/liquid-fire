@@ -20,7 +20,7 @@ module.exports = {
     // Shim this.import for Engines support
     if (!this.import) {
       // Shim from https://github.com/ember-cli/ember-cli/blob/5d64cfbf1276cf1e3eb88761df4546c891b5efa6/lib/models/addon.js#L387
-      this._findHost = function findHost() {
+      this._findHost = function findHostShim() {
         var current = this;
         var app;
 
@@ -33,7 +33,7 @@ module.exports = {
         return app;
       };
       // Shim from https://github.com/ember-cli/ember-cli/blob/5d64cfbf1276cf1e3eb88761df4546c891b5efa6/lib/models/addon.js#L443
-      this.import = function import(asset, options) {
+      this.import = function importShim(asset, options) {
         var app = this._findHost();
         app.import(asset, options);
       };
