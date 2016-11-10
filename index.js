@@ -16,6 +16,28 @@ module.exports = {
 
     this.versionChecker = new VersionChecker(this);
     this.versionChecker.for('ember-cli', 'npm').assertAbove('0.2.0');
+    
+    // Shim this.import for Engines support
+    if (!this.import) {
+      // Shim from https://github.com/ember-cli/ember-cli/blob/5d64cfbf1276cf1e3eb88761df4546c891b5efa6/lib/models/addon.js#L387
+      this._findHost = function findHost() {
+        var current = this;
+        var app;
+
+        // Keep iterating upward until we don't have a grandparent.
+        // Has to do this grandparent check because at some point we hit the project.
+        do {
+          app = current.app || app;
+        } while (current.parent.parent && (current = current.parent));
+
+        return app;
+      };
+      // Shim from https://github.com/ember-cli/ember-cli/blob/5d64cfbf1276cf1e3eb88761df4546c891b5efa6/lib/models/addon.js#L443
+      this.import = function import(asset, options) {
+        var app = this._findHost();
+        app.import(asset, options);
+      };
+    }
   },
 
 
@@ -85,34 +107,29 @@ module.exports = {
   },
 
   included: function(app){
-    // see: https://github.com/ember-cli/ember-cli/issues/3718
-    if (typeof app.import !== 'function' && app.app) {
-      app = app.app;
-    }
-
     if (process.env.EMBER_CLI_FASTBOOT) {
       // in fastboot we use the shim by itself, which will make
       // importing velocity a noop.
-      app.import('vendor/shims/velocity.js');
+      this.import('vendor/shims/velocity.js');
     } else if (haveShimAMDSupport(app)) {
       // if this ember-cli is new enough to do amd imports
       // automatically, use that
-      app.import('vendor/velocity/velocity.js', {
+      this.import('vendor/velocity/velocity.js', {
         using: [{
           transformation: 'amd', as: 'velocity'
         }]
       });
     } else {
       // otherwise apply our own amd shim
-      app.import('vendor/velocity/velocity.js');
-      app.import('vendor/shims/velocity.js');
+      this.import('vendor/velocity/velocity.js');
+      this.import('vendor/shims/velocity.js');
     }
 
     if (!process.env.EMBER_CLI_FASTBOOT) {
-      app.import('vendor/match-media/matchMedia.js');
+      this.import('vendor/match-media/matchMedia.js');
     }
 
-    app.import('vendor/liquid-fire.css');
+    this.import('vendor/liquid-fire.css');
   }
 
 };
