@@ -111,7 +111,7 @@ module.exports = {
       // in fastboot we use the shim by itself, which will make
       // importing velocity a noop.
       this.import('vendor/shims/velocity.js');
-    } else if (haveShimAMDSupport(app)) {
+    } else if (this._hasShimAMDSupport()) {
       // if this ember-cli is new enough to do amd imports
       // automatically, use that
       this.import('vendor/velocity/velocity.js', {
@@ -130,10 +130,12 @@ module.exports = {
     }
 
     this.import('vendor/liquid-fire.css');
+  },
+  
+  _hasShimAMDSupport: function(){
+    var app = this._findHost();
+    return 'amdModuleNames' in app;
   }
-
 };
 
-function haveShimAMDSupport(app) {
-  return 'amdModuleNames' in app;
-}
+
