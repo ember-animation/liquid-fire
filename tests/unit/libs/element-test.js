@@ -11,14 +11,34 @@ module("Unit | AnimatedElement", {
     assert.visuallyConstant = visuallyConstant;
 
     let fixture = $('#qunit-fixture');
-    fixture.html('<div class="environment"><div class="offset-parent"><div class="target"><div class="inner-content"></div></div></div></div>');
+    fixture.html(`
+<div class="environment">
+  <div class="offset-parent">
+    <div class="sibling"></div>
+    <div class="target">
+      <div class="inner-content"></div>
+    </div>
+    <div class="sibling"></div>
+  </div>
+</div>
+`);
     environment = fixture.find('.environment');
     offsetParent = fixture.find('.offset-parent');
     target = fixture.find('.target');
     innerContent = fixture.find('.inner-content');
     environment.width(600);
-    offsetParent.css('position', 'relative');
+    offsetParent.css({
+      position: 'relative'
+    });
     innerContent.height(400);
+
+    // These siblings are a necessary part of the test
+    // environment. They are preventing offsetParent from collapsing
+    // its top and bottom margins together when .target gets
+    // absolutely positioned. It's not the responsibility of
+    // AnimatedElement to guard its surroundings from moving. In a
+    // real app you would use animated-container for that.
+    fixture.find('.sibling').height(10);
   },
   afterEach() {
     $('#qunit-fixture').empty();
@@ -86,6 +106,18 @@ test('Margins on offsetParent', function(assert) {
   assert.visuallyConstant(target, () => m.lock());
 });
 
+test('Padding on offsetParent', function(assert) {
+  addPadding(offsetParent);
+  let m = animated(target);
+  assert.visuallyConstant(target, () => m.lock());
+});
+
+test('Border on target', function(assert) {
+  target.css('border', '2px solid blue');
+  let m = animated(target);
+  assert.visuallyConstant(target, () => m.lock());
+});
+
 test("No leaked styles", function(assert) {
   let m = animated(target);
   m.lock();
@@ -125,9 +157,18 @@ function animated($elt) {
 
 function addMargins($elt) {
   $elt.css({
-    marginTop: '4px',
-    marginLeft: '5px',
-    marginRight: '6px',
-    marginBottom: '7px'
+    marginTop: '40px',
+    marginLeft: '50px',
+    marginRight: '60px',
+    marginBottom: '70px'
+  });
+}
+
+function addPadding($elt) {
+  $elt.css({
+    paddingTop: '8px',
+    paddingLeft: '9px',
+    paddingRight: '10px',
+    paddingBottom: '11px'
   });
 }
