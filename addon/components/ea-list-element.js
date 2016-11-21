@@ -1,8 +1,7 @@
 import Ember from 'ember';
 import { componentNodes } from 'liquid-fire/ember-internals';
 import $ from 'jquery';
-import Measurement from '../measurement';
-import Measurements from '../measurements';
+import AnimatedElement from '../animated-element';
 
 export default Ember.Component.extend({
   tagName: '',
@@ -30,11 +29,11 @@ export default Ember.Component.extend({
     }
   },
 
-  measure() {
+  animatedElements() {
     let list = [];
     this._forEachElement(elt => {
-      list.push(new Measurement(elt));
+      list.push(new AnimatedElement(elt));
     });
-    return new Measurements(list);
+    return list;
   }
 });
