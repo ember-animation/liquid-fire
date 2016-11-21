@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import AnimatedElement from 'liquid-fire/element';
+import AnimatedElement from 'liquid-fire/animated-element';
 
 export default Ember.Component.extend({
   actions: {

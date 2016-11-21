@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { ownTransform } from 'liquid-fire/transform';
-import AnimatedElement from 'liquid-fire/element';
+import AnimatedElement from 'liquid-fire/animated-element';
 import $ from 'jquery';
 import { visuallyConstant } from '../../helpers/assertions';
 
