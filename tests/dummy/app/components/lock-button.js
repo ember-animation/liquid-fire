@@ -1,10 +1,10 @@
 import Ember from 'ember';
-import Measurement from 'liquid-fire/measurement';
+import AnimatedElement from 'liquid-fire/element';
 
 export default Ember.Component.extend({
   actions: {
     lock() {
-      this.m = new Measurement(this.$('.target')[0]);
+      this.m = new AnimatedElement(this.$('.target')[0]);
       this.m.lock();
     },
     unlock() {
