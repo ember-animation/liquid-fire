@@ -1,4 +1,5 @@
 /* global ranTransition, noTransitionsYet */
+import $ from 'jquery';
 import Ember from 'ember';
 import { test, skip } from 'qunit';
 import moduleForAcceptance from '../helpers/module-for-acceptance';
