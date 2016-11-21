@@ -147,9 +147,39 @@ test("Restores original styles", function(assert) {
   assert.equal(ownTransform(target[0]).tx, 20, 'translateX');
 });
 
-test("within scrolling contexts");
-test("target absolutely positioned");
-test("target fixed positioned");
+test("within scrolling contexts", function(assert) {
+  environment.css({
+    overflowY: 'scroll',
+    height: 400
+  });
+  offsetParent.css({
+    marginTop: 200,
+    height: 600
+  });
+  environment.scrollTop(300);
+  let m = animated(target);
+  assert.visuallyConstant(target, () => m.lock());
+});
+
+test("target absolutely positioned", function(assert) {
+  target.css({
+    position: 'absolute',
+    top: 100,
+    left: 200
+  });
+  let m = animated(target);
+  assert.visuallyConstant(target, () => m.lock());
+});
+
+test("target fixed positioned", function(assert){
+  target.css({
+    position: 'fixed',
+    top: 100,
+    left: 200
+  });
+  let m = animated(target);
+  assert.visuallyConstant(target, () => m.lock());
+});
 
 function animated($elt) {
   return new AnimatedElement($elt[0]);

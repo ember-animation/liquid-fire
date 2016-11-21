@@ -10,7 +10,7 @@ export default class AnimatedElement {
       left: elt.offsetLeft - parseFloat(computedStyle.marginLeft),
       width: elt.offsetWidth,
       height: elt.offsetHeight,
-      position: 'absolute'
+      position: computedStyle.position === 'fixed' ? 'fixed' : 'absolute'
     };
     this._styleCache = $(this.elt).attr('style') || null;
   }
