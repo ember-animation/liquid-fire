@@ -1,4 +1,4 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { moduleForComponent, test, skip } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 
@@ -67,6 +67,9 @@ test('locks size', function(assert) {
 
   assert.equal(final.height, original.height, 'height can be locked');
 });
+
+skip("Accounts for margin collapse between self and child");
+skip("Accounts for margin collapse between own margins when becoming empty");
 
 function bounds($elt) {
   return {
