@@ -8,7 +8,7 @@ import $ from 'jquery';
   standardizing on zero because it disentangles our coordinate system
   from the size of the element, which can vary over time.
 
-  Conceptually, each of our Transforms is an 2d affine transformation
+  Conceptually, each of our Transforms is a 2d affine transformation
   representd as a 3x3 matrix:
 
       a c tx
@@ -52,9 +52,10 @@ export class Transform {
 }
 
 const identity = new Transform(1, 0, 0, 1, 0, 0);
+const matrixPattern = /matrix\((.*)\)/;
 
 export function parseTransform(matrixString) {
-  let match = /matrix\((.*)\)/.exec(matrixString);
+  let match = matrixPattern.exec(matrixString);
   if (!match) {
     return identity;
   }
