@@ -18,6 +18,8 @@ import $ from 'jquery';
 
 export class Transform {
   constructor(a, b, c, d, tx, ty) {
+    // WARNING: never mutate an existing Transform. Some of them are
+    // shared. Operations need to return new Transforms instead.
     this.a = a;
     this.b = b;
     this.c = c;
@@ -31,15 +33,24 @@ export class Transform {
     }
     return `matrix(${this.a}, ${this.b}, ${this.c}, ${this.d}, ${this.tx}, ${this.ty})`;
   }
+
+  // See the comment below on `const identity`.
   isIdentity() {
-    return this.a === 1 &&
-      this.b === 0 &&
-      this.c === 0 &&
-      this.d === 1 &&
-      this.tx === 0 &&
-      this.ty === 0;
+    return this === identity || (
+      this.a === 1 &&
+        this.b === 0 &&
+        this.c === 0 &&
+        this.d === 1 &&
+        this.tx === 0 &&
+        this.ty === 0
+    );
   }
+
   mult(other) {
+    // This is deliberately not isIdentity(). I'm optimizing for the
+    // case where there was no preexisting transform at all.
+    if (this === identity) { return other; }
+    if (other === identity) { return this; }
     return new Transform(
       this.a * other.a + this.c * other.b,
       this.b * other.a + this.d * other.b,
@@ -51,10 +62,22 @@ export class Transform {
   }
 }
 
-const identity = new Transform(1, 0, 0, 1, 0, 0);
+// WARNING: this constant matrix exists as an optimization. But not
+// every no-op transform triple-equals this value. If you apply two
+// transforms that cancel each other out, you will get an identity
+// matrix but it will not triple-equal this one. And that is OK: we
+// use the triple-equality as an optimization only, not for
+// correctness.
+//
+// The optimization should be worthwhile because the majority of
+// things start out with no preexisting Transform, which we can
+// represent as `identity`, which will make identity.mult(something) a
+// no-nop, etc.
+export const identity = new Transform(1, 0, 0, 1, 0, 0);
+
 const matrixPattern = /matrix\((.*)\)/;
 
-export function parseTransform(matrixString) {
+function parseTransform(matrixString) {
   let match = matrixPattern.exec(matrixString);
   if (!match) {
     return identity;
@@ -62,7 +85,7 @@ export function parseTransform(matrixString) {
   return new Transform(...match[1].split(',').map(parseFloat));
 }
 
-export function parseOrigin(originString) {
+function parseOrigin(originString) {
   return originString.split(' ').map(parseFloat);
 }
 
@@ -101,12 +124,6 @@ export function cumulativeTransform(elt) {
   let accumulator = null;
   while ($elt.length > 0 && $elt[0].nodeType === 1) {
     let transform = _ownTransform($elt);
-    // Testing for equality with our constant `identity` is an
-    // optimization for the common case where there is no transform at
-    // all. Note that this is not exactly the same thing as
-    // isIdentity(), which tests for a matrix that is present but
-    // doesn't do anything (which you could get, for example, by
-    // applying two transformations that cancel each other out).
     if (transform !== identity && !transform.isIdentity()) {
       if (accumulator) {
         accumulator = transform.mult(accumulator);
