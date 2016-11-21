@@ -2,25 +2,20 @@ import $ from 'jquery';
 
 export default class AnimatedElement {
   constructor(elt) {
-    let bounds = elt.getBoundingClientRect();
-    let parentBounds = elt.offsetParent.getBoundingClientRect();
     this.elt = elt;
     this.parentElement = elt.parentElement;
-    this.width = bounds.width;
-    this.height = bounds.height;
-    this.x = bounds.left - parentBounds.left;
-    this.y = bounds.top - parentBounds.top;
+    let computedStyle = getComputedStyle(elt);
+    this._imposedStyle = {
+      top: elt.offsetTop - parseFloat(computedStyle.marginTop),
+      left: elt.offsetLeft - parseFloat(computedStyle.marginLeft),
+      width: elt.offsetWidth,
+      height: elt.offsetHeight,
+      position: 'absolute'
+    };
     this._styleCache = $(this.elt).attr('style') || null;
   }
   lock() {
-    $(this.elt).css({
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: this.width,
-      height: this.height,
-      transform: `translateX(${this.x}px) translateY(${this.y}px)`
-    });
+    $(this.elt).css(this._imposedStyle);
   }
   unlock() {
     if (this._styleCache) {
