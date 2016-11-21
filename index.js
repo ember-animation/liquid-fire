@@ -16,6 +16,28 @@ module.exports = {
 
     this.versionChecker = new VersionChecker(this);
     this.versionChecker.for('ember-cli', 'npm').assertAbove('0.2.0');
+    
+    // Shim this.import for Engines support
+    if (!this.import) {
+      // Shim from https://github.com/ember-cli/ember-cli/blob/5d64cfbf1276cf1e3eb88761df4546c891b5efa6/lib/models/addon.js#L387
+      this._findHost = function findHostShim() {
+        var current = this;
+        var app;
+
+        // Keep iterating upward until we don't have a grandparent.
+        // Has to do this grandparent check because at some point we hit the project.
+        do {
+          app = current.app || app;
+        } while (current.parent.parent && (current = current.parent));
+
+        return app;
+      };
+      // Shim from https://github.com/ember-cli/ember-cli/blob/5d64cfbf1276cf1e3eb88761df4546c891b5efa6/lib/models/addon.js#L443
+      this.import = function importShim(asset, options) {
+        var app = this._findHost();
+        app.import(asset, options);
+      };
+    }
   },
 
 
@@ -29,8 +51,19 @@ module.exports = {
     return this._versionSpecificTree('templates', tree);
   },
 
+  _getEmberVersion: function() {
+    var emberVersionChecker = this.versionChecker.for('ember', 'bower');
+
+    if (emberVersionChecker.version) {
+      return emberVersionChecker;
+    }
+
+    return this.versionChecker.for('ember-source', 'npm');
+  },
+
   _versionSpecificTree: function(which, tree) {
-    var emberVersion = this.versionChecker.for('ember', 'bower');
+    var emberVersion = this._getEmberVersion();
+
     if ((emberVersion.gt('2.9.0-beta') && emberVersion.lt('2.9.0'))|| emberVersion.gt('2.10.0-alpha')) {
       return this._withVersionSpecific(which, tree, '2.9');
     } else if (!emberVersion.lt('1.13.0')) {
@@ -74,38 +107,35 @@ module.exports = {
   },
 
   included: function(app){
-    // see: https://github.com/ember-cli/ember-cli/issues/3718
-    if (typeof app.import !== 'function' && app.app) {
-      app = app.app;
-    }
-
     if (process.env.EMBER_CLI_FASTBOOT) {
       // in fastboot we use the shim by itself, which will make
       // importing velocity a noop.
-      app.import('vendor/shims/velocity.js');
-    } else if (haveShimAMDSupport(app)) {
+      this.import('vendor/shims/velocity.js');
+    } else if (this._hasShimAMDSupport()) {
       // if this ember-cli is new enough to do amd imports
       // automatically, use that
-      app.import('vendor/velocity/velocity.js', {
+      this.import('vendor/velocity/velocity.js', {
         using: [{
           transformation: 'amd', as: 'velocity'
         }]
       });
     } else {
       // otherwise apply our own amd shim
-      app.import('vendor/velocity/velocity.js');
-      app.import('vendor/shims/velocity.js');
+      this.import('vendor/velocity/velocity.js');
+      this.import('vendor/shims/velocity.js');
     }
 
     if (!process.env.EMBER_CLI_FASTBOOT) {
-      app.import('vendor/match-media/matchMedia.js');
+      this.import('vendor/match-media/matchMedia.js');
     }
 
-    app.import('vendor/liquid-fire.css');
+    this.import('vendor/liquid-fire.css');
+  },
+  
+  _hasShimAMDSupport: function(){
+    var app = this._findHost();
+    return 'amdModuleNames' in app;
   }
-
 };
 
-function haveShimAMDSupport(app) {
-  return 'amdModuleNames' in app;
-}
+
