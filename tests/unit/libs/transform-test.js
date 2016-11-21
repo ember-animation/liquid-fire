@@ -14,7 +14,7 @@ module("Unit | Transform", {
   beforeEach(assert) {
     assert.sameTransform = function(value, expected, message) {
       this.pushResult({
-        result: ['a', 'b', 'c', 'd', 'tx', 'ty'].every(field => value[field] - expected[field] < 0.01),
+        result: ['a', 'b', 'c', 'd', 'tx', 'ty'].every(field => Math.abs(value[field] - expected[field]) < 0.01),
         actual: value,
         expected: expected,
         message: message
@@ -110,14 +110,14 @@ test('Rotate on center of element', function(assert) {
   let s = Math.sin(30 * Math.PI / 180);
   let c = Math.cos(30 * Math.PI / 180);
   target.css('transform', 'rotate(30deg)');
-  assert.sameTransform(ownTransform(target), new Transform(c, s, -s, c, -c*WIDTH/2+s*HEIGHT/2+WIDTH/2, s*WIDTH/2+c*HEIGHT/2-HEIGHT/2));
+  assert.sameTransform(ownTransform(target), new Transform(c, s, -s, c, WIDTH*(1 - c)/2 + HEIGHT*s/2, -WIDTH*s/2 + HEIGHT*(1-c)/2));
 });
 
 test('Rotate and translate', function(assert) {
   let s = Math.sin(45 * Math.PI / 180);
   let c = Math.cos(45 * Math.PI / 180);
   target.css('transform', 'translateX(123px) rotate(45deg)');
-  assert.sameTransform(ownTransform(target), new Transform(c, s, -s, c, -c*WIDTH/2+s*HEIGHT/2+WIDTH/2 + 123, s*WIDTH/2+c*HEIGHT/2-HEIGHT/2));
+  assert.sameTransform(ownTransform(target), new Transform(c, s, -s, c, WIDTH*(1 - c)/2 + HEIGHT*s/2 + 123, -WIDTH*s/2 + HEIGHT*(1-c)/2));
 });
 
 
