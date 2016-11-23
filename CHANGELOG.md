@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.26.5
+
+ - BUGFIX: fixed build & import issues within nested addons by knownasilya
+ - HOUSEKEEPING: support ember source from npm by kamalaknn
+
 ## 0.26.4
 
  - BUGFIX: the previous fix for a fastboot regression broke normal usage in some versions of ember-cli
