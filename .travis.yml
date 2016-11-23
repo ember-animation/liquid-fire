@@ -3,8 +3,15 @@ language: node_js
 node_js:
   - "4"
 
-sudo: false
+sudo: required
 dist: trusty
+
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
 
 cache:
   directories:
@@ -12,8 +19,6 @@ cache:
     - $HOME/.yarn-cache
 
 before_install:
-  - export PATH=/usr/local/phantomjs-2.0.0/bin:$PATH
-  - phantomjs --version
   - "npm config set spin false"
   - "npm install -g npm@^2"
 
@@ -22,6 +27,9 @@ install:
   - npm install -g yarn@0.16.1
   - yarn install
   - bower install
+
+before_script:
+  - export DISPLAY=:99; sh -e /etc/init.d/xvfb start; sleep 3
 
 script:
   - ./node_modules/.bin/ember try:each
