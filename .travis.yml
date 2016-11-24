@@ -4,25 +4,43 @@ node_js:
   - "4"
 
 sudo: false
-dist: trusty
+
+addons:
+  firefox: "latest"
 
 cache:
   directories:
     - node_modules
     - $HOME/.yarn-cache
 
-before_install:
-  - export PATH=/usr/local/phantomjs-2.0.0/bin:$PATH
-  - phantomjs --version
-  - "npm config set spin false"
-  - "npm install -g npm@^2"
+env:
+  - EMBER_TRY_SCENARIO=ember-1.13
+  - EMBER_TRY_SCENARIO=ember-2.0.3
+  - EMBER_TRY_SCENARIO=ember-lts-2.4
+  - EMBER_TRY_SCENARIO=ember-release
+  - EMBER_TRY_SCENARIO=ember-beta
+  - EMBER_TRY_SCENARIO=ember-canary
 
-install:
+matrix:
+  fast_finish: true
+  allow_failures:
+    - env: EMBER_TRY_SCENARIO=ember-canary
+
+before_install:
+  - npm config set spin false
   - npm install -g bower
   - npm install -g yarn@0.16.1
+  - yarn --version
+  - bower --version
+  - yarn global add phantomjs-prebuilt
+  - phantomjs --version
+
+install:
   - yarn install
   - bower install
 
-script:
-  - ./node_modules/.bin/ember try:each
+before_script:
+  - export DISPLAY=:99; sh -e /etc/init.d/xvfb start; sleep 3
 
+script:
+  - ember try:one $EMBER_TRY_SCENARIO test --skip-cleanup
