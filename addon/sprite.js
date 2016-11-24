@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-export default class AnimatedElement {
+export default class Sprite {
   constructor(elt) {
     this._elt = elt;
     this._parentElement = elt.parentElement;

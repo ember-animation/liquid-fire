@@ -1,10 +1,10 @@
 import Ember from 'ember';
-import AnimatedElement from 'liquid-fire/animated-element';
+import Sprite from 'liquid-fire/sprite';
 
 export default Ember.Component.extend({
   actions: {
     lock() {
-      this.m = new AnimatedElement(this.$('.target')[0]);
+      this.m = new Sprite(this.$('.target')[0]);
       this.m.lock();
     },
     unlock() {

@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { componentNodes } from 'liquid-fire/ember-internals';
 import $ from 'jquery';
-import AnimatedElement from '../animated-element';
+import Sprite from '../sprite';
 
 export default Ember.Component.extend({
   tagName: '',
@@ -29,10 +29,10 @@ export default Ember.Component.extend({
     }
   },
 
-  animatedElements() {
+  sprites() {
     let list = [];
     this._forEachElement(elt => {
-      list.push(new AnimatedElement(elt));
+      list.push(new Sprite(elt));
     });
     return list;
   }

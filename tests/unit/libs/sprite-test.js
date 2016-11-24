@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
 import { ownTransform } from 'liquid-fire/transform';
-import AnimatedElement from 'liquid-fire/animated-element';
+import Sprite from 'liquid-fire/sprite';
 import $ from 'jquery';
 import { visuallyConstant } from '../../helpers/assertions';
 
 let environment, offsetParent, target, innerContent;
 
-module("Unit | AnimatedElement", {
+module("Unit | Sprite", {
   beforeEach(assert) {
     assert.visuallyConstant = visuallyConstant;
 
@@ -36,7 +36,7 @@ module("Unit | AnimatedElement", {
     // environment. They are preventing offsetParent from collapsing
     // its top and bottom margins together when .target gets
     // absolutely positioned. It's not the responsibility of
-    // AnimatedElement to guard its surroundings from moving. In a
+    // Sprite to guard its surroundings from moving. In a
     // real app you would use animated-container for that.
     fixture.find('.sibling').height(10);
   },
@@ -182,7 +182,7 @@ test("target fixed positioned", function(assert){
 });
 
 function animated($elt) {
-  return new AnimatedElement($elt[0]);
+  return new Sprite($elt[0]);
 }
 
 function addMargins($elt) {
