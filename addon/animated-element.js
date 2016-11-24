@@ -2,8 +2,8 @@ import $ from 'jquery';
 
 export default class AnimatedElement {
   constructor(elt) {
-    this.elt = elt;
-    this.parentElement = elt.parentElement;
+    this._elt = elt;
+    this._parentElement = elt.parentElement;
     let computedStyle = getComputedStyle(elt);
     this._imposedStyle = {
       top: elt.offsetTop - parseFloat(computedStyle.marginTop),
@@ -12,29 +12,32 @@ export default class AnimatedElement {
       height: elt.offsetHeight,
       position: computedStyle.position === 'fixed' ? 'fixed' : 'absolute'
     };
-    this._styleCache = $(this.elt).attr('style') || null;
+    this._styleCache = $(this._elt).attr('style') || null;
+  }
+  get element() {
+    return this._elt;
   }
   lock() {
-    $(this.elt).css(this._imposedStyle);
+    $(this._elt).css(this._imposedStyle);
   }
   unlock() {
     if (this._styleCache) {
-      $(this.elt).attr('style', this._styleCache);
+      $(this._elt).attr('style', this._styleCache);
     } else {
-      this.elt.attributes.removeNamedItem('style');
+      this._elt.attributes.removeNamedItem('style');
     }
   }
   reveal() {
-    $(this.elt).css({
+    $(this._elt).css({
       visibility: ''
     });
   }
   append() {
-    $(this.parentElement).append(this.elt);
+    $(this._parentElement).append(this._elt);
   }
   remove() {
-    if (this.elt.parentNode) {
-      this.elt.parentNode.removeChild(this.elt);
+    if (this._elt.parentNode) {
+      this._elt.parentNode.removeChild(this._elt);
     }
   }
 }
