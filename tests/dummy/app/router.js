@@ -73,6 +73,7 @@ Router.map(function() {
     });
     this.route('in-test-outlet');
     this.route('each');
+    this.route('container-only');
     this.route('two-lists');
     this.route('swapping-lists');
     this.route('locking');

@@ -8,9 +8,9 @@ export default Motion.extend({
     if (this.opts.duration == null) {
       duration = 500;
     }
-    yield velocity(this.element, {
-      width: [this.final.width, this.initial.width],
-      height: [this.final.height, this.initial.height]
-    }, { duration, visibility: '' });
+    yield velocity(this.sprite.element, {
+      width: [this.sprite.finalBounds.width, this.sprite.initialBounds.width],
+      height: [this.sprite.finalBounds.height, this.sprite.initialBounds.height]
+    }, { duration });
   })
 });

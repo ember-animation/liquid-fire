@@ -14,14 +14,23 @@ export default class Sprite {
       position: computedStyle.position === 'fixed' ? 'fixed' : 'absolute'
     };
     this._styleCache = $(this.element).attr('style') || null;
-    this.initialBounds = element.getBoundingClientRect();
+    this.initialBounds = null;
     this.finalBounds = null;
+  }
+  measureInitialBounds() {
+    this.initialBounds = this.element.getBoundingClientRect();
   }
   measureFinalBounds() {
     this.finalBounds = this.element.getBoundingClientRect();
   }
   lock() {
     $(this.element).css(this._imposedStyle);
+  }
+  lockDimensions() {
+    $(this.element).css({
+      width: this._imposedStyle.width,
+      height: this._imposedStyle.height
+    });
   }
   unlock() {
     if (this._styleCache) {
@@ -31,9 +40,7 @@ export default class Sprite {
     }
   }
   reveal() {
-    $(this.element).css({
-      visibility: ''
-    });
+    $(this.element).removeClass('ember-animated-hidden');
   }
   append() {
     $(this._parentElement).append(this.element);

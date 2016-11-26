@@ -168,3 +168,7 @@ td {
         transform: translateX(400px) rotate(45deg);
     }
 }
+
+.scenario-container-only > .animated-container {
+    border: 1px solid red;
+}

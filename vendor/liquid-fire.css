@@ -14,3 +14,7 @@
 .liquid-child {
     overflow: hidden; /* Prevent margin collapse */
 }
+
+.ember-animated-hidden {
+    visibility: 'hidden'
+}

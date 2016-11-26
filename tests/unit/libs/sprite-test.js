@@ -187,11 +187,13 @@ test("target fixed positioned", function(assert){
 
 test("remembers initial bounds", function(assert) {
   let m = animated(target);
+  m.measureInitialBounds();
   assert.equalBounds(m.initialBounds, target[0].getBoundingClientRect());
 });
 
 test("measures and remembers final bounds", function(assert) {
   let m = animated(target);
+  m.measureInitialBounds();
   target.css('transform', 'translateX(100px)');
   m.measureFinalBounds();
   assert.equalBounds(m.finalBounds, target[0].getBoundingClientRect());

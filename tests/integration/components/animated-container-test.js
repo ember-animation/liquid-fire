@@ -1,10 +1,12 @@
 import { moduleForComponent, test, skip } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
+import { equalBounds } from '../../helpers/assertions';
 
 moduleForComponent('animated-container', 'Integration | Component | animated container', {
   integration: true,
-  beforeEach() {
+  beforeEach(assert) {
+    assert.equalBounds = equalBounds;
     let here = this;
     this.register('component:grab-container', Ember.Component.extend({
       didReceiveAttrs() {
@@ -29,7 +31,7 @@ test('simple render', function(assert) {
 
   let container = bounds(this.$('.animated-container'));
   let inside = bounds(this.$('.inside'));
-  assert.equal(container.height, inside.height, 'takes height of content');
+  assert.equalBounds(container, inside, 'takes size of content');
 
   this.$('.inside').css({
     height: 600
@@ -37,12 +39,12 @@ test('simple render', function(assert) {
 
   container = bounds(this.$('.animated-container'));
   let tallerInside = bounds(this.$('.inside'));
-  assert.equal(container.height, tallerInside.height, 'adapts to height of content');
+  assert.equalBounds(container, tallerInside, 'adapts to height of content');
   assert.ok(tallerInside.height > inside.height, "inside content got taller");
 
 });
 
-skip('locks size', function(assert) {
+test('locks size', function(assert) {
   this.render(hbs`
     {{#animated-container as |container|}}
       <div class="inside">
@@ -65,15 +67,12 @@ skip('locks size', function(assert) {
 
   let final = bounds(this.$('.animated-container'));
 
-  assert.equal(final.height, original.height, 'height can be locked');
+  assert.equalBounds(final, original, 'height can be locked');
 });
 
 skip("Accounts for margin collapse between self and child");
 skip("Accounts for margin collapse between own margins when becoming empty");
 
 function bounds($elt) {
-  return {
-    width: $elt.outerWidth(),
-    height: $elt.outerHeight()
-  };
+  return $elt[0].getBoundingClientRect();
 }

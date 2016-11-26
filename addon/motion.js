@@ -6,13 +6,6 @@ import { rAF } from './concurrency-helpers';
 export default Ember.Object.extend({
   init() {
     this._super(...arguments);
-
-    // Public properties
-    // this.element = element;
-    // this.initial = initial; // { width, height, x, y }
-    // this.final = final;     // { width, height, x, y }
-    // this.opts = opts;
-
     this._setupMotionList();
   },
 
@@ -20,7 +13,7 @@ export default Ember.Object.extend({
 
   // In the measure hook, you can read from the DOM but should not
   // modify it. This allows all concurrent Motions to read before
-  // writing without thrasing. Note that you don't need to do anything
+  // writing without thrashing. Note that you don't need to do anything
   // here to measure your own element's position -- you already have
   // initial and final geometry on `this`.
   measure() {},
@@ -60,7 +53,7 @@ export default Ember.Object.extend({
   // --- Begin private methods ---
 
   _setupMotionList() {
-    let $elt = $(this.element);
+    let $elt = $(this.sprite.element);
     let motionList = $elt.data('lfMotions');
     if (!motionList) {
       $elt.data('lfMotions', motionList = []);
@@ -82,8 +75,12 @@ export default Ember.Object.extend({
       let index = this._motionList.indexOf(this);
       this._motionList.splice(index, 1);
       if (this._motionList.length === 0) {
-        $(this.element).data('lfMotions', null);
+        $(this.sprite.element).data('lfMotions', null);
       }
     }
   })
+}).reopenClass({
+  create(sprite, opts={}) {
+    return this._super({ sprite, opts });
+  }
 });

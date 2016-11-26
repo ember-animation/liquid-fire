@@ -1,13 +1,13 @@
 import Ember from 'ember';
 import { componentNodes } from 'liquid-fire/ember-internals';
-import $ from 'jquery';
 import Sprite from '../sprite';
+import $ from 'jquery';
 
 export default Ember.Component.extend({
   tagName: '',
   didInsertElement() {
     this._forEachElement(elt => {
-      $(elt).css('visibility', 'hidden');
+      $(elt).addClass('ember-animated-hidden');
     });
     this.sendAction("entering", this);
   },

@@ -3,6 +3,7 @@ import layout from '../templates/components/animated-each';
 import matchReplacements from 'liquid-fire/match-replacements';
 import { task, allSettled } from 'ember-concurrency';
 import { afterRender } from '../concurrency-helpers';
+import Move from '../motions/move';
 
 export default Ember.Component.extend({
   layout,
@@ -11,14 +12,14 @@ export default Ember.Component.extend({
 
   init() {
     this._super();
-    this._entering = [];
-    this._current = [];
-    this._leaving = [];
+    this._enteringComponents = [];
+    this._currentComponents = [];
+    this._leavingComponents = [];
     this._prevItems = [];
     this._firstTime = true;
   },
   willDestroyElement() {
-    let removed = this._current.map(component => ({ component, measurements: component.measure(), item: component.item }));
+    let removed = flatMap(this._currentComponents, component => component.sprites());
     this.get('motionService.farMatch').perform([], removed, []);
   },
   didReceiveAttrs() {
@@ -26,67 +27,99 @@ export default Ember.Component.extend({
     let items = this.get('items') || [];
     this._prevItems = items.slice();
 
-    let current = this._current.map(component => ({ component, measurements: component.measure(), item: component.item }));
-    if (current.length > 0) {
+    let currentSprites = flatMap(this._currentComponents, component => component.sprites());
+    currentSprites.forEach(sprite => {
+      sprite.measureInitialBounds();
+    });
+    if (currentSprites.length > 0) {
       this._notifyContainer('lock');
     }
-    current.forEach(({ measurements }) => measurements.lock());
-    this.get('animate').perform(prevItems, items, current);
+    currentSprites.forEach(sprite => {
+      sprite.lock();
+    });
+    this.get('animate').perform(prevItems, items, currentSprites);
   },
-  animate: task(function * (prevItems, items, current) {
+  animate: task(function * (prevItems, items, currentSprites) {
     yield afterRender();
 
-    let [kept, removed] = partition(current, entry => this._leaving.indexOf(entry.component) < 0);
+    let [keptSprites, removedSprites] = partition(
+      currentSprites,
+      sprite => this._leavingComponents.indexOf(sprite.component) < 0
+    );
 
     // Briefly unlock everybody
-    kept.forEach(({ measurements }) => measurements.unlock());
+    keptSprites.forEach(sprite => sprite.unlock());
     // so we can measure the final static layout
-    kept.forEach(entry => { entry.newMeasurements = entry.component.measure(); });
-    let inserted = this._entering.map(component => ({ component, measurements: component.measure(), item: component.item }));
+    let insertedSprites = flatMap(this._enteringComponents, component => component.sprites());
+    insertedSprites.forEach(sprite => sprite.measureFinalBounds());
+    keptSprites.forEach(sprite => sprite.measureFinalBounds());
     let tasks = [this._notifyContainer('measure')];
 
     // Update our permanent state here before we actualy animate. This
     // leaves us consistent in case we re-enter before the animation
     // finishes (we allow this task to be re-entrant, because some
     // Motions may choose not to interrupt already running Motions).
-    this._current = kept.concat(inserted).map(entry => entry.component);
-    this._entering = [];
-    this._leaving = [];
+    this._updateComponentLists();
 
     // Then lock everything down
-    kept.forEach(({ measurements }) => measurements.lock());
-    inserted.forEach(({ measurements }) => measurements.lock());
+    keptSprites.forEach(sprite => sprite.lock());
+    insertedSprites.forEach(sprite => sprite.lock());
     // Including ghost copies of the deleted components
-    removed.forEach(({ measurements }) => {
-      measurements.append();
-      measurements.lock();
+    removedSprites.forEach(sprite => {
+      sprite.append();
+      sprite.lock();
     });
 
-    let replaced;
-    [inserted, removed, replaced] = matchReplacements(prevItems, items, inserted, kept, removed);
-    [inserted, removed, replaced] = yield this.get('motionService.farMatch').perform(inserted, removed, replaced);
+    // [inserted, removed, replaced] = matchReplacements(prevItems, items, inserted, kept, removed);
+    // [inserted, removed, replaced] = yield this.get('motionService.farMatch').perform(inserted, removed, replaced);
 
 
     if (this._firstTime) {
       this._firstTime = false;
-      inserted.forEach(({ measurements }) => measurements.reveal());
-    } else {
-      inserted.forEach(({ measurements }) => measurements.enter().forEach(task => tasks.push(task)));
     }
-    kept.forEach(({ measurements, newMeasurements }) => measurements.move(newMeasurements).forEach(task => tasks.push(task)));
-    removed.forEach(({ measurements }) => measurements.exit().forEach(task => tasks.push(task)));
-    replaced.forEach(([older, newer]) => newer.measurements.replace(older.measurements).forEach(task => tasks.push(task)));
 
-    yield allSettled(tasks);
+    console.log(`inserted=${insertedSprites.length}, kept=${keptSprites.length}, removed=${removedSprites.length}`);
+
+    debugger
+
+    insertedSprites.forEach(sprite => {
+      sprite.reveal();
+    });
+    keptSprites.forEach(sprite => {
+      let move = Move.create(sprite);
+      tasks.push(move.run());
+    });
+    removedSprites.forEach(sprite => {
+      let move = Move.create(sprite);
+      tasks.push(move.run().then(() => {
+        sprite.remove();
+      }));
+    });
+
+    let results = yield allSettled(tasks);
+
+    results.forEach(result => {
+      if (result.state === 'rejected') {
+        setTimeout(function() {
+          throw result.reason;
+        }, 0);
+      }
+    });
     if (this.get('animate.concurrency') === 1) {
-      kept.forEach(({ measurements }) => measurements.unlock());
-      inserted.forEach(({ measurements }) => measurements.unlock());
-      replaced.forEach(([older, { measurements }]) => measurements.unlock());
+      keptSprites.forEach(sprite => sprite.unlock());
+      insertedSprites.forEach(sprite => sprite.unlock());
       this._notifyContainer('unlock');
     }
   }),
 
-  _notifyContainer: function(method) {
+  _updateComponentLists() {
+    this._currentComponents = this._currentComponents.concat(this._enteringComponents)
+      .filter(c => this._leavingComponents.indexOf(c) === -1);
+    this._enteringComponents = [];
+    this._leavingComponents = [];
+  },
+
+  _notifyContainer(method) {
     var target = this.get('notify');
     if (target && target[method]) {
       return target[method]();
@@ -95,10 +128,10 @@ export default Ember.Component.extend({
 
   actions: {
     childEntering(component) {
-      this._entering.push(component);
+      this._enteringComponents.push(component);
     },
     childLeaving(component) {
-      this._leaving.push(component);
+      this._leavingComponents.push(component);
     }
   }
 
@@ -118,4 +151,12 @@ function partition(list, pred) {
     }
   });
   return [matched, unmatched];
+}
+
+function flatMap(list, fn) {
+  let results = [];
+  for (let i = 0; i < list.length; i++) {
+    results.push(fn(list[i]));
+  }
+  return [].concat(...results);
 }
