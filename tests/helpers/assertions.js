@@ -1,6 +1,6 @@
 import { ownTransform } from 'liquid-fire/transform';
 
-function equalBounds(value, expected, message) {
+export function equalBounds(value, expected, message) {
   this.pushResult({
     // Tolerate errors less than a quarter pixels. This prevents any invisible rounding errors from failing our tests.
     result: ['bottom', 'height', 'left', 'right', 'top', 'width'].every(field => Math.abs(value[field] - expected[field]) < 0.25),

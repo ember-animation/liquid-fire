@@ -2,13 +2,17 @@ import { module, test } from 'qunit';
 import { ownTransform } from 'liquid-fire/transform';
 import Sprite from 'liquid-fire/sprite';
 import $ from 'jquery';
-import { visuallyConstant } from '../../helpers/assertions';
+import {
+  equalBounds,
+  visuallyConstant
+} from '../../helpers/assertions';
 
 let environment, offsetParent, target, innerContent;
 
 module("Unit | Sprite", {
   beforeEach(assert) {
     assert.visuallyConstant = visuallyConstant;
+    assert.equalBounds = equalBounds;
 
     let fixture = $('#qunit-fixture');
     fixture.html(`
@@ -181,8 +185,27 @@ test("target fixed positioned", function(assert){
   assert.visuallyConstant(target, () => m.lock());
 });
 
-function animated($elt) {
-  return new Sprite($elt[0]);
+test("remembers initial bounds", function(assert) {
+  let m = animated(target);
+  assert.equalBounds(m.initialBounds, target[0].getBoundingClientRect());
+});
+
+test("measures and remembers final bounds", function(assert) {
+  let m = animated(target);
+  target.css('transform', 'translateX(100px)');
+  m.measureFinalBounds();
+  assert.equalBounds(m.finalBounds, target[0].getBoundingClientRect());
+  assert.ok(m.initialBounds.left + 100 - m.finalBounds.left < 0.01, 'Bounds reflect movement');
+});
+
+test("tracks owning component", function(assert) {
+  let c = {};
+  let m = animated(target, c);
+  assert.equal(m.component, c);
+});
+
+function animated($elt, component) {
+  return new Sprite($elt[0], component);
 }
 
 function addMargins($elt) {

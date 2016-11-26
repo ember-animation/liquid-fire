@@ -32,7 +32,7 @@ export default Ember.Component.extend({
   sprites() {
     let list = [];
     this._forEachElement(elt => {
-      list.push(new Sprite(elt));
+      list.push(new Sprite(elt, this));
     });
     return list;
   }

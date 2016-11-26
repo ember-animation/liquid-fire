@@ -1,43 +1,46 @@
 import $ from 'jquery';
 
 export default class Sprite {
-  constructor(elt) {
-    this._elt = elt;
-    this._parentElement = elt.parentElement;
-    let computedStyle = getComputedStyle(elt);
+  constructor(element, component) {
+    this.component = component;
+    this.element = element;
+    this._parentElement = element.parentElement;
+    let computedStyle = getComputedStyle(element);
     this._imposedStyle = {
-      top: elt.offsetTop - parseFloat(computedStyle.marginTop),
-      left: elt.offsetLeft - parseFloat(computedStyle.marginLeft),
-      width: elt.offsetWidth,
-      height: elt.offsetHeight,
+      top: element.offsetTop - parseFloat(computedStyle.marginTop),
+      left: element.offsetLeft - parseFloat(computedStyle.marginLeft),
+      width: element.offsetWidth,
+      height: element.offsetHeight,
       position: computedStyle.position === 'fixed' ? 'fixed' : 'absolute'
     };
-    this._styleCache = $(this._elt).attr('style') || null;
+    this._styleCache = $(this.element).attr('style') || null;
+    this.initialBounds = element.getBoundingClientRect();
+    this.finalBounds = null;
   }
-  get element() {
-    return this._elt;
+  measureFinalBounds() {
+    this.finalBounds = this.element.getBoundingClientRect();
   }
   lock() {
-    $(this._elt).css(this._imposedStyle);
+    $(this.element).css(this._imposedStyle);
   }
   unlock() {
     if (this._styleCache) {
-      $(this._elt).attr('style', this._styleCache);
+      $(this.element).attr('style', this._styleCache);
     } else {
-      this._elt.attributes.removeNamedItem('style');
+      this.element.attributes.removeNamedItem('style');
     }
   }
   reveal() {
-    $(this._elt).css({
+    $(this.element).css({
       visibility: ''
     });
   }
   append() {
-    $(this._parentElement).append(this._elt);
+    $(this._parentElement).append(this.element);
   }
   remove() {
-    if (this._elt.parentNode) {
-      this._elt.parentNode.removeChild(this._elt);
+    if (this.element.parentNode) {
+      this.element.parentNode.removeChild(this.element);
     }
   }
 }
