@@ -4,18 +4,26 @@ import { ownTransform, Transform } from './transform';
 const inFlight = new WeakMap();
 
 export default class Sprite {
-  constructor(element, component) {
+  constructor(element, component, asContainer=false) {
     this.component = component;
     this.element = element;
     this._parentElement = element.parentElement;
-    let computedStyle = getComputedStyle(element);
-    this._imposedStyle = {
-      top: element.offsetTop - parseFloat(computedStyle.marginTop),
-      left: element.offsetLeft - parseFloat(computedStyle.marginLeft),
-      width: element.offsetWidth,
-      height: element.offsetHeight,
-      position: computedStyle.position === 'fixed' ? 'fixed' : 'absolute'
-    };
+    if (asContainer) {
+      this._imposedStyle = {
+        width: element.offsetWidth,
+        height: element.offsetHeight
+      };
+    } else {
+      let computedStyle = getComputedStyle(element);
+      let { top, left } = offsets(element);
+      this._imposedStyle = {
+        top: top - parseFloat(computedStyle.marginTop),
+        left: left - parseFloat(computedStyle.marginLeft),
+        width: element.offsetWidth,
+        height: element.offsetHeight,
+        position: computedStyle.position === 'fixed' ? 'fixed' : 'absolute'
+      };
+    }
     let predecessor = inFlight.get(element);
     if (predecessor) {
       // When we finish, we want to be able to set the style back to
@@ -23,7 +31,7 @@ export default class Sprite {
       // things.
       this._styleCache = predecessor._styleCache;
     } else {
-      this._styleCache = $(this.element).attr('style') || null;
+      this._styleCache = $(element).attr('style') || null;
     }
     this.initialBounds = null;
     this.finalBounds = null;
@@ -37,13 +45,6 @@ export default class Sprite {
   }
   lock() {
     $(this.element).css(this._imposedStyle);
-    inFlight.set(this.element, this);
-  }
-  lockDimensions() {
-    $(this.element).css({
-      width: this._imposedStyle.width,
-      height: this._imposedStyle.height
-    });
     inFlight.set(this.element, this);
   }
   translate(dx, dy) {
@@ -72,4 +73,30 @@ export default class Sprite {
       this.element.parentNode.removeChild(this.element);
     }
   }
+}
+
+// This compensates for the fact that browsers are inconsistent in the
+// way they report offsetLeft & offsetTop for elements with a
+// transformed ancestor beneath their nearest positioned ancestor.
+function offsets(element) {
+  let offsetParent = element.offsetParent;
+  let cursor = element.parentElement;
+
+  while (cursor && offsetParent && cursor !== offsetParent) {
+    if ($(cursor).css('transform') !== 'none') {
+      let outerBounds = offsetParent.getBoundingClientRect();
+      let innerBounds = cursor.getBoundingClientRect();
+      let t = ownTransform(cursor);
+      return {
+        top: element.offsetTop + outerBounds.top - innerBounds.top + t.ty,
+        left: element.offsetLeft + outerBounds.left - innerBounds.left + t.tx
+      };
+    }
+    cursor = cursor.parentElement;
+  }
+
+  return {
+    top: element.offsetTop,
+    left: element.offsetLeft
+  };
 }

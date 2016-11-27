@@ -26,13 +26,14 @@ export default Ember.Component.extend({
     let items = this.get('items') || [];
     this._prevItems = items.slice();
 
+    if (this._currentComponents.length > 0) {
+      this._notifyContainer('lock');
+    }
+
     let currentSprites = flatMap(this._currentComponents, component => component.sprites());
     currentSprites.forEach(sprite => {
       sprite.measureInitialBounds();
     });
-    if (currentSprites.length > 0) {
-      this._notifyContainer('lock');
-    }
     currentSprites.forEach(sprite => {
       sprite.lock();
     });
@@ -52,7 +53,8 @@ export default Ember.Component.extend({
     let insertedSprites = flatMap(this._enteringComponents, component => component.sprites());
     insertedSprites.forEach(sprite => sprite.measureFinalBounds());
     keptSprites.forEach(sprite => sprite.measureFinalBounds());
-    let tasks = [this._notifyContainer('measure')];
+    this._notifyContainer('measure');
+    let tasks = [];
 
     // Update our permanent state here before we actualy animate. This
     // leaves us consistent in case we re-enter before the animation
@@ -86,7 +88,7 @@ export default Ember.Component.extend({
           top: sprite.finalBounds.top
         };
         sprite.translate(sprite.initialBounds.left - sprite.finalBounds.left, sprite.initialBounds.top - sprite.finalBounds.top);
-        let move = Move.create(sprite);
+        let move = Move.create(sprite, { duration: 500 });
         tasks.push(move.run());
       });
     }

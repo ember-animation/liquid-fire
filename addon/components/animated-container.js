@@ -51,18 +51,18 @@ export default Ember.Component.extend({
 
   actions: {
     lock() {
-      let sprite = new Sprite(this.element, this);
+      let sprite = new Sprite(this.element, this, true);
       this.sprite = sprite;
       this.resetSignals();
       sprite.measureInitialBounds();
-      sprite.lockDimensions();
+      sprite.lock();
       this.get('animate').perform();
     },
     measure() {
       if (this.sprite) {
         this.sprite.unlock();
         this.sprite.measureFinalBounds();
-        this.sprite.lockDimensions();
+        this.sprite.lock();
       }
       this.receivedSignal('measured');
     },

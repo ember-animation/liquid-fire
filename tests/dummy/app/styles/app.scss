@@ -32,6 +32,7 @@ body {
 }
 
 .main {
+    overflow-x: hidden;
     > div {
         @include make-row();
         padding-top: 2*$line-height-computed - 1px;

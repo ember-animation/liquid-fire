@@ -7,7 +7,7 @@ import {
   visuallyConstant
 } from '../../helpers/assertions';
 
-let environment, offsetParent, target, innerContent;
+let environment, offsetParent, intermediate, target, innerContent;
 
 module("Unit | Sprite", {
   beforeEach(assert) {
@@ -19,8 +19,10 @@ module("Unit | Sprite", {
 <div class="environment">
   <div class="offset-parent">
     <div class="sibling"></div>
-    <div class="target">
-      <div class="inner-content"></div>
+    <div class="intermediate">
+      <div class="target">
+        <div class="inner-content"></div>
+      </div>
     </div>
     <div class="sibling"></div>
   </div>
@@ -28,6 +30,7 @@ module("Unit | Sprite", {
 `);
     environment = fixture.find('.environment');
     offsetParent = fixture.find('.offset-parent');
+    intermediate = fixture.find('.intermediate');
     target = fixture.find('.target');
     innerContent = fixture.find('.inner-content');
     environment.width(600);
@@ -73,6 +76,16 @@ test('Scaled offsetParent', function(assert) {
   let m = animated(target);
   assert.visuallyConstant(target, () => m.lock());
 });
+
+// This test case is important because the browser specs are
+// ambiguous/broken when it comes to treating a transformed ancestor
+// as the offsetParent.
+test('Translated ancestor beneath offsetParent', function(assert) {
+  intermediate.css('transform', 'translateX(10px)');
+  let m = animated(target);
+  assert.visuallyConstant(target, () => m.lock());
+});
+
 
 test('Translated offsetParent', function(assert) {
   offsetParent.css('transform', 'translateX(500px) translateY(500px)');
