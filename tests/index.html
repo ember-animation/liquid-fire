@@ -16,6 +16,19 @@
 
     {{content-for "head-footer"}}
     {{content-for "test-head-footer"}}
+    <style type="text/xcss">
+      #qunit-fixture {
+        top: 0;
+        left: 0;
+      }
+      .target {
+        background-color: red;
+      }
+      .offset-parent {
+        background-color: blue;
+      }
+
+    </style>
   </head>
   <body>
     {{content-for "body"}}

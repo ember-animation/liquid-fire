@@ -1,5 +1,9 @@
 import $ from 'jquery';
-import { ownTransform, Transform } from './transform';
+import {
+  ownTransform,
+  cumulativeTransform,
+  Transform
+} from './transform';
 
 const inFlight = new WeakMap();
 
@@ -8,6 +12,7 @@ export default class Sprite {
     this.component = component;
     this.element = element;
     this._parentElement = element.parentElement;
+    let transform = ownTransform(element);
     if (asContainer) {
       this._imposedStyle = {
         width: element.offsetWidth,
@@ -15,10 +20,10 @@ export default class Sprite {
       };
     } else {
       let computedStyle = getComputedStyle(element);
-      let { top, left } = offsets(element, computedStyle);
+      let { top, left } = offsets(element, computedStyle, transform);
       this._imposedStyle = {
-        top: top - parseFloat(computedStyle.marginTop),
-        left: left - parseFloat(computedStyle.marginLeft),
+        top,
+        left,
         width: element.offsetWidth,
         height: element.offsetHeight,
         position: computedStyle.position === 'fixed' ? 'fixed' : 'absolute'
@@ -35,7 +40,7 @@ export default class Sprite {
     }
     this.initialBounds = null;
     this.finalBounds = null;
-    this.transform = ownTransform(element);
+    this.transform = transform;
   }
   measureInitialBounds() {
     this.initialBounds = this.element.getBoundingClientRect();
@@ -75,32 +80,32 @@ export default class Sprite {
   }
 }
 
-function offsets(element, elementComputedStyle) {
-  let offsetParent = element.offsetParent;
-  let effectiveOffsetParent = getEffectiveOffsetParent(element);
+function offsets(element, computedStyle, transform) {
+  let ownBounds = element.getBoundingClientRect();
+  let left = ownBounds.left;
+  let top = ownBounds.top;
 
-  let dx = 0;
-  let dy = 0;
-
-  if (effectiveOffsetParent !== offsetParent && elementComputedStyle.position !== 'absolute') {
-    let outerBounds = offsetParent.getBoundingClientRect();
-    let innerBounds = effectiveOffsetParent.getBoundingClientRect();
-    let t = ownTransform(effectiveOffsetParent);
-    dy = outerBounds.top - innerBounds.top + t.ty;
-    dx = outerBounds.left - innerBounds.left + t.tx;
+  let effectiveOffsetParent = getEffectiveOffsetParent(element, computedStyle);
+  if (effectiveOffsetParent) {
+    let eopBounds = effectiveOffsetParent.getBoundingClientRect();
+    let eopComputedStyle = getComputedStyle(effectiveOffsetParent);
+    left -= eopBounds.left + parseFloat(eopComputedStyle.borderLeftWidth);
+    top -= eopBounds.top + parseFloat(eopComputedStyle.borderTopWidth);
   }
 
-  if (effectiveOffsetParent instanceof Element) {
-    let c = getComputedStyle(effectiveOffsetParent);
-    dy -= parseFloat(c.borderTopWidth);
-    dx -= parseFloat(c.borderLeftWidth);
+  left -= parseFloat(computedStyle.marginLeft);
+  top -= parseFloat(computedStyle.marginTop);
+
+  if (effectiveOffsetParent) {
+    let eopTransform = cumulativeTransform(effectiveOffsetParent);
+    left /= eopTransform.a;
+    top /= eopTransform.d;
   }
 
+  left -= transform.tx;
+  top -= transform.ty;
 
-  return {
-    top: element.offsetTop + dy,
-    left: element.offsetLeft + dx
-  };
+  return { top, left };
 }
 
 // This compensates for the fact that browsers are inconsistent in the

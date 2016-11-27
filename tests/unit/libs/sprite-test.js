@@ -116,7 +116,7 @@ test('Target scaled', function(assert) {
   assert.visuallyConstant(target, () => m.lock());
 });
 
-test('Target rotated', function(assert) {
+skip('Target rotated', function(assert) {
   target.css('transform', 'rotate(30deg)');
   let m = animated(target);
   assert.visuallyConstant(target, () => m.lock());
@@ -270,18 +270,6 @@ test("target fixed positioned", function(assert){
   let m = animated(target);
   assert.visuallyConstant(target, () => m.lock());
 });
-
-test("target fixed positioned with transformed ancestor beneath nearest positioned ancestor", function(assert) {
-  target.css({
-    position: 'fixed',
-    top: 100,
-    left: 200
-  });
-  intermediate.css('transform', 'translateX(10px)');
-  let m = animated(target);
-  assert.visuallyConstant(target, () => m.lock());
-});
-
 
 test("remembers initial bounds", function(assert) {
   let m = animated(target);
