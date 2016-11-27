@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import { ownTransform, Transform } from './transform';
 
 const inFlight = new WeakMap();
 
@@ -26,6 +27,7 @@ export default class Sprite {
     }
     this.initialBounds = null;
     this.finalBounds = null;
+    this.transform = ownTransform(element);
   }
   measureInitialBounds() {
     this.initialBounds = this.element.getBoundingClientRect();
@@ -43,6 +45,11 @@ export default class Sprite {
       height: this._imposedStyle.height
     });
     inFlight.set(this.element, this);
+  }
+  translate(dx, dy) {
+    let t = this.transform.mult(new Transform(1, 0, 0, 1, dx, dy));
+    this.transform = t;
+    $(this.element).css('transform', t.serialize());
   }
   unlock() {
     if (inFlight.get(this.element) === this) {
