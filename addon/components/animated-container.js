@@ -16,15 +16,10 @@ export default Ember.Component.extend({
   },
 
   animate: task(function * () {
-    let sprite = new Sprite(this.element, this);
-    this.sprite = sprite;
-    this.resetSignals();
-    sprite.measureInitialBounds();
-    sprite.lockDimensions();
     yield this.waitForSignal('measured');
-    yield Resize.create(sprite, { duration: 500 }).run();
+    yield Resize.create(this.sprite, { duration: 500 }).run();
     yield this.waitForSignal('unlock');
-    sprite.unlock();
+    this.sprite.unlock();
   }).restartable(),
 
   resetSignals() {
@@ -32,6 +27,7 @@ export default Ember.Component.extend({
   },
 
   receivedSignal(name) {
+    if (!this._signals) { return; }
     this._signals.push(name);
     let s = this._signalWaiter;
     this._signalWaiter = null;
@@ -54,12 +50,19 @@ export default Ember.Component.extend({
 
   actions: {
     lock() {
+      let sprite = new Sprite(this.element, this);
+      this.sprite = sprite;
+      this.resetSignals();
+      sprite.measureInitialBounds();
+      sprite.lockDimensions();
       this.get('animate').perform();
     },
     measure() {
-      this.sprite.unlock();
-      this.sprite.measureFinalBounds();
-      this.sprite.lockDimensions();
+      if (this.sprite) {
+        this.sprite.unlock();
+        this.sprite.measureFinalBounds();
+        this.sprite.lockDimensions();
+      }
       this.receivedSignal('measured');
     },
     unlock() {
