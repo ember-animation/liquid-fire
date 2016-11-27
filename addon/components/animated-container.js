@@ -19,15 +19,12 @@ export default Ember.Component.extend({
     let sprite = new Sprite(this.element, this);
     this.sprite = sprite;
     this.resetSignals();
-    try {
-      sprite.measureInitialBounds();
-      sprite.lockDimensions();
-      yield this.waitForSignal('measured');
-      yield Resize.create(sprite, { duration: 500 }).run();
-      yield this.waitForSignal('unlock');
-    } finally {
-      sprite.unlock();
-    }
+    sprite.measureInitialBounds();
+    sprite.lockDimensions();
+    yield this.waitForSignal('measured');
+    yield Resize.create(sprite, { duration: 500 }).run();
+    yield this.waitForSignal('unlock');
+    sprite.unlock();
   }).restartable(),
 
   resetSignals() {

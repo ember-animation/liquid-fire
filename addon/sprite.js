@@ -1,5 +1,7 @@
 import $ from 'jquery';
 
+const inFlight = new WeakMap();
+
 export default class Sprite {
   constructor(element, component) {
     this.component = component;
@@ -13,7 +15,15 @@ export default class Sprite {
       height: element.offsetHeight,
       position: computedStyle.position === 'fixed' ? 'fixed' : 'absolute'
     };
-    this._styleCache = $(this.element).attr('style') || null;
+    let predecessor = inFlight.get(element);
+    if (predecessor) {
+      // When we finish, we want to be able to set the style back to
+      // whatever it was before any Sprites starting locking
+      // things.
+      this._styleCache = predecessor._styleCache;
+    } else {
+      this._styleCache = $(this.element).attr('style') || null;
+    }
     this.initialBounds = null;
     this.finalBounds = null;
   }
@@ -25,18 +35,23 @@ export default class Sprite {
   }
   lock() {
     $(this.element).css(this._imposedStyle);
+    inFlight.set(this.element, this);
   }
   lockDimensions() {
     $(this.element).css({
       width: this._imposedStyle.width,
       height: this._imposedStyle.height
     });
+    inFlight.set(this.element, this);
   }
   unlock() {
-    if (this._styleCache) {
-      $(this.element).attr('style', this._styleCache);
-    } else {
-      this.element.attributes.removeNamedItem('style');
+    if (inFlight.get(this.element) === this) {
+      inFlight.delete(this.element);
+      if (this._styleCache) {
+        $(this.element).attr('style', this._styleCache);
+      } else {
+        this.element.attributes.removeNamedItem('style');
+      }
     }
   }
   reveal() {

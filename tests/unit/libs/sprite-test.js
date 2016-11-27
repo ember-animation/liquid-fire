@@ -1,4 +1,4 @@
-import { module, test } from 'qunit';
+import { module, test, skip } from 'qunit';
 import { ownTransform } from 'liquid-fire/transform';
 import Sprite from 'liquid-fire/sprite';
 import $ from 'jquery';
@@ -151,6 +151,31 @@ test("Restores original styles", function(assert) {
   assert.equal(ownTransform(target[0]).tx, 20, 'translateX');
 });
 
+test("Restores original styles even when two sprites interrupt each other", function(assert) {
+  target.css({
+    position: 'relative',
+    top: '5px',
+    left: '6px',
+    width: '10px',
+    height: '11px',
+    transform: 'translateX(20px)'
+  });
+  let m = animated(target);
+  m.lock();
+  let m2 = animated(target);
+  m2.lock();
+  m2.unlock();
+  assert.equal(target.css('position'), 'relative', 'position');
+  assert.equal(target.css('top'), '5px', 'top');
+  assert.equal(target.css('left'), '6px', 'left');
+  assert.equal(target.css('width'), '10px', 'width');
+  assert.equal(target.css('height'), '11px', 'height');
+  assert.equal(ownTransform(target[0]).tx, 20, 'translateX');
+});
+
+
+
+
 test("within scrolling contexts", function(assert) {
   environment.css({
     overflowY: 'scroll',
@@ -204,6 +229,10 @@ test("tracks owning component", function(assert) {
   let c = {};
   let m = animated(target, c);
   assert.equal(m.component, c);
+});
+
+skip("polyfills WeakMap as needed", function(assert) {
+  assert.ok(false);
 });
 
 function animated($elt, component) {
