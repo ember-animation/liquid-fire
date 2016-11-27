@@ -224,6 +224,20 @@ test("target absolutely positioned", function(assert) {
   assert.visuallyConstant(target, () => m.lock());
 });
 
+test("target absolutely positioned, border on offsetParent", function(assert) {
+  target.css({
+    position: 'absolute',
+    top: 100,
+    left: 200
+  });
+  offsetParent.css({
+    border: '1px solid green'
+  });
+  let m = animated(target);
+  assert.visuallyConstant(target, () => m.lock());
+});
+
+
 test("target absolutely positioned with transformed ancestor beneath nearest positioned ancestor", function(assert) {
   target.css({
     position: 'absolute',

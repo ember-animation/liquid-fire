@@ -75,34 +75,43 @@ export default class Sprite {
   }
 }
 
+function offsets(element, elementComputedStyle) {
+  let offsetParent = element.offsetParent;
+  let effectiveOffsetParent = getEffectiveOffsetParent(element);
+  let cursor = element.parentElement;
+
+  let dx = 0;
+  let dy = 0;
+
+  if (effectiveOffsetParent !== offsetParent && elementComputedStyle.position !== 'absolute') {
+    let outerBounds = offsetParent.getBoundingClientRect();
+    let innerBounds = effectiveOffsetParent.getBoundingClientRect();
+    let t = ownTransform(effectiveOffsetParent);
+    dy = outerBounds.top - innerBounds.top + t.ty;
+    dx = outerBounds.left - innerBounds.left + t.tx;
+  }
+
+  let c = getComputedStyle(cursor);
+  dy -= parseFloat(c.borderTopWidth);
+  dx -= parseFloat(c.borderLeftWidth);
+
+  return {
+    top: element.offsetTop + dy,
+    left: element.offsetLeft + dx
+  };
+}
+
 // This compensates for the fact that browsers are inconsistent in the
 // way they report offsetLeft & offsetTop for elements with a
 // transformed ancestor beneath their nearest positioned ancestor.
-function offsets(element, elementComputedStyle) {
+function getEffectiveOffsetParent(element) {
   let offsetParent = element.offsetParent;
   let cursor = element.parentElement;
-
   while (cursor && offsetParent && cursor !== offsetParent) {
     if ($(cursor).css('transform') !== 'none') {
-      let dx = 0;
-      let dy = 0;
-      if (elementComputedStyle.position !== 'absolute') {
-        let outerBounds = offsetParent.getBoundingClientRect();
-        let innerBounds = cursor.getBoundingClientRect();
-        let t = ownTransform(cursor);
-        dy = outerBounds.top - innerBounds.top + t.ty;
-        dx = outerBounds.left - innerBounds.left + t.tx;
-      }
-      let c = getComputedStyle(cursor);
-      return {
-        top: element.offsetTop + dy - parseFloat(c.borderTopWidth),
-        left: element.offsetLeft + dx - parseFloat(c.borderLeftWidth)
-      };
+      return cursor;
     }
     cursor = cursor.parentElement;
   }
-  return {
-    top: element.offsetTop,
-    left: element.offsetLeft
-  };
+  return offsetParent;
 }
