@@ -73,23 +73,34 @@ export default Ember.Component.extend({
     // [inserted, removed, replaced] = matchReplacements(prevItems, items, inserted, kept, removed);
     // [inserted, removed, replaced] = yield this.get('motionService.farMatch').perform(inserted, removed, replaced);
 
+    console.log(`inserted=${insertedSprites.length}, kept=${keptSprites.length}, removed=${removedSprites.length}`);
 
     if (this._firstTime) {
       this._firstTime = false;
+      insertedSprites.forEach(sprite => {
+        sprite.reveal();
+      });
+    } else {
+      insertedSprites.forEach(sprite => {
+        sprite.initialBounds = {
+          left: sprite.finalBounds.left + 1000,
+          top: sprite.finalBounds.top
+        };
+        sprite.translate(sprite.initialBounds.left - sprite.finalBounds.left, sprite.initialBounds.top - sprite.finalBounds.top);
+        let move = Move.create(sprite);
+        tasks.push(move.run());
+      });
     }
 
-    console.log(`inserted=${insertedSprites.length}, kept=${keptSprites.length}, removed=${removedSprites.length}`);
-
-    debugger
-
-    insertedSprites.forEach(sprite => {
-      sprite.reveal();
-    });
     keptSprites.forEach(sprite => {
       let move = Move.create(sprite);
       tasks.push(move.run());
     });
     removedSprites.forEach(sprite => {
+      sprite.finalBounds = {
+        left: sprite.initialBounds.left + 1000,
+        top: sprite.initialBounds.top
+      };
       let move = Move.create(sprite);
       tasks.push(move.run().then(() => {
         sprite.remove();
