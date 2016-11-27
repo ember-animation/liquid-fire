@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import layout from '../templates/components/animated-each';
-import matchReplacements from 'liquid-fire/match-replacements';
 import { task, allSettled } from 'ember-concurrency';
 import { afterRender } from '../concurrency-helpers';
 import Move from '../motions/move';

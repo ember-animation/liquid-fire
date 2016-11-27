@@ -1,7 +1,6 @@
 import { velocity }  from 'liquid-fire/concurrency-helpers';
 import Motion from '../motion';
 import { task } from 'ember-concurrency';
-import { ownTransform } from '../transform';
 
 export default Motion.extend({
   animate: task(function *() {

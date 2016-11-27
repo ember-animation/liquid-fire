@@ -28,3 +28,5 @@ skip('it renders', function(assert) {
 
   assert.listContents(this.$('.test-child'), ['a', 'b', 'c']);
 });
+
+skip('re-integrate or remove matchReplacements');
