@@ -110,7 +110,7 @@ export default Ember.Component.extend({
     let results = yield allSettled(tasks);
 
     results.forEach(result => {
-      if (result.state === 'rejected') {
+      if (result.state === 'rejected' && result.reason.name !== 'TaskCancelation') {
         setTimeout(function() {
           throw result.reason;
         }, 0);
