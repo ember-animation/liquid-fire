@@ -78,7 +78,6 @@ export default class Sprite {
 function offsets(element, elementComputedStyle) {
   let offsetParent = element.offsetParent;
   let effectiveOffsetParent = getEffectiveOffsetParent(element);
-  let cursor = element.parentElement;
 
   let dx = 0;
   let dy = 0;
@@ -91,9 +90,12 @@ function offsets(element, elementComputedStyle) {
     dx = outerBounds.left - innerBounds.left + t.tx;
   }
 
-  let c = getComputedStyle(cursor);
-  dy -= parseFloat(c.borderTopWidth);
-  dx -= parseFloat(c.borderLeftWidth);
+  if (effectiveOffsetParent instanceof Element) {
+    let c = getComputedStyle(effectiveOffsetParent);
+    dy -= parseFloat(c.borderTopWidth);
+    dx -= parseFloat(c.borderLeftWidth);
+  }
+
 
   return {
     top: element.offsetTop + dy,
