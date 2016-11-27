@@ -16,9 +16,9 @@ export default Ember.Component.extend({
   },
 
   animate: task(function * () {
-    yield this.waitForSignal('measured');
-    yield Resize.create(this.sprite, { duration: 500 }).run();
-    yield this.waitForSignal('unlock');
+    yield* this.waitForSignal('measured');
+    yield (this.motion || Resize).create(this.sprite, { duration: 500 }).run();
+    yield* this.waitForSignal('unlock');
     this.sprite.unlock();
   }).restartable(),
 
@@ -37,7 +37,7 @@ export default Ember.Component.extend({
   },
 
   waitForSignal: function * (name) {
-    while (this._signals.indexOf(name) > -1) {
+    while (this._signals.indexOf(name) < 0) {
       if (!this._signalWaiter) {
         yield new Promise(resolve => {
           this._signalWaiter = resolve;

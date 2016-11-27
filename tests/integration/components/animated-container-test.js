@@ -2,6 +2,9 @@ import { moduleForComponent, test, skip } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 import { equalBounds } from '../../helpers/assertions';
+import Motion from 'liquid-fire/motion';
+import { task } from 'ember-concurrency';
+
 
 moduleForComponent('animated-container', 'Integration | Component | animated container', {
   integration: true,
@@ -69,6 +72,48 @@ test('locks size', function(assert) {
 
   assert.equalBounds(final, original, 'height can be locked');
 });
+
+test('measures at the appropriate time', function(assert) {
+  let done = assert.async();
+  let insideBounds;
+
+  this.set('TestMotion', Motion.extend({
+    animate: task(function * () {
+      assert.equal(this.sprite.finalBounds.height, insideBounds.height);
+      yield done();
+    })
+  }));
+
+  this.render(hbs`
+    {{#animated-container motion=TestMotion as |container|}}
+      <div class="inside">
+        {{grab-container cont=container}}
+      </div>
+    {{/animated-container}}
+  `);
+
+  this.$('.inside').css({
+    height: 210
+  });
+
+  this.get('grabbed.lock')();
+
+  Ember.run.later(() => {
+    this.$('.inside').css({
+      height: 600
+    });
+
+    insideBounds = bounds(this.$('.inside'));
+
+    this.get('grabbed.measure')();
+  });
+
+});
+
+skip('unlocks only after motion is done');
+
+skip('unlocks only after unlock message is received');
+
 
 skip("Accounts for margin collapse between self and child");
 skip("Accounts for margin collapse between own margins when becoming empty");
