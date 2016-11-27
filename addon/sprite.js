@@ -15,7 +15,7 @@ export default class Sprite {
       };
     } else {
       let computedStyle = getComputedStyle(element);
-      let { top, left } = offsets(element);
+      let { top, left } = offsets(element, computedStyle);
       this._imposedStyle = {
         top: top - parseFloat(computedStyle.marginTop),
         left: left - parseFloat(computedStyle.marginLeft),
@@ -78,23 +78,29 @@ export default class Sprite {
 // This compensates for the fact that browsers are inconsistent in the
 // way they report offsetLeft & offsetTop for elements with a
 // transformed ancestor beneath their nearest positioned ancestor.
-function offsets(element) {
+function offsets(element, elementComputedStyle) {
   let offsetParent = element.offsetParent;
   let cursor = element.parentElement;
 
   while (cursor && offsetParent && cursor !== offsetParent) {
     if ($(cursor).css('transform') !== 'none') {
-      let outerBounds = offsetParent.getBoundingClientRect();
-      let innerBounds = cursor.getBoundingClientRect();
-      let t = ownTransform(cursor);
+      let dx = 0;
+      let dy = 0;
+      if (elementComputedStyle.position !== 'absolute') {
+        let outerBounds = offsetParent.getBoundingClientRect();
+        let innerBounds = cursor.getBoundingClientRect();
+        let t = ownTransform(cursor);
+        dy = outerBounds.top - innerBounds.top + t.ty;
+        dx = outerBounds.left - innerBounds.left + t.tx;
+      }
+      let c = getComputedStyle(cursor);
       return {
-        top: element.offsetTop + outerBounds.top - innerBounds.top + t.ty,
-        left: element.offsetLeft + outerBounds.left - innerBounds.left + t.tx
+        top: element.offsetTop + dy - parseFloat(c.borderTopWidth),
+        left: element.offsetLeft + dx - parseFloat(c.borderLeftWidth)
       };
     }
     cursor = cursor.parentElement;
   }
-
   return {
     top: element.offsetTop,
     left: element.offsetLeft

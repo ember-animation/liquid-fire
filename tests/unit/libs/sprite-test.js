@@ -77,11 +77,22 @@ test('Scaled offsetParent', function(assert) {
   assert.visuallyConstant(target, () => m.lock());
 });
 
-// This test case is important because the browser specs are
-// ambiguous/broken when it comes to treating a transformed ancestor
-// as the offsetParent.
 test('Translated ancestor beneath offsetParent', function(assert) {
   intermediate.css('transform', 'translateX(10px)');
+  let m = animated(target);
+  assert.visuallyConstant(target, () => m.lock());
+});
+
+test('Translated ancestor with border beneath offsetParent', function(assert) {
+  intermediate.css('transform', 'translateX(10px)');
+  intermediate.css('border', '1px solid green');
+  let m = animated(target);
+  assert.visuallyConstant(target, () => m.lock());
+});
+
+test('Translated ancestor with margins beneath offsetParent', function(assert) {
+  intermediate.css('transform', 'translateX(10px)');
+  addMargins(intermediate);
   let m = animated(target);
   assert.visuallyConstant(target, () => m.lock());
 });
@@ -213,6 +224,29 @@ test("target absolutely positioned", function(assert) {
   assert.visuallyConstant(target, () => m.lock());
 });
 
+test("target absolutely positioned with transformed ancestor beneath nearest positioned ancestor", function(assert) {
+  target.css({
+    position: 'absolute',
+    top: 100,
+    left: 200
+  });
+  intermediate.css('transform', 'translateX(10px)');
+  let m = animated(target);
+  assert.visuallyConstant(target, () => m.lock());
+});
+
+test("target absolutely positioned with transformed ancestor with border beneath nearest positioned ancestor", function(assert) {
+  target.css({
+    position: 'absolute',
+    top: 100,
+    left: 200
+  });
+  intermediate.css('transform', 'translateX(10px)');
+  intermediate.css('border', '1px solid green');
+  let m = animated(target);
+  assert.visuallyConstant(target, () => m.lock());
+});
+
 test("target fixed positioned", function(assert){
   target.css({
     position: 'fixed',
@@ -222,6 +256,18 @@ test("target fixed positioned", function(assert){
   let m = animated(target);
   assert.visuallyConstant(target, () => m.lock());
 });
+
+test("target fixed positioned with transformed ancestor beneath nearest positioned ancestor", function(assert) {
+  target.css({
+    position: 'fixed',
+    top: 100,
+    left: 200
+  });
+  intermediate.css('transform', 'translateX(10px)');
+  let m = animated(target);
+  assert.visuallyConstant(target, () => m.lock());
+});
+
 
 test("remembers initial bounds", function(assert) {
   let m = animated(target);

@@ -169,6 +169,12 @@ td {
     }
 }
 
+.scenarios-each > .animated-container {
+    overflow: hidden;
+    transform: translateZ(0);
+    border: 1px solid green;
+}
+
 .scenario-container-only > .animated-container {
     border: 1px solid red;
 }
