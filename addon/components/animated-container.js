@@ -2,9 +2,8 @@ import Ember from 'ember';
 import layout from '../templates/components/animated-container';
 import Resize from '../motions/resize';
 import { task } from 'ember-concurrency';
+import { Promise } from '../concurrency-helpers';
 import Sprite from '../sprite';
-
-// TODO: refactor to make reentrant handling possible
 
 export default Ember.Component.extend({
   layout,
@@ -12,36 +11,62 @@ export default Ember.Component.extend({
 
   init() {
     this._super();
-    this.sprite = null;
+    this._signals = null;
+    this._signalWaiter = null;
   },
 
-  animate: task(function * (sprite) {
-    let motion = Resize.create(sprite);
-    yield motion.run();
-  }),
+  animate: task(function * () {
+    let sprite = new Sprite(this.element, this);
+    this.sprite = sprite;
+    this.resetSignals();
+    try {
+      sprite.measureInitialBounds();
+      sprite.lockDimensions();
+      yield this.waitForSignal('measured');
+      yield Resize.create(sprite, { duration: 500 }).run();
+      yield this.waitForSignal('unlock');
+    } finally {
+      sprite.unlock();
+    }
+  }).restartable(),
+
+  resetSignals() {
+    this._signals = [];
+  },
+
+  receivedSignal(name) {
+    this._signals.push(name);
+    let s = this._signalWaiter;
+    this._signalWaiter = null;
+    if (s) {
+      s();
+    }
+  },
+
+  waitForSignal: function * (name) {
+    while (this._signals.indexOf(name) > -1) {
+      if (!this._signalWaiter) {
+        yield new Promise(resolve => {
+          this._signalWaiter = resolve;
+        });
+      } else {
+        yield this._signalWaiter;
+      }
+    }
+  },
 
   actions: {
     lock() {
-      if (this.sprite) {
-        this.sprite.unlock();
-      }
-      this.sprite = new Sprite(this.element, this);
-      this.sprite.measureInitialBounds();
-      this.sprite.lockDimensions();
+      this.get('animate').perform();
     },
     measure() {
-      if (this.sprite) {
-        this.sprite.unlock();
-        this.sprite.measureFinalBounds();
-        this.sprite.lockDimensions();
-        return this.get('animate').perform(this.sprite);
-      }
+      this.sprite.unlock();
+      this.sprite.measureFinalBounds();
+      this.sprite.lockDimensions();
+      this.receivedSignal('measured');
     },
     unlock() {
-      if (this.sprite) {
-        this.sprite.unlock();
-        this.sprite = null;
-      }
+      this.receivedSignal('unlock');
     }
   }
 });

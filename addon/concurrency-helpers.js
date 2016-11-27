@@ -3,7 +3,7 @@ import Ember from 'ember';
 import { default as originalVelocity } from 'velocity';
 
 
-let Promise;
+export let Promise;
 if (window.Promise) {
   Promise = window.Promise;
 } else {
