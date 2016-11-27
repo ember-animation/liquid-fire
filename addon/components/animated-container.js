@@ -12,7 +12,8 @@ export default Ember.Component.extend({
   init() {
     this._super();
     this._signals = null;
-    this._signalWaiter = null;
+    this._signalPromise = null;
+    this._signalResolve= null;
   },
 
   animate: task(function * () {
@@ -29,8 +30,9 @@ export default Ember.Component.extend({
   receivedSignal(name) {
     if (!this._signals) { return; }
     this._signals.push(name);
-    let s = this._signalWaiter;
-    this._signalWaiter = null;
+    let s = this._signalResolve;
+    this._signalResolve = null;
+    this._signalPromise = null;
     if (s) {
       s();
     }
@@ -38,13 +40,12 @@ export default Ember.Component.extend({
 
   waitForSignal: function * (name) {
     while (this._signals.indexOf(name) < 0) {
-      if (!this._signalWaiter) {
-        yield new Promise(resolve => {
-          this._signalWaiter = resolve;
+      if (!this._signalPromise) {
+        this._signalPromise = new Promise(resolve => {
+          this._signalResolve = resolve;
         });
-      } else {
-        yield this._signalWaiter;
       }
+      yield this._signalPromise;
     }
   },
 
