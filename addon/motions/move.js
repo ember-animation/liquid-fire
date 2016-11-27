@@ -7,7 +7,7 @@ export default Motion.extend({
   measure() {
     this.transform = ownTransform(this.sprite.element);
   },
-  starting: task(function *() {
+  animate: task(function *() {
     let dx = this.sprite.finalBounds.left - this.sprite.initialBounds.left;
     let dy = this.sprite.finalBounds.top - this.sprite.initialBounds.top;
 

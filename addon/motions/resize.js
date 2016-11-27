@@ -3,7 +3,7 @@ import Motion from '../motion';
 import { task } from 'ember-concurrency';
 
 export default Motion.extend({
-  starting: task(function *() {
+  animate: task(function *() {
     let duration = this.opts.duration;
     if (this.opts.duration == null) {
       duration = 500;

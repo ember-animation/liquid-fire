@@ -25,7 +25,7 @@ export default Ember.Object.extend({
   // other animations, or you can call `cancel` on on yourself, in
   // case you discover the running motions are just fine.
   //
-  // May return a Promise if you want to block. Your starting hook
+  // May return a Promise if you want to block. Your animate hook
   // will not run until it resolves.
   interrupting: task(function * (motions) {
     // Default implementation stops all other motions on this elemnt.
@@ -35,7 +35,7 @@ export default Ember.Object.extend({
 
   // Start your animation here. It should be a cancelable task if you
   // want to be able to interrupt it.
-  starting: task(function * () {
+  animate: task(function * () {
     yield null;
   }),
 
@@ -70,7 +70,7 @@ export default Ember.Object.extend({
       if (others.length > 0) {
         yield this.get('interrupting').perform(others);
       }
-      yield this.get('starting').perform();
+      yield this.get('animate').perform();
     } finally {
       let index = this._motionList.indexOf(this);
       this._motionList.splice(index, 1);
