@@ -31,12 +31,8 @@ export default Ember.Component.extend({
     }
 
     let currentSprites = flatMap(this._currentComponents, component => component.sprites());
-    currentSprites.forEach(sprite => {
-      sprite.measureInitialBounds();
-    });
-    currentSprites.forEach(sprite => {
-      sprite.lock();
-    });
+    currentSprites.forEach(sprite => sprite.measureInitialBounds());
+    currentSprites.forEach(sprite => sprite.lock());
     this.get('animate').perform(prevItems, items, currentSprites);
   },
   animate: task(function * (prevItems, items, currentSprites) {
@@ -117,6 +113,8 @@ export default Ember.Component.extend({
         }, 0);
       }
     });
+
+    // Last one out close the door on your way out.
     if (this.get('animate.concurrency') === 1) {
       keptSprites.forEach(sprite => sprite.unlock());
       insertedSprites.forEach(sprite => sprite.unlock());
