@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.26.6
+
+ - BUGFIX: Ensure version specific trees are processed properly by rwjblue
+
 ## 0.26.5
 
  - BUGFIX: fixed build & import issues within nested addons by knownasilya
