@@ -41,14 +41,14 @@ module.exports = {
   },
 
 
-  treeForAddon: function() {
-    var tree = this._super.treeForAddon.apply(this, arguments);
-    return this._versionSpecificTree('addon', tree);
+  treeForAddon: function(_tree) {
+    var tree = this._versionSpecificTree('addon', _tree);
+    return this._super.treeForAddon.call(this, tree);
   },
 
-  treeForAddonTemplates: function() {
-    var tree = this._super.treeForAddonTemplates.apply(this, arguments);
-    return this._versionSpecificTree('templates', tree);
+  treeForAddonTemplates: function(_tree) {
+    var tree = this._versionSpecificTree('templates', _tree);
+    return this._super.treeForAddonTemplates.call(this, tree);
   },
 
   _getEmberVersion: function() {
@@ -77,16 +77,19 @@ module.exports = {
     var versionSpecificPath = path.join(this.root, 'version-specific-' + version);
     var destDir;
     var include;
+
     if (which === 'templates') {
       destDir = 'version-specific';
       include = ["*.hbs"];
     } else {
-      destDir = 'modules/liquid-fire/ember-internals/version-specific';
+      destDir = 'ember-internals/version-specific';
     }
+
     var funneled = new Funnel(versionSpecificPath, {
       include: include,
       destDir: destDir
     });
+
     return mergeTrees([tree, funneled]);
   },
 
