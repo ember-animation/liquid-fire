@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.27.0
+
+ - ENHANCEMENT: new growthDelay and shrinkDelay options added by kybishop
+ - HOUSEKEEPING: upgrade ember-getowner-polyfill to avoid potential deprecation warnings
+
 ## 0.26.7
 
  - HOUSEKEEPING: upgrade ember-hash-helper-polyfill for compatibiltiy with ember via npm by cibernox
