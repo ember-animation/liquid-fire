@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
-import getOwner from 'ember-getowner-polyfill';
+const { getOwner } = Ember;
 
 class RouteInfo {
   constructor(builder, { template, controller, name }, outlets = {}) {

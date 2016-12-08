@@ -3,7 +3,7 @@ import { skip } from 'qunit';
 import { test, moduleForComponent } from "ember-qunit";
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
-import getOwner from 'ember-getowner-polyfill';
+const { getOwner } = Ember;
 import {
   RouteBuilder,
   SetRouteComponent

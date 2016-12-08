@@ -3,7 +3,6 @@ import DSL from "./dsl";
 import Ember from "ember";
 import Action from "./action";
 import Constraints from "./constraints";
-import getOwner from 'ember-getowner-polyfill';
 
 var TransitionMap = Ember.Service.extend({
   init: function() {
@@ -11,7 +10,7 @@ var TransitionMap = Ember.Service.extend({
 
     this.activeCount = 0;
     this.constraints = new Constraints();
-    var owner = getOwner(this);
+    var owner = Ember.getOwner(this);
     var config = owner._lookupFactory('transitions:main');
     if (config) {
       this.map(config);
@@ -58,7 +57,7 @@ var TransitionMap = Ember.Service.extend({
   },
 
   lookup: function(transitionName) {
-    var owner = getOwner(this);
+    var owner = Ember.getOwner(this);
     var handler = owner._lookupFactory('transition:' + transitionName);
     if (!handler) {
       throw new Error("unknown transition name: " + transitionName);
