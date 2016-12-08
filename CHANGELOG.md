@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.26.7
+
+ - HOUSEKEEPING: upgrade ember-hash-helper-polyfill for compatibiltiy with ember via npm by cibernox
+
 ## 0.26.6
 
  - BUGFIX: Ensure version specific trees are processed properly by rwjblue
