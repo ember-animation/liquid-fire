@@ -9,6 +9,12 @@ if (!Velocity.Promise) {
   Velocity.Promise = Promise;
 }
 
+// Velocity's tick() defaults to RAF's high resolution timestamp. If the browser
+// is under high stress the RAF timestamp may have a significant offset which
+// can result in dropping a large chunk of frames. Because of this, the use of
+// the RAF timestamp should be opt-in.
+Velocity.timestamp = false;
+
 export function animate(elt, props, opts, label) {
   // These numbers are just sane defaults in the probably-impossible
   // case where somebody tries to read our state before the first
