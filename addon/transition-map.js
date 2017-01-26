@@ -5,13 +5,19 @@ import Action from "./action";
 import Constraints from "./constraints";
 
 var TransitionMap = Ember.Service.extend({
-  init: function() {
+  init() {
     this._super(...arguments);
 
     this.activeCount = 0;
     this.constraints = new Constraints();
     var owner = Ember.getOwner(this);
-    var config = owner._lookupFactory('transitions:main');
+    var config;
+    if (owner.factoryFor) {
+      let maybeConfig = owner.factoryFor('transitions:main');
+      config = maybeConfig && maybeConfig.class;
+    } else {
+      config = owner._lookupFactory('transitions:main');
+    }
     if (config) {
       this.map(config);
     }
@@ -20,22 +26,22 @@ var TransitionMap = Ember.Service.extend({
     }
   },
 
-  runningTransitions: function() {
+  runningTransitions() {
     return this.activeCount;
   },
 
-  incrementRunningTransitions: function() {
+  incrementRunningTransitions() {
     this.activeCount++;
   },
 
-  decrementRunningTransitions: function() {
+  decrementRunningTransitions() {
     this.activeCount--;
     Ember.run.next(() => {
       this._maybeResolveIdle();
     });
   },
 
-  waitUntilIdle: function() {
+  waitUntilIdle() {
     if (this._waitingPromise) {
       return this._waitingPromise;
     }
@@ -47,7 +53,7 @@ var TransitionMap = Ember.Service.extend({
     });
   },
 
-  _maybeResolveIdle: function() {
+  _maybeResolveIdle() {
     if (this.activeCount === 0 && this._resolveWaiting) {
       var resolveWaiting = this._resolveWaiting;
       this._resolveWaiting = null;
@@ -56,16 +62,22 @@ var TransitionMap = Ember.Service.extend({
     }
   },
 
-  lookup: function(transitionName) {
+  lookup(transitionName) {
     var owner = Ember.getOwner(this);
-    var handler = owner._lookupFactory('transition:' + transitionName);
+    var handler;
+    if (owner.factoryFor) {
+      let maybeHandler = owner.factoryFor('transition:' + transitionName);
+      handler = maybeHandler && maybeHandler.class;
+    } else {
+      handler = owner._lookupFactory('transition:' + transitionName);
+    }
     if (!handler) {
       throw new Error("unknown transition name: " + transitionName);
     }
     return handler;
   },
 
-  defaultAction: function() {
+  defaultAction() {
     if (!this._defaultAction) {
       this._defaultAction = new Action(this.lookup('default'));
     }
@@ -99,14 +111,14 @@ var TransitionMap = Ember.Service.extend({
   },
 
 
-  map: function(handler, constraints) {
+  map(handler, constraints) {
     if (handler){
       handler.apply(new DSL(this, constraints || this.constraints));
     }
     return this;
   },
 
-  _registerWaiter: function() {
+  _registerWaiter() {
     var self = this;
     this._waiter = function() {
       return self.runningTransitions() === 0;
@@ -114,7 +126,7 @@ var TransitionMap = Ember.Service.extend({
     Ember.Test.registerWaiter(this._waiter);
   },
 
-  willDestroy: function() {
+  willDestroy() {
     if (this._waiter) {
       Ember.Test.unregisterWaiter(this._waiter);
       this._waiter = null;
@@ -125,7 +137,7 @@ var TransitionMap = Ember.Service.extend({
 
 
 TransitionMap.reopenClass({
-  map: function(handler) {
+  map(handler) {
     var t = TransitionMap.create();
     t.map(handler);
     return t;
