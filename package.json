@@ -22,7 +22,7 @@
     "broccoli-merge-trees": "^1.0.0",
     "ember-cli-babel": "^5.1.7",
     "ember-cli-htmlbars": "^1.1.1",
-    "ember-cli-version-checker": "^1.1.6",
+    "ember-cli-version-checker": "^1.2.0",
     "ember-getowner-polyfill": "^1.1.1",
     "ember-hash-helper-polyfill": "^0.1.2",
     "match-media": "^0.2.0",
