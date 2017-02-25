@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.27.1
+
+ - DOCS: fixes by @mellogarrett
+ - BUGFIX: maintain existing rAF timestamp behavior despite an upstream velocity change by @jrowlingson
+ - HOUSEKEEPING: ember-cli upgrade and lookupFactory deprecation fixes by @cibernox
+ - BUGFIX: allow a wider range of ember-getowner-polyfill versions by @kturney
+
 ## 0.27.0
 
  - ENHANCEMENT: new growthDelay and shrinkDelay options added by kybishop
