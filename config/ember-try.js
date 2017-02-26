@@ -58,7 +58,7 @@ module.exports = {
       },
       npm: {
         devDependencies: {
-          'ember-source': '^2.11.2'
+          'ember-source': '^2.11.0'
         }
       }
     },
