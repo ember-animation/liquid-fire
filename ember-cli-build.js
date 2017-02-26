@@ -14,8 +14,10 @@ module.exports = function(defaults) {
   });
   app.import('bower_components/moment/moment.js');
 
-  if (!/^1\.[89]/.test(require('./bower_components/ember/bower.json').version)) {
-    app.import('bower_components/ember/ember-template-compiler.js', { type: 'test' });
+  if (fs.statSync('./bower_components/ember/bower.json').isFile()) {
+    if (!/^1\.[89]/.test(require('./bower_components/ember/bower.json').version)) {
+      app.import('bower_components/ember/ember-template-compiler.js', { type: 'test' });
+    }
   }
 
   var bootstrap = 'bower_components/bootstrap-sass-official/assets/fonts/bootstrap';
