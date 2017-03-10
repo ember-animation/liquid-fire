@@ -13,7 +13,7 @@ this.transition(
 );
 
 // You can list multiple routes, and the constraint will be satisfied
-// by any of them. This wil match any transition that ends up in 'foo'
+// by any of them. This will match any transition that ends up in 'foo'
 // or 'bar'.
 this.transition(
   this.toRoute(['foo', 'bar']),
