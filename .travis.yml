@@ -6,7 +6,7 @@ node_js:
 sudo: false
 
 addons:
-  firefox: "latest"
+  firefox: "50.0"
 
 cache:
   directories:
