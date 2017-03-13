@@ -56,18 +56,18 @@ test('it should support an optional name', function(assert) {
 });
 
 test('it should support static class', function(assert) {
-  this.render('{{liquid-outlet class="magical"}}');
+  this.render(hbs`{{liquid-outlet class="magical"}}`);
   assert.equal(this.$('.liquid-container.magical').length, 1, "found static class");
 });
 
 test('it should support dynamic class', function(assert) {
   this.set('power', 'sparkly');
-  this.render('{{liquid-outlet class=power}}');
+  this.render(hbs`{{liquid-outlet class=power}}`);
   assert.equal(this.$('.liquid-container.sparkly').length, 1, "found dynamic class");
 });
 
 test('it should support element id', function(assert) {
-  this.render('{{liquid-outlet containerId="foo"}}');
+  this.render(hbs`{{liquid-outlet containerId="foo"}}`);
   assert.equal(this.$('.liquid-container#foo').length, 1, "found element by id");
 });
 
@@ -75,7 +75,7 @@ test('it should support element id', function(assert) {
 // get rewritten to actually observe enableGrowth=false having the
 // intended effect.
 skip('should pass container arguments through', function(assert) {
-  this.render('{{liquid-outlet enableGrowth=false}}');
+  this.render(hbs`{{liquid-outlet enableGrowth=false}}`);
   var containerElement = this.$('.liquid-container');
   var container = Ember.View.views[containerElement.attr('id')];
   assert.equal(container.get('enableGrowth'), false, 'liquid-container enableGrowth');
@@ -84,7 +84,7 @@ skip('should pass container arguments through', function(assert) {
 test('it should support `use` option', function(assert) {
   var tmap = getOwner(this).lookup('service:liquid-fire-transitions');
   sinon.spy(tmap, 'transitionFor');
-  this.render('{{#set-route outletState=outletState}}{{outlet}}{{/set-route}}');
+  this.render(hbs`{{#set-route outletState=outletState}}{{outlet}}{{/set-route}}`);
   var routerState = this.makeRoute({ template: hbs`{{liquid-outlet use="fade"}}` });
   routerState.setChild('main', { template: hbs`hi` });
   this.setState(routerState);

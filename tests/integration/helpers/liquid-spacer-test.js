@@ -2,6 +2,7 @@ import { test, moduleForComponent } from "ember-qunit";
 import { testingKick } from "liquid-fire/mutation-observer";
 import LiquidSpacer from "liquid-fire/components/liquid-spacer";
 import sinon from 'sinon';
+import hbs from 'htmlbars-inline-precompile';
 
 var tmap;
 
@@ -33,7 +34,7 @@ test('it should animate', function(assert) {
     }
   }));
   this.set('message', longMessage);
-  this.render(`
+  this.render(hbs`
                <div style="width: 20em">
                {{#x-spacer id="my-spacer" growDuration=1 }}
                  {{message}}
@@ -53,14 +54,15 @@ test('it should animate', function(assert) {
 ['content-box', 'border-box'].forEach(function(boxSizing) {
   test(`it should maintain size stability (${boxSizing})`, function(assert) {
     this.set('message', longMessage);
-    this.render(`
+    this.set('boxSizing', boxSizing);
+    this.render(hbs`
                <button {{action "toggle"}}>Toggle</button>
                <style>
                 #my-spacer {
                   padding: 2px;
                   margin: 4px;
                   border: 1px solid black;
-                  box-sizing: ${boxSizing};
+                  box-sizing: {{boxSizing}};
                }
                </style>
                <div style="width: 20em">
@@ -97,7 +99,7 @@ test('it should animate', function(assert) {
 test('it should not set width style if growWidth is false', function(assert) {
   assert.expect(2);
 
-  this.render(`
+  this.render(hbs`
                {{#liquid-spacer id="my-spacer" growWidth=false}}
                  Hi.
                {{/liquid-spacer}}
@@ -112,7 +114,7 @@ test('it should not set width style if growWidth is false', function(assert) {
 test('it should not set height style if growHeight is false', function(assert) {
   assert.expect(2);
 
-  this.render(`
+  this.render(hbs`
                {{#liquid-spacer id="my-spacer" growHeight=false}}
                  Hi.
                {{/liquid-spacer}}

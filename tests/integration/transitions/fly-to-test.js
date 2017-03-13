@@ -1,5 +1,6 @@
 import { test, moduleForComponent } from "ember-qunit";
 import $ from 'jquery';
+import hbs from 'htmlbars-inline-precompile';
 
 var tmap;
 
@@ -47,7 +48,11 @@ moduleForComponent('Integration: fly-to transition', {
         })
       );
     });
-    this.render(stylesheet(boxSizing) + `
+
+    this.set('boxSizing', boxSizing);
+    this.register('template:components/my-stylesheet', stylesheet());
+    this.render(hbs`
+                {{my-stylesheet boxSizing=boxSizing}}
                 {{#liquid-if showBlue class="fly-to-test"}}
                 <div class="bluebox"></div>
                 {{else}}
@@ -82,7 +87,10 @@ moduleForComponent('Integration: fly-to transition', {
         })
       );
     });
-    this.render(stylesheet(boxSizing) + `
+    this.set('boxSizing', boxSizing);
+    this.register('template:components/my-stylesheet', stylesheet());
+    this.render(hbs`
+                {{my-stylesheet boxSizing=boxSizing}}
                 {{#liquid-if showYellow class="fly-to-test"}}
                 <div class="yellowbox"></div>
                 {{else}}
@@ -98,8 +106,8 @@ moduleForComponent('Integration: fly-to transition', {
 
 });
 
-function stylesheet(boxSizing) {
-  return `
+function stylesheet() {
+  return hbs`
     <style>
     .fly-to-test {
       width: 600px;
@@ -116,7 +124,7 @@ function stylesheet(boxSizing) {
       padding: 2px;
       margin: 4px;
       border: 1px solid black;
-      box-sizing: ${boxSizing};
+      box-sizing: {{boxSizing}};
     }
     .redbox {
       background-color: red;
@@ -128,7 +136,7 @@ function stylesheet(boxSizing) {
       padding: 4px;
       margin: 6px;
       border: 2px solid black;
-      box-sizing: ${boxSizing};
+      box-sizing: {{boxSizing}};
     }
     .yellowbox {
       background-color: yellow;
@@ -138,7 +146,7 @@ function stylesheet(boxSizing) {
       height: 25px;
       padding: 2px;
       border: 1px solid black;
-      box-sizing: ${boxSizing};
+      box-sizing: {{boxSizing}};
     }
     .greenbox {
       background-color: green;
@@ -148,7 +156,7 @@ function stylesheet(boxSizing) {
       height: 30px;
       padding: 4px;
       border: 2px solid black;
-      box-sizing: ${boxSizing};
+      box-sizing: {{boxSizing}};
     }
               </style>
 

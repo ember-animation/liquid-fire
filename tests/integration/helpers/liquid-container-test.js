@@ -1,5 +1,6 @@
 import Ember from "ember";
 import { test, moduleForComponent } from "ember-qunit";
+import hbs from 'htmlbars-inline-precompile';
 
 var tmap;
 
@@ -17,14 +18,15 @@ moduleForComponent('Integration: liquid-container', {
   test(`it should maintain size stability (${boxSizing})`, function(assert) {
     var initialSize;
     this.set('value', 'first-value');
-    this.render(`
+    this.set('boxSizing', boxSizing);
+    this.render(hbs`
                 <style>
                   .test-container {
                     margin: 5px;
                     border: 2px solid black;
                     padding: 3px;
                     float: left;
-                    box-sizing: ${boxSizing}
+                    box-sizing: {{boxSizing}}
                   }
                   .first-value {
                     width: 200px;
@@ -32,7 +34,7 @@ moduleForComponent('Integration: liquid-container', {
                     margin: 4px;
                     border: 1px solid black;
                     padding: 2px;
-                    box-sizing: ${boxSizing}
+                    box-sizing: {{boxSizing}}
                   }
                   .second-value {
                     width: 100px;
@@ -40,7 +42,7 @@ moduleForComponent('Integration: liquid-container', {
                     margin: 2px;
                     border: 2px solid black;
                     padding: 6px;
-                    box-sizing: ${boxSizing}
+                    box-sizing: {{boxSizing}}
                   }
 
                 </style>
@@ -92,7 +94,7 @@ test(`has liquid-animating class during animation`, function(assert) {
     });
   });
 
-  this.render(`
+  this.render(hbs`
                 {{#liquid-container class="test-container" growDuration=1 as |c|}}
                   {{#liquid-versions notify=c value=value use="blocking" as |valueVersion|}}
                     <div class={{valueVersion}}></div>

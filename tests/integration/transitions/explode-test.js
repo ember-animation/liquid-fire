@@ -1,6 +1,7 @@
 import Ember from "ember";
 import $ from 'jquery';
 import { test, moduleForComponent } from "ember-qunit";
+import hbs from 'htmlbars-inline-precompile';
 
 var Promise = Ember.RSVP.Promise;
 var tmap;
@@ -38,7 +39,7 @@ test(`it doesn't runs parts with no matching elements`, function(assert) {
       })
     );
   });
-  this.render(`
+  this.render(hbs`
               {{#liquid-if showBlue class="explode-transition-test"}}
               <div class="bluebox"></div>
               {{else}}
@@ -63,7 +64,7 @@ test("it matches the background", function(assert) {
       })
     );
   });
-  this.render(`
+  this.render(hbs`
               {{#liquid-if showBlue class="explode-transition-test"}}
               <div class="bluebox"></div>
               {{else}}
@@ -94,7 +95,7 @@ test("it provides default visibility control for background", function(assert) {
       })
     );
   });
-  this.render(`
+  this.render(hbs`
               {{#liquid-if showBlue class="explode-transition-test"}}
               <div class="bluebox something"></div>
               {{else}}
@@ -122,7 +123,7 @@ test("it can pick", function(assert) {
       })
     );
   });
-  this.render(`
+  this.render(hbs`
               {{#liquid-if otherMode class="explode-transition-test"}}
                 <h1>New Title</h1>
               {{else}}
@@ -149,7 +150,7 @@ test("it can use pickOld and pickNew together", function(assert) {
       })
     );
   });
-  this.render(`
+  this.render(hbs`
               {{#liquid-if otherMode class="explode-transition-test"}}
                 <h2>New Title</h2>
               {{else}}
@@ -176,7 +177,7 @@ test("it can pickOld by itself", function(assert) {
       })
     );
   });
-  this.render(`
+  this.render(hbs`
               {{#liquid-if otherMode class="explode-transition-test"}}
                 <h1>New Title</h1>
               {{else}}
@@ -202,7 +203,7 @@ test("it can pickNew by itself", function(assert) {
       })
     );
   });
-  this.render(`
+  this.render(hbs`
               {{#liquid-if otherMode class="explode-transition-test"}}
                 <h1>New Title</h1>
               {{else}}
@@ -232,7 +233,7 @@ test("it can matchBy data attribute", function(assert) {
       })
     );
   });
-  this.render(`
+  this.render(hbs`
               {{#liquid-if otherMode class="explode-transition-test"}}
                 <div data-model-id=1>New One</div>
                 <div data-model-id=2>New Two</div>
@@ -262,7 +263,7 @@ test("it can matchBy data elements whose value needs quotes", function(assert) {
       })
     );
   });
-  this.render(`
+  this.render(hbs`
               {{#liquid-if otherMode class="explode-transition-test"}}
                 <div data-model-name="Smith, Granny">New One</div>
                 <div data-model-name="Appleseed, Johnny's">New Two</div>
@@ -288,7 +289,7 @@ test("matchBy only animates when both sides match", function(assert) {
       })
     );
   });
-  this.render(`
+  this.render(hbs`
               {{#liquid-if otherMode class="explode-transition-test"}}
                 <div data-model-id=2>New Two</div>
               {{else}}
@@ -321,7 +322,7 @@ test("elements matched in earlier pieces don't also match later pieces", functio
       })
     );
   });
-  this.render(`
+  this.render(hbs`
               {{#liquid-if otherMode class="explode-transition-test"}}
                 <div class="late">A</div>
               {{else}}
@@ -346,7 +347,7 @@ test("it doesn't throw an error if no match is found", function(assert) {
       })
     );
   });
-  this.render(`
+  this.render(hbs`
               {{#liquid-if otherMode class="explode-transition-test"}}
                 <div data-model-id=1>New One</div>
                 <div data-model-id=2>New Two</div>
@@ -378,7 +379,7 @@ test("it can matchBy id", function(assert) {
       })
     );
   });
-  this.render(`
+  this.render(hbs`
               {{#liquid-if otherMode class="explode-transition-test"}}
                 <div class='reducedScope'>
                   <div id='one'>New One</div>
@@ -425,7 +426,10 @@ test("it can matchBy id", function(assert) {
         })
       );
     });
-    this.render(stylesheet(boxSizing) + `
+    this.set('boxSizing', boxSizing);
+    this.register('template:components/my-stylesheet', stylesheet());
+    this.render(hbs`
+                {{my-stylesheet boxSizing=boxSizing}}
                 {{#liquid-if showBlue class="explode-transition-test"}}
                 <div class="bluebox"></div>
                 {{else}}
@@ -471,7 +475,10 @@ test("it can matchBy id", function(assert) {
         })
       );
     });
-    this.render(stylesheet(boxSizing) + `
+    this.set('boxSizing', boxSizing);
+    this.register('template:components/my-stylesheet', stylesheet());
+    this.render(hbs`
+                {{my-stylesheet boxSizing=boxSizing}}
                 {{#liquid-if showYellow class="explode-transition-test"}}
                 <div class="yellowbox"></div>
                 {{else}}
@@ -488,8 +495,8 @@ test("it can matchBy id", function(assert) {
 
 });
 
-function stylesheet(boxSizing) {
-  return `
+function stylesheet() {
+  return hbs`
     <style>
     .explode-transition-test {
       width: 600px;
@@ -506,7 +513,7 @@ function stylesheet(boxSizing) {
       padding: 2px;
       margin: 4px;
       border: 1px solid black;
-      box-sizing: ${boxSizing};
+      box-sizing: {{boxSizing}};
     }
     .redbox {
       background-color: red;
@@ -518,7 +525,7 @@ function stylesheet(boxSizing) {
       padding: 4px;
       margin: 6px;
       border: 2px solid black;
-      box-sizing: ${boxSizing};
+      box-sizing: {{boxSizing}};
     }
     .yellowbox {
       background-color: yellow;
@@ -528,7 +535,7 @@ function stylesheet(boxSizing) {
       height: 25px;
       padding: 2px;
       border: 1px solid black;
-      box-sizing: ${boxSizing};
+      box-sizing: {{boxSizing}};
     }
     .greenbox {
       background-color: green;
@@ -538,7 +545,7 @@ function stylesheet(boxSizing) {
       height: 30px;
       padding: 4px;
       border: 2px solid black;
-      box-sizing: ${boxSizing};
+      box-sizing: {{boxSizing}};
     }
               </style>
 
