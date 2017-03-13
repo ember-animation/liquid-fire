@@ -9,5 +9,6 @@ module.exports = {
   "launch_in_dev": [
     "PhantomJS",
     "Chrome"
-  ]
+  ],
+  "browser_start_timeout": 90
 };

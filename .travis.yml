@@ -38,7 +38,7 @@ install:
   - bower install
 
 before_script:
-  - export DISPLAY=:99; sh -e /etc/init.d/xvfb start; sleep 10
+  - export DISPLAY=:99; sh -e /etc/init.d/xvfb start; sleep 3
 
 script:
   - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO test --skip-cleanup
