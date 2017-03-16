@@ -16,7 +16,7 @@ module.exports = {
 
     this.versionChecker = new VersionChecker(this);
     this.versionChecker.for('ember-cli', 'npm').assertAbove('0.2.0');
-    
+
     // Shim this.import for Engines support
     if (!this.import) {
       // Shim from https://github.com/ember-cli/ember-cli/blob/5d64cfbf1276cf1e3eb88761df4546c891b5efa6/lib/models/addon.js#L387
@@ -51,18 +51,8 @@ module.exports = {
     return this._super.treeForAddonTemplates.call(this, tree);
   },
 
-  _getEmberVersion: function() {
-    var emberVersionChecker = this.versionChecker.for('ember', 'bower');
-
-    if (emberVersionChecker.version) {
-      return emberVersionChecker;
-    }
-
-    return this.versionChecker.for('ember-source', 'npm');
-  },
-
   _versionSpecificTree: function(which, tree) {
-    var emberVersion = this._getEmberVersion();
+    var emberVersion = this.versionChecker.forEmber();
 
     if ((emberVersion.gt('2.9.0-beta') && emberVersion.lt('2.9.0'))|| emberVersion.gt('2.10.0-alpha')) {
       return this._withVersionSpecific(which, tree, '2.9');
@@ -134,7 +124,7 @@ module.exports = {
 
     this.import('vendor/liquid-fire.css');
   },
-  
+
   _hasShimAMDSupport: function(){
     var app = this._findHost();
     return 'amdModuleNames' in app;
