@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.27.2
+ - BUGFIX: build-time fixes by @akatov and @ivanvanderbyl
+ - HOUSEKEEPING: ember-cli upgrade
+
 ## 0.27.1
 
  - DOCS: fixes by @mellogarrett
