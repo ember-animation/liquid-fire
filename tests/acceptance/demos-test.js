@@ -5,6 +5,7 @@ import moduleForAcceptance from '../helpers/module-for-acceptance';
 import { injectTransitionSpies,
          classFound,
          clickWithoutWaiting } from '../helpers/integration';
+import $ from 'jquery';
 
 moduleForAcceptance('Acceptance: Demos', {
   beforeEach() {

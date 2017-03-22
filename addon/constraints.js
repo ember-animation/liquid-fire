@@ -1,4 +1,4 @@
-/* globals console */
+/* eslint-disable no-console */
 
 import Ember from 'ember';
 import { constraintKeys, EMPTY, ANY } from './constraint';

@@ -1,5 +1,6 @@
 import Ember from "ember";
 import sinon from 'sinon';
+import $ from 'jquery';
 
 function transitionMap(app) {
   return app.__container__.lookup('service:liquid-fire-transitions');
