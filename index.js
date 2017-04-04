@@ -15,7 +15,7 @@ module.exports = {
     }
 
     this.versionChecker = new VersionChecker(this);
-    this.versionChecker.for('ember-cli', 'npm').assertAbove('0.2.0');
+    this.versionChecker.forEmber().assertAbove('0.2.0');
 
     // Shim this.import for Engines support
     if (!this.import) {
