@@ -12,8 +12,6 @@
 
 import Ember from 'ember';
 
-var $ = Ember.$;
-
 function focusable( element, isTabIndexNotNaN ) {
   var nodeName = element.nodeName.toLowerCase();
   return ( /input|select|textarea|button|object/.test( nodeName ) ?
@@ -24,16 +22,16 @@ function focusable( element, isTabIndexNotNaN ) {
 }
 
 function visible(element) {
-  var $el = $(element);
-  return $.expr.filters.visible(element) &&
-    !$($el, $el.parents()).filter(function() {
-      return $.css( this, "visibility" ) === "hidden";
+  var $el = Ember.$(element);
+  return Ember.$.expr.filters.visible(element) &&
+    !Ember.$($el, $el.parents()).filter(function() {
+      return Ember.$.css( this, "visibility" ) === "hidden";
     }).length;
 }
 
-if (!$.expr[':'].tabbable) {
-  $.expr[':'].tabbable = function( element ) {
-    var tabIndex = $.attr( element, "tabindex" ),
+if (!Ember.$.expr[':'].tabbable) {
+  Ember.$.expr[':'].tabbable = function( element ) {
+    var tabIndex = Ember.$.attr( element, "tabindex" ),
       isTabIndexNaN = isNaN( tabIndex );
     return ( isTabIndexNaN || tabIndex >= 0 ) && focusable( element, !isTabIndexNaN );
   };
