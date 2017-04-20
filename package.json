@@ -21,6 +21,7 @@
   "dependencies": {
     "broccoli-funnel": "^1.0.1",
     "broccoli-merge-trees": "^1.0.0",
+    "broccoli-stew": "^1.4.2",
     "ember-cli-babel": "^5.1.7",
     "ember-cli-htmlbars": "^1.1.1",
     "ember-cli-version-checker": "^1.2.0",
