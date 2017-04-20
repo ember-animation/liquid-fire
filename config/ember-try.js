@@ -109,6 +109,15 @@ module.exports = {
           'ember-source': null
         }
       }
-    }
+    },
+    {
+      name: 'fastboot',
+      command: 'ember fastboot:test',
+      npm: {
+        devDependencies: {
+          'ember-source': null
+        }
+      }
+    },
   ]
 };

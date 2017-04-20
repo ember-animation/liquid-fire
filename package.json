@@ -9,7 +9,8 @@
   "scripts": {
     "start": "ember server",
     "build": "ember build",
-    "test": "ember test"
+    "test": "ember test",
+    "fastboottest": "ember fastboot:test"
   },
   "repository": "https://github.com/ember-animation/liquid-fire",
   "engines": {
@@ -30,6 +31,7 @@
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
+    "chai": "^3.5.0",
     "command": "0.0.5",
     "commander": "^2.3.0",
     "ember-cli": "2.12.0",
@@ -50,6 +52,7 @@
     "ember-code-snippet": "^1.0.0",
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-export-application-global": "^1.0.5",
+    "ember-fastboot-addon-tests": "^0.3.1",
     "ember-load-initializers": "^0.6.0",
     "ember-resolver": "^2.0.3",
     "ember-sinon": "^0.5.1",
