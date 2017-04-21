@@ -5,6 +5,7 @@ var VersionChecker = require('ember-cli-version-checker');
 var path = require('path');
 var mergeTrees = require('broccoli-merge-trees');
 var Funnel = require('broccoli-funnel');
+var map = require('broccoli-stew').map;
 
 module.exports = {
   name: 'liquid-fire',
@@ -89,22 +90,24 @@ module.exports = {
       srcDir: '/',
       destDir: 'velocity'
     });
+    velocityTree = map(velocityTree, 'velocity/velocity.js', function(content) {
+      return 'if (typeof FastBoot === \'undefined\') { ' + content + ' }';
+    });
 
     var matchMediaPath = path.dirname(require.resolve('match-media'));
     var matchMediaTree = new Funnel(this.treeGenerator(matchMediaPath), {
       srcDir: '/',
       destDir: 'match-media'
     });
+    matchMediaTree = map(matchMediaTree, 'match-media/matchMedia.js', function(content) {
+      return 'if (typeof FastBoot === \'undefined\') { ' + content + ' }';
+    });
 
     return mergeTrees([tree, velocityTree, matchMediaTree]);
   },
 
-  included: function(app){
-    if (process.env.EMBER_CLI_FASTBOOT) {
-      // in fastboot we use the shim by itself, which will make
-      // importing velocity a noop.
-      this.import('vendor/shims/velocity.js');
-    } else if (this._hasShimAMDSupport()) {
+  included: function(){
+    if (this._hasShimAMDSupport()) {
       // if this ember-cli is new enough to do amd imports
       // automatically, use that
       this.import('vendor/velocity/velocity.js', {
@@ -118,10 +121,7 @@ module.exports = {
       this.import('vendor/shims/velocity.js');
     }
 
-    if (!process.env.EMBER_CLI_FASTBOOT) {
-      this.import('vendor/match-media/matchMedia.js');
-    }
-
+    this.import('vendor/match-media/matchMedia.js');
     this.import('vendor/liquid-fire.css');
   },
 
