@@ -107,27 +107,14 @@ module.exports = {
   },
 
   included: function(){
-    if (this._hasShimAMDSupport()) {
-      // if this ember-cli is new enough to do amd imports
-      // automatically, use that
-      this.import('vendor/velocity/velocity.js', {
-        using: [{
-          transformation: 'amd', as: 'velocity'
-        }]
-      });
-    } else {
-      // otherwise apply our own amd shim
-      this.import('vendor/velocity/velocity.js');
-      this.import('vendor/shims/velocity.js');
-    }
+    // We cannot use ember-cli to import velocity as an AMD module here, because we always need the shim in FastBoot
+    // to not break any module imports (as velocity/velocity.js has a FastBoot guard, so FastBoot does not see any
+    // module inside
+    this.import('vendor/velocity/velocity.js');
+    this.import('vendor/shims/velocity.js');
 
     this.import('vendor/match-media/matchMedia.js');
     this.import('vendor/liquid-fire.css');
-  },
-
-  _hasShimAMDSupport: function(){
-    var app = this._findHost();
-    return 'amdModuleNames' in app;
   }
 };
 

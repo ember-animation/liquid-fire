@@ -7,6 +7,8 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('liquid-bind');
+  this.route('liquid-if');
 });
 
 export default Router;
