@@ -1,3 +1,4 @@
+import { DEBUG } from '@glimmer/env';
 import RunningTransition from "./running-transition";
 import DSL from "./dsl";
 import Ember from "ember";
@@ -20,9 +21,6 @@ var TransitionMap = Ember.Service.extend({
     }
     if (config) {
       this.map(config);
-    }
-    if (Ember.testing) {
-      this._registerWaiter();
     }
   },
 
@@ -116,25 +114,32 @@ var TransitionMap = Ember.Service.extend({
       handler.apply(new DSL(this, constraints || this.constraints));
     }
     return this;
-  },
-
-  _registerWaiter() {
-    var self = this;
-    this._waiter = function() {
-      return self.runningTransitions() === 0;
-    };
-    Ember.Test.registerWaiter(this._waiter);
-  },
-
-  willDestroy() {
-    if (this._waiter) {
-      Ember.Test.unregisterWaiter(this._waiter);
-      this._waiter = null;
-    }
   }
-
 });
 
+if (DEBUG) {
+  TransitionMap.reopen({
+    init() {
+      this._super(...arguments);
+
+      if (Ember.testing) {
+        this._waiter = () => {
+          return this.runningTransitions() === 0;
+        };
+        Ember.Test.registerWaiter(this._waiter);
+      }
+    },
+
+    willDestroy() {
+      if (this._waiter) {
+        Ember.Test.unregisterWaiter(this._waiter);
+        this._waiter = null;
+      }
+
+      this._super(...arguments);
+    }
+  });
+}
 
 TransitionMap.reopenClass({
   map(handler) {
