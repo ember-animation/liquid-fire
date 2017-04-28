@@ -2622,9 +2622,9 @@ ember-cli@2.12.0:
     walk-sync "^0.3.0"
     yam "0.0.22"
 
-ember-code-snippet@^1.0.0:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/ember-code-snippet/-/ember-code-snippet-1.8.0.tgz#59e5fb784e821c157296663f239b928932422959"
+ember-code-snippet@^1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/ember-code-snippet/-/ember-code-snippet-1.8.1.tgz#b75761864686bf542c8b492beeb56e0948be25fc"
   dependencies:
     broccoli-browserify "^0.1.0"
     broccoli-flatiron "^0.0.0"
