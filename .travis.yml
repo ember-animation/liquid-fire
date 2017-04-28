@@ -9,9 +9,7 @@ addons:
   firefox: "50.0"
 
 cache:
-  directories:
-    - node_modules
-    - $HOME/.yarn-cache
+  yarn: true
 
 env:
   - EMBER_TRY_SCENARIO=ember-1.13
@@ -29,9 +27,7 @@ matrix:
     - env: EMBER_TRY_SCENARIO=ember-canary
 
 before_install:
-  - npm config set spin false
-  - npm install -g bower
-  - npm install -g yarn
+  - yarn global add bower
   - yarn --version
   - bower --version
 
