@@ -1,4 +1,4 @@
-import { animate, stop } from "liquid-fire";
+import { animate, stop } from 'liquid-fire';
 
 // arguments are passed directly from use statements in transition rules, e.g.
 // this.use('myTransition', arg1, arg2)
