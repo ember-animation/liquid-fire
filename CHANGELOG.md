@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.27.3
+
+ - BUGFIX: better blueprint style by kellyselden
+ - HOUSEKEEPING: fastboot compatibility and tests by simonihmig
+ - BUGFIX: documentation type by locks
+ - HOUSEKEEPING: upgrade babel & fix travis caching by rwjblue
+
 ## 0.27.2
  - BUGFIX: build-time fixes by @akatov and @ivanvanderbyl
  - HOUSEKEEPING: ember-cli upgrade
