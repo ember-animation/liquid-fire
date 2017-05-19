@@ -25,7 +25,7 @@
 
 ## 0.26.7
 
- - HOUSEKEEPING: upgrade ember-hash-helper-polyfill for compatibiltiy with ember via npm by cibernox
+ - HOUSEKEEPING: upgrade ember-hash-helper-polyfill for compatibility with ember via npm by cibernox
 
 ## 0.26.6
 
