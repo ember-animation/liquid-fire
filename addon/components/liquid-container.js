@@ -91,7 +91,7 @@ export default Ember.Component.extend(Growable, {
       }
 
       // Apply '.liquid-animating' to liquid-container allowing
-      // any customizable CSS control while an animating is occuring
+      // any customizable CSS control while an animating is occurring
       this.updateAnimatingClass(true);
 
       // Make the children absolute and fixed size.
