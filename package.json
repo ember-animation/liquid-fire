@@ -53,7 +53,7 @@
     "ember-code-snippet": "^1.8.1",
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-export-application-global": "^1.0.5",
-    "ember-fastboot-addon-tests": "^0.3.1",
+    "ember-fastboot-addon-tests": "^0.4.0",
     "ember-load-initializers": "^0.6.0",
     "ember-resolver": "^2.0.3",
     "ember-sinon": "^0.5.1",
