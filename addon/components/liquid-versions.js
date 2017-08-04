@@ -59,7 +59,7 @@ export default Ember.Component.extend({
     }
   },
 
-  _transition: function() {
+  _transition() {
     var versions = get(this, 'versions');
     var transition;
     var firstTime = this.firstTime;
@@ -102,11 +102,11 @@ export default Ember.Component.extend({
 
   },
 
-  finalizeVersions: function(versions) {
+  finalizeVersions(versions) {
     versions.replace(1, versions.length - 1);
   },
 
-  notifyContainer: function(method, versions) {
+  notifyContainer(method, versions) {
     var target = get(this, 'notify');
     if (target) {
       target.send(method, versions);
@@ -114,7 +114,7 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    childDidRender: function(child) {
+    childDidRender(child) {
       var version = get(child, 'version');
       set(version, 'view', child);
       this._transition();

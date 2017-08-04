@@ -7,17 +7,17 @@ export default Ember.Component.extend(Growable, {
   layout,
   classNames: ['liquid-container'],
 
-  lockSize: function(elt, want) {
+  lockSize(elt, want) {
     elt.outerWidth(want.width);
     elt.outerHeight(want.height);
   },
 
-  unlockSize: function() {
+  unlockSize() {
     var doUnlock = () => {
       this.updateAnimatingClass(false);
-      var elt = this.$();
-      if (elt) {
-        elt.css({width: '', height: ''});
+      if (this.element) {
+        this.element.style.width = '';
+        this.element.style.height = '';
       }
     };
     if (this._scaling) {
@@ -35,9 +35,9 @@ export default Ember.Component.extend(Growable, {
       return;
     }
     if (on) {
-      this.$().addClass('liquid-animating');
+      this.element.className += ' liquid-animating'; // Use el.classList.add one IE9 is not supported
     } else {
-      this.$().removeClass('liquid-animating');
+      this.element.className = this.element.className.replace('liquid-animating', ''); // Use el.classList.remove one IE9 is not supported
     }
   },
 
@@ -47,7 +47,7 @@ export default Ember.Component.extend(Growable, {
 
   actions: {
 
-    willTransition: function(versions) {
+    willTransition(versions) {
       if (!this._wasInserted) {
         return;
       }
@@ -63,7 +63,7 @@ export default Ember.Component.extend(Growable, {
 
     },
 
-    afterChildInsertion: function(versions) {
+    afterChildInsertion(versions) {
       var elt = this.$();
       var enableGrowth = this.get('enableGrowth') !== false;
 
@@ -105,7 +105,7 @@ export default Ember.Component.extend(Growable, {
       }
     },
 
-    afterTransition: function(versions) {
+    afterTransition(versions) {
       for (var i = 0; i < versions.length; i++) {
         goStatic(versions[i]);
       }

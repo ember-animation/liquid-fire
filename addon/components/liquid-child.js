@@ -8,9 +8,8 @@ export default Ember.Component.extend({
   },
 
   didInsertElement() {
-    let $container = this.$();
-    if ($container) {
-      $container.css('visibility','hidden');
+    if (this.element) {
+      this.element.style.visibility = 'hidden';
     }
     this._waitForAll().then(() => {
       if (!this.isDestroying) {

@@ -7,7 +7,7 @@ export default Ember.Component.extend(Growable, {
   layout,
   enabled: true,
 
-  didInsertElement: function() {
+  didInsertElement() {
     var child = this.$('> div');
     var measurements = this.myMeasurements(measure(child));
     var elt = this.$();
@@ -31,7 +31,7 @@ export default Ember.Component.extend(Growable, {
 
   // given our child's outerWidth & outerHeight, figure out what our
   // outerWidth & outerHeight should be.
-  myMeasurements: function(childMeasurements) {
+  myMeasurements(childMeasurements) {
     var elt = this.$();
     return {
       width: childMeasurements.width + sumCSS(elt, padding('width')) + sumCSS(elt, border('width')),

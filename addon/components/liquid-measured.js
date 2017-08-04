@@ -10,7 +10,7 @@ export default Ember.Component.extend({
     this._destroyOnUnload = this._destroyOnUnload.bind(this);
   },
 
-  didInsertElement: function() {
+  didInsertElement() {
     var self = this;
 
     // This prevents margin collapse
@@ -32,7 +32,7 @@ export default Ember.Component.extend({
     window.addEventListener('unload', this._destroyOnUnload);
   },
 
-  willDestroyElement: function() {
+  willDestroyElement() {
     if (this.observer) {
       this.observer.disconnect();
     }
@@ -41,7 +41,7 @@ export default Ember.Component.extend({
 
   transitionMap: Ember.inject.service('liquid-fire-transitions'),
 
-  didMutate: function() {
+  didMutate() {
     // by incrementing the running transitions counter here we prevent
     // tests from falling through the gap between the time they
     // triggered mutation the time we may actually animate in
@@ -54,7 +54,7 @@ export default Ember.Component.extend({
     });
   },
 
-  _didMutate: function() {
+  _didMutate() {
     var elt = this.$();
     if (!elt || !elt[0]) { return; }
     this.set('measurements', measure(elt));
