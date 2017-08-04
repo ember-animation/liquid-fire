@@ -1,11 +1,12 @@
-/* global require, module */
+/* eslint-env node */
+'use strict';
 
-var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
-var fs = require('fs');
-var path = require('path');
+const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = function(defaults) {
-  var app = new EmberAddon(defaults, {
+  let app = new EmberAddon(defaults, {
     snippetPaths: ['tests/dummy/snippets'],
     snippetSearchPaths: ['app', 'tests/dummy/app', 'addon'],
     trees: {
@@ -14,7 +15,7 @@ module.exports = function(defaults) {
   });
   app.import('bower_components/moment/moment.js');
 
-  var bootstrap = 'bower_components/bootstrap-sass-official/assets/fonts/bootstrap';
+  let bootstrap = 'bower_components/bootstrap-sass-official/assets/fonts/bootstrap';
   fs.readdirSync(bootstrap).forEach(function(font){
     app.import(path.join(bootstrap, font), { destDir: '/fonts/bootstrap'});
   });
