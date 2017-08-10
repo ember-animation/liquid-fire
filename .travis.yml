@@ -32,12 +32,11 @@ before_install:
   - bower --version
 
 install:
-  - yarn install
-  - npm rebuild node-sass
+  - yarn install --no-lockfile --non-interactive
   - bower install
 
 before_script:
   - export DISPLAY=:99; sh -e /etc/init.d/xvfb start; sleep 3
 
 script:
-  - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO test --skip-cleanup
+  - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO --skip-cleanup
