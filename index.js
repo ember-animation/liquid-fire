@@ -16,7 +16,7 @@ module.exports = {
     }
 
     this.versionChecker = new VersionChecker(this);
-    this.versionChecker.for('ember-cli', 'npm').assertAbove('0.2.0');
+    this.versionChecker.for('ember-cli').assertAbove('0.2.0');
 
     // Shim this.import for Engines support
     if (!this.import) {
@@ -117,5 +117,3 @@ module.exports = {
     this.import('vendor/liquid-fire.css');
   }
 };
-
-
