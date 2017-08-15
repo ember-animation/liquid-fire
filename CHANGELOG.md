@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.28.0
+
+ - HOUSEKEEPING: cleared some deprecations, updated some build deps (@jrjohnson, @ef4, @rwjblue)
+ - ENHANCEMENT: add a default blueprint to generate transitions.js by @FilmKnurd
+ - BUGFIX: fixed fastboot tests by @simonihmig
+ - HOUSEKEEPING: ember-cli update by @cibernox
+ - ENHANCEMENT: allow wait transition to pass optionss by @rtablada
+
 ## 0.27.3
 
  - BUGFIX: better blueprint style by kellyselden
