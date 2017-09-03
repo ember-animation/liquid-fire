@@ -32,7 +32,7 @@ before_install:
   - bower --version
 
 install:
-  - yarn install --no-lockfile --non-interactive
+  - yarn install --no-lockfile
   - bower install
 
 before_script:
