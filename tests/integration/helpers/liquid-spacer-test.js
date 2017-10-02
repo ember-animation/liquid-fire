@@ -127,6 +127,22 @@ test('it should not set height style if growHeight is false', function(assert) {
   assert.ok(/^\d+px$/.test(style.width), 'width style is set to ' + style.width);
 });
 
+test('it should set correct height when scaled', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`
+               <div style="transform: scale(0.5);">
+                 {{#liquid-spacer id="my-spacer"}}
+                   <div style="width:50px; height:50px; background-color:blue;"></div>
+                 {{/liquid-spacer}}
+               </div>
+              `);
+
+  var style = this.$('#my-spacer').get(0).style;
+
+  assert.equal(style.height, '50px', 'height is correct');
+});
+
 
 var shortMessage = "Hi.";
 var longMessage = "This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. This is a long message. ";
