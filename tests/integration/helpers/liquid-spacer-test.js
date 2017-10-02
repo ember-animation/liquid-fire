@@ -3,7 +3,6 @@ import { testingKick } from "liquid-fire/mutation-observer";
 import LiquidSpacer from "liquid-fire/components/liquid-spacer";
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
-import $ from 'jquery';
 
 var tmap;
 
@@ -11,18 +10,9 @@ moduleForComponent('Integration: liquid-spacer', {
   integration: true,
   beforeEach() {
     tmap = this.container.lookup('service:liquid-fire-transitions');
-    // TODO: our tests don't pass when we're inside a transformed
-    // element. I think this is a legit bug in the implementation that
-    // we should fix.
-    $('#ember-testing').css('transform', 'none');
   },
   afterEach() {
     tmap = null;
-
-    // TODO: our tests don't pass when we're inside a transformed
-    // element. I think this is a legit bug in the implementation that
-    // we should fix.
-    $('#ember-testing').css('transform', '');
   }
 });
 
