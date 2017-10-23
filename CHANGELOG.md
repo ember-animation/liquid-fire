@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.28.1
+
+ - HOUSEKEEPING: dependency upgrade by @Turbo87 that helps apps drop ember-cli-shims
+ - DOCS: readme improvement by @swgarmerx
+
 ## 0.28.0
 
  - HOUSEKEEPING: cleared some deprecations, updated some build deps (@jrjohnson, @ef4, @rwjblue)
