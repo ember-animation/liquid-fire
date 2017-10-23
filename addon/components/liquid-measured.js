@@ -66,5 +66,18 @@ export default Ember.Component.extend({
 });
 
 export function measure($elt) {
-  return $elt[0].getBoundingClientRect();
+  let boundingRect = $elt[0].getBoundingClientRect();
+
+  // Calculate the scaling.
+  // NOTE: We only handle the simple zoom case.
+  let claimedWidth = $elt[0].offsetWidth;
+
+  // Round the width because offsetWidth is rounded
+  let actualWidth = Math.round(boundingRect.width);
+  let scale = actualWidth > 0 ? claimedWidth / actualWidth : 0;
+
+  return {
+    width: boundingRect.width * scale,
+    height: boundingRect.height * scale
+  };
 }
