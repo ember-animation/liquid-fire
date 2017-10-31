@@ -1,7 +1,7 @@
 import { run } from '@ember/runloop';
 import { Promise as EmberPromise } from 'rsvp';
 import { moduleForComponent, test } from 'ember-qunit';
-import Component from 'ember-component';
+import Component from '@ember/component';
 import hbs from 'htmlbars-inline-precompile';
 
 let sample, tmap, animationStarted;

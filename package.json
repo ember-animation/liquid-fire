@@ -57,6 +57,7 @@
     "ember-sass-bootstrap": "^0.2.0",
     "ember-sinon": "^0.5.1",
     "ember-source": "~2.16.0",
+    "eslint-plugin-ember": "^4.5.0",
     "fastboot": "^1.1.0",
     "git-repo-info": "^1.0.4",
     "github": "git://github.com/mikedeboer/node-github#ca90bf27d5820812c3b76908189d666446ed97cd",
