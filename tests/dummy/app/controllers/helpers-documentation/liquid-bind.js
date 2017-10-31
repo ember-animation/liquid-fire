@@ -1,4 +1,5 @@
 import Ember from "ember";
+import moment from 'moment';
 
 export default Ember.Controller.extend({
   start: Ember.on('init', function() {
@@ -14,7 +15,6 @@ export default Ember.Controller.extend({
 
   tick: function(now) {
     if (!now) {
-      /* global moment */
       now = moment();
     }
     this.setProperties({
