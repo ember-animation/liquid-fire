@@ -31,6 +31,7 @@
     "velocity-animate": ">= 0.11.8"
   },
   "devDependencies": {
+    "bower": "^1.8.2",
     "broccoli-asset-rev": "^2.4.5",
     "command": "0.0.5",
     "commander": "^2.3.0",
