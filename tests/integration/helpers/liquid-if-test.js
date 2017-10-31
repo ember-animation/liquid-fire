@@ -9,7 +9,7 @@ moduleForComponent('Integration: liquid-if', {
   integration: true,
   afterEach(assert) {
     let done = assert.async();
-    var tmap = this.container.lookup('service:liquid-fire-transitions');
+    let tmap = this.container.lookup('service:liquid-fire-transitions');
     tmap.waitUntilIdle().then(done);
   }
 });
@@ -86,8 +86,8 @@ test('liquid-unless should have no content when true and there is no else block 
 
 
 test('liquid-if should match correct helper name', function(assert) {
-  var tmap = this.container.lookup('service:liquid-fire-transitions');
-  var dummyAnimation = function(){ return resolve(); };
+  let tmap = this.container.lookup('service:liquid-fire-transitions');
+  let dummyAnimation = function(){ return resolve(); };
   tmap.map(function() {
     this.transition(
       this.inHelper('liquid-if'),
@@ -102,8 +102,8 @@ test('liquid-if should match correct helper name', function(assert) {
 
 
 test('liquid-unless should match correct helper name', function(assert) {
-  var tmap = this.container.lookup('service:liquid-fire-transitions');
-  var dummyAnimation = function(){ return resolve(); };
+  let tmap = this.container.lookup('service:liquid-fire-transitions');
+  let dummyAnimation = function(){ return resolve(); };
   tmap.map(function() {
     this.transition(
       this.inHelper('liquid-unless'),
@@ -146,8 +146,8 @@ test('should support `class` on liquid-children in containerless mode', function
 skip('should pass container arguments through', function(assert) {
   this.set('isReady', true);
   this.render(hbs`{{#liquid-if isReady enableGrowth=false}}hi{{/liquid-if}}`);
-  var containerElement = this.$(' > .liquid-container');
-  var container = Ember.View.views[containerElement.attr('id')];
+  let containerElement = this.$(' > .liquid-container');
+  let container = Ember.View.views[containerElement.attr('id')];
   assert.equal(container.get('enableGrowth'), false, 'liquid-container enableGrowth');
 });
 

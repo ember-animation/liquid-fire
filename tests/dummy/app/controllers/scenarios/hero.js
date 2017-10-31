@@ -2,7 +2,7 @@ import { sort } from '@ember/object/computed';
 import Controller from '@ember/controller';
 import { A } from '@ember/array';
 
-var allModels = A([
+let allModels = A([
   { id: 1, firstName: 'Tom', lastName: 'Dale' },
   { id: 2, firstName: 'Yehuda', lastName: 'Katz' },
   { id: 3, firstName: 'Leah', lastName: 'Silber' },

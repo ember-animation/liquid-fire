@@ -19,7 +19,7 @@ export default Mixin.create({
 
   animateGrowth: function(elt, have, want) {
     this.get('transitionMap').incrementRunningTransitions();
-    var adaptations = [];
+    let adaptations = [];
 
     if (this.get('growWidth')) {
       adaptations.push(this._adaptDimension(elt, 'width', have, want));
@@ -38,7 +38,7 @@ export default Mixin.create({
     if (have[dimension] === want[dimension]) {
       return Promise.resolve();
     }
-    var target = {};
+    let target = {};
     target['outer'+capitalize(dimension)] = [
       want[dimension],
       have[dimension],

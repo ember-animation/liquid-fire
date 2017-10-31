@@ -15,12 +15,12 @@ export default class DSL {
   }
 
   transition() {
-    var rule = new Rule();
-    var parts = Array.prototype.slice.apply(arguments).reduce(function(a,b){
+    let rule = new Rule();
+    let parts = Array.prototype.slice.apply(arguments).reduce(function(a,b){
       return a.concat(b);
     }, []);
 
-    for (var i = 0; i < parts.length; i++) {
+    for (let i = 0; i < parts.length; i++) {
       rule.add(parts[i]);
     }
 

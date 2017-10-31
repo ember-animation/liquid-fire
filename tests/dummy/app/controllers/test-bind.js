@@ -4,7 +4,7 @@ export default Controller.extend({
   counter: 0,
 
   init: function(){
-    var self = this;
+    let self = this;
     this.interval = setInterval(function(){ self.tick(); }, 1000);
     this.tick();
   },

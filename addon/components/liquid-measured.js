@@ -13,7 +13,7 @@ export default Component.extend({
   },
 
   didInsertElement: function() {
-    var self = this;
+    let self = this;
 
     // This prevents margin collapse
     this.$().css({
@@ -48,7 +48,7 @@ export default Component.extend({
     // tests from falling through the gap between the time they
     // triggered mutation the time we may actually animate in
     // response.
-    var tmap = this.get('transitionMap');
+    let tmap = this.get('transitionMap');
     tmap.incrementRunningTransitions();
     next(this, function() {
       this._didMutate();
@@ -57,7 +57,7 @@ export default Component.extend({
   },
 
   _didMutate: function() {
-    var elt = this.$();
+    let elt = this.$();
     if (!elt || !elt[0]) { return; }
     this.set('measurements', measure(elt));
   },

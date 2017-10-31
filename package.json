@@ -9,7 +9,7 @@
   "scripts": {
     "start": "ember server",
     "build": "ember build",
-    "test": "ember test",
+    "test": "eslint . && ember test",
     "test:fastboot": "qunit fastboot-tests"
   },
   "repository": "https://github.com/ember-animation/liquid-fire",

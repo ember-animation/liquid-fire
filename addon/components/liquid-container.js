@@ -14,9 +14,9 @@ export default Component.extend(Growable, {
   },
 
   unlockSize: function() {
-    var doUnlock = () => {
+    let doUnlock = () => {
       this.updateAnimatingClass(false);
-      var elt = this.$();
+      let elt = this.$();
       if (elt) {
         elt.css({width: '', height: ''});
       }
@@ -54,23 +54,23 @@ export default Component.extend(Growable, {
       }
 
       // Remember our own size before anything changes
-      var elt = this.$();
+      let elt = this.$();
       this._cachedSize = measure(elt);
 
       // And make any children absolutely positioned with fixed sizes.
-      for (var i = 0; i < versions.length; i++) {
+      for (let i = 0; i < versions.length; i++) {
         goAbsolute(versions[i]);
       }
 
     },
 
     afterChildInsertion: function(versions) {
-      var elt = this.$();
-      var enableGrowth = this.get('enableGrowth') !== false;
+      let elt = this.$();
+      let enableGrowth = this.get('enableGrowth') !== false;
 
       // Measure children
-      var sizes = [];
-      for (var i = 0; i < versions.length; i++) {
+      let sizes = [];
+      for (let i = 0; i < versions.length; i++) {
         if (versions[i].view) {
           sizes[i] = measure(versions[i].view.$());
         }
@@ -78,8 +78,8 @@ export default Component.extend(Growable, {
 
       // Measure ourself again to see how big the new children make
       // us.
-      var want = measure(elt);
-      var have = this._cachedSize || want;
+      let want = measure(elt);
+      let have = this._cachedSize || want;
 
       // Make ourself absolute
       if (enableGrowth) {
@@ -96,7 +96,7 @@ export default Component.extend(Growable, {
       this.updateAnimatingClass(true);
 
       // Make the children absolute and fixed size.
-      for (i = 0; i < versions.length; i++) {
+      for (let i = 0; i < versions.length; i++) {
         goAbsolute(versions[i], sizes[i]);
       }
 
@@ -107,7 +107,7 @@ export default Component.extend(Growable, {
     },
 
     afterTransition: function(versions) {
-      for (var i = 0; i < versions.length; i++) {
+      for (let i = 0; i < versions.length; i++) {
         goStatic(versions[i]);
       }
       this.unlockSize();
@@ -119,8 +119,8 @@ function goAbsolute(version, size) {
   if (!version.view) {
     return;
   }
-  var elt = version.view.$();
-  var pos = elt.position();
+  let elt = version.view.$();
+  let pos = elt.position();
   if (!size) {
     size = measure(elt);
   }

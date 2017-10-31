@@ -9,7 +9,6 @@ import {
 } from "./animate";
 import Promise from "./promise";
 import MutationObserver from "./mutation-observer";
-import "./velocity-ext";
 export { default as Pausable } from './mixins/pausable';
 
 export { TransitionMap, animate, stop, isAnimating, timeSpent, timeRemaining, finish,

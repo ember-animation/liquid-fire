@@ -18,11 +18,11 @@ moduleForAcceptance('Acceptance: Demos', {
 });
 
 test('visit every link in sidebar', function(assert) {
-  var lastRouteName = 'transitions.primitives.index';
+  let lastRouteName = 'transitions.primitives.index';
   assert.expect(1);
 
   function navigateForward() {
-    var forward = find('.nav-link.forward a');
+    let forward = find('.nav-link.forward a');
     if (forward.length > 0) {
       click('.nav-link.forward a');
       andThen(navigateForward);
@@ -70,9 +70,9 @@ test('liquid bind block-form demo', function(assert) {
 });
 
 test('liquid bind demo', function(assert) {
-  var first, second;
+  let first, second;
   function clock() {
-    var m = /(\d\d)\s*:\s*(\d\d)\s*:\s*(\d\d)/.exec($('#liquid-bind-demo').text());
+    let m = /(\d\d)\s*:\s*(\d\d)\s*:\s*(\d\d)/.exec($('#liquid-bind-demo').text());
     assert.ok(m, "Read the clock");
     return parseInt(m[3]);
   }
@@ -224,7 +224,7 @@ test('explode demo 1', function(assert) {
 });
 
 test('explode demo 2', function(assert) {
-  var ids;
+  let ids;
   visit('/transitions/explode');
   andThen(function(){
     ids = find('#explode-demo-2 img').toArray().map((elt) => {
@@ -233,7 +233,7 @@ test('explode demo 2', function(assert) {
     click('button:contains(Shuffle)');
   });
   andThen(function(){
-    var newIds = find('#explode-demo-2 img').toArray().map((elt) => {
+    let newIds = find('#explode-demo-2 img').toArray().map((elt) => {
       return $(elt).attr('data-photo-id');
     });
     assert.notDeepEqual(ids, newIds);
@@ -243,12 +243,12 @@ test('explode demo 2', function(assert) {
 });
 
 function isPartiallyOpaque(assert, selector) {
-  var opacity = parseFloat(findWithAssert(selector).parent().css('opacity'));
+  let opacity = parseFloat(findWithAssert(selector).parent().css('opacity'));
   assert.ok(opacity > 0 && opacity < 1, `${selector} opacity: ${opacity} should be partially opaque`);
 }
 
 function isTransparent(assert, selector) {
-  var opacity = parseFloat(findWithAssert(selector).parent().css('opacity'));
+  let opacity = parseFloat(findWithAssert(selector).parent().css('opacity'));
   assert.ok(opacity === 0, `${selector} opacity: ${opacity} should be 0`);
 }
 

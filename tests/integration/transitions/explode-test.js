@@ -4,8 +4,8 @@ import $ from 'jquery';
 import { test, moduleForComponent } from "ember-qunit";
 import hbs from 'htmlbars-inline-precompile';
 
-var Promise = EmberPromise;
-var tmap;
+let Promise = EmberPromise;
+let tmap;
 
 moduleForComponent('Integration: explode transition', {
   integration: true,
@@ -77,7 +77,7 @@ test("it matches the background", function(assert) {
 });
 
 test("it provides default visibility control for background", function(assert) {
-  var liquidContainer;
+  let liquidContainer;
   assert.expect(2);
   tmap.map(function() {
     this.transition(
@@ -224,8 +224,8 @@ test("it can matchBy data attribute", function(assert) {
       this.use('explode', {
         matchBy: 'data-model-id',
         use: function() {
-          var oldText = this.oldElement && this.oldElement.text();
-          var newText = this.newElement && this.newElement.text();
+          let oldText = this.oldElement && this.oldElement.text();
+          let newText = this.newElement && this.newElement.text();
           assert.ok(/Old/.test(oldText), "old text");
           assert.ok(/New/.test(newText), "new text");
           assert.equal(oldText && oldText.slice(4), newText && newText.slice(4));
@@ -255,8 +255,8 @@ test("it can matchBy data elements whose value needs quotes", function(assert) {
       this.use('explode', {
         matchBy: 'data-model-name',
         use: function() {
-          var oldText = this.oldElement && this.oldElement.text();
-          var newText = this.newElement && this.newElement.text();
+          let oldText = this.oldElement && this.oldElement.text();
+          let newText = this.newElement && this.newElement.text();
           assert.ok(/Old/.test(oldText), "old text");
           assert.ok(/New/.test(newText), "new text");
           return resolve();
@@ -370,8 +370,8 @@ test("it can matchBy id", function(assert) {
         pickNew: '.reducedScope',
         matchBy: 'id',
         use: function() {
-          var oldText = this.oldElement && this.oldElement.text();
-          var newText = this.newElement && this.newElement.text();
+          let oldText = this.oldElement && this.oldElement.text();
+          let newText = this.newElement && this.newElement.text();
           assert.ok(/Old/.test(oldText), "old text");
           assert.ok(/New/.test(newText), "new text");
           assert.equal(oldText && oldText.slice(4), newText && newText.slice(4));
@@ -398,7 +398,7 @@ test("it can matchBy id", function(assert) {
 ['border-box', 'content-box'].forEach(function(boxSizing) {
 
   test(`it avoids a jump at start of animation, with absolutely positioned elements (${boxSizing})`, function(assert) {
-    var didTransition = false;
+    let didTransition = false;
     tmap.map(function() {
       this.transition(
         this.hasClass('explode-transition-test'),
@@ -415,7 +415,7 @@ test("it can matchBy id", function(assert) {
             // original oldElement, which we can still find inside a
             // liquid-child (the copy is not inside a liquid-child, that
             // is part of the point of explode).
-            var realOldElement = this.oldElement.parent().find('.liquid-child .redbox');
+            let realOldElement = this.oldElement.parent().find('.liquid-child .redbox');
             assert.equal(realOldElement.length, 1, 'found actual old element');
             assert.equal(realOldElement.css('visibility'), 'hidden');
             assert.deepEqual(realOldElement.offset(), this.oldElement.offset(), "element didn't jump");
@@ -447,7 +447,7 @@ test("it can matchBy id", function(assert) {
 
 
   test(`it avoids a jump at start of animation, with statically positioned elements (${boxSizing})`, function(assert) {
-    var didTransition = false;
+    let didTransition = false;
     tmap.map(function() {
       this.transition(
         this.hasClass('explode-transition-test'),
@@ -464,7 +464,7 @@ test("it can matchBy id", function(assert) {
             // original oldElement, which we can still find inside a
             // liquid-child (the copy is not inside a liquid-child, that
             // is part of the point of explode).
-            var realOldElement = this.oldElement.parent().find('.liquid-child .greenbox');
+            let realOldElement = this.oldElement.parent().find('.liquid-child .greenbox');
             assert.equal(realOldElement.length, 1, 'found actual old element');
             assert.equal(realOldElement.css('visibility'), 'hidden');
             assert.deepEqual(realOldElement.offset(), this.oldElement.offset(), "element didn't jump");

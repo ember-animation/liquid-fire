@@ -20,7 +20,7 @@ export default function() {
   );
   // END-SNIPPET
 
-  var duration = Ember.testing ? 0 : 1000;
+  let duration = Ember.testing ? 0 : 1000;
   // BEGIN-SNIPPET liquid-box-demo-transition
   this.transition(
     this.hasClass('vehicles'),

@@ -7,9 +7,9 @@ import {
   stop
 } from "liquid-fire";
 export default function fade(opts={}) {
-  var firstStep;
-  var outOpts = opts;
-  var fadingElement = findFadingElement(this);
+  let firstStep;
+  let outOpts = opts;
+  let fadingElement = findFadingElement(this);
 
   if (fadingElement) {
     // We still have some older version that is in the process of
@@ -30,8 +30,8 @@ export default function fade(opts={}) {
 }
 
 function findFadingElement(context) {
-  for (var i = 0; i < context.older.length; i++) {
-    var entry = context.older[i];
+  for (let i = 0; i < context.older.length; i++) {
+    let entry = context.older[i];
     if (isAnimating(entry.element, 'fade-out')) {
       return entry.element;
     }

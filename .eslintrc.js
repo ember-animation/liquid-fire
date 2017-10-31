@@ -12,6 +12,8 @@ module.exports = {
     browser: true
   },
   rules: {
+    'no-var': "error",
+    semi: ["error", "always"],
     'ember/no-old-shims': 'error',
     'ember/new-module-imports': 'error',
     'ember/avoid-leaking-state-in-components': 'error',

@@ -9,14 +9,14 @@ import Ember from "ember";
 import Action from "./action";
 import Constraints from "./constraints";
 
-var TransitionMap = Service.extend({
+let TransitionMap = Service.extend({
   init() {
     this._super(...arguments);
 
     this.activeCount = 0;
     this.constraints = new Constraints();
-    var owner = getOwner(this);
-    var config;
+    let owner = getOwner(this);
+    let config;
     if (owner.factoryFor) {
       let maybeConfig = owner.factoryFor('transitions:main');
       config = maybeConfig && maybeConfig.class;
@@ -57,7 +57,7 @@ var TransitionMap = Service.extend({
 
   _maybeResolveIdle() {
     if (this.activeCount === 0 && this._resolveWaiting) {
-      var resolveWaiting = this._resolveWaiting;
+      let resolveWaiting = this._resolveWaiting;
       this._resolveWaiting = null;
       this._waitingPromise = null;
       resolveWaiting();
@@ -65,8 +65,8 @@ var TransitionMap = Service.extend({
   },
 
   lookup(transitionName) {
-    var owner = getOwner(this);
-    var handler;
+    let owner = getOwner(this);
+    let handler;
     if (owner.factoryFor) {
       let maybeHandler = owner.factoryFor('transition:' + transitionName);
       handler = maybeHandler && maybeHandler.class;
@@ -97,7 +97,7 @@ var TransitionMap = Service.extend({
   },
 
   transitionFor(conditions) {
-    var action;
+    let action;
     if (conditions.use && conditions.firstTime !== 'yes') {
       action = new Action(conditions.use);
       action.validateHandler(this);
@@ -154,7 +154,7 @@ if (DEBUG) {
 
 TransitionMap.reopenClass({
   map(handler) {
-    var t = TransitionMap.create();
+    let t = TransitionMap.create();
     t.map(handler);
     return t;
   }

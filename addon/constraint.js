@@ -26,15 +26,15 @@ export default class Constraint {
     if (!constrainables[this.target].reversesTo) {
       return this;
     }
-    var inverse = new this.constructor(constrainables[this.target].reversesTo);
+    let inverse = new this.constructor(constrainables[this.target].reversesTo);
     inverse.predicate = this.predicate;
     inverse.keys = this.keys;
     return inverse;
   }
 }
 
-export var EMPTY = '__liquid_fire_EMPTY__';
-export var ANY = '__liquid_fire_ANY__';
+export const EMPTY = '__liquid_fire_EMPTY__';
+export const ANY = '__liquid_fire_ANY__';
 
 export function constraintKeys(matcher) {
   if (typeof matcher === 'undefined' || matcher === null) {

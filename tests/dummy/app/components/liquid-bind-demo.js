@@ -9,7 +9,7 @@ export default Component.extend({
   },
 
   didInsertElement() {
-    var self = this;
+    let self = this;
     this.interval = setInterval(function(){ run(self, 'tick'); }, 1000);
   },
 

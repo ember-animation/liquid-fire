@@ -2,7 +2,7 @@ import { test, moduleForComponent } from "ember-qunit";
 import $ from 'jquery';
 import hbs from 'htmlbars-inline-precompile';
 
-var tmap;
+let tmap;
 
 moduleForComponent('Integration: fly-to transition', {
   integration: true,

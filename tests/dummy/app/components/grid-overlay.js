@@ -2,9 +2,9 @@ import Component from '@ember/component';
 import $ from 'jquery';
 
 function show_lead(space, offset) {
-  var max = $(document).height() / space;
+  let max = $(document).height() / space;
   hide_lead();
-  for (var i = 0; i < max; i++) {
+  for (let i = 0; i < max; i++) {
     $('body').append("<div class='grid' id='vgrid" + i + "'></div>");
     $("#vgrid" + i).css({
       height: "" + space + "px",

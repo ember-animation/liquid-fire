@@ -16,7 +16,7 @@ Qmodule('Fastboot', function(hooks) {
     fastboot = new FastBoot({
       distPath: 'dist',
       resilient: false
-    })
+    });
   });
 
   test('visit every link in sidebar', async function(assert) {

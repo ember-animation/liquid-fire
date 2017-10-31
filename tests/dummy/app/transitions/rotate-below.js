@@ -2,7 +2,7 @@
 import { stop, animate, Promise } from "liquid-fire";
 
 export default function rotateBelow(opts={}) {
-  var direction = 1;
+  let direction = 1;
   if (opts.direction === 'cw') {
     direction = -1;
   }

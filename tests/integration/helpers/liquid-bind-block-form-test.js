@@ -9,7 +9,7 @@ moduleForComponent('Integration: liquid-bind block form', {
   integration: true,
   afterEach(assert) {
     let done = assert.async();
-    var tmap = this.container.lookup('service:liquid-fire-transitions');
+    let tmap = this.container.lookup('service:liquid-fire-transitions');
     tmap.waitUntilIdle().then(done);
   }
 });
@@ -34,8 +34,8 @@ test('it should support element id', function(assert) {
 });
 
 test('it should animate after initially rendering empty', function(assert) {
-  var tmap = this.container.lookup('service:liquid-fire-transitions');
-  var dummyAnimation = function(){ return resolve(); };
+  let tmap = this.container.lookup('service:liquid-fire-transitions');
+  let dummyAnimation = function(){ return resolve(); };
   tmap.map(function() {
     this.transition(
       this.inHelper('liquid-bind'),
@@ -69,7 +69,7 @@ test('should support `class` in containerless mode', function(assert) {
 skip('should pass container arguments through', function(assert) {
   this.set('foo', 'Hi');
   this.render(hbs`{{#liquid-bind foo enableGrowth=false as |bar|}}{{foo}}{{/liquid-bind}}`);
-  var containerElement = this.$(' > .liquid-container');
-  var container = Ember.View.views[containerElement.attr('id')];
+  let containerElement = this.$(' > .liquid-container');
+  let container = Ember.View.views[containerElement.attr('id')];
   assert.equal(container.get('enableGrowth'), false, 'liquid-container enableGrowth');
 });

@@ -11,7 +11,7 @@ export default class Rule {
 
   add(thing) {
     if (thing instanceof Action) {
-      var prop = 'use';
+      let prop = 'use';
       if (thing.reversed) {
         prop = 'reverse';
       }
@@ -40,7 +40,7 @@ export default class Rule {
   }
 
   invert() {
-    var rule = new this.constructor();
+    let rule = new this.constructor();
     rule.use = this.reverse;
     rule.reverse = this.use;
     rule.constraints = this.constraints.map((c) => c.invert());

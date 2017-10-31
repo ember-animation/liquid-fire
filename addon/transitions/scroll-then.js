@@ -9,8 +9,8 @@ export default function(nextTransitionName, options, ...rest) {
       'string' === typeof nextTransitionName
     );
 
-    var el = document.getElementsByTagName('html');
-    var nextTransition = this.lookup(nextTransitionName);
+    let el = document.getElementsByTagName('html');
+    let nextTransition = this.lookup(nextTransitionName);
     if (!options) {  options = {}; }
 
     assert(

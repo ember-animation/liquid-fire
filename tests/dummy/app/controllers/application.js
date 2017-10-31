@@ -43,7 +43,7 @@ export default Controller.extend({
   }),
 
   flatContents: computed('tableOfContents', function(){
-    var flattened = [];
+    let flattened = [];
     this.get('tableOfContents').forEach(function(entry) {
       flattened.push(entry);
       if (entry.children){
@@ -55,12 +55,12 @@ export default Controller.extend({
 
 
   currentIndex: computed('currentRouteName', 'flatContents', function(){
-    var contents = this.get('flatContents'),
+    let contents = this.get('flatContents'),
         current = this.get('currentRouteName'),
         bestMatch,
         entry;
 
-    for (var i=0; i<contents.length; i++) {
+    for (let i=0; i<contents.length; i++) {
       entry = contents[i];
       if (entry.route && new RegExp('^' + entry.route.replace(/\./g, '\\.')).test(current)) {
         if (typeof(bestMatch) === 'undefined' || contents[bestMatch].route.length < entry.route.length) {
@@ -72,7 +72,7 @@ export default Controller.extend({
   }),
 
   nextTopic: computed('currentIndex', 'flatContents', function(){
-    var contents = this.get('flatContents'),
+    let contents = this.get('flatContents'),
         index = this.get('currentIndex');
     if (typeof(index) !== "undefined") {
       return contents[index+1];
@@ -80,7 +80,7 @@ export default Controller.extend({
   }),
 
   prevTopic: computed('currentIndex', 'flatContents', function(){
-    var contents = this.get('flatContents'),
+    let contents = this.get('flatContents'),
         index = this.get('currentIndex');
     if (typeof(index) !== "undefined") {
       return contents[index-1];

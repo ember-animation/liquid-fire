@@ -18,10 +18,10 @@ export default Component.extend({
   },
 
   appendVersion() {
-    var versions = this.versions;
-    var firstTime = false;
-    var newValue = this.getAttr('value');
-    var oldValue;
+    let versions = this.versions;
+    let firstTime = false;
+    let newValue = this.getAttr('value');
+    let oldValue;
     let versionEquality = this.get('versionEquality') || defaultEqualityCheck;
 
     if (!versions) {
@@ -45,7 +45,7 @@ export default Component.extend({
     }
 
     this.notifyContainer('willTransition', versions);
-    var newVersion = {
+    let newVersion = {
       value: newValue
     };
     versions.unshiftObject(newVersion);
@@ -61,9 +61,9 @@ export default Component.extend({
   },
 
   _transition: function() {
-    var versions = get(this, 'versions');
-    var transition;
-    var firstTime = this.firstTime;
+    let versions = get(this, 'versions');
+    let transition;
+    let firstTime = this.firstTime;
     this.firstTime = false;
 
 
@@ -108,7 +108,7 @@ export default Component.extend({
   },
 
   notifyContainer: function(method, versions) {
-    var target = get(this, 'notify');
+    let target = get(this, 'notify');
     if (target) {
       target.send(method, versions);
     }
@@ -116,7 +116,7 @@ export default Component.extend({
 
   actions: {
     childDidRender: function(child) {
-      var version = get(child, 'version');
+      let version = get(child, 'version');
       set(version, 'view', child);
       this._transition();
     }

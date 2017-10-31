@@ -23,14 +23,14 @@ registerHelper(
 registerHelper(
   'noTransitionsYet',
   function(app, assert) {
-    var tmap = transitionMap(app);
-    var ranTransitions = A(tmap.transitionFor.returnValues);
+    let tmap = transitionMap(app);
+    let ranTransitions = A(tmap.transitionFor.returnValues);
     assert.ok(!ranTransitions.any((transition) => transition.animation !== tmap.defaultAction()), 'expected no transitions');
   }
 );
 
 export function injectTransitionSpies(app) {
-  var tmap = transitionMap(app);
+  let tmap = transitionMap(app);
   sinon.spy(tmap, 'transitionFor');
 }
 

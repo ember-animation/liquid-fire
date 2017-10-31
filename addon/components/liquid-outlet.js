@@ -7,7 +7,7 @@ import {
   modelIsStable
 } from 'liquid-fire/ember-internals';
 
-var LiquidOutlet = Component.extend({
+let LiquidOutlet = Component.extend({
   layout,
   positionalParams: ['inputOutletName'], // needed for Ember 1.13.[0-5] and 2.0.0-beta.[1-3] support
   tagName: '',

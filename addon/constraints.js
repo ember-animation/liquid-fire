@@ -10,7 +10,7 @@ export default class Constraints {
   constructor() {
     this.targets = {};
     this.ruleCounter = 0;
-    for (var i = 0; i < constrainableKeys.length; i++) {
+    for (let i = 0; i < constrainableKeys.length; i++) {
       this.targets[constrainableKeys[i]] = {};
     }
   }
@@ -22,14 +22,14 @@ export default class Constraints {
     }
     this.addHalfRule(rule);
     if (rule.reverse) {
-      var inverted = rule.invert();
+      let inverted = rule.invert();
       inverted.id = rule.id + ' reverse';
       this.addHalfRule(inverted);
     }
   }
 
   addHalfRule(rule) {
-    var seen = {};
+    let seen = {};
     rule.constraints.forEach((constraint) => {
       seen[constraint.target] = true;
       this.addConstraint(rule, constraint);
@@ -42,7 +42,7 @@ export default class Constraints {
   }
 
   addConstraint(rule, constraint) {
-    var context = this.targets[constraint.target];
+    let context = this.targets[constraint.target];
     if (!context) {
       throw new Error(`Unknown constraint target ${constraint.target}`);
     }
@@ -67,8 +67,8 @@ export default class Constraints {
       console.log("[liquid-fire] Checking transition rules for", conditions.parentElement[0]);
     }
 
-    var rules = this.match(conditions);
-    var best = highestPriority(rules);
+    let rules = this.match(conditions);
+    let best = highestPriority(rules);
 
     if (rules.length > 1 && this.debug) {
       rules.forEach((rule) => {
@@ -84,26 +84,26 @@ export default class Constraints {
   }
 
   match(conditions) {
-    var rules = this.matchByKeys(conditions);
+    let rules = this.matchByKeys(conditions);
     rules = this.matchPredicates(conditions, rules);
     return rules;
   }
 
   matchByKeys(conditions) {
-    var matchSets = [];
-    for (var i = 0; i < constrainableKeys.length; i++) {
-      var key = constrainableKeys[i];
-      var value = conditionAccessor(conditions, key);
+    let matchSets = [];
+    for (let i = 0; i < constrainableKeys.length; i++) {
+      let key = constrainableKeys[i];
+      let value = conditionAccessor(conditions, key);
       matchSets.push(this.matchingSet(key, value));
     }
     return intersection(matchSets);
   }
 
   matchingSet(prop, value) {
-    var keys = constraintKeys(value);
-    var context = this.targets[prop];
-    var matched = A();
-    for (var i = 0; i < keys.length; i++) {
+    let keys = constraintKeys(value);
+    let context = this.targets[prop];
+    let matched = A();
+    for (let i = 0; i < keys.length; i++) {
       if (context[keys[i]]) {
         matched.push(context[keys[i]]);
       }
@@ -123,9 +123,9 @@ export default class Constraints {
 
   logDebugRules(matched, context, target, value) {
     A(Object.keys(context)).forEach((setKey) => {
-      var set = context[setKey];
+      let set = context[setKey];
       A(Object.keys(set)).forEach((ruleKey) => {
-        var rule = set[ruleKey];
+        let rule = set[ruleKey];
         if (rule.debug && !matched[guidFor(rule)]) {
           console.log(`${describeRule(rule)} rejected because ${target} was`, ...value);
         }
@@ -134,12 +134,12 @@ export default class Constraints {
   }
 
   matchPredicates(conditions, rules) {
-    var output = [];
-    for (var i = 0; i < rules.length; i++) {
-      var rule = rules[i];
-      var matched = true;
-      for (var j = 0; j < rule.constraints.length; j++) {
-        var constraint = rule.constraints[j];
+    let output = [];
+    for (let i = 0; i < rules.length; i++) {
+      let rule = rules[i];
+      let matched = true;
+      for (let j = 0; j < rule.constraints.length; j++) {
+        let constraint = rule.constraints[j];
         if (constraint.predicate && !this.matchConstraintPredicate(conditions, rule, constraint)) {
           matched = false;
           break;
@@ -153,13 +153,13 @@ export default class Constraints {
   }
 
   matchConstraintPredicate(conditions, rule, constraint) {
-    var values = conditionAccessor(conditions, constraint.target);
-    var reverse = constrainables[constraint.target].reversesTo;
-    var inverseValues;
+    let values = conditionAccessor(conditions, constraint.target);
+    let reverse = constrainables[constraint.target].reversesTo;
+    let inverseValues;
     if (reverse) {
       inverseValues = conditionAccessor(conditions, reverse);
     }
-    for (var i = 0; i < values.length; i++) {
+    for (let i = 0; i < values.length; i++) {
       if (constraint.predicate(values[i], inverseValues ? inverseValues[i] : null)) {
         return true;
       }
@@ -174,7 +174,7 @@ export default class Constraints {
 }
 
 function conditionAccessor(conditions, key) {
-  var constrainable = constrainables[key];
+  let constrainable = constrainables[key];
   if (constrainable.accessor) {
     return constrainable.accessor(conditions) || [];
   } else {
@@ -185,16 +185,16 @@ function conditionAccessor(conditions, key) {
 // Returns a list of property values from source whose keys also
 // appear in all of the rest objects.
 function intersection(sets) {
-  var source = sets[0];
-  var rest = sets.slice(1);
-  var keys = Object.keys(source);
-  var keysLength = keys.length;
-  var restLength = rest.length;
-  var result = [];
-  for (var keyIndex = 0; keyIndex < keysLength; keyIndex++) {
-    var key = keys[keyIndex];
-    var matched = true;
-    for (var restIndex = 0; restIndex < restLength; restIndex++) {
+  let source = sets[0];
+  let rest = sets.slice(1);
+  let keys = Object.keys(source);
+  let keysLength = keys.length;
+  let restLength = rest.length;
+  let result = [];
+  for (let keyIndex = 0; keyIndex < keysLength; keyIndex++) {
+    let key = keys[keyIndex];
+    let matched = true;
+    for (let restIndex = 0; restIndex < restLength; restIndex++) {
       if (!rest[restIndex].hasOwnProperty(key)) {
         matched = false;
         break;
@@ -208,13 +208,13 @@ function intersection(sets) {
 }
 
 function union(sets) {
-  var setsLength = sets.length;
-  var output = {};
-  for (var i = 0; i < setsLength; i++) {
-    var set = sets[i];
-    var keys = Object.keys(set);
-    for (var j = 0; j < keys.length; j++) {
-      var key = keys[j];
+  let setsLength = sets.length;
+  let output = {};
+  for (let i = 0; i < setsLength; i++) {
+    let set = sets[i];
+    let keys = Object.keys(set);
+    for (let j = 0; j < keys.length; j++) {
+      let key = keys[j];
       output[key] = set[key];
     }
   }
@@ -226,11 +226,11 @@ function describeRule(rule) {
 }
 
 function highestPriority(rules) {
-  var best;
-  var bestScore = 0;
-  for (var i = 0; i < rules.length; i++) {
-    var rule = rules[i];
-    var score = rules[i].constraints.length;
+  let best;
+  let bestScore = 0;
+  for (let i = 0; i < rules.length; i++) {
+    let rule = rules[i];
+    let score = rules[i].constraints.length;
     if (!best || score > bestScore || (score === bestScore && rule.id > best.id)) {
       best = rule;
       bestScore = score;
@@ -239,4 +239,4 @@ function highestPriority(rules) {
   return best;
 }
 
-var constrainableKeys = A(Object.keys(constrainables));
+const constrainableKeys = A(Object.keys(constrainables));

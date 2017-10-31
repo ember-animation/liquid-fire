@@ -1,7 +1,7 @@
-/* jshint node: true */
+/* eslint-env node */
 
 module.exports = function(deployTarget) {
-  var ENV = {
+  let ENV = {
     build: {},
     git: {}
     // include other plugin configuration that applies to all deploy targets here

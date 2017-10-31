@@ -26,7 +26,7 @@ moduleForComponent('Integration: liquid-outlet', {
   },
   afterEach(assert) {
     let done = assert.async();
-    var tmap = this.container.lookup('service:liquid-fire-transitions');
+    let tmap = this.container.lookup('service:liquid-fire-transitions');
     tmap.waitUntilIdle().then(done);
   }
 });
@@ -78,16 +78,16 @@ test('it should support element id', function(assert) {
 // intended effect.
 skip('should pass container arguments through', function(assert) {
   this.render(hbs`{{liquid-outlet enableGrowth=false}}`);
-  var containerElement = this.$('.liquid-container');
-  var container = Ember.View.views[containerElement.attr('id')];
+  let containerElement = this.$('.liquid-container');
+  let container = Ember.View.views[containerElement.attr('id')];
   assert.equal(container.get('enableGrowth'), false, 'liquid-container enableGrowth');
 });
 
 test('it should support `use` option', function(assert) {
-  var tmap = getOwner(this).lookup('service:liquid-fire-transitions');
+  let tmap = getOwner(this).lookup('service:liquid-fire-transitions');
   sinon.spy(tmap, 'transitionFor');
   this.render(hbs`{{#set-route outletState=outletState}}{{outlet}}{{/set-route}}`);
-  var routerState = this.makeRoute({ template: hbs`{{liquid-outlet use="fade"}}` });
+  let routerState = this.makeRoute({ template: hbs`{{liquid-outlet use="fade"}}` });
   routerState.setChild('main', { template: hbs`hi` });
   this.setState(routerState);
   routerState.setChild('main', { template: hbs`byte` });
@@ -119,7 +119,7 @@ test('can see model-to-model transitions on the same route', function(assert) {
     template: hbs`'<div class="content">{{model.id}}</div>`,
     controller
   });
-  var tmap = getOwner(this).lookup('service:liquid-fire-transitions');
+  let tmap = getOwner(this).lookup('service:liquid-fire-transitions');
   sinon.spy(tmap, 'transitionFor');
   this.render(hbs`{{#set-route outletState=outletState}}{{liquid-outlet watchModels=true}}{{/set-route}}`);
   this.setState(state);
