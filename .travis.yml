@@ -28,13 +28,14 @@ env:
     - EMBER_TRY_SCENARIO=ember-beta
     - EMBER_TRY_SCENARIO=ember-canary
     - EMBER_TRY_SCENARIO=ember-default
-    - EMBER_TRY_SCENARIO=fastboot
-
 
 matrix:
   fast_finish: true
   allow_failures:
     - env: EMBER_TRY_SCENARIO=ember-canary
+  include:
+    - node_js: 8
+      env: EMBER_TRY_SCENARIO=fastboot
 
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
