@@ -3,10 +3,14 @@ import Component from '@ember/component';
 import { run } from '@ember/runloop';
 
 export default Component.extend({
+  init() {
+    this._super();
+    this.tick();
+  },
+
   didInsertElement() {
     var self = this;
     this.interval = setInterval(function(){ run(self, 'tick'); }, 1000);
-    this.tick();
   },
 
   willDestroyElement(){
