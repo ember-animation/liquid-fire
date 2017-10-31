@@ -23,6 +23,9 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+    },
+    fastboot: {
+      hostWhitelist: ['localhost:4200', 'ember-animation.github.io']
     }
   };
 

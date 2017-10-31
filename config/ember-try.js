@@ -129,12 +129,7 @@ module.exports = {
     },
     {
       name: 'fastboot',
-      command: 'ember fastboot:test',
-      npm: {
-        devDependencies: {
-          'ember-source': null
-        }
-      }
+      command: 'yarn run test:fastboot'
     },
   ]
 };
