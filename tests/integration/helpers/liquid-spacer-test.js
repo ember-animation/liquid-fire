@@ -130,7 +130,7 @@ test('it should set correct height when scaled', function(assert) {
 
   var style = this.$('#my-spacer').get(0).style;
 
-  assert.equal(style.height, '50px', 'height is correct');
+  assert.ok(Math.abs(parseInt(style.height, 10) - 50) < 0.1, 'height is correct');
 });
 
 
