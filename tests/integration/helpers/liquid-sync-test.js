@@ -1,7 +1,8 @@
+import { run } from '@ember/runloop';
+import { Promise as EmberPromise } from 'rsvp';
 import { moduleForComponent, test } from 'ember-qunit';
 import Component from 'ember-component';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
 
 let sample, tmap, animationStarted;
 
@@ -19,7 +20,7 @@ moduleForComponent('liquid-sync', 'Integration | Component | liquid sync', {
     animationStarted = false;
     this.registry.register('transition:spy', function() {
       animationStarted = true;
-      return Ember.RSVP.Promise.resolve();
+      return EmberPromise.resolve();
     });
   },
 
@@ -49,7 +50,7 @@ test('it causes the transition to wait', function(assert) {
   assert.equal(this.$('.off').length, 1, "Found Off");
   assert.equal(this.$('.sample').length, 1, "Found sample");
 
-  Ember.run(() => sample.sendAction('ready'));
+  run(() => sample.sendAction('ready'));
 
   assert.equal(animationStarted, true, "Animation started");
   return tmap.waitUntilIdle().then(() => {

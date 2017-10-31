@@ -1,12 +1,13 @@
-import Ember from "ember";
-export default Ember.Controller.extend({
+import EmberObject, { computed } from '@ember/object';
+import Controller from '@ember/controller';
+export default Controller.extend({
   otherState: false,
 
-  myThing: Ember.computed('otherState', function() {
+  myThing: computed('otherState', function() {
     if (this.get('otherState')) {
-      return Ember.Object.create({description: 'Foo'});
+      return EmberObject.create({description: 'Foo'});
     } else {
-      return Ember.Object.create({description: 'Bar baz qux'});
+      return EmberObject.create({description: 'Bar baz qux'});
     }
   })
 

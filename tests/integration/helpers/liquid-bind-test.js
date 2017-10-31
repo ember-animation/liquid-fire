@@ -1,3 +1,4 @@
+import { resolve } from 'rsvp';
 import Ember from "ember";
 import { test, moduleForComponent } from "ember-qunit";
 import sinon from 'sinon';
@@ -61,7 +62,7 @@ test('it should support `use` option with a name', function(assert) {
 });
 
 test('it should support `use` option with a function', function(assert) {
-  let transition = sinon.stub().returns(Ember.RSVP.resolve());
+  let transition = sinon.stub().returns(resolve());
   this.set('transition', transition);
   this.set('name', 'unicorn');
   this.render(hbs`{{liquid-bind name use=transition}}`);
@@ -70,8 +71,8 @@ test('it should support `use` option with a function', function(assert) {
 });
 
 test('it should support locally-scoped `rules`', function(assert) {
-  let transitionA = sinon.stub().returns(Ember.RSVP.resolve());
-  let transitionB = sinon.stub().returns(Ember.RSVP.resolve());
+  let transitionA = sinon.stub().returns(resolve());
+  let transitionB = sinon.stub().returns(resolve());
   this.set('rules', function() {
     this.transition(
       this.toValue('other'),
@@ -94,7 +95,7 @@ test('it should support locally-scoped `rules`', function(assert) {
 
 test('if should match correct helper name', function(assert) {
   var tmap = this.container.lookup('service:liquid-fire-transitions');
-  var dummyAnimation = function(){ return Ember.RSVP.resolve(); };
+  var dummyAnimation = function(){ return resolve(); };
   tmap.map(function() {
     this.transition(
       this.inHelper('liquid-bind'),

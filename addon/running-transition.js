@@ -1,4 +1,4 @@
-import Ember from "ember";
+import { capitalize } from '@ember/string';
 
 export default class RunningTransition {
   constructor(transitionMap, versions, animation) {
@@ -71,7 +71,7 @@ function addPublicVersion(context, prefix, version) {
     var outputKey = key;
     if (props.hasOwnProperty(key)) {
       if (prefix) {
-        outputKey = prefix + Ember.String.capitalize(key);
+        outputKey = prefix + capitalize(key);
       }
       context[outputKey] = props[key];
     }

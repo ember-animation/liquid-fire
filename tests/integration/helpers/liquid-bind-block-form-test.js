@@ -1,3 +1,4 @@
+import { resolve } from 'rsvp';
 import Ember from "ember";
 import { test, moduleForComponent } from "ember-qunit";
 import { skip } from "qunit";
@@ -34,7 +35,7 @@ test('it should support element id', function(assert) {
 
 test('it should animate after initially rendering empty', function(assert) {
   var tmap = this.container.lookup('service:liquid-fire-transitions');
-  var dummyAnimation = function(){ return Ember.RSVP.resolve(); };
+  var dummyAnimation = function(){ return resolve(); };
   tmap.map(function() {
     this.transition(
       this.inHelper('liquid-bind'),

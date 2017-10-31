@@ -1,8 +1,9 @@
-import Ember from "ember";
+import { equal } from '@ember/object/computed';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   vehicle: 'bike',
   vehicles: ['bike', 'car'],
   states: ['', 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT'],
-  isBike: Ember.computed.equal('vehicle', 'bike')
+  isBike: equal('vehicle', 'bike')
 });

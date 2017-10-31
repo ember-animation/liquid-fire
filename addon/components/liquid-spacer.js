@@ -1,9 +1,10 @@
+import { observer } from '@ember/object';
+import Component from '@ember/component';
 import { measure } from "./liquid-measured";
 import Growable from "liquid-fire/growable";
-import Ember from "ember";
 import layout from "liquid-fire/templates/components/liquid-spacer";
 
-export default Ember.Component.extend(Growable, {
+export default Component.extend(Growable, {
   layout,
   enabled: true,
 
@@ -20,7 +21,7 @@ export default Ember.Component.extend(Growable, {
     }
   },
 
-  sizeChange: Ember.observer('measurements', function() {
+  sizeChange: observer('measurements', function() {
     if (!this.get('enabled')) { return; }
     var elt = this.$();
     if (!elt || !elt[0]) { return; }

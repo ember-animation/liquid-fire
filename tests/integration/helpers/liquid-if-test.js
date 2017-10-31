@@ -1,3 +1,4 @@
+import { resolve } from 'rsvp';
 import Ember from "ember";
 import { skip } from 'qunit';
 import { test, moduleForComponent } from "ember-qunit";
@@ -86,7 +87,7 @@ test('liquid-unless should have no content when true and there is no else block 
 
 test('liquid-if should match correct helper name', function(assert) {
   var tmap = this.container.lookup('service:liquid-fire-transitions');
-  var dummyAnimation = function(){ return Ember.RSVP.resolve(); };
+  var dummyAnimation = function(){ return resolve(); };
   tmap.map(function() {
     this.transition(
       this.inHelper('liquid-if'),
@@ -102,7 +103,7 @@ test('liquid-if should match correct helper name', function(assert) {
 
 test('liquid-unless should match correct helper name', function(assert) {
   var tmap = this.container.lookup('service:liquid-fire-transitions');
-  var dummyAnimation = function(){ return Ember.RSVP.resolve(); };
+  var dummyAnimation = function(){ return resolve(); };
   tmap.map(function() {
     this.transition(
       this.inHelper('liquid-unless'),
@@ -151,8 +152,8 @@ skip('should pass container arguments through', function(assert) {
 });
 
 test('it should support locally-scoped `rules`', function(assert) {
-  let transitionA = sinon.stub().returns(Ember.RSVP.resolve());
-  let transitionB = sinon.stub().returns(Ember.RSVP.resolve());
+  let transitionA = sinon.stub().returns(resolve());
+  let transitionB = sinon.stub().returns(resolve());
   this.set('rules', function() {
     this.transition(
       this.toValue(true),

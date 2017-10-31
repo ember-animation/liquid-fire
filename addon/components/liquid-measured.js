@@ -1,8 +1,10 @@
+import { next } from '@ember/runloop';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
 import MutationObserver from "liquid-fire/mutation-observer";
-import Ember from "ember";
 import layout from "liquid-fire/templates/components/liquid-measured";
 
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
 
   init() {
@@ -39,7 +41,7 @@ export default Ember.Component.extend({
     window.removeEventListener('unload', this._destroyOnUnload);
   },
 
-  transitionMap: Ember.inject.service('liquid-fire-transitions'),
+  transitionMap: service('liquid-fire-transitions'),
 
   didMutate: function() {
     // by incrementing the running transitions counter here we prevent
@@ -48,7 +50,7 @@ export default Ember.Component.extend({
     // response.
     var tmap = this.get('transitionMap');
     tmap.incrementRunningTransitions();
-    Ember.run.next(this, function() {
+    next(this, function() {
       this._didMutate();
       tmap.decrementRunningTransitions();
     });

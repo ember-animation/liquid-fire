@@ -1,10 +1,10 @@
-import Ember from "ember";
+import { A } from '@ember/array';
 import Action from "./action";
 import Constraint from "./constraint";
 
 export default class Rule {
   constructor() {
-    this.constraints = Ember.A();
+    this.constraints = A();
     this.use = null;
     this.reverse = null;
   }

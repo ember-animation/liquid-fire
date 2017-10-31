@@ -1,15 +1,16 @@
-import Ember from "ember";
+import $ from 'jquery';
+import { A } from '@ember/array';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { get, set } from '@ember/object';
 import { containingElement } from "liquid-fire/ember-internals";
 import layout from 'liquid-fire/templates/components/liquid-versions';
 
-var get = Ember.get;
-var set = Ember.set;
-
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
   tagName: "",
 
-  transitionMap: Ember.inject.service('liquid-fire-transitions'),
+  transitionMap: service('liquid-fire-transitions'),
 
   didReceiveAttrs() {
     this._super(...arguments);
@@ -25,7 +26,7 @@ export default Ember.Component.extend({
 
     if (!versions) {
       firstTime = true;
-      versions = Ember.A();
+      versions = A();
     } else {
       if (versions[0]) {
         oldValue = versions[0].value;
@@ -38,7 +39,7 @@ export default Ember.Component.extend({
         // equal for our purposes that are not `===`. In that case, we
         // still need to thread updated values through to our children
         // so they have their own opportunity to react.
-        Ember.set(versions[0], 'value', newValue);
+        set(versions[0], 'value', newValue);
       }
       return;
     }
@@ -70,7 +71,7 @@ export default Ember.Component.extend({
 
     transition = get(this, 'transitionMap').transitionFor({
       versions: versions,
-      parentElement: Ember.$(containingElement(this)),
+      parentElement: $(containingElement(this)),
       use: get(this, 'use'),
       rules: get(this, 'rules'),
       matchContext: get(this, 'matchContext') || {},

@@ -1,5 +1,5 @@
 /* global ranTransition */
-import Ember from 'ember';
+import { later } from '@ember/runloop';
 import { injectTransitionSpies } from '../helpers/integration';
 import { test } from 'qunit';
 import moduleForAcceptance from '../helpers/module-for-acceptance';
@@ -14,7 +14,7 @@ test('nested liquid-outlets wait for their ancestors to animate', function(asser
   visit('/scenarios/nested-outlets/middle/inner');
   andThen(function(){
     visit('/scenarios/nested-outlets/middle2');
-    Ember.run.later(function(){
+    later(function(){
       assert.equal(find('#inner-index').length, 1, "inner view exists during animation");
     }, 30);
   });

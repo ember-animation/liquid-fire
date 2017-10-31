@@ -1,9 +1,10 @@
-import Ember from "ember";
+import { on } from '@ember/object/evented';
+import Component from '@ember/component';
 import Growable from "liquid-fire/growable";
 import { measure } from "./liquid-measured";
 import layout from "liquid-fire/templates/components/liquid-container";
 
-export default Ember.Component.extend(Growable, {
+export default Component.extend(Growable, {
   layout,
   classNames: ['liquid-container'],
 
@@ -41,7 +42,7 @@ export default Ember.Component.extend(Growable, {
     }
   },
 
-  startMonitoringSize: Ember.on('didInsertElement', function() {
+  startMonitoringSize: on('didInsertElement', function() {
     this._wasInserted = true;
   }),
 
