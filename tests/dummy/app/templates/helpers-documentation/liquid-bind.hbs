@@ -13,13 +13,7 @@ Options{{/link-to}} that apply to all liquid-fire helpers.</p>
 is {{#link-to "helpers-documentation.liquid-bind-block"}}demonstrated on
 the next page{{/link-to}}.</p>
 
-<h3 id="force-tick" {{action "forceTick"}}>Demo</h3>
-
-{{!- BEGIN-SNIPPET liquid-bind-demo -}}
-<div id="liquid-bind-demo">
-  {{liquid-bind hours}}:{{liquid-bind minutes}}:{{liquid-bind seconds}}
-</div>
-{{!- END-SNIPPET -}}
+{{liquid-bind-demo}}
 
 {{code-snippet name="liquid-bind-demo.hbs"}}
 

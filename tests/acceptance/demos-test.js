@@ -1,5 +1,5 @@
 /* global ranTransition, noTransitionsYet */
-import Ember from 'ember';
+import { later } from '@ember/runloop';
 import { test, skip } from 'qunit';
 import moduleForAcceptance from '../helpers/module-for-acceptance';
 import { injectTransitionSpies,
@@ -127,10 +127,10 @@ skip('interruption demo, early interruption', function(assert) {
   andThen(function(){
     classFound(assert, 'one');
     clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
-    Ember.run.later(function(){
+    later(function(){
       isPartiallyOpaque(assert, '.one');
       clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
-      Ember.run.later(function(){
+      later(function(){
         isTransparent(assert, '.one');
         isHidden(assert, '.two');
         isPartiallyOpaque(assert, '.three');
@@ -149,11 +149,11 @@ skip('interruption demo, two early interruptions', function(assert) {
     classFound(assert, 'one');
     clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
     clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
-    Ember.run.later(function(){
+    later(function(){
       isPartiallyOpaque(assert, '.one');
       isHidden(assert, '.two');
       isHidden(assert, '.three');
-      Ember.run.later(function(){
+      later(function(){
         isTransparent(assert, '.one');
         isHidden(assert, '.two');
         isPartiallyOpaque(assert, '.three');
@@ -171,10 +171,10 @@ skip('interruption demo, late interruption', function(assert) {
   andThen(function(){
     classFound(assert, 'one');
     clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
-    Ember.run.later(function(){
+    later(function(){
       isPartiallyOpaque(assert, '.two');
       clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
-      Ember.run.later(function() {
+      later(function() {
         isTransparent(assert, '.one');
         isTransparent(assert, '.two');
         isPartiallyOpaque(assert, '.three');
@@ -191,13 +191,13 @@ skip('interruption demo, two late interruptions', function(assert) {
   andThen(function(){
     classFound(assert, 'one');
     clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
-    Ember.run.later(function(){
+    later(function(){
       isPartiallyOpaque(assert, '.two');
       clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
-      Ember.run.later(function() {
+      later(function() {
         isPartiallyOpaque(assert, '.three');
         clickWithoutWaiting('#interrupted-fade-demo a', 'One');
-        Ember.run.later(function() {
+        later(function() {
           isTransparent(assert, '.three');
           isTransparent(assert, '.two');
           isPartiallyOpaque(assert, '.one');

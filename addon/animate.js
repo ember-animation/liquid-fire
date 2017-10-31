@@ -1,6 +1,6 @@
 /* jshint newcap: false */
+import { copy } from '@ember/object/internals';
 import Promise from "./promise";
-import Ember from "ember";
 import Velocity from "velocity";
 
 // Make sure Velocity always has promise support by injecting our own
@@ -28,7 +28,7 @@ export function animate(elt, props, opts, label) {
   if (!opts) {
     opts = {};
   } else {
-    opts = Ember.copy(opts);
+    opts = copy(opts);
   }
 
   // By default, we ask velocity to clear the element's `display`

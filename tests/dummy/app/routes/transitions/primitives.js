@@ -1,3 +1,3 @@
-import Ember from "ember";
+import Route from '@ember/routing/route';
 import ResetScroll from "dummy/mixins/reset-scroll";
-export default Ember.Route.extend(ResetScroll);
+export default Route.extend(ResetScroll);

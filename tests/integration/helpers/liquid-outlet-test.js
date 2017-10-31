@@ -1,9 +1,11 @@
+import { run } from '@ember/runloop';
+import EmberObject from '@ember/object';
+import { getOwner } from '@ember/application';
 import Ember from "ember";
 import { skip } from 'qunit';
 import { test, moduleForComponent } from "ember-qunit";
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
-const { getOwner } = Ember;
 import {
   RouteBuilder,
   SetRouteComponent
@@ -110,7 +112,7 @@ test('should support `class` on children in containerless mode', function(assert
 
 test('can see model-to-model transitions on the same route', function(assert) {
   let controller = getOwner(this).lookup('controller:application');
-  controller.set('model', Ember.Object.create({
+  controller.set('model', EmberObject.create({
     id: 1
   }));
   let state = this.makeRoute({
@@ -123,8 +125,8 @@ test('can see model-to-model transitions on the same route', function(assert) {
   this.setState(state);
   assert.equal(this.$('.content').text().trim(), '1');
   tmap.transitionFor.reset();
-  Ember.run(() => {
-    controller.set('model', Ember.Object.create({
+  run(() => {
+    controller.set('model', EmberObject.create({
       id: 2
     }));
   });

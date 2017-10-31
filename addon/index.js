@@ -1,5 +1,12 @@
 import TransitionMap from "./transition-map";
-import { animate, stop, isAnimating, timeSpent, timeRemaining, finish } from "./animate";
+import {
+  animate,
+  stop,
+  isAnimating,
+  timeSpent,
+  timeRemaining,
+  finish
+} from "./animate";
 import Promise from "./promise";
 import MutationObserver from "./mutation-observer";
 import "./velocity-ext";

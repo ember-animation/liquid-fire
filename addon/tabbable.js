@@ -10,9 +10,7 @@
  * http://api.jqueryui.com/category/ui-core/
  */
 
-import Ember from 'ember';
-
-var $ = Ember.$;
+import $ from 'jquery';
 
 function focusable( element, isTabIndexNotNaN ) {
   var nodeName = element.nodeName.toLowerCase();

@@ -1,4 +1,4 @@
-import Ember from "ember";
+import { Promise as EmberPromise } from 'rsvp';
 import { test, moduleForComponent } from "ember-qunit";
 import hbs from 'htmlbars-inline-precompile';
 
@@ -89,7 +89,7 @@ moduleForComponent('Integration: liquid-container', {
 test(`has liquid-animating class during animation`, function(assert) {
   var resolveAnimation;
   this.registry.register('transition:blocking', function() {
-    return new Ember.RSVP.Promise(function(resolve) {
+    return new EmberPromise(function(resolve) {
       resolveAnimation = resolve;
     });
   });

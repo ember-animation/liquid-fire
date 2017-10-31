@@ -1,6 +1,5 @@
-import Ember from "ember";
-
-var $ = Ember.$;
+import Component from '@ember/component';
+import $ from 'jquery';
 
 function show_lead(space, offset) {
   var max = $(document).height() / space;
@@ -37,7 +36,7 @@ function toggleGrid(leading, leading_offset) {
   }
 }
 
-export default Ember.Component.extend({
+export default Component.extend({
   didInsertElement: function(){
     $(document).bind('keydown', function(e){
       // Ctrl-Alt-g shows vertical rhythm

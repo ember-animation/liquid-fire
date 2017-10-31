@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 
-import Ember from 'ember';
+import { A } from '@ember/array';
+
+import { guidFor } from '@ember/object/internals';
 import { constraintKeys, EMPTY, ANY } from './constraint';
 import constrainables from "./constrainables";
 
@@ -57,7 +59,7 @@ export default class Constraints {
     if (!context[key]) {
       context[key] = {};
     }
-    context[key][Ember.guidFor(rule)] = rule;
+    context[key][guidFor(rule)] = rule;
   }
 
   bestMatch(conditions) {
@@ -100,7 +102,7 @@ export default class Constraints {
   matchingSet(prop, value) {
     var keys = constraintKeys(value);
     var context = this.targets[prop];
-    var matched = Ember.A();
+    var matched = A();
     for (var i = 0; i < keys.length; i++) {
       if (context[keys[i]]) {
         matched.push(context[keys[i]]);
@@ -120,11 +122,11 @@ export default class Constraints {
   }
 
   logDebugRules(matched, context, target, value) {
-    Ember.A(Object.keys(context)).forEach((setKey) => {
+    A(Object.keys(context)).forEach((setKey) => {
       var set = context[setKey];
-      Ember.A(Object.keys(set)).forEach((ruleKey) => {
+      A(Object.keys(set)).forEach((ruleKey) => {
         var rule = set[ruleKey];
-        if (rule.debug && !matched[Ember.guidFor(rule)]) {
+        if (rule.debug && !matched[guidFor(rule)]) {
           console.log(`${describeRule(rule)} rejected because ${target} was`, ...value);
         }
       });
@@ -237,4 +239,4 @@ function highestPriority(rules) {
   return best;
 }
 
-var constrainableKeys = Ember.A(Object.keys(constrainables));
+var constrainableKeys = A(Object.keys(constrainables));

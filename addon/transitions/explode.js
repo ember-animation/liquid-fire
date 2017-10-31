@@ -1,4 +1,6 @@
-import Ember from "ember";
+import $ from 'jquery';
+import { isArray, A } from '@ember/array';
+import { copy, guidFor } from '@ember/object/internals';
 import { Promise } from "liquid-fire";
 
 // Explode is not, by itself, an animation. It exists to pull apart
@@ -30,7 +32,7 @@ export default function explode(...pieces) {
 }
 
 function explodePiece(context, piece, seen) {
-  var childContext = Ember.copy(context);
+  var childContext = copy(context);
   var selectors = [piece.pickOld || piece.pick, piece.pickNew || piece.pick];
   var cleanupOld, cleanupNew;
 
@@ -55,7 +57,7 @@ function _explodePart(context, field, childContext, selector, seen) {
   childContext[field] = null;
   if (elt && selector) {
     child = elt.find(selector).filter(function() {
-      var guid = Ember.guidFor(this);
+      var guid = guidFor(this);
       if (!seen[guid]) {
         seen[guid] = true;
         return true;
@@ -101,7 +103,7 @@ function animationFor(context, piece) {
   if (!piece.use) {
     throw new Error("every argument to the 'explode' animation must include a followup animation to 'use'");
   }
-  if (Ember.isArray(piece.use) ) {
+  if (isArray(piece.use) ) {
     name = piece.use[0];
     args = piece.use.slice(1);
   } else {
@@ -157,9 +159,9 @@ function matchAndExplode(context, piece, seen) {
     };
   }
 
-  var hits = Ember.A(context.oldElement.find(`[${piece.matchBy}]`).toArray());
+  var hits = A(context.oldElement.find(`[${piece.matchBy}]`).toArray());
   return Promise.all(hits.map((elt) => {
-    var attrValue = Ember.$(elt).attr(piece.matchBy);
+    var attrValue = $(elt).attr(piece.matchBy);
 
     // if there is no match for a particular item just skip it
     if (attrValue === "" || context.newElement.find(selector(attrValue)).length === 0) {

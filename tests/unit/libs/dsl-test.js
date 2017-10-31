@@ -1,4 +1,6 @@
-import Ember from "ember";
+import $ from 'jquery';
+import EmberObject from '@ember/object';
+import { run } from '@ember/runloop';
 import Application from '../../../app';
 import hasEmberVersion from 'ember-test-helpers/has-ember-version';
 import { module, test } from 'qunit';
@@ -6,7 +8,7 @@ import { RouteBuilder } from '../../helpers/ember-testing-internals';
 
 var application, t, defaultHandler;
 
-Ember.run(function(){
+run(function(){
   var options = {
     autoboot: false
   };
@@ -268,7 +270,7 @@ test("passes arguments through to transitions", function(assert) {
 });
 
 test("combines multiple value constraints", function(assert){
-  var Pet = Ember.Object.extend();
+  var Pet = EmberObject.extend();
 
   t.map(function(){
     this.transition(
@@ -279,7 +281,7 @@ test("combines multiple value constraints", function(assert){
   });
 
   expectNoAnimation(assert,values(null, Pet.create()), "should not match because of name");
-  expectNoAnimation(assert,values(null, Ember.Object.create({name: 'Fluffy'})), "should not match because of instanceof");
+  expectNoAnimation(assert,values(null, EmberObject.create({name: 'Fluffy'})), "should not match because of instanceof");
   expectAnimation(assert,values(null, Pet.create({name: 'Fluffy'})), dummyAction, "should match both");
 
 });
@@ -386,7 +388,7 @@ function values(a,b) {
   return {
     versions: [{ value: b}, { value: a }],
     firstTime: 'no',
-    parentElement: Ember.$('body'),
+    parentElement: $('body'),
     matchContext: { outletName: 'main' }
   };
 }

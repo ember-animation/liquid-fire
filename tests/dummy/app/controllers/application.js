@@ -1,10 +1,11 @@
-import Ember from "ember";
+import { computed } from '@ember/object';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   queryParams: ['warn'],
   warn: 0,
 
-  tableOfContents: Ember.computed(function(){
+  tableOfContents: computed(function(){
     return [
       { route: "index",   title: "Introduction"},
       { route: "installation",   title: "Installation & Compatibility"},
@@ -41,7 +42,7 @@ export default Ember.Controller.extend({
     ];
   }),
 
-  flatContents: Ember.computed('tableOfContents', function(){
+  flatContents: computed('tableOfContents', function(){
     var flattened = [];
     this.get('tableOfContents').forEach(function(entry) {
       flattened.push(entry);
@@ -53,7 +54,7 @@ export default Ember.Controller.extend({
   }),
 
 
-  currentIndex: Ember.computed('currentRouteName', 'flatContents', function(){
+  currentIndex: computed('currentRouteName', 'flatContents', function(){
     var contents = this.get('flatContents'),
         current = this.get('currentRouteName'),
         bestMatch,
@@ -70,7 +71,7 @@ export default Ember.Controller.extend({
     return bestMatch;
   }),
 
-  nextTopic: Ember.computed('currentIndex', 'flatContents', function(){
+  nextTopic: computed('currentIndex', 'flatContents', function(){
     var contents = this.get('flatContents'),
         index = this.get('currentIndex');
     if (typeof(index) !== "undefined") {
@@ -78,7 +79,7 @@ export default Ember.Controller.extend({
     }
   }),
 
-  prevTopic: Ember.computed('currentIndex', 'flatContents', function(){
+  prevTopic: computed('currentIndex', 'flatContents', function(){
     var contents = this.get('flatContents'),
         index = this.get('currentIndex');
     if (typeof(index) !== "undefined") {

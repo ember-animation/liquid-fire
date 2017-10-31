@@ -1,6 +1,8 @@
-import Ember from "ember";
+import { sort } from '@ember/object/computed';
+import Controller from '@ember/controller';
+import { A } from '@ember/array';
 
-var allModels = Ember.A([
+var allModels = A([
   { id: 1, firstName: 'Tom', lastName: 'Dale' },
   { id: 2, firstName: 'Yehuda', lastName: 'Katz' },
   { id: 3, firstName: 'Leah', lastName: 'Silber' },
@@ -9,14 +11,14 @@ var allModels = Ember.A([
 ]);
 
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   showFirst: true,
 
   sortBy: ['firstName'],
 
   models: allModels.slice(),
 
-  sortedModels: Ember.computed.sort('models.[]', 'sortBy'),
+  sortedModels: sort('models.[]', 'sortBy'),
 
   actions: {
     toggle: function () {

@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import { helper } from '@ember/component/helper';
 
 export function lfOr(params/*, hash*/) {
   return params.reduce((a,b) => a || b, false);
 }
 
-export default Ember.Helper.helper(lfOr);
+export default helper(lfOr);

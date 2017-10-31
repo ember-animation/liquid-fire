@@ -7,9 +7,7 @@ module.exports = function(environment) {
     environment,
     rootURL: '/',
 
-    // Personally, hash is nicer for test work. The browser knows not
-    // to do a full page refresh when you manually edit the url.
-    locationType: 'hash',
+    locationType: 'auto',
 
     EmberENV: {
       FEATURES: {
@@ -25,6 +23,9 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+    },
+    fastboot: {
+      hostWhitelist: ['localhost:4200', 'ember-animation.github.io']
     }
   };
 
@@ -39,7 +40,6 @@ module.exports = function(environment) {
 
   if (environment === 'test') {
     // Testem prefers this...
-    ENV.rootURL = '/';
     ENV.locationType = 'none';
 
     // keep test console output quieter
@@ -52,6 +52,8 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     ENV.rootURL = '/liquid-fire';
+    // github needs hash location
+    ENV.locationType = 'hash';
   }
 
   return ENV;

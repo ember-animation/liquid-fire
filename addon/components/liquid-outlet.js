@@ -1,4 +1,5 @@
-import Ember from "ember";
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 import layout from 'liquid-fire/templates/components/liquid-outlet';
 import {
   childRoute,
@@ -6,11 +7,11 @@ import {
   modelIsStable
 } from 'liquid-fire/ember-internals';
 
-var LiquidOutlet = Ember.Component.extend({
+var LiquidOutlet = Component.extend({
   layout,
   positionalParams: ['inputOutletName'], // needed for Ember 1.13.[0-5] and 2.0.0-beta.[1-3] support
   tagName: '',
-  versionEquality: Ember.computed('outletName', 'watchModels', function() {
+  versionEquality: computed('outletName', 'watchModels', function() {
     let outletName = this.get('outletName');
     let watchModels = this.get('watchModels');
     return function(oldValue, newValue) {

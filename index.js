@@ -1,4 +1,4 @@
-/*jshint node: true, esversion: 5 */
+/* eslint-env node */
 'use strict';
 
 var VersionChecker = require('ember-cli-version-checker');
