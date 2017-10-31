@@ -7,9 +7,7 @@ module.exports = function(environment) {
     environment,
     rootURL: '/',
 
-    // Personally, hash is nicer for test work. The browser knows not
-    // to do a full page refresh when you manually edit the url.
-    locationType: 'hash',
+    locationType: 'auto',
 
     EmberENV: {
       FEATURES: {
@@ -51,6 +49,8 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     ENV.rootURL = '/liquid-fire';
+    // github needs hash location
+    ENV.locationType = 'hash';
   }
 
   return ENV;

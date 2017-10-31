@@ -130,7 +130,10 @@ test('it should set correct height when scaled', function(assert) {
 
   var style = this.$('#my-spacer').get(0).style;
 
-  assert.ok(Math.abs(parseInt(style.height, 10) - 50) < 0.1, 'height is correct');
+  let expectedHeight = 50;
+  let height = parseFloat(style.height, 10);
+  let tolerance = 0.1;
+  assert.ok(Math.abs(height - expectedHeight) < tolerance, `height (${height}) is within ${tolerance} pixels of ${expectedHeight}`);
 });
 
 
