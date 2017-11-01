@@ -52,8 +52,6 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     ENV.rootURL = '/liquid-fire';
-    // github needs hash location
-    ENV.locationType = 'hash';
   }
 
   return ENV;

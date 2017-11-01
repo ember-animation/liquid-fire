@@ -9,6 +9,36 @@ module.exports = function(defaults) {
     snippetSearchPaths: ['app', 'tests/dummy/app', 'addon'],
     trees: {
       'public': 'tests/dummy/public'
+    },
+    prember: {
+      // GitHub Pages uses this filename to serve 404s
+      emptyFile: '404.html',
+
+      urls: [
+        '/',
+        '/installation',
+        '/cookbook',
+        '/helpers',
+        '/helpers/liquid-outlet',
+        '/helpers/liquid-outlet',
+        '/helpers/liquid-bind',
+        '/helpers/liquid-bind-block/1',
+        '/helpers/liquid-if',
+        '/helpers/liquid-spacer',
+        '/transition-map',
+        '/transition-map/route-constraints',
+        '/transition-map/value-constraints',
+        '/transition-map/media-constraints',
+        '/transition-map/dom-constraints',
+        '/transition-map/initial-constraints',
+        '/transition-map/choosing-transitions',
+        '/transition-map/debugging-constraints',
+        '/transitions',
+        '/transitions/predefined',
+        '/transitions/explode',
+        '/transitions/defining',
+        '/transitions/primitives'
+      ]
     }
   });
 
