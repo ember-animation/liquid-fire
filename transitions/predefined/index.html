@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Liquid Fire</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+<meta name="dummy/config/environment" content="%7B%22modulePrefix%22%3A%22dummy%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22/liquid-fire/%22%2C%22locationType%22%3A%22auto%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%7D%2C%22APP%22%3A%7B%7D%2C%22fastboot%22%3A%7B%22hostWhitelist%22%3A%5B%22localhost%3A4200%22%2C%22ember-animation.github.io%22%5D%7D%2C%22something%22%3A%22test%22%2C%22exportApplicationGlobal%22%3Afalse%7D" />
+<!-- EMBER_CLI_FASTBOOT_TITLE -->
+
+    <link integrity="" rel="stylesheet" href="/liquid-fire/assets/vendor-f0b19cccb826fa442f7b2f406025feb4.css">
+    <link integrity="" rel="stylesheet" href="/liquid-fire/assets/dummy-cdd44fb49164edc0a82ad45a48fe990e.css">
+
+    
+  </head>
+  <body>
+    <div id="ember2282" class="ember-view"><div class="header">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-6">Liquid Fire</div>
+      <div class="col-xs-6 mark-holder">
+        <a href="https://github.com/ef4/liquid-fire">
+          <img src="GitHub-Mark-Light-32px-d56df49a807a9fd06eb1667a84d3810e.png">
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container main">
+  <div>
+    <div class="content">
+      <div class="clearfix">
+        <div id="ember2284" class="nav-link back ember-view"><a href="/liquid-fire/transitions" id="ember2285" class="active ember-view">        <div class="glyphicon glyphicon-chevron-left"></div>
+      Transitions
+<!----></a></div>
+        <div id="ember2289" class="nav-link forward ember-view"><a href="/liquid-fire/transitions/explode" id="ember2290" class="ember-view"><!---->      explode
+        <div class="glyphicon glyphicon-chevron-right"></div>
+</a></div>
+      </div>
+      <h2>Predefined Transitions</h2>
+
+<p>The library includes a small set of predefined transitions. They
+    are intended as a starting point, and you are encouraged to add your
+    own transitions that expand up on them.</p>
+<p> For more information about these transitions, you can <a href="https://github.com/ef4/liquid-fire/tree/master/app/transitions">read the source code</a>.</p>
+
+<ul role="tablist" class="nav nav-tabs">
+    <li role="presentation" class="active">
+        <a href="#" aria-controls="home" role="tab" data-toggle="tab">
+            toLeft, toRight, toUp, toDown</a>
+    </li>
+    <li role="presentation">
+        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
+            fade
+        </a>
+    </li>
+    <li role="presentation">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">
+            crossFade
+        </a>
+    </li>
+    <li role="presentation">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">
+            explode
+        </a>
+    </li>
+    <li role="presentation">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">
+            flyTo
+        </a>
+    </li>
+    <li role="presentation">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">
+            scrollThen
+        </a>
+    </li>
+    <li role="presentation">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">
+            scale
+        </a>
+    </li>
+    <li role="presentation">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">
+            wait
+        </a>
+    </li>
+
+</ul>
+
+<div id="transition-examples">
+
+      <dt>toLeft, toRight, toUp, toDown</dt>
+      <dd>These are slide animations powered by the
+          CSS <code>transform</code> property. They all accept an optional
+          options hash that's passed onward to Velocity for both the outgoing and
+          incoming animations. For more information about available options, please refer to <a href="http://julian.com/research/velocity/#duration" target="_blank">official Velocity
+              documentation</a>.
+      </dd>
+
+      <div class="well">
+          <div class="panel panel-default">
+              <div class="panel-body">
+                  <button>Toggle Detail View</button>
+<div id="ember2305" class="toLeft-demo liquid-container ember-view"><div id="ember2308" class="liquid-child ember-view">                            <div class="overview">
+                        <h3>Welcome</h3>
+
+                        <p>This is the overview.</p>
+                    </div>
+
+</div></div>              </div>
+          </div>
+
+          <p>The transition rule:</p>
+        <pre id="ember2309" class="javascript ember-view">this.transition(
+  this.hasClass('toLeft-demo'),
+  this.use('toLeft', {duration})
+);
+</pre>
+
+          <p>The template:</p>
+        <pre id="ember2310" class="htmlbars ember-view">&lt;div class="panel panel-default"&gt;
+    &lt;div class="panel-body"&gt;
+        &lt;button {{action "toggleDetail"}}&gt;Toggle Detail View&lt;/button&gt;
+      {{#liquid-if showDetail class='toLeft-demo'}}
+          &lt;div class="details"&gt;
+              &lt;h3&gt;Details&lt;/h3&gt;
+
+              &lt;p&gt;
+                  Bacon ipsum dolor amet shank pork belly boudin flank
+                  prosciutto alcatra andouille pig short ribs biltong kevin
+                  salami tail turkey beef ribs.
+              &lt;/p&gt;
+          &lt;/div&gt;
+      {{else}}
+          &lt;div class="overview"&gt;
+              &lt;h3&gt;Welcome&lt;/h3&gt;
+
+              &lt;p&gt;This is the overview.&lt;/p&gt;
+          &lt;/div&gt;
+      {{/liquid-if}}
+    &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+      </div>
+
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+</div>
+
+      <div class="clearfix">
+        <div id="ember2311" class="nav-link back ember-view"><a href="/liquid-fire/transitions" id="ember2312" class="active ember-view">        <div class="glyphicon glyphicon-chevron-left"></div>
+      Transitions
+<!----></a></div>
+        <div id="ember2313" class="nav-link forward ember-view"><a href="/liquid-fire/transitions/explode" id="ember2314" class="ember-view"><!---->      explode
+        <div class="glyphicon glyphicon-chevron-right"></div>
+</a></div>
+      </div>
+    </div>
+
+    <ul>
+      <li>
+          <a href="/liquid-fire/" id="ember2315" class="ember-view">Introduction</a>
+
+<!---->      </li>
+      <li>
+          <a href="/liquid-fire/installation" id="ember2316" class="ember-view">Installation &amp; Compatibility</a>
+
+<!---->      </li>
+      <li>
+          <a href="/liquid-fire/cookbook" id="ember2320" class="ember-view">Cookbook</a>
+
+<!---->      </li>
+      <li>
+          <a href="/liquid-fire/helpers" id="ember2324" class="ember-view">Template Helpers</a>
+
+          <ul>
+            <li>
+                <a href="/liquid-fire/helpers/liquid-outlet" id="ember2328" class="ember-view">liquid-outlet</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/helpers/liquid-bind" id="ember2332" class="ember-view">liquid-bind (inline form)</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/helpers/liquid-bind-block" id="ember2333" class="ember-view">liquid-bind (block form)</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/helpers/liquid-if" id="ember2334" class="ember-view">liquid-if</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/helpers/liquid-spacer" id="ember2335" class="ember-view">liquid-spacer</a>
+            </li>
+          </ul>
+      </li>
+      <li>
+          <a href="/liquid-fire/transition-map" id="ember2339" class="ember-view">Transition Map</a>
+
+          <ul>
+            <li>
+                <a href="/liquid-fire/transition-map/route-constraints" id="ember2346" class="ember-view">Matching by route &amp; model</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/outlet-constraints" id="ember2347" class="ember-view">Matching by outlet</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/value-constraints" id="ember2351" class="ember-view">Matching by value</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/media-constraints" id="ember2355" class="ember-view">Matching by media query</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/dom-constraints" id="ember2356" class="ember-view">Matching by DOM context</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/initial-constraints" id="ember2357" class="ember-view">Matching initial renders</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/choosing-transitions" id="ember2361" class="ember-view">Choosing transition animations</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/debugging-constraints" id="ember2362" class="ember-view">Debugging transition matching</a>
+            </li>
+          </ul>
+      </li>
+      <li>
+          <a href="/liquid-fire/transitions" id="ember2366" class="active ember-view">Transitions</a>
+
+          <ul>
+            <li>
+                <a href="/liquid-fire/transitions/predefined" id="ember2367" class="active ember-view">Predefined transitions</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transitions/explode" id="ember2368" class="ember-view">explode</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transitions/defining" id="ember2369" class="ember-view">Defining custom transitions</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transitions/primitives" id="ember2370" class="ember-view">Animation Primitives</a>
+            </li>
+          </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div id="ember2374" class="ember-view"></div></div>
+
+    <script src="/liquid-fire/assets/vendor-3114e1832602a2e8ede5c692ebd1afd2.js"></script>
+    <script src="/liquid-fire/assets/dummy-78bf837df636031edcc33eaad92d32f9.js"></script>
+
+    
+  </body>
+</html>

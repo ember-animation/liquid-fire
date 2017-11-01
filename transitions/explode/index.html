@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Liquid Fire</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+<meta name="dummy/config/environment" content="%7B%22modulePrefix%22%3A%22dummy%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22/liquid-fire/%22%2C%22locationType%22%3A%22auto%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%7D%2C%22APP%22%3A%7B%7D%2C%22fastboot%22%3A%7B%22hostWhitelist%22%3A%5B%22localhost%3A4200%22%2C%22ember-animation.github.io%22%5D%7D%2C%22something%22%3A%22test%22%2C%22exportApplicationGlobal%22%3Afalse%7D" />
+<!-- EMBER_CLI_FASTBOOT_TITLE -->
+
+    <link integrity="" rel="stylesheet" href="/liquid-fire/assets/vendor-f0b19cccb826fa442f7b2f406025feb4.css">
+    <link integrity="" rel="stylesheet" href="/liquid-fire/assets/dummy-cdd44fb49164edc0a82ad45a48fe990e.css">
+
+    
+  </head>
+  <body>
+    <div id="ember2391" class="ember-view"><div class="header">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-6">Liquid Fire</div>
+      <div class="col-xs-6 mark-holder">
+        <a href="https://github.com/ef4/liquid-fire">
+          <img src="GitHub-Mark-Light-32px-d56df49a807a9fd06eb1667a84d3810e.png">
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container main">
+  <div>
+    <div class="content">
+      <div class="clearfix">
+        <div id="ember2393" class="nav-link back ember-view"><a href="/liquid-fire/transitions/predefined" id="ember2394" class="ember-view">        <div class="glyphicon glyphicon-chevron-left"></div>
+      Predefined transitions
+<!----></a></div>
+        <div id="ember2398" class="nav-link forward ember-view"><a href="/liquid-fire/transitions/defining" id="ember2399" class="ember-view"><!---->      Defining custom transitions
+        <div class="glyphicon glyphicon-chevron-right"></div>
+</a></div>
+      </div>
+      <h2>The explode transition</h2>
+
+<p><code>explode</code> lets you break apart your old and new
+templates and animate the pieces separately. First we show examples,
+and then below we document all the options in detail.</p>
+
+<h3>Explode Demo #1</h3>
+
+<p>Click the button to see the demo:</p>
+
+<div id="explode-demo-1">
+  <button>Toggle Detail View</button>
+<div id="ember2403" class="liquid-container ember-view"><div id="ember2406" class="liquid-child ember-view">            <div class="overview">
+      <h3>Welcome</h3>
+      <p>This is the overview.</p>
+    </div>
+
+</div></div></div>
+
+<p>The transition rule:</p>
+<pre id="ember2407" class="javascript ember-view">this.transition(
+  this.childOf('#explode-demo-1'),
+  this.use('explode', {
+    pickOld: 'h3',                // Find an "h3" in the old template. This
+                                  // can be any CSS selector.
+
+    use: ['toUp', {duration}]   // And animate it upward. This can
+                                // be any arbitrary transition, and
+                                // its optional parameters.
+
+  }, {
+    pickNew: 'h3',                // Find an "h3" in the new template
+
+    use: ['toDown', {duration}] // And animate it downward.
+
+  }, {
+    // For everything else that didn't match the above, use a
+    // fade. I'm giving the fade half as much duration because fade
+    // includes both fading out and fading in steps, each of which
+    // spends `duration` milliseconds.
+    use: ['fade', {duration: duration / 2}]
+  })
+);
+</pre>
+
+<p>The template:</p>
+<pre id="ember2408" class="htmlbars ember-view">&lt;div id="explode-demo-1"&gt;
+  &lt;button {{action "toggleDetail"}}&gt;Toggle Detail View&lt;/button&gt;
+  {{#liquid-if showDetail}}
+    &lt;div class="details"&gt;
+      &lt;h3&gt;Details&lt;/h3&gt;
+      &lt;p&gt;
+        Bacon ipsum dolor amet shank pork belly boudin flank
+        prosciutto alcatra andouille pig short ribs biltong kevin
+        salami tail turkey beef ribs.
+      &lt;/p&gt;
+    &lt;/div&gt;
+  {{else}}
+    &lt;div class="overview"&gt;
+      &lt;h3&gt;Welcome&lt;/h3&gt;
+      &lt;p&gt;This is the overview.&lt;/p&gt;
+    &lt;/div&gt;
+  {{/liquid-if}}
+&lt;/div&gt;
+</pre>
+
+<h3>Explode Demo #2</h3>
+
+<p>Click "Shuffle":</p>
+
+<div id="explode-demo-2">
+  <button>Shuffle</button>
+<div id="ember2410" class="liquid-container ember-view"><div id="ember2413" class="liquid-child ember-view">      <img data-photo-id="0" src="http://emberjs.com/images/team/ykatz.jpg">
+      <img data-photo-id="1" src="http://emberjs.com/images/team/tdale.jpg">
+      <img data-photo-id="2" src="http://emberjs.com/images/team/pwagenet.jpg">
+      <img data-photo-id="3" src="http://emberjs.com/images/team/tglowaki.jpg">
+      <img data-photo-id="4" src="http://emberjs.com/images/team/ebryn.jpg">
+      <img data-photo-id="5" src="http://emberjs.com/images/team/kselden.jpg">
+      <img data-photo-id="6" src="http://emberjs.com/images/team/spenner.jpg">
+      <img data-photo-id="7" src="http://emberjs.com/images/team/lsilber.jpg">
+      <img data-photo-id="8" src="http://emberjs.com/images/team/amatchneer.jpg">
+      <img data-photo-id="9" src="http://emberjs.com/images/team/rjackson.jpg">
+      <img data-photo-id="10" src="http://emberjs.com/images/team/iterzic.jpeg">
+      <img data-photo-id="11" src="http://emberjs.com/images/team/mbeale.jpg">
+      <img data-photo-id="12" src="http://emberjs.com/images/team/efaulkner.jpg">
+</div></div></div>
+
+<p>The transition rule:</p>
+<pre id="ember2414" class="javascript ember-view">this.transition(
+  this.childOf('#explode-demo-2'),
+  this.use('explode', {
+    matchBy: 'data-photo-id',      // matchBy will look for the same
+                                   // HTML attribute value in both
+                                   // the old and new elements, and
+                                   // for each matching pair, it
+                                   // runs the given transition.
+
+    // fly-to is a built in transition that animate the element
+    // moving from the position of oldElement to the position of
+    // newElement.
+    use: ['fly-to', {duration, easing: 'spring'}]
+  })
+);
+</pre>
+
+<p>The template:</p>
+<pre id="ember2415" class="htmlbars ember-view">&lt;div id="explode-demo-2"&gt;
+  &lt;button {{action "shuffle"}}&gt;Shuffle&lt;/button&gt;
+  {{#liquid-bind photos as |photosVersion|}}
+    {{#each photosVersion key="id" as |photo|}}
+      &lt;img data-photo-id={{photo.id}} src={{{photo.url}}}&gt;
+    {{/each}}
+  {{/liquid-bind}}
+&lt;/div&gt;
+</pre>
+
+<h3>API details</h3>
+
+<p><code>explode</code> accepts any number of arguments. Each argument
+must be an object. Each object describes one piece of the
+transition.</p>
+
+<p>Each piece must have a <code>use</code> property, which can be:</p>
+
+<ul>
+  <li>the name of another transition. Example: <code>"toLeft"</code></li>
+  <li>a list whose first element is the name of another transition and whose remaining members are the arguments for that transitions. Example: <code>["toLeft", { duration: 100 }]</code></li>
+  <li>a function that directly implements a transition. Example: <code>function(){ return animate(this.newElement, { opacity: 0 }); }</code></li>
+  <li>a list whose first element is a function that directly implements a transition and whose remaining members are arguments for the function. Example: <code>[myTransitionFunction, { duration: 400 }]</code></li>
+</ul>
+
+<p>Each piece may also have one of these options:</p>
+
+<ul>
+  <li>a <code>pick</code> property whose value is a CSS selector
+  that will be matched against both the old and new elements.</li>
+  <li>a <code>pickOld</code> property whose value is a CSS selector
+  that will be matched against the old elements. May be combined with <code>pickNew</code>.</li>
+  <li>a <code>pickNew</code> property whose value is a CSS selector
+  that will be matched against the old elements. May be combined with <code>pickOld</code>.</li>
+  <li>a <code>matchBy</code> property whose value is the name of an
+  HTML attribute that will be matched against both old and new
+  elements for pairwise transitions.</li>
+</ul>
+
+<p>A piece that has only a <code>use</code> and no further options may
+be used to control everything else that doesn't match another section.</p>
+      <div class="clearfix">
+        <div id="ember2416" class="nav-link back ember-view"><a href="/liquid-fire/transitions/predefined" id="ember2417" class="ember-view">        <div class="glyphicon glyphicon-chevron-left"></div>
+      Predefined transitions
+<!----></a></div>
+        <div id="ember2418" class="nav-link forward ember-view"><a href="/liquid-fire/transitions/defining" id="ember2419" class="ember-view"><!---->      Defining custom transitions
+        <div class="glyphicon glyphicon-chevron-right"></div>
+</a></div>
+      </div>
+    </div>
+
+    <ul>
+      <li>
+          <a href="/liquid-fire/" id="ember2420" class="ember-view">Introduction</a>
+
+<!---->      </li>
+      <li>
+          <a href="/liquid-fire/installation" id="ember2421" class="ember-view">Installation &amp; Compatibility</a>
+
+<!---->      </li>
+      <li>
+          <a href="/liquid-fire/cookbook" id="ember2425" class="ember-view">Cookbook</a>
+
+<!---->      </li>
+      <li>
+          <a href="/liquid-fire/helpers" id="ember2429" class="ember-view">Template Helpers</a>
+
+          <ul>
+            <li>
+                <a href="/liquid-fire/helpers/liquid-outlet" id="ember2433" class="ember-view">liquid-outlet</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/helpers/liquid-bind" id="ember2437" class="ember-view">liquid-bind (inline form)</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/helpers/liquid-bind-block" id="ember2438" class="ember-view">liquid-bind (block form)</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/helpers/liquid-if" id="ember2439" class="ember-view">liquid-if</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/helpers/liquid-spacer" id="ember2440" class="ember-view">liquid-spacer</a>
+            </li>
+          </ul>
+      </li>
+      <li>
+          <a href="/liquid-fire/transition-map" id="ember2444" class="ember-view">Transition Map</a>
+
+          <ul>
+            <li>
+                <a href="/liquid-fire/transition-map/route-constraints" id="ember2451" class="ember-view">Matching by route &amp; model</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/outlet-constraints" id="ember2452" class="ember-view">Matching by outlet</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/value-constraints" id="ember2456" class="ember-view">Matching by value</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/media-constraints" id="ember2460" class="ember-view">Matching by media query</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/dom-constraints" id="ember2461" class="ember-view">Matching by DOM context</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/initial-constraints" id="ember2462" class="ember-view">Matching initial renders</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/choosing-transitions" id="ember2466" class="ember-view">Choosing transition animations</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/debugging-constraints" id="ember2467" class="ember-view">Debugging transition matching</a>
+            </li>
+          </ul>
+      </li>
+      <li>
+          <a href="/liquid-fire/transitions" id="ember2471" class="active ember-view">Transitions</a>
+
+          <ul>
+            <li>
+                <a href="/liquid-fire/transitions/predefined" id="ember2475" class="ember-view">Predefined transitions</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transitions/explode" id="ember2476" class="active ember-view">explode</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transitions/defining" id="ember2477" class="ember-view">Defining custom transitions</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transitions/primitives" id="ember2478" class="ember-view">Animation Primitives</a>
+            </li>
+          </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div id="ember2482" class="ember-view"></div></div>
+
+    <script src="/liquid-fire/assets/vendor-3114e1832602a2e8ede5c692ebd1afd2.js"></script>
+    <script src="/liquid-fire/assets/dummy-78bf837df636031edcc33eaad92d32f9.js"></script>
+
+    
+  </body>
+</html>

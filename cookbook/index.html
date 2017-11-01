@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Liquid Fire</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+<meta name="dummy/config/environment" content="%7B%22modulePrefix%22%3A%22dummy%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22/liquid-fire/%22%2C%22locationType%22%3A%22auto%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%7D%2C%22APP%22%3A%7B%7D%2C%22fastboot%22%3A%7B%22hostWhitelist%22%3A%5B%22localhost%3A4200%22%2C%22ember-animation.github.io%22%5D%7D%2C%22something%22%3A%22test%22%2C%22exportApplicationGlobal%22%3Afalse%7D" />
+<!-- EMBER_CLI_FASTBOOT_TITLE -->
+
+    <link integrity="" rel="stylesheet" href="/liquid-fire/assets/vendor-f0b19cccb826fa442f7b2f406025feb4.css">
+    <link integrity="" rel="stylesheet" href="/liquid-fire/assets/dummy-cdd44fb49164edc0a82ad45a48fe990e.css">
+
+    
+  </head>
+  <body>
+    <div id="ember463" class="ember-view"><div class="header">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-6">Liquid Fire</div>
+      <div class="col-xs-6 mark-holder">
+        <a href="https://github.com/ef4/liquid-fire">
+          <img src="GitHub-Mark-Light-32px-d56df49a807a9fd06eb1667a84d3810e.png">
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container main">
+  <div>
+    <div class="content">
+      <div class="clearfix">
+        <div id="ember465" class="nav-link back ember-view"><a href="/liquid-fire/installation" id="ember466" class="ember-view">        <div class="glyphicon glyphicon-chevron-left"></div>
+      Installation &amp; Compatibility
+<!----></a></div>
+        <div id="ember470" class="nav-link forward ember-view"><a href="/liquid-fire/helpers" id="ember471" class="ember-view"><!---->      Template Helpers
+        <div class="glyphicon glyphicon-chevron-right"></div>
+</a></div>
+      </div>
+      <h1>Cookbook: how to embed Liquid Fire into your Ember app</h1>
+
+<p>In order to embed Liquid Fire into your application, there are a very few steps take. Since you are here, you
+probably <a href="/liquid-fire/installation" id="ember476" class="ember-view">already followed the installation guide</a>. Now it is time to
+setup your transitions.</p>
+
+<h3>1. Setup transitions</h3>
+
+<p>The first step is to create the file transitions.js file next to router.js in the applications root folder, so you
+get <em>app/transitions.js</em>. Below you will find an example what the content of such file may look like.</p>
+
+<pre id="ember477" class="javascript ember-view">export default function(){
+  this.transition(
+    this.fromRoute('index'),
+    this.toRoute('posts'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+}
+</pre>
+
+<p>Here we have chosen to create a swipe transition, from right to left, when the user moves from the <em>index</em>
+route to the <em>posts</em> route. The reverse call indicates what should happen when the user goes moves from the
+<em>posts</em> to the <em>index</em> route: the swipe should be into the other direction. There many more
+<a href="/liquid-fire/transitions/predefined" id="ember478" class="ember-view">transitions included by default</a>.</p>
+
+<h3>2. Replace outlets in your templates</h3>
+
+<p>Now we have defined our transitions, the next step is to replace Embers native <code>{{outlet}}</code> in your
+template files. You should replace it with the outlet component by Liquid Fire: <code>{{liquid-outlet}}</code>. It is
+most likely that you will find this <code>{{outlet}}</code> in your application template file. So now your
+<em>app/templates/application.hbs</em> might look like this.</p>
+
+<pre id="ember485" class="htmlbars ember-view">&lt;nav&gt;
+    &lt;ul&gt;
+        &lt;li&gt;{{#link-to "index"}}Index{{/link-to}}&lt;/li&gt;
+        &lt;li&gt;{{#link-to "posts"}}Posts{{/link-to}}&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/nav&gt;
+
+&lt;main&gt;
+    {{liquid-outlet}}
+&lt;/main&gt;
+</pre>
+
+<h3>3. Create a transition to another route</h3>
+
+<p>When your create a link-to from the <em>index</em> route to the <em>posts</em> route, and click it, it will now show
+you the beautiful transitions that you created in your transitions.js file. The example template from the previous step
+already includes such a <code>{{#link-to}}</code>. That's it, you now configured Liquid Fire!</p>
+
+<h3>4. Transitions for nested routes</h3>
+
+<p>Since you are done with the first steps, you are ready for some more action! What if I want to create a transition
+to a <a href="http://guides.emberjs.com/v2.2.0/routing/defining-your-routes/#toc_nested-routes">nested route</a>? This
+requires a little extra step! Suppose our <em>app/routes.js</em> looks as follows.</p>
+
+<pre id="ember486" class="javascript ember-view">import EmberRouter from '@ember/routing/router';
+import config from './config/environment';
+
+let Router = EmberRouter.extend({
+  location: config.locationType
+});
+
+export default Router.map(function() {
+
+  this.route('posts', function () {
+    this.route('new');
+  });
+
+});
+</pre>
+
+<p>We now want to create a transition when the user clicks on a button to create a new post. First we add another
+transition into our <em>app/transitions.js</em> from the first step.</p>
+
+<pre id="ember487" class="javascript ember-view">export default function(){
+  this.transition(
+    this.fromRoute('index'),
+    this.toRoute('posts'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.fromRoute('posts.index'),
+    this.toRoute('posts.new'),
+    this.use('crossFade'),
+    this.reverse('crossFade')
+  );
+}
+</pre>
+
+<p>Next, place the content template from <em>app/templates/posts.hbs</em> into
+<em>app/templates/posts/index.hbs</em>, if you have not done that already. And in <em>app/templates/posts.hbs</em> we
+place a new liquid outlet component, so the file looks like this.</p>
+
+<pre id="ember488" class="htmlbars ember-view">{{liquid-outlet}}
+</pre>
+
+<p>Finally, create a button in your <em>app/templates/posts/index.hbs</em> route that links to the <em>posts.new</em> route.
+And click it. You will now see (another build-in) cross-fade transition!</p>
+
+<p>Remember, you will have to include a
+<code>{{liquid-outlet}}</code> in any nested route's master template. Otherwise, there will be no transition visible.
+This is how Ember works. A nested master template contains <code>{{outlet}}</code> by default and you should overwrite
+it with a <code>{{liquid-outlet}}</code>. But that is easy, right?</p>
+
+
+      <div class="clearfix">
+        <div id="ember489" class="nav-link back ember-view"><a href="/liquid-fire/installation" id="ember490" class="ember-view">        <div class="glyphicon glyphicon-chevron-left"></div>
+      Installation &amp; Compatibility
+<!----></a></div>
+        <div id="ember491" class="nav-link forward ember-view"><a href="/liquid-fire/helpers" id="ember492" class="ember-view"><!---->      Template Helpers
+        <div class="glyphicon glyphicon-chevron-right"></div>
+</a></div>
+      </div>
+    </div>
+
+    <ul>
+      <li>
+          <a href="/liquid-fire/" id="ember493" class="ember-view">Introduction</a>
+
+<!---->      </li>
+      <li>
+          <a href="/liquid-fire/installation" id="ember494" class="ember-view">Installation &amp; Compatibility</a>
+
+<!---->      </li>
+      <li>
+          <a href="/liquid-fire/cookbook" id="ember495" class="active ember-view">Cookbook</a>
+
+<!---->      </li>
+      <li>
+          <a href="/liquid-fire/helpers" id="ember496" class="ember-view">Template Helpers</a>
+
+          <ul>
+            <li>
+                <a href="/liquid-fire/helpers/liquid-outlet" id="ember497" class="ember-view">liquid-outlet</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/helpers/liquid-bind" id="ember501" class="ember-view">liquid-bind (inline form)</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/helpers/liquid-bind-block" id="ember502" class="ember-view">liquid-bind (block form)</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/helpers/liquid-if" id="ember503" class="ember-view">liquid-if</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/helpers/liquid-spacer" id="ember504" class="ember-view">liquid-spacer</a>
+            </li>
+          </ul>
+      </li>
+      <li>
+          <a href="/liquid-fire/transition-map" id="ember508" class="ember-view">Transition Map</a>
+
+          <ul>
+            <li>
+                <a href="/liquid-fire/transition-map/route-constraints" id="ember515" class="ember-view">Matching by route &amp; model</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/outlet-constraints" id="ember516" class="ember-view">Matching by outlet</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/value-constraints" id="ember520" class="ember-view">Matching by value</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/media-constraints" id="ember524" class="ember-view">Matching by media query</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/dom-constraints" id="ember525" class="ember-view">Matching by DOM context</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/initial-constraints" id="ember526" class="ember-view">Matching initial renders</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/choosing-transitions" id="ember530" class="ember-view">Choosing transition animations</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transition-map/debugging-constraints" id="ember531" class="ember-view">Debugging transition matching</a>
+            </li>
+          </ul>
+      </li>
+      <li>
+          <a href="/liquid-fire/transitions" id="ember535" class="ember-view">Transitions</a>
+
+          <ul>
+            <li>
+                <a href="/liquid-fire/transitions/predefined" id="ember539" class="ember-view">Predefined transitions</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transitions/explode" id="ember540" class="ember-view">explode</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transitions/defining" id="ember544" class="ember-view">Defining custom transitions</a>
+            </li>
+            <li>
+                <a href="/liquid-fire/transitions/primitives" id="ember545" class="ember-view">Animation Primitives</a>
+            </li>
+          </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div id="ember549" class="ember-view"></div></div>
+
+    <script src="/liquid-fire/assets/vendor-3114e1832602a2e8ede5c692ebd1afd2.js"></script>
+    <script src="/liquid-fire/assets/dummy-78bf837df636031edcc33eaad92d32f9.js"></script>
+
+    
+  </body>
+</html>
