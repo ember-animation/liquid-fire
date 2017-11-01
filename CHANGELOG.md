@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.29.0
+
+ - HOUSEKEEPING: upgraded to new ember-cli and ember-source for the dummy app. Switched to newer module imports and coding standard.
+ - ENHANCEMENT: docs site now has fastboot-rendered static content (yes, on GitHub pages!)
+ - BUGFIX: account for scaling transforms in liquid-measured by @wagenet
+
 ## 0.28.1
 
  - HOUSEKEEPING: dependency upgrade by @Turbo87 that helps apps drop ember-cli-shims
