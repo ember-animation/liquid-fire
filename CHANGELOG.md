@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.29.1
+
+ - BUGFIX: The previous published package accidentally embedded 153MB of node modules that were stashed by ember-try.
+
 ## 0.29.0
 
  - HOUSEKEEPING: upgraded to new ember-cli and ember-source for the dummy app. Switched to newer module imports and coding standard.
