@@ -69,6 +69,18 @@ function _explodePart(context, field, childContext, selector, seen) {
       height = child.outerHeight();
       newChild = child.clone();
 
+      // $.clone() does not clone the state of <select> elements so we have to adjust that manually here
+      // (see https://api.jquery.com/clone/)
+
+      let childSelects = child.find('select').add(child.filter('select'));
+      if (childSelects.length) {
+        let newChildSelects = newChild.find('select').add(newChild.filter('select'));
+
+        for (let i = 0; i < childSelects.length; i++) {
+          newChildSelects[i].selectedIndex = childSelects[i].selectedIndex;
+        }
+      }
+
       // Hide the original element
       child.css({visibility: 'hidden'});
 
