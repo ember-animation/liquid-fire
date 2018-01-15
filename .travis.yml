@@ -3,7 +3,9 @@ language: node_js
 node_js:
   - "6"
 
-sudo: false
+# This is only needed to workaround https://github.com/travis-ci/travis-ci/issues/8836
+sudo: true
+
 dist: trusty
 
 addons:
