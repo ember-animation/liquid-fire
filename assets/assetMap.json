@@ -1,11 +1,12 @@
 {
   "assets": {
     "GitHub-Mark-Light-32px.png": "GitHub-Mark-Light-32px-d56df49a807a9fd06eb1667a84d3810e.png",
+    "assets/assetMap.json": "assets/assetMap.json",
     "assets/dummy-fastboot.js": "assets/dummy-fastboot-8af7c10f53bf3cdc4e024e178ab7d5b4.js",
-    "assets/dummy.css": "assets/dummy-cdd44fb49164edc0a82ad45a48fe990e.css",
-    "assets/dummy.js": "assets/dummy-8e543a1bd2d8287230e861bd845de4b2.js",
+    "assets/dummy.css": "assets/dummy-a33da26103a2e67d1c6fe3eaf4e9a278.css",
+    "assets/dummy.js": "assets/dummy-cbadcab58007c24ff12afae926a4cd71.js",
     "assets/vendor.css": "assets/vendor-f0b19cccb826fa442f7b2f406025feb4.css",
-    "assets/vendor.js": "assets/vendor-3114e1832602a2e8ede5c692ebd1afd2.js",
+    "assets/vendor.js": "assets/vendor-309f08f9bdaa41319892f048635fbe3e.js",
     "moment/fastboot-moment-timezone.js": "moment/fastboot-moment-timezone-578ab4bc24839c1fa18fc484b2cf5d0d.js",
     "moment/fastboot-moment.js": "moment/fastboot-moment-fc1d02c2a35021ee4ca1a6f87a5a64c7.js"
   },
