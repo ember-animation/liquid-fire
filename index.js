@@ -107,6 +107,8 @@ module.exports = {
   },
 
   included: function(){
+    this._super.apply(this, arguments);
+
     // We cannot use ember-cli to import velocity as an AMD module here, because we always need the shim in FastBoot
     // to not break any module imports (as velocity/velocity.js has a FastBoot guard, so FastBoot does not see any
     // module inside
