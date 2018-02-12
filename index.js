@@ -1,4 +1,3 @@
-/* eslint-env node */
 'use strict';
 
 let VersionChecker = require('ember-cli-version-checker');
