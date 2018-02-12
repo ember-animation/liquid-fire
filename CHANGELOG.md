@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.29.2
+
+ - BUGFIX: Use a stricter constraint on what velocity version we depend on.
+ - HOUSEKEEPING: upgraded ember-cli and removed some deprecations from the test suite
+
 ## 0.29.1
 
  - BUGFIX: The previous published package accidentally embedded 153MB of node modules that were stashed by ember-try.
