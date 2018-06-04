@@ -40,7 +40,7 @@ export function animate(elt, props, opts, label) {
     opts.display = '';
   }
   if (typeof(opts.visibility) === 'undefined') {
-    opts.visibility = 'visible';
+    opts.visibility = '';
   }
 
   if (opts.progress) {

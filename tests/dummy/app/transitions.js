@@ -196,6 +196,14 @@ this.transition(
   );
 
   this.transition(
+    this.hasClass('nested-explode-transition-scenario'),
+    this.use('explode', {
+      pick: '.child',
+      use: ['toLeft', { duration: 500 }]
+    }),
+  );
+
+  this.transition(
     this.includingInitialRender(),
     this.outletName('test'),
     this.use('toLeft')
