@@ -1,0 +1,26 @@
+.lf-nav {
+  background: $gray-100;
+  padding: 1em;
+
+  .lf-nav-link {
+    font-weight: 500;
+
+    &.active {
+      border-left: 4px solid currentColor;
+      margin-left: -4px;
+    }
+  }
+
+  .lf-sub-nav {
+    margin-bottom: 1rem;
+  }
+
+  .lf-sub-nav-link {
+    font-size: 90%;
+    padding: 0.25rem 1rem;
+  }
+
+  .active {
+    font-weight: 500;
+  }
+}

@@ -1,110 +1,17 @@
 @import "colors";
-
-/* Customization of Bootstrap Variables */
-$font-size-base: 16px;
-$brand-primary: $primary;
-$font-size-h1: floor(($font-size-base * 2.6));
-$font-size-h2: floor(($font-size-base * 2.15));
-$font-size-h3: ceil(($font-size-base * 1.25));
-$font-size-h4: ceil(($font-size-base * 1));
-
-
-
 @import "bootstrap";
-@import "typography";
+
 @import "callout";
-
-body {
-    background-color: #faf4f1;
-    padding-bottom: 80px;
-}
-
-.header {
-    background-color: $tertiary;
-    color: white;
-    line-height: $line-height-computed*2;
-    border-bottom: 1px solid $secondary-vd;
-    -webkit-box-shadow: rgba(0,0,0,0.3) 0 0 3px;
-    -moz-box-shadow: rgba(0,0,0,0.3) 0 0 3px;
-    box-shadow: rgba(0,0,0,0.3) 0 0 3px;
-    letter-spacing: 2px;
-    font-weight: 300;
-}
-
-.main {
-    > div {
-        @include make-row();
-        padding-top: 2*$line-height-computed - 1px;
-    }
-}
-
-.content {
-    @include make-xs-column(9);
-    @include make-xs-column-push(3);
-    color: $near-black;
-    h2 {
-        margin-top: 0;
-    }
-}
-
-.main > div > ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-
-    @include make-xs-column(3);
-    @include make-xs-column-pull(9);
-    background-color: lighten($secondary-vl, 8%);
-    border: 1px solid $secondary-vl;
-
-    > li {
-        a {
-            display: block;
-            padding: (ceil($line-height-computed/2) - 1px) $grid-gutter-width/2 floor($line-height-computed/2) $grid-gutter-width/2;
-            margin-left: -1*$grid-gutter-width/2;
-            margin-right: -1*$grid-gutter-width/2;
-            &.active, &:hover {
-                text-decoration: none;
-                background-color: $secondary-vl;
-            }
-        }
-        > ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            margin-left: 24px;
-            a {
-                padding: 0 0 0 ($grid-gutter-width/2 + 24px);
-                margin-left: -1*$grid-gutter-width/2 - 24px;
-                margin-right: -1*$grid-gutter-width/2;
-            }
-        }
-    }
-}
-
-.nav-link {
-    a:hover { text-decoration: none; }
-    &.back {
-      float: left;
-    }
-    &.forward {
-      float: right;
-    }
-}
-
-.nav-tabs {
-    width: 100%;
-}
-
-.mark-holder {
-    text-align: right;
-}
-
-
-.dl-horizontal dt {
-    white-space: inherit;
-    overflow: visible;
-}
-
 @import "demos";
+@import "nav";
+@import "navbar";
 @import "scenarios";
+@import "typography";
+
+.lf-content {
+  margin-top: 4rem;
+}
+
+.lf-body {
+  padding: 2rem;
+}
