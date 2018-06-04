@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.29.3
+
+ - BUGFIX: Fix visibility during explode with nested animators by @brettburley
+ - BUGFIX: Fix link in demo/docs site by @lolmaus
+
 ## 0.29.2
 
  - BUGFIX: Use a stricter constraint on what velocity version we depend on.
