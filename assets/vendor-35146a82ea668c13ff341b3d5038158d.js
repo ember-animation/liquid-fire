@@ -4262,7 +4262,7 @@ function r(e,t){return e&&e.data("lfTags_"+t)}function i(e,t){var n=r(e,t)
 if(!n)throw new Error("no animation labeled "+t+" is in progress")
 return n}function o(e,t,n){e&&e.data("lfTags_"+t,n)}function s(e,t){e&&e.data("lfTags_"+t,null)}Object.defineProperty(e,"__esModule",{value:!0}),e.animate=function(e,r,i,u){var l={percentComplete:0,timeRemaining:100,timeSpent:0}
 if(!e||0===e.length)return t.default.resolve()
-if(void 0===(i=i?a(i):{}).display&&(i.display=""),void 0===i.visibility&&(i.visibility="visible"),i.progress)throw new Error("liquid-fire's 'animate' function reserves the use of Velocity's 'progress' option for its own nefarious purposes.")
+if(void 0===(i=i?a(i):{}).display&&(i.display=""),void 0===i.visibility&&(i.visibility=""),i.progress)throw new Error("liquid-fire's 'animate' function reserves the use of Velocity's 'progress' option for its own nefarious purposes.")
 return i.progress=function(){l.percentComplete=arguments[1],l.timeRemaining=arguments[2],l.timeSpent=l.timeRemaining/(1/l.percentComplete-1)},l.promise=t.default.resolve(n.default.animate(e[0],r,i)),u&&(l.promise=l.promise.then(function(){s(e,u)},function(t){throw s(e,u),t}),o(e,u,l)),l.promise},e.stop=function(e){e&&(0,n.default)(e[0],"stop",!0)},e.setDefaults=function(e){for(var t in e)if(e.hasOwnProperty(t)){if("progress"===t)throw new Error("liquid-fire's 'animate' function reserves the use of Velocity's '"+t+"' option for its own nefarious purposes.")
 n.default.defaults[t]=e[t]}},e.isAnimating=r,e.finish=function(e,t){return i(e,t).promise},e.timeSpent=function(e,t){return i(e,t).timeSpent},e.timeRemaining=function(e,t){return i(e,t).timeRemaining}
 var a=Ember.copy
