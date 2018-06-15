@@ -1,5 +1,5 @@
 /* jshint newcap: false */
-import { copy } from '@ember/object/internals';
+import { copy } from 'ember-copy';
 import Promise from "./promise";
 import Velocity from "velocity";
 
