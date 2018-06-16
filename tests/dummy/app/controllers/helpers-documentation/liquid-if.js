@@ -3,7 +3,7 @@ import Controller from '@ember/controller';
 
 export default Controller.extend({
   vehicle: 'bike',
-  vehicles: ['bike', 'car'],
-  states: ['', 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT'],
+  vehicles: Object.freeze(['bike', 'car']),
+  states: Object.freeze(['', 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT']),
   isBike: equal('vehicle', 'bike')
 });

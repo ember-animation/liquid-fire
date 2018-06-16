@@ -16,7 +16,7 @@ export default Component.extend({
     this._waitForAll().then(() => {
       if (!this.isDestroying) {
         this._waitingFor = null;
-        this.sendAction('liquidChildDidRender', this);
+        this.get('liquidChildDidRender')(this);
       }
     });
   },

@@ -14,7 +14,7 @@ let allModels = A([
 export default Controller.extend({
   showFirst: true,
 
-  sortBy: ['firstName'],
+  sortBy: Object.freeze(['firstName']),
 
   models: allModels.slice(),
 
