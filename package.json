@@ -24,6 +24,7 @@
     "broccoli-merge-trees": "^1.0.0",
     "broccoli-stew": "^1.4.2",
     "ember-cli-babel": "^6.6.0",
+    "ember-copy": "^1.0.0",
     "ember-cli-htmlbars": "^2.0.1",
     "ember-cli-version-checker": "^2.0.0",
     "ember-getowner-polyfill": "^2.0.1",
