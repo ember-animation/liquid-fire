@@ -17,7 +17,6 @@ export default Component.extend({
     this._waitForAll().then(() => {
       if (!this.isDestroying) {
         this._waitingFor = null;
-
         const didRenderAction = get(this, 'liquidChildDidRender');
         if (typeof(didRenderAction) === 'function') {
           didRenderAction(this);

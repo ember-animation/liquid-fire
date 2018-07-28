@@ -1,4 +1,3 @@
-import { on } from '@ember/object/evented';
 import Component from '@ember/component';
 import Growable from "liquid-fire/growable";
 import { measure } from "./liquid-measured";
@@ -42,9 +41,10 @@ export default Component.extend(Growable, {
     }
   },
 
-  startMonitoringSize: on('didInsertElement', function() {
+  didInsertElement() {
+    this._super(...arguments);
     this._wasInserted = true;
-  }),
+  },
 
   actions: {
 
