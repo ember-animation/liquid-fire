@@ -60,7 +60,7 @@ export default Component.extend({
     }
   },
 
-  _transition: function() {
+  _transition() {
     let versions = get(this, 'versions');
     let transition;
     let firstTime = this.firstTime;
@@ -103,11 +103,11 @@ export default Component.extend({
 
   },
 
-  finalizeVersions: function(versions) {
+  finalizeVersions(versions) {
     versions.replace(1, versions.length - 1);
   },
 
-  notifyContainer: function(method, versions) {
+  notifyContainer(method, versions) {
     let target = get(this, 'notify');
     if (target && !target.get('isDestroying')) {
       target.send(method, versions);
@@ -115,7 +115,7 @@ export default Component.extend({
   },
 
   actions: {
-    childDidRender: function(child) {
+    childDidRender(child) {
       let version = get(child, 'version');
       set(version, 'view', child);
       this._transition();

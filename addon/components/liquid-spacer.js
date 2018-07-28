@@ -8,7 +8,7 @@ export default Component.extend(Growable, {
   layout,
   enabled: true,
 
-  didInsertElement: function() {
+  didInsertElement() {
     let child = this.$('> div');
     let measurements = this.myMeasurements(measure(child));
     let elt = this.$();
@@ -32,7 +32,7 @@ export default Component.extend(Growable, {
 
   // given our child's outerWidth & outerHeight, figure out what our
   // outerWidth & outerHeight should be.
-  myMeasurements: function(childMeasurements) {
+  myMeasurements(childMeasurements) {
     let elt = this.$();
     return {
       width: childMeasurements.width + sumCSS(elt, padding('width')) + sumCSS(elt, border('width')),

@@ -12,7 +12,7 @@ export default Component.extend({
     this._destroyOnUnload = this._destroyOnUnload.bind(this);
   },
 
-  didInsertElement: function() {
+  didInsertElement() {
     let self = this;
 
     // This prevents margin collapse
@@ -34,7 +34,7 @@ export default Component.extend({
     window.addEventListener('unload', this._destroyOnUnload);
   },
 
-  willDestroyElement: function() {
+  willDestroyElement() {
     if (this.observer) {
       this.observer.disconnect();
     }
@@ -43,7 +43,7 @@ export default Component.extend({
 
   transitionMap: service('liquid-fire-transitions'),
 
-  didMutate: function() {
+  didMutate() {
     // by incrementing the running transitions counter here we prevent
     // tests from falling through the gap between the time they
     // triggered mutation the time we may actually animate in
@@ -56,7 +56,7 @@ export default Component.extend({
     });
   },
 
-  _didMutate: function() {
+  _didMutate() {
     let elt = this.$();
     if (!elt || !elt[0]) { return; }
     this.set('measurements', measure(elt));

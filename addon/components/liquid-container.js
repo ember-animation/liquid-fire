@@ -7,17 +7,17 @@ export default Component.extend(Growable, {
   layout,
   classNames: ['liquid-container'],
 
-  lockSize: function(elt, want) {
+  lockSize(elt, want) {
     elt.outerWidth(want.width);
     elt.outerHeight(want.height);
   },
 
-  unlockSize: function() {
+  unlockSize() {
     let doUnlock = () => {
       this.updateAnimatingClass(false);
-      let elt = this.$();
-      if (elt) {
-        elt.css({width: '', height: ''});
+      if (this.element) {
+        this.element.style.width = '';
+        this.element.style.height = '';
       }
     };
     if (this._scaling) {
@@ -35,9 +35,9 @@ export default Component.extend(Growable, {
       return;
     }
     if (on) {
-      this.$().addClass('liquid-animating');
+      this.element.classList.add('liquid-animating');
     } else {
-      this.$().removeClass('liquid-animating');
+      this.element.classList.remove('liquid-animating');
     }
   },
 
@@ -48,7 +48,7 @@ export default Component.extend(Growable, {
 
   actions: {
 
-    willTransition: function(versions) {
+    willTransition(versions) {
       if (!this._wasInserted) {
         return;
       }
@@ -64,7 +64,7 @@ export default Component.extend(Growable, {
 
     },
 
-    afterChildInsertion: function(versions) {
+    afterChildInsertion(versions) {
       let elt = this.$();
       let enableGrowth = this.get('enableGrowth') !== false;
 
@@ -106,7 +106,7 @@ export default Component.extend(Growable, {
       }
     },
 
-    afterTransition: function(versions) {
+    afterTransition(versions) {
       for (let i = 0; i < versions.length; i++) {
         goStatic(versions[i]);
       }
