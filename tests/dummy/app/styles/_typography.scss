@@ -1,93 +1,10 @@
-/* Round up a height to the next baseline */
-@function round-to-baseline($height) {
-    @return ceil($height/$line-height-computed)*$line-height-computed;
-}
-
-/* Adds vertical padding that rounds up from $height to the next
-   multiple of our vertical baseline rhythm. */
-@mixin pad-to-baseline($height) {
-    $extra: round-to-baseline($height) - $height;
-    padding-top: floor($extra/2);
-    padding-bottom: ceil($extra/2);
-}
-@mixin margin-to-baseline($height) {
-    $extra: round-to-baseline($height) - $height;
-    margin-top: floor($extra/2);
-    margin-bottom: ceil($extra/2);
-}
-
-/* Adjusts font-size and line-height so text always take up an integer
-   number of baseline intervals. */
-@mixin baselined-px($height) {
-    font-size: $height;
-    line-height: round-to-baseline($height);
-}
-/* Same as baselined-px, but expects a unitless multiple of the $font-size-base. */
-@mixin baselined($height) {
-    $line-height: round-to-baseline($height * $font-size-base);
-    font-size: $height * $font-size-base;
-    line-height: $line-height;
-}
-
-body {
-    line-height: $line-height-computed;
-}
-
-h1, h2, h3, h4 {
-    font-weight: 300;
-}
-
-h1 {
-    @include baselined-px($font-size-h1);
-    margin: $line-height-computed 0;
-}
-
-h2 {
-    @include baselined-px($font-size-h2);
-    margin: $line-height-computed 0;
-}
-
-h3 {
-    @include baselined-px($font-size-h3);
-    margin: $line-height-computed 0;
-}
-
-h4 {
-    @include baselined-px($font-size-h4);
-    margin-top: floor($line-height-computed / 2);
-    margin-bottom: ceil($line-height-computed / 2);
-}
-
-p {
-    margin-top: 0;
-    margin-bottom: $line-height-computed;
-}
-
 dfn {
-    font-style: normal;
-    border-bottom: 1px dotted #888;
-}
-
-
-ul {
-    margin: $line-height-computed;
-}
-
-ul ul {
-    margin: 0;
-}
-
-code {
-    padding-bottom: 0;
-    padding-top: 0;
-    line-height: 20px;
-    font-size: 14px;
+  font-style: normal;
+  border-bottom: 1px dotted #888;
 }
 
 pre.hljs {
-    margin: 0;
-    margin-bottom:$line-height-computed - 2px;
-    padding-top: ceil($line-height-computed/2);
-    padding-bottom: floor($line-height-computed/2);
-    @include baselined-px(16px);
+  margin: 0;
+  margin-bottom: 2rem;
+  padding: 1rem;
 }

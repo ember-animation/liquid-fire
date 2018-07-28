@@ -3,21 +3,9 @@ documentation. I was a little surprised they're not part of Bootstrap
 itself.*/
 
 .callout {
-    padding: 20px;
-    margin: 20px 0;
-    border: 1px solid #eee;
-    border-left-width: 5px;
-    border-radius: 3px;
-}
-
-.callout+.callout {
-    margin-top: -5px;
-}
-.callout-danger {
-    border-left-color: $tertiary-vd;
-    background-color: lighten($tertiary-vl, 20%);
-}
-.callout-info {
-    border-left-color: $secondary;
-    background-color: $secondary-vl;
+  padding: 1rem;
+  margin: 2rem 0;
+  border: 1px solid #eee;
+  border-left: 5px solid $primary;
+  border-radius: 3px;
 }

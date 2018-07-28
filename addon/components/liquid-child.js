@@ -1,5 +1,6 @@
 import { Promise as EmberPromise } from 'rsvp';
 import Component from '@ember/component';
+import { get } from '@ember/object';
 export default Component.extend({
   classNames: ['liquid-child'],
 
@@ -16,7 +17,10 @@ export default Component.extend({
     this._waitForAll().then(() => {
       if (!this.isDestroying) {
         this._waitingFor = null;
-        this.get('liquidChildDidRender')(this);
+        const didRenderAction = get(this, 'liquidChildDidRender');
+        if (typeof(didRenderAction) === 'function') {
+          didRenderAction(this);
+        }
       }
     });
   },

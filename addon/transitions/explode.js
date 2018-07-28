@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import { isArray, A } from '@ember/array';
-import { copy, guidFor } from '@ember/object/internals';
+import { guidFor } from '@ember/object/internals';
+import { copy } from 'ember-copy';
 import { Promise } from "liquid-fire";
 
 // Explode is not, by itself, an animation. It exists to pull apart

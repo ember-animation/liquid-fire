@@ -1,21 +1,23 @@
 {{#if topic}}
   {{#if topic.route}}
-    {{#link-to topic.route}}
-      {{#if preGlyphicon}}
-        <div class="glyphicon {{preGlyphicon}}"></div>
+    {{#link-to topic.route class="page-link"}}
+      {{#if back}}
+        <span aria-hidden="true">&laquo;</span>
       {{/if}}
       {{topic.title}}
-      {{#if postGlyphicon}}
-        <div class="glyphicon {{postGlyphicon}}"></div>
+      {{#if forward}}
+        <span aria-hidden="true">&raquo;</span>
       {{/if}}
     {{/link-to}}
   {{else}}
-    {{#if preGlyphicon}}
-      <div class="glyphicon {{preGlyphicon}}"></div>
-    {{/if}}
-    {{#if topic.title}}{{topic.title}}{{else}}{{topic}}{{/if}}
-    {{#if postGlyphicon}}
-      <div class="glyphicon {{postGlyphicon}}"></div>
-    {{/if}}
+    <div class="page-link">
+      {{#if back}}
+        <span aria-hidden="true">&laquo;</span>
+      {{/if}}
+      {{if topic.title topic.title topic}}
+      {{#if forward}}
+        <span aria-hidden="true">&raquo;</span>
+      {{/if}}
+    </div>
   {{/if}}
 {{/if}}
