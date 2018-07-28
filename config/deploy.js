@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 module.exports = function(deployTarget) {
   let ENV = {
     build: {},
