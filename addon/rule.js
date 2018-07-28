@@ -1,17 +1,17 @@
-import Ember from "ember";
+import { A } from '@ember/array';
 import Action from "./action";
 import Constraint from "./constraint";
 
 export default class Rule {
   constructor() {
-    this.constraints = Ember.A();
+    this.constraints = A();
     this.use = null;
     this.reverse = null;
   }
 
   add(thing) {
     if (thing instanceof Action) {
-      var prop = 'use';
+      let prop = 'use';
       if (thing.reversed) {
         prop = 'reverse';
       }
@@ -40,7 +40,7 @@ export default class Rule {
   }
 
   invert() {
-    var rule = new this.constructor();
+    let rule = new this.constructor();
     rule.use = this.reverse;
     rule.reverse = this.use;
     rule.constraints = this.constraints.map((c) => c.invert());

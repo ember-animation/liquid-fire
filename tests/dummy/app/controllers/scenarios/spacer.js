@@ -1,8 +1,8 @@
-import Ember from "ember";
-export default Ember.Controller.extend({
+import Controller from '@ember/controller';
+export default Controller.extend({
   count: 1,
-  things: [{number: 0}],
-  
+  things: Object.freeze([{number: 0}]),
+
   actions: {
     addThing: function() {
       this.things.pushObject({ number: ++this.count });

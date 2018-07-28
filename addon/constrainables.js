@@ -49,7 +49,7 @@ export default {
   },
   parentElementClass: {
     accessor: function(conditions) {
-      var cls = conditions.parentElement.attr('class');
+      let cls = conditions.parentElement.attr('class');
       if (cls) {
         return cls.split(/\s+/);
       }
@@ -61,6 +61,6 @@ export default {
 };
 
 function versionValue(conditions, index) {
-  var versions = conditions.versions;
+  let versions = conditions.versions;
   return versions[index] ? versions[index].value : null;
 }

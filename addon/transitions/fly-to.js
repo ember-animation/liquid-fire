@@ -8,8 +8,8 @@ export default function flyTo(opts={}) {
     return Promise.resolve();
   }
 
-  var oldOffset = this.oldElement.offset();
-  var newOffset = this.newElement.offset();
+  let oldOffset = this.oldElement.offset();
+  let newOffset = this.newElement.offset();
 
 
   if (opts.movingSide === 'new') {

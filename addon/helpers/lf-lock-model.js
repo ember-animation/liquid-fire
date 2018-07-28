@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper } from '@ember/component/helper';
 import { childRoute, routeModel } from '../ember-internals';
 
 export function lfLockModel([routeInfo, outletName]) {
@@ -7,4 +7,4 @@ export function lfLockModel([routeInfo, outletName]) {
   return routeInfo;
 }
 
-export default Ember.Helper.helper(lfLockModel);
+export default helper(lfLockModel);

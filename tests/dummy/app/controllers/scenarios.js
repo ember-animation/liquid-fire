@@ -1,5 +1,5 @@
-import Ember from "ember";
-export default Ember.Controller.extend({
+import Controller from '@ember/controller';
+export default Controller.extend({
   queryParams: ['testSalutation', 'testPerson'],
   actions: {
     changeSalutation: function() {

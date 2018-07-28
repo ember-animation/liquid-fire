@@ -1,4 +1,4 @@
-import Ember from "ember";
+import { capitalize } from '@ember/string';
 
 export default class RunningTransition {
   constructor(transitionMap, versions, animation) {
@@ -42,13 +42,13 @@ export default class RunningTransition {
 // This defines the public set of things that user's transition
 // implementations can access as `this`.
 function publicAnimationContext(rt, versions) {
-  var c = {};
+  let c = {};
   addPublicVersion(c, 'new', versions[0]);
   if (versions[1]) {
     addPublicVersion(c, 'old', versions[1]);
   }
   c.older = versions.slice(2).map((v) => {
-    var context = {};
+    let context = {};
     addPublicVersion(context, null, v);
     return context;
   });
@@ -62,16 +62,16 @@ function publicAnimationContext(rt, versions) {
 }
 
 function addPublicVersion(context, prefix, version) {
-  var props = {
+  let props = {
     view: version.view,
     element: version.view ? version.view.$() : null,
     value: version.value
   };
-  for (var key in props) {
-    var outputKey = key;
+  for (let key in props) {
+    let outputKey = key;
     if (props.hasOwnProperty(key)) {
       if (prefix) {
-        outputKey = prefix + Ember.String.capitalize(key);
+        outputKey = prefix + capitalize(key);
       }
       context[outputKey] = props[key];
     }

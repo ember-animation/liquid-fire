@@ -1,7 +1,8 @@
-import Ember from "ember";
+import { A } from '@ember/array';
+import Controller from '@ember/controller';
 
-var i = 0;
-var photos = ["/images/team/ykatz.jpg", "/images/team/tdale.jpg", "/images/team/pwagenet.jpg", "/images/team/tglowaki.jpg", "/images/team/ebryn.jpg", "/images/team/kselden.jpg", "/images/team/spenner.jpg", "/images/team/lsilber.jpg", "/images/team/amatchneer.jpg", "/images/team/rjackson.jpg", "/images/team/iterzic.jpeg", "/images/team/mbeale.jpg", "/images/team/efaulkner.jpg"].map((url)=> {
+let i = 0;
+let photos = ["/images/team/ykatz.jpg", "/images/team/tdale.jpg", "/images/team/pwagenet.jpg", "/images/team/tglowaki.jpg", "/images/team/ebryn.jpg", "/images/team/kselden.jpg", "/images/team/spenner.jpg", "/images/team/lsilber.jpg", "/images/team/amatchneer.jpg", "/images/team/rjackson.jpg", "/images/team/iterzic.jpeg", "/images/team/mbeale.jpg", "/images/team/efaulkner.jpg"].map((url)=> {
     return {
       url: "http://emberjs.com" + url,
       id: i++
@@ -9,7 +10,7 @@ var photos = ["/images/team/ykatz.jpg", "/images/team/tdale.jpg", "/images/team/
 });
 
 
-export default Ember.Controller.extend({
+export default Controller.extend({
 
   photos: photos.slice(),
 
@@ -21,7 +22,7 @@ export default Ember.Controller.extend({
       this.get('photos').forEach((photo) => {
         photo._randomPosition = Math.random();
       });
-      this.set('photos', Ember.A(this.get('photos')).sortBy('_randomPosition'));
+      this.set('photos', A(this.get('photos')).sortBy('_randomPosition'));
     }
   }
 });

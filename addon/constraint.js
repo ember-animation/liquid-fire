@@ -1,4 +1,5 @@
-import Ember from "ember";
+import { guidFor } from '@ember/object/internals';
+import { isArray, A } from '@ember/array';
 import constrainables from "./constrainables";
 
 // Every rule constraint has a target and either `keys` or
@@ -25,27 +26,27 @@ export default class Constraint {
     if (!constrainables[this.target].reversesTo) {
       return this;
     }
-    var inverse = new this.constructor(constrainables[this.target].reversesTo);
+    let inverse = new this.constructor(constrainables[this.target].reversesTo);
     inverse.predicate = this.predicate;
     inverse.keys = this.keys;
     return inverse;
   }
 }
 
-export var EMPTY = '__liquid_fire_EMPTY__';
-export var ANY = '__liquid_fire_ANY__';
+export const EMPTY = '__liquid_fire_EMPTY__';
+export const ANY = '__liquid_fire_ANY__';
 
 export function constraintKeys(matcher) {
   if (typeof matcher === 'undefined' || matcher === null) {
     matcher = [ EMPTY ];
-  } else if (!Ember.isArray(matcher)) {
+  } else if (!isArray(matcher)) {
     matcher = [matcher];
   }
-  return Ember.A(matcher).map((elt) => {
+  return A(matcher).map((elt) => {
     if (typeof elt === 'string') {
       return elt;
     } else {
-      return Ember.guidFor(elt);
+      return guidFor(elt);
     }
   });
 }

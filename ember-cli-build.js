@@ -1,24 +1,48 @@
-/* global require, module */
+'use strict';
 
-var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
-var fs = require('fs');
-var path = require('path');
+const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function(defaults) {
-  var app = new EmberAddon(defaults, {
+  let app = new EmberAddon(defaults, {
+    sassOptions: {
+      includePaths: 'node_modules/bootstrap/scss'
+    },
     snippetPaths: ['tests/dummy/snippets'],
     snippetSearchPaths: ['app', 'tests/dummy/app', 'addon'],
     trees: {
       'public': 'tests/dummy/public'
+    },
+    prember: {
+      // GitHub Pages uses this filename to serve 404s
+      emptyFile: '404.html',
+
+      urls: [
+        '/',
+        '/installation',
+        '/cookbook',
+        '/helpers',
+        '/helpers/liquid-outlet',
+        '/helpers/liquid-outlet',
+        '/helpers/liquid-bind',
+        '/helpers/liquid-bind-block/1',
+        '/helpers/liquid-if',
+        '/helpers/liquid-spacer',
+        '/transition-map',
+        '/transition-map/route-constraints',
+        '/transition-map/value-constraints',
+        '/transition-map/media-constraints',
+        '/transition-map/dom-constraints',
+        '/transition-map/initial-constraints',
+        '/transition-map/choosing-transitions',
+        '/transition-map/debugging-constraints',
+        '/transitions',
+        '/transitions/predefined',
+        '/transitions/explode',
+        '/transitions/defining',
+        '/transitions/primitives'
+      ]
     }
   });
-  app.import('bower_components/moment/moment.js');
-
-  var bootstrap = 'bower_components/bootstrap-sass-official/assets/fonts/bootstrap';
-  fs.readdirSync(bootstrap).forEach(function(font){
-    app.import(path.join(bootstrap, font), { destDir: '/fonts/bootstrap'});
-  });
-
 
   return app.toTree();
 };

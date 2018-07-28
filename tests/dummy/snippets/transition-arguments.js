@@ -1,5 +1,5 @@
 /* app/transitions/my-animation.js */
-export default function(color, opts) {
+export default function(/* color , opts */) {
   //...
 }
 

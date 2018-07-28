@@ -1,5 +1,7 @@
-import Ember from "ember";
-export default Ember.Component.extend({
+import { Promise as EmberPromise } from 'rsvp';
+import Component from '@ember/component';
+import { get } from '@ember/object';
+export default Component.extend({
   classNames: ['liquid-child'],
 
   init() {
@@ -14,7 +16,10 @@ export default Ember.Component.extend({
     this._waitForAll().then(() => {
       if (!this.isDestroying) {
         this._waitingFor = null;
-        this.sendAction('liquidChildDidRender', this);
+        const didRenderAction = get(this, 'liquidChildDidRender');
+        if (typeof(didRenderAction) === 'function') {
+          didRenderAction(this);
+        }
       }
     });
   },
@@ -33,7 +38,7 @@ export default Ember.Component.extend({
   _waitForAll() {
     const promises = this._waitingFor;
     this._waitingFor = [];
-    return Ember.RSVP.Promise.all(promises).then(() => {
+    return EmberPromise.all(promises).then(() => {
       if (this._waitingFor.length > 0) {
         return this._waitForAll();
       }

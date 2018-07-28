@@ -1,10 +1,19 @@
-import Ember from "ember";
+import { computed } from '@ember/object';
+import Controller from '@ember/controller';
+import ENV from 'dummy/config/environment';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   queryParams: ['warn'],
   warn: 0,
+  rootURL: computed(function() {
+    let url = ENV.rootURL;
+    if (!/\/$/.test(url)) {
+      url += '/';
+    }
+    return url;
+  }),
 
-  tableOfContents: Ember.computed(function(){
+  tableOfContents: computed(function(){
     return [
       { route: "index",   title: "Introduction"},
       { route: "installation",   title: "Installation & Compatibility"},
@@ -41,8 +50,8 @@ export default Ember.Controller.extend({
     ];
   }),
 
-  flatContents: Ember.computed('tableOfContents', function(){
-    var flattened = [];
+  flatContents: computed('tableOfContents', function(){
+    let flattened = [];
     this.get('tableOfContents').forEach(function(entry) {
       flattened.push(entry);
       if (entry.children){
@@ -53,13 +62,13 @@ export default Ember.Controller.extend({
   }),
 
 
-  currentIndex: Ember.computed('currentRouteName', 'flatContents', function(){
-    var contents = this.get('flatContents'),
+  currentIndex: computed('currentRouteName', 'flatContents', function(){
+    let contents = this.get('flatContents'),
         current = this.get('currentRouteName'),
         bestMatch,
         entry;
 
-    for (var i=0; i<contents.length; i++) {
+    for (let i=0; i<contents.length; i++) {
       entry = contents[i];
       if (entry.route && new RegExp('^' + entry.route.replace(/\./g, '\\.')).test(current)) {
         if (typeof(bestMatch) === 'undefined' || contents[bestMatch].route.length < entry.route.length) {
@@ -70,16 +79,16 @@ export default Ember.Controller.extend({
     return bestMatch;
   }),
 
-  nextTopic: Ember.computed('currentIndex', 'flatContents', function(){
-    var contents = this.get('flatContents'),
+  nextTopic: computed('currentIndex', 'flatContents', function(){
+    let contents = this.get('flatContents'),
         index = this.get('currentIndex');
     if (typeof(index) !== "undefined") {
       return contents[index+1];
     }
   }),
 
-  prevTopic: Ember.computed('currentIndex', 'flatContents', function(){
-    var contents = this.get('flatContents'),
+  prevTopic: computed('currentIndex', 'flatContents', function(){
+    let contents = this.get('flatContents'),
         index = this.get('currentIndex');
     if (typeof(index) !== "undefined") {
       return contents[index-1];

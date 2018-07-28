@@ -1,21 +1,15 @@
-import Ember from "ember";
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
-  classNames: ['nav-link'],
+export default Component.extend({
+  classNames: ['page-item'],
   classNameBindings: ['direction'],
 
-  preGlyphicon: Ember.computed('direction', 'topic', function(){
-    if (this.get('topic') && this.get('direction') === 'back') {
-      return 'glyphicon-chevron-left';
-    }
+  back: computed('direction', 'topic', function(){
+    return this.get('topic') && this.get('direction') === 'back';
   }),
 
-  postGlyphicon: Ember.computed('direction', 'topic', function(){
-    if (this.get('topic') && this.get('direction') === 'forward') {
-      return 'glyphicon-chevron-right';
-    }
+  forward: computed('direction', 'topic', function(){
+    return this.get('topic') && this.get('direction') === 'forward';
   })
-
-
-
 });

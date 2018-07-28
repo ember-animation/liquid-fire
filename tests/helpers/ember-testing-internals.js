@@ -1,6 +1,9 @@
+import Component from '@ember/component';
+import { guidFor } from '@ember/object/internals';
+import Service from '@ember/service';
+import { getOwner } from '@ember/application';
 import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
-const { getOwner } = Ember;
 
 class RouteInfo {
   constructor(builder, { template, controller, name }, outlets = {}) {
@@ -34,7 +37,7 @@ class RouteInfo {
   }
 }
 
-export const RouteBuilder = Ember.Service.extend({
+export const RouteBuilder = Service.extend({
   makeRoute(args) {
     if (args.template) {
       args.template = this._prepareTemplate(args.template);
@@ -42,7 +45,7 @@ export const RouteBuilder = Ember.Service.extend({
     return new RouteInfo(this, args);
   },
   _prepareTemplate(compiled) {
-    let name = `template:${Ember.guidFor({})}`;
+    let name = `template:${guidFor({})}`;
     let owner = getOwner(this);
     owner.register(name, compiled);
     return owner.lookup(name);
@@ -58,7 +61,7 @@ try {
   usingGlimmer2 = false;
 }
 
-export const SetRouteComponent = Ember.Component.extend({
+export const SetRouteComponent = Component.extend({
   tagName: '',
   layout: hbs`{{#-with-dynamic-vars outletState=outletState}}{{yield}}{{/-with-dynamic-vars}}`,
   didReceiveAttrs() {

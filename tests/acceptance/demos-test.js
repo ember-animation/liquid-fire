@@ -1,5 +1,5 @@
 /* global ranTransition, noTransitionsYet */
-import Ember from 'ember';
+import { later } from '@ember/runloop';
 import { test, skip } from 'qunit';
 import moduleForAcceptance from '../helpers/module-for-acceptance';
 import { injectTransitionSpies,
@@ -18,13 +18,13 @@ moduleForAcceptance('Acceptance: Demos', {
 });
 
 test('visit every link in sidebar', function(assert) {
-  var lastRouteName = 'transitions.primitives.index';
+  let lastRouteName = 'transitions.primitives.index';
   assert.expect(1);
 
   function navigateForward() {
-    var forward = find('.nav-link.forward a');
+    let forward = find('.page-item.forward a');
     if (forward.length > 0) {
-      click('.nav-link.forward a');
+      click('.page-item.forward a');
       andThen(navigateForward);
     } else {
       assert.equal(currentRouteName(), lastRouteName);
@@ -70,9 +70,9 @@ test('liquid bind block-form demo', function(assert) {
 });
 
 test('liquid bind demo', function(assert) {
-  var first, second;
+  let first, second;
   function clock() {
-    var m = /(\d\d)\s*:\s*(\d\d)\s*:\s*(\d\d)/.exec($('#liquid-bind-demo').text());
+    let m = /(\d\d)\s*:\s*(\d\d)\s*:\s*(\d\d)/.exec($('#liquid-bind-demo').text());
     assert.ok(m, "Read the clock");
     return parseInt(m[3]);
   }
@@ -127,10 +127,10 @@ skip('interruption demo, early interruption', function(assert) {
   andThen(function(){
     classFound(assert, 'one');
     clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
-    Ember.run.later(function(){
+    later(function(){
       isPartiallyOpaque(assert, '.one');
       clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
-      Ember.run.later(function(){
+      later(function(){
         isTransparent(assert, '.one');
         isHidden(assert, '.two');
         isPartiallyOpaque(assert, '.three');
@@ -149,11 +149,11 @@ skip('interruption demo, two early interruptions', function(assert) {
     classFound(assert, 'one');
     clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
     clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
-    Ember.run.later(function(){
+    later(function(){
       isPartiallyOpaque(assert, '.one');
       isHidden(assert, '.two');
       isHidden(assert, '.three');
-      Ember.run.later(function(){
+      later(function(){
         isTransparent(assert, '.one');
         isHidden(assert, '.two');
         isPartiallyOpaque(assert, '.three');
@@ -171,10 +171,10 @@ skip('interruption demo, late interruption', function(assert) {
   andThen(function(){
     classFound(assert, 'one');
     clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
-    Ember.run.later(function(){
+    later(function(){
       isPartiallyOpaque(assert, '.two');
       clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
-      Ember.run.later(function() {
+      later(function() {
         isTransparent(assert, '.one');
         isTransparent(assert, '.two');
         isPartiallyOpaque(assert, '.three');
@@ -191,13 +191,13 @@ skip('interruption demo, two late interruptions', function(assert) {
   andThen(function(){
     classFound(assert, 'one');
     clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
-    Ember.run.later(function(){
+    later(function(){
       isPartiallyOpaque(assert, '.two');
       clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
-      Ember.run.later(function() {
+      later(function() {
         isPartiallyOpaque(assert, '.three');
         clickWithoutWaiting('#interrupted-fade-demo a', 'One');
-        Ember.run.later(function() {
+        later(function() {
           isTransparent(assert, '.three');
           isTransparent(assert, '.two');
           isPartiallyOpaque(assert, '.one');
@@ -224,7 +224,7 @@ test('explode demo 1', function(assert) {
 });
 
 test('explode demo 2', function(assert) {
-  var ids;
+  let ids;
   visit('/transitions/explode');
   andThen(function(){
     ids = find('#explode-demo-2 img').toArray().map((elt) => {
@@ -233,7 +233,7 @@ test('explode demo 2', function(assert) {
     click('button:contains(Shuffle)');
   });
   andThen(function(){
-    var newIds = find('#explode-demo-2 img').toArray().map((elt) => {
+    let newIds = find('#explode-demo-2 img').toArray().map((elt) => {
       return $(elt).attr('data-photo-id');
     });
     assert.notDeepEqual(ids, newIds);
@@ -243,12 +243,12 @@ test('explode demo 2', function(assert) {
 });
 
 function isPartiallyOpaque(assert, selector) {
-  var opacity = parseFloat(findWithAssert(selector).parent().css('opacity'));
+  let opacity = parseFloat(findWithAssert(selector).parent().css('opacity'));
   assert.ok(opacity > 0 && opacity < 1, `${selector} opacity: ${opacity} should be partially opaque`);
 }
 
 function isTransparent(assert, selector) {
-  var opacity = parseFloat(findWithAssert(selector).parent().css('opacity'));
+  let opacity = parseFloat(findWithAssert(selector).parent().css('opacity'));
   assert.ok(opacity === 0, `${selector} opacity: ${opacity} should be 0`);
 }
 

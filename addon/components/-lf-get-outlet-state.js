@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 import { getOutletStateTemplate } from 'liquid-fire/ember-internals';
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: '',
   layout: getOutletStateTemplate
 });

@@ -1,8 +1,8 @@
-import Ember from "ember";
+import { Promise as EmberPromise } from 'rsvp';
 import { test, moduleForComponent } from "ember-qunit";
 import hbs from 'htmlbars-inline-precompile';
 
-var tmap;
+let tmap;
 
 moduleForComponent('Integration: liquid-container', {
   integration: true,
@@ -16,7 +16,7 @@ moduleForComponent('Integration: liquid-container', {
 
 ['content-box', 'border-box'].forEach(function(boxSizing) {
   test(`it should maintain size stability (${boxSizing})`, function(assert) {
-    var initialSize;
+    let initialSize;
     this.set('value', 'first-value');
     this.set('boxSizing', boxSizing);
     this.render(hbs`
@@ -68,7 +68,7 @@ moduleForComponent('Integration: liquid-container', {
       this.$('button').click();
       return tmap.waitUntilIdle();
     }).then(() => {
-      var newSize = {
+      let newSize = {
         width: this.$('.test-container').outerWidth(),
         height: this.$('.test-container').outerHeight()
       };
@@ -77,7 +77,7 @@ moduleForComponent('Integration: liquid-container', {
       this.$('button').click();
       return tmap.waitUntilIdle();
     }).then(() => {
-      var newSize = {
+      let newSize = {
         width: this.$('.test-container').outerWidth(),
         height: this.$('.test-container').outerHeight()
       };
@@ -87,9 +87,9 @@ moduleForComponent('Integration: liquid-container', {
 });
 
 test(`has liquid-animating class during animation`, function(assert) {
-  var resolveAnimation;
+  let resolveAnimation;
   this.registry.register('transition:blocking', function() {
-    return new Ember.RSVP.Promise(function(resolve) {
+    return new EmberPromise(function(resolve) {
       resolveAnimation = resolve;
     });
   });

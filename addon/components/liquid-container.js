@@ -1,9 +1,9 @@
-import Ember from "ember";
+import Component from '@ember/component';
 import Growable from "liquid-fire/growable";
 import { measure } from "./liquid-measured";
 import layout from "liquid-fire/templates/components/liquid-container";
 
-export default Ember.Component.extend(Growable, {
+export default Component.extend(Growable, {
   layout,
   classNames: ['liquid-container'],
 
@@ -13,7 +13,7 @@ export default Ember.Component.extend(Growable, {
   },
 
   unlockSize() {
-    var doUnlock = () => {
+    let doUnlock = () => {
       this.updateAnimatingClass(false);
       if (this.element) {
         this.element.style.width = '';
@@ -41,9 +41,10 @@ export default Ember.Component.extend(Growable, {
     }
   },
 
-  startMonitoringSize: Ember.on('didInsertElement', function() {
+  didInsertElement() {
+    this._super(...arguments);
     this._wasInserted = true;
-  }),
+  },
 
   actions: {
 
@@ -53,23 +54,23 @@ export default Ember.Component.extend(Growable, {
       }
 
       // Remember our own size before anything changes
-      var elt = this.$();
+      let elt = this.$();
       this._cachedSize = measure(elt);
 
       // And make any children absolutely positioned with fixed sizes.
-      for (var i = 0; i < versions.length; i++) {
+      for (let i = 0; i < versions.length; i++) {
         goAbsolute(versions[i]);
       }
 
     },
 
     afterChildInsertion(versions) {
-      var elt = this.$();
-      var enableGrowth = this.get('enableGrowth') !== false;
+      let elt = this.$();
+      let enableGrowth = this.get('enableGrowth') !== false;
 
       // Measure children
-      var sizes = [];
-      for (var i = 0; i < versions.length; i++) {
+      let sizes = [];
+      for (let i = 0; i < versions.length; i++) {
         if (versions[i].view) {
           sizes[i] = measure(versions[i].view.$());
         }
@@ -77,8 +78,8 @@ export default Ember.Component.extend(Growable, {
 
       // Measure ourself again to see how big the new children make
       // us.
-      var want = measure(elt);
-      var have = this._cachedSize || want;
+      let want = measure(elt);
+      let have = this._cachedSize || want;
 
       // Make ourself absolute
       if (enableGrowth) {
@@ -95,7 +96,7 @@ export default Ember.Component.extend(Growable, {
       this.updateAnimatingClass(true);
 
       // Make the children absolute and fixed size.
-      for (i = 0; i < versions.length; i++) {
+      for (let i = 0; i < versions.length; i++) {
         goAbsolute(versions[i], sizes[i]);
       }
 
@@ -106,7 +107,7 @@ export default Ember.Component.extend(Growable, {
     },
 
     afterTransition(versions) {
-      for (var i = 0; i < versions.length; i++) {
+      for (let i = 0; i < versions.length; i++) {
         goStatic(versions[i]);
       }
       this.unlockSize();
@@ -118,8 +119,8 @@ function goAbsolute(version, size) {
   if (!version.view) {
     return;
   }
-  var elt = version.view.$();
-  var pos = elt.position();
+  let elt = version.view.$();
+  let pos = elt.position();
   if (!size) {
     size = measure(elt);
   }

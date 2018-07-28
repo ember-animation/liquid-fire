@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 import layout from "liquid-fire/templates/components/illiquid-model";
 
-const IlliquidModel = Ember.Component.extend({
+const IlliquidModel = Component.extend({
   layout,
   tagName: '',
   didReceiveAttrs() {

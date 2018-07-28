@@ -1,3 +1,4 @@
+import { resolve } from 'rsvp';
 import Ember from "ember";
 import { test, moduleForComponent } from "ember-qunit";
 import sinon from 'sinon';
@@ -8,7 +9,7 @@ moduleForComponent('Integration: liquid-bind', {
   integration: true,
   afterEach(assert) {
     let done = assert.async();
-    var tmap = this.container.lookup('service:liquid-fire-transitions');
+    let tmap = this.container.lookup('service:liquid-fire-transitions');
     tmap.waitUntilIdle().then(done);
   }
 });
@@ -52,7 +53,7 @@ test('it should support element id', function(assert) {
 });
 
 test('it should support `use` option with a name', function(assert) {
-  var tmap = this.container.lookup('service:liquid-fire-transitions');
+  let tmap = this.container.lookup('service:liquid-fire-transitions');
   sinon.spy(tmap, 'transitionFor');
   this.set('name', 'unicorn');
   this.render(hbs`{{liquid-bind name use="fade"}}`);
@@ -61,7 +62,7 @@ test('it should support `use` option with a name', function(assert) {
 });
 
 test('it should support `use` option with a function', function(assert) {
-  let transition = sinon.stub().returns(Ember.RSVP.resolve());
+  let transition = sinon.stub().returns(resolve());
   this.set('transition', transition);
   this.set('name', 'unicorn');
   this.render(hbs`{{liquid-bind name use=transition}}`);
@@ -70,8 +71,8 @@ test('it should support `use` option with a function', function(assert) {
 });
 
 test('it should support locally-scoped `rules`', function(assert) {
-  let transitionA = sinon.stub().returns(Ember.RSVP.resolve());
-  let transitionB = sinon.stub().returns(Ember.RSVP.resolve());
+  let transitionA = sinon.stub().returns(resolve());
+  let transitionB = sinon.stub().returns(resolve());
   this.set('rules', function() {
     this.transition(
       this.toValue('other'),
@@ -93,8 +94,8 @@ test('it should support locally-scoped `rules`', function(assert) {
 
 
 test('if should match correct helper name', function(assert) {
-  var tmap = this.container.lookup('service:liquid-fire-transitions');
-  var dummyAnimation = function(){ return Ember.RSVP.resolve(); };
+  let tmap = this.container.lookup('service:liquid-fire-transitions');
+  let dummyAnimation = function(){ return resolve(); };
   tmap.map(function() {
     this.transition(
       this.inHelper('liquid-bind'),
@@ -126,7 +127,7 @@ test('should support `class` on liquid-children in containerless mode', function
 
 skip('should pass container arguments through', function(assert) {
   this.render(hbs`{{liquid-bind foo enableGrowth=false}}`);
-  var containerElement = this.$(' > .liquid-container');
-  var container = Ember.View.views[containerElement.attr('id')];
+  let containerElement = this.$(' > .liquid-container');
+  let container = Ember.View.views[containerElement.attr('id')];
   assert.equal(container.get('enableGrowth'), false, 'liquid-container enableGrowth');
 });

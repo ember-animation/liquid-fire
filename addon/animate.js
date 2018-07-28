@@ -1,6 +1,6 @@
 /* jshint newcap: false */
+import { copy } from 'ember-copy';
 import Promise from "./promise";
-import Ember from "ember";
 import Velocity from "velocity";
 
 // Make sure Velocity always has promise support by injecting our own
@@ -19,7 +19,7 @@ export function animate(elt, props, opts, label) {
   // These numbers are just sane defaults in the probably-impossible
   // case where somebody tries to read our state before the first
   // 'progress' callback has fired.
-  var state = { percentComplete: 0, timeRemaining: 100, timeSpent: 0 };
+  let state = { percentComplete: 0, timeRemaining: 100, timeSpent: 0 };
 
   if (!elt || elt.length === 0) {
     return Promise.resolve();
@@ -28,7 +28,7 @@ export function animate(elt, props, opts, label) {
   if (!opts) {
     opts = {};
   } else {
-    opts = Ember.copy(opts);
+    opts = copy(opts);
   }
 
   // By default, we ask velocity to clear the element's `display`
@@ -40,7 +40,7 @@ export function animate(elt, props, opts, label) {
     opts.display = '';
   }
   if (typeof(opts.visibility) === 'undefined') {
-    opts.visibility = 'visible';
+    opts.visibility = '';
   }
 
   if (opts.progress) {
@@ -75,7 +75,7 @@ export function stop(elt) {
 }
 
 export function setDefaults(props) {
-  for (var key in props) {
+  for (let key in props) {
     if (props.hasOwnProperty(key)) {
       if (key === 'progress') {
         throw new Error("liquid-fire's 'animate' function reserves the use of Velocity's '" + key + "' option for its own nefarious purposes.");
@@ -103,7 +103,7 @@ export function timeRemaining(elt, animationLabel) {
 
 
 function stateForLabel(elt, label) {
-  var state = isAnimating(elt, label);
+  let state = isAnimating(elt, label);
   if (!state) {
     throw new Error("no animation labeled " + label + " is in progress");
   }

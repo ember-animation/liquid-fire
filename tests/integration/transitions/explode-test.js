@@ -1,10 +1,11 @@
-import Ember from "ember";
+import { next } from '@ember/runloop';
+import { Promise as EmberPromise, resolve } from 'rsvp';
 import $ from 'jquery';
 import { test, moduleForComponent } from "ember-qunit";
 import hbs from 'htmlbars-inline-precompile';
 
-var Promise = Ember.RSVP.Promise;
-var tmap;
+let Promise = EmberPromise;
+let tmap;
 
 moduleForComponent('Integration: explode transition', {
   integration: true,
@@ -59,7 +60,7 @@ test("it matches the background", function(assert) {
         use: function() {
           assert.ok(this.oldElement && this.oldElement.is('.liquid-child'));
           assert.ok(this.newElement && this.newElement.is('.liquid-child'));
-          return Ember.RSVP.resolve();
+          return resolve();
         }
       })
     );
@@ -76,7 +77,7 @@ test("it matches the background", function(assert) {
 });
 
 test("it provides default visibility control for background", function(assert) {
-  var liquidContainer;
+  let liquidContainer;
   assert.expect(2);
   tmap.map(function() {
     this.transition(
@@ -85,7 +86,7 @@ test("it provides default visibility control for background", function(assert) {
         pick: '.something',
         use: function() {
           return new Promise((resolve)=>{
-            Ember.run.next(() => {
+            next(() => {
               assert.equal(liquidContainer.find('.liquid-child .bluebox').parent().css('visibility'), 'visible', 'new element');
               assert.equal(liquidContainer.find('.liquid-child .redbox').parent().css('visibility'), 'hidden', 'old element');
               resolve();
@@ -118,7 +119,7 @@ test("it can pick", function(assert) {
         use: function() {
           assert.equal(this.oldElement && this.oldElement.text(), "Old Title");
           assert.equal(this.newElement && this.newElement.text(), "New Title");
-          return Ember.RSVP.resolve();
+          return resolve();
         }
       })
     );
@@ -145,7 +146,7 @@ test("it can use pickOld and pickNew together", function(assert) {
         use: function() {
           assert.equal(this.oldElement && this.oldElement.text(), "Old Title");
           assert.equal(this.newElement && this.newElement.text(), "New Title");
-          return Ember.RSVP.resolve();
+          return resolve();
         }
       })
     );
@@ -172,7 +173,7 @@ test("it can pickOld by itself", function(assert) {
         use: function() {
           assert.equal(this.oldElement && this.oldElement.text(), "Old Title");
           assert.ok(!this.newElement, "Should be no new element");
-          return Ember.RSVP.resolve();
+          return resolve();
         }
       })
     );
@@ -198,7 +199,7 @@ test("it can pickNew by itself", function(assert) {
         use: function() {
           assert.equal(this.newElement && this.newElement.text(), "New Title");
           assert.ok(!this.oldElement, "Should be no old element");
-          return Ember.RSVP.resolve();
+          return resolve();
         }
       })
     );
@@ -223,12 +224,12 @@ test("it can matchBy data attribute", function(assert) {
       this.use('explode', {
         matchBy: 'data-model-id',
         use: function() {
-          var oldText = this.oldElement && this.oldElement.text();
-          var newText = this.newElement && this.newElement.text();
+          let oldText = this.oldElement && this.oldElement.text();
+          let newText = this.newElement && this.newElement.text();
           assert.ok(/Old/.test(oldText), "old text");
           assert.ok(/New/.test(newText), "new text");
           assert.equal(oldText && oldText.slice(4), newText && newText.slice(4));
-          return Ember.RSVP.resolve();
+          return resolve();
         }
       })
     );
@@ -254,11 +255,11 @@ test("it can matchBy data elements whose value needs quotes", function(assert) {
       this.use('explode', {
         matchBy: 'data-model-name',
         use: function() {
-          var oldText = this.oldElement && this.oldElement.text();
-          var newText = this.newElement && this.newElement.text();
+          let oldText = this.oldElement && this.oldElement.text();
+          let newText = this.newElement && this.newElement.text();
           assert.ok(/Old/.test(oldText), "old text");
           assert.ok(/New/.test(newText), "new text");
-          return Ember.RSVP.resolve();
+          return resolve();
         }
       })
     );
@@ -310,14 +311,14 @@ test("elements matched in earlier pieces don't also match later pieces", functio
         use: function() {
           assert.ok(this.oldElement, 'expected old element with class=early');
           assert.ok(!this.newElement, 'expected no new element with class=early');
-          return Ember.RSVP.resolve();
+          return resolve();
         }
       }, {
         pick: '.late',
         use: function() {
           assert.ok(!this.oldElement, 'expected old element with class=late to already match elsewhere');
           assert.ok(this.newElement, 'expected new element with class=late');
-          return Ember.RSVP.resolve();
+          return resolve();
         }
       })
     );
@@ -342,7 +343,7 @@ test("it doesn't throw an error if no match is found", function(assert) {
         matchBy: 'data-model-id',
         use: function() {
           assert.ok(true);
-          return Ember.RSVP.resolve();
+          return resolve();
         }
       })
     );
@@ -369,12 +370,12 @@ test("it can matchBy id", function(assert) {
         pickNew: '.reducedScope',
         matchBy: 'id',
         use: function() {
-          var oldText = this.oldElement && this.oldElement.text();
-          var newText = this.newElement && this.newElement.text();
+          let oldText = this.oldElement && this.oldElement.text();
+          let newText = this.newElement && this.newElement.text();
           assert.ok(/Old/.test(oldText), "old text");
           assert.ok(/New/.test(newText), "new text");
           assert.equal(oldText && oldText.slice(4), newText && newText.slice(4));
-          return Ember.RSVP.resolve();
+          return resolve();
         }
       })
     );
@@ -397,7 +398,7 @@ test("it can matchBy id", function(assert) {
 ['border-box', 'content-box'].forEach(function(boxSizing) {
 
   test(`it avoids a jump at start of animation, with absolutely positioned elements (${boxSizing})`, function(assert) {
-    var didTransition = false;
+    let didTransition = false;
     tmap.map(function() {
       this.transition(
         this.hasClass('explode-transition-test'),
@@ -414,14 +415,14 @@ test("it can matchBy id", function(assert) {
             // original oldElement, which we can still find inside a
             // liquid-child (the copy is not inside a liquid-child, that
             // is part of the point of explode).
-            var realOldElement = this.oldElement.parent().find('.liquid-child .redbox');
+            let realOldElement = this.oldElement.parent().find('.liquid-child .redbox');
             assert.equal(realOldElement.length, 1, 'found actual old element');
             assert.equal(realOldElement.css('visibility'), 'hidden');
             assert.deepEqual(realOldElement.offset(), this.oldElement.offset(), "element didn't jump");
             assert.equal(realOldElement.outerWidth(), this.oldElement.outerWidth(), "same width");
             assert.equal(realOldElement.outerHeight(), this.oldElement.outerHeight(), "same height");
             didTransition = true;
-            return Ember.RSVP.resolve();
+            return resolve();
           }
         })
       );
@@ -446,7 +447,7 @@ test("it can matchBy id", function(assert) {
 
 
   test(`it avoids a jump at start of animation, with statically positioned elements (${boxSizing})`, function(assert) {
-    var didTransition = false;
+    let didTransition = false;
     tmap.map(function() {
       this.transition(
         this.hasClass('explode-transition-test'),
@@ -463,14 +464,14 @@ test("it can matchBy id", function(assert) {
             // original oldElement, which we can still find inside a
             // liquid-child (the copy is not inside a liquid-child, that
             // is part of the point of explode).
-            var realOldElement = this.oldElement.parent().find('.liquid-child .greenbox');
+            let realOldElement = this.oldElement.parent().find('.liquid-child .greenbox');
             assert.equal(realOldElement.length, 1, 'found actual old element');
             assert.equal(realOldElement.css('visibility'), 'hidden');
             assert.deepEqual(realOldElement.offset(), this.oldElement.offset(), "element didn't jump");
             assert.equal(realOldElement.outerWidth(), this.oldElement.outerWidth(), "same width");
             assert.equal(realOldElement.outerHeight(), this.oldElement.outerHeight(), "same height");
             didTransition = true;
-            return Ember.RSVP.resolve();
+            return resolve();
           }
         })
       );

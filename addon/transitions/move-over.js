@@ -1,7 +1,13 @@
-import { stop, animate, Promise, isAnimating, finish } from "liquid-fire";
+import {
+  stop,
+  animate,
+  Promise,
+  isAnimating,
+  finish
+} from "liquid-fire";
 
 export default function moveOver(dimension, direction, opts) {
-  var oldParams = {},
+  let oldParams = {},
       newParams = {},
       firstStep,
       property,
@@ -23,7 +29,7 @@ export default function moveOver(dimension, direction, opts) {
   }
 
   return firstStep.then(() => {
-    var bigger = biggestSize(this, measure);
+    let bigger = biggestSize(this, measure);
     oldParams[property] = (bigger * direction) + 'px';
     newParams[property] = ["0px", (-1 * bigger * direction) + 'px'];
 
@@ -35,7 +41,7 @@ export default function moveOver(dimension, direction, opts) {
 }
 
 function biggestSize(context, dimension) {
-  var sizes = [];
+  let sizes = [];
   if (context.newElement) {
     sizes.push(parseInt(context.newElement.css(dimension), 10));
     sizes.push(parseInt(context.newElement.parent().css(dimension), 10));

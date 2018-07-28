@@ -1,10 +1,12 @@
 /* jshint newcap: false */
-import Ember from "ember";
+import { inject as service } from '@ember/service';
+
+import Mixin from '@ember/object/mixin';
+import { capitalize } from '@ember/string';
 import Promise from "liquid-fire/promise";
 import Velocity from "velocity";
-var capitalize = Ember.String.capitalize;
 
-export default Ember.Mixin.create({
+export default Mixin.create({
   growDuration: 250,
   growPixelsPerSecond: 200,
   growEasing: 'slide',
@@ -13,11 +15,11 @@ export default Ember.Mixin.create({
   growWidth: true,
   growHeight: true,
 
-  transitionMap: Ember.inject.service('liquid-fire-transitions'),
+  transitionMap: service('liquid-fire-transitions'),
 
   animateGrowth: function(elt, have, want) {
     this.get('transitionMap').incrementRunningTransitions();
-    var adaptations = [];
+    let adaptations = [];
 
     if (this.get('growWidth')) {
       adaptations.push(this._adaptDimension(elt, 'width', have, want));
@@ -36,7 +38,7 @@ export default Ember.Mixin.create({
     if (have[dimension] === want[dimension]) {
       return Promise.resolve();
     }
-    var target = {};
+    let target = {};
     target['outer'+capitalize(dimension)] = [
       want[dimension],
       have[dimension],

@@ -1,4 +1,7 @@
-import Ember from "ember";
+import $ from 'jquery';
+import { isArray, A } from '@ember/array';
+import { guidFor } from '@ember/object/internals';
+import { copy } from 'ember-copy';
 import { Promise } from "liquid-fire";
 
 // Explode is not, by itself, an animation. It exists to pull apart
@@ -6,9 +9,9 @@ import { Promise } from "liquid-fire";
 // animations.
 
 export default function explode(...pieces) {
-  var seenElements = {};
-  var sawBackgroundPiece = false;
-  var promises = pieces.map((piece) => {
+  let seenElements = {};
+  let sawBackgroundPiece = false;
+  let promises = pieces.map((piece) => {
     if (piece.matchBy) {
       return matchAndExplode(this, piece, seenElements);
     } else if (piece.pick || piece.pickOld || piece.pickNew){
@@ -30,9 +33,9 @@ export default function explode(...pieces) {
 }
 
 function explodePiece(context, piece, seen) {
-  var childContext = Ember.copy(context);
-  var selectors = [piece.pickOld || piece.pick, piece.pickNew || piece.pick];
-  var cleanupOld, cleanupNew;
+  let childContext = copy(context);
+  let selectors = [piece.pickOld || piece.pick, piece.pickNew || piece.pick];
+  let cleanupOld, cleanupNew;
 
   if (selectors[0] || selectors[1]) {
     cleanupOld = _explodePart(context, 'oldElement', childContext, selectors[0], seen);
@@ -49,13 +52,13 @@ function explodePiece(context, piece, seen) {
 }
 
 function _explodePart(context, field, childContext, selector, seen) {
-  var child, childOffset, width, height, newChild;
-  var elt = context[field];
+  let child, childOffset, width, height, newChild;
+  let elt = context[field];
 
   childContext[field] = null;
   if (elt && selector) {
     child = elt.find(selector).filter(function() {
-      var guid = Ember.guidFor(this);
+      let guid = guidFor(this);
       if (!seen[guid]) {
         seen[guid] = true;
         return true;
@@ -78,7 +81,7 @@ function _explodePart(context, field, childContext, selector, seen) {
       newChild.appendTo(elt.parent());
       newChild.outerWidth(width);
       newChild.outerHeight(height);
-      var newParentOffset = newChild.offsetParent().offset();
+      let newParentOffset = newChild.offsetParent().offset();
       newChild.css({
         position: 'absolute',
         top: childOffset.top - newParentOffset.top,
@@ -97,11 +100,11 @@ function _explodePart(context, field, childContext, selector, seen) {
 }
 
 function animationFor(context, piece) {
-  var name, args, func;
+  let name, args, func;
   if (!piece.use) {
     throw new Error("every argument to the 'explode' animation must include a followup animation to 'use'");
   }
-  if (Ember.isArray(piece.use) ) {
+  if (isArray(piece.use) ) {
     name = piece.use[0];
     args = piece.use.slice(1);
   } else {
@@ -144,7 +147,7 @@ function matchAndExplode(context, piece, seen) {
   }
 
   // use the fastest selector available
-  var selector;
+  let selector;
 
   if (piece.matchBy === 'id') {
     selector = (attrValue) => { return `#${attrValue}`; };
@@ -152,14 +155,14 @@ function matchAndExplode(context, piece, seen) {
     selector = (attrValue) => { return `.${attrValue}`; };
   } else {
     selector = (attrValue) => {
-      var escapedAttrValue = attrValue.replace(/'/g, "\\'");
+      let escapedAttrValue = attrValue.replace(/'/g, "\\'");
       return `[${piece.matchBy}='${escapedAttrValue}']`;
     };
   }
 
-  var hits = Ember.A(context.oldElement.find(`[${piece.matchBy}]`).toArray());
+  let hits = A(context.oldElement.find(`[${piece.matchBy}]`).toArray());
   return Promise.all(hits.map((elt) => {
-    var attrValue = Ember.$(elt).attr(piece.matchBy);
+    let attrValue = $(elt).attr(piece.matchBy);
 
     // if there is no match for a particular item just skip it
     if (attrValue === "" || context.newElement.find(selector(attrValue)).length === 0) {

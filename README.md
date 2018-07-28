@@ -72,3 +72,24 @@ addon format.
 ### Selecting Ember Versions
 
 Liquid Fire is tested against many versions of Ember using [ember-try](https://github.com/ember-cli/ember-try). The oldest supported version is listed in `versionCompatibility` in `package.json`, and in CI we test every minor release since then, through beta and canary.
+
+## Testing
+
+When running tests you'll want to set your transition speeds to 0 so they don't slow down your tests. This can be accomplished by using an Environment variable. 
+
+```javascript
+// Import the Environment 
+import ENV from 'your-application-name/config/environment';
+
+// If Testing Environment
+if (ENV.environment === 'test') {
+  var customDuration = 0; // set to 0 seconds
+} else {
+  var customDuration = 200; // set to 200 miliseconds
+}
+
+this.transition(
+  this.toRoute('foo'),
+  this.use('toLeft', { duration: customDuration }) // Use customDuration
+);
+```

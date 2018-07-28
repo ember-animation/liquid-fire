@@ -1,26 +1,29 @@
-import Ember from 'ember';
+import { defer } from 'rsvp';
+import { on } from '@ember/object/evented';
+import { inject as service } from '@ember/service';
+import Mixin from '@ember/object/mixin';
 
-export default Ember.Mixin.create({
-  _transitionMap: Ember.inject.service('liquid-fire-transitions'),
+export default Mixin.create({
+  _transitionMap: service('liquid-fire-transitions'),
 
-  _initializeLiquidFirePauseable: Ember.on('init', function() {
+  _initializeLiquidFirePauseable: on('init', function() {
     this._lfDefer = [];
   }),
   pauseLiquidFire() {
     const context = this.nearestWithProperty('_isLiquidChild');
     if (context) {
-      let defer = new Ember.RSVP.defer();
+      let def = new defer();
       let tmap = this.get('_transitionMap');
       tmap.incrementRunningTransitions();
-      defer.promise.finally(() => tmap.decrementRunningTransitions());
-      this._lfDefer.push(defer);
-      context._waitForMe(defer.promise);
+      def.promise.finally(() => tmap.decrementRunningTransitions());
+      this._lfDefer.push(def);
+      context._waitForMe(def.promise);
     }
   },
-  resumeLiquidFire: Ember.on('willDestroyElement', function(){
-    let defer = this._lfDefer.pop();
-    if (defer) {
-      defer.resolve();
+  resumeLiquidFire: on('willDestroyElement', function(){
+    let def = this._lfDefer.pop();
+    if (def) {
+      def.resolve();
     }
   })
 });

@@ -1,6 +1,6 @@
 // Matches any change that ends up with a value that's a Person.
 this.transition(
-  this.toValue(function(value){ value instanceof Person }),
+  this.toValue(function(value){ value instanceof Person; }),
   this.use('toLeft')
 );
 

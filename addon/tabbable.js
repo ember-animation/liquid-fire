@@ -10,12 +10,10 @@
  * http://api.jqueryui.com/category/ui-core/
  */
 
-import Ember from 'ember';
-
-var $ = Ember.$;
+import $ from 'jquery';
 
 function focusable( element, isTabIndexNotNaN ) {
-  var nodeName = element.nodeName.toLowerCase();
+  let nodeName = element.nodeName.toLowerCase();
   return ( /input|select|textarea|button|object/.test( nodeName ) ?
     !element.disabled :
     "a" === nodeName ?
@@ -24,7 +22,7 @@ function focusable( element, isTabIndexNotNaN ) {
 }
 
 function visible(element) {
-  var $el = $(element);
+  let $el = $(element);
   return $.expr.filters.visible(element) &&
     !$($el, $el.parents()).filter(function() {
       return $.css( this, "visibility" ) === "hidden";
@@ -33,7 +31,7 @@ function visible(element) {
 
 if (!$.expr[':'].tabbable) {
   $.expr[':'].tabbable = function( element ) {
-    var tabIndex = $.attr( element, "tabindex" ),
+    let tabIndex = $.attr( element, "tabindex" ),
       isTabIndexNaN = isNaN( tabIndex );
     return ( isTabIndexNaN || tabIndex >= 0 ) && focusable( element, !isTabIndexNaN );
   };

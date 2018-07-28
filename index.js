@@ -1,11 +1,10 @@
-/*jshint node: true, esversion: 5 */
 'use strict';
 
-var VersionChecker = require('ember-cli-version-checker');
-var path = require('path');
-var mergeTrees = require('broccoli-merge-trees');
-var Funnel = require('broccoli-funnel');
-var map = require('broccoli-stew').map;
+let VersionChecker = require('ember-cli-version-checker');
+let path = require('path');
+let mergeTrees = require('broccoli-merge-trees');
+let Funnel = require('broccoli-funnel');
+let map = require('broccoli-stew').map;
 
 module.exports = {
   name: 'liquid-fire',
@@ -16,14 +15,14 @@ module.exports = {
     }
 
     this.versionChecker = new VersionChecker(this);
-    this.versionChecker.for('ember-cli', 'npm').assertAbove('0.2.0');
+    this.versionChecker.for('ember-cli').assertAbove('0.2.0');
 
     // Shim this.import for Engines support
     if (!this.import) {
       // Shim from https://github.com/ember-cli/ember-cli/blob/5d64cfbf1276cf1e3eb88761df4546c891b5efa6/lib/models/addon.js#L387
       this._findHost = function findHostShim() {
-        var current = this;
-        var app;
+        let current = this;
+        let app;
 
         // Keep iterating upward until we don't have a grandparent.
         // Has to do this grandparent check because at some point we hit the project.
@@ -35,7 +34,7 @@ module.exports = {
       };
       // Shim from https://github.com/ember-cli/ember-cli/blob/5d64cfbf1276cf1e3eb88761df4546c891b5efa6/lib/models/addon.js#L443
       this.import = function importShim(asset, options) {
-        var app = this._findHost();
+        let app = this._findHost();
         app.import(asset, options);
       };
     }
@@ -43,17 +42,17 @@ module.exports = {
 
 
   treeForAddon: function(_tree) {
-    var tree = this._versionSpecificTree('addon', _tree);
+    let tree = this._versionSpecificTree('addon', _tree);
     return this._super.treeForAddon.call(this, tree);
   },
 
   treeForAddonTemplates: function(_tree) {
-    var tree = this._versionSpecificTree('templates', _tree);
+    let tree = this._versionSpecificTree('templates', _tree);
     return this._super.treeForAddonTemplates.call(this, tree);
   },
 
   _versionSpecificTree: function(which, tree) {
-    var emberVersion = this.versionChecker.forEmber();
+    let emberVersion = this.versionChecker.forEmber();
 
     if ((emberVersion.gt('2.9.0-beta') && emberVersion.lt('2.9.0'))|| emberVersion.gt('2.10.0-alpha')) {
       return this._withVersionSpecific(which, tree, '2.9');
@@ -65,9 +64,9 @@ module.exports = {
   },
 
   _withVersionSpecific: function(which, tree, version) {
-    var versionSpecificPath = path.join(this.root, 'version-specific-' + version);
-    var destDir;
-    var include;
+    let versionSpecificPath = path.join(this.root, 'version-specific-' + version);
+    let destDir;
+    let include;
 
     if (which === 'templates') {
       destDir = 'version-specific';
@@ -76,7 +75,7 @@ module.exports = {
       destDir = 'ember-internals/version-specific';
     }
 
-    var funneled = new Funnel(versionSpecificPath, {
+    let funneled = new Funnel(versionSpecificPath, {
       include: include,
       destDir: destDir
     });
@@ -85,8 +84,8 @@ module.exports = {
   },
 
   treeForVendor: function(tree){
-    var velocityPath = path.dirname(require.resolve('velocity-animate'));
-    var velocityTree = new Funnel(this.treeGenerator(velocityPath), {
+    let velocityPath = path.dirname(require.resolve('velocity-animate'));
+    let velocityTree = new Funnel(this.treeGenerator(velocityPath), {
       srcDir: '/',
       destDir: 'velocity'
     });
@@ -94,8 +93,8 @@ module.exports = {
       return 'if (typeof FastBoot === \'undefined\') { ' + content + ' }';
     });
 
-    var matchMediaPath = path.dirname(require.resolve('match-media'));
-    var matchMediaTree = new Funnel(this.treeGenerator(matchMediaPath), {
+    let matchMediaPath = path.dirname(require.resolve('match-media'));
+    let matchMediaTree = new Funnel(this.treeGenerator(matchMediaPath), {
       srcDir: '/',
       destDir: 'match-media'
     });
@@ -107,6 +106,8 @@ module.exports = {
   },
 
   included: function(){
+    this._super.apply(this, arguments);
+
     // We cannot use ember-cli to import velocity as an AMD module here, because we always need the shim in FastBoot
     // to not break any module imports (as velocity/velocity.js has a FastBoot guard, so FastBoot does not see any
     // module inside
@@ -117,5 +118,3 @@ module.exports = {
     this.import('vendor/liquid-fire.css');
   }
 };
-
-

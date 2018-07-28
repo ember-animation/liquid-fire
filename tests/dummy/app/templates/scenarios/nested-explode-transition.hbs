@@ -1,0 +1,16 @@
+<button {{action "toggle" "showA"}}>Toggle A/B</button>
+<button {{action "toggle" "showOne"}}>Toggle One/Two</button>
+
+{{#liquid-if showOne class="nested-explode-transition-scenario"}}
+  <div class="child">
+    {{#liquid-if showA use="toLeft"}}
+      <div class="child-one-a">One: A</div>
+    {{else}}
+      <div class="child-one-b">One: B</div>
+    {{/liquid-if}}
+  </div>
+{{else}}
+  <div class="child child-two">
+    Two
+  </div>
+{{/liquid-if}}

@@ -1,20 +1,25 @@
-import Ember from "ember";
+import moment from 'moment';
+import Component from '@ember/component';
+import { run } from '@ember/runloop';
 
-export default Ember.Controller.extend({
-  start: Ember.on('init', function() {
-    var self = this;
-    this.interval = setInterval(function(){ Ember.run(self, 'tick'); }, 1000);
+export default Component.extend({
+  init() {
+    this._super();
     this.tick();
-  }),
+  },
 
-  willDestroy: function(){
+  didInsertElement() {
+    let self = this;
+    this.interval = setInterval(function(){ run(self, 'tick'); }, 1000);
+  },
+
+  willDestroyElement(){
     clearInterval(this.interval);
     this._super();
   },
 
   tick: function(now) {
     if (!now) {
-      /* global moment */
       now = moment();
     }
     this.setProperties({

@@ -1,4 +1,4 @@
-import Ember from "ember";
+import { get } from '@ember/object';
 
 // Traverses down to the child routeInfo with the given name.
 export function childRoute(routeInfo, outletName) {
@@ -29,7 +29,7 @@ export function routeModel(routeInfo) {
   if (routeInfo && !routeInfo.hasOwnProperty('_lf_model')) {
     let r, c;
     if ((r = routeInfo.render) && (c = r.controller)) {
-      routeInfo._lf_model = Ember.get(c, 'model');
+      routeInfo._lf_model = get(c, 'model');
     } else {
       routeInfo._lf_model = null;
     }

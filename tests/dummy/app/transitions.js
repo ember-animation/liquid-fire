@@ -20,7 +20,7 @@ export default function() {
   );
   // END-SNIPPET
 
-  var duration = Ember.testing ? 0 : 1000;
+  let duration = Ember.testing ? 0 : 1000;
   // BEGIN-SNIPPET liquid-box-demo-transition
   this.transition(
     this.hasClass('vehicles'),
@@ -193,6 +193,14 @@ this.transition(
       matchBy: 'data-model-id',
       use: ['flyTo', {duration: 500, easing: [250, 15]}]
     })
+  );
+
+  this.transition(
+    this.hasClass('nested-explode-transition-scenario'),
+    this.use('explode', {
+      pick: '.child',
+      use: ['toLeft', { duration: 500 }]
+    }),
   );
 
   this.transition(

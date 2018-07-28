@@ -1,13 +1,15 @@
-import Ember from "ember";
+import $ from 'jquery';
+import EmberObject from '@ember/object';
+import { run } from '@ember/runloop';
 import Application from '../../../app';
 import hasEmberVersion from 'ember-test-helpers/has-ember-version';
 import { module, test } from 'qunit';
 import { RouteBuilder } from '../../helpers/ember-testing-internals';
 
-var application, t, defaultHandler;
+let application, t, defaultHandler;
 
-Ember.run(function(){
-  var options = {
+run(function(){
+  let options = {
     autoboot: false
   };
 
@@ -23,7 +25,7 @@ Ember.run(function(){
 
 module("Transitions DSL", {
   beforeEach(){
-    var instance = application.buildInstance();
+    let instance = application.buildInstance();
     if (instance.lookup) {
       t = instance.lookup('service:liquid-fire-transitions');
     } else {
@@ -263,12 +265,12 @@ test("passes arguments through to transitions", function(assert) {
     );
   });
 
-  var action = t.transitionFor(routes('one', 'two'));
+  let action = t.transitionFor(routes('one', 'two'));
   action.run().then(done, done);
 });
 
 test("combines multiple value constraints", function(assert){
-  var Pet = Ember.Object.extend();
+  let Pet = EmberObject.extend();
 
   t.map(function(){
     this.transition(
@@ -279,7 +281,7 @@ test("combines multiple value constraints", function(assert){
   });
 
   expectNoAnimation(assert,values(null, Pet.create()), "should not match because of name");
-  expectNoAnimation(assert,values(null, Ember.Object.create({name: 'Fluffy'})), "should not match because of instanceof");
+  expectNoAnimation(assert,values(null, EmberObject.create({name: 'Fluffy'})), "should not match because of instanceof");
   expectAnimation(assert,values(null, Pet.create({name: 'Fluffy'})), dummyAction, "should match both");
 
 });
@@ -305,7 +307,7 @@ test("doesn't match initial render by default", function(assert){
       this.use(dummyAction)
     );
   });
-  var conditions = routes('one', 'two');
+  let conditions = routes('one', 'two');
   conditions.firstTime = 'yes';
   expectNoAnimation(assert,conditions);
 });
@@ -318,7 +320,7 @@ test("matches initial render when asked explicitly", function(assert){
       this.use(dummyAction)
     );
   });
-  var conditions = routes('one', 'two');
+  let conditions = routes('one', 'two');
   conditions.firstTime = 'yes';
   expectAnimation(assert,conditions, dummyAction);
 });
@@ -342,7 +344,7 @@ test("matches routes by outletName", function(assert){
     );
   });
 
-  var conditions = routes('one', 'two');
+  let conditions = routes('one', 'two');
   conditions.matchContext.outletName = 'panel';
   expectAnimation(assert,conditions, dummyAction);
 });
@@ -357,7 +359,7 @@ test("matches media", function(assert) {
   });
 
   // Save and stub the matchMedia method
-  var matchMedia = window.matchMedia;
+  let matchMedia = window.matchMedia;
   window.matchMedia = function() { return { matches: true }; };
 
   expectAnimation(assert, routes('one', 'two'), dummyAction);
@@ -386,13 +388,13 @@ function values(a,b) {
   return {
     versions: [{ value: b}, { value: a }],
     firstTime: 'no',
-    parentElement: Ember.$('body'),
+    parentElement: $('body'),
     matchContext: { outletName: 'main' }
   };
 }
 
 function expectAnimation(assert, conditions, nameOrHandler, msg) {
-  var runningTransition = t.transitionFor(conditions);
+  let runningTransition = t.transitionFor(conditions);
   if (typeof nameOrHandler === 'string') {
     assert.equal(runningTransition.animation.name, nameOrHandler, msg);
   } else {

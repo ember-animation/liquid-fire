@@ -1,3 +1,7 @@
+import { Promise as EmberPromise } from 'rsvp';
+import { next } from '@ember/runloop';
+import { getOwner } from '@ember/application';
+import Service from '@ember/service';
 import { DEBUG } from '@glimmer/env';
 import RunningTransition from "./running-transition";
 import DSL from "./dsl";
@@ -5,14 +9,14 @@ import Ember from "ember";
 import Action from "./action";
 import Constraints from "./constraints";
 
-var TransitionMap = Ember.Service.extend({
+let TransitionMap = Service.extend({
   init() {
     this._super(...arguments);
 
     this.activeCount = 0;
     this.constraints = new Constraints();
-    var owner = Ember.getOwner(this);
-    var config;
+    let owner = getOwner(this);
+    let config;
     if (owner.factoryFor) {
       let maybeConfig = owner.factoryFor('transitions:main');
       config = maybeConfig && maybeConfig.class;
@@ -34,7 +38,7 @@ var TransitionMap = Ember.Service.extend({
 
   decrementRunningTransitions() {
     this.activeCount--;
-    Ember.run.next(() => {
+    next(() => {
       this._maybeResolveIdle();
     });
   },
@@ -43,9 +47,9 @@ var TransitionMap = Ember.Service.extend({
     if (this._waitingPromise) {
       return this._waitingPromise;
     }
-    return this._waitingPromise = new Ember.RSVP.Promise((resolve) => {
+    return this._waitingPromise = new EmberPromise((resolve) => {
       this._resolveWaiting = resolve;
-      Ember.run.next(() => {
+      next(() => {
         this._maybeResolveIdle();
       });
     });
@@ -53,7 +57,7 @@ var TransitionMap = Ember.Service.extend({
 
   _maybeResolveIdle() {
     if (this.activeCount === 0 && this._resolveWaiting) {
-      var resolveWaiting = this._resolveWaiting;
+      let resolveWaiting = this._resolveWaiting;
       this._resolveWaiting = null;
       this._waitingPromise = null;
       resolveWaiting();
@@ -61,8 +65,8 @@ var TransitionMap = Ember.Service.extend({
   },
 
   lookup(transitionName) {
-    var owner = Ember.getOwner(this);
-    var handler;
+    let owner = getOwner(this);
+    let handler;
     if (owner.factoryFor) {
       let maybeHandler = owner.factoryFor('transition:' + transitionName);
       handler = maybeHandler && maybeHandler.class;
@@ -93,7 +97,7 @@ var TransitionMap = Ember.Service.extend({
   },
 
   transitionFor(conditions) {
-    var action;
+    let action;
     if (conditions.use && conditions.firstTime !== 'yes') {
       action = new Action(conditions.use);
       action.validateHandler(this);
@@ -126,13 +130,20 @@ if (DEBUG) {
         this._waiter = () => {
           return this.runningTransitions() === 0;
         };
-        Ember.Test.registerWaiter(this._waiter);
+
+        // The new module imports version of this function doesn't
+        // work in some of the older ember versions we support
+        // (because it depends on `this` context).
+        Ember.Test.registerWaiter(this._waiter); // eslint-disable-line ember/new-module-imports
       }
     },
 
     willDestroy() {
       if (this._waiter) {
-        Ember.Test.unregisterWaiter(this._waiter);
+        // The new module imports version of this function doesn't
+        // work in some of the older ember versions we support
+        // (because it depends on `this` context).
+        Ember.Test.unregisterWaiter(this._waiter); // eslint-disable-line ember/new-module-imports
         this._waiter = null;
       }
 
@@ -143,7 +154,7 @@ if (DEBUG) {
 
 TransitionMap.reopenClass({
   map(handler) {
-    var t = TransitionMap.create();
+    let t = TransitionMap.create();
     t.map(handler);
     return t;
   }

@@ -1,17 +1,10 @@
 import Ember from "ember";
-var emberRequire = Ember.__loader.require;
-var internal = emberRequire('htmlbars-runtime').internal;
-var registerKeyword = emberRequire('ember-htmlbars/keywords').registerKeyword;
-var _Stream = Ember.__loader.registry['ember-metal/streams/stream'] ? emberRequire('ember-metal/streams/stream') : emberRequire('ember-htmlbars/streams/stream');
-var BasicStream = _Stream.default;
-var Stream = _Stream.Stream;
-
-var routeIsStable;
-try {
-  routeIsStable = emberRequire('ember-htmlbars/keywords/real_outlet').default.isStable;
-} catch (err) {
-  routeIsStable = emberRequire('ember-htmlbars/keywords/outlet').default.isStable;
-}
+let emberRequire = Ember.__loader.require;
+let internal = emberRequire('htmlbars-runtime').internal;
+let registerKeyword = emberRequire('ember-htmlbars/keywords').registerKeyword;
+let _Stream = Ember.__loader.registry['ember-metal/streams/stream'] ? emberRequire('ember-metal/streams/stream') : emberRequire('ember-htmlbars/streams/stream');
+let BasicStream = _Stream.default;
+let Stream = _Stream.Stream;
 
 // Given an Ember Component, return the containing element
 export function containingElement(view) {
@@ -25,12 +18,12 @@ export function initialize() {
     },
 
     setupState(lastState, env, scope, params, hash) {
-      var watchModels = env.hooks.getValue(hash.watchModels);
-      var stream = lastState.stream;
-      var source = lastState.source;
+      let watchModels = env.hooks.getValue(hash.watchModels);
+      let stream = lastState.stream;
+      let source = lastState.source;
       if (!stream) {
         source = { env };
-        if (!!Stream) {
+        if (Stream) {
           stream = new Stream(function() {
             return { outlets: source.env.outletState };
           });
@@ -45,7 +38,7 @@ export function initialize() {
 
     render(renderNode, env, scope, params, hash, template, inverse, visitor) {
       internal.hostBlock(renderNode, env, scope, template, null, null, visitor, function(options) {
-        var stream = renderNode.getState ? renderNode.getState().stream : renderNode.state.stream;
+        let stream = renderNode.getState ? renderNode.getState().stream : renderNode.state.stream;
         options.templates.template.yield([stream]);
       });
 

@@ -5,39 +5,42 @@
 */
 
 import Velocity from "velocity";
-var VCSS = Velocity.CSS;
+if (typeof FastBoot === undefined) {
 
-function augmentDimension(name, element) {
-  var sides = name === 'width' ? ['Left', 'Right' ] : ['Top', 'Bottom'];
+  let VCSS = Velocity.CSS;
 
-  if (VCSS.getPropertyValue(element, "boxSizing").toString().toLowerCase() === 'border-box') {
-    /* in box-sizing mode, the VCSS width / height accessors already give the outerWidth / outerHeight. */
-    return 0;
-  } else {
-    var augment = 0;
-    var fields = ['padding'+sides[0], 'padding'+sides[1], 'border'+sides[0]+'Width', 'border'+sides[1]+'Width'];
-    for (var i = 0; i < fields.length; i++) {
-      var value = parseFloat(VCSS.getPropertyValue(element, fields[i]));
-      if (!isNaN(value)) {
-        augment += value;
+  let augmentDimension = function(name, element) {
+    let sides = name === 'width' ? ['Left', 'Right' ] : ['Top', 'Bottom'];
+
+    if (VCSS.getPropertyValue(element, "boxSizing").toString().toLowerCase() === 'border-box') {
+      /* in box-sizing mode, the VCSS width / height accessors already give the outerWidth / outerHeight. */
+      return 0;
+    } else {
+      let augment = 0;
+      let fields = ['padding'+sides[0], 'padding'+sides[1], 'border'+sides[0]+'Width', 'border'+sides[1]+'Width'];
+      for (let i = 0; i < fields.length; i++) {
+        let value = parseFloat(VCSS.getPropertyValue(element, fields[i]));
+        if (!isNaN(value)) {
+          augment += value;
+        }
       }
-    }
-    return augment;
-  }
-}
-
-function outerDimension(name) {
-  return function(type, element, propertyValue) {
-    switch (type) {
-    case "name":
-      return name;
-    case "extract":
-      return parseFloat(propertyValue) + augmentDimension(name, element);
-    case "inject":
-      return (parseFloat(propertyValue) - augmentDimension(name, element)) + "px";
+      return augment;
     }
   };
-}
 
-VCSS.Normalizations.registered.outerWidth = outerDimension('width');
-VCSS.Normalizations.registered.outerHeight = outerDimension('height');
+  let outerDimension = function(name) {
+    return function(type, element, propertyValue) {
+      switch (type) {
+      case "name":
+        return name;
+      case "extract":
+        return parseFloat(propertyValue) + augmentDimension(name, element);
+      case "inject":
+        return (parseFloat(propertyValue) - augmentDimension(name, element)) + "px";
+      }
+    };
+  };
+
+  VCSS.Normalizations.registered.outerWidth = outerDimension('width');
+  VCSS.Normalizations.registered.outerHeight = outerDimension('height');
+}

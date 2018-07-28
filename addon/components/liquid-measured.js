@@ -1,8 +1,10 @@
+import { next } from '@ember/runloop';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
 import MutationObserver from "liquid-fire/mutation-observer";
-import Ember from "ember";
 import layout from "liquid-fire/templates/components/liquid-measured";
 
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
 
   init() {
@@ -11,7 +13,7 @@ export default Ember.Component.extend({
   },
 
   didInsertElement() {
-    var self = this;
+    let self = this;
 
     // This prevents margin collapse
     this.$().css({
@@ -39,23 +41,23 @@ export default Ember.Component.extend({
     window.removeEventListener('unload', this._destroyOnUnload);
   },
 
-  transitionMap: Ember.inject.service('liquid-fire-transitions'),
+  transitionMap: service('liquid-fire-transitions'),
 
   didMutate() {
     // by incrementing the running transitions counter here we prevent
     // tests from falling through the gap between the time they
     // triggered mutation the time we may actually animate in
     // response.
-    var tmap = this.get('transitionMap');
+    let tmap = this.get('transitionMap');
     tmap.incrementRunningTransitions();
-    Ember.run.next(this, function() {
+    next(this, function() {
       this._didMutate();
       tmap.decrementRunningTransitions();
     });
   },
 
   _didMutate() {
-    var elt = this.$();
+    let elt = this.$();
     if (!elt || !elt[0]) { return; }
     this.set('measurements', measure(elt));
   },
@@ -66,5 +68,18 @@ export default Ember.Component.extend({
 });
 
 export function measure($elt) {
-  return $elt[0].getBoundingClientRect();
+  let boundingRect = $elt[0].getBoundingClientRect();
+
+  // Calculate the scaling.
+  // NOTE: We only handle the simple zoom case.
+  let claimedWidth = $elt[0].offsetWidth;
+
+  // Round the width because offsetWidth is rounded
+  let actualWidth = Math.round(boundingRect.width);
+  let scale = actualWidth > 0 ? claimedWidth / actualWidth : 0;
+
+  return {
+    width: boundingRect.width * scale,
+    height: boundingRect.height * scale
+  };
 }

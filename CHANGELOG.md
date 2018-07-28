@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.29.3
+
+ - BUGFIX: Fix visibility during explode with nested animators by @brettburley
+ - BUGFIX: Fix link in demo/docs site by @lolmaus
+
+## 0.29.2
+
+ - BUGFIX: Use a stricter constraint on what velocity version we depend on.
+ - HOUSEKEEPING: upgraded ember-cli and removed some deprecations from the test suite
+
+## 0.29.1
+
+ - BUGFIX: The previous published package accidentally embedded 153MB of node modules that were stashed by ember-try.
+
+## 0.29.0
+
+ - HOUSEKEEPING: upgraded to new ember-cli and ember-source for the dummy app. Switched to newer module imports and coding standard.
+ - ENHANCEMENT: docs site now has fastboot-rendered static content (yes, on GitHub pages!)
+ - BUGFIX: account for scaling transforms in liquid-measured by @wagenet
+
+## 0.28.1
+
+ - HOUSEKEEPING: dependency upgrade by @Turbo87 that helps apps drop ember-cli-shims
+ - DOCS: readme improvement by @swgarmerx
+
+## 0.28.0
+
+ - HOUSEKEEPING: cleared some deprecations, updated some build deps (@jrjohnson, @ef4, @rwjblue)
+ - ENHANCEMENT: add a default blueprint to generate transitions.js by @FilmKnurd
+ - BUGFIX: fixed fastboot tests by @simonihmig
+ - HOUSEKEEPING: ember-cli update by @cibernox
+ - ENHANCEMENT: allow wait transition to pass optionss by @rtablada
+
 ## 0.27.3
 
  - BUGFIX: better blueprint style by kellyselden
