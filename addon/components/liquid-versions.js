@@ -109,7 +109,7 @@ export default Component.extend({
 
   notifyContainer: function(method, versions) {
     let target = get(this, 'notify');
-    if (target) {
+    if (target && !target.get('isDestroying')) {
       target.send(method, versions);
     }
   },
