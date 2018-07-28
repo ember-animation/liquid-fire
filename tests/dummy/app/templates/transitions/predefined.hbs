@@ -6,42 +6,42 @@
 <p> For more information about these transitions, you can <a href="https://github.com/ef4/liquid-fire/tree/master/app/transitions">read the source code</a>.</p>
 
 <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class={{if (is-equal activeTab 'toLeft') 'active'}}>
-        <a href="#" aria-controls="home" role="tab" data-toggle="tab" {{action 'changeTab' 'toLeft'}}>
-            toLeft, toRight, toUp, toDown</a>
+    <li role="presentation" class="nav-item">
+        <a href="#" aria-controls="home" role="tab" data-toggle="tab" {{action 'changeTab' 'toLeft'}} class="nav-link {{if (is-equal activeTab 'toLeft') 'active'}}">
+            to{Left,Right,UpDown}</a>
     </li>
-    <li role="presentation" class={{if (is-equal activeTab 'fade') 'active'}}>
-        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" {{action 'changeTab' 'fade'}}>
+    <li role="presentation" class="nav-item">
+        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" {{action 'changeTab' 'fade'}} class="nav-link {{if (is-equal activeTab 'fade') 'active'}}">
             fade
         </a>
     </li>
-    <li role="presentation" class={{if (is-equal activeTab 'crossFade') 'active'}}>
-        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action 'changeTab' 'crossFade'}}>
+    <li role="presentation" class="nav-item">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action 'changeTab' 'crossFade'}} class="nav-link {{if (is-equal activeTab 'crossFade') 'active'}}">
             crossFade
         </a>
     </li>
-    <li role="presentation" class={{if (is-equal activeTab 'explode') 'active'}}>
-        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action 'changeTab' 'explode'}}>
+    <li role="presentation" class="nav-item">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action 'changeTab' 'explode'}} class="nav-link {{if (is-equal activeTab 'explode') 'active'}}">
             explode
         </a>
     </li>
-    <li role="presentation" class={{if (is-equal activeTab 'flyTo') 'active'}}>
-        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action 'changeTab' 'flyTo'}}>
+    <li role="presentation" class="nav-item">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action 'changeTab' 'flyTo'}} class="nav-link {{if (is-equal activeTab 'flyTo') 'active'}}">
             flyTo
         </a>
     </li>
-    <li role="presentation" class={{if (is-equal activeTab 'scrollThen') 'active'}}>
-        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action 'changeTab' 'scrollThen'}}>
+    <li role="presentation" class="nav-item">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action 'changeTab' 'scrollThen'}} class="nav-link {{if (is-equal activeTab 'scrollThen') 'active'}}">
             scrollThen
         </a>
     </li>
-    <li role="presentation" class={{if (is-equal activeTab 'scale') 'active'}}>
-        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action 'changeTab' 'scale'}}>
+    <li role="presentation" class="nav-item">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action 'changeTab' 'scale'}} class="nav-link {{if (is-equal activeTab 'scale') 'active'}}">
             scale
         </a>
     </li>
-    <li role="presentation" class={{if (is-equal activeTab 'wait') 'active'}}>
-        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action 'changeTab' 'wait'}}>
+    <li role="presentation" class="nav-item">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action 'changeTab' 'wait'}} class="nav-link {{if (is-equal activeTab 'wait') 'active'}}">
             wait
         </a>
     </li>
@@ -51,256 +51,264 @@
 <div id="transition-examples">
 
   {{#if (is-equal activeTab 'toLeft')}}
-      <dt>toLeft, toRight, toUp, toDown</dt>
-      <dd>These are slide animations powered by the
-          CSS <code>transform</code> property. They all accept an optional
-          options hash that's passed onward to Velocity for both the outgoing and
-          incoming animations. For more information about available options, please refer to <a
-                  href="http://julian.com/research/velocity/#duration" target="_blank">official Velocity
-              documentation</a>.
-      </dd>
+    <dt>toLeft, toRight, toUp, toDown</dt>
+    <dd>These are slide animations powered by the
+        CSS <code>transform</code> property. They all accept an optional
+        options hash that's passed onward to Velocity for both the outgoing and
+        incoming animations. For more information about available options, please refer to <a
+                href="http://julian.com/research/velocity/#duration" target="_blank">official Velocity
+            documentation</a>.
+    </dd>
 
-      <div class="well">
-        {{!- BEGIN-SNIPPET toLeft-demo }}
-          <div class="panel panel-default">
-              <div class="panel-body">
-                  <button {{action "toggleDetail"}}>Toggle Detail View</button>
-                {{#liquid-if showDetail class='toLeft-demo'}}
-                    <div class="details">
-                        <h3>Details</h3>
+    {{!- BEGIN-SNIPPET toLeft-demo }}
+      <div class="card">
+        <div class="card-body">
+          <button {{action "toggleDetail"}}>Toggle Detail View</button>
+          {{#liquid-if showDetail class='toLeft-demo'}}
+              <div class="details">
+                  <h3>Details</h3>
 
-                        <p>
-                            Bacon ipsum dolor amet shank pork belly boudin flank
-                            prosciutto alcatra andouille pig short ribs biltong kevin
-                            salami tail turkey beef ribs.
-                        </p>
-                    </div>
-                {{else}}
-                    <div class="overview">
-                        <h3>Welcome</h3>
-
-                        <p>This is the overview.</p>
-                    </div>
-                {{/liquid-if}}
+                  <p>
+                      Bacon ipsum dolor amet shank pork belly boudin flank
+                      prosciutto alcatra andouille pig short ribs biltong kevin
+                      salami tail turkey beef ribs.
+                  </p>
               </div>
-          </div>
-        {{!- END-SNIPPET }}
+          {{else}}
+              <div class="overview">
+                  <h3>Welcome</h3>
 
+                  <p>This is the overview.</p>
+              </div>
+          {{/liquid-if}}
+        </div>
+      </div>
+    {{!- END-SNIPPET }}
+
+    <div class="card my-3">
+      <div class="card-body">
           <p>The transition rule:</p>
         {{code-snippet name="toLeft-demo.js"}}
 
           <p>The template:</p>
         {{code-snippet name="toLeft-demo.hbs"}}
       </div>
+    </div>
   {{/if}}
 
   {{#if (is-equal activeTab 'crossFade')}}
-      <dt>crossFade</dt>
-      <dd>Old content fades away toward opacity 0 while new content fades
-          in.
-      </dd>
+    <dt>crossFade</dt>
+    <dd>Old content fades away toward opacity 0 while new content fades
+        in.
+    </dd>
 
-      <div class="well">
-        {{!- BEGIN-SNIPPET crossFade-demo }}
-          <div class="panel panel-default">
-              <div class="panel-body">
-                  <button {{action "toggleDetail"}}>Toggle Detail View</button>
-                {{#liquid-if showDetail class='crossFade-demo'}}
-                    <div class="details">
-                        <h3>Details</h3>
+    {{!- BEGIN-SNIPPET crossFade-demo }}
+      <div class="card">
+        <div class="card-body">
+          <button {{action "toggleDetail"}}>Toggle Detail View</button>
+            {{#liquid-if showDetail class='crossFade-demo'}}
+              <div class="details">
+                <h3>Details</h3>
 
-                        <p>
-                            Bacon ipsum dolor amet shank pork belly boudin flank
-                            prosciutto alcatra andouille pig short ribs biltong kevin
-                            salami tail turkey beef ribs.
-                        </p>
-                    </div>
-                {{else}}
-                    <div class="overview">
-                        <h3>Welcome</h3>
-
-                        <p>This is the overview.</p>
-                    </div>
-                {{/liquid-if}}
+                <p>
+                    Bacon ipsum dolor amet shank pork belly boudin flank
+                    prosciutto alcatra andouille pig short ribs biltong kevin
+                    salami tail turkey beef ribs.
+                </p>
               </div>
-          </div>
-        {{!- END-SNIPPET }}
+            {{else}}
+              <div class="overview">
+                <h3>Welcome</h3>
 
+                <p>This is the overview.</p>
+              </div>
+            {{/liquid-if}}
+          </div>
+        </div>
+      {{!- END-SNIPPET }}
+
+      <div class="card my-3">
+        <div class="card-body">
           <p>The transition rule:</p>
-        {{code-snippet name="crossFade-demo.js"}}
+          {{code-snippet name="crossFade-demo.js"}}
 
           <p>The template:</p>
-        {{code-snippet name="crossFade-demo.hbs"}}
+          {{code-snippet name="crossFade-demo.hbs"}}
+        </div>
       </div>
   {{/if}}
 
   {{#if (is-equal activeTab 'fade')}}
-      <dt>fade</dt>
-      <dd>Old content fades away toward opacity 0, then new content fades
-          in. This is a good example of a serial animation with support for
-          interruption.
-      </dd>
+    <dt>fade</dt>
+    <dd>Old content fades away toward opacity 0, then new content fades
+        in. This is a good example of a serial animation with support for
+        interruption.
+    </dd>
 
-      <div class="well">
-        {{!- BEGIN-SNIPPET fade-demo }}
-          <div class="panel panel-default">
-              <div class="panel-body">
-                  <button {{action "toggleDetail"}}>Toggle Detail View</button>
-                {{#liquid-if showDetail class='fade-demo'}}
-                    <div class="details">
-                        <h3>Details</h3>
+    {{!- BEGIN-SNIPPET fade-demo }}
+      <div class="card">
+        <div class="card-body">
+          <button {{action "toggleDetail"}}>Toggle Detail View</button>
+          {{#liquid-if showDetail class='fade-demo'}}
+            <div class="details">
+              <h3>Details</h3>
 
-                        <p>
-                            Bacon ipsum dolor amet shank pork belly boudin flank
-                            prosciutto alcatra andouille pig short ribs biltong kevin
-                            salami tail turkey beef ribs.
-                        </p>
-                    </div>
-                {{else}}
-                    <div class="overview">
-                        <h3>Welcome</h3>
+              <p>
+                  Bacon ipsum dolor amet shank pork belly boudin flank
+                  prosciutto alcatra andouille pig short ribs biltong kevin
+                  salami tail turkey beef ribs.
+              </p>
+            </div>
+          {{else}}
+            <div class="overview">
+              <h3>Welcome</h3>
 
-                        <p>This is the overview.</p>
-                    </div>
-                {{/liquid-if}}
-              </div>
-          </div>
-        {{!- END-SNIPPET }}
+              <p>This is the overview.</p>
+            </div>
+          {{/liquid-if}}
+        </div>
+      </div>
+    {{!- END-SNIPPET }}
 
-          <p>The transition rule:</p>
+    <div class="card my-3">
+      <div class="card-body">
+        <p>The transition rule:</p>
         {{code-snippet name="fade-demo.js"}}
 
-          <p>The template:</p>
+        <p>The template:</p>
         {{code-snippet name="fade-demo.hbs"}}
       </div>
+    </div>
   {{/if}}
 
   {{#if (is-equal activeTab 'explode')}}
-      <dt>explode</dt>
-      <dd>This lets you break apart an element and use
-          other transitions on each of the separate pieces.
-          <br/>
-          For an interactive example, please visit {{#link-to "transitions.explode"}}this page{{/link-to}}.
-      </dd>
+    <dt>explode</dt>
+    <dd>This lets you break apart an element and use
+        other transitions on each of the separate pieces.
+        <br/>
+        For an interactive example, please visit {{#link-to "transitions.explode"}}this page{{/link-to}}.
+    </dd>
   {{/if}}
 
   {{#if (is-equal activeTab 'flyTo')}}
-      <dt>fly-to</dt>
-      <dd>Animates the old content's position and dimensions to match the new content's position and dimensions. If
-          either
-          old content or new content is empty, does nothing.
-          <br/>
-          For an interactive example, please visit {{#link-to "transitions.explode"}}this page{{/link-to}}.
-      </dd>
+    <dt>fly-to</dt>
+    <dd>Animates the old content's position and dimensions to match the new content's position and dimensions. If
+        either
+        old content or new content is empty, does nothing.
+        <br/>
+        For an interactive example, please visit {{#link-to "transitions.explode"}}this page{{/link-to}}.
+    </dd>
   {{/if}}
 
   {{#if (is-equal activeTab 'scrollThen')}}
-      <dt>scrollThen</dt>
-      <dd>Scrolls to the top of the page and after that runs the specified transition. It is also able to pass <a
-              href="http://julian.com/research/velocity/#duration" target="_blank">Velocity options</a> to the follow-up
-          transition. <p><b>Note:</b> to run the example below, try to scroll the page a bit and then press
-              the button to trigger the transition.</p></dd>
-      <div class="well">
-        {{!- BEGIN-SNIPPET scrollThen-demo }}
-          <div class="panel panel-default">
-              <div class="panel-body">
-                  <button {{action "toggleDetail"}}>Toggle Detail View</button>
-                {{#liquid-if showDetail class='scrollThen-demo'}}
-                    <div class="details">
-                        <h3>Details</h3>
+    <dt>scrollThen</dt>
+    <dd>Scrolls to the top of the page and after that runs the specified transition. It is also able to pass <a
+            href="http://julian.com/research/velocity/#duration" target="_blank">Velocity options</a> to the follow-up
+        transition. <p><b>Note:</b> to run the example below, try to scroll the page a bit and then press
+            the button to trigger the transition.</p></dd>
 
-                        <p>
-                            Bacon ipsum dolor amet shank pork belly boudin flank
-                            prosciutto alcatra andouille pig short ribs biltong kevin
-                            salami tail turkey beef ribs.
-                        </p>
-                    </div>
-                {{else}}
-                    <div class="overview">
-                        <h3>Welcome</h3>
+    {{!- BEGIN-SNIPPET scrollThen-demo }}
+      <div class="card">
+        <div class="card-body">
+          <button {{action "toggleDetail"}}>Toggle Detail View</button>
+          {{#liquid-if showDetail class='scrollThen-demo'}}
+            <div class="details">
+              <h3>Details</h3>
 
-                        <p>This is the overview.</p>
-                    </div>
-                {{/liquid-if}}
-              </div>
-          </div>
-        {{!- END-SNIPPET }}
+              <p>
+                Bacon ipsum dolor amet shank pork belly boudin flank
+                prosciutto alcatra andouille pig short ribs biltong kevin
+                salami tail turkey beef ribs.
+              </p>
+            </div>
+          {{else}}
+            <div class="overview">
+              <h3>Welcome</h3>
 
-          <p>The transition rule:</p>
+              <p>This is the overview.</p>
+            </div>
+          {{/liquid-if}}
+        </div>
+      </div>
+    {{!- END-SNIPPET }}
+
+    <div class="card my-3">
+      <div class="card-body">
+        <p>The transition rule:</p>
         {{code-snippet name="scrollThen-demo.js"}}
 
-          <p>The template:</p>
+        <p>The template:</p>
         {{code-snippet name="scrollThen-demo.hbs"}}
       </div>
+    </div>
   {{/if}}
 
   {{#if (is-equal activeTab 'scale')}}
-      <dt>scale</dt>
-      <dd>Scales in the old content and scales out the new one. It is also able to pass <a
-              href="http://julian.com/research/velocity/#duration" target="_blank">Velocity options</a> as an optional
-          parameter.
-      </dd>
-      <div class="well">
-        {{!- BEGIN-SNIPPET scale-demo }}
-          <div class="panel panel-default">
-              <div class="panel-body">
-                  <button {{action "toggleDetail"}}>Toggle Detail View</button>
-                {{#liquid-if showDetail class='scale-demo'}}
-                    <div class="details">
-                        <h3>Details</h3>
+    <dt>scale</dt>
+    <dd>Scales in the old content and scales out the new one. It is also able to pass <a
+            href="http://julian.com/research/velocity/#duration" target="_blank">Velocity options</a> as an optional
+        parameter.
+    </dd>
 
-                        <p>
-                            Bacon ipsum dolor amet shank pork belly boudin flank
-                            prosciutto alcatra andouille pig short ribs biltong kevin
-                            salami tail turkey beef ribs.
-                        </p>
-                    </div>
-                {{else}}
-                    <div class="overview">
-                        <h3>Welcome</h3>
+    {{!- BEGIN-SNIPPET scale-demo }}
+      <div class="card mb-3">
+        <div class="card-body">
+          <button {{action "toggleDetail"}}>Toggle Detail View</button>
+          {{#liquid-if showDetail class='scale-demo'}}
+            <div class="details">
+              <h3>Details</h3>
 
-                        <p>This is the overview.</p>
-                    </div>
-                {{/liquid-if}}
-              </div>
-          </div>
-        {{!- END-SNIPPET }}
+              <p>
+                Bacon ipsum dolor amet shank pork belly boudin flank
+                prosciutto alcatra andouille pig short ribs biltong kevin
+                salami tail turkey beef ribs.
+              </p>
+            </div>
+          {{else}}
+            <div class="overview">
+              <h3>Welcome</h3>
+
+              <p>This is the overview.</p>
+            </div>
+          {{/liquid-if}}
+        </div>
       </div>
+    {{!- END-SNIPPET }}
   {{/if}}
 
   {{#if (is-equal activeTab 'wait')}}
-      <dt>wait</dt>
-      <dd>Waits a given number of milliseconds before proceeding with another transition. If no other transition is given, proceeds with the default behavior (making new elements visible and allowing old elements to be destroyed).
-      </dd>
-      <div class="well">
-          <div class="panel panel-default">
-              <div class="panel-body">
-                <button {{action "toggleDetail"}}>Toggle Detail View</button>
-                {{#liquid-if showDetail class='wait-demo'}}
-                  <div class="details">
-                    <h3>Details</h3>
+    <dt>wait</dt>
+    <dd>Waits a given number of milliseconds before proceeding with another transition. If no other transition is given, proceeds with the default behavior (making new elements visible and allowing old elements to be destroyed).
+    </dd>
 
-                    <p>
-                      Bacon ipsum dolor amet shank pork belly boudin flank
-                      prosciutto alcatra andouille pig short ribs biltong kevin
-                      salami tail turkey beef ribs.
-                    </p>
-                  </div>
-                {{else}}
-                  <div class="overview">
-                    <h3>Welcome</h3>
-                    <p>This is the overview.</p>
-                  </div>
-                {{/liquid-if}}
-              </div>
+    <div class="card">
+      <div class="card-body">
+        <button {{action "toggleDetail"}}>Toggle Detail View</button>
+        {{#liquid-if showDetail class='wait-demo'}}
+          <div class="details">
+            <h3>Details</h3>
+
+            <p>
+              Bacon ipsum dolor amet shank pork belly boudin flank
+              prosciutto alcatra andouille pig short ribs biltong kevin
+              salami tail turkey beef ribs.
+            </p>
           </div>
+        {{else}}
+          <div class="overview">
+            <h3>Welcome</h3>
+            <p>This is the overview.</p>
+          </div>
+        {{/liquid-if}}
+      </div>
+    </div>
 
+    <div class="card my-3">
+      <div class="card-body">
         <p>The transition rule:</p>
         {{code-snippet name="wait-demo.js"}}
-
       </div>
-
-
+    </div>
   {{/if}}
 
 </div>

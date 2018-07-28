@@ -22,9 +22,9 @@ test('visit every link in sidebar', function(assert) {
   assert.expect(1);
 
   function navigateForward() {
-    let forward = find('.nav-link.forward a');
+    let forward = find('.page-item.forward a');
     if (forward.length > 0) {
-      click('.nav-link.forward a');
+      click('.page-item.forward a');
       andThen(navigateForward);
     } else {
       assert.equal(currentRouteName(), lastRouteName);
