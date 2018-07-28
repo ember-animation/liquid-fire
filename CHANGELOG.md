@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.29.4
+
+ - HOUSEKEEPING: removing some jQuery usage by @cibernox
+ - HOUSEKEEPING: satisfy newer better eslint rules by @brettburley
+ - DOCS: docs site visual redesign by @brettburley
+ - BUGFIX: guard against notifying a destroyed container by @earnnest-greenville
+ - HOUSEKEEPING: fix send-action deprecation in ember 3.4 by scottkidder
+ - HOUSEKEEPING: fix ember-copy deprecation by @wagenet
+ - DOCS: readme patch by @acorncom
+
 ## 0.29.3
 
  - BUGFIX: Fix visibility during explode with nested animators by @brettburley
@@ -215,7 +225,7 @@
  - PR #241 from albertodotcom: improved explode
  - PR #284 from lolmaus: documentation
  - PR #291 from jrjohnson: documentation
- 
+
 ### 0.20.0
 
  - Glimmer compatibility: this is the liquid-fire version you want to
@@ -227,7 +237,7 @@
 
  - NEW: it should now be possible to build non-ember-cli releases of
    liquid-fire using
-   [Ember Giftwrap](https://github.com/ef4/ember-giftwrap). 
+   [Ember Giftwrap](https://github.com/ef4/ember-giftwrap).
 
 ### 0.19.1
 
