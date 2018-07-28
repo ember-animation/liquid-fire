@@ -35,9 +35,9 @@ export default Component.extend(Growable, {
       return;
     }
     if (on) {
-      this.element.className += ' liquid-animating'; // Use el.classList.add one IE9 is not supported
+      this.element.classList.add('liquid-animating');
     } else {
-      this.element.className = this.element.className.replace('liquid-animating', ''); // Use el.classList.remove one IE9 is not supported
+      this.element.classList.remove('liquid-animating');
     }
   },
 
