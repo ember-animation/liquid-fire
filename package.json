@@ -20,7 +20,6 @@
   "author": "Edward Faulkner <ef@alum.mit.edu>",
   "license": "MIT",
   "dependencies": {
-    "bootstrap": "^4.1.1",
     "broccoli-funnel": "^1.0.1",
     "broccoli-merge-trees": "^1.0.0",
     "broccoli-stew": "^1.4.2",
@@ -34,6 +33,7 @@
     "velocity-animate": "^1.5.1"
   },
   "devDependencies": {
+    "bootstrap": "^4.1.1",
     "bower": "^1.8.2",
     "broccoli-asset-rev": "^2.4.5",
     "command": "0.0.5",
