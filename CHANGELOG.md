@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.29.5
+
+ - BUGFIX: don't leak bootstrap from docs app into consuming apps
+
 ## 0.29.4
 
  - HOUSEKEEPING: removing some jQuery usage by @cibernox
