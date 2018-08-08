@@ -27,7 +27,7 @@
     "ember-copy": "^1.0.0",
     "ember-cli-htmlbars": "^2.0.1",
     "ember-cli-version-checker": "^2.0.0",
-    "ember-getowner-polyfill": "^2.0.1",
+    "ember-getowner-polyfill": "^2.2.0",
     "ember-hash-helper-polyfill": "^0.2.0",
     "match-media": "^0.2.0",
     "velocity-animate": "^1.5.1"
