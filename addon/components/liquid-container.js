@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import Growable from "liquid-fire/growable";
 import { measure } from "./liquid-measured";
 import layout from "liquid-fire/templates/components/liquid-container";
+import $ from 'jquery';
 
 export default Component.extend(Growable, {
   layout,
@@ -54,7 +55,7 @@ export default Component.extend(Growable, {
       }
 
       // Remember our own size before anything changes
-      let elt = this.$();
+      let elt = $(this.element);
       this._cachedSize = measure(elt);
 
       // And make any children absolutely positioned with fixed sizes.
@@ -65,14 +66,15 @@ export default Component.extend(Growable, {
     },
 
     afterChildInsertion(versions) {
-      let elt = this.$();
+      let elt = $(this.element);
       let enableGrowth = this.get('enableGrowth') !== false;
 
       // Measure children
       let sizes = [];
       for (let i = 0; i < versions.length; i++) {
         if (versions[i].view) {
-          sizes[i] = measure(versions[i].view.$());
+          let childElt = $(versions[i].view.element);
+          sizes[i] = measure(childElt);
         }
       }
 
@@ -119,7 +121,7 @@ function goAbsolute(version, size) {
   if (!version.view) {
     return;
   }
-  let elt = version.view.$();
+  let elt = $(version.view.element);
   let pos = elt.position();
   if (!size) {
     size = measure(elt);
@@ -135,6 +137,7 @@ function goAbsolute(version, size) {
 
 function goStatic(version) {
   if (version.view && !version.view.isDestroyed) {
-    version.view.$().css({width: '', height: '', position: ''});
+    let elt = $(version.view.element);
+    elt.css({width: '', height: '', position: ''});
   }
 }

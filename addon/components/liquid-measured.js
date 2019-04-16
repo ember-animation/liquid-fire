@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import MutationObserver from "liquid-fire/mutation-observer";
 import layout from "liquid-fire/templates/components/liquid-measured";
+import $ from 'jquery';
 
 export default Component.extend({
   layout,
@@ -16,9 +17,7 @@ export default Component.extend({
     let self = this;
 
     // This prevents margin collapse
-    this.$().css({
-      overflow: 'auto'
-    });
+    this.element.style.overflow = 'auto';
 
     this.didMutate();
 
@@ -29,7 +28,9 @@ export default Component.extend({
       childList: true,
       characterData: true
     });
-    this.$().bind('webkitTransitionEnd', function() { self.didMutate(); });
+
+    let elt = $(this.element);
+    elt.bind('webkitTransitionEnd', function() { self.didMutate(); });
     // Chrome Memory Leak: https://bugs.webkit.org/show_bug.cgi?id=93661
     window.addEventListener('unload', this._destroyOnUnload);
   },
@@ -57,8 +58,8 @@ export default Component.extend({
   },
 
   _didMutate() {
-    let elt = this.$();
-    if (!elt || !elt[0]) { return; }
+    if (!this.element) { return; }
+    let elt = $(this.element);
     this.set('measurements', measure(elt));
   },
 
