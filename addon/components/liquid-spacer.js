@@ -3,16 +3,19 @@ import Component from '@ember/component';
 import { measure } from "./liquid-measured";
 import Growable from "liquid-fire/growable";
 import layout from "liquid-fire/templates/components/liquid-spacer";
+import $ from 'jquery';
 
 export default Component.extend(Growable, {
   layout,
   enabled: true,
 
   didInsertElement() {
-    let child = this.$('> div');
+    let elt = $(this.element);
+    let child = elt.find('> div');
     let measurements = this.myMeasurements(measure(child));
-    let elt = this.$();
-    elt.css('overflow', 'hidden');
+
+    this.element.style.overflow = 'hidden';
+
     if (this.get('growWidth')) {
       elt.outerWidth(measurements.width);
     }
@@ -23,17 +26,17 @@ export default Component.extend(Growable, {
 
   sizeChange: observer('measurements', function() {
     if (!this.get('enabled')) { return; }
-    let elt = this.$();
-    if (!elt || !elt[0]) { return; }
+    if (!this.element) { return; }
     let want = this.myMeasurements(this.get('measurements'));
-    let have = measure(this.$());
+    let elt = $(this.element);
+    let have = measure(elt);
     this.animateGrowth(elt, have, want);
   }),
 
   // given our child's outerWidth & outerHeight, figure out what our
   // outerWidth & outerHeight should be.
   myMeasurements(childMeasurements) {
-    let elt = this.$();
+    let elt = $(this.element);
     return {
       width: childMeasurements.width + sumCSS(elt, padding('width')) + sumCSS(elt, border('width')),
       height: childMeasurements.height + sumCSS(elt, padding('height')) + sumCSS(elt, border('height'))

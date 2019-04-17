@@ -1,4 +1,5 @@
 import { capitalize } from '@ember/string';
+import $ from 'jquery';
 
 export default class RunningTransition {
   constructor(transitionMap, versions, animation) {
@@ -62,9 +63,15 @@ function publicAnimationContext(rt, versions) {
 }
 
 function addPublicVersion(context, prefix, version) {
+  let elt = null;
+
+  if (version.view) {
+    elt = $(version.view.element);
+  }
+
   let props = {
     view: version.view,
-    element: version.view ? version.view.$() : null,
+    element: elt,
     value: version.value
   };
   for (let key in props) {
