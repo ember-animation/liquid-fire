@@ -36,6 +36,7 @@ correct version of liquid-fire:
 
 `stable` and `oldstable` branches still receive bugfixes and PRs are
 welcome, but new feature work happens on `master`.
+Liquid Fire is tested against many versions of Ember using [ember-try](https://github.com/ember-cli/ember-try).
 
 ## Installation
 
@@ -68,10 +69,6 @@ addon format.
  - app: is code that's loaded directly into the user's application
  - addon: is code that can be imported by the user from the `liquid-fire` namespace
  - tests/dummy: is the testing, demo, and documentation application
-
-### Selecting Ember Versions
-
-Liquid Fire is tested against many versions of Ember using [ember-try](https://github.com/ember-cli/ember-try). The oldest supported version is listed in `versionCompatibility` in `package.json`, and in CI we test every minor release since then, through beta and canary.
 
 ## Testing
 
