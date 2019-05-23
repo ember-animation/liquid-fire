@@ -18,6 +18,6 @@
 
 {{#liquid-bind sortedModels class="hero-sort" as |currentModels|}}
   {{#each currentModels key="id" as |model|}}
-    <div {{action "deleteModel" model}} data-model-id={{model.id}}>{{model.firstName}} {{model.lastName}}</div>
+    <button {{action "deleteModel" model}} data-model-id={{model.id}}>{{model.firstName}} {{model.lastName}}</button>
   {{/each}}
 {{/liquid-bind}}
