@@ -68,4 +68,3 @@ export function containingElement(view) {
   return getViewBounds(view).parentElement;
 }
 
-export { default as getOutletStateTemplate } from './get-outlet-state';
