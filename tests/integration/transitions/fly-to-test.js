@@ -30,7 +30,7 @@ module('Integration: fly-to transition', function(hooks) {
   });
 
   ['border-box', 'content-box'].forEach(function(boxSizing) {
-    test(`it avoids a jump at end of animation, with absolutely positioned elements (${boxSizing})`, function(assert) {
+    test(`it avoids a jump at end of animation, with absolutely positioned elements (${boxSizing})`, async function(assert) {
       assert.expect(6);
       tmap.map(function() {
         this.transition(
@@ -55,8 +55,8 @@ module('Integration: fly-to transition', function(hooks) {
       });
 
       this.set('boxSizing', boxSizing);
-      this.register('template:components/my-stylesheet', stylesheet());
-      this.render(hbs`
+      this.owner.register('template:components/my-stylesheet', stylesheet());
+      await this.render(hbs`
                   {{my-stylesheet boxSizing=boxSizing}}
                   {{#liquid-if showBlue class="fly-to-test"}}
                   <div class="bluebox"></div>
@@ -66,10 +66,10 @@ module('Integration: fly-to transition', function(hooks) {
                   `);
 
       this.set('showBlue', true);
-      return tmap.waitUntilIdle();
+      await tmap.waitUntilIdle();
     });
 
-    test(`it avoids a jump at end of animation, with statically positioned elements (${boxSizing})`, function(assert) {
+    test(`it avoids a jump at end of animation, with statically positioned elements (${boxSizing})`, async function(assert) {
       assert.expect(6);
       tmap.map(function() {
         this.transition(
@@ -93,8 +93,8 @@ module('Integration: fly-to transition', function(hooks) {
         );
       });
       this.set('boxSizing', boxSizing);
-      this.register('template:components/my-stylesheet', stylesheet());
-      this.render(hbs`
+      this.owner.register('template:components/my-stylesheet', stylesheet());
+      await this.render(hbs`
                   {{my-stylesheet boxSizing=boxSizing}}
                   {{#liquid-if showYellow class="fly-to-test"}}
                   <div class="yellowbox"></div>
@@ -104,7 +104,7 @@ module('Integration: fly-to transition', function(hooks) {
                   `);
 
       this.set('showYellow', true);
-      return tmap.waitUntilIdle();
+      await tmap.waitUntilIdle();
     });
 
 

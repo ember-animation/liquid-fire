@@ -100,18 +100,18 @@ module('Integration: liquid-outlet', function(hooks) {
   });
 
   test('should support containerless mode', async function(assert) {
-    await render(hbs`{{#set-route outletState=outletState}}{{liquid-outlet containerless=true}}{{/set-route}}`);
+    await render(hbs`<div data-test-target>{{#set-route outletState=outletState}}{{liquid-outlet containerless=true}}{{/set-route}}</div>`);
     this.setState(this.makeRoute({ template: hbs`<h1>Hello world</h1>` }));
     assert.dom('.liquid-container').doesNotExist("no container");
-    assert.dom(' > .liquid-child').exists({ count: 1 }, "direct liquid child");
+    assert.dom('[data-test-target] > .liquid-child').exists({ count: 1 }, "direct liquid child");
   });
 
   test('should support `class` on children in containerless mode', async function(assert) {
     await render(
-      hbs`{{#set-route outletState=outletState}}{{liquid-outlet class="bar" containerless=true}}{{/set-route}}`
+      hbs`<div data-test-target>{{#set-route outletState=outletState}}{{liquid-outlet class="bar" containerless=true}}{{/set-route}}</div>`
     );
     this.setState(this.makeRoute({ template: hbs`<h1>Hello world</h1>` }));
-    assert.dom(' > .liquid-child.bar').exists({ count: 1 }, "child class");
+    assert.dom('[data-test-target] > .liquid-child.bar').exists({ count: 1 }, "child class");
   });
 
   test('can see model-to-model transitions on the same route', async function(assert) {
@@ -128,7 +128,7 @@ module('Integration: liquid-outlet', function(hooks) {
     await render(hbs`{{#set-route outletState=outletState}}{{liquid-outlet watchModels=true}}{{/set-route}}`);
     this.setState(state);
     assert.dom('.content').hasText('1');
-    tmap.transitionFor.reset();
+    tmap.transitionFor.resetHistory();
     run(() => {
       controller.set('model', EmberObject.create({
         id: 2

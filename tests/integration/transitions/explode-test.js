@@ -400,7 +400,7 @@ module('Integration: explode transition', function(hooks) {
 
   ['border-box', 'content-box'].forEach(function(boxSizing) {
 
-    test(`it avoids a jump at start of animation, with absolutely positioned elements (${boxSizing})`, function(assert) {
+    test(`it avoids a jump at start of animation, with absolutely positioned elements (${boxSizing})`, async function(assert) {
       let didTransition = false;
       tmap.map(function() {
         this.transition(
@@ -431,8 +431,8 @@ module('Integration: explode transition', function(hooks) {
         );
       });
       this.set('boxSizing', boxSizing);
-      this.register('template:components/my-stylesheet', stylesheet());
-      this.render(hbs`
+      this.owner.register('template:components/my-stylesheet', stylesheet());
+      await this.render(hbs`
                   {{my-stylesheet boxSizing=boxSizing}}
                   {{#liquid-if showBlue class="explode-transition-test"}}
                   <div class="bluebox"></div>
@@ -442,14 +442,13 @@ module('Integration: explode transition', function(hooks) {
                   `);
 
       this.set('showBlue', true);
-      return tmap.waitUntilIdle().then(() => {
-        assert.ok(didTransition, 'didTransition');
-      });
+      await tmap.waitUntilIdle();
+      assert.ok(didTransition, 'didTransition');
     });
 
 
 
-    test(`it avoids a jump at start of animation, with statically positioned elements (${boxSizing})`, function(assert) {
+    test(`it avoids a jump at start of animation, with statically positioned elements (${boxSizing})`, async function(assert) {
       let didTransition = false;
       tmap.map(function() {
         this.transition(
@@ -480,8 +479,8 @@ module('Integration: explode transition', function(hooks) {
         );
       });
       this.set('boxSizing', boxSizing);
-      this.register('template:components/my-stylesheet', stylesheet());
-      this.render(hbs`
+      this.owner.register('template:components/my-stylesheet', stylesheet());
+      await this.render(hbs`
                   {{my-stylesheet boxSizing=boxSizing}}
                   {{#liquid-if showYellow class="explode-transition-test"}}
                   <div class="yellowbox"></div>
@@ -492,9 +491,8 @@ module('Integration: explode transition', function(hooks) {
                   `);
 
       this.set('showYellow', true);
-      return tmap.waitUntilIdle().then(() => {
-        assert.ok(didTransition, 'didTransition');
-      });
+      await tmap.waitUntilIdle();
+      assert.ok(didTransition, 'didTransition');
     });
 
   });

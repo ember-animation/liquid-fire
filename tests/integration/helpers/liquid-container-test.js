@@ -49,14 +49,14 @@ module('Integration: liquid-container', function(hooks) {
                     }
 
                   </style>
-                  <button {{action "toggle"}}>Toggle</button>
+                  <button {{action this.toggle}}>Toggle</button>
                   {{#liquid-container class="test-container" growDuration=1 as |c|}}
                     {{#liquid-versions notify=c value=value as |valueVersion|}}
                       <div class={{valueVersion}}></div>
                     {{/liquid-versions}}
                   {{/liquid-container}}
                   `);
-      this.on('toggle', () => {
+      this.set('toggle', () => {
         if (this.get('value') === 'first-value') {
           this.set('value', 'second-value');
         } else {

@@ -50,7 +50,7 @@ module('Integration: liquid-spacer', function(hooks) {
       this.set('message', longMessage);
       this.set('boxSizing', boxSizing);
       this.render(hbs`
-                 <button {{action "toggle"}}>Toggle</button>
+                 <button {{action this.toggle}}>Toggle</button>
                  <style>
                   #my-spacer {
                     padding: 2px;
@@ -67,7 +67,7 @@ module('Integration: liquid-spacer', function(hooks) {
                  `);
 
 
-      this.on('toggle', () => {
+      this.set('toggle', () => {
         if (this.get('message') === longMessage) {
           this.set('message', shortMessage);
         } else {

@@ -94,6 +94,7 @@ module('Integration | Component | liquid sync', function(hooks) {
   });
 
   test('it considers liquid-fire non-idle when waiting for liquid-sync to resolve', async function(assert) {
+    assert.timeout(10);
     await render(hbs`
       {{#liquid-if activated use="spy"}}
         {{#liquid-sync as |sync|}}

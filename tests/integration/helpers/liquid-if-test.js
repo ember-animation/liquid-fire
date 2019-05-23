@@ -132,16 +132,16 @@ module('Integration: liquid-if', function(hooks) {
 
   test('it should support containerless mode', async function(assert) {
     this.set('isReady', true);
-    await render(hbs`{{#liquid-if isReady containerless=true}}hi{{/liquid-if}}`);
+    await render(hbs`<div data-test-target> {{#liquid-if isReady containerless=true}}hi{{/liquid-if}}</div>`);
     assert.dom('.liquid-container').doesNotExist("no container");
-    assert.dom('> .liquid-child').exists({ count: 1 }, "direct child");
-    assert.dom('> .liquid-child').hasText('hi');
+    assert.dom('[data-test-target] > .liquid-child').exists({ count: 1 }, "direct child");
+    assert.dom('[data-test-target] > .liquid-child').hasText('hi');
   });
 
   test('should support `class` on liquid-children in containerless mode', async function(assert) {
     this.set('isReady', true);
-    await render(hbs`{{#liquid-if isReady class="bar" containerless=true}}hi{{/liquid-if}}`);
-    assert.dom('> .liquid-child.bar').exists({ count: 1 }, "child with class");
+    await render(hbs`<div data-test-target>{{#liquid-if isReady class="bar" containerless=true}}hi{{/liquid-if}}</div>`);
+    assert.dom('[data-test-target] > .liquid-child.bar').exists({ count: 1 }, "child with class");
   });
 
   skip('should pass container arguments through', function(assert) {

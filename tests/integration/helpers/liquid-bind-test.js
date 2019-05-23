@@ -115,15 +115,15 @@ module('Integration: liquid-bind', function(hooks) {
   });
 
   test('should support containerless mode', async function(assert) {
-    await render(hbs`{{liquid-bind foo containerless=true}}`);
+    await render(hbs`<div data-test-target>{{liquid-bind foo containerless=true}}</div>`);
     assert.dom('.liquid-container').doesNotExist("no container");
-    assert.dom(' > .liquid-child').exists({ count: 1 }, "direct liquid child");
+    assert.dom('[data-test-target] > .liquid-child').exists({ count: 1 }, "direct liquid child");
   });
 
   test('should support `class` on liquid-children in containerless mode', async function(assert) {
-    await render(hbs`{{liquid-bind foo class="bar" containerless=true}}`);
+    await render(hbs`<div data-test-target>{{liquid-bind foo class="bar" containerless=true}}</div>`);
     assert.dom('.liquid-container').doesNotExist("no container");
-    assert.dom(' > .liquid-child.bar').exists({ count: 1 }, "direct liquid with class");
+    assert.dom('[data-test-target] > .liquid-child.bar').exists({ count: 1 }, "direct liquid with class");
   });
 
   skip('should pass container arguments through', function(assert) {
