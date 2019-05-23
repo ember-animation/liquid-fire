@@ -1,116 +1,120 @@
 import { Promise as EmberPromise } from 'rsvp';
-import { test, moduleForComponent } from "ember-qunit";
+import { module, test } from 'qunit';
+import { setupRenderingTest } from "ember-qunit";
+import { render, click, findAll } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 let tmap;
 
-moduleForComponent('Integration: liquid-container', {
-  integration: true,
-  beforeEach() {
-    tmap = this.container.lookup('service:liquid-fire-transitions');
-  },
-  afterEach() {
+module('Integration: liquid-container', function(hooks) {
+  setupRenderingTest(hooks);
+
+  hooks.beforeEach(function() {
+    tmap = this.owner.lookup('service:liquid-fire-transitions');
+  });
+
+  hooks.afterEach(function() {
     tmap = null;
-  }
-});
+  });
 
-['content-box', 'border-box'].forEach(function(boxSizing) {
-  test(`it should maintain size stability (${boxSizing})`, function(assert) {
-    let initialSize;
-    this.set('value', 'first-value');
-    this.set('boxSizing', boxSizing);
-    this.render(hbs`
-                <style>
-                  .test-container {
-                    margin: 5px;
-                    border: 2px solid black;
-                    padding: 3px;
-                    float: left;
-                    box-sizing: {{boxSizing}}
-                  }
-                  .first-value {
-                    width: 200px;
-                    height: 200px;
-                    margin: 4px;
-                    border: 1px solid black;
-                    padding: 2px;
-                    box-sizing: {{boxSizing}}
-                  }
-                  .second-value {
-                    width: 100px;
-                    height: 100px;
-                    margin: 2px;
-                    border: 2px solid black;
-                    padding: 6px;
-                    box-sizing: {{boxSizing}}
-                  }
+  ['content-box', 'border-box'].forEach(function(boxSizing) {
+    test(`it should maintain size stability (${boxSizing})`, function(assert) {
+      let initialSize;
+      this.set('value', 'first-value');
+      this.set('boxSizing', boxSizing);
+      this.render(hbs`
+                  <style>
+                    .test-container {
+                      margin: 5px;
+                      border: 2px solid black;
+                      padding: 3px;
+                      float: left;
+                      box-sizing: {{boxSizing}}
+                    }
+                    .first-value {
+                      width: 200px;
+                      height: 200px;
+                      margin: 4px;
+                      border: 1px solid black;
+                      padding: 2px;
+                      box-sizing: {{boxSizing}}
+                    }
+                    .second-value {
+                      width: 100px;
+                      height: 100px;
+                      margin: 2px;
+                      border: 2px solid black;
+                      padding: 6px;
+                      box-sizing: {{boxSizing}}
+                    }
 
-                </style>
-                <button {{action "toggle"}}>Toggle</button>
-                {{#liquid-container class="test-container" growDuration=1 as |c|}}
-                  {{#liquid-versions notify=c value=value as |valueVersion|}}
-                    <div class={{valueVersion}}></div>
-                  {{/liquid-versions}}
-                {{/liquid-container}}
+                  </style>
+                  <button {{action "toggle"}}>Toggle</button>
+                  {{#liquid-container class="test-container" growDuration=1 as |c|}}
+                    {{#liquid-versions notify=c value=value as |valueVersion|}}
+                      <div class={{valueVersion}}></div>
+                    {{/liquid-versions}}
+                  {{/liquid-container}}
+                  `);
+      this.on('toggle', () => {
+        if (this.get('value') === 'first-value') {
+          this.set('value', 'second-value');
+        } else {
+          this.set('value', 'first-value');
+        }
+      });
+      return tmap.waitUntilIdle().then(async () => {
+        initialSize = {
+          width: this.$('.test-container').outerWidth(),
+          height: this.$('.test-container').outerHeight()
+        };
+        await click('button');
+        return tmap.waitUntilIdle();
+      }).then(async () => {
+        let newSize = {
+          width: this.$('.test-container').outerWidth(),
+          height: this.$('.test-container').outerHeight()
+        };
+        assert.notEqual(newSize.width, initialSize.width);
+        assert.notEqual(newSize.height, initialSize.height);
+        await click('button');
+        return tmap.waitUntilIdle();
+      }).then(() => {
+        let newSize = {
+          width: this.$('.test-container').outerWidth(),
+          height: this.$('.test-container').outerHeight()
+        };
+        assert.deepEqual(newSize, initialSize);
+      });
+    });
+  });
+
+  test(`has liquid-animating class during animation`, async function(assert) {
+    let resolveAnimation;
+    this.owner.register('transition:blocking', function() {
+      return new EmberPromise(function(resolve) {
+        resolveAnimation = resolve;
+      });
+    });
+
+    await render(hbs`
+                  {{#liquid-container class="test-container" growDuration=1 as |c|}}
+                    {{#liquid-versions notify=c value=value use="blocking" as |valueVersion|}}
+                      <div class={{valueVersion}}></div>
+                    {{/liquid-versions}}
+                  {{/liquid-container}}
                 `);
-    this.on('toggle', () => {
-      if (this.get('value') === 'first-value') {
-        this.set('value', 'second-value');
-      } else {
-        this.set('value', 'first-value');
-      }
-    });
+
+    assert.dom('.test-container').exists({ count: 1 }, "have test-container");
+    assert.ok(!this.$('.test-container').is('.liquid-animating'), "it doesn't have liquid-animating class");
+
+    this.set('value', 'new-value');
+
+    assert.dom('.test-container.liquid-animating').exists({ count: 1 }, "found liquid-animating class");
+    resolveAnimation();
     return tmap.waitUntilIdle().then(() => {
-      initialSize = {
-        width: this.$('.test-container').outerWidth(),
-        height: this.$('.test-container').outerHeight()
-      };
-      this.$('button').click();
-      return tmap.waitUntilIdle();
-    }).then(() => {
-      let newSize = {
-        width: this.$('.test-container').outerWidth(),
-        height: this.$('.test-container').outerHeight()
-      };
-      assert.notEqual(newSize.width, initialSize.width);
-      assert.notEqual(newSize.height, initialSize.height);
-      this.$('button').click();
-      return tmap.waitUntilIdle();
-    }).then(() => {
-      let newSize = {
-        width: this.$('.test-container').outerWidth(),
-        height: this.$('.test-container').outerHeight()
-      };
-      assert.deepEqual(newSize, initialSize);
+      assert.dom('.test-container').exists({ count: 1 }, "still have test-container");
+      assert.ok(!this.$('.test-container').is('.liquid-animating'), "liquid-animating class was removed");
     });
-  });
-});
-
-test(`has liquid-animating class during animation`, function(assert) {
-  let resolveAnimation;
-  this.registry.register('transition:blocking', function() {
-    return new EmberPromise(function(resolve) {
-      resolveAnimation = resolve;
-    });
-  });
-
-  this.render(hbs`
-                {{#liquid-container class="test-container" growDuration=1 as |c|}}
-                  {{#liquid-versions notify=c value=value use="blocking" as |valueVersion|}}
-                    <div class={{valueVersion}}></div>
-                  {{/liquid-versions}}
-                {{/liquid-container}}
-              `);
-
-  assert.equal(this.$('.test-container').length, 1, "have test-container");
-  assert.ok(!this.$('.test-container').is('.liquid-animating'), "it doesn't have liquid-animating class");
-
-  this.set('value', 'new-value');
-
-  assert.equal(this.$('.test-container.liquid-animating').length, 1, "found liquid-animating class");
-  resolveAnimation();
-  return tmap.waitUntilIdle().then(() => {
-    assert.equal(this.$('.test-container').length, 1, "still have test-container");
-    assert.ok(!this.$('.test-container').is('.liquid-animating'), "liquid-animating class was removed");
   });
 });

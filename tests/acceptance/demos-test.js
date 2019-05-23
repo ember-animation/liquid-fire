@@ -1,3 +1,4 @@
+import { click, findAll, currentRouteName, find, visit } from '@ember/test-helpers';
 /* global ranTransition, noTransitionsYet */
 import { later } from '@ember/runloop';
 import { test, skip } from 'qunit';
@@ -17,59 +18,49 @@ moduleForAcceptance('Acceptance: Demos', {
   }
 });
 
-test('visit every link in sidebar', function(assert) {
+test('visit every link in sidebar', async function(assert) {
   let lastRouteName = 'transitions.primitives.index';
   assert.expect(1);
 
-  function navigateForward() {
+  async function navigateForward() {
     let forward = find('.page-item.forward a');
     if (forward.length > 0) {
-      click('.page-item.forward a');
-      andThen(navigateForward);
+      await click('.page-item.forward a');
+      await navigateForward();
     } else {
       assert.equal(currentRouteName(), lastRouteName);
     }
   }
 
-  visit('/');
-  andThen(navigateForward);
+  await visit('/');
+  await navigateForward();
 });
 
-test('liquid outlet demo', function(assert) {
-  visit('/helpers/liquid-outlet');
-  andThen(function(){
-    assert.equal(currentRouteName(), 'helpers-documentation.liquid-outlet.index');
-    assert.equal(find('.demo-container a').text(), 'Click me!');
-    noTransitionsYet(assert);
-  });
-  click('.demo-container a');
-  andThen(function(){
-    assert.equal(currentRouteName(), 'helpers-documentation.liquid-outlet.other');
-    assert.equal(find('.demo-container a').text(), 'Go back!');
-    ranTransition(assert, 'toLeft');
-  });
-  click('.demo-container a');
-  andThen(function(){
-    assert.equal(currentRouteName(), 'helpers-documentation.liquid-outlet.index');
-    assert.equal(find('.demo-container a').text(), 'Click me!');
-    ranTransition(assert, 'toRight');
-  });
+test('liquid outlet demo', async function(assert) {
+  await visit('/helpers/liquid-outlet');
+  assert.equal(currentRouteName(), 'helpers-documentation.liquid-outlet.index');
+  assert.dom('.demo-container a').hasText('Click me!');
+  noTransitionsYet(assert);
+  await click('.demo-container a');
+  assert.equal(currentRouteName(), 'helpers-documentation.liquid-outlet.other');
+  assert.dom('.demo-container a').hasText('Go back!');
+  ranTransition(assert, 'toLeft');
+  await click('.demo-container a');
+  assert.equal(currentRouteName(), 'helpers-documentation.liquid-outlet.index');
+  assert.dom('.demo-container a').hasText('Click me!');
+  ranTransition(assert, 'toRight');
 });
 
-test('liquid bind block-form demo', function(assert) {
-  visit('/helpers/liquid-bind-block');
-  andThen(function(){
-    assert.ok(/\b1\b/.test(find('.demo-container').text()), 'Has 1');
-    noTransitionsYet(assert);
-  });
-  click('.demo-container button');
-  andThen(function(){
-    ranTransition(assert, 'rotateBelow');
-    assert.ok(/\b2\b/.test(find('.demo-container').text()), 'Has 2');
-  });
+test('liquid bind block-form demo', async function(assert) {
+  await visit('/helpers/liquid-bind-block');
+  assert.ok(/\b1\b/.test(find('.demo-container').textContent), 'Has 1');
+  noTransitionsYet(assert);
+  await click('.demo-container button');
+  ranTransition(assert, 'rotateBelow');
+  assert.ok(/\b2\b/.test(find('.demo-container').textContent), 'Has 2');
 });
 
-test('liquid bind demo', function(assert) {
+test('liquid bind demo', async function(assert) {
   let first, second;
   function clock() {
     let m = /(\d\d)\s*:\s*(\d\d)\s*:\s*(\d\d)/.exec($('#liquid-bind-demo').text());
@@ -77,169 +68,131 @@ test('liquid bind demo', function(assert) {
     return parseInt(m[3]);
   }
 
-  visit('/helpers/liquid-bind');
-  andThen(function(){
-    first = clock();
-  });
-  click('#force-tick');
-  andThen(function(){
-    second = clock();
-    assert.notEqual(first, second, "clock readings differ, " + first + ", " + second);
-    ranTransition(assert, 'toUp');
-  });
+  await visit('/helpers/liquid-bind');
+  first = clock();
+  await click('#force-tick');
+  second = clock();
+  assert.notEqual(first, second, "clock readings differ, " + first + ", " + second);
+  ranTransition(assert, 'toUp');
 });
 
-test('liquid if demo', function(assert) {
-  visit('/helpers/liquid-if');
-  andThen(function(){
-    noTransitionsYet(assert);
-    assert.equal(find('#liquid-box-demo input[type=checkbox]').length, 1, "found checkbox");
-    assert.equal(find('#liquid-box-demo input[type=text]').length, 0, "no text input");
-    find('select').val('car').trigger('change');
-  });
-  andThen(function(){
-    ranTransition(assert, 'toLeft');
-    assert.equal(find('#liquid-box-demo input[type=checkbox]').length, 0, "no more checkbox");
-    assert.equal(find('#liquid-box-demo input[type=text]').length, 1, "has text input");
-    find('select').val('bike').trigger('change');
-  });
-  andThen(function(){
-    ranTransition(assert, 'crossFade');
-  });
+test('liquid if demo', async function(assert) {
+  await visit('/helpers/liquid-if');
+  noTransitionsYet(assert);
+  assert.dom('#liquid-box-demo input[type=checkbox]').exists({ count: 1 }, "found checkbox");
+  assert.dom('#liquid-box-demo input[type=text]').doesNotExist("no text input");
+  find('select').val('car').trigger('change');
+  ranTransition(assert, 'toLeft');
+  assert.dom('#liquid-box-demo input[type=checkbox]').doesNotExist("no more checkbox");
+  assert.dom('#liquid-box-demo input[type=text]').exists({ count: 1 }, "has text input");
+  find('select').val('bike').trigger('change');
+  ranTransition(assert, 'crossFade');
 });
 
 
-test('interruption demo, normal transition', function(assert) {
-  visit('/transitions/primitives');
-  andThen(function(){
-    noTransitionsYet(assert);
-    classFound(assert, 'one');
-    clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
-  });
-  andThen(function(){
-    ranTransition(assert, 'fade');
-    classFound(assert, 'two');
-  });
+test('interruption demo, normal transition', async function(assert) {
+  await visit('/transitions/primitives');
+  noTransitionsYet(assert);
+  classFound(assert, 'one');
+  clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
+  ranTransition(assert, 'fade');
+  classFound(assert, 'two');
 });
 
-skip('interruption demo, early interruption', function(assert) {
-  visit('/transitions/primitives');
-  andThen(function(){
-    classFound(assert, 'one');
-    clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
-    later(function(){
-      isPartiallyOpaque(assert, '.one');
-      clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
-      later(function(){
-        isTransparent(assert, '.one');
-        isHidden(assert, '.two');
-        isPartiallyOpaque(assert, '.three');
-      }, 50);
-
-    }, 50);
-  });
-  andThen(function(){
-    classFound(assert, 'three');
-  });
-});
-
-skip('interruption demo, two early interruptions', function(assert) {
-  visit('/transitions/primitives');
-  andThen(function(){
-    classFound(assert, 'one');
-    clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
+skip('interruption demo, early interruption', async function(assert) {
+  await visit('/transitions/primitives');
+  classFound(assert, 'one');
+  clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
+  later(function(){
+    isPartiallyOpaque(assert, '.one');
     clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
     later(function(){
-      isPartiallyOpaque(assert, '.one');
+      isTransparent(assert, '.one');
       isHidden(assert, '.two');
-      isHidden(assert, '.three');
-      later(function(){
-        isTransparent(assert, '.one');
-        isHidden(assert, '.two');
-        isPartiallyOpaque(assert, '.three');
-      }, 100);
-    }, 40);
-  });
-  andThen(function(){
-    classFound(assert, 'three');
-  });
+      isPartiallyOpaque(assert, '.three');
+    }, 50);
+
+  }, 50);
+  classFound(assert, 'three');
+});
+
+skip('interruption demo, two early interruptions', async function(assert) {
+  await visit('/transitions/primitives');
+  classFound(assert, 'one');
+  clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
+  clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
+  later(function(){
+    isPartiallyOpaque(assert, '.one');
+    isHidden(assert, '.two');
+    isHidden(assert, '.three');
+    later(function(){
+      isTransparent(assert, '.one');
+      isHidden(assert, '.two');
+      isPartiallyOpaque(assert, '.three');
+    }, 100);
+  }, 40);
+  classFound(assert, 'three');
 });
 
 
-skip('interruption demo, late interruption', function(assert) {
-  visit('/transitions/primitives');
-  andThen(function(){
-    classFound(assert, 'one');
-    clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
-    later(function(){
-      isPartiallyOpaque(assert, '.two');
-      clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
+skip('interruption demo, late interruption', async function(assert) {
+  await visit('/transitions/primitives');
+  classFound(assert, 'one');
+  clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
+  later(function(){
+    isPartiallyOpaque(assert, '.two');
+    clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
+    later(function() {
+      isTransparent(assert, '.one');
+      isTransparent(assert, '.two');
+      isPartiallyOpaque(assert, '.three');
+    }, 100);
+  }, 150);
+  classFound(assert, 'three');
+});
+
+skip('interruption demo, two late interruptions', async function(assert) {
+  await visit('/transitions/primitives');
+  classFound(assert, 'one');
+  clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
+  later(function(){
+    isPartiallyOpaque(assert, '.two');
+    clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
+    later(function() {
+      isPartiallyOpaque(assert, '.three');
+      clickWithoutWaiting('#interrupted-fade-demo a', 'One');
       later(function() {
-        isTransparent(assert, '.one');
+        isTransparent(assert, '.three');
         isTransparent(assert, '.two');
-        isPartiallyOpaque(assert, '.three');
+        isPartiallyOpaque(assert, '.one');
       }, 100);
-    }, 150);
-  });
-  andThen(function(){
-    classFound(assert, 'three');
-  });
-});
-
-skip('interruption demo, two late interruptions', function(assert) {
-  visit('/transitions/primitives');
-  andThen(function(){
-    classFound(assert, 'one');
-    clickWithoutWaiting('#interrupted-fade-demo a', 'Two');
-    later(function(){
-      isPartiallyOpaque(assert, '.two');
-      clickWithoutWaiting('#interrupted-fade-demo a', 'Three');
-      later(function() {
-        isPartiallyOpaque(assert, '.three');
-        clickWithoutWaiting('#interrupted-fade-demo a', 'One');
-        later(function() {
-          isTransparent(assert, '.three');
-          isTransparent(assert, '.two');
-          isPartiallyOpaque(assert, '.one');
-        }, 100);
-      }, 100);
-    }, 150);
-  });
-  andThen(function(){
-    classFound(assert, 'one');
-  });
+    }, 100);
+  }, 150);
+  classFound(assert, 'one');
 });
 
 
-test('explode demo 1', function(assert) {
-  visit('/transitions/explode');
-  andThen(function(){
-    assert.equal(find('h3:contains(Welcome)').length, 1, "first state");
-    click('button:contains(Toggle Detail View)');
-  });
-  andThen(function(){
-    assert.equal(find('h3:contains(Detail)').length, 1, "second state");
-    ranTransition(assert, 'explode');
-  });
+test('explode demo 1', async function(assert) {
+  await visit('/transitions/explode');
+  assert.equal(findAll('h3:contains(Welcome)').length, 1, "first state");
+  await click('button:contains(Toggle Detail View)');
+  assert.equal(findAll('h3:contains(Detail)').length, 1, "second state");
+  ranTransition(assert, 'explode');
 });
 
-test('explode demo 2', function(assert) {
+test('explode demo 2', async function(assert) {
   let ids;
-  visit('/transitions/explode');
-  andThen(function(){
-    ids = find('#explode-demo-2 img').toArray().map((elt) => {
-      return $(elt).attr('data-photo-id');
-    });
-    click('button:contains(Shuffle)');
+  await visit('/transitions/explode');
+  ids = find('#explode-demo-2 img').toArray().map((elt) => {
+    return $(elt).attr('data-photo-id');
   });
-  andThen(function(){
-    let newIds = find('#explode-demo-2 img').toArray().map((elt) => {
-      return $(elt).attr('data-photo-id');
-    });
-    assert.notDeepEqual(ids, newIds);
-    assert.deepEqual(ids.sort(), newIds.sort());
-    ranTransition(assert, 'explode');
+  await click('button:contains(Shuffle)');
+  let newIds = find('#explode-demo-2 img').toArray().map((elt) => {
+    return $(elt).attr('data-photo-id');
   });
+  assert.notDeepEqual(ids, newIds);
+  assert.deepEqual(ids.sort(), newIds.sort());
+  ranTransition(assert, 'explode');
 });
 
 function isPartiallyOpaque(assert, selector) {

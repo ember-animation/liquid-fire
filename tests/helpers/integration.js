@@ -36,7 +36,7 @@ export function injectTransitionSpies(app) {
 
 
 export function classFound(assert, name) {
-  assert.equal(find('.'+name).length, 1, 'found ' + name);
+  assert.dom('.'+name).exists({ count: 1 }, 'found ' + name);
 }
 
 export function clickWithoutWaiting(selector, text) {
