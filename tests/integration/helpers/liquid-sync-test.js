@@ -2,7 +2,7 @@ import { run } from '@ember/runloop';
 import { Promise as EmberPromise } from 'rsvp';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, findAll } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import Component from '@ember/component';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -24,11 +24,6 @@ module('Integration | Component | liquid sync', function(hooks) {
       animationStarted = true;
       return EmberPromise.resolve();
     });
-  });
-
-  hooks.afterEach(function(assert) {
-    const done = assert.async();
-    tmap.waitUntilIdle().then(done);
   });
 
   test('it causes the transition to wait', async function(assert) {
@@ -94,7 +89,6 @@ module('Integration | Component | liquid sync', function(hooks) {
   });
 
   test('it considers liquid-fire non-idle when waiting for liquid-sync to resolve', async function(assert) {
-    assert.timeout(10);
     await render(hbs`
       {{#liquid-if activated use="spy"}}
         {{#liquid-sync as |sync|}}
@@ -110,5 +104,6 @@ module('Integration | Component | liquid sync', function(hooks) {
 
     assert.equal(animationStarted, false, "No animation yet");
     assert.ok(tmap.runningTransitions() > 0, "Isn't idle");
+    run(() => sample.sendAction('ready'));
   });
 });
