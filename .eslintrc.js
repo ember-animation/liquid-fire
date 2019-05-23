@@ -39,6 +39,7 @@ module.exports = {
         'addon/**',
         'addon-test-support/**',
         'app/**',
+        'version-specific*/**',
         'tests/dummy/app/**'
       ],
       parserOptions: {

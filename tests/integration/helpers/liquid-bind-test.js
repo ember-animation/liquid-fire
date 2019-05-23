@@ -1,7 +1,7 @@
 import { resolve } from 'rsvp';
 import Ember from "ember";
 import { setupRenderingTest } from "ember-qunit";
-import { render, findAll, find } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import sinon from 'sinon';
 import { module, skip, test } from "qunit";
 import hbs from 'htmlbars-inline-precompile';

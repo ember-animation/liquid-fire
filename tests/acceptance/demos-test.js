@@ -4,7 +4,6 @@ import {
   visit,
   fillIn,
   settled,
-  waitFor
 } from "@ember/test-helpers";
 
 import { later } from "@ember/runloop";
@@ -218,9 +217,7 @@ module("Acceptance: Demos", function(hooks) {
 
 function isPartiallyOpaque(assert, selector) {
   let opacity = parseFloat(
-    findWithAssert(selector)
-      .parent()
-      .css("opacity")
+    getComputedStyle(document.querySelector(selector).parentElement)['opacity']
   );
   assert.ok(
     opacity > 0 && opacity < 1,
@@ -230,18 +227,14 @@ function isPartiallyOpaque(assert, selector) {
 
 function isTransparent(assert, selector) {
   let opacity = parseFloat(
-    findWithAssert(selector)
-      .parent()
-      .css("opacity")
+    getComputedStyle(document.querySelector(selector).parentElement)['opacity']
   );
   assert.ok(opacity === 0, `${selector} opacity: ${opacity} should be 0`);
 }
 
 function isHidden(assert, selector) {
   assert.equal(
-    findWithAssert(selector)
-      .parent()
-      .css("visibility"),
+    getComputedStyle(document.querySelector(selector).parentElement)['visibility'],
     "hidden",
     `${selector} hidden`
   );
