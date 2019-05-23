@@ -7,7 +7,7 @@ let Funnel = require('broccoli-funnel');
 let map = require('broccoli-stew').map;
 
 module.exports = {
-  name: 'liquid-fire',
+  name: require('./package').name,
 
   init: function() {
     if (this._super.init) {
