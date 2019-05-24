@@ -75,8 +75,8 @@ module('Integration: liquid-spacer', function(hooks) {
         }
       });
 
-      let initialWidth = this.$('#my-spacer').outerWidth();
-      let initialHeight = this.$('#my-spacer').outerHeight();
+      let initialWidth = this.element.querySelector('#my-spacer').offsetWidth;
+      let initialHeight = this.element.querySelector('#my-spacer').offsetHeight;
       this.set('message', shortMessage);
       testingKick();
       return tmap.waitUntilIdle().then(() => {
@@ -84,8 +84,8 @@ module('Integration: liquid-spacer', function(hooks) {
         testingKick();
         return tmap.waitUntilIdle();
       }).then(() => {
-        assert.equal(this.$('#my-spacer').outerWidth(), initialWidth, 'width');
-        assert.equal(this.$('#my-spacer').outerHeight(), initialHeight, 'height');
+        assert.equal(this.element.querySelector('#my-spacer').offsetWidth, initialWidth, 'width');
+        assert.equal(this.element.querySelector('#my-spacer').offsetHeight, initialHeight, 'height');
       });
     });
   });

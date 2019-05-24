@@ -1,6 +1,5 @@
 import { resolve } from 'rsvp';
-import Ember from "ember";
-import { module, skip, test } from 'qunit';
+import { module, test } from 'qunit';
 import { setupRenderingTest } from "ember-qunit";
 import { render } from '@ember/test-helpers';
 import sinon from 'sinon';
@@ -142,14 +141,6 @@ module('Integration: liquid-if', function(hooks) {
     this.set('isReady', true);
     await render(hbs`<div data-test-target>{{#liquid-if isReady class="bar" containerless=true}}hi{{/liquid-if}}</div>`);
     assert.dom('[data-test-target] > .liquid-child.bar').exists({ count: 1 }, "child with class");
-  });
-
-  skip('should pass container arguments through', function(assert) {
-    this.set('isReady', true);
-    this.render(hbs`{{#liquid-if isReady enableGrowth=false}}hi{{/liquid-if}}`);
-    let containerElement = this.$(' > .liquid-container');
-    let container = Ember.View.views[containerElement.attr('id')];
-    assert.equal(container.get('enableGrowth'), false, 'liquid-container enableGrowth');
   });
 
   test('it should support locally-scoped `rules`', async function(assert) {

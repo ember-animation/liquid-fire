@@ -1,9 +1,8 @@
 import { resolve } from 'rsvp';
-import Ember from "ember";
 import { setupRenderingTest } from "ember-qunit";
 import { render } from '@ember/test-helpers';
 import sinon from 'sinon';
-import { module, skip, test } from "qunit";
+import { module, test } from "qunit";
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration: liquid-bind', function(hooks) {
@@ -126,10 +125,4 @@ module('Integration: liquid-bind', function(hooks) {
     assert.dom('[data-test-target] > .liquid-child.bar').exists({ count: 1 }, "direct liquid with class");
   });
 
-  skip('should pass container arguments through', function(assert) {
-    this.render(hbs`{{liquid-bind foo enableGrowth=false}}`);
-    let containerElement = this.$(' > .liquid-container');
-    let container = Ember.View.views[containerElement.attr('id')];
-    assert.equal(container.get('enableGrowth'), false, 'liquid-container enableGrowth');
-  });
 });

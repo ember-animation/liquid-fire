@@ -40,7 +40,6 @@ export default Component.extend(Growable, {
       width: childMeasurements.width + sumCSS(elt, padding('width')) + sumCSS(elt, border('width')),
       height: childMeasurements.height + sumCSS(elt, padding('height')) + sumCSS(elt, border('height'))
     };
-    //if (this.$().css('box-sizing') === 'border-box') {
   }
 
 });

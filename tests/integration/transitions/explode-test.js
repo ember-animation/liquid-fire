@@ -90,8 +90,8 @@ module('Integration: explode transition', function(hooks) {
           use: function() {
             return new Promise((resolve)=>{
               next(() => {
-                assert.equal(liquidContainer.find('.liquid-child .bluebox').parent().css('visibility'), 'visible', 'new element');
-                assert.equal(liquidContainer.find('.liquid-child .redbox').parent().css('visibility'), 'hidden', 'old element');
+                assert.equal(getComputedStyle(liquidContainer.querySelector('.liquid-child .bluebox').parentElement).visibility, 'visible', 'new element');
+                assert.equal(getComputedStyle(liquidContainer.querySelector('.liquid-child .redbox').parentElement).visibility, 'hidden', 'old element');
                 resolve();
               });
             });
@@ -106,7 +106,7 @@ module('Integration: explode transition', function(hooks) {
                 <div class="redbox something"></div>
                 {{/liquid-if}}
                 `);
-    liquidContainer = this.$('.liquid-container');
+    liquidContainer = this.element.querySelector('.liquid-container');
     this.set('showBlue', true);
     return tmap.waitUntilIdle();
   });

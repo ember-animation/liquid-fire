@@ -1,7 +1,6 @@
 import { run } from '@ember/runloop';
 import EmberObject from '@ember/object';
-import Ember from "ember";
-import { module, skip, test } from 'qunit';
+import { module, test } from 'qunit';
 import { setupRenderingTest } from "ember-qunit";
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -72,16 +71,6 @@ module('Integration: liquid-outlet', function(hooks) {
   test('it should support element id', async function(assert) {
     await render(hbs`{{liquid-outlet containerId="foo"}}`);
     assert.dom('.liquid-container#foo').exists({ count: 1 }, "found element by id");
-  });
-
-  // This test was making fragile use of internals that broke. Needs to
-  // get rewritten to actually observe enableGrowth=false having the
-  // intended effect.
-  skip('should pass container arguments through', function(assert) {
-    this.render(hbs`{{liquid-outlet enableGrowth=false}}`);
-    let containerElement = this.$('.liquid-container');
-    let container = Ember.View.views[containerElement.attr('id')];
-    assert.equal(container.get('enableGrowth'), false, 'liquid-container enableGrowth');
   });
 
   test('it should support `use` option', async function(assert) {

@@ -46,7 +46,7 @@ module('Integration | Component | liquid sync', function(hooks) {
     assert.dom('.off').exists({ count: 1 }, "Found Off");
     assert.dom('.sample').exists({ count: 1 }, "Found sample");
 
-    run(() => sample.sendAction('ready'));
+    run(() => sample.ready());
 
     assert.equal(animationStarted, true, "Animation started");
     return tmap.waitUntilIdle().then(() => {
@@ -104,6 +104,6 @@ module('Integration | Component | liquid sync', function(hooks) {
 
     assert.equal(animationStarted, false, "No animation yet");
     assert.ok(tmap.runningTransitions() > 0, "Isn't idle");
-    run(() => sample.sendAction('ready'));
+    run(() => sample.ready());
   });
 });

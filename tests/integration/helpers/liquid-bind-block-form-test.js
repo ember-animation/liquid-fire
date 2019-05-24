@@ -1,8 +1,7 @@
 import { resolve } from 'rsvp';
-import Ember from "ember";
 import { setupRenderingTest } from "ember-qunit";
 import { render } from '@ember/test-helpers';
-import { module, skip, test } from "qunit";
+import { module, test } from "qunit";
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
@@ -65,13 +64,5 @@ module('Integration: liquid-bind block form', function(hooks) {
     this.set('foo', 'Hi');
     await render(hbs`<div data-test-target>{{#liquid-bind foo class="bar" containerless=true as |bar| }}{{foo}}{{/liquid-bind}}</div>`);
     assert.dom('[data-test-target] > .liquid-child.bar').exists({ count: 1 }, "direct liquid child");
-  });
-
-  skip('should pass container arguments through', function(assert) {
-    this.set('foo', 'Hi');
-    this.render(hbs`{{#liquid-bind foo enableGrowth=false as |bar|}}{{foo}}{{/liquid-bind}}`);
-    let containerElement = this.$(' > .liquid-container');
-    let container = Ember.View.views[containerElement.attr('id')];
-    assert.equal(container.get('enableGrowth'), false, 'liquid-container enableGrowth');
   });
 });

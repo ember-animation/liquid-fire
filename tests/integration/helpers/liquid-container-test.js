@@ -65,15 +65,15 @@ module('Integration: liquid-container', function(hooks) {
       });
       return tmap.waitUntilIdle().then(async () => {
         initialSize = {
-          width: this.$('.test-container').outerWidth(),
-          height: this.$('.test-container').outerHeight()
+          width: this.element.querySelector('.test-container').offsetWidth,
+          height: this.element.querySelector('.test-container').offsetHeight,
         };
         await click('button');
         return tmap.waitUntilIdle();
       }).then(async () => {
         let newSize = {
-          width: this.$('.test-container').outerWidth(),
-          height: this.$('.test-container').outerHeight()
+          width: this.element.querySelector('.test-container').offsetWidth,
+          height: this.element.querySelector('.test-container').offsetHeight,
         };
         assert.notEqual(newSize.width, initialSize.width);
         assert.notEqual(newSize.height, initialSize.height);
@@ -81,8 +81,8 @@ module('Integration: liquid-container', function(hooks) {
         return tmap.waitUntilIdle();
       }).then(() => {
         let newSize = {
-          width: this.$('.test-container').outerWidth(),
-          height: this.$('.test-container').outerHeight()
+          width: this.element.querySelector('.test-container').offsetWidth,
+          height: this.element.querySelector('.test-container').offsetHeight,
         };
         assert.deepEqual(newSize, initialSize);
       });
@@ -106,7 +106,7 @@ module('Integration: liquid-container', function(hooks) {
                 `);
 
     assert.dom('.test-container').exists({ count: 1 }, "have test-container");
-    assert.ok(!this.$('.test-container').is('.liquid-animating'), "it doesn't have liquid-animating class");
+    assert.ok(!this.element.querySelector('.test-container').classList.contains('liquid-animating'), "it doesn't have liquid-animating class");
 
     this.set('value', 'new-value');
 
@@ -114,7 +114,7 @@ module('Integration: liquid-container', function(hooks) {
     resolveAnimation();
     return tmap.waitUntilIdle().then(() => {
       assert.dom('.test-container').exists({ count: 1 }, "still have test-container");
-      assert.ok(!this.$('.test-container').is('.liquid-animating'), "liquid-animating class was removed");
+      assert.ok(!this.element.querySelector('.test-container').classList.contains('liquid-animating'), "liquid-animating class was removed");
     });
   });
 });
