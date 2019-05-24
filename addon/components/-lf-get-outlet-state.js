@@ -1,7 +1,7 @@
 import Component from '@ember/component';
-import { getOutletStateTemplate } from 'liquid-fire/ember-internals';
+import layout from '../templates/components/get-outlet-state';
 
 export default Component.extend({
   tagName: '',
-  layout: getOutletStateTemplate
+  layout
 });

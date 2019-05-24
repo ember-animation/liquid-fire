@@ -2,12 +2,12 @@
 
   Versions
 
-  {{input type="text" value=nextName insert-newline="submitName"}}
+  {{input type="text" value=nextName insert-newline=(action "submitName") }}
   <button {{action "submitName"}}>Go</button>
 
   {{#liquid-container as |container|}}
     {{#liquid-versions value=name notify=container as |nameVersion|}}
-      {{#if (is-equal nameVersion 'ed')}}
+      {{#if (is-equal nameVersion "ed")}}
         <div>Yo Ed</div>
         <div>Yo Ed</div>
         <div>Yo Ed</div>

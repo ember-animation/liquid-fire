@@ -7,41 +7,41 @@
 
 <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="nav-item">
-        <a href="#" aria-controls="home" role="tab" data-toggle="tab" {{action 'changeTab' 'toLeft'}} class="nav-link {{if (is-equal activeTab 'toLeft') 'active'}}">
+        <a href="#" aria-controls="home" role="tab" data-toggle="tab" {{action "changeTab" "toLeft"}} class="nav-link {{if (is-equal activeTab "toLeft") "active"}}">
             to{Left,Right,UpDown}</a>
     </li>
     <li role="presentation" class="nav-item">
-        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" {{action 'changeTab' 'fade'}} class="nav-link {{if (is-equal activeTab 'fade') 'active'}}">
+        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" {{action "changeTab" "fade"}} class="nav-link {{if (is-equal activeTab "fade") "active"}}">
             fade
         </a>
     </li>
     <li role="presentation" class="nav-item">
-        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action 'changeTab' 'crossFade'}} class="nav-link {{if (is-equal activeTab 'crossFade') 'active'}}">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action "changeTab" "crossFade"}} class="nav-link {{if (is-equal activeTab "crossFade") "active"}}">
             crossFade
         </a>
     </li>
     <li role="presentation" class="nav-item">
-        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action 'changeTab' 'explode'}} class="nav-link {{if (is-equal activeTab 'explode') 'active'}}">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action "changeTab" "explode"}} class="nav-link {{if (is-equal activeTab "explode") "active"}}">
             explode
         </a>
     </li>
     <li role="presentation" class="nav-item">
-        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action 'changeTab' 'flyTo'}} class="nav-link {{if (is-equal activeTab 'flyTo') 'active'}}">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action "changeTab" "flyTo"}} class="nav-link {{if (is-equal activeTab "flyTo") "active"}}">
             flyTo
         </a>
     </li>
     <li role="presentation" class="nav-item">
-        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action 'changeTab' 'scrollThen'}} class="nav-link {{if (is-equal activeTab 'scrollThen') 'active'}}">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action "changeTab" "scrollThen"}} class="nav-link {{if (is-equal activeTab "scrollThen") "active"}}">
             scrollThen
         </a>
     </li>
     <li role="presentation" class="nav-item">
-        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action 'changeTab' 'scale'}} class="nav-link {{if (is-equal activeTab 'scale') 'active'}}">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action "changeTab" "scale"}} class="nav-link {{if (is-equal activeTab "scale") "active"}}">
             scale
         </a>
     </li>
     <li role="presentation" class="nav-item">
-        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action 'changeTab' 'wait'}} class="nav-link {{if (is-equal activeTab 'wait') 'active'}}">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action "changeTab" "wait"}} class="nav-link {{if (is-equal activeTab "wait") "active"}}">
             wait
         </a>
     </li>
@@ -50,13 +50,13 @@
 
 <div id="transition-examples">
 
-  {{#if (is-equal activeTab 'toLeft')}}
+  {{#if (is-equal activeTab "toLeft")}}
     <dt>toLeft, toRight, toUp, toDown</dt>
     <dd>These are slide animations powered by the
         CSS <code>transform</code> property. They all accept an optional
-        options hash that's passed onward to Velocity for both the outgoing and
+        options hash that"s passed onward to Velocity for both the outgoing and
         incoming animations. For more information about available options, please refer to <a
-                href="http://julian.com/research/velocity/#duration" target="_blank">official Velocity
+                href="http://julian.com/research/velocity/#duration" target="_blank" rel="noopener">official Velocity
             documentation</a>.
     </dd>
 
@@ -64,7 +64,7 @@
       <div class="card">
         <div class="card-body">
           <button {{action "toggleDetail"}}>Toggle Detail View</button>
-          {{#liquid-if showDetail class='toLeft-demo'}}
+          {{#liquid-if showDetail class="toLeft-demo"}}
               <div class="details">
                   <h3>Details</h3>
 
@@ -96,7 +96,7 @@
     </div>
   {{/if}}
 
-  {{#if (is-equal activeTab 'crossFade')}}
+  {{#if (is-equal activeTab "crossFade")}}
     <dt>crossFade</dt>
     <dd>Old content fades away toward opacity 0 while new content fades
         in.
@@ -106,7 +106,7 @@
       <div class="card">
         <div class="card-body">
           <button {{action "toggleDetail"}}>Toggle Detail View</button>
-            {{#liquid-if showDetail class='crossFade-demo'}}
+            {{#liquid-if showDetail class="crossFade-demo"}}
               <div class="details">
                 <h3>Details</h3>
 
@@ -138,7 +138,7 @@
       </div>
   {{/if}}
 
-  {{#if (is-equal activeTab 'fade')}}
+  {{#if (is-equal activeTab "fade")}}
     <dt>fade</dt>
     <dd>Old content fades away toward opacity 0, then new content fades
         in. This is a good example of a serial animation with support for
@@ -149,7 +149,7 @@
       <div class="card">
         <div class="card-body">
           <button {{action "toggleDetail"}}>Toggle Detail View</button>
-          {{#liquid-if showDetail class='fade-demo'}}
+          {{#liquid-if showDetail class="fade-demo"}}
             <div class="details">
               <h3>Details</h3>
 
@@ -181,29 +181,29 @@
     </div>
   {{/if}}
 
-  {{#if (is-equal activeTab 'explode')}}
+  {{#if (is-equal activeTab "explode")}}
     <dt>explode</dt>
     <dd>This lets you break apart an element and use
         other transitions on each of the separate pieces.
-        <br/>
+        <br>
         For an interactive example, please visit {{#link-to "transitions.explode"}}this page{{/link-to}}.
     </dd>
   {{/if}}
 
-  {{#if (is-equal activeTab 'flyTo')}}
+  {{#if (is-equal activeTab "flyTo")}}
     <dt>fly-to</dt>
-    <dd>Animates the old content's position and dimensions to match the new content's position and dimensions. If
+    <dd>Animates the old content"s position and dimensions to match the new content"s position and dimensions. If
         either
         old content or new content is empty, does nothing.
-        <br/>
+        <br>
         For an interactive example, please visit {{#link-to "transitions.explode"}}this page{{/link-to}}.
     </dd>
   {{/if}}
 
-  {{#if (is-equal activeTab 'scrollThen')}}
+  {{#if (is-equal activeTab "scrollThen")}}
     <dt>scrollThen</dt>
     <dd>Scrolls to the top of the page and after that runs the specified transition. It is also able to pass <a
-            href="http://julian.com/research/velocity/#duration" target="_blank">Velocity options</a> to the follow-up
+            href="http://julian.com/research/velocity/#duration" target="_blank" rel="noopener">Velocity options</a> to the follow-up
         transition. <p><b>Note:</b> to run the example below, try to scroll the page a bit and then press
             the button to trigger the transition.</p></dd>
 
@@ -211,7 +211,7 @@
       <div class="card">
         <div class="card-body">
           <button {{action "toggleDetail"}}>Toggle Detail View</button>
-          {{#liquid-if showDetail class='scrollThen-demo'}}
+          {{#liquid-if showDetail class="scrollThen-demo"}}
             <div class="details">
               <h3>Details</h3>
 
@@ -243,10 +243,10 @@
     </div>
   {{/if}}
 
-  {{#if (is-equal activeTab 'scale')}}
+  {{#if (is-equal activeTab "scale")}}
     <dt>scale</dt>
     <dd>Scales in the old content and scales out the new one. It is also able to pass <a
-            href="http://julian.com/research/velocity/#duration" target="_blank">Velocity options</a> as an optional
+            href="http://julian.com/research/velocity/#duration" target="_blank" rel="noopener">Velocity options</a> as an optional
         parameter.
     </dd>
 
@@ -254,7 +254,7 @@
       <div class="card mb-3">
         <div class="card-body">
           <button {{action "toggleDetail"}}>Toggle Detail View</button>
-          {{#liquid-if showDetail class='scale-demo'}}
+          {{#liquid-if showDetail class="scale-demo"}}
             <div class="details">
               <h3>Details</h3>
 
@@ -276,7 +276,7 @@
     {{!- END-SNIPPET }}
   {{/if}}
 
-  {{#if (is-equal activeTab 'wait')}}
+  {{#if (is-equal activeTab "wait")}}
     <dt>wait</dt>
     <dd>Waits a given number of milliseconds before proceeding with another transition. If no other transition is given, proceeds with the default behavior (making new elements visible and allowing old elements to be destroyed).
     </dd>
@@ -284,7 +284,7 @@
     <div class="card">
       <div class="card-body">
         <button {{action "toggleDetail"}}>Toggle Detail View</button>
-        {{#liquid-if showDetail class='wait-demo'}}
+        {{#liquid-if showDetail class="wait-demo"}}
           <div class="details">
             <h3>Details</h3>
 

@@ -7,7 +7,7 @@ let Funnel = require('broccoli-funnel');
 let map = require('broccoli-stew').map;
 
 module.exports = {
-  name: 'liquid-fire',
+  name: require('./package').name,
 
   init: function() {
     if (this._super.init) {
@@ -38,49 +38,6 @@ module.exports = {
         app.import(asset, options);
       };
     }
-  },
-
-
-  treeForAddon: function(_tree) {
-    let tree = this._versionSpecificTree('addon', _tree);
-    return this._super.treeForAddon.call(this, tree);
-  },
-
-  treeForAddonTemplates: function(_tree) {
-    let tree = this._versionSpecificTree('templates', _tree);
-    return this._super.treeForAddonTemplates.call(this, tree);
-  },
-
-  _versionSpecificTree: function(which, tree) {
-    let emberVersion = this.versionChecker.forEmber();
-
-    if ((emberVersion.gt('2.9.0-beta') && emberVersion.lt('2.9.0'))|| emberVersion.gt('2.10.0-alpha')) {
-      return this._withVersionSpecific(which, tree, '2.9');
-    } else if (!emberVersion.lt('1.13.0')) {
-      return this._withVersionSpecific(which, tree, '1.13');
-    } else {
-      throw new Error("This version of liquid-fire supports Ember versions >= 1.13.0.");
-    }
-  },
-
-  _withVersionSpecific: function(which, tree, version) {
-    let versionSpecificPath = path.join(this.root, 'version-specific-' + version);
-    let destDir;
-    let include;
-
-    if (which === 'templates') {
-      destDir = 'version-specific';
-      include = ["*.hbs"];
-    } else {
-      destDir = 'ember-internals/version-specific';
-    }
-
-    let funneled = new Funnel(versionSpecificPath, {
-      include: include,
-      destDir: destDir
-    });
-
-    return mergeTrees([tree, funneled]);
   },
 
   treeForVendor: function(tree){
