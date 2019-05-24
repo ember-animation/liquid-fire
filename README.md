@@ -1,6 +1,4 @@
 Liquid Fire
-===========
-[![Build Status](https://travis-ci.org/ember-animation/liquid-fire.svg?branch=master)](https://travis-ci.org/ember-animation/liquid-fire)
 
 Comprehensive animation support for ambitious Ember applications. [Interactive Documentation is here](http://ember-animation.github.io/liquid-fire/).
 
@@ -38,7 +36,6 @@ correct version of liquid-fire:
 welcome, but new feature work happens on `master`.
 Liquid Fire is tested against many versions of Ember using [ember-try](https://github.com/ember-cli/ember-try).
 
-## Installation
 
 This is an ember-cli addon, so all you need is an npm install.
 For Ember 1.13 or newer, use:
@@ -72,10 +69,10 @@ addon format.
 
 ## Testing
 
-When running tests you'll want to set your transition speeds to 0 so they don't slow down your tests. This can be accomplished by using an Environment variable. 
+When running tests you'll want to set your transition speeds to 0 so they don't slow down your tests. This can be accomplished by using an Environment variable.
 
 ```javascript
-// Import the Environment 
+// Import the Environment
 import ENV from 'your-application-name/config/environment';
 
 // If Testing Environment

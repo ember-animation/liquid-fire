@@ -60,7 +60,7 @@ export default Component.extend({
   _didMutate() {
     if (!this.element) { return; }
     let elt = $(this.element);
-    this.set('measurements', measure(elt));
+    this.didMeasure(measure(elt));
   },
 
   _destroyOnUnload() {

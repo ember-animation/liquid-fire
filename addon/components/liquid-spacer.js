@@ -1,4 +1,3 @@
-import { observer } from '@ember/object';
 import Component from '@ember/component';
 import { measure } from "./liquid-measured";
 import Growable from "liquid-fire/growable";
@@ -24,14 +23,14 @@ export default Component.extend(Growable, {
     }
   },
 
-  sizeChange: observer('measurements', function() {
+  sizeChanged(measurements) {
     if (!this.get('enabled')) { return; }
     if (!this.element) { return; }
-    let want = this.myMeasurements(this.get('measurements'));
+    let want = this.myMeasurements(measurements);
     let elt = $(this.element);
     let have = measure(elt);
     this.animateGrowth(elt, have, want);
-  }),
+  },
 
   // given our child's outerWidth & outerHeight, figure out what our
   // outerWidth & outerHeight should be.
@@ -41,7 +40,6 @@ export default Component.extend(Growable, {
       width: childMeasurements.width + sumCSS(elt, padding('width')) + sumCSS(elt, border('width')),
       height: childMeasurements.height + sumCSS(elt, padding('height')) + sumCSS(elt, border('height'))
     };
-    //if (this.$().css('box-sizing') === 'border-box') {
   }
 
 });

@@ -1,11 +1,9 @@
-import { run } from '@ember/runloop';
 import { A } from '@ember/array';
-import { registerHelper } from '@ember/test';
 import sinon from 'sinon';
-import $ from 'jquery';
+import { getContext } from '@ember/test-helpers';
 
-function transitionMap(app) {
-  return app.__container__.lookup('service:liquid-fire-transitions');
+function transitionMap(context) {
+  return context.owner.lookup('service:liquid-fire-transitions');
 }
 
 function transitionName(name) {
@@ -14,38 +12,22 @@ function transitionName(name) {
   }, 'expected transition ' + name);
 }
 
-registerHelper(
-  'ranTransition',
-  function(app, assert, name) {
-    assert.ok(transitionMap(app).transitionFor.returned(transitionName(name)), "expected transition " + name);
+export function setupTransitionTest(hooks) {
+  hooks.beforeEach(function(assert) {
+    let context = getContext();
+    let tmap = transitionMap(context);
+    sinon.spy(tmap, 'transitionFor');
+    assert.ranTransition = function ranTransition(name) {
+      this.ok(transitionMap(context).transitionFor.returned(transitionName(name)), "expected transition " + name);
+    };
+    assert.noTransitionsYet = function noTransitionsYet() {
+      let tmap = transitionMap(context);
+      let ranTransitions = A(tmap.transitionFor.returnValues);
+      return !ranTransitions.any((transition) => transition.animation !== tmap.defaultAction());
+    };
   });
-
-registerHelper(
-  'noTransitionsYet',
-  function(app, assert) {
-    let tmap = transitionMap(app);
-    let ranTransitions = A(tmap.transitionFor.returnValues);
-    assert.ok(!ranTransitions.any((transition) => transition.animation !== tmap.defaultAction()), 'expected no transitions');
-  }
-);
-
-export function injectTransitionSpies(app) {
-  let tmap = transitionMap(app);
-  sinon.spy(tmap, 'transitionFor');
 }
-
 
 export function classFound(assert, name) {
-  assert.equal(find('.'+name).length, 1, 'found ' + name);
-}
-
-export function clickWithoutWaiting(selector, text) {
-  // The runloop ensures that all the synchronous action happens, but
-  // we don't wait around for async stuff. This is used to test
-  // animation interruptions, for example.
-  run(() => {
-    find(selector).filter(function() {
-      return $(this).text() === text;
-    }).click();
-  });
+  assert.dom('.'+name).exists({ count: 1 }, 'found ' + name);
 }

@@ -1,3 +1,4 @@
+import { registerWaiter, unregisterWaiter } from '@ember/test';
 import { Promise as EmberPromise } from 'rsvp';
 import { next } from '@ember/runloop';
 import { getOwner } from '@ember/application';
@@ -130,20 +131,13 @@ if (DEBUG) {
         this._waiter = () => {
           return this.runningTransitions() === 0;
         };
-
-        // The new module imports version of this function doesn't
-        // work in some of the older ember versions we support
-        // (because it depends on `this` context).
-        Ember.Test.registerWaiter(this._waiter); // eslint-disable-line ember/new-module-imports
+        registerWaiter(this._waiter);
       }
     },
 
     willDestroy() {
       if (this._waiter) {
-        // The new module imports version of this function doesn't
-        // work in some of the older ember versions we support
-        // (because it depends on `this` context).
-        Ember.Test.unregisterWaiter(this._waiter); // eslint-disable-line ember/new-module-imports
+        unregisterWaiter(this._waiter);
         this._waiter = null;
       }
 
