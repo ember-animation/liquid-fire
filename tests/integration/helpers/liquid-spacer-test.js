@@ -46,10 +46,17 @@ module('Integration: liquid-spacer', function(hooks) {
   });
 
   ['content-box', 'border-box'].forEach(function(boxSizing) {
-    test(`it should maintain size stability (${boxSizing})`, function(assert) {
+    test(`it should maintain size stability (${boxSizing})`, async function(assert) {
       this.set('message', longMessage);
       this.set('boxSizing', boxSizing);
-      this.render(hbs`
+      this.set('toggle', () => {
+        if (this.get('message') === longMessage) {
+          this.set('message', shortMessage);
+        } else {
+          this.set('message', longMessage);
+        }
+      });
+      await this.render(hbs`
                  <button {{action this.toggle}}>Toggle</button>
                  <style>
                   #my-spacer {
@@ -67,26 +74,17 @@ module('Integration: liquid-spacer', function(hooks) {
                  `);
 
 
-      this.set('toggle', () => {
-        if (this.get('message') === longMessage) {
-          this.set('message', shortMessage);
-        } else {
-          this.set('message', longMessage);
-        }
-      });
 
       let initialWidth = this.element.querySelector('#my-spacer').offsetWidth;
       let initialHeight = this.element.querySelector('#my-spacer').offsetHeight;
       this.set('message', shortMessage);
       testingKick();
-      return tmap.waitUntilIdle().then(() => {
-        this.set('message', longMessage);
-        testingKick();
-        return tmap.waitUntilIdle();
-      }).then(() => {
-        assert.equal(this.element.querySelector('#my-spacer').offsetWidth, initialWidth, 'width');
-        assert.equal(this.element.querySelector('#my-spacer').offsetHeight, initialHeight, 'height');
-      });
+      await tmap.waitUntilIdle();
+      this.set('message', longMessage);
+      testingKick();
+      await tmap.waitUntilIdle();
+      assert.equal(this.element.querySelector('#my-spacer').offsetWidth, initialWidth, 'width');
+      assert.equal(this.element.querySelector('#my-spacer').offsetHeight, initialHeight, 'height');
     });
   });
 

@@ -18,11 +18,18 @@ module('Integration: liquid-container', function(hooks) {
   });
 
   ['content-box', 'border-box'].forEach(function(boxSizing) {
-    test(`it should maintain size stability (${boxSizing})`, function(assert) {
+    test(`it should maintain size stability (${boxSizing})`, async function(assert) {
       let initialSize;
       this.set('value', 'first-value');
       this.set('boxSizing', boxSizing);
-      this.render(hbs`
+      this.set('toggle', () => {
+        if (this.get('value') === 'first-value') {
+          this.set('value', 'second-value');
+        } else {
+          this.set('value', 'first-value');
+        }
+      });
+      await this.render(hbs`
                   <style>
                     .test-container {
                       margin: 5px;
@@ -56,36 +63,26 @@ module('Integration: liquid-container', function(hooks) {
                     {{/liquid-versions}}
                   {{/liquid-container}}
                   `);
-      this.set('toggle', () => {
-        if (this.get('value') === 'first-value') {
-          this.set('value', 'second-value');
-        } else {
-          this.set('value', 'first-value');
-        }
-      });
-      return tmap.waitUntilIdle().then(async () => {
-        initialSize = {
-          width: this.element.querySelector('.test-container').offsetWidth,
-          height: this.element.querySelector('.test-container').offsetHeight,
-        };
-        await click('button');
-        return tmap.waitUntilIdle();
-      }).then(async () => {
-        let newSize = {
-          width: this.element.querySelector('.test-container').offsetWidth,
-          height: this.element.querySelector('.test-container').offsetHeight,
-        };
-        assert.notEqual(newSize.width, initialSize.width);
-        assert.notEqual(newSize.height, initialSize.height);
-        await click('button');
-        return tmap.waitUntilIdle();
-      }).then(() => {
-        let newSize = {
-          width: this.element.querySelector('.test-container').offsetWidth,
-          height: this.element.querySelector('.test-container').offsetHeight,
-        };
-        assert.deepEqual(newSize, initialSize);
-      });
+      await tmap.waitUntilIdle();
+      initialSize = {
+        width: this.element.querySelector('.test-container').offsetWidth,
+        height: this.element.querySelector('.test-container').offsetHeight,
+      };
+      await click('button');
+      await tmap.waitUntilIdle();
+      let newSize = {
+        width: this.element.querySelector('.test-container').offsetWidth,
+        height: this.element.querySelector('.test-container').offsetHeight,
+      };
+      assert.notEqual(newSize.width, initialSize.width);
+      assert.notEqual(newSize.height, initialSize.height);
+      await click('button');
+      await tmap.waitUntilIdle();
+      newSize = {
+        width: this.element.querySelector('.test-container').offsetWidth,
+        height: this.element.querySelector('.test-container').offsetHeight,
+      };
+      assert.deepEqual(newSize, initialSize);
     });
   });
 
