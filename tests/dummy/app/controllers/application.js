@@ -1,7 +1,7 @@
 import { computed } from '@ember/object';
 import Controller from '@ember/controller';
 import ENV from 'dummy/config/environment';
-import { inject as service } from '@ember/service';
+import { getOwner } from '@ember/application';
 
 export default Controller.extend({
   queryParams: ['warn'],
@@ -62,7 +62,10 @@ export default Controller.extend({
     return flattened;
   }),
 
-  router: service(),
+  router: computed(function() {
+    let owner = getOwner(this);
+    return owner.lookup('service:router') || owner.lookup('service:-routing');
+  }),
 
   currentIndex: computed('router.currentRouteName', 'flatContents', function(){
     let contents = this.get('flatContents'),
