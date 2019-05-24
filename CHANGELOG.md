@@ -1,5 +1,8 @@
 # Changelog
 
+## master
+ - BREAKING: dropped support for Ember < 2.12.
+
 ## 0.29.5
 
  - BUGFIX: don't leak bootstrap from docs app into consuming apps
