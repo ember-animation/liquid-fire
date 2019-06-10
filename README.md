@@ -20,22 +20,18 @@ Comprehensive animation support for ambitious Ember applications. [Interactive D
 - Backed by velocity.js, but easy to extend to other animation drivers
   if there's interest.
 
-
 ## Ember Compatibility Table
 
-We support a wide range of Ember versions, but you must choose the
-correct version of liquid-fire:
+The latest version of Liquid Fire works with Ember versions back to 2.12.
 
-| Ember Version    | Liquid Fire Branch   | Liquid Fire Release  |
-| -----------------|----------------------| ---------------------|
-| 1.8 through 1.10 | oldstable            | 0.17.x               |
-| 1.11 through 1.12| stable               | 0.19.x               |
-| 1.13 and beyond  | master               | latest               |
+For older versions, you can pick one of these older Liquid Fire releases:
 
-`stable` and `oldstable` branches still receive bugfixes and PRs are
-welcome, but new feature work happens on `master`.
-Liquid Fire is tested against many versions of Ember using [ember-try](https://github.com/ember-cli/ember-try).
-
+| Ember Version     | Liquid Fire Release |
+| ----------------- | ------------------- |
+| 2.12 and newer    | latest              |
+| 1.13 through 2.11 | 0.29.x              |
+| 1.11 through 1.12 | 0.19.x              |
+| 1.8 through 1.10  | 0.17.x              |
 
 This is an ember-cli addon, so all you need is an npm install.
 For Ember 1.13 or newer, use:
@@ -46,7 +42,6 @@ For older ember versions, consult the compatibility table above to pick the righ
 
     ember install liquid-fire@^0.17.0
     ember install liquid-fire@^0.19.0
-
 
 ### Documentation
 
@@ -63,9 +58,9 @@ This repo contains both the liquid-fire library and a demo application
 that presents interactive documentation. It follows standard ember-cli
 addon format.
 
- - app: is code that's loaded directly into the user's application
- - addon: is code that can be imported by the user from the `liquid-fire` namespace
- - tests/dummy: is the testing, demo, and documentation application
+- app: is code that's loaded directly into the user's application
+- addon: is code that can be imported by the user from the `liquid-fire` namespace
+- tests/dummy: is the testing, demo, and documentation application
 
 ## Testing
 
@@ -73,17 +68,17 @@ When running tests you'll want to set your transition speeds to 0 so they don't 
 
 ```javascript
 // Import the Environment
-import ENV from 'your-application-name/config/environment';
+import ENV from "your-application-name/config/environment";
 
 // If Testing Environment
-if (ENV.environment === 'test') {
+if (ENV.environment === "test") {
   var customDuration = 0; // set to 0 seconds
 } else {
   var customDuration = 200; // set to 200 miliseconds
 }
 
 this.transition(
-  this.toRoute('foo'),
-  this.use('toLeft', { duration: customDuration }) // Use customDuration
+  this.toRoute("foo"),
+  this.use("toLeft", { duration: customDuration }) // Use customDuration
 );
 ```

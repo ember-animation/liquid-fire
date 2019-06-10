@@ -1,7 +1,8 @@
 # Changelog
 
-## master
- - BREAKING: dropped support for Ember < 2.12.
+## 0.30.0
+ - BREAKING: dropped support for Ember < 2.12. This is in anticipation of an upcoming major release that will switch the underlying implementation to use ember-animated.
+ - HOUSEKEEPING: fixed deprecation warnings up to Ember 3.10.
 
 ## 0.29.5
 
