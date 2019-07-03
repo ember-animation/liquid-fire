@@ -1,4 +1,4 @@
-import { merge } from '@ember/polyfills';
+import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
 import isBrowser from "liquid-fire/is-browser";
 
@@ -19,7 +19,7 @@ export default function(nextTransitionName, options, ...rest) {
     );
 
     // set scroll options via: this.use('scrollThen', 'ToLeft', {easing: 'spring'})
-    options = merge({duration: 500, offset: 0}, options);
+    options = assign({duration: 500, offset: 0}, options);
 
     // additional args can be passed through after the scroll options object
     // like so: this.use('scrollThen', 'moveOver', {duration: 100}, 'x', -1);
