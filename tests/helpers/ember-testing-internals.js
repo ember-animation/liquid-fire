@@ -6,13 +6,14 @@ import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
 
 class RouteInfo {
-  constructor(builder, { template, controller, name }, outlets = {}) {
+  constructor(builder, { template, controller, name }, owner) {
     this.builder = builder;
-    this.outlets = outlets;
+    this.outlets = {};
     this.render = {
       template,
       controller,
-      name
+      name,
+      owner,
     };
   }
   setChild(name, args) {
@@ -42,7 +43,7 @@ export const RouteBuilder = Service.extend({
     if (args.template) {
       args.template = this._prepareTemplate(args.template);
     }
-    return new RouteInfo(this, args);
+    return new RouteInfo(this, args, getOwner(this));
   },
   _prepareTemplate(compiled) {
     let name = `template:${guidFor({})}`;
