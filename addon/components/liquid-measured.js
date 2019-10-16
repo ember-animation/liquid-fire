@@ -31,7 +31,7 @@ export default Component.extend({
       characterData: true
     });
 
-    this.windowResizeHandler = this.didResize.bind(this);
+    this.windowResizeHandler = this.windowDidResize.bind(this);
     window.addEventListener('resize', this.windowResizeHandler);
 
     let elt = $(this.element);
@@ -63,7 +63,7 @@ export default Component.extend({
     });
   },
 
-  didResize() {
+  windowDidResize() {
     throttle(this, this.didMutate, RESIZE_THROTTLE_DURATION);
   },
 
