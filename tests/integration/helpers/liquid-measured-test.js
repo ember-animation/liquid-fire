@@ -7,7 +7,7 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration: liquid-measured', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('it should set correct height when window is resized', async function(assert) {
+  test('it should update measurements when window is resized', async function(assert) {
     assert.expect(2);
 
     const didMeasureSpy = sinon.spy();
