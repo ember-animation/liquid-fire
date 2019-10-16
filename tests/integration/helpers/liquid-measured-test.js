@@ -12,7 +12,7 @@ module('Integration: liquid-measured', function(hooks) {
 
     const didMeasureSpy = sinon.spy();
     this.set('didMeasureSpy', didMeasureSpy);
-    let template = hbs`{{#liquid-measured didMeasure=didMeasureSpy}}hello{{/liquid-measured}}`
+    let template = hbs`{{#liquid-measured didMeasure=didMeasureSpy}}hello{{/liquid-measured}}`;
     await render(template);
 
     assert.equal(didMeasureSpy.callCount, 1);
