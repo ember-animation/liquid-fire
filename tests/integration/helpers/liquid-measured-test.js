@@ -10,7 +10,7 @@ module('Integration: liquid-measured', function(hooks) {
   test('it should update measurements when window is resized', async function(assert) {
     assert.expect(2);
 
-    const didMeasureSpy = sinon.spy();
+    let didMeasureSpy = sinon.spy();
     this.set('didMeasureSpy', didMeasureSpy);
     let template = hbs`{{#liquid-measured didMeasure=didMeasureSpy}}hello{{/liquid-measured}}`;
     await render(template);
