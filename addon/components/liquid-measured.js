@@ -5,7 +5,7 @@ import MutationObserver from "liquid-fire/mutation-observer";
 import layout from "liquid-fire/templates/components/liquid-measured";
 import $ from 'jquery';
 
-const RESIZE_THROTTLE_DURATION = 100;
+const WINDOW_RESIZE_THROTTLE_DURATION = 100;
 
 export default Component.extend({
   layout,
@@ -64,7 +64,7 @@ export default Component.extend({
   },
 
   windowDidResize() {
-    throttle(this, this.didMutate, RESIZE_THROTTLE_DURATION);
+    throttle(this, this.didMutate, WINDOW_RESIZE_THROTTLE_DURATION);
   },
 
   _didMutate() {
