@@ -31,8 +31,8 @@ export default Component.extend({
       characterData: true
     });
 
-    this.resizeHandler = this.didResize.bind(this);
-    window.addEventListener('resize', this.resizeHandler);
+    this.windowResizeHandler = this.didResize.bind(this);
+    window.addEventListener('resize', this.windowResizeHandler);
 
     let elt = $(this.element);
     elt.bind('webkitTransitionEnd', function() { self.didMutate(); });
@@ -44,7 +44,7 @@ export default Component.extend({
     if (this.observer) {
       this.observer.disconnect();
     }
-    window.removeEventListener('resize', this.resizeHandler);
+    window.removeEventListener('resize', this.windowResizeHandler);
     window.removeEventListener('unload', this._destroyOnUnload);
   },
 
