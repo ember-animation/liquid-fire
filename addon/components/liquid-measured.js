@@ -1,9 +1,11 @@
-import { next } from '@ember/runloop';
+import { next, throttle } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import MutationObserver from "liquid-fire/mutation-observer";
 import layout from "liquid-fire/templates/components/liquid-measured";
 import $ from 'jquery';
+
+const WINDOW_RESIZE_THROTTLE_DURATION = 100;
 
 export default Component.extend({
   layout,
@@ -29,6 +31,9 @@ export default Component.extend({
       characterData: true
     });
 
+    this.windowResizeHandler = this.windowDidResize.bind(this);
+    window.addEventListener('resize', this.windowResizeHandler);
+
     let elt = $(this.element);
     elt.bind('webkitTransitionEnd', function() { self.didMutate(); });
     // Chrome Memory Leak: https://bugs.webkit.org/show_bug.cgi?id=93661
@@ -39,6 +44,7 @@ export default Component.extend({
     if (this.observer) {
       this.observer.disconnect();
     }
+    window.removeEventListener('resize', this.windowResizeHandler);
     window.removeEventListener('unload', this._destroyOnUnload);
   },
 
@@ -55,6 +61,10 @@ export default Component.extend({
       this._didMutate();
       tmap.decrementRunningTransitions();
     });
+  },
+
+  windowDidResize() {
+    throttle(this, this.didMutate, WINDOW_RESIZE_THROTTLE_DURATION);
   },
 
   _didMutate() {
