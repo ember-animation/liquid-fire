@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.31.0
+ - BUGFIX: make liquid-spacer observe window size changes, by @mattdonnelly
+ - HOUSEKEEPING: remove dependency on old version of ember-copy, by @jherdman
+ - COMPAT: fix our test suite under ember 3.13.
+ - HOUSEKEEPING: use assign instead of merge, by @Penthious
+
 ## 0.30.0
  - BREAKING: dropped support for Ember < 2.12. This is in anticipation of an upcoming major release that will switch the underlying implementation to use ember-animated.
  - HOUSEKEEPING: fixed deprecation warnings up to Ember 3.10.
