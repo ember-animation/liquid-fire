@@ -2,11 +2,29 @@ import $ from 'jquery';
 import { isArray, A } from '@ember/array';
 import { guidFor } from '@ember/object/internals';
 import { assign } from '@ember/polyfills';
-import { Promise } from "liquid-fire";
+import { Promise } from 'liquid-fire';
 
 // Explode is not, by itself, an animation. It exists to pull apart
 // other elements so that each of the pieces can be targeted by
 // animations.
+
+let deduplicateChildElementIds = (parentElem) => {
+  if (!parentElem) {
+    return;
+  }
+
+  let parentEl = parentElem[0];
+  if (parentEl.id) {
+    parentEl.setAttribute('id', `${guidFor(parentEl)}-${parentEl.id}`);
+  }
+
+  let childrenWithUniqueIds = parentEl.querySelectorAll('[id]');
+  if (childrenWithUniqueIds.length) {
+    for (let el of childrenWithUniqueIds) {
+      el.setAttribute('id', `${guidFor(el)}-${el.id}`);
+    }
+  }
+};
 
 export default function explode(...pieces) {
   let seenElements = {};
@@ -69,6 +87,8 @@ function _explodePart(context, field, childContext, selector, seen) {
       width = child.outerWidth();
       height = child.outerHeight();
       newChild = child.clone();
+
+      deduplicateChildElementIds(newChild);
 
       // Hide the original element
       child.css({visibility: 'hidden'});
