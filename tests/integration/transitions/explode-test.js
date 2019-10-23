@@ -495,6 +495,39 @@ module('Integration: explode transition', function(hooks) {
       assert.ok(didTransition, 'didTransition');
     });
 
+    test("deduplicate element ids from cloned explode DOM", async function(assert) {
+      // SEE: https://github.com/ember-animation/liquid-fire/issues/643
+      assert.expect(2);
+      tmap.map(function() {
+        this.transition(
+          this.hasClass('explode-transition-test'),
+          this.use('explode', {
+            pick: 'h1',
+            use: function() {
+              assert.equal(document.querySelectorAll('#unique-parent-id').length, 1, 'cloned top level DOM element does not have duplicated id attribute');
+              assert.equal(document.querySelectorAll('#unique-child-id').length, 1, 'any cloned child DOM does not have duplicate id attributes');
+              return resolve();
+            }
+          })
+        );
+      });
+      await render(hbs`
+        {{#liquid-if showTitleOne class="explode-transition-test"}}
+          <div>
+            <h1>Title 1</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio error vitae consequuntur quasi, pariatur odit ea itaque libero repudiandae dolor nam minus assumenda, blanditiis natus sit unde illo quibusdam quos.</p>
+          </div>
+        {{else}}
+        <div>
+            <h1 id="unique-parent-id">Title 2 <input id="unique-child-id" type="text"></h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio error vitae consequuntur quasi, pariatur odit ea itaque libero repudiandae dolor nam minus assumenda, blanditiis natus sit unde illo quibusdam quos.</p>
+          </div>
+        {{/liquid-if}}
+      `);
+      this.set('showTitleOne', true);
+      return tmap.waitUntilIdle();
+    });
+
   });
 
   function stylesheet() {
