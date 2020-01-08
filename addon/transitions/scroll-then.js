@@ -1,6 +1,7 @@
 import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
 import isBrowser from "liquid-fire/is-browser";
+import Velocity from 'velocity';
 
 export default function(nextTransitionName, options, ...rest) {
   if (isBrowser()) {
@@ -24,7 +25,7 @@ export default function(nextTransitionName, options, ...rest) {
     // additional args can be passed through after the scroll options object
     // like so: this.use('scrollThen', 'moveOver', {duration: 100}, 'x', -1);
 
-    return window.$.Velocity(el, 'scroll', options).then(() => {
+    return Velocity(el, 'scroll', options).then(() => {
       nextTransition.apply(this, rest);
     });
   }
