@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import { isArray, A } from '@ember/array';
 import { guidFor } from '@ember/object/internals';
 import { assign } from '@ember/polyfills';
@@ -182,7 +181,7 @@ function matchAndExplode(context, piece, seen) {
 
   let hits = A(context.oldElement.find(`[${piece.matchBy}]`).toArray());
   return Promise.all(hits.map((elt) => {
-    let attrValue = $(elt).attr(piece.matchBy);
+    let attrValue = elt.getAttribute(piece.matchBy);
 
     // if there is no match for a particular item just skip it
     if (attrValue === "" || context.newElement.find(selector(attrValue)).length === 0) {
