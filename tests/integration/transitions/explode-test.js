@@ -1,10 +1,11 @@
 import { next } from '@ember/runloop';
 import { Promise as EmberPromise, resolve } from 'rsvp';
-import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from "ember-qunit";
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+
+import preventTransform from '../../helpers/prevent-transform';
 
 let Promise = EmberPromise;
 let tmap;
@@ -12,22 +13,14 @@ let tmap;
 module('Integration: explode transition', function(hooks) {
   setupRenderingTest(hooks);
 
+  preventTransform(hooks);
+
   hooks.beforeEach(function() {
     tmap = this.owner.lookup('service:liquid-fire-transitions');
-
-    // TODO: our tests don't pass when we're inside a transformed
-    // element. I think this is a legit bug in the implementation that
-    // we should fix.
-    $('#ember-testing').css('transform', 'none');
   });
 
   hooks.afterEach(function() {
     tmap = null;
-
-    // TODO: our tests don't pass when we're inside a transformed
-    // element. I think this is a legit bug in the implementation that
-    // we should fix.
-    $('#ember-testing').css('transform', '');
   });
 
   test(`it doesn't runs parts with no matching elements`, async function(assert) {

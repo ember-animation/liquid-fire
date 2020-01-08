@@ -1,32 +1,23 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from "ember-qunit";
 import '@ember/test-helpers';
-import $ from 'jquery';
 import hbs from 'htmlbars-inline-precompile';
+
+import preventTransform from '../../helpers/prevent-transform';
 
 let tmap;
 
 module('Integration: fly-to transition', function(hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
-    this.aftrEach = function() {
-      tmap = null;
-
-      // TODO: our tests don't pass when we're inside a transformed
-      // element. I think this is a legit bug in the implementation that
-      // we should fix.
-      $('#ember-testing').css('transform', '');
-    };
-  });
+  preventTransform(hooks);
 
   hooks.beforeEach(function() {
     tmap = this.owner.lookup('service:liquid-fire-transitions');
+  });
 
-    // TODO: our tests don't pass when we're inside a transformed
-    // element. I think this is a legit bug in the implementation that
-    // we should fix.
-    $('#ember-testing').css('transform', 'none');
+  hooks.afterEach(function() {
+    tmap = null;
   });
 
   ['border-box', 'content-box'].forEach(function(boxSizing) {
