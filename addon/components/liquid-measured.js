@@ -79,11 +79,14 @@ export default Component.extend({
 });
 
 export function measure($elt) {
-  let boundingRect = $elt[0].getBoundingClientRect();
+  // TODO remove unwrapping once we're free of jQuery
+  let elt = $elt instanceof $ ? $elt[0] : $elt;
+
+  let boundingRect = elt.getBoundingClientRect();
 
   // Calculate the scaling.
   // NOTE: We only handle the simple zoom case.
-  let claimedWidth = $elt[0].offsetWidth;
+  let claimedWidth = elt.offsetWidth;
 
   // Round the width because offsetWidth is rounded
   let actualWidth = Math.round(boundingRect.width);
