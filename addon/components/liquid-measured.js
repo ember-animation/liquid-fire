@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import MutationObserver from "liquid-fire/mutation-observer";
 import layout from "liquid-fire/templates/components/liquid-measured";
-import $ from 'jquery';
+import jQuery from 'jquery';
 
 const WINDOW_RESIZE_THROTTLE_DURATION = 100;
 
@@ -24,7 +24,8 @@ export default Component.extend({
     this.didMutate();
 
     this.observer = new MutationObserver(function(mutations) { self.didMutate(mutations); });
-    this.observer.observe(this.get('element'), {
+
+    this.observer.observe(this.element, {
       attributes: true,
       subtree: true,
       childList: true,
@@ -34,8 +35,10 @@ export default Component.extend({
     this.windowResizeHandler = this.windowDidResize.bind(this);
     window.addEventListener('resize', this.windowResizeHandler);
 
-    let elt = $(this.element);
-    elt.bind('webkitTransitionEnd', function() { self.didMutate(); });
+    this.element.addEventListener('webkitTransitionEnd', () => {
+      this.didMutate();
+    });
+
     // Chrome Memory Leak: https://bugs.webkit.org/show_bug.cgi?id=93661
     window.addEventListener('unload', this._destroyOnUnload);
   },
@@ -69,8 +72,7 @@ export default Component.extend({
 
   _didMutate() {
     if (!this.element) { return; }
-    let elt = $(this.element);
-    this.didMeasure(measure(elt));
+    this.didMeasure(measure(this.element));
   },
 
   _destroyOnUnload() {
@@ -80,7 +82,7 @@ export default Component.extend({
 
 export function measure($elt) {
   // TODO remove unwrapping once we're free of jQuery
-  let elt = $elt instanceof $ ? $elt[0] : $elt;
+  let elt = $elt instanceof jQuery ? $elt[0] : $elt;
 
   let boundingRect = elt.getBoundingClientRect();
 
