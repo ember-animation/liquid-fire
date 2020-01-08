@@ -10,7 +10,7 @@ export default Component.extend(Growable, {
 
   didInsertElement() {
     let elt = $(this.element);
-    let child = elt.find('> div');
+    let child = this.element.querySelector('div');
     let measurements = this.myMeasurements(measure(child));
 
     this.element.style.overflow = 'hidden';
@@ -18,6 +18,7 @@ export default Component.extend(Growable, {
     if (this.get('growWidth')) {
       elt.outerWidth(measurements.width);
     }
+
     if (this.get('growHeight')) {
       elt.outerHeight(measurements.height);
     }
@@ -26,9 +27,10 @@ export default Component.extend(Growable, {
   sizeChanged(measurements) {
     if (!this.get('enabled')) { return; }
     if (!this.element) { return; }
+
     let want = this.myMeasurements(measurements);
     let elt = $(this.element);
-    let have = measure(elt);
+    let have = measure(this.element);
     this.animateGrowth(elt, have, want);
   },
 
