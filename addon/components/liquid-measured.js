@@ -3,7 +3,6 @@ import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import MutationObserver from "liquid-fire/mutation-observer";
 import layout from "liquid-fire/templates/components/liquid-measured";
-import jQuery from 'jquery';
 
 const WINDOW_RESIZE_THROTTLE_DURATION = 100;
 
@@ -80,10 +79,7 @@ export default Component.extend({
   }
 });
 
-export function measure($elt) {
-  // TODO remove unwrapping once we're free of jQuery
-  let elt = $elt instanceof jQuery ? $elt[0] : $elt;
-
+export function measure(elt) {
   let boundingRect = elt.getBoundingClientRect();
 
   // Calculate the scaling.
