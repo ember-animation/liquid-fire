@@ -9,8 +9,8 @@ export default Component.extend(Growable, {
   classNames: ['liquid-container'],
 
   lockSize(elt, want) {
-    elt.outerWidth(want.width);
-    elt.outerHeight(want.height);
+    elt.style.width = want.width;
+    elt.style.height = want.height;
   },
 
   unlockSize() {
@@ -55,8 +55,7 @@ export default Component.extend(Growable, {
       }
 
       // Remember our own size before anything changes
-      let elt = $(this.element);
-      this._cachedSize = measure(elt);
+      this._cachedSize = measure(this.element);
 
       // And make any children absolutely positioned with fixed sizes.
       for (let i = 0; i < versions.length; i++) {
@@ -73,21 +72,20 @@ export default Component.extend(Growable, {
       let sizes = [];
       for (let i = 0; i < versions.length; i++) {
         if (versions[i].view) {
-          let childElt = $(versions[i].view.element);
-          sizes[i] = measure(childElt);
+          sizes[i] = measure(versions[i].view.element);
         }
       }
 
       // Measure ourself again to see how big the new children make
       // us.
-      let want = measure(elt);
+      let want = measure(this.element);
       let have = this._cachedSize || want;
 
       // Make ourself absolute
       if (enableGrowth) {
-        this.lockSize(elt, have);
+        this.lockSize(this.element, have);
       } else {
-        this.lockSize(elt, {
+        this.lockSize(this.element, {
           height: Math.max(want.height, have.height),
           width: Math.max(want.width, have.width)
         });
@@ -121,23 +119,39 @@ function goAbsolute(version, size) {
   if (!version.view) {
     return;
   }
-  let elt = $(version.view.element);
-  let pos = elt.position();
+
+  let {
+    view: {
+      element,
+      element: {
+        offsetLeft,
+        offsetTop
+      }
+    }
+  } = version;
+
   if (!size) {
-    size = measure(elt);
+    size = measure(element);
   }
-  elt.outerWidth(size.width);
-  elt.outerHeight(size.height);
-  elt.css({
-    position: 'absolute',
-    top: pos.top,
-    left: pos.left
-  });
+
+  element.style.width = size.width;
+  element.style.height = size.height;
+
+  element.style.position = 'absolute';
+  element.style.top = offsetTop;
+  element.style.left = offsetLeft;
 }
 
 function goStatic(version) {
   if (version.view && !version.view.isDestroyed) {
-    let elt = $(version.view.element);
-    elt.css({width: '', height: '', position: ''});
+    let {
+      view: {
+        element
+      }
+    } = version;
+
+    element.style.width = '';
+    element.style.height = '';
+    element.style.position = '';
   }
 }
