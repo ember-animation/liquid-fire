@@ -10,7 +10,7 @@
   }}
 
   {{#liquid-versions value=(if inverted (if predicate false true) (if predicate true false)) matchContext=(hash helperName=helperName)
-                       use=use rules=rules renderWhenFalse=(hasBlock "inverse") class=class as |valueVersion|}}
+                       use=use rules=rules renderWhenFalse=(has-block "inverse") class=class as |valueVersion|}}
     {{#if valueVersion}}
       {{yield}}
     {{else}}
@@ -29,7 +29,7 @@
       enableGrowth=enableGrowth
       as |container|}}
     {{#liquid-versions value=(if inverted (if predicate false true) (if predicate true false)) notify=container matchContext=(hash helperName=helperName)
-    use=use rules=rules renderWhenFalse=(hasBlock "inverse") as |valueVersion|}}
+    use=use rules=rules renderWhenFalse=(has-block "inverse") as |valueVersion|}}
       {{#if valueVersion}}
         {{yield}}
       {{else}}
