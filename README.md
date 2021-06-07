@@ -1,4 +1,4 @@
-Liquid Fire
+# Liquid Fire
 
 Comprehensive animation support for ambitious Ember applications. [Interactive Documentation is here](http://ember-animation.github.io/liquid-fire/).
 
@@ -20,35 +20,18 @@ Comprehensive animation support for ambitious Ember applications. [Interactive D
 - Backed by velocity.js, but easy to extend to other animation drivers
   if there's interest.
 
-## Ember Compatibility Table
-
-The latest version of Liquid Fire works with Ember versions back to 2.12.
-
-For older versions, you can pick one of these older Liquid Fire releases:
-
-| Ember Version     | Liquid Fire Release |
-| ----------------- | ------------------- |
-| 2.12 and newer    | latest              |
-| 1.13 through 2.11 | 0.29.x              |
-| 1.11 through 1.12 | 0.19.x              |
-| 1.8 through 1.10  | 0.17.x              |
-
-This is an ember-cli addon, so all you need is an npm install.
-For Ember 1.13 or newer, use:
-
-    ember install liquid-fire
-
-For older ember versions, consult the compatibility table above to pick the right liquid-fire version and then install with one of these:
-
-    ember install liquid-fire@^0.17.0
-    ember install liquid-fire@^0.19.0
-
-### Documentation
+## Documentation
 
 [Liquid Fire website](http://ember-animation.github.io/liquid-fire) is an ember-cli application that contains an
 interactive demo & documentation. It runs from Liquid Fire's [test dummy app](https://github.com/ember-animation/liquid-fire/tree/master/tests/dummy/app).
 
 You can also see some examples in my [Ember Animation Demo](http://github.com/ef4/ember-animation-demo) repo, and this [video presentation from the Boston Ember Meetup](https://www.youtube.com/watch?v=S4M78SO3gAc).
+
+### Ember Compatibility Table
+
+The latest version of Liquid Fire works with Ember versions back to 2.12.
+
+For older versions, see [this wiki page](https://github.com/ember-animation/liquid-fire/wiki/Compatibility-Table,-Old-Versions).
 
 ## Development
 
