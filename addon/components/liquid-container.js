@@ -80,7 +80,10 @@ export default Component.extend(Growable, {
 
       // Measure ourself again to see how big the new children make
       // us.
-      let want = measure(elt);
+      let want = {
+        width: Math.max(...sizes.map(size => size.width)),
+        height: Math.max(...sizes.map(size => size.height)),
+      };
       let have = this._cachedSize || want;
 
       // Make ourself absolute
