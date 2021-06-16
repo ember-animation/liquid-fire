@@ -15,6 +15,7 @@
     "node": "8.* || >= 10.*"
   },
   "dependencies": {
+    "@ember/jquery": "^1.1.0",
     "broccoli-funnel": "^2.0.2",
     "broccoli-merge-trees": "^3.0.2",
     "broccoli-stew": "^2.1.0",
@@ -25,7 +26,6 @@
     "velocity-animate": "^1.5.2"
   },
   "devDependencies": {
-    "@ember/jquery": "^0.6.0",
     "@ember/optional-features": "^0.7.0",
     "bootstrap": "^4.3.1",
     "bower": "^1.8.8",
