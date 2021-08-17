@@ -6,7 +6,6 @@ import Service from '@ember/service';
 import { DEBUG } from '@glimmer/env';
 import RunningTransition from "./running-transition";
 import DSL from "./dsl";
-import Ember from "ember";
 import Action from "./action";
 import Constraints from "./constraints";
 
@@ -17,6 +16,7 @@ let TransitionMap = Service.extend({
     this.activeCount = 0;
     this.constraints = new Constraints();
     let owner = getOwner(this);
+    this.isTest = owner.resolveRegistration('config:environment').environment === 'test'
     let config;
     if (owner.factoryFor) {
       let maybeConfig = owner.factoryFor('transitions:main');
@@ -127,7 +127,7 @@ if (DEBUG) {
     init() {
       this._super(...arguments);
 
-      if (Ember.testing) {
+      if (this.isTest) {
         this._waiter = () => {
           return this.runningTransitions() === 0;
         };

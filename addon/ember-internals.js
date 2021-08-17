@@ -1,6 +1,5 @@
 import { get } from '@ember/object';
-import Ember from 'ember';
-const { getViewBounds } = Ember.ViewUtils;
+import { getViewBounds } from '@ember/-internals/views';
 
 // Traverses down to the child routeInfo with the given name.
 export function childRoute(routeInfo, outletName) {
