@@ -1,54 +1,83 @@
-<h2>DOM & Template Constraints</h2>
+{{!-- template-lint-disable no-unbalanced-curlies --}}
 
-<p>These constraints let you target a transition rule based on the
-surrounding DOM and/or template.</p>
+<h2>
+  DOM & Template Constraints
+</h2>
+
+<p>
+  These constraints let you target a transition rule based on the
+surrounding DOM and/or template.
+</p>
 
 <dl class="dl-horizontal">
-  <dt>hasClass</dt>
+  <dt>
+    hasClass
+  </dt>
   <dd>
-    <p>Takes a class name and matches it against the animated
-    element. For example, this transition:</p>
+    <p>
+      Takes a class name and matches it against the animated
+    element. For example, this transition:
+    </p>
 
-    {{code-snippet name="has-class-example.js"}}
+    <CodeSnippet @name="has-class-example.js" />
 
-    <p>Will match an animated element like this one:</p>
+    <p>
+      Will match an animated element like this one:
+    </p>
 
-    {{code-snippet name="has-class-example.hbs"}}
-
+    <CodeSnippet @name="has-class-example.hbs" />
   </dd>
 
-  <dt>matchSelector</dt>
+  <dt>
+    matchSelector
+  </dt>
   <dd>
-    <p>Takes a CSS selector and tests whether the animated element matches the selector. For example, this rule:</p>
+    <p>
+      Takes a CSS selector and tests whether the animated element matches the selector. For example, this rule:
+    </p>
 
-    {{code-snippet name="match-selector-example.js"}}
+    <CodeSnippet @name="match-selector-example.js" />
 
-    <p>Will match against this template:</p>
+    <p>
+      Will match against this template:
+    </p>
 
-    {{code-snippet name="match-selector-example.hbs"}}
+    <CodeSnippet @name="match-selector-example.hbs" />
   </dd>
 
-
-  <dt>childOf</dt>
+  <dt>
+    childOf
+  </dt>
   <dd>
-    <p>Takes a CSS selector and tests whether the animated element's
-    parent matches the selector. For example, this rule:</p>
+    <p>
+      Takes a CSS selector and tests whether the animated element's
+    parent matches the selector. For example, this rule:
+    </p>
 
-    {{code-snippet name="child-of-example.js"}}
+    <CodeSnippet @name="child-of-example.js" />
 
-    <p>Will match against this template:</p>
+    <p>
+      Will match against this template:
+    </p>
 
-    {{code-snippet name="child-of-example.hbs"}}
-
+    <CodeSnippet @name="child-of-example.hbs" />
   </dd>
 
-  <dt>inHelper</dt>
+  <dt>
+    inHelper
+  </dt>
   <dd>
-
-    <p>Takes the name of a helper, and matches only within that kind
-    of helper. For example, <code>this.inHelper('liquid-if')</code>
-    will constrain the rule to only apply to
-    <code>\{{#liquid-if}}</code>.</p>
-
+    <p>
+      Takes the name of a helper, and matches only within that kind
+    of helper. For example,
+      <code>
+        this.inHelper('liquid-if')
+      </code>
+      will constrain the rule to only apply to
+      <code>
+        \{{#liquid-if}}
+      </code>
+      .
+    </p>
   </dd>
 </dl>

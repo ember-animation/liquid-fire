@@ -1,8 +1,14 @@
+'use strict';
+
 module.exports = {
   root: true,
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 2018,
-    sourceType: 'module'
+    sourceType: 'module',
+    ecmaFeatures: {
+      legacyDecorators: true
+    }
   },
   plugins: [
     'ember'
@@ -20,13 +26,16 @@ module.exports = {
     'ember/no-old-shims': 'error',
     'ember/new-module-imports': 'error',
     'ember/avoid-leaking-state-in-components': 'error',
-    'ember/no-side-effects': 'error'
+    'ember/no-jquery': 'warn',
+    'ember/no-side-effects': 'error',
+    'no-prototype-builtins': 'off'
   },
   overrides: [
     // node files
     {
       files: [
         '.eslintrc.js',
+        '.prettierrc.js',
         '.template-lintrc.js',
         'ember-cli-build.js',
         'index.js',
@@ -43,17 +52,14 @@ module.exports = {
         'tests/dummy/app/**'
       ],
       parserOptions: {
-        sourceType: 'script',
-        ecmaVersion: 2015
+        sourceType: 'script'
       },
       env: {
         browser: false,
         node: true
       },
       plugins: ['node'],
-      rules: Object.assign({}, require('eslint-plugin-node').configs.recommended.rules, {
-        // add your custom rules and overrides for node files here
-      })
+      extends: ['plugin:node/recommended']
     }
   ]
 };

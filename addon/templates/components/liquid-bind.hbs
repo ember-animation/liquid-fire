@@ -1,37 +1,44 @@
 {{#if containerless}}
-  {{~#liquid-versions value=value use=use rules=rules
-                     matchContext=forwardMatchContext
-                     versionEquality=versionEquality
-                     renderWhenFalse=true class=class as |version| ~}}
+  <LiquidVersions
+    @value={{value}}
+    @use={{use}}
+    @rules={{rules}}
+    @matchContext={{forwardMatchContext}}
+    @versionEquality={{versionEquality}}
+    @renderWhenFalse={{true}}
+    @class={{class}} as |version|
+  >
     {{~#if has-block}}
-      {{~yield version ~}}
+      {{~yield version~}}
     {{else}}
-      {{~version ~}}
+      {{~version~}}
     {{/if~}}
-
-{{/liquid-versions ~}}
+  </LiquidVersions>
 {{else}}
-  {{~#liquid-container
-      id=containerId
-      class=class
-      growDuration=growDuration
-      growPixelsPerSecond=growPixelsPerSecond
-      growEasing=growEasing
-      shrinkDelay=shrinkDelay
-      growDelay=growDelay
-      enableGrowth=enableGrowth
-      as |container| ~}}
-    {{~#liquid-versions value=value notify=container use=use rules=rules
-                       matchContext=forwardMatchContext
-                       versionEquality=versionEquality
-                       renderWhenFalse=true as |version| ~}}
-
+  <LiquidContainer
+    @id={{containerId}}
+    @class={{class}}
+    @growDuration={{growDuration}}
+    @growPixelsPerSecond={{growPixelsPerSecond}}
+    @growEasing={{growEasing}}
+    @shrinkDelay={{shrinkDelay}}
+    @growDelay={{growDelay}}
+    @enableGrowth={{enableGrowth}} as |container|
+  >
+    <LiquidVersions
+      @value={{value}}
+      @notify={{container}}
+      @use={{use}}
+      @rules={{rules}}
+      @matchContext={{forwardMatchContext}}
+      @versionEquality={{versionEquality}}
+      @renderWhenFalse={{true}} as |version|
+    >
       {{~#if has-block}}
-        {{~yield version ~}}
+        {{~yield version~}}
       {{else}}
-        {{~version ~}}
+        {{~version~}}
       {{/if~}}
-
-    {{/liquid-versions ~}}
-  {{/liquid-container ~}}
+    </LiquidVersions>
+  </LiquidContainer>
 {{/if}}

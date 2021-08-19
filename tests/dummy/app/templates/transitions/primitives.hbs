@@ -52,10 +52,10 @@ behaviors depending on whether you interrupt the fade-out or
 fade-in.</p>
 
 <div id="interrupted-fade-demo">
-  {{#link-to "transitions.primitives.index"}}One{{/link-to}}
-  {{#link-to "transitions.primitives.two"}}Two{{/link-to}}
-  {{#link-to "transitions.primitives.three"}}Three{{/link-to}}
-  {{liquid-outlet}}
+  <LinkTo @route="transitions.primitives.index">One</LinkTo>
+  <LinkTo @route="transitions.primitives.two">Two</LinkTo>
+  <LinkTo @route="transitions.primitives.three">Three</LinkTo>
+  <LiquidOutlet />
 </div>
 
-{{code-snippet name="fade-definition.js"}}
+<CodeSnippet @name="fade-definition.js" />

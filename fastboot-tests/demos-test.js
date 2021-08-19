@@ -2,7 +2,7 @@
 
 const FastBoot = require('fastboot');
 const { execFileSync } = require('child_process');
-const { module: Qmodule, test } = require('qunitjs');
+const { module: Qmodule, test } = require('qunit');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const { URL } = require('url');

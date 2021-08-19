@@ -1,44 +1,93 @@
-<h2>\{{#liquid-if}}</h2>
+{{!-- template-lint-disable no-unbalanced-curlies --}}
 
-<p><code>\{{#liquid-if}}</code> is a replacement for Ember's
-normal <code>\{{#if}}</code>, except it:</p>
+<h2>
+  \{{#liquid-if}}
+</h2>
+
+<p>
+  <code>
+    \{{#liquid-if}}
+  </code>
+  is a replacement for Ember's
+normal
+  <code>
+    \{{#if}}
+  </code>
+  , except it:
+</p>
 
 <ul>
-  <li>respects the transition map so you can animate changes between its <code>true</code>
-and <code>false</code> states.</li>
-  <li>wraps its content in markup to facilitate animation. See the {{#link-to "helpers-documentation.index"}}Common
-    Behavior and Options{{/link-to}} that apply to all liquid-fire
-    helpers.</li>
+  <li>
+    respects the transition map so you can animate changes between its
+    <code>
+      true
+    </code>
+    and
+    <code>
+      false
+    </code>
+    states.
+  </li>
+  <li>
+    wraps its content in markup to facilitate animation. See the
+    <LinkTo @route="helpers-documentation.index">
+      Common
+    Behavior and Options
+    </LinkTo>
+    that apply to all liquid-fire
+    helpers.
+  </li>
 </ul>
 
-<p><code>\{{#liquid-unless}}</code> is the complement to
-<code>\{{#liquid-if}}</code>.</p>
+<p>
+  <code>
+    \{{#liquid-unless}}
+  </code>
+  is the complement to
+  <code>
+    \{{#liquid-if}}
+  </code>
+  .
+</p>
 
-<h3>Demo</h3>
+<h3>
+  Demo
+</h3>
 
-<p>Here's a bit of a silly example that shows off the flexibility of
-the transition rules.</p>
+<p>
+  Here's a bit of a silly example that shows off the flexibility of
+the transition rules.
+</p>
 
-{{!- BEGIN-SNIPPET liquid-box-demo -}}
+{{! BEGIN-SNIPPET liquid-box-demo }}
 <div id="liquid-box-demo">
-  <label>I'm renting a </label>
-  {{simple-select value=vehicle choices=vehicles}}
+  <label>
+    I'm renting a
+  </label>
+  <SimpleSelect @value={{this.vehicle}} @choices={{this.vehicles}} />
 
-  {{#liquid-if isBike class="vehicles"}}
+  {{#liquid-if this.isBike class="vehicles"}}
     <label>
-      Would you like a helmet? {{input type="checkbox" checked="helmet"}}
+      Would you like a helmet?
+      <Input @type="checkbox" @checked="helmet" />
     </label>
   {{else}}
-    <label>License Number</label>
-    {{input type="text" value=license}}
-    <label>License State</label>
-    {{simple-select value=state choices=states}}
+    <label>
+      License Number
+    </label>
+    <Input @type="text" @value={{this.license}} />
+    <label>
+      License State
+    </label>
+    <SimpleSelect @value={{this.state}} @choices={{this.states}} />
   {{/liquid-if}}
 
-  <button type="button" class="btn btn-light">Yay, let's go!</button>
+  <button type="button" class="btn btn-light">
+    Yay, let's go!
+  </button>
 </div>
-{{!- END-SNIPPET -}}
+{{! END-SNIPPET }}
 
-{{code-snippet name="liquid-box-demo.hbs"}}
+<CodeSnippet @name="liquid-box-demo.hbs" />
 
-{{code-snippet name="liquid-box-demo-transition.js"}}
+<CodeSnippet @name="liquid-box-demo-transition.js" />

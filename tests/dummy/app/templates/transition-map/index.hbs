@@ -1,36 +1,79 @@
-<h2>Using the Transition Map</h2>
+<h2>
+  Using the Transition Map
+</h2>
 
-<p>The transition map is where you configure which transitions to run
+<p>
+  The transition map is where you configure which transitions to run
 in which situations. In an ember-cli app, it is loaded automatically
-from <code>app/transitions.js</code>.</p>
+from
+  <code>
+    app/transitions.js
+  </code>
+  .
+</p>
 
 <div class="callout callout-info">
   Old-school apps without a module resolver should pass their
-  transition map function to <code>LiquidFire.map</code>. <a href="https://github.com/ember-animation/liquid-fire/blob/oldstable/example/prebuilt-example.html">There is an example here</a>.</div>
+  transition map function to
+  <code>
+    LiquidFire.map
+  </code>
+  .
+  <a
+    href="https://github.com/ember-animation/liquid-fire/blob/oldstable/example/prebuilt-example.html"
+  >
+    There is an example here
+  </a>
+  .
+</div>
 
-<p>When one of the liquid helpers detects an update that might need to
+<p>
+  When one of the liquid helpers detects an update that might need to
 animate, it consults the transition map. The most-specific matching
-rule that it finds will be applied.</p>
+rule that it finds will be applied.
+</p>
 
-<h3>Transition map top-level functions</h3>
+<h3>
+  Transition map top-level functions
+</h3>
 
 <dl class="dl-horizontal">
-  <dt>transition</dt>
-  <dd>Creates a transition rule that governs when to apply a given
-  animation. The rule consists of one or more constraints and
-  a <code>use</code> statement. The animation named
-  by <code>use</code> will only run if all the constraints match.</dd>
-
-  <dt>setDefault</dt>
+  <dt>
+    transition
+  </dt>
   <dd>
-    <p>Takes name/value pairs and sets them
-    on <a href="http://julian.com/research/velocity/#arguments">$.Velocity.defaults</a>. This
+    Creates a transition rule that governs when to apply a given
+  animation. The rule consists of one or more constraints and
+  a
+    <code>
+      use
+    </code>
+    statement. The animation named
+  by
+    <code>
+      use
+    </code>
+    will only run if all the constraints match.
+  </dd>
+
+  <dt>
+    setDefault
+  </dt>
+  <dd>
+    <p>
+      Takes name/value pairs and sets them
+    on
+      <a href="http://julian.com/research/velocity/#arguments">
+        $.Velocity.defaults
+      </a>
+      . This
     lets you provide global defaults for things like the easing
     function and animation duration.
     </p>
   </dd>
-
 </dl>
 
-<p>The next sections cover the kinds of constraints that can go inside
-a transition rule.</p>
+<p>
+  The next sections cover the kinds of constraints that can go inside
+a transition rule.
+</p>

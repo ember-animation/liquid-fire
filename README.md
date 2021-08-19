@@ -29,7 +29,7 @@ You can also see some examples in my [Ember Animation Demo](http://github.com/ef
 
 ### Ember Compatibility Table
 
-The latest version of Liquid Fire works with Ember versions back to 2.12.
+The latest version of Liquid Fire works with Ember versions back to 3.20.
 
 For older versions, see [this wiki page](https://github.com/ember-animation/liquid-fire/wiki/Compatibility-Table,-Old-Versions).
 

@@ -10,8 +10,8 @@ and then below we document all the options in detail.</p>
 
 {{!- BEGIN-SNIPPET explode-demo-1 }}
 <div id="explode-demo-1">
-  <button {{action "toggleDetail"}}>Toggle Detail View</button>
-  {{#liquid-if showDetail}}
+  <button type="button" {{action "toggleDetail"}}>Toggle Detail View</button>
+  {{#liquid-if this.showDetail}}
     <div class="details">
       <h3>Details</h3>
       <p>
@@ -30,10 +30,10 @@ and then below we document all the options in detail.</p>
 {{!- END-SNIPPET }}
 
 <p>The transition rule:</p>
-{{code-snippet name="explode-demo-1.js"}}
+<CodeSnippet @name="explode-demo-1.js" />
 
 <p>The template:</p>
-{{code-snippet name="explode-demo-1.hbs"}}
+<CodeSnippet @name="explode-demo-1.hbs" />
 
 <h3>Explode Demo #2</h3>
 
@@ -41,8 +41,8 @@ and then below we document all the options in detail.</p>
 
 {{!- BEGIN-SNIPPET explode-demo-2 }}
 <div id="explode-demo-2">
-  <button {{action "shuffle"}}>Shuffle</button>
-  {{#liquid-bind photos as |photosVersion|}}
+  <button type="button" {{action "shuffle"}}>Shuffle</button>
+  {{#liquid-bind this.photos as |photosVersion|}}
     {{#each photosVersion key="id" as |photo|}}
       <img alt="a random person photo" data-photo-id={{photo.id}} src={{photo.url}}>
     {{/each}}
@@ -51,10 +51,10 @@ and then below we document all the options in detail.</p>
 {{!- END-SNIPPET }}
 
 <p>The transition rule:</p>
-{{code-snippet name="explode-demo-2.js"}}
+<CodeSnippet @name="explode-demo-2.js" />
 
 <p>The template:</p>
-{{code-snippet name="explode-demo-2.hbs"}}
+<CodeSnippet @name="explode-demo-2.hbs" />
 
 <h3>API details</h3>
 

@@ -1,5 +1,5 @@
-<select onchange={{action (mut value) value="target.value"}}>
-  {{#each choices key="@identity" as |choice|}}
-    <option value={{choice}} selected={{is-equal value choice}}>{{choice}}</option>
+<select onchange={{action (mut this.value) value="target.value"}}>
+  {{#each this.choices key="@identity" as |choice|}}
+    <option value={{choice}} selected={{is-equal this.value choice}}>{{choice}}</option>
   {{/each}}
 </select>
