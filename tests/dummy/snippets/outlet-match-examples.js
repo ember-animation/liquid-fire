@@ -1,10 +1,7 @@
 // Matches any transition that ends up in the outlet named 'panel', no
 // matter where it came from.
 // {{liquid-outlet 'panel'}}
-this.transition(
-  this.outletName('panel'),
-  this.use('toLeft')
-);
+this.transition(this.outletName('panel'), this.use('toLeft'));
 
 // Matches nothing to something in the 'panel' outlet
 this.transition(
@@ -15,7 +12,4 @@ this.transition(
 );
 
 // Matches the default outlet only
-this.transition(
-  this.outletName('main'),
-  this.use('crossFade')
-);
+this.transition(this.outletName('main'), this.use('crossFade'));

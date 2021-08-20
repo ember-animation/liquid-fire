@@ -1,16 +1,16 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from "ember-qunit";
-import '@ember/test-helpers';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import $ from 'jquery';
 import hbs from 'htmlbars-inline-precompile';
 
 let tmap;
 
-module('Integration: fly-to transition', function(hooks) {
+module('Integration: fly-to transition', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
-    this.aftrEach = function() {
+  hooks.beforeEach(function () {
+    this.aftrEach = function () {
       tmap = null;
 
       // TODO: our tests don't pass when we're inside a transformed
@@ -20,7 +20,7 @@ module('Integration: fly-to transition', function(hooks) {
     };
   });
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     tmap = this.owner.lookup('service:liquid-fire-transitions');
 
     // TODO: our tests don't pass when we're inside a transformed
@@ -29,34 +29,59 @@ module('Integration: fly-to transition', function(hooks) {
     $('#ember-testing').css('transform', 'none');
   });
 
-  ['border-box', 'content-box'].forEach(function(boxSizing) {
-    test(`it avoids a jump at end of animation, with absolutely positioned elements (${boxSizing})`, async function(assert) {
+  ['border-box', 'content-box'].forEach(function (boxSizing) {
+    test(`it avoids a jump at end of animation, with absolutely positioned elements (${boxSizing})`, async function (assert) {
       assert.expect(6);
-      tmap.map(function() {
+      tmap.map(function () {
         this.transition(
           this.hasClass('fly-to-test'),
           this.use('explode', {
             pickOld: '.redbox',
             pickNew: '.bluebox',
-            use: function() {
+            use: function () {
               // sanity checks
-              assert.equal(this.oldElement && this.oldElement.length, 1, 'found old element');
-              assert.equal(this.newElement && this.newElement.length, 1, 'found new element');
-              assert.equal(this.oldElement && this.oldElement.css('background-color'), "rgb(255, 0, 0)");
+              assert.equal(
+                this.oldElement && this.oldElement.length,
+                1,
+                'found old element'
+              );
+              assert.equal(
+                this.newElement && this.newElement.length,
+                1,
+                'found new element'
+              );
+              assert.equal(
+                this.oldElement && this.oldElement.css('background-color'),
+                'rgb(255, 0, 0)'
+              );
 
-              return this.lookup('fly-to').call(this, { duration: 0 }).then(() => {
-                assert.deepEqual(this.newElement.offset(), this.oldElement.offset(), "element didn't jump");
-                assert.equal(this.newElement.outerWidth(), this.oldElement.outerWidth(), "same width");
-                assert.equal(this.newElement.outerHeight(), this.oldElement.outerHeight(), "same height");
-              });
-            }
+              return this.lookup('fly-to')
+                .call(this, { duration: 0 })
+                .then(() => {
+                  assert.deepEqual(
+                    this.newElement.offset(),
+                    this.oldElement.offset(),
+                    "element didn't jump"
+                  );
+                  assert.equal(
+                    this.newElement.outerWidth(),
+                    this.oldElement.outerWidth(),
+                    'same width'
+                  );
+                  assert.equal(
+                    this.newElement.outerHeight(),
+                    this.oldElement.outerHeight(),
+                    'same height'
+                  );
+                });
+            },
           })
         );
       });
 
       this.set('boxSizing', boxSizing);
       this.owner.register('template:components/my-stylesheet', stylesheet());
-      await this.render(hbs`
+      await render(hbs`
                   {{my-stylesheet boxSizing=boxSizing}}
                   {{#liquid-if showBlue class="fly-to-test"}}
                   <div class="bluebox"></div>
@@ -69,32 +94,57 @@ module('Integration: fly-to transition', function(hooks) {
       await tmap.waitUntilIdle();
     });
 
-    test(`it avoids a jump at end of animation, with statically positioned elements (${boxSizing})`, async function(assert) {
+    test(`it avoids a jump at end of animation, with statically positioned elements (${boxSizing})`, async function (assert) {
       assert.expect(6);
-      tmap.map(function() {
+      tmap.map(function () {
         this.transition(
           this.hasClass('fly-to-test'),
           this.use('explode', {
             pickOld: '.greenbox',
             pickNew: '.yellowbox',
-            use: function() {
+            use: function () {
               // sanity checks
-              assert.equal(this.oldElement && this.oldElement.length, 1, 'found old element');
-              assert.equal(this.newElement && this.newElement.length, 1, 'found new element');
-              assert.equal(this.oldElement && this.oldElement.css('background-color'), "rgb(0, 128, 0)");
+              assert.equal(
+                this.oldElement && this.oldElement.length,
+                1,
+                'found old element'
+              );
+              assert.equal(
+                this.newElement && this.newElement.length,
+                1,
+                'found new element'
+              );
+              assert.equal(
+                this.oldElement && this.oldElement.css('background-color'),
+                'rgb(0, 128, 0)'
+              );
 
-              return this.lookup('fly-to').call(this, { duration: 0 }).then(() => {
-                assert.deepEqual(this.newElement.offset(), this.oldElement.offset(), "element didn't jump");
-                assert.equal(this.newElement.outerWidth(), this.oldElement.outerWidth(), "same width");
-                assert.equal(this.newElement.outerHeight(), this.oldElement.outerHeight(), "same height");
-              });
-            }
+              return this.lookup('fly-to')
+                .call(this, { duration: 0 })
+                .then(() => {
+                  assert.deepEqual(
+                    this.newElement.offset(),
+                    this.oldElement.offset(),
+                    "element didn't jump"
+                  );
+                  assert.equal(
+                    this.newElement.outerWidth(),
+                    this.oldElement.outerWidth(),
+                    'same width'
+                  );
+                  assert.equal(
+                    this.newElement.outerHeight(),
+                    this.oldElement.outerHeight(),
+                    'same height'
+                  );
+                });
+            },
           })
         );
       });
       this.set('boxSizing', boxSizing);
       this.owner.register('template:components/my-stylesheet', stylesheet());
-      await this.render(hbs`
+      await render(hbs`
                   {{my-stylesheet boxSizing=boxSizing}}
                   {{#liquid-if showYellow class="fly-to-test"}}
                   <div class="yellowbox"></div>
@@ -106,9 +156,6 @@ module('Integration: fly-to transition', function(hooks) {
       this.set('showYellow', true);
       await tmap.waitUntilIdle();
     });
-
-
-
   });
 
   function stylesheet() {

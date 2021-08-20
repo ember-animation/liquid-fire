@@ -1,1 +1,1 @@
-export { default } from "liquid-fire/components/liquid-bind";
+export { default } from 'liquid-fire/components/liquid-bind';

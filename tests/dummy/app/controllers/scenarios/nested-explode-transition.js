@@ -7,6 +7,6 @@ export default Controller.extend({
   actions: {
     toggle(prop) {
       this.toggleProperty(prop);
-    }
-  }
+    },
+  },
 });

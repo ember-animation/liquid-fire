@@ -1,8 +1,8 @@
 import { assign } from '@ember/polyfills';
 import { assert } from '@ember/debug';
-import isBrowser from "liquid-fire/is-browser";
+import isBrowser from 'liquid-fire/is-browser';
 
-export default function(nextTransitionName, options, ...rest) {
+export default function (nextTransitionName, options, ...rest) {
   if (isBrowser()) {
     assert(
       "You must provide a transition name as the first argument to scrollThen. Example: this.use('scrollThen', 'toLeft')",
@@ -11,7 +11,9 @@ export default function(nextTransitionName, options, ...rest) {
 
     let el = document.getElementsByTagName('html');
     let nextTransition = this.lookup(nextTransitionName);
-    if (!options) {  options = {}; }
+    if (!options) {
+      options = {};
+    }
 
     assert(
       "The second argument to scrollThen is passed to Velocity's scroll function and must be an object",
@@ -19,7 +21,7 @@ export default function(nextTransitionName, options, ...rest) {
     );
 
     // set scroll options via: this.use('scrollThen', 'ToLeft', {easing: 'spring'})
-    options = assign({duration: 500, offset: 0}, options);
+    options = assign({ duration: 500, offset: 0 }, options);
 
     // additional args can be passed through after the scroll options object
     // like so: this.use('scrollThen', 'moveOver', {duration: 100}, 'x', -1);

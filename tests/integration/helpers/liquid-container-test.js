@@ -1,35 +1,35 @@
 import { Promise as EmberPromise } from 'rsvp';
 import { module, test } from 'qunit';
-import { setupRenderingTest } from "ember-qunit";
+import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 let tmap;
 
-module('Integration: liquid-container', function(hooks) {
+module('Integration: liquid-container', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     tmap = this.owner.lookup('service:liquid-fire-transitions');
   });
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     tmap = null;
   });
 
-  ['content-box', 'border-box'].forEach(function(boxSizing) {
-    test(`it should maintain size stability (${boxSizing})`, async function(assert) {
+  ['content-box', 'border-box'].forEach(function (boxSizing) {
+    test(`it should maintain size stability (${boxSizing})`, async function (assert) {
       let initialSize;
       this.set('value', 'first-value');
       this.set('boxSizing', boxSizing);
       this.set('toggle', () => {
-        if (this.get('value') === 'first-value') {
+        if (this.value === 'first-value') {
           this.set('value', 'second-value');
         } else {
           this.set('value', 'first-value');
         }
       });
-      await this.render(hbs`
+      await render(hbs`
                   <style>
                     .test-container {
                       margin: 5px;
@@ -86,10 +86,10 @@ module('Integration: liquid-container', function(hooks) {
     });
   });
 
-  test(`has liquid-animating class during animation`, async function(assert) {
+  test(`has liquid-animating class during animation`, async function (assert) {
     let resolveAnimation;
-    this.owner.register('transition:blocking', function() {
-      return new EmberPromise(function(resolve) {
+    this.owner.register('transition:blocking', function () {
+      return new EmberPromise(function (resolve) {
         resolveAnimation = resolve;
       });
     });
@@ -102,16 +102,30 @@ module('Integration: liquid-container', function(hooks) {
                   {{/liquid-container}}
                 `);
 
-    assert.dom('.test-container').exists({ count: 1 }, "have test-container");
-    assert.ok(!this.element.querySelector('.test-container').classList.contains('liquid-animating'), "it doesn't have liquid-animating class");
+    assert.dom('.test-container').exists({ count: 1 }, 'have test-container');
+    assert.ok(
+      !this.element
+        .querySelector('.test-container')
+        .classList.contains('liquid-animating'),
+      "it doesn't have liquid-animating class"
+    );
 
     this.set('value', 'new-value');
 
-    assert.dom('.test-container.liquid-animating').exists({ count: 1 }, "found liquid-animating class");
+    assert
+      .dom('.test-container.liquid-animating')
+      .exists({ count: 1 }, 'found liquid-animating class');
     resolveAnimation();
     return tmap.waitUntilIdle().then(() => {
-      assert.dom('.test-container').exists({ count: 1 }, "still have test-container");
-      assert.ok(!this.element.querySelector('.test-container').classList.contains('liquid-animating'), "liquid-animating class was removed");
+      assert
+        .dom('.test-container')
+        .exists({ count: 1 }, 'still have test-container');
+      assert.ok(
+        !this.element
+          .querySelector('.test-container')
+          .classList.contains('liquid-animating'),
+        'liquid-animating class was removed'
+      );
     });
   });
 });

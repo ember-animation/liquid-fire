@@ -1,23 +1,25 @@
-import { animate, Promise } from "liquid-fire";
+import { animate, Promise } from 'liquid-fire';
 
-export default function flyTo(opts={}) {
+export default function flyTo(opts = {}) {
   if (!this.newElement) {
     return Promise.resolve();
   } else if (!this.oldElement) {
-    this.newElement.css({visibility: ''});
+    this.newElement.css({ visibility: '' });
     return Promise.resolve();
   }
 
   let oldOffset = this.oldElement.offset();
   let newOffset = this.newElement.offset();
 
-
   if (opts.movingSide === 'new') {
     let motion = {
       translateX: [0, oldOffset.left - newOffset.left],
       translateY: [0, oldOffset.top - newOffset.top],
       outerWidth: [this.newElement.outerWidth(), this.oldElement.outerWidth()],
-      outerHeight: [this.newElement.outerHeight(), this.oldElement.outerHeight()]
+      outerHeight: [
+        this.newElement.outerHeight(),
+        this.oldElement.outerHeight(),
+      ],
     };
     this.oldElement.css({ visibility: 'hidden' });
     return animate(this.newElement, motion, opts);
@@ -26,11 +28,11 @@ export default function flyTo(opts={}) {
       translateX: newOffset.left - oldOffset.left,
       translateY: newOffset.top - oldOffset.top,
       outerWidth: this.newElement.outerWidth(),
-      outerHeight: this.newElement.outerHeight()
+      outerHeight: this.newElement.outerHeight(),
     };
     this.newElement.css({ visibility: 'hidden' });
     return animate(this.oldElement, motion, opts).then(() => {
-      this.newElement.css({ visibility: ''});
+      this.newElement.css({ visibility: '' });
     });
   }
 }

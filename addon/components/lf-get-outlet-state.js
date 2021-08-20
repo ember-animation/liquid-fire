@@ -3,5 +3,5 @@ import layout from '../templates/components/get-outlet-state';
 
 export default Component.extend({
   tagName: '',
-  layout
+  layout,
 });

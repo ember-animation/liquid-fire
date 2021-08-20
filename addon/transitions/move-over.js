@@ -1,17 +1,11 @@
-import {
-  stop,
-  animate,
-  Promise,
-  isAnimating,
-  finish
-} from "liquid-fire";
+import { stop, animate, Promise, isAnimating, finish } from 'liquid-fire';
 
 export default function moveOver(dimension, direction, opts) {
   let oldParams = {},
-      newParams = {},
-      firstStep,
-      property,
-      measure;
+    newParams = {},
+    firstStep,
+    property,
+    measure;
 
   if (dimension.toLowerCase() === 'x') {
     property = 'translateX';
@@ -30,12 +24,12 @@ export default function moveOver(dimension, direction, opts) {
 
   return firstStep.then(() => {
     let bigger = biggestSize(this, measure);
-    oldParams[property] = (bigger * direction) + 'px';
-    newParams[property] = ["0px", (-1 * bigger * direction) + 'px'];
+    oldParams[property] = bigger * direction + 'px';
+    newParams[property] = ['0px', -1 * bigger * direction + 'px'];
 
     return Promise.all([
       animate(this.oldElement, oldParams, opts),
-      animate(this.newElement, newParams, opts, 'moving-in')
+      animate(this.newElement, newParams, opts, 'moving-in'),
     ]);
   });
 }

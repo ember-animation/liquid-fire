@@ -21,7 +21,7 @@ module('Integration: liquid-outlet', function (hooks) {
       this.set('outletState', routeInfo.asTop());
     };
     this.makeRoute = function (args) {
-      return this.get('builder').makeRoute(args);
+      return this.builder.makeRoute(args);
     };
   });
 

@@ -1,12 +1,6 @@
 // BEGIN-SNIPPET fade-definition
-import {
-  isAnimating,
-  finish,
-  timeSpent,
-  animate,
-  stop
-} from "liquid-fire";
-export default function fade(opts={}) {
+import { isAnimating, finish, timeSpent, animate, stop } from 'liquid-fire';
+export default function fade(opts = {}) {
   let firstStep;
   let outOpts = opts;
   let fadingElement = findFadingElement(this);
@@ -22,10 +16,15 @@ export default function fade(opts={}) {
       outOpts = { duration: timeSpent(this.oldElement, 'fade-in') };
     }
     stop(this.oldElement);
-    firstStep = animate(this.oldElement, {opacity: 0}, outOpts, 'fade-out');
+    firstStep = animate(this.oldElement, { opacity: 0 }, outOpts, 'fade-out');
   }
   return firstStep.then(() => {
-    return animate(this.newElement, {opacity: [(opts.maxOpacity || 1), 0]}, opts, 'fade-in');
+    return animate(
+      this.newElement,
+      { opacity: [opts.maxOpacity || 1, 0] },
+      opts,
+      'fade-in'
+    );
   });
 }
 

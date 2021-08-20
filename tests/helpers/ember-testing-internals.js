@@ -22,18 +22,18 @@ class RouteInfo {
   asTop() {
     return {
       outlets: {
-        main: this._serialize()
-      }
+        main: this._serialize(),
+      },
     };
   }
   _serialize() {
     let outlets = {};
-    Object.keys(this.outlets).forEach(key => {
+    Object.keys(this.outlets).forEach((key) => {
       outlets[key] = this.outlets[key]._serialize();
     });
     return {
       render: this.render,
-      outlets
+      outlets,
     };
   }
 }
@@ -50,7 +50,7 @@ export const RouteBuilder = Service.extend({
     let owner = getOwner(this);
     owner.register(name, compiled);
     return owner.lookup(name);
-  }
+  },
 });
 
 let usingGlimmer2;
@@ -58,7 +58,7 @@ try {
   let emberRequire = Ember.__loader.require;
   emberRequire('ember-glimmer');
   usingGlimmer2 = true;
-} catch(err)  {
+} catch (err) {
   usingGlimmer2 = false;
 }
 
@@ -66,6 +66,7 @@ export const SetRouteComponent = Component.extend({
   tagName: '',
   layout: hbs`{{#-with-dynamic-vars outletState=outletState}}{{yield}}{{/-with-dynamic-vars}}`,
   didReceiveAttrs() {
+    this._super();
     // before glimmer2, outlets aren't really data-down. We need to
     // trigger revalidation manually. This is only an issue during
     // tests, because we only set outlet states during real
@@ -73,5 +74,5 @@ export const SetRouteComponent = Component.extend({
     if (!usingGlimmer2) {
       this.rerender();
     }
-  }
+  },
 });

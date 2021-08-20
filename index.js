@@ -9,7 +9,7 @@ let map = require('broccoli-stew').map;
 module.exports = {
   name: require('./package').name,
 
-  init: function() {
+  init: function () {
     if (this._super.init) {
       this._super.init.apply(this, arguments);
     }
@@ -40,29 +40,37 @@ module.exports = {
     }
   },
 
-  treeForVendor: function(tree){
+  treeForVendor: function (tree) {
     let velocityPath = path.dirname(require.resolve('velocity-animate'));
     let velocityTree = new Funnel(this.treeGenerator(velocityPath), {
       srcDir: '/',
-      destDir: 'velocity'
+      destDir: 'velocity',
     });
-    velocityTree = map(velocityTree, 'velocity/velocity.js', function(content) {
-      return 'if (typeof FastBoot === \'undefined\') { ' + content + ' }';
-    });
+    velocityTree = map(
+      velocityTree,
+      'velocity/velocity.js',
+      function (content) {
+        return "if (typeof FastBoot === 'undefined') { " + content + ' }';
+      }
+    );
 
     let matchMediaPath = path.dirname(require.resolve('match-media'));
     let matchMediaTree = new Funnel(this.treeGenerator(matchMediaPath), {
       srcDir: '/',
-      destDir: 'match-media'
+      destDir: 'match-media',
     });
-    matchMediaTree = map(matchMediaTree, 'match-media/matchMedia.js', function(content) {
-      return 'if (typeof FastBoot === \'undefined\') { ' + content + ' }';
-    });
+    matchMediaTree = map(
+      matchMediaTree,
+      'match-media/matchMedia.js',
+      function (content) {
+        return "if (typeof FastBoot === 'undefined') { " + content + ' }';
+      }
+    );
 
     return mergeTrees([tree, velocityTree, matchMediaTree]);
   },
 
-  included: function(){
+  included: function () {
     this._super.included.apply(this, arguments);
 
     // We cannot use ember-cli to import velocity as an AMD module here, because we always need the shim in FastBoot
@@ -73,5 +81,5 @@ module.exports = {
 
     this.import('vendor/match-media/matchMedia.js');
     this.import('vendor/liquid-fire.css');
-  }
+  },
 };

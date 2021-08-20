@@ -7,28 +7,35 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
     ecmaFeatures: {
-      legacyDecorators: true
-    }
+      legacyDecorators: true,
+    },
   },
-  plugins: [
-    'ember'
-  ],
+  plugins: ['ember'],
   extends: [
     'eslint:recommended',
-    'plugin:ember/recommended'
+    'plugin:ember/recommended',
+    'plugin:prettier/recommended',
   ],
   env: {
-    browser: true
+    browser: true,
   },
   rules: {
-    'no-var': "error",
-    semi: ["error", "always"],
+    'no-var': 'error',
+    semi: ['error', 'always'],
+    'ember/no-actions-hash': 'off',
+    'ember/no-classic-classes': 'off',
+    'ember/no-classic-components': 'off',
+    'ember/no-component-lifecycle-hooks': 'off',
+    'ember/no-get': 'off',
+    'ember/no-new-mixins': 'off',
     'ember/no-old-shims': 'error',
     'ember/new-module-imports': 'error',
-    'ember/avoid-leaking-state-in-components': 'error',
     'ember/no-jquery': 'warn',
+    'ember/no-mixins': 'off',
     'ember/no-side-effects': 'error',
-    'no-prototype-builtins': 'off'
+    'ember/require-return-from-computed': 'off',
+    'ember/require-tagless-components': 'off',
+    'no-prototype-builtins': 'off',
   },
   overrides: [
     // node files
@@ -42,24 +49,24 @@ module.exports = {
         'testem.js',
         'blueprints/*/index.js',
         'config/**/*.js',
-        'tests/dummy/config/**/*.js'
+        'tests/dummy/config/**/*.js',
       ],
       excludedFiles: [
         'addon/**',
         'addon-test-support/**',
         'app/**',
         'version-specific*/**',
-        'tests/dummy/app/**'
+        'tests/dummy/app/**',
       ],
       parserOptions: {
-        sourceType: 'script'
+        sourceType: 'script',
       },
       env: {
         browser: false,
-        node: true
+        node: true,
       },
       plugins: ['node'],
-      extends: ['plugin:node/recommended']
-    }
-  ]
+      extends: ['plugin:node/recommended'],
+    },
+  ],
 };

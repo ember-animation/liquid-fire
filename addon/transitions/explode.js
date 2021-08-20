@@ -32,7 +32,7 @@ export default function explode(...pieces) {
   let promises = pieces.map((piece) => {
     if (piece.matchBy) {
       return matchAndExplode(this, piece, seenElements);
-    } else if (piece.pick || piece.pickOld || piece.pickNew){
+    } else if (piece.pick || piece.pickOld || piece.pickNew) {
       return explodePiece(this, piece, seenElements);
     } else {
       sawBackgroundPiece = true;
@@ -41,10 +41,10 @@ export default function explode(...pieces) {
   });
   if (!sawBackgroundPiece) {
     if (this.newElement) {
-      this.newElement.css({visibility: ''});
+      this.newElement.css({ visibility: '' });
     }
     if (this.oldElement) {
-      this.oldElement.css({visibility: 'hidden'});
+      this.oldElement.css({ visibility: 'hidden' });
     }
   }
   return Promise.all(promises);
@@ -56,16 +56,32 @@ function explodePiece(context, piece, seen) {
   let cleanupOld, cleanupNew;
 
   if (selectors[0] || selectors[1]) {
-    cleanupOld = _explodePart(context, 'oldElement', childContext, selectors[0], seen);
-    cleanupNew = _explodePart(context, 'newElement', childContext, selectors[1], seen);
+    cleanupOld = _explodePart(
+      context,
+      'oldElement',
+      childContext,
+      selectors[0],
+      seen
+    );
+    cleanupNew = _explodePart(
+      context,
+      'newElement',
+      childContext,
+      selectors[1],
+      seen
+    );
     if (!cleanupOld && !cleanupNew) {
       return Promise.resolve();
     }
   }
 
   return runAnimation(childContext, piece).finally(() => {
-    if (cleanupOld) { cleanupOld(); }
-    if (cleanupNew) { cleanupNew(); }
+    if (cleanupOld) {
+      cleanupOld();
+    }
+    if (cleanupNew) {
+      cleanupNew();
+    }
   });
 }
 
@@ -75,7 +91,7 @@ function _explodePart(context, field, childContext, selector, seen) {
 
   childContext[field] = null;
   if (elt && selector) {
-    child = elt.find(selector).filter(function() {
+    child = elt.find(selector).filter(function () {
       let guid = guidFor(this);
       if (!seen[guid]) {
         seen[guid] = true;
@@ -91,7 +107,7 @@ function _explodePart(context, field, childContext, selector, seen) {
       deduplicateChildElementIds(newChild);
 
       // Hide the original element
-      child.css({visibility: 'hidden'});
+      child.css({ visibility: 'hidden' });
 
       // If the original element's parent was hidden, hide our clone
       // too.
@@ -106,14 +122,14 @@ function _explodePart(context, field, childContext, selector, seen) {
         position: 'absolute',
         top: childOffset.top - newParentOffset.top,
         left: childOffset.left - newParentOffset.left,
-        margin: 0
+        margin: 0,
       });
 
       // Pass the clone to the next animation
       childContext[field] = newChild;
       return function cleanup() {
         newChild.remove();
-        child.css({visibility: ''});
+        child.css({ visibility: '' });
       };
     }
   }
@@ -122,9 +138,11 @@ function _explodePart(context, field, childContext, selector, seen) {
 function animationFor(context, piece) {
   let name, args, func;
   if (!piece.use) {
-    throw new Error("every argument to the 'explode' animation must include a followup animation to 'use'");
+    throw new Error(
+      "every argument to the 'explode' animation must include a followup animation to 'use'"
+    );
   }
-  if (isArray(piece.use) ) {
+  if (isArray(piece.use)) {
     name = piece.use[0];
     args = piece.use.slice(1);
   } else {
@@ -136,7 +154,7 @@ function animationFor(context, piece) {
   } else {
     func = context.lookup(name);
   }
-  return function() {
+  return function () {
     return Promise.resolve(func.apply(this, args));
   };
 }
@@ -170,9 +188,13 @@ function matchAndExplode(context, piece, seen) {
   let selector;
 
   if (piece.matchBy === 'id') {
-    selector = (attrValue) => { return `#${attrValue}`; };
+    selector = (attrValue) => {
+      return `#${attrValue}`;
+    };
   } else if (piece.matchBy === 'class') {
-    selector = (attrValue) => { return `.${attrValue}`; };
+    selector = (attrValue) => {
+      return `.${attrValue}`;
+    };
   } else {
     selector = (attrValue) => {
       let escapedAttrValue = attrValue.replace(/'/g, "\\'");
@@ -181,17 +203,26 @@ function matchAndExplode(context, piece, seen) {
   }
 
   let hits = A(context.oldElement.find(`[${piece.matchBy}]`).toArray());
-  return Promise.all(hits.map((elt) => {
-    let attrValue = $(elt).attr(piece.matchBy);
+  return Promise.all(
+    hits.map((elt) => {
+      let attrValue = $(elt).attr(piece.matchBy);
 
-    // if there is no match for a particular item just skip it
-    if (attrValue === "" || context.newElement.find(selector(attrValue)).length === 0) {
-      return Promise.resolve();
-    }
+      // if there is no match for a particular item just skip it
+      if (
+        attrValue === '' ||
+        context.newElement.find(selector(attrValue)).length === 0
+      ) {
+        return Promise.resolve();
+      }
 
-    return explodePiece(context, {
-      pick: selector(attrValue),
-      use: piece.use
-    }, seen);
-  }));
+      return explodePiece(
+        context,
+        {
+          pick: selector(attrValue),
+          use: piece.use,
+        },
+        seen
+      );
+    })
+  );
 }

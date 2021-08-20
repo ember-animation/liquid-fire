@@ -1,6 +1,5 @@
 import { Promise as EmberPromise } from 'rsvp';
 import Component from '@ember/component';
-import { get } from '@ember/object';
 export default Component.extend({
   classNames: ['liquid-child'],
 
@@ -10,14 +9,15 @@ export default Component.extend({
   },
 
   didInsertElement() {
+    this._super(...arguments);
     if (this.element) {
       this.element.style.visibility = 'hidden';
     }
     this._waitForAll().then(() => {
       if (!this.isDestroying) {
         this._waitingFor = null;
-        const didRenderAction = get(this, 'liquidChildDidRender');
-        if (typeof(didRenderAction) === 'function') {
+        const didRenderAction = this.liquidChildDidRender;
+        if (typeof didRenderAction === 'function') {
           didRenderAction(this);
         }
       }
@@ -43,6 +43,5 @@ export default Component.extend({
         return this._waitForAll();
       }
     });
-  }
-
+  },
 });

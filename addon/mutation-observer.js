@@ -1,35 +1,35 @@
 import isBrowser from './is-browser';
 let activePollers = [];
 
-function MutationPoller(callback){
+function MutationPoller(callback) {
   this.callback = callback;
 }
 
 MutationPoller.prototype = {
-  observe: function(){
+  observe: function () {
     this.interval = setInterval(this.callback, 100);
     activePollers.push(this);
   },
-  disconnect: function() {
+  disconnect: function () {
     clearInterval(this.interval);
     activePollers.splice(activePollers.indexOf(this), 1);
-  }
+  },
 };
 
 let M;
 if (isBrowser()) {
-  M = (window.MutationObserver || window.WebkitMutationObserver || MutationPoller);
+  M =
+    window.MutationObserver || window.WebkitMutationObserver || MutationPoller;
 } else {
   M = MutationPoller;
 }
-
 
 export default M;
 
 // PhantomJS does not have real mutation observers, so to get
 // reasonable test timing we have to manually kick it.
 export function testingKick() {
-  for (let i = 0; i < activePollers.length; i ++) {
+  for (let i = 0; i < activePollers.length; i++) {
     activePollers[i].callback();
   }
 }

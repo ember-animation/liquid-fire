@@ -5,11 +5,11 @@ export default Component.extend({
   classNames: ['page-item'],
   classNameBindings: ['direction'],
 
-  back: computed('direction', 'topic', function(){
-    return this.get('topic') && this.get('direction') === 'back';
+  back: computed('direction', 'topic', function () {
+    return this.topic && this.direction === 'back';
   }),
 
-  forward: computed('direction', 'topic', function(){
-    return this.get('topic') && this.get('direction') === 'forward';
-  })
+  forward: computed('direction', 'topic', function () {
+    return this.topic && this.direction === 'forward';
+  }),
 });

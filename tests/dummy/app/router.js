@@ -6,24 +6,23 @@ export default class Router extends EmberRouter {
   rootURL = config.rootURL;
 }
 
-Router.map(function() {
-
+Router.map(function () {
   /* Interactive Documentation */
   this.route('installation');
   this.route('cookbook');
-  this.route('helpers-documentation', { path: 'helpers'}, function(){
-    this.route('liquid-outlet', function(){
+  this.route('helpers-documentation', { path: 'helpers' }, function () {
+    this.route('liquid-outlet', function () {
       this.route('other');
     });
     this.route('liquid-bind');
-    this.route('liquid-bind-block', function(){
+    this.route('liquid-bind-block', function () {
       this.route('page', { path: '/:id' });
     });
     this.route('liquid-if');
     this.route('liquid-spacer');
   });
 
-  this.route('transition-map', function(){
+  this.route('transition-map', function () {
     this.route('route-constraints');
     this.route('outlet-constraints');
     this.route('value-constraints');
@@ -34,11 +33,11 @@ Router.map(function() {
     this.route('debugging-constraints');
   });
 
-  this.route('transitions', function(){
+  this.route('transitions', function () {
     this.route('predefined');
     this.route('explode');
     this.route('defining');
-    this.route('primitives', function(){
+    this.route('primitives', function () {
       this.route('two');
       this.route('three');
     });
@@ -46,14 +45,14 @@ Router.map(function() {
 
   /* Test Scenarios */
 
-  this.route('scenarios', function() {
+  this.route('scenarios', function () {
     this.route('inline');
     this.route('inline-serial');
     this.route('empty-if');
     this.route('growable-with');
     this.route('growable-flexboxes');
-    this.route('nested-outlets', function(){
-      this.route('middle', function(){
+    this.route('nested-outlets', function () {
+      this.route('middle', function () {
         this.route('inner');
         this.route('inner2');
       });
@@ -63,16 +62,15 @@ Router.map(function() {
     this.route('spacer');
     this.route('versions');
     this.route('hero');
-    this.route('model-dependent-rule', function() {
+    this.route('model-dependent-rule', function () {
       this.route('page', { path: '/:id' });
       this.route('other', { path: '/other/:id' });
     });
-    this.route('interrupted-move', function() {
+    this.route('interrupted-move', function () {
       this.route('two');
       this.route('three');
     });
     this.route('in-test-outlet');
     this.route('nested-explode-transition');
   });
-
 });

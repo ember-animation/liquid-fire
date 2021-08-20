@@ -1,4 +1,3 @@
-import { get } from '@ember/object';
 import Ember from 'ember';
 const { getViewBounds } = Ember.ViewUtils;
 
@@ -31,7 +30,7 @@ export function routeModel(routeInfo) {
   if (routeInfo && !routeInfo.hasOwnProperty('_lf_model')) {
     let r, c;
     if ((r = routeInfo.render) && (c = r.controller)) {
-      routeInfo._lf_model = get(c, 'model');
+      routeInfo._lf_model = c.model;
     } else {
       routeInfo._lf_model = null;
     }
@@ -53,18 +52,19 @@ export function routeIsStable(oldRouteInfo, newRouteInfo) {
     return false;
   }
 
-  return oldRouteInfo.render.template === newRouteInfo.render.template &&
-    oldRouteInfo.render.controller === newRouteInfo.render.controller;
+  return (
+    oldRouteInfo.render.template === newRouteInfo.render.template &&
+    oldRouteInfo.render.controller === newRouteInfo.render.controller
+  );
 }
 
 // Only valid for states that already satisfy routeIsStable
 export function modelIsStable(oldRouteInfo, newRouteInfo) {
   let oldModel = routeModel(oldRouteInfo) || [];
   let newModel = routeModel(newRouteInfo) || [];
-  return  oldModel[0] === newModel[0];
+  return oldModel[0] === newModel[0];
 }
 
 export function containingElement(view) {
   return getViewBounds(view).parentElement;
 }
-

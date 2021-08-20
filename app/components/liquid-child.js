@@ -1,1 +1,1 @@
-export { default } from "liquid-fire/components/liquid-child";
+export { default } from 'liquid-fire/components/liquid-child';

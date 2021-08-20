@@ -1,14 +1,17 @@
 'use strict';
 
-module.exports = function(deployTarget) {
+module.exports = function (deployTarget) {
   const ENV = {
     build: {},
-    git: {}
+    git: {},
     // include other plugin configuration that applies to all deploy targets here
   };
 
   if (process.env.GITHUB_CREDENTIALS) {
-    ENV.git.repo = "https://" + process.env.GITHUB_CREDENTIALS + "@github.com/ember-animation/liquid-fire";
+    ENV.git.repo =
+      'https://' +
+      process.env.GITHUB_CREDENTIALS +
+      '@github.com/ember-animation/liquid-fire';
   }
 
   if (deployTarget === 'development') {

@@ -4,7 +4,7 @@ import { A } from '@ember/array';
 
 import { guidFor } from '@ember/object/internals';
 import { constraintKeys, EMPTY, ANY } from './constraint';
-import constrainables from "./constrainables";
+import constrainables from './constrainables';
 
 export default class Constraints {
   constructor() {
@@ -64,7 +64,10 @@ export default class Constraints {
 
   bestMatch(conditions) {
     if (this.debug) {
-      console.log("[liquid-fire] Checking transition rules for", conditions.parentElement[0]);
+      console.log(
+        '[liquid-fire] Checking transition rules for',
+        conditions.parentElement[0]
+      );
     }
 
     let rules = this.match(conditions);
@@ -73,7 +76,11 @@ export default class Constraints {
     if (rules.length > 1 && this.debug) {
       rules.forEach((rule) => {
         if (rule !== best && rule.debug) {
-          console.log(`${describeRule(rule)} matched, but it was superceded by another rule`);
+          console.log(
+            `${describeRule(
+              rule
+            )} matched, but it was superceded by another rule`
+          );
         }
       });
     }
@@ -127,7 +134,10 @@ export default class Constraints {
       A(Object.keys(set)).forEach((ruleKey) => {
         let rule = set[ruleKey];
         if (rule.debug && !matched[guidFor(rule)]) {
-          console.log(`${describeRule(rule)} rejected because ${target} was`, ...value);
+          console.log(
+            `${describeRule(rule)} rejected because ${target} was`,
+            ...value
+          );
         }
       });
     });
@@ -140,7 +150,10 @@ export default class Constraints {
       let matched = true;
       for (let j = 0; j < rule.constraints.length; j++) {
         let constraint = rule.constraints[j];
-        if (constraint.predicate && !this.matchConstraintPredicate(conditions, rule, constraint)) {
+        if (
+          constraint.predicate &&
+          !this.matchConstraintPredicate(conditions, rule, constraint)
+        ) {
           matched = false;
           break;
         }
@@ -160,15 +173,22 @@ export default class Constraints {
       inverseValues = conditionAccessor(conditions, reverse);
     }
     for (let i = 0; i < values.length; i++) {
-      if (constraint.predicate(values[i], inverseValues ? inverseValues[i] : null)) {
+      if (
+        constraint.predicate(values[i], inverseValues ? inverseValues[i] : null)
+      ) {
         return true;
       }
     }
     if (rule.debug) {
       if (constraint.target === 'parentElement') {
-        values = values.map((v)=>v[0]);
+        values = values.map((v) => v[0]);
       }
-      console.log(`${describeRule(rule)} rejected because of a constraint on ${constraint.target}. ${constraint.target} was`, ...values);
+      console.log(
+        `${describeRule(rule)} rejected because of a constraint on ${
+          constraint.target
+        }. ${constraint.target} was`,
+        ...values
+      );
     }
   }
 }
@@ -231,7 +251,11 @@ function highestPriority(rules) {
   for (let i = 0; i < rules.length; i++) {
     let rule = rules[i];
     let score = rules[i].constraints.length;
-    if (!best || score > bestScore || (score === bestScore && rule.id > best.id)) {
+    if (
+      !best ||
+      score > bestScore ||
+      (score === bestScore && rule.id > best.id)
+    ) {
       best = rule;
       bestScore = score;
     }
