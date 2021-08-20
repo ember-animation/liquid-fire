@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import $ from 'jquery';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 let tmap;
 
@@ -82,8 +82,8 @@ module('Integration: fly-to transition', function (hooks) {
       this.set('boxSizing', boxSizing);
       this.owner.register('template:components/my-stylesheet', stylesheet());
       await render(hbs`
-                  {{my-stylesheet boxSizing=boxSizing}}
-                  {{#liquid-if showBlue class="fly-to-test"}}
+                  {{my-stylesheet boxSizing=this.boxSizing}}
+                  {{#liquid-if this.showBlue class="fly-to-test"}}
                   <div class="bluebox"></div>
                   {{else}}
                   <div class="redbox"></div>
@@ -145,8 +145,8 @@ module('Integration: fly-to transition', function (hooks) {
       this.set('boxSizing', boxSizing);
       this.owner.register('template:components/my-stylesheet', stylesheet());
       await render(hbs`
-                  {{my-stylesheet boxSizing=boxSizing}}
-                  {{#liquid-if showYellow class="fly-to-test"}}
+                  {{my-stylesheet boxSizing=this.boxSizing}}
+                  {{#liquid-if this.showYellow class="fly-to-test"}}
                   <div class="yellowbox"></div>
                   {{else}}
                   <div class="greenbox"></div>
@@ -176,7 +176,7 @@ module('Integration: fly-to transition', function (hooks) {
         padding: 2px;
         margin: 4px;
         border: 1px solid black;
-        box-sizing: {{boxSizing}};
+        box-sizing: {{this.boxSizing}};
       }
       .redbox {
         background-color: red;
@@ -188,7 +188,7 @@ module('Integration: fly-to transition', function (hooks) {
         padding: 4px;
         margin: 6px;
         border: 2px solid black;
-        box-sizing: {{boxSizing}};
+        box-sizing: {{this.boxSizing}};
       }
       .yellowbox {
         background-color: yellow;
@@ -198,7 +198,7 @@ module('Integration: fly-to transition', function (hooks) {
         height: 25px;
         padding: 2px;
         border: 1px solid black;
-        box-sizing: {{boxSizing}};
+        box-sizing: {{this.boxSizing}};
       }
       .greenbox {
         background-color: green;
@@ -208,7 +208,7 @@ module('Integration: fly-to transition', function (hooks) {
         height: 30px;
         padding: 4px;
         border: 2px solid black;
-        box-sizing: {{boxSizing}};
+        box-sizing: {{this.boxSizing}};
       }
                 </style>
 

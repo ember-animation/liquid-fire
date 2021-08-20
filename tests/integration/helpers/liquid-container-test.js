@@ -2,7 +2,7 @@ import { Promise as EmberPromise } from 'rsvp';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 let tmap;
 
@@ -36,7 +36,7 @@ module('Integration: liquid-container', function (hooks) {
                       border: 2px solid black;
                       padding: 3px;
                       float: left;
-                      box-sizing: {{boxSizing}}
+                      box-sizing: {{this.boxSizing}}
                     }
                     .first-value {
                       width: 200px;
@@ -44,7 +44,7 @@ module('Integration: liquid-container', function (hooks) {
                       margin: 4px;
                       border: 1px solid black;
                       padding: 2px;
-                      box-sizing: {{boxSizing}}
+                      box-sizing: {{this.boxSizing}}
                     }
                     .second-value {
                       width: 100px;
@@ -52,13 +52,13 @@ module('Integration: liquid-container', function (hooks) {
                       margin: 2px;
                       border: 2px solid black;
                       padding: 6px;
-                      box-sizing: {{boxSizing}}
+                      box-sizing: {{this.boxSizing}}
                     }
 
                   </style>
                   <button {{action this.toggle}}>Toggle</button>
                   {{#liquid-container class="test-container" growDuration=1 as |c|}}
-                    {{#liquid-versions notify=c value=value as |valueVersion|}}
+                    {{#liquid-versions notify=c value=this.value as |valueVersion|}}
                       <div class={{valueVersion}}></div>
                     {{/liquid-versions}}
                   {{/liquid-container}}
@@ -96,7 +96,7 @@ module('Integration: liquid-container', function (hooks) {
 
     await render(hbs`
                   {{#liquid-container class="test-container" growDuration=1 as |c|}}
-                    {{#liquid-versions notify=c value=value use="blocking" as |valueVersion|}}
+                    {{#liquid-versions notify=c value=this.value use="blocking" as |valueVersion|}}
                       <div class={{valueVersion}}></div>
                     {{/liquid-versions}}
                   {{/liquid-container}}

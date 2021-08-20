@@ -4,7 +4,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import Component from '@ember/component';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 let sample, tmap, animationStarted;
 
@@ -35,10 +35,10 @@ module('Integration | Component | liquid sync', function (hooks) {
 
   test('it causes the transition to wait', async function (assert) {
     await render(hbs`
-      {{#liquid-if activated use="spy"}}
-        {{#liquid-sync as |sync|}}
+      {{#liquid-if this.activated use="spy"}}
+        <LiquidSync as |sync|>
           {{x-sample ready=sync}}
-        {{/liquid-sync}}
+        </LiquidSync>
       {{else}}
         <div class="off">Off</div>
       {{/liquid-if}}
@@ -64,8 +64,8 @@ module('Integration | Component | liquid sync', function (hooks) {
 
   test('transition moves on if component is destroyed', async function (assert) {
     await render(hbs`
-      {{#liquid-if activated use="spy"}}
-        {{#if innerThing}}
+      {{#liquid-if this.activated use="spy"}}
+        {{#if this.innerThing}}
            <div class="alt">Alt</div>
         {{else}}
           {{#liquid-sync as |sync|}}
@@ -97,7 +97,7 @@ module('Integration | Component | liquid sync', function (hooks) {
 
   test('it considers liquid-fire non-idle when waiting for liquid-sync to resolve', async function (assert) {
     await render(hbs`
-      {{#liquid-if activated use="spy"}}
+      {{#liquid-if this.activated use="spy"}}
         {{#liquid-sync as |sync|}}
           {{x-sample ready=sync}}
         {{/liquid-sync}}

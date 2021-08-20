@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, triggerEvent } from '@ember/test-helpers';
 import sinon from 'sinon';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration: liquid-measured', function (hooks) {
   setupRenderingTest(hooks);
@@ -12,7 +12,7 @@ module('Integration: liquid-measured', function (hooks) {
 
     let didMeasureSpy = sinon.spy();
     this.set('didMeasureSpy', didMeasureSpy);
-    let template = hbs`{{#liquid-measured didMeasure=didMeasureSpy}}hello{{/liquid-measured}}`;
+    let template = hbs`{{#liquid-measured didMeasure=this.didMeasureSpy}}hello{{/liquid-measured}}`;
     await render(template);
 
     assert.equal(didMeasureSpy.callCount, 1);

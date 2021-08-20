@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { measure } from './liquid-measured';
-import Growable from 'liquid-fire/growable';
+import Growable from 'liquid-fire/mixins/growable';
 import layout from 'liquid-fire/templates/components/liquid-spacer';
 import $ from 'jquery';
 

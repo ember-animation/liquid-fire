@@ -4,7 +4,7 @@ import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 let Promise = EmberPromise;
 let tmap;
@@ -44,7 +44,7 @@ module('Integration: explode transition', function (hooks) {
       );
     });
     await render(hbs`
-                {{#liquid-if showBlue class="explode-transition-test"}}
+                {{#liquid-if this.showBlue class="explode-transition-test"}}
                 <div class="bluebox"></div>
                 {{else}}
                 <div class="redbox"></div>
@@ -69,7 +69,7 @@ module('Integration: explode transition', function (hooks) {
       );
     });
     await render(hbs`
-                {{#liquid-if showBlue class="explode-transition-test"}}
+                {{#liquid-if this.showBlue class="explode-transition-test"}}
                 <div class="bluebox"></div>
                 {{else}}
                 <div class="redbox"></div>
@@ -114,7 +114,7 @@ module('Integration: explode transition', function (hooks) {
       );
     });
     await render(hbs`
-                {{#liquid-if showBlue class="explode-transition-test"}}
+                {{#liquid-if this.showBlue class="explode-transition-test"}}
                 <div class="bluebox something"></div>
                 {{else}}
                 <div class="redbox something"></div>
@@ -147,7 +147,7 @@ module('Integration: explode transition', function (hooks) {
       );
     });
     await render(hbs`
-                {{#liquid-if otherMode class="explode-transition-test"}}
+                {{#liquid-if this.otherMode class="explode-transition-test"}}
                   <h1>New Title</h1>
                 {{else}}
                   <h1>Old Title</h1>
@@ -180,7 +180,7 @@ module('Integration: explode transition', function (hooks) {
       );
     });
     await render(hbs`
-                {{#liquid-if otherMode class="explode-transition-test"}}
+                {{#liquid-if this.otherMode class="explode-transition-test"}}
                   <h2>New Title</h2>
                 {{else}}
                   <h1>Old Title</h1>
@@ -209,7 +209,7 @@ module('Integration: explode transition', function (hooks) {
       );
     });
     await render(hbs`
-                {{#liquid-if otherMode class="explode-transition-test"}}
+                {{#liquid-if this.otherMode class="explode-transition-test"}}
                   <h1>New Title</h1>
                 {{else}}
                   <h1>Old Title</h1>
@@ -238,7 +238,7 @@ module('Integration: explode transition', function (hooks) {
       );
     });
     await render(hbs`
-                {{#liquid-if otherMode class="explode-transition-test"}}
+                {{#liquid-if this.otherMode class="explode-transition-test"}}
                   <h1>New Title</h1>
                 {{else}}
                   <h1>Old Title</h1>
@@ -270,7 +270,7 @@ module('Integration: explode transition', function (hooks) {
       );
     });
     await render(hbs`
-                {{#liquid-if otherMode class="explode-transition-test"}}
+                {{#liquid-if this.otherMode class="explode-transition-test"}}
                   <div data-model-id=1>New One</div>
                   <div data-model-id=2>New Two</div>
                 {{else}}
@@ -300,7 +300,7 @@ module('Integration: explode transition', function (hooks) {
       );
     });
     await render(hbs`
-                {{#liquid-if otherMode class="explode-transition-test"}}
+                {{#liquid-if this.otherMode class="explode-transition-test"}}
                   <div data-model-name="Smith, Granny">New One</div>
                   <div data-model-name="Appleseed, Johnny's">New Two</div>
                 {{else}}
@@ -326,7 +326,7 @@ module('Integration: explode transition', function (hooks) {
       );
     });
     await render(hbs`
-                {{#liquid-if otherMode class="explode-transition-test"}}
+                {{#liquid-if this.otherMode class="explode-transition-test"}}
                   <div data-model-id=2>New Two</div>
                 {{else}}
                   <div data-model-id=1>Old One</div>
@@ -375,7 +375,7 @@ module('Integration: explode transition', function (hooks) {
       );
     });
     await render(hbs`
-                {{#liquid-if otherMode class="explode-transition-test"}}
+                {{#liquid-if this.otherMode class="explode-transition-test"}}
                   <div class="late">A</div>
                 {{else}}
                   <div class="early late">B</div>
@@ -400,7 +400,7 @@ module('Integration: explode transition', function (hooks) {
       );
     });
     await render(hbs`
-                {{#liquid-if otherMode class="explode-transition-test"}}
+                {{#liquid-if this.otherMode class="explode-transition-test"}}
                   <div data-model-id=1>New One</div>
                   <div data-model-id=2>New Two</div>
                 {{else}}
@@ -435,7 +435,7 @@ module('Integration: explode transition', function (hooks) {
       );
     });
     await render(hbs`
-                {{#liquid-if otherMode class="explode-transition-test"}}
+                {{#liquid-if this.otherMode class="explode-transition-test"}}
                   <div class='reducedScope'>
                     <div id='one'>New One</div>
                     <div id='two'>New Two</div>
@@ -512,8 +512,8 @@ module('Integration: explode transition', function (hooks) {
       this.set('boxSizing', boxSizing);
       this.owner.register('template:components/my-stylesheet', stylesheet());
       await render(hbs`
-                  {{my-stylesheet boxSizing=boxSizing}}
-                  {{#liquid-if showBlue class="explode-transition-test"}}
+                  {{my-stylesheet boxSizing=this.boxSizing}}
+                  {{#liquid-if this.showBlue class="explode-transition-test"}}
                   <div class="bluebox"></div>
                   {{else}}
                   <div class="redbox"></div>
@@ -587,8 +587,8 @@ module('Integration: explode transition', function (hooks) {
       this.set('boxSizing', boxSizing);
       this.owner.register('template:components/my-stylesheet', stylesheet());
       await render(hbs`
-                  {{my-stylesheet boxSizing=boxSizing}}
-                  {{#liquid-if showYellow class="explode-transition-test"}}
+                  {{my-stylesheet boxSizing=this.boxSizing}}
+                  {{#liquid-if this.showYellow class="explode-transition-test"}}
                   <div class="yellowbox"></div>
                   {{else}}
                   <div class="greenbox"></div>
@@ -626,7 +626,7 @@ module('Integration: explode transition', function (hooks) {
         );
       });
       await render(hbs`
-        {{#liquid-if showTitleOne class="explode-transition-test"}}
+        {{#liquid-if this.showTitleOne class="explode-transition-test"}}
           <div>
             <h1>Title 1</h1>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio error vitae consequuntur quasi, pariatur odit ea itaque libero repudiandae dolor nam minus assumenda, blanditiis natus sit unde illo quibusdam quos.</p>
@@ -661,7 +661,7 @@ module('Integration: explode transition', function (hooks) {
         padding: 2px;
         margin: 4px;
         border: 1px solid black;
-        box-sizing: {{boxSizing}};
+        box-sizing: {{this.boxSizing}};
       }
       .redbox {
         background-color: red;
@@ -673,7 +673,7 @@ module('Integration: explode transition', function (hooks) {
         padding: 4px;
         margin: 6px;
         border: 2px solid black;
-        box-sizing: {{boxSizing}};
+        box-sizing: {{this.boxSizing}};
       }
       .yellowbox {
         background-color: yellow;
@@ -683,7 +683,7 @@ module('Integration: explode transition', function (hooks) {
         height: 25px;
         padding: 2px;
         border: 1px solid black;
-        box-sizing: {{boxSizing}};
+        box-sizing: {{this.boxSizing}};
       }
       .greenbox {
         background-color: green;
@@ -693,7 +693,7 @@ module('Integration: explode transition', function (hooks) {
         height: 30px;
         padding: 4px;
         border: 2px solid black;
-        box-sizing: {{boxSizing}};
+        box-sizing: {{this.boxSizing}};
       }
                 </style>
 

@@ -3,7 +3,7 @@ import EmberObject from '@ember/object';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import {
   RouteBuilder,
@@ -46,10 +46,10 @@ module('Integration: liquid-outlet', function (hooks) {
     console.log(this.outletState);
     let hello = this.makeRoute({ template: hbs`Hello<LiquidOutlet />` });
     this.setState(hello);
-    assert.dom('*').hasText('AHelloB');
+    assert.dom().hasText('AHelloB');
     hello.setChild('main', { template: hbs`Goodbye` });
     this.setState(hello);
-    assert.dom('*').hasText('AHelloGoodbyeB');
+    assert.dom().hasText('AHelloGoodbyeB');
   });
 
   test('it should support an optional name', async function (assert) {
@@ -60,10 +60,10 @@ module('Integration: liquid-outlet', function (hooks) {
       template: hbs`Hello{{liquid-outlet "other"}}`,
     });
     this.setState(hello);
-    assert.dom('*').hasText('AHelloB');
+    assert.dom().hasText('AHelloB');
     hello.setChild('other', { template: hbs`Goodbye` });
     this.setState(hello);
-    assert.dom('*').hasText('AHelloGoodbyeB');
+    assert.dom().hasText('AHelloGoodbyeB');
   });
 
   test('it should support static class', async function (assert) {
@@ -75,7 +75,7 @@ module('Integration: liquid-outlet', function (hooks) {
 
   test('it should support dynamic class', async function (assert) {
     this.set('power', 'sparkly');
-    await render(hbs`{{liquid-outlet class=power}}`);
+    await render(hbs`{{liquid-outlet class=this.power}}`);
     assert
       .dom('.liquid-container.sparkly')
       .exists({ count: 1 }, 'found dynamic class');
@@ -145,7 +145,7 @@ module('Integration: liquid-outlet', function (hooks) {
     let tmap = this.owner.lookup('service:liquid-fire-transitions');
     sinon.spy(tmap, 'transitionFor');
     await render(
-      hbs`<SetRoute @outletState={{this.outletState}}>{{liquid-outlet watchModels=true}}</SetRoute>`
+      hbs`<SetRoute @outletState={{this.outletState}}><LiquidOutlet @watchModels={{true}}/></SetRoute>`
     );
     this.setState(state);
     assert.dom('.content').hasText('1');
@@ -173,21 +173,21 @@ module('Integration: liquid-outlet', function (hooks) {
     });
 
     this.setState(state);
-    assert.dom('*').hasText('ACDEB');
+    assert.dom().hasText('ACDEB');
     state.setChild('a', { template: hbs`foo` });
     this.setState(state);
-    assert.dom('*').hasText('ACfooDEB');
+    assert.dom().hasText('ACfooDEB');
   });
 
   test('outlets inside {{liquid-bind}}', async function (assert) {
     this.set('thing', 'Goodbye');
     this.setState(this.makeRoute({ template: hbs`Hello` }));
     await render(
-      hbs`<SetRoute @outletState={{this.outletState}}>{{#liquid-bind thing as |thingVersion|}}{{thingVersion}}{{outlet}}{{/liquid-bind}}</SetRoute>`
+      hbs`<SetRoute @outletState={{this.outletState}}>{{#liquid-bind this.thing as |thingVersion|}}{{thingVersion}}{{outlet}}{{/liquid-bind}}</SetRoute>`
     );
-    assert.dom('*').hasText('GoodbyeHello');
+    assert.dom().hasText('GoodbyeHello');
     this.set('thing', 'Other');
     this.setState(this.makeRoute({ template: hbs`Purple` }));
-    assert.dom('*').hasText('OtherPurple');
+    assert.dom().hasText('OtherPurple');
   });
 });

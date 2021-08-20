@@ -17,7 +17,7 @@ export default Mixin.create({
 
   transitionMap: service('liquid-fire-transitions'),
 
-  animateGrowth: function (elt, have, want) {
+  animateGrowth(elt, have, want) {
     this.transitionMap.incrementRunningTransitions();
     let adaptations = [];
 
@@ -34,7 +34,7 @@ export default Mixin.create({
     });
   },
 
-  _adaptDimension: function (elt, dimension, have, want) {
+  _adaptDimension(elt, dimension, have, want) {
     if (have[dimension] === want[dimension]) {
       return Promise.resolve();
     }
@@ -51,7 +51,7 @@ export default Mixin.create({
     });
   },
 
-  _delayFor: function (before, after) {
+  _delayFor(before, after) {
     if (before > after) {
       return this.shrinkDelay || this.constructor.prototype.shrinkDelay;
     }
@@ -59,7 +59,7 @@ export default Mixin.create({
     return this.growDelay || this.constructor.prototype.growDelay;
   },
 
-  _durationFor: function (before, after) {
+  _durationFor(before, after) {
     return Math.min(
       this.growDuration || this.constructor.prototype.growDuration,
       (1000 * Math.abs(before - after)) /

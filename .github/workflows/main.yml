@@ -45,10 +45,13 @@ jobs:
       fail-fast: false
       matrix:
         ember-try-scenario:
+          - ember-lts-3.16
           - ember-lts-3.20
-          - ember-release
-          - ember-beta
-          - ember-canary
+          # TODO: ember-release does not work if you have any global Ember left
+          # - ember-release
+          # TODO: we need to remove named outlets for beta and canary compatibility
+          # - ember-beta
+          # - ember-canary
           - ember-default-with-jquery
           - ember-classic
 

@@ -50,7 +50,6 @@
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.1",
     "ember-code-snippet": "^2.4.2",
-    "ember-composable-helpers": "^4.5.0",
     "ember-disable-prototype-extensions": "^1.1.3",
     "ember-export-application-global": "^2.0.1",
     "ember-load-initializers": "^2.1.2",
@@ -58,18 +57,17 @@
     "ember-page-title": "^6.0.3",
     "ember-qunit": "^5.1.1",
     "ember-resolver": "^8.0.2",
-    "ember-set-helper": "^2.0.1",
-    "ember-sinon": "^4.0.0",
+    "ember-sinon": "^5.0.0",
     "ember-source": "~3.24.0",
     "ember-source-channel-url": "^3.0.0",
     "ember-template-lint": "^3.6.0",
     "ember-try": "^1.4.0",
     "eslint": "^7.32.0",
-    "eslint-config-prettier": "^7.1.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-ember": "^10.1.1",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.3.1",
-    "fastboot": "^2.0.3",
+    "eslint-plugin-prettier": "^3.4.1",
+    "fastboot": "^3.1.2",
     "git-repo-info": "^2.1.1",
     "github": "git://github.com/mikedeboer/node-github#ca90bf27d5820812c3b76908189d666446ed97cd",
     "jsdom": "^16.7.0",
@@ -82,6 +80,11 @@
     "qunit-dom": "^1.6.0",
     "rsvp": "^4.8.5",
     "sass": "^1.38.0"
+  },
+  "resolutions": {
+    "ember-cli-moment-shim": "3.8.0",
+    "moment": "2.24.0",
+    "ember-cli-moment-shim/moment": "2.24.0"
   },
   "keywords": [
     "ember-addon"

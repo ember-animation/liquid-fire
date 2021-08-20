@@ -3,7 +3,7 @@ import { guidFor } from '@ember/object/internals';
 import Service from '@ember/service';
 import { getOwner } from '@ember/application';
 import Ember from 'ember';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 class RouteInfo {
   constructor(builder, { template, controller, name }, owner) {
@@ -64,7 +64,7 @@ try {
 
 export const SetRouteComponent = Component.extend({
   tagName: '',
-  layout: hbs`{{#-with-dynamic-vars outletState=outletState}}{{yield}}{{/-with-dynamic-vars}}`,
+  layout: hbs`{{#-with-dynamic-vars outletState=this.outletState}}{{yield}}{{/-with-dynamic-vars}}`,
   didReceiveAttrs() {
     this._super();
     // before glimmer2, outlets aren't really data-down. We need to

@@ -4,7 +4,7 @@ import { render, findAll } from '@ember/test-helpers';
 import { testingKick } from 'liquid-fire/mutation-observer';
 import LiquidSpacer from 'liquid-fire/components/liquid-spacer';
 import sinon from 'sinon';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 let tmap;
 
@@ -25,7 +25,7 @@ module('Integration: liquid-spacer', function (hooks) {
       'component:x-spacer',
       LiquidSpacer.extend({
         didInsertElement() {
-          this._super();
+          this._super(...arguments);
           theSpacer = this;
         },
       })
@@ -34,7 +34,7 @@ module('Integration: liquid-spacer', function (hooks) {
     await render(hbs`
                  <div style="width: 20em">
                  {{#x-spacer id="my-spacer" growDuration=1 }}
-                   {{message}}
+                   {{this.message}}
                  {{/x-spacer}}
                  </div>
                 `);
@@ -69,12 +69,12 @@ module('Integration: liquid-spacer', function (hooks) {
                     padding: 2px;
                     margin: 4px;
                     border: 1px solid black;
-                    box-sizing: {{boxSizing}};
+                    box-sizing: {{this.boxSizing}};
                  }
                  </style>
                  <div style="width: 20em">
                  {{#liquid-spacer id="my-spacer" growDuration=1 }}
-                   {{message}}
+                   {{this.message}}
                  {{/liquid-spacer}}
                  </div>
                  `);
