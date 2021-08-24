@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - master
+      - re-stabilize
     tags:
       - v*
 
