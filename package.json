@@ -5,9 +5,12 @@
   "scripts": {
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
+    "lint": "npm-run-all --aggregate-output --continue-on-error --parallel \"lint:!(fix)\"",
+    "lint:fix": "npm-run-all --aggregate-output --continue-on-error --parallel lint:*:fix",
     "start": "ember serve",
-    "test": "ember test",
-    "test:all": "ember try:each",
+    "test": "npm-run-all lint test:*",
+    "test:ember": "ember test",
+    "test:ember-compatibility": "ember try:each",
     "build": "ember build",
     "test:fastboot": "qunit fastboot-tests"
   },
@@ -64,6 +67,7 @@
     "jsdom": "^15.1.0",
     "loader.js": "^4.7.0",
     "ncp": "^2.0.0",
+    "npm-run-all": "^4.1.5",
     "prember": "1.0.2",
     "qunit-dom": "^0.8.4",
     "qunitjs": "^2.4.1",
