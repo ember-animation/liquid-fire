@@ -3,7 +3,7 @@ import { guidFor } from '@ember/object/internals';
 import Service from '@ember/service';
 import { getOwner } from '@ember/application';
 import Ember from 'ember';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 class RouteInfo {
   constructor(builder, { template, controller, name }, owner) {

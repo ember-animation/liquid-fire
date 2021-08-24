@@ -4,7 +4,7 @@ import { render, findAll } from '@ember/test-helpers';
 import { testingKick } from "liquid-fire/mutation-observer";
 import LiquidSpacer from "liquid-fire/components/liquid-spacer";
 import sinon from 'sinon';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 let tmap;
 

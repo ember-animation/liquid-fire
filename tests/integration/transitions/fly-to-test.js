@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from "ember-qunit";
 import '@ember/test-helpers';
 import $ from 'jquery';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 let tmap;
 

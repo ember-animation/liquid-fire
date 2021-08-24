@@ -3,7 +3,7 @@ import { setupRenderingTest } from "ember-qunit";
 import { render } from '@ember/test-helpers';
 import sinon from 'sinon';
 import { module, test } from "qunit";
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration: liquid-bind', function(hooks) {
   setupRenderingTest(hooks);
