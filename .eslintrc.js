@@ -30,7 +30,7 @@ module.exports = {
     'ember/no-new-mixins': 'off',
     'ember/no-old-shims': 'error',
     'ember/new-module-imports': 'error',
-    'ember/no-jquery': 'warn',
+    'ember/no-jquery': 'off',
     'ember/no-mixins': 'off',
     'ember/no-side-effects': 'error',
     'ember/require-return-from-computed': 'off',
