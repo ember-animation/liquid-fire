@@ -45,14 +45,16 @@ jobs:
       fail-fast: false
       matrix:
         ember-try-scenario:
+          - ember-lts-3.8
+          - ember-lts-3.12
           - ember-lts-3.16
           - ember-lts-3.20
+          - ember-3.24
           # TODO: ember-release does not work if you have any global Ember left
           # - ember-release
           # TODO: we need to remove named outlets for beta and canary compatibility
           # - ember-beta
           # - ember-canary
-          - ember-default-with-jquery
           - ember-classic
 
     steps:
@@ -64,4 +66,3 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: test
         run: node_modules/.bin/ember try:one ${{ matrix.ember-try-scenario }} --skip-cleanup
-            

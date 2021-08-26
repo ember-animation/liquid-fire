@@ -51,7 +51,12 @@ module('Acceptance: Scenarios', function (hooks) {
 
     await waitUntil(
       function () {
-        return findAll('.child-one-a').length === 2;
+        let twos = findAll('.child-two');
+        return (
+          twos.length === 2 &&
+          twos.filter((elt) => getComputedStyle(elt).visibility === 'visible')
+            .length === 1
+        );
       },
       { timeout: 2000 }
     );
@@ -70,13 +75,6 @@ module('Acceptance: Scenarios', function (hooks) {
         { visibility: 'visible' },
         'nested children of clone are visible'
       );
-
-    await waitUntil(
-      function () {
-        return findAll('.child-two').length === 2;
-      },
-      { timeout: 2000 }
-    );
 
     let [twoFirst, twoSecond] = [...document.querySelectorAll('.child-two')];
     assert
