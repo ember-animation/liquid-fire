@@ -39,6 +39,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test('matches source & destination routes', function (assert) {
+    assert.expect(5);
+
     t.map(function () {
       this.transition(
         this.fromRoute('one'),
@@ -54,6 +56,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test('matches just source route', function (assert) {
+    assert.expect(4);
+
     t.map(function () {
       this.transition(this.fromRoute('one'), this.use(dummyAction));
     });
@@ -65,6 +69,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test('matches just destination route', function (assert) {
+    assert.expect(4);
+
     t.map(function () {
       this.transition(this.toRoute('two'), this.use(dummyAction));
     });
@@ -90,6 +96,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test('matches lists of routes', function (assert) {
+    assert.expect(3);
+
     t.map(function () {
       this.transition(
         this.toRoute(['one', 'two', 'three']),
@@ -103,6 +111,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test('matches empty source route', function (assert) {
+    assert.expect(2);
+
     t.map(function () {
       this.transition(
         this.fromRoute(null),
@@ -116,6 +126,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test('matches source & destination values', function (assert) {
+    assert.expect(5);
+
     t.map(function () {
       this.transition(
         this.fromValue(function (model) {
@@ -157,6 +169,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test('matches source & destination models', function (assert) {
+    assert.expect(5);
+
     t.map(function () {
       this.transition(
         this.fromModel(function (model) {
@@ -198,6 +212,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test('skips past partial route matches', function (assert) {
+    assert.expect(1);
+
     t.map(function () {
       this.transition(
         this.fromRoute('one'),
@@ -215,6 +231,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test('skips past partial context matches', function (assert) {
+    assert.expect(1);
+
     t.map(function () {
       this.transition(
         this.fromValue('one'),
@@ -232,6 +250,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test('skips to default route', function (assert) {
+    assert.expect(1);
+
     t.map(function () {
       this.transition(
         this.fromRoute('x'),
@@ -245,6 +265,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test('matching context takes precedence over default', function (assert) {
+    assert.expect(1);
+
     t.map(function () {
       this.transition(this.use(otherAction));
       this.transition(
@@ -259,6 +281,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test('matches between models', function (assert) {
+    assert.expect(5);
+
     t.map(function () {
       this.transition(
         this.betweenModels(function (model) {
@@ -295,6 +319,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test('can target empty routes', function (assert) {
+    assert.expect(2);
+
     t.map(function () {
       this.transition(
         this.fromRoute(null),
@@ -307,6 +333,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test('can target empty model', function (assert) {
+    assert.expect(2);
+
     t.map(function () {
       this.transition(this.fromModel(null), this.use(dummyAction));
     });
@@ -314,6 +342,7 @@ module('Transitions DSL', function (hooks) {
     expectNoAnimation(assert, models({}, {}), 'should not match');
   });
 
+  // eslint-disable-next-line qunit/resolve-async
   test('passes arguments through to transitions', function (assert) {
     let done = assert.async();
     assert.expect(3);
@@ -339,6 +368,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test('combines multiple value constraints', function (assert) {
+    assert.expect(3);
+
     let Pet = EmberObject.extend();
 
     t.map(function () {
@@ -372,6 +403,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test('matches reverse routes', function (assert) {
+    assert.expect(2);
+
     t.map(function () {
       this.transition(
         this.fromRoute('one'),
@@ -386,6 +419,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test("doesn't match initial render by default", function (assert) {
+    assert.expect(1);
+
     t.map(function () {
       this.transition(this.toRoute('two'), this.use(dummyAction));
     });
@@ -395,6 +430,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test('matches initial render when asked explicitly', function (assert) {
+    assert.expect(1);
+
     t.map(function () {
       this.transition(
         this.toRoute('two'),
@@ -408,6 +445,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test('matches routes by regex', function (assert) {
+    assert.expect(1);
+
     t.map(function () {
       this.transition(this.withinRoute(/^foo/), this.use(dummyAction));
     });
@@ -415,6 +454,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test('matches routes by outletName', function (assert) {
+    assert.expect(1);
+
     t.map(function () {
       this.transition(this.outletName('panel'), this.use(dummyAction));
     });
@@ -425,6 +466,8 @@ module('Transitions DSL', function (hooks) {
   });
 
   test('matches media', function (assert) {
+    assert.expect(1);
+
     t.map(function () {
       this.transition(
         this.toRoute('two'),

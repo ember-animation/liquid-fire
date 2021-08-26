@@ -20,6 +20,8 @@ module('Integration: liquid-spacer', function (hooks) {
   });
 
   test('it should animate', async function (assert) {
+    assert.expect(1);
+
     let theSpacer;
     this.owner.register(
       'component:x-spacer',

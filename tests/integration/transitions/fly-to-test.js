@@ -40,18 +40,10 @@ module('Integration: fly-to transition', function (hooks) {
             pickNew: '.bluebox',
             use: function () {
               // sanity checks
+              assert.equal(this.oldElement?.length, 1, 'found old element');
+              assert.equal(this.newElement?.length, 1, 'found new element');
               assert.equal(
-                this.oldElement && this.oldElement.length,
-                1,
-                'found old element'
-              );
-              assert.equal(
-                this.newElement && this.newElement.length,
-                1,
-                'found new element'
-              );
-              assert.equal(
-                this.oldElement && this.oldElement.css('background-color'),
+                this.oldElement?.css('background-color'),
                 'rgb(255, 0, 0)'
               );
 
@@ -104,18 +96,10 @@ module('Integration: fly-to transition', function (hooks) {
             pickNew: '.yellowbox',
             use: function () {
               // sanity checks
+              assert.equal(this.oldElement?.length, 1, 'found old element');
+              assert.equal(this.newElement?.length, 1, 'found new element');
               assert.equal(
-                this.oldElement && this.oldElement.length,
-                1,
-                'found old element'
-              );
-              assert.equal(
-                this.newElement && this.newElement.length,
-                1,
-                'found new element'
-              );
-              assert.equal(
-                this.oldElement && this.oldElement.css('background-color'),
+                this.oldElement?.css('background-color'),
                 'rgb(0, 128, 0)'
               );
 

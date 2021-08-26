@@ -61,8 +61,8 @@ module('Integration: explode transition', function (hooks) {
         this.hasClass('explode-transition-test'),
         this.use('explode', {
           use: function () {
-            assert.ok(this.oldElement && this.oldElement.is('.liquid-child'));
-            assert.ok(this.newElement && this.newElement.is('.liquid-child'));
+            assert.ok(this.oldElement?.is('.liquid-child'));
+            assert.ok(this.newElement?.is('.liquid-child'));
             return resolve();
           },
         })
@@ -133,14 +133,8 @@ module('Integration: explode transition', function (hooks) {
         this.use('explode', {
           pick: 'h1',
           use: function () {
-            assert.equal(
-              this.oldElement && this.oldElement.text(),
-              'Old Title'
-            );
-            assert.equal(
-              this.newElement && this.newElement.text(),
-              'New Title'
-            );
+            assert.equal(this.oldElement?.text(), 'Old Title');
+            assert.equal(this.newElement?.text(), 'New Title');
             return resolve();
           },
         })
@@ -166,14 +160,8 @@ module('Integration: explode transition', function (hooks) {
           pickOld: 'h1',
           pickNew: 'h2',
           use: function () {
-            assert.equal(
-              this.oldElement && this.oldElement.text(),
-              'Old Title'
-            );
-            assert.equal(
-              this.newElement && this.newElement.text(),
-              'New Title'
-            );
+            assert.equal(this.oldElement?.text(), 'Old Title');
+            assert.equal(this.newElement?.text(), 'New Title');
             return resolve();
           },
         })
@@ -198,11 +186,8 @@ module('Integration: explode transition', function (hooks) {
         this.use('explode', {
           pickOld: 'h1',
           use: function () {
-            assert.equal(
-              this.oldElement && this.oldElement.text(),
-              'Old Title'
-            );
-            assert.ok(!this.newElement, 'Should be no new element');
+            assert.equal(this.oldElement?.text(), 'Old Title');
+            assert.notOk(this.newElement, 'Should be no new element');
             return resolve();
           },
         })
@@ -227,11 +212,8 @@ module('Integration: explode transition', function (hooks) {
         this.use('explode', {
           pickNew: 'h1',
           use: function () {
-            assert.equal(
-              this.newElement && this.newElement.text(),
-              'New Title'
-            );
-            assert.ok(!this.oldElement, 'Should be no old element');
+            assert.equal(this.newElement?.text(), 'New Title');
+            assert.notOk(this.oldElement, 'Should be no old element');
             return resolve();
           },
         })
@@ -260,10 +242,7 @@ module('Integration: explode transition', function (hooks) {
             let newText = this.newElement && this.newElement.text();
             assert.ok(/Old/.test(oldText), 'old text');
             assert.ok(/New/.test(newText), 'new text');
-            assert.equal(
-              oldText && oldText.slice(4),
-              newText && newText.slice(4)
-            );
+            assert.equal(oldText?.slice(4), newText?.slice(4));
             return resolve();
           },
         })
@@ -350,8 +329,8 @@ module('Integration: explode transition', function (hooks) {
                 this.oldElement,
                 'expected old element with class=early'
               );
-              assert.ok(
-                !this.newElement,
+              assert.notOk(
+                this.newElement,
                 'expected no new element with class=early'
               );
               return resolve();
@@ -360,8 +339,8 @@ module('Integration: explode transition', function (hooks) {
           {
             pick: '.late',
             use: function () {
-              assert.ok(
-                !this.oldElement,
+              assert.notOk(
+                this.oldElement,
                 'expected old element with class=late to already match elsewhere'
               );
               assert.ok(
@@ -425,10 +404,7 @@ module('Integration: explode transition', function (hooks) {
             let newText = this.newElement && this.newElement.text();
             assert.ok(/Old/.test(oldText), 'old text');
             assert.ok(/New/.test(newText), 'new text');
-            assert.equal(
-              oldText && oldText.slice(4),
-              newText && newText.slice(4)
-            );
+            assert.equal(oldText?.slice(4), newText?.slice(4));
             return resolve();
           },
         })
@@ -451,6 +427,8 @@ module('Integration: explode transition', function (hooks) {
 
   ['border-box', 'content-box'].forEach(function (boxSizing) {
     test(`it avoids a jump at start of animation, with absolutely positioned elements (${boxSizing})`, async function (assert) {
+      assert.expect(9);
+
       let didTransition = false;
       tmap.map(function () {
         this.transition(
@@ -460,18 +438,10 @@ module('Integration: explode transition', function (hooks) {
             pickNew: '.bluebox',
             use: function () {
               // sanity checks
+              assert.equal(this.oldElement?.length, 1, 'found old element');
+              assert.equal(this.newElement?.length, 1, 'found new element');
               assert.equal(
-                this.oldElement && this.oldElement.length,
-                1,
-                'found old element'
-              );
-              assert.equal(
-                this.newElement && this.newElement.length,
-                1,
-                'found new element'
-              );
-              assert.equal(
-                this.oldElement && this.oldElement.css('background-color'),
+                this.oldElement?.css('background-color'),
                 'rgb(255, 0, 0)'
               );
 
@@ -526,6 +496,8 @@ module('Integration: explode transition', function (hooks) {
     });
 
     test(`it avoids a jump at start of animation, with statically positioned elements (${boxSizing})`, async function (assert) {
+      assert.expect(9);
+
       let didTransition = false;
       tmap.map(function () {
         this.transition(
@@ -535,18 +507,10 @@ module('Integration: explode transition', function (hooks) {
             pickNew: '.yellowbox',
             use: function () {
               // sanity checks
+              assert.equal(this.oldElement?.length, 1, 'found old element');
+              assert.equal(this.newElement?.length, 1, 'found new element');
               assert.equal(
-                this.oldElement && this.oldElement.length,
-                1,
-                'found old element'
-              );
-              assert.equal(
-                this.newElement && this.newElement.length,
-                1,
-                'found new element'
-              );
-              assert.equal(
-                this.oldElement && this.oldElement.css('background-color'),
+                this.oldElement?.css('background-color'),
                 'rgb(0, 128, 0)'
               );
 
