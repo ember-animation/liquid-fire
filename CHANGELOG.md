@@ -1,5 +1,9 @@
 # Changelog
 
+## master
+ - BREAKING: drop node 8 support
+ - BREAKING: drop ember versions prior to 3.8
+
 ## 0.31.0 (2019-10-16)
  - BUGFIX: make liquid-spacer observe window size changes, by @mattdonnelly
  - HOUSEKEEPING: remove dependency on old version of ember-copy, by @jherdman
