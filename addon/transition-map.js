@@ -17,7 +17,8 @@ let TransitionMap = Service.extend({
     this.activeCount = 0;
     this.constraints = new Constraints();
     let owner = getOwner(this);
-    this.isTest = owner.resolveRegistration('config:environment').environment === 'test'
+    this.isTest =
+      owner.resolveRegistration('config:environment').environment === 'test';
     let config;
     if (owner.factoryFor) {
       let maybeConfig = owner.factoryFor('transitions:main');
