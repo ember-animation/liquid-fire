@@ -1,20 +1,50 @@
-<h2>Initial Render Constraints</h2>
+<h2>
+  Initial Render Constraints
+</h2>
 
-<p>By default, we do not animate during the initial render of any of
-the liquid fire helpers. But you can choose to.</p>
+<p>
+  By default, we do not animate during the initial render of any of
+the liquid fire helpers. But you can choose to.
+</p>
 
 <dl class="dl-horizontal">
-  <dt>onInitialRender</dt>
+  <dt>
+    onInitialRender
+  </dt>
   <dd>
-    <p>Include this in a transition rule (<code>this.onInitialRender()</code>) to make the rule match only during the initial render of one of our template helpers.</p>
+    <p>
+      Include this in a transition rule (
+      <code>
+        this.onInitialRender()
+      </code>
+      ) to make the rule match only during the initial render of one of our template helpers.
+    </p>
   </dd>
 
-  <dt>includingInitialRender</dt>
+  <dt>
+    includingInitialRender
+  </dt>
   <dd>
-    <p>Include this in a transition rule (<code>this.includingInitialRender()</code>) to make the rule match during the initial render <em>and</em> subsequent renders.</p>
+    <p>
+      Include this in a transition rule (
+      <code>
+        this.includingInitialRender()
+      </code>
+      ) to make the rule match during the initial render
+      <em>
+        and
+      </em>
+      subsequent renders.
+    </p>
   </dd>
 </dl>
 
-<p>These two methods are different from all the other rule
-constraints in the sense that they <em>remove</em> a constraint that
-is present by default rather than imposing new constraints.</p>
+<p>
+  These two methods are different from all the other rule
+constraints in the sense that they
+  <em>
+    remove
+  </em>
+  a constraint that
+is present by default rather than imposing new constraints.
+</p>

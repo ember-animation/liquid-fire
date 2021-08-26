@@ -3,12 +3,11 @@ import Controller from '@ember/controller';
 export default Controller.extend({
   otherState: false,
 
-  myThing: computed('otherState', function() {
-    if (this.get('otherState')) {
-      return EmberObject.create({description: 'Foo'});
+  myThing: computed('otherState', function () {
+    if (this.otherState) {
+      return EmberObject.create({ description: 'Foo' });
     } else {
-      return EmberObject.create({description: 'Bar baz qux'});
+      return EmberObject.create({ description: 'Bar baz qux' });
     }
-  })
-
+  }),
 });

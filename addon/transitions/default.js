@@ -1,4 +1,4 @@
-import { Promise } from "liquid-fire";
+import { Promise } from 'liquid-fire';
 
 // This is what we run when no animation is asked for. It just sets
 // the newly-added element to visible (because we always start them
@@ -6,7 +6,7 @@ import { Promise } from "liquid-fire";
 // appearance).
 export default function defaultTransition() {
   if (this.newElement) {
-    this.newElement.css({visibility: ''});
+    this.newElement.css({ visibility: '' });
   }
   return Promise.resolve();
 }

@@ -1,5 +1,5 @@
 module.exports = {
   globals: {
-    Person: false
-  }
+    Person: false,
+  },
 };

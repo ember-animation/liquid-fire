@@ -1,1 +1,1 @@
-export { default } from "liquid-fire/components/liquid-outlet";
+export { default } from 'liquid-fire/components/liquid-outlet';

@@ -2,15 +2,15 @@
 
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
-module.exports = function(defaults) {
+module.exports = function (defaults) {
   let app = new EmberAddon(defaults, {
     sassOptions: {
-      includePaths: 'node_modules/bootstrap/scss'
+      includePaths: 'node_modules/bootstrap/scss',
     },
     snippetPaths: ['tests/dummy/snippets'],
     snippetSearchPaths: ['app', 'tests/dummy/app', 'addon'],
     trees: {
-      'public': 'tests/dummy/public'
+      public: 'tests/dummy/public',
     },
     prember: {
       // GitHub Pages uses this filename to serve 404s
@@ -39,9 +39,9 @@ module.exports = function(defaults) {
         '/transitions/predefined',
         '/transitions/explode',
         '/transitions/defining',
-        '/transitions/primitives'
-      ]
-    }
+        '/transitions/primitives',
+      ],
+    },
   });
 
   return app.toTree();

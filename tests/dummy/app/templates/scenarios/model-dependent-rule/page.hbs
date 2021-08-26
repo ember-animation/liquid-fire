@@ -1,3 +1,3 @@
-This is page {{model.id}}.
-{{#link-to "scenarios.model-dependent-rule.other" (num-plus model.id -1)}}Previous{{/link-to}}
-{{#link-to "scenarios.model-dependent-rule.other" (num-plus model.id 1)}}Next{{/link-to}}
+This is page {{this.model.id}}.
+<LinkTo @route="scenarios.model-dependent-rule.other" @model={{num-plus this.model.id -1}}>Previous</LinkTo>
+<LinkTo @route="scenarios.model-dependent-rule.other" @model={{num-plus this.model.id 1}}>Next</LinkTo>

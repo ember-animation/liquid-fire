@@ -1,10 +1,10 @@
-<button {{action "addThing"   }}>More Things</button>
-<button {{action "removeThing"}}>Less Things</button>
+<button type="button" {{action "addThing"   }}>More Things</button>
+<button type="button" {{action "removeThing"}}>Less Things</button>
 
-{{#liquid-spacer id="spacer-test"}}
+<LiquidSpacer @id="spacer-test">
   <ol>
-  {{#each things key="number" as |thing|}}
+  {{#each this.things key="number" as |thing|}}
     <li>{{thing.number}}</li>
   {{/each}}
   </ol>
-{{/liquid-spacer}}
+</LiquidSpacer>

@@ -3,17 +3,17 @@ import Controller from '@ember/controller';
 export default Controller.extend({
   counter: 0,
 
-  init(){
+  init() {
     this._super(...arguments);
     this.interval = setInterval(() => this.tick(), 1000);
     this.tick();
   },
 
-  willDestroy: function(){
+  willDestroy: function () {
     clearInterval(this.interval);
   },
 
-  tick: function(){
-    this.set('counter', this.get('counter') + 1);
-  }
+  tick: function () {
+    this.set('counter', this.counter + 1);
+  },
 });

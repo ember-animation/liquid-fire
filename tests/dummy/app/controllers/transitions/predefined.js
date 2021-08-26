@@ -8,8 +8,8 @@ export default Controller.extend({
     toggleDetail() {
       this.toggleProperty('showDetail');
     },
-    changeTab(tabName){
+    changeTab(tabName) {
       this.set('activeTab', tabName);
-    }
-  }
+    },
+  },
 });

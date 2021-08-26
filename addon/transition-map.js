@@ -1,13 +1,14 @@
+/* eslint-disable ember/no-legacy-test-waiters */
 import { registerWaiter, unregisterWaiter } from '@ember/test';
 import { Promise as EmberPromise } from 'rsvp';
 import { next } from '@ember/runloop';
 import { getOwner } from '@ember/application';
 import Service from '@ember/service';
 import { DEBUG } from '@glimmer/env';
-import RunningTransition from "./running-transition";
-import DSL from "./dsl";
-import Action from "./action";
-import Constraints from "./constraints";
+import RunningTransition from './running-transition';
+import DSL from './dsl';
+import Action from './action';
+import Constraints from './constraints';
 
 let TransitionMap = Service.extend({
   init() {
@@ -48,12 +49,12 @@ let TransitionMap = Service.extend({
     if (this._waitingPromise) {
       return this._waitingPromise;
     }
-    return this._waitingPromise = new EmberPromise((resolve) => {
+    return (this._waitingPromise = new EmberPromise((resolve) => {
       this._resolveWaiting = resolve;
       next(() => {
         this._maybeResolveIdle();
       });
-    });
+    }));
   },
 
   _maybeResolveIdle() {
@@ -75,7 +76,7 @@ let TransitionMap = Service.extend({
       handler = owner._lookupFactory('transition:' + transitionName);
     }
     if (!handler) {
-      throw new Error("unknown transition name: " + transitionName);
+      throw new Error('unknown transition name: ' + transitionName);
     }
     return handler;
   },
@@ -113,13 +114,12 @@ let TransitionMap = Service.extend({
     return new RunningTransition(this, conditions.versions, action);
   },
 
-
   map(handler, constraints) {
-    if (handler){
+    if (handler) {
       handler.apply(new DSL(this, constraints || this.constraints));
     }
     return this;
-  }
+  },
 });
 
 if (DEBUG) {
@@ -142,7 +142,7 @@ if (DEBUG) {
       }
 
       this._super(...arguments);
-    }
+    },
   });
 }
 
@@ -151,8 +151,7 @@ TransitionMap.reopenClass({
     let t = TransitionMap.create();
     t.map(handler);
     return t;
-  }
+  },
 });
-
 
 export default TransitionMap;

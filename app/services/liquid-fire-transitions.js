@@ -1,2 +1,2 @@
-import TransitionMap from "liquid-fire/transition-map";
+import TransitionMap from 'liquid-fire/transition-map';
 export default TransitionMap;

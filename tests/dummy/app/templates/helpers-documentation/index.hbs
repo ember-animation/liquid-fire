@@ -1,112 +1,255 @@
-<h2>Template Helpers</h2>
+{{!-- template-lint-disable no-unbalanced-curlies --}}
+
+<h2>
+  Template Helpers
+</h2>
 
 <dl class="dl-horizontal">
-  <dt>{{#link-to "helpers-documentation.liquid-outlet"}}\{{#liquid-outlet}}{{/link-to}}</dt>
-  <dd>Transitions between routes.</dd>
+  <dt>
+    <LinkTo @route="helpers-documentation.liquid-outlet">
+      \{{#liquid-outlet}}
+    </LinkTo>
+  </dt>
+  <dd>
+    Transitions between routes.
+  </dd>
 
-  <dt>{{#link-to "helpers-documentation.liquid-bind"}}\{{#liquid-bind}}{{/link-to}}</dt>
-  <dd>Transitions between models or other values within a single route.</dd>
+  <dt>
+    <LinkTo @route="helpers-documentation.liquid-bind">
+      \{{#liquid-bind}}
+    </LinkTo>
+  </dt>
+  <dd>
+    Transitions between models or other values within a single route.
+  </dd>
 
-  <dt>{{#link-to "helpers-documentation.liquid-if"}}\{{#liquid-if}}{{/link-to}}</dt>
-  <dd>Switching between true and false branches in an #if statement.</dd>
+  <dt>
+    <LinkTo @route="helpers-documentation.liquid-if">
+      \{{#liquid-if}}
+    </LinkTo>
+  </dt>
+  <dd>
+    Switching between true and false branches in an #if statement.
+  </dd>
 
-  <dt>{{#link-to "helpers-documentation.liquid-spacer"}}\{{#liquid-spacer}}{{/link-to}}</dt>
-    <dd>Provides a smoothly growing/shrinking container that animates
-    whenever its contained DOM mutates.</dd>
-
+  <dt>
+    <LinkTo @route="helpers-documentation.liquid-spacer">
+      \{{#liquid-spacer}}
+    </LinkTo>
+  </dt>
+  <dd>
+    Provides a smoothly growing/shrinking container that animates
+    whenever its contained DOM mutates.
+  </dd>
 </dl>
 
-<h3>Common Behavior and Options</h3>
+<h3>
+  Common Behavior and Options
+</h3>
 
-<p>All of the above helpers share some core behaviors and
-options:</p>
+<p>
+  All of the above helpers share some core behaviors and
+options:
+</p>
 
 <ul>
-  <li>Each helper is a semantic drop-in replacement for the
-  corresponding normal Ember helper.</li>
+  <li>
+    Each helper is a semantic drop-in replacement for the
+  corresponding normal Ember helper.
+  </li>
 
-  <li><em>Except</em> they generate DOM elements:
+  <li>
+    <em>
+      Except
+    </em>
+    they generate DOM elements:
     <ul>
-      <li> a <code>&lt;div class="liquid-container"&gt;</code> to
+      <li>
+        a
+        <code>
+          &lt;div class="liquid-container"&gt;
+        </code>
+        to
         serve as a container for animations. It
-        is <code>position:relative</code> by default.</li>
+        is
+        <code>
+          position:relative
+        </code>
+        by default.
+      </li>
 
-      <li>a <code>&lt;div class="liquid-child"&gt;</code> to wrap the
+      <li>
+        a
+        <code>
+          &lt;div class="liquid-child"&gt;
+        </code>
+        to wrap the
         content and serve as a target for
-        animations.</li>
+        animations.
+      </li>
     </ul>
   </li>
 
-  <li>Whenever bound data updates, the helper consults the {{#link-to
-  "transition-map"}}transition map{{/link-to}} and decides whether to
-  animate the transition.</li>
+  <li>
+    Whenever bound data updates, the helper consults the
+    <LinkTo @route="transition-map">
+      transition map
+    </LinkTo>
+    and decides whether to
+  animate the transition.
+  </li>
 
-  <li>While animating, the <code>liquid-container</code> will
-  contain <code>liquid-children</code> for both the outgoing and
+  <li>
+    While animating, the
+    <code>
+      liquid-container
+    </code>
+    will
+  contain
+    <code>
+      liquid-children
+    </code>
+    for both the outgoing and
   incoming states (or possibly even more, if transitions interrupt
-  each other), and the {{#link-to
-  "transitions"}}transition{{/link-to}} has full control over
-  animating them.</li>
+  each other), and the
+    <LinkTo @route="transitions">
+      transition
+    </LinkTo>
+    has full control over
+  animating them.
+  </li>
 
-  <li>The <code>liquid-container</code> can animate it's own height
+  <li>
+    The
+    <code>
+      liquid-container
+    </code>
+    can animate it's own height
   and width to smoothly match the size difference between its old and
-  new content.</li>
+  new content.
+  </li>
 
-  <li>liquid-fire makes your content absolutely positioned <em>only
-  while needed</em> for running animations, and deals with holding
+  <li>
+    liquid-fire makes your content absolutely positioned
+    <em>
+      only
+  while needed
+    </em>
+    for running animations, and deals with holding
   your place in the normal document flow. This greatly simplifies the
-  problem of designing animation-friendly layouts.</li>
-
+  problem of designing animation-friendly layouts.
+  </li>
 </ul>
 
-<h4>Options</h4>
+<h4>
+  Options
+</h4>
 
 <dl>
-  <dt>class</dt>
-  <dd>You can pass both static and bound class names in the normal
-  Ember way. They will apply to the <code>liquid-container</code>
-  element.</dd>
-
-  <dt>use</dt>
-  <dd>Lets you provide a transition name directly
-    (example: <code>use="crossFade"</code>), skipping the transition
-    map. This is useful for the simplest cases in which you don't care
-    about context at all and always want to use the same
-    animation. The <code>use</code> will match all transitions except
-    the initial render. For more control, use the {{#link-to
-    "transition-map"}}transition map{{/link-to}}.
+  <dt>
+    class
+  </dt>
+  <dd>
+    You can pass both static and bound class names in the normal
+  Ember way. They will apply to the
+    <code>
+      liquid-container
+    </code>
+    element.
   </dd>
 
-  <dt>growDuration</dt>
+  <dt>
+    use
+  </dt>
+  <dd>
+    Lets you provide a transition name directly
+    (example:
+    <code>
+      use="crossFade"
+    </code>
+    ), skipping the transition
+    map. This is useful for the simplest cases in which you don't care
+    about context at all and always want to use the same
+    animation. The
+    <code>
+      use
+    </code>
+    will match all transitions except
+    the initial render. For more control, use the
+    <LinkTo @route="transition-map">
+      transition map
+    </LinkTo>
+    .
+  </dd>
+
+  <dt>
+    growDuration
+  </dt>
   <dd>
     The maximum amount of time to spend growing. For small changes, we
     may spend less than this time depending on
     growPixelsPerSecond. Defaults to 250 milliseconds.
   </dd>
 
-  <dt>growPixelsPerSecond</dt>
+  <dt>
+    growPixelsPerSecond
+  </dt>
   <dd>
     The minimum speed in at which we will grow. Defaults to 200 pixels
     per second. This lets us make small size adjustments in times
     shorter than a full growDuration.
   </dd>
 
-  <dt>growEasing</dt>
-  <dd>A Velocity <a href="http://julian.com/research/velocity/#easing">easing
-  function</a> to use when growing the container height and
-  width. Defaults to <code>'slide'</code>.</dd>
+  <dt>
+    growEasing
+  </dt>
+  <dd>
+    A Velocity
+    <a href="http://julian.com/research/velocity/#easing">
+      easing
+  function
+    </a>
+    to use when growing the container height and
+  width. Defaults to
+    <code>
+      'slide'
+    </code>
+    .
+  </dd>
 
-  <dt>shrinkDelay</dt>
-  <dd>A delay applied before the container shrinks in width or height.
-  Defaults to <code>0</code>.</dd>
+  <dt>
+    shrinkDelay
+  </dt>
+  <dd>
+    A delay applied before the container shrinks in width or height.
+  Defaults to
+    <code>
+      0
+    </code>
+    .
+  </dd>
 
-  <dt>growDelay</dt>
-  <dd>A delay applied before the container grows in width or height.
-  Defaults to <code>0</code>.</dd>
+  <dt>
+    growDelay
+  </dt>
+  <dd>
+    A delay applied before the container grows in width or height.
+  Defaults to
+    <code>
+      0
+    </code>
+    .
+  </dd>
 
-  <dt>enableGrowth</dt>
-  <dd>Whether the container should animate its own height and width
-  changes. Defaults to <code>true</code>.</dd>
-
-
+  <dt>
+    enableGrowth
+  </dt>
+  <dd>
+    Whether the container should animate its own height and width
+  changes. Defaults to
+    <code>
+      true
+    </code>
+    .
+  </dd>
 </dl>

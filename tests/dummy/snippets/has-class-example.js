@@ -1,4 +1,1 @@
-this.transition(
-  this.hasClass('magical'),
-  this.use('crossFade')
-);
+this.transition(this.hasClass('magical'), this.use('crossFade'));

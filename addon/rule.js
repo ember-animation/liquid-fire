@@ -1,6 +1,6 @@
 import { A } from '@ember/array';
-import Action from "./action";
-import Constraint from "./constraint";
+import Action from './action';
+import Constraint from './constraint';
 
 export default class Rule {
   constructor() {
@@ -16,7 +16,9 @@ export default class Rule {
         prop = 'reverse';
       }
       if (this[prop]) {
-        throw new Error(`More than one "${prop}" statement in the same transition rule is not allowed`);
+        throw new Error(
+          `More than one "${prop}" statement in the same transition rule is not allowed`
+        );
       }
       this[prop] = thing;
     } else if (thing === 'debug') {

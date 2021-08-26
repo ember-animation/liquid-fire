@@ -1,1 +1,1 @@
-export { default } from "liquid-fire/components/liquid-if";
+export { default } from 'liquid-fire/components/liquid-if';

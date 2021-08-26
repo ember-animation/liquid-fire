@@ -1,6 +1,6 @@
 /* jshint newcap: false */
-import Promise from "./promise";
-import Velocity from "velocity";
+import Promise from './promise';
+import Velocity from 'velocity';
 import { assign } from '@ember/polyfills';
 
 // Make sure Velocity always has promise support by injecting our own
@@ -36,32 +36,37 @@ export function animate(elt, props, opts, label) {
   // animated divs are all initially rendered with `display:none`
   // and `visibility:hidden` to prevent a flash of before-animated
   // content.
-  if (typeof(opts.display) === 'undefined') {
+  if (typeof opts.display === 'undefined') {
     opts.display = '';
   }
-  if (typeof(opts.visibility) === 'undefined') {
+  if (typeof opts.visibility === 'undefined') {
     opts.visibility = '';
   }
 
   if (opts.progress) {
-    throw new Error("liquid-fire's 'animate' function reserves the use of Velocity's 'progress' option for its own nefarious purposes.");
+    throw new Error(
+      "liquid-fire's 'animate' function reserves the use of Velocity's 'progress' option for its own nefarious purposes."
+    );
   }
 
-  opts.progress = function(){
+  opts.progress = function () {
     state.percentComplete = arguments[1];
     state.timeRemaining = arguments[2];
-    state.timeSpent = state.timeRemaining / (1/state.percentComplete - 1);
+    state.timeSpent = state.timeRemaining / (1 / state.percentComplete - 1);
   };
 
   state.promise = Promise.resolve(Velocity.animate(elt[0], props, opts));
 
   if (label) {
-    state.promise = state.promise.then(function(){
-      clearLabel(elt, label);
-    }, function(err) {
-      clearLabel(elt, label);
-      throw err;
-    });
+    state.promise = state.promise.then(
+      function () {
+        clearLabel(elt, label);
+      },
+      function (err) {
+        clearLabel(elt, label);
+        throw err;
+      }
+    );
     applyLabel(elt, label, state);
   }
 
@@ -78,7 +83,11 @@ export function setDefaults(props) {
   for (let key in props) {
     if (props.hasOwnProperty(key)) {
       if (key === 'progress') {
-        throw new Error("liquid-fire's 'animate' function reserves the use of Velocity's '" + key + "' option for its own nefarious purposes.");
+        throw new Error(
+          "liquid-fire's 'animate' function reserves the use of Velocity's '" +
+            key +
+            "' option for its own nefarious purposes."
+        );
       }
       Velocity.defaults[key] = props[key];
     }
@@ -101,17 +110,16 @@ export function timeRemaining(elt, animationLabel) {
   return stateForLabel(elt, animationLabel).timeRemaining;
 }
 
-
 function stateForLabel(elt, label) {
   let state = isAnimating(elt, label);
   if (!state) {
-    throw new Error("no animation labeled " + label + " is in progress");
+    throw new Error('no animation labeled ' + label + ' is in progress');
   }
   return state;
 }
 
 function applyLabel(elt, label, state) {
-  if (elt){
+  if (elt) {
     elt.data('lfTags_' + label, state);
   }
 }
