@@ -1,5 +1,3 @@
 {{#let (get-code-snippet @name) as |snippet|}}
-  <CodeBlock @language={{snippet.language}}>
-    {{snippet.source}}
-  </CodeBlock>
+  <CodeBlock @language={{snippet.language}} @code={{snippet.source}}/>
 {{/let}}
