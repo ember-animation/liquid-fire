@@ -1,52 +1,129 @@
-<h2>Route Constraints</h2>
+{{!-- template-lint-disable no-unbalanced-curlies --}}
 
-<p>The following three constraints apply to route names. They will only work with <code>\{{liquid-outlet}}</code> because only <code>\{{liquid-outlet}}</code> has visibility into routes. (The other helpers like <code>\{{liquid-if}}</code>) don't know anything about routes.)</p>
+<h2>
+  Route Constraints
+</h2>
+
+<p>
+  The following three constraints apply to route names. They will only work with
+  <code>
+    \{{liquid-outlet}}
+  </code>
+  because only
+  <code>
+    \{{liquid-outlet}}
+  </code>
+  has visibility into routes. (The other helpers like
+  <code>
+    \{{liquid-if}}
+  </code>
+  ) don't know anything about routes.)
+</p>
 
 <dl class="dl-horizontal">
-  <dt>fromRoute</dt>
-  <dd>Matches the route name at the start of a transition.</dd>
+  <dt>
+    fromRoute
+  </dt>
+  <dd>
+    Matches the route name at the start of a transition.
+  </dd>
 
-  <dt>toRoute</dt>
-  <dd>Matches the route name at the end of a transition.</dd>
+  <dt>
+    toRoute
+  </dt>
+  <dd>
+    Matches the route name at the end of a transition.
+  </dd>
 
-  <dt>withinRoute</dt>
-  <dd>Matches the same name at both the start and end of the
+  <dt>
+    withinRoute
+  </dt>
+  <dd>
+    Matches the same name at both the start and end of the
     transition. This is good for matching transitions that are not
     route changes.
   </dd>
 </dl>
 
-<p>Each of them accepts one argument. The argument can be a string
+<p>
+  Each of them accepts one argument. The argument can be a string
 route name, a function that tests route names, or a list of either of
-those.</p>
+those.
+</p>
 
-<p>The next three constraint apply to routes' models. They too only
-work with <code>\{{liquid-outlet}}</code>.</p>
+<p>
+  The next three constraint apply to routes' models. They too only
+work with
+  <code>
+    \{{liquid-outlet}}
+  </code>
+  .
+</p>
 
 <dl class="dl-horizontal">
-  <dt>fromModel</dt>
-  <dd>Matches the route's model at the start of a transition.</dd>
+  <dt>
+    fromModel
+  </dt>
+  <dd>
+    Matches the route's model at the start of a transition.
+  </dd>
 
-  <dt>toModel</dt>
-  <dd>Matches the route's model at the end of a transition.</dd>
+  <dt>
+    toModel
+  </dt>
+  <dd>
+    Matches the route's model at the end of a transition.
+  </dd>
 
-  <dt>betweenModels</dt>
-  <dd>A shorthand for both fromModel and toModel.</dd>
+  <dt>
+    betweenModels
+  </dt>
+  <dd>
+    A shorthand for both fromModel and toModel.
+  </dd>
 </dl>
 
-<p>Each of them accepts a function for testing the model, which
+<p>
+  Each of them accepts a function for testing the model, which
 receives the model as its first argument and should return a
-boolean. You have optional access to the <em>other</em> model in the
-second argument (that is, a <code>fromModel</code> matcher receives <code>(oldModel, newModel)</code> and a <code>toModel</code> matcher receives <code>(newModel, oldModel)</code>).</p>
+boolean. You have optional access to the
+  <em>
+    other
+  </em>
+  model in the
+second argument (that is, a
+  <code>
+    fromModel
+  </code>
+  matcher receives
+  <code>
+    (oldModel, newModel)
+  </code>
+  and a
+  <code>
+    toModel
+  </code>
+  matcher receives
+  <code>
+    (newModel, oldModel)
+  </code>
+  ).
+</p>
 
-<p>Examples:</p>
+<p>
+  Examples:
+</p>
 
-{{code-snippet name="route-match-examples.js"}}
+<CodeSnippet @name="route-match-examples.js" />
 
-<p>In case, you need to animate subroute transitions for a nested UI and you don't have an "index" route or template defined:</p>
+<p>
+  In case, you need to animate subroute transitions for a nested UI and you don't have an "index" route or template defined:
+</p>
 
-{{code-snippet name="sub-route-transition.hbs"}}
+<CodeSnippet @name="sub-route-transition.hbs" />
 
-<p>You can write a rule for an empty outlet, as follows:</p>
+<p>
+  You can write a rule for an empty outlet, as follows:
+</p>
 
-{{code-snippet name="empty-outlet-transition.js"}}
+<CodeSnippet @name="empty-outlet-transition.js" />

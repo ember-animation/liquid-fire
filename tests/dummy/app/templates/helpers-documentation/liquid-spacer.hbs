@@ -1,56 +1,101 @@
-<h2>\{{#liquid-spacer}}</h2>
+{{! template-lint-disable no-unbalanced-curlies }}
 
-<p><code>\{{#liquid-spacer}}</code> is a component that animates its
+<h2>
+  \{{#liquid-spacer}}
+</h2>
+
+<p>
+  <code>
+    \{{#liquid-spacer}}
+  </code>
+  is a component that animates its
 own width and height to match the width and height of its
 content. Unlike the other template helpers, it doesn't run arbitrary
 animations or use transition rules. It just manages smoothly growing
-and shrinking a container, whenever the stuff inside changes.</p>
+and shrinking a container, whenever the stuff inside changes.
+</p>
 
-<h3>Options</h3>
-  <dt>growDuration</dt>
-  <dd>
-    The maximum amount of time to spend growing. For small changes, we
+<h3>
+  Options
+</h3>
+<dt>
+  growDuration
+</dt>
+<dd>
+  The maximum amount of time to spend growing. For small changes, we
     may spend less than this time depending on
     growPixelsPerSecond. Defaults to 250 milliseconds.
-  </dd>
+</dd>
 
-  <dt>growPixelsPerSecond</dt>
-  <dd>
-    The minimum speed in at which we will grow. Defaults to 200 pixels
+<dt>
+  growPixelsPerSecond
+</dt>
+<dd>
+  The minimum speed in at which we will grow. Defaults to 200 pixels
     per second. This lets us make small size adjustments in times
     shorter than a full growDuration.
-  </dd>
+</dd>
 
-  <dt>growEasing</dt>
-  <dd>A Velocity <a href="http://julian.com/research/velocity/#easing">easing
-  function</a> to use when growing the container height and
-  width. Defaults to <code>'slide'</code>.</dd>
+<dt>
+  growEasing
+</dt>
+<dd>
+  A Velocity
+  <a href="http://julian.com/research/velocity/#easing">
+    easing
+  function
+  </a>
+  to use when growing the container height and
+  width. Defaults to
+  <code>
+    'slide'
+  </code>
+  .
+</dd>
 
-  <dt>growWidth, growHeight</dt>
-  <dd>
-    Boolean options (defaulting to <code>true</code>) to control
+<dt>
+  growWidth, growHeight
+</dt>
+<dd>
+  Boolean options (defaulting to
+  <code>
+    true
+  </code>
+  ) to control
     whether to grow horizontally and vertically. Useful for
     fluid-width or fluid-height content which will grow in height or
     width.
-  </dd>
+</dd>
 
-  <dt>enabled</dt>
-  <dd>Whether to animate height and width changes. Defaults to <code>true</code>.</dd>
+<dt>
+  enabled
+</dt>
+<dd>
+  Whether to animate height and width changes. Defaults to
+  <code>
+    true
+  </code>
+  .
+</dd>
 
+<h3>
+  Demo
+</h3>
 
-<h3>Demo</h3>
-
-{{!- BEGIN-SNIPPET liquid-spacer-demo -}}
+{{! BEGIN-SNIPPET liquid-spacer-demo }}
 <div id="liquid-spacer-demo">
-  <label>{{input type="checkbox" checked=showLongMessage}} Show Long Message</label>
-  {{#liquid-spacer growDuration=250}}
-    {{#if showLongMessage}}
-      {{longMessage}}
+  <label>
+    <Input @type="checkbox" @checked={{this.showLongMessage}} />
+    Show Long Message
+  </label>
+  <LiquidSpacer @growDuration={{250}}>
+    {{#if this.showLongMessage}}
+      {{this.longMessage}}
     {{else}}
-      {{shortMessage}}
+      {{this.shortMessage}}
     {{/if}}
-  {{/liquid-spacer}}
+  </LiquidSpacer>
 </div>
-{{!- END-SNIPPET -}}
+{{! END-SNIPPET }}
 
-{{code-snippet name="liquid-spacer-demo.hbs"}}
+<CodeSnippet @name="liquid-spacer-demo.hbs" />

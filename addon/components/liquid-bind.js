@@ -6,8 +6,8 @@ let LiquidBind = Component.extend({
   layout,
   tagName: '',
   positionalParams: ['value'], // needed for Ember 1.13.[0-5] and 2.0.0-beta.[1-3] support
-  forwardMatchContext: computed('matchContext', function() {
-    let m = this.get('matchContext');
+  forwardMatchContext: computed('matchContext', function () {
+    let m = this.matchContext;
     if (!m) {
       m = {};
     }
@@ -15,11 +15,11 @@ let LiquidBind = Component.extend({
       m.helperName = 'liquid-bind';
     }
     return m;
-  })
+  }),
 });
 
 LiquidBind.reopenClass({
-  positionalParams: ['value']
+  positionalParams: ['value'],
 });
 
 export default LiquidBind;

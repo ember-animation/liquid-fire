@@ -1,6 +1,6 @@
 import { guidFor } from '@ember/object/internals';
 import { isArray, A } from '@ember/array';
-import constrainables from "./constrainables";
+import constrainables from './constrainables';
 
 // Every rule constraint has a target and either `keys` or
 // `predicate`. key-based constraints are cheaper because we can check
@@ -10,13 +10,19 @@ export default class Constraint {
     // targets are the properties of a transition that we can
     // constrain
     this.target = target;
-    if (arguments.length === 1) { return; }
+    if (arguments.length === 1) {
+      return;
+    }
     if (matcher instanceof RegExp) {
-      this.predicate = function(value) { return matcher.test(value); };
+      this.predicate = function (value) {
+        return matcher.test(value);
+      };
     } else if (typeof matcher === 'function') {
       this.predicate = matcher;
     } else if (typeof matcher === 'boolean') {
-      this.predicate = function(value) { return matcher ? value : !value; };
+      this.predicate = function (value) {
+        return matcher ? value : !value;
+      };
     } else {
       this.keys = constraintKeys(matcher);
     }
@@ -38,7 +44,7 @@ export const ANY = '__liquid_fire_ANY__';
 
 export function constraintKeys(matcher) {
   if (typeof matcher === 'undefined' || matcher === null) {
-    matcher = [ EMPTY ];
+    matcher = [EMPTY];
   } else if (!isArray(matcher)) {
     matcher = [matcher];
   }

@@ -7,9 +7,8 @@ let allModels = A([
   { id: 2, firstName: 'Yehuda', lastName: 'Katz' },
   { id: 3, firstName: 'Leah', lastName: 'Silber' },
   { id: 4, firstName: 'Peter', lastName: 'Wagenet' },
-  { id: 5, firstName: 'Robert', lastName: 'Jackson' }
+  { id: 5, firstName: 'Robert', lastName: 'Jackson' },
 ]);
-
 
 export default Controller.extend({
   showFirst: true,
@@ -22,16 +21,19 @@ export default Controller.extend({
 
   actions: {
     toggle: function () {
-      this.set('showFirst', !this.get('showFirst'));
+      this.set('showFirst', !this.showFirst);
     },
-    toggleSort: function() {
-      this.set('sortBy', this.get('sortBy')[0] === 'firstName' ? ['lastName'] : ['firstName']);
+    toggleSort: function () {
+      this.set(
+        'sortBy',
+        this.sortBy[0] === 'firstName' ? ['lastName'] : ['firstName']
+      );
     },
-    deleteModel: function(model) {
-      this.get('models').removeObject(model);
+    deleteModel: function (model) {
+      this.models.removeObject(model);
     },
-    restoreModels: function() {
+    restoreModels: function () {
       this.set('models', allModels.slice());
-    }
-  }
+    },
+  },
 });

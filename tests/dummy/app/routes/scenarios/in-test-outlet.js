@@ -6,7 +6,7 @@ export default Route.extend({
       into: 'scenarios',
       outlet: 'test',
       controller: controller,
-      model: model
+      model: model,
     });
-  }
+  },
 });

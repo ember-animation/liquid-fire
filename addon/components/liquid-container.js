@@ -1,7 +1,7 @@
 import Component from '@ember/component';
-import Growable from "liquid-fire/growable";
-import { measure } from "./liquid-measured";
-import layout from "liquid-fire/templates/components/liquid-container";
+import Growable from 'liquid-fire/mixins/growable';
+import { measure } from './liquid-measured';
+import layout from 'liquid-fire/templates/components/liquid-container';
 import $ from 'jquery';
 
 export default Component.extend(Growable, {
@@ -31,7 +31,7 @@ export default Component.extend(Growable, {
   // We're doing this manually instead of via classNameBindings
   // because it depends on upward-data-flow, which generates warnings
   // under Glimmer.
-  updateAnimatingClass(on){
+  updateAnimatingClass(on) {
     if (this.isDestroyed) {
       return;
     }
@@ -48,7 +48,6 @@ export default Component.extend(Growable, {
   },
 
   actions: {
-
     willTransition(versions) {
       if (!this._wasInserted) {
         return;
@@ -62,12 +61,11 @@ export default Component.extend(Growable, {
       for (let i = 0; i < versions.length; i++) {
         goAbsolute(versions[i]);
       }
-
     },
 
     afterChildInsertion(versions) {
       let elt = $(this.element);
-      let enableGrowth = this.get('enableGrowth') !== false;
+      let enableGrowth = this.enableGrowth !== false;
 
       // Measure children
       let sizes = [];
@@ -89,7 +87,7 @@ export default Component.extend(Growable, {
       } else {
         this.lockSize(elt, {
           height: Math.max(want.height, have.height),
-          width: Math.max(want.width, have.width)
+          width: Math.max(want.width, have.width),
         });
       }
 
@@ -113,8 +111,8 @@ export default Component.extend(Growable, {
         goStatic(versions[i]);
       }
       this.unlockSize();
-    }
-  }
+    },
+  },
 });
 
 function goAbsolute(version, size) {
@@ -131,13 +129,13 @@ function goAbsolute(version, size) {
   elt.css({
     position: 'absolute',
     top: pos.top,
-    left: pos.left
+    left: pos.left,
   });
 }
 
 function goStatic(version) {
   if (version.view && !version.view.isDestroyed) {
     let elt = $(version.view.element);
-    elt.css({width: '', height: '', position: ''});
+    elt.css({ width: '', height: '', position: '' });
   }
 }

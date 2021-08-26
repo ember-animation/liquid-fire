@@ -1,7 +1,7 @@
-import Promise from "./promise";
+import Promise from './promise';
 
 export default class Action {
-  constructor(nameOrHandler, args=[], opts={}) {
+  constructor(nameOrHandler, args = [], opts = {}) {
     if (typeof nameOrHandler === 'function') {
       this.handler = nameOrHandler;
     } else {
@@ -19,7 +19,10 @@ export default class Action {
 
   run(context) {
     return new Promise((resolve, reject) => {
-      Promise.resolve(this.handler.apply(context, this.args)).then(resolve, reject);
+      Promise.resolve(this.handler.apply(context, this.args)).then(
+        resolve,
+        reject
+      );
     });
   }
 }

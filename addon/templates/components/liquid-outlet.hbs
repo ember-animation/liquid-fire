@@ -1,21 +1,22 @@
-{{#-lf-get-outlet-state as |outletState|}}
-  {{#liquid-bind (lf-lock-model outletState outletName)
-        containerId=containerId
-        versionEquality=versionEquality
-        matchContext=(hash outletName=outletName helperName="liquid-outlet")
-        class=class
-        use=use
-        rules=rules
-        containerless=containerless
-        growDuration=growDuration
-        growPixelsPerSecond=growPixelsPerSecond
-        growEasing=growEasing
-        shrinkDelay=shrinkDelay
-        growDelay=growDelay
-        enableGrowth=enableGrowth
-        as |version| ~}}
-        {{#-with-dynamic-vars outletState=version ~}}
-          {{outlet outletName}}
-        {{~/-with-dynamic-vars}}
+<LfGetOutletState as |outletState|>
+  {{~#liquid-bind
+    (lf-lock-model outletState this.outletName)
+    containerId=this.containerId
+    versionEquality=this.versionEquality
+    matchContext=(hash outletName=this.outletName helperName="liquid-outlet")
+    class=this.class
+    use=this.use
+    rules=this.rules
+    containerless=this.containerless
+    growDuration=this.growDuration
+    growPixelsPerSecond=this.growPixelsPerSecond
+    growEasing=this.growEasing
+    shrinkDelay=this.shrinkDelay
+    growDelay=this.growDelay
+    enableGrowth=this.enableGrowth as |version|
+  ~}}
+    {{#-with-dynamic-vars outletState=version~}}
+      {{outlet this.outletName}}
+    {{~/-with-dynamic-vars}}
   {{~/liquid-bind~}}
-{{/-lf-get-outlet-state}}
+</LfGetOutletState>

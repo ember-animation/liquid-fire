@@ -1,37 +1,44 @@
-{{#if containerless}}
-  {{~#liquid-versions value=value use=use rules=rules
-                     matchContext=forwardMatchContext
-                     versionEquality=versionEquality
-                     renderWhenFalse=true class=class as |version| ~}}
-    {{~#if has-block}}
-      {{~yield version ~}}
+{{#if this.containerless}}
+  {{~#liquid-versions
+    value=this.value
+    use=this.use
+    rules=this.rules
+    matchContext=this.forwardMatchContext
+    versionEquality=this.versionEquality
+    renderWhenFalse=true
+    class=this.class as |version|
+  ~}}
+    {{~#if (has-block)}}
+      {{~yield version~}}
     {{else}}
-      {{~version ~}}
+      {{~version~}}
     {{/if~}}
-
-{{/liquid-versions ~}}
+  {{/liquid-versions~}}
 {{else}}
   {{~#liquid-container
-      id=containerId
-      class=class
-      growDuration=growDuration
-      growPixelsPerSecond=growPixelsPerSecond
-      growEasing=growEasing
-      shrinkDelay=shrinkDelay
-      growDelay=growDelay
-      enableGrowth=enableGrowth
-      as |container| ~}}
-    {{~#liquid-versions value=value notify=container use=use rules=rules
-                       matchContext=forwardMatchContext
-                       versionEquality=versionEquality
-                       renderWhenFalse=true as |version| ~}}
-
-      {{~#if has-block}}
-        {{~yield version ~}}
+    id=this.containerId
+    class=this.class
+    growDuration=this.growDuration
+    growPixelsPerSecond=this.growPixelsPerSecond
+    growEasing=this.growEasing
+    shrinkDelay=this.shrinkDelay
+    growDelay=this.growDelay
+    enableGrowth=this.enableGrowth as |container|
+  ~}}
+    {{~#liquid-versions
+      value=this.value
+      notify=container
+      use=this.use
+      rules=this.rules
+      matchContext=this.forwardMatchContext
+      versionEquality=this.versionEquality
+      renderWhenFalse=true as |version| 
+    ~}}
+      {{~#if (has-block)}}
+        {{~yield version~}}
       {{else}}
-        {{~version ~}}
+        {{~version~}}
       {{/if~}}
-
-    {{/liquid-versions ~}}
-  {{/liquid-container ~}}
+    {{/liquid-versions~}}
+  {{/liquid-container~}}
 {{/if}}

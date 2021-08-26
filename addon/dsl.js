@@ -1,10 +1,9 @@
-import { setDefaults } from "./animate";
-import Rule from "./rule";
-import Constraint from "./constraint";
-import Action from "./action";
+import { setDefaults } from './animate';
+import Rule from './rule';
+import Constraint from './constraint';
+import Action from './action';
 
 export default class DSL {
-
   constructor(map, constraints) {
     this.map = map;
     this.constraints = constraints;
@@ -16,7 +15,7 @@ export default class DSL {
 
   transition() {
     let rule = new Rule();
-    let parts = Array.prototype.slice.apply(arguments).reduce(function(a,b){
+    let parts = Array.prototype.slice.apply(arguments).reduce(function (a, b) {
       return a.concat(b);
     }, []);
 
@@ -29,15 +28,11 @@ export default class DSL {
   }
 
   fromRoute(routeName) {
-    return [
-      new Constraint('oldRoute', routeName)
-    ];
+    return [new Constraint('oldRoute', routeName)];
   }
 
   toRoute(routeName) {
-    return [
-      new Constraint('newRoute', routeName)
-    ];
+    return [new Constraint('newRoute', routeName)];
   }
 
   withinRoute(routeName) {
@@ -45,15 +40,11 @@ export default class DSL {
   }
 
   fromValue(matcher) {
-    return [
-      new Constraint('oldValue', matcher)
-    ];
+    return [new Constraint('oldValue', matcher)];
   }
 
   toValue(matcher) {
-    return [
-      new Constraint('newValue', matcher)
-    ];
+    return [new Constraint('newValue', matcher)];
   }
 
   betweenValues(matcher) {
@@ -61,15 +52,11 @@ export default class DSL {
   }
 
   fromModel(matcher) {
-    return [
-      new Constraint('oldModel', matcher)
-    ];
+    return [new Constraint('oldModel', matcher)];
   }
 
   toModel(matcher) {
-    return [
-      new Constraint('newModel', matcher)
-    ];
+    return [new Constraint('newModel', matcher)];
   }
 
   betweenModels(matcher) {
@@ -81,7 +68,7 @@ export default class DSL {
   }
 
   matchSelector(selector) {
-    return new Constraint('parentElement', function(elt) {
+    return new Constraint('parentElement', function (elt) {
       return elt.is(selector);
     });
   }
@@ -101,7 +88,7 @@ export default class DSL {
   useAndReverse(nameOrHandler, ...args) {
     return [
       this.use(nameOrHandler, ...args),
-      this.reverse(nameOrHandler, ...args)
+      this.reverse(nameOrHandler, ...args),
     ];
   }
 
@@ -122,7 +109,7 @@ export default class DSL {
   }
 
   media(query) {
-    return new Constraint('media', function() {
+    return new Constraint('media', function () {
       return window.matchMedia(query).matches;
     });
   }

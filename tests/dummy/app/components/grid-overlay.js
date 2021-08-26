@@ -6,17 +6,17 @@ function show_lead(space, offset) {
   hide_lead();
   for (let i = 0; i < max; i++) {
     $('body').append("<div class='grid' id='vgrid" + i + "'></div>");
-    $("#vgrid" + i).css({
-      height: "" + space + "px",
-      width: "100%",
-      position: "absolute",
-      top: "" + (space * i - 1 + offset) + "px",
-      left: "0px",
-      borderTop: "1px solid black",
+    $('#vgrid' + i).css({
+      height: '' + space + 'px',
+      width: '100%',
+      position: 'absolute',
+      top: '' + (space * i - 1 + offset) + 'px',
+      left: '0px',
+      borderTop: '1px solid black',
       zIndex: 2000,
       'pointer-events': 'none',
       opacity: 0.2,
-      'background-color': 'transparent'
+      'background-color': 'transparent',
     });
   }
 }
@@ -29,7 +29,7 @@ function toggleGrid(leading, leading_offset) {
   if (leading_offset == null) {
     leading_offset = 0;
   }
-  if ($("#vgrid0").length > 0) {
+  if ($('#vgrid0').length > 0) {
     return hide_lead();
   } else {
     return show_lead(leading, leading_offset);
@@ -37,12 +37,13 @@ function toggleGrid(leading, leading_offset) {
 }
 
 export default Component.extend({
-  didInsertElement: function(){
-    $(document).bind('keydown', function(e){
+  didInsertElement: function () {
+    this._super(...arguments);
+    $(document).bind('keydown', function (e) {
       // Ctrl-Alt-g shows vertical rhythm
       if (e.ctrlKey && e.altKey && e.keyCode === 71) {
         toggleGrid(22);
       }
     });
-  }
+  },
 });

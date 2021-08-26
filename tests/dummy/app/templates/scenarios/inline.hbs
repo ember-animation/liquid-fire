@@ -1,7 +1,7 @@
 <div id="inline-scenario" >
-  <label>{{input type="checkbox" checked=otherState}} Swap Em</label>
+  <label><Input @type="checkbox" @checked={{this.otherState}} /> Swap Em</label>
 
-  {{#liquid-if otherState }}
+  {{#liquid-if this.otherState }}
     One.
   {{else}}
     Two Three Four Five Six Two Three Four Five Six Two Three Four Five

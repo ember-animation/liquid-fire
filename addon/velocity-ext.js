@@ -4,20 +4,27 @@
   to Velocity as PR #485.
 */
 
-import Velocity from "velocity";
+import Velocity from 'velocity';
 if (typeof FastBoot === undefined) {
-
   let VCSS = Velocity.CSS;
 
-  let augmentDimension = function(name, element) {
-    let sides = name === 'width' ? ['Left', 'Right' ] : ['Top', 'Bottom'];
+  let augmentDimension = function (name, element) {
+    let sides = name === 'width' ? ['Left', 'Right'] : ['Top', 'Bottom'];
 
-    if (VCSS.getPropertyValue(element, "boxSizing").toString().toLowerCase() === 'border-box') {
+    if (
+      VCSS.getPropertyValue(element, 'boxSizing').toString().toLowerCase() ===
+      'border-box'
+    ) {
       /* in box-sizing mode, the VCSS width / height accessors already give the outerWidth / outerHeight. */
       return 0;
     } else {
       let augment = 0;
-      let fields = ['padding'+sides[0], 'padding'+sides[1], 'border'+sides[0]+'Width', 'border'+sides[1]+'Width'];
+      let fields = [
+        'padding' + sides[0],
+        'padding' + sides[1],
+        'border' + sides[0] + 'Width',
+        'border' + sides[1] + 'Width',
+      ];
       for (let i = 0; i < fields.length; i++) {
         let value = parseFloat(VCSS.getPropertyValue(element, fields[i]));
         if (!isNaN(value)) {
@@ -28,15 +35,17 @@ if (typeof FastBoot === undefined) {
     }
   };
 
-  let outerDimension = function(name) {
-    return function(type, element, propertyValue) {
+  let outerDimension = function (name) {
+    return function (type, element, propertyValue) {
       switch (type) {
-      case "name":
-        return name;
-      case "extract":
-        return parseFloat(propertyValue) + augmentDimension(name, element);
-      case "inject":
-        return (parseFloat(propertyValue) - augmentDimension(name, element)) + "px";
+        case 'name':
+          return name;
+        case 'extract':
+          return parseFloat(propertyValue) + augmentDimension(name, element);
+        case 'inject':
+          return (
+            parseFloat(propertyValue) - augmentDimension(name, element) + 'px'
+          );
       }
     };
   };

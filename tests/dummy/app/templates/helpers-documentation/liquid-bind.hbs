@@ -1,22 +1,51 @@
-<h2>\{{liquid-bind}}</h2>
+{{!-- template-lint-disable no-unbalanced-curlies --}}
 
-<p>Renders a bound value into your template, and uses the transition
-map to decide how to animate when the bound value changes.</p>
+<h2>
+  \{{liquid-bind}}
+</h2>
 
-<p>Saying <code>\{{liquid-bind someValue}}</code> is a drop-in
-replacement for <code>\{{someValue}}</code>, except this wraps the
+<p>
+  Renders a bound value into your template, and uses the transition
+map to decide how to animate when the bound value changes.
+</p>
+
+<p>
+  Saying
+  <code>
+    \{{liquid-bind someValue}}
+  </code>
+  is a drop-in
+replacement for
+  <code>
+    \{{someValue}}
+  </code>
+  , except this wraps the
 content in markup so that it can be targeted for animation. See the
-{{#link-to "helpers-documentation.index"}}Common Behavior and
-Options{{/link-to}} that apply to all liquid-fire helpers.</p>
+  <LinkTo @route="helpers-documentation.index">
+    Common Behavior and
+Options
+  </LinkTo>
+  that apply to all liquid-fire helpers.
+</p>
 
-<p>There is also a block form of <code>\{{#liquid-bind}}</code> that
-is {{#link-to "helpers-documentation.liquid-bind-block"}}demonstrated on
-the next page{{/link-to}}.</p>
+<p>
+  There is also a block form of
+  <code>
+    \{{#liquid-bind}}
+  </code>
+  that
+is
+  <LinkTo @route="helpers-documentation.liquid-bind-block">
+    demonstrated on
+the next page
+  </LinkTo>
+  .
+</p>
 
-{{liquid-bind-demo}}
+<LiquidBindDemo />
 
-{{code-snippet name="liquid-bind-demo.hbs"}}
+<CodeSnippet @name="liquid-bind-demo.hbs" />
 
-{{code-snippet name="bind-demo-transition.js"}}
+<CodeSnippet @name="bind-demo-transition.js" />
 
-{{code-snippet name="bind-demo-style.css"}}
+<CodeSnippet @name="bind-demo-style.css" />

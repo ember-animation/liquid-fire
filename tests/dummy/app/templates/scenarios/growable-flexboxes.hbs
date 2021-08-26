@@ -7,24 +7,24 @@
   {{!- BEGIN-SNIPPET flexboxes -}}
   <div>
     Choose some of these:
-    <label>{{input type="checkbox" checked=showOne}}One</label>
-    <label>{{input type="checkbox" checked=showTwo}}Two</label>
-    <label>{{input type="checkbox" checked=showThree}}Three</label>
+    <label><Input @type="checkbox" @checked={{this.showOne}} />One</label>
+    <label><Input @type="checkbox" @checked={{this.showTwo}} />Two</label>
+    <label><Input @type="checkbox" @checked={{this.showThree}} />Three</label>
   </div>
 
   <div class="flex-parent">
-    {{#liquid-if showOne use="flex-grow" containerless=true }}
+    {{#liquid-if this.showOne use="flex-grow" containerless=true }}
       One
     {{/liquid-if}}
 
-    {{#liquid-if showTwo use="flex-grow" containerless=true }}
+    {{#liquid-if this.showTwo use="flex-grow" containerless=true }}
       Two
     {{/liquid-if}}
 
-    {{#liquid-if showThree use="flex-grow" containerless=true }}
+    {{#liquid-if this.showThree use="flex-grow" containerless=true }}
       Three
     {{/liquid-if}}
   </div>
   {{!- END-SNIPPET}}
-  {{code-snippet name="flexboxes.hbs"}}
+  <CodeSnippet @name="flexboxes.hbs" />
 </div>

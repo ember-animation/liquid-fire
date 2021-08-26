@@ -1,21 +1,21 @@
-{{#if topic}}
-  {{#if topic.route}}
-    {{#link-to topic.route class="page-link"}}
-      {{#if back}}
+{{#if this.topic}}
+  {{#if this.topic.route}}
+    <LinkTo @route={{this.topic.route}} class="page-link">
+      {{#if this.back}}
         <span aria-hidden="true">&laquo;</span>
       {{/if}}
-      {{topic.title}}
-      {{#if forward}}
+      {{this.topic.title}}
+      {{#if this.forward}}
         <span aria-hidden="true">&raquo;</span>
       {{/if}}
-    {{/link-to}}
+    </LinkTo>
   {{else}}
     <div class="page-link">
-      {{#if back}}
+      {{#if this.back}}
         <span aria-hidden="true">&laquo;</span>
       {{/if}}
-      {{if topic.title topic.title topic}}
-      {{#if forward}}
+      {{if this.topic.title this.topic.title this.topic}}
+      {{#if this.forward}}
         <span aria-hidden="true">&raquo;</span>
       {{/if}}
     </div>

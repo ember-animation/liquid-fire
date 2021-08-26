@@ -14,14 +14,20 @@ export default class RunningTransition {
     }
 
     this.transitionMap.incrementRunningTransitions();
-    return this._ran = this._invokeAnimation().catch((err) => {
-      // If the animation blew up, try to leave the DOM in a
-      // non-broken state as best we can before rethrowing.
-      return this.transitionMap.lookup('default').apply(this.animationContext)
-        .then(function(){ throw err; });
-    }).finally(() => {
-      this.transitionMap.decrementRunningTransitions();
-    });
+    return (this._ran = this._invokeAnimation()
+      .catch((err) => {
+        // If the animation blew up, try to leave the DOM in a
+        // non-broken state as best we can before rethrowing.
+        return this.transitionMap
+          .lookup('default')
+          .apply(this.animationContext)
+          .then(function () {
+            throw err;
+          });
+      })
+      .finally(() => {
+        this.transitionMap.decrementRunningTransitions();
+      }));
   }
 
   interrupt() {
@@ -55,7 +61,7 @@ function publicAnimationContext(rt, versions) {
   });
 
   // Animations are allowed to look each other up.
-  c.lookup = function(name) {
+  c.lookup = function (name) {
     return rt.transitionMap.lookup(name);
   };
 
@@ -72,7 +78,7 @@ function addPublicVersion(context, prefix, version) {
   let props = {
     view: version.view,
     element: elt,
-    value: version.value
+    value: version.value,
   };
   for (let key in props) {
     let outputKey = key;

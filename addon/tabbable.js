@@ -12,27 +12,33 @@
 
 import $ from 'jquery';
 
-function focusable( element, isTabIndexNotNaN ) {
+function focusable(element, isTabIndexNotNaN) {
   let nodeName = element.nodeName.toLowerCase();
-  return ( /input|select|textarea|button|object/.test( nodeName ) ?
-    !element.disabled :
-    "a" === nodeName ?
-      element.href || isTabIndexNotNaN :
-      isTabIndexNotNaN) && visible( element );
+  return (
+    (/input|select|textarea|button|object/.test(nodeName)
+      ? !element.disabled
+      : 'a' === nodeName
+      ? element.href || isTabIndexNotNaN
+      : isTabIndexNotNaN) && visible(element)
+  );
 }
 
 function visible(element) {
   let $el = $(element);
-  return $.expr.filters.visible(element) &&
-    !$($el, $el.parents()).filter(function() {
-      return $.css( this, "visibility" ) === "hidden";
-    }).length;
+  return (
+    $.expr.filters.visible(element) &&
+    !$($el, $el.parents()).filter(function () {
+      return $.css(this, 'visibility') === 'hidden';
+    }).length
+  );
 }
 
 if (!$.expr[':'].tabbable) {
-  $.expr[':'].tabbable = function( element ) {
-    let tabIndex = $.attr( element, "tabindex" ),
-      isTabIndexNaN = isNaN( tabIndex );
-    return ( isTabIndexNaN || tabIndex >= 0 ) && focusable( element, !isTabIndexNaN );
+  $.expr[':'].tabbable = function (element) {
+    let tabIndex = $.attr(element, 'tabindex'),
+      isTabIndexNaN = isNaN(tabIndex);
+    return (
+      (isTabIndexNaN || tabIndex >= 0) && focusable(element, !isTabIndexNaN)
+    );
   };
 }

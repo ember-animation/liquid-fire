@@ -1,8 +1,8 @@
 import { next, throttle } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
-import MutationObserver from "liquid-fire/mutation-observer";
-import layout from "liquid-fire/templates/components/liquid-measured";
+import MutationObserver from 'liquid-fire/mutation-observer';
+import layout from 'liquid-fire/templates/components/liquid-measured';
 import $ from 'jquery';
 
 const WINDOW_RESIZE_THROTTLE_DURATION = 100;
@@ -16,6 +16,7 @@ export default Component.extend({
   },
 
   didInsertElement() {
+    this._super(...arguments);
     let self = this;
 
     // This prevents margin collapse
@@ -23,24 +24,29 @@ export default Component.extend({
 
     this.didMutate();
 
-    this.observer = new MutationObserver(function(mutations) { self.didMutate(mutations); });
-    this.observer.observe(this.get('element'), {
+    this.observer = new MutationObserver(function (mutations) {
+      self.didMutate(mutations);
+    });
+    this.observer.observe(this.element, {
       attributes: true,
       subtree: true,
       childList: true,
-      characterData: true
+      characterData: true,
     });
 
     this.windowResizeHandler = this.windowDidResize.bind(this);
     window.addEventListener('resize', this.windowResizeHandler);
 
     let elt = $(this.element);
-    elt.bind('webkitTransitionEnd', function() { self.didMutate(); });
+    elt.bind('webkitTransitionEnd', function () {
+      self.didMutate();
+    });
     // Chrome Memory Leak: https://bugs.webkit.org/show_bug.cgi?id=93661
     window.addEventListener('unload', this._destroyOnUnload);
   },
 
   willDestroyElement() {
+    this._super(...arguments);
     if (this.observer) {
       this.observer.disconnect();
     }
@@ -55,9 +61,9 @@ export default Component.extend({
     // tests from falling through the gap between the time they
     // triggered mutation the time we may actually animate in
     // response.
-    let tmap = this.get('transitionMap');
+    let tmap = this.transitionMap;
     tmap.incrementRunningTransitions();
-    next(this, function() {
+    next(this, function () {
       this._didMutate();
       tmap.decrementRunningTransitions();
     });
@@ -68,14 +74,16 @@ export default Component.extend({
   },
 
   _didMutate() {
-    if (!this.element) { return; }
+    if (!this.element) {
+      return;
+    }
     let elt = $(this.element);
     this.didMeasure(measure(elt));
   },
 
   _destroyOnUnload() {
     this.willDestroyElement();
-  }
+  },
 });
 
 export function measure($elt) {
@@ -91,6 +99,6 @@ export function measure($elt) {
 
   return {
     width: boundingRect.width * scale,
-    height: boundingRect.height * scale
+    height: boundingRect.height * scale,
   };
 }

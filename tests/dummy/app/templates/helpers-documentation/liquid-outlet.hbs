@@ -1,37 +1,82 @@
-<h2>\{{#liquid-outlet}}</h2>
+{{!-- template-lint-disable no-unbalanced-curlies --}}
 
-<p>Acts just like a normal Ember <code>\{{outlet}}</code>, except:</p>
+<h2>
+  \{{#liquid-outlet}}
+</h2>
+
+<p>
+  Acts just like a normal Ember
+  <code>
+    \{{outlet}}
+  </code>
+  , except:
+</p>
 
 <ul>
-  <li>it respects the transition map and lets you animate between routes.</li>
-  <li>it wraps its content in a non-virtual view, meaning that it adds
-    markup. See the {{#link-to "helpers-documentation.index"}}Common
-    Behavior and Options{{/link-to}} that apply to all liquid-fire
-    helpers.</li>
-  <li>it does not support the <code>view</code> option to override its view class.</li>
+  <li>
+    it respects the transition map and lets you animate between routes.
+  </li>
+  <li>
+    it wraps its content in a non-virtual view, meaning that it adds
+    markup. See the
+    <LinkTo @route="helpers-documentation.index">
+      Common
+    Behavior and Options
+    </LinkTo>
+    that apply to all liquid-fire
+    helpers.
+  </li>
+  <li>
+    it does not support the
+    <code>
+      view
+    </code>
+    option to override its view class.
+  </li>
 </ul>
 
-<p>It otherwise does everything <code>\{{outlet}}</code> does,
-including named outlets (like <code>\{{liquid-outlet "sidebar"}}</code>).</p>
+<p>
+  It otherwise does everything
+  <code>
+    \{{outlet}}
+  </code>
+  does,
+including named outlets (like
+  <code>
+    \{{liquid-outlet "sidebar"}}
+  </code>
+  ).
+</p>
 
-<h3>When to use it</h3>
+<h3>
+  When to use it
+</h3>
 
-<p>Use this when you want to animate the transitions between
-routes.</p>
+<p>
+  Use this when you want to animate the transitions between
+routes.
+</p>
 
+<h3>
+  Demo
+</h3>
 
-<h3>Demo</h3>
+<p>
+  Notice that the URL changes when you click the links &mdash; these are real route transitions.
+</p>
 
-<p>Notice that the URL changes when you click the links &mdash; these are real route transitions.</p>
+{{! BEGIN-SNIPPET outlet }}
+<LiquidOutlet @class="demo-container" />
+{{! END-SNIPPET }}
 
-{{!- BEGIN-SNIPPET outlet -}}
-{{liquid-outlet class="demo-container"}}
-{{!- END-SNIPPET -}}
+<h4>
+  Demo template:
+</h4>
 
-<h4>Demo template:</h4>
+<CodeSnippet @name="outlet.hbs" />
 
-{{code-snippet name="outlet.hbs"}}
+<h4>
+  Demo transition map:
+</h4>
 
-<h4>Demo transition map:</h4>
-
-{{code-snippet name="transition-demo.js"}}
+<CodeSnippet @name="transition-demo.js" />

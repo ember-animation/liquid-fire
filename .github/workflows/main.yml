@@ -16,8 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: volta-cli/action@v1
-        with:
-          node-version: 8.x
       - run: yarn install --frozen-lockfile
       - run: yarn lint
       - run: yarn test:ember
@@ -29,8 +27,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: volta-cli/action@v1
-        with:
-          node-version: 8.x
       - run: yarn install --no-lockfile
       - run: yarn test:ember
 
@@ -45,23 +41,22 @@ jobs:
       fail-fast: false
       matrix:
         ember-try-scenario:
-          - ember-lts-3.4
           - ember-lts-3.8
+          - ember-lts-3.12
           - ember-lts-3.16
           - ember-lts-3.20
-          - ember-release
-          - ember-beta
-          - ember-canary
-          - ember-default-with-jquery
+          - ember-3.24
+          # TODO: ember-release does not work if you have any global Ember left
+          # - ember-release
+          # TODO: we need to remove named outlets for beta and canary compatibility
+          # - ember-beta
+          # - ember-canary
           - ember-classic
 
     steps:
       - uses: actions/checkout@v2
       - uses: volta-cli/action@v1
-        with:
-          node-version: 8.x
       - name: install dependencies
         run: yarn install --frozen-lockfile
       - name: test
         run: node_modules/.bin/ember try:one ${{ matrix.ember-try-scenario }} --skip-cleanup
-            

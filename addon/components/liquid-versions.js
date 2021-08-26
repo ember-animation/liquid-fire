@@ -2,13 +2,13 @@ import $ from 'jquery';
 import { A } from '@ember/array';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
-import { get, set } from '@ember/object';
-import { containingElement } from "liquid-fire/ember-internals";
+import { set } from '@ember/object';
+import { containingElement } from 'liquid-fire/ember-internals';
 import layout from 'liquid-fire/templates/components/liquid-versions';
 
 export default Component.extend({
   layout,
-  tagName: "",
+  tagName: '',
 
   transitionMap: service('liquid-fire-transitions'),
 
@@ -22,7 +22,7 @@ export default Component.extend({
     let firstTime = false;
     let newValue = this.getAttr('value');
     let oldValue;
-    let versionEquality = this.get('versionEquality') || defaultEqualityCheck;
+    let versionEquality = this.versionEquality || defaultEqualityCheck;
 
     if (!versions) {
       firstTime = true;
@@ -46,7 +46,7 @@ export default Component.extend({
 
     this.notifyContainer('willTransition', versions);
     let newVersion = {
-      value: newValue
+      value: newValue,
     };
     versions.unshiftObject(newVersion);
 
@@ -55,26 +55,25 @@ export default Component.extend({
       set(this, 'versions', versions);
     }
 
-    if (!(newValue || this.get('renderWhenFalse') || firstTime)) {
+    if (!(newValue || this.renderWhenFalse || firstTime)) {
       this._transition();
     }
   },
 
   _transition() {
-    let versions = get(this, 'versions');
+    let versions = this.versions;
     let transition;
     let firstTime = this.firstTime;
     this.firstTime = false;
 
-
     this.notifyContainer('afterChildInsertion', versions);
 
-    transition = get(this, 'transitionMap').transitionFor({
+    transition = this.transitionMap.transitionFor({
       versions: versions,
       parentElement: $(containingElement(this)),
-      use: get(this, 'use'),
-      rules: get(this, 'rules'),
-      matchContext: get(this, 'matchContext') || {},
+      use: this.use,
+      rules: this.rules,
+      matchContext: this.matchContext || {},
       // Using strings instead of booleans here is an
       // optimization. The constraint system can match them more
       // efficiently, since it treats boolean constraints as generic
@@ -88,19 +87,21 @@ export default Component.extend({
     }
     this._runningTransition = transition;
 
-    transition.run().then((wasInterrupted) => {
-      // if we were interrupted, we don't handle the cleanup because
-      // another transition has already taken over.
-      if (!wasInterrupted) {
+    transition.run().then(
+      (wasInterrupted) => {
+        // if we were interrupted, we don't handle the cleanup because
+        // another transition has already taken over.
+        if (!wasInterrupted) {
+          this.finalizeVersions(versions);
+          this.notifyContainer('afterTransition', versions);
+        }
+      },
+      (err) => {
         this.finalizeVersions(versions);
-        this.notifyContainer("afterTransition", versions);
+        this.notifyContainer('afterTransition', versions);
+        throw err;
       }
-    }, (err) => {
-      this.finalizeVersions(versions);
-      this.notifyContainer("afterTransition", versions);
-      throw err;
-    });
-
+    );
   },
 
   finalizeVersions(versions) {
@@ -108,7 +109,7 @@ export default Component.extend({
   },
 
   notifyContainer(method, versions) {
-    let target = get(this, 'notify');
+    let target = this.notify;
     if (target && !target.get('isDestroying')) {
       target.send(method, versions);
     }
@@ -116,12 +117,11 @@ export default Component.extend({
 
   actions: {
     childDidRender(child) {
-      let version = get(child, 'version');
+      let version = child.version;
       set(version, 'view', child);
       this._transition();
-    }
-  }
-
+    },
+  },
 });
 
 // All falsey values are considered equal, everything else gets strict

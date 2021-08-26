@@ -9,16 +9,19 @@ export default Component.extend({
   },
 
   didInsertElement() {
+    this._super(...arguments);
     let self = this;
-    this.interval = setInterval(function(){ run(self, 'tick'); }, 1000);
+    this.interval = setInterval(function () {
+      run(self, 'tick');
+    }, 1000);
   },
 
-  willDestroyElement(){
+  willDestroyElement() {
     clearInterval(this.interval);
     this._super();
   },
 
-  tick: function(now) {
+  tick: function (now) {
     if (!now) {
       now = moment();
     }
@@ -26,15 +29,14 @@ export default Component.extend({
       now: now,
       hours: now.format('hh'),
       minutes: now.format('mm'),
-      seconds: now.format('ss')
+      seconds: now.format('ss'),
     });
   },
 
   actions: {
-    forceTick: function() {
+    forceTick: function () {
       clearInterval(this.interval);
-      this.tick(this.get('now').add({hours: 1, minutes: 1, seconds: 1}));
-    }
-  }
-
+      this.tick(this.now.add({ hours: 1, minutes: 1, seconds: 1 }));
+    },
+  },
 });
