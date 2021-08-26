@@ -1,7 +1,7 @@
 # Changelog
 
 ## master
- - BREAKING: drop node 8 support
+ - BREAKING: drop node < 12 support
  - BREAKING: drop ember versions prior to 3.8
 
 ## 0.31.0 (2019-10-16)
