@@ -66,7 +66,7 @@ module('Acceptance: Demos', function (hooks) {
   });
 
   test('liquid bind demo', async function (assert) {
-    assert.expect(3);
+    assert.expect(4);
 
     let first, second;
     function clock() {
