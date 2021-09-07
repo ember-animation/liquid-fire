@@ -139,7 +139,7 @@ module('Integration: liquid-outlet', function (hooks) {
       })
     );
     let state = this.makeRoute({
-      template: hbs`'<div class="content">{{model.id}}</div>`,
+      template: hbs`'<div class="content">{{this.model.id}}</div>`,
       controller,
     });
     let tmap = this.owner.lookup('service:liquid-fire-transitions');
