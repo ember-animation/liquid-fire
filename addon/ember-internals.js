@@ -1,4 +1,15 @@
-import { getViewBounds } from '@ember/-internals/views';
+import {
+  macroCondition,
+  dependencySatisfies,
+  importSync,
+} from '@embroider/macros';
+
+let getViewBounds;
+if (macroCondition(dependencySatisfies('ember-source', '>=3.27.0'))) {
+  ({ getViewBounds } = importSync('@ember/-internals/views'));
+} else {
+  ({ getViewBounds } = window.Ember.ViewUtils);
+}
 
 // Traverses down to the child routeInfo with the given name.
 export function childRoute(routeInfo, outletName) {
