@@ -87,6 +87,10 @@ module.exports = async function () {
           },
         },
       },
+      {
+        name: 'fastboot',
+        command: 'yarn run test:fastboot',
+      },
       embroiderSafe(),
       embroiderOptimized(),
     ],
