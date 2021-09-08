@@ -45,7 +45,7 @@ jobs:
           - ember-lts-3.12
           - ember-lts-3.16
           - ember-lts-3.20
-          - ember-3.24
+          - ember-lts-3.24
           # TODO: ember-release does not work if you have any global Ember left
           # - ember-release
           # TODO: we need to remove named outlets for beta and canary compatibility
