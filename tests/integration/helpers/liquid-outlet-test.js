@@ -33,7 +33,7 @@ module('Integration: liquid-outlet', function (hooks) {
 
   test('it should render when state is set after insertion', async function (assert) {
     await render(
-      hbs`<SetRoute @outletState={{this.outletState}}><LiquidOutlet /></SetRoute>`
+      hbs`<SetRoute @outletState={{this.outletState}}>{{liquid-outlet}}</SetRoute>`
     );
     this.setState(this.makeRoute({ template: hbs`<h1>Hello world</h1>` }));
     assert.dom('h1').exists({ count: 1 });
@@ -44,7 +44,7 @@ module('Integration: liquid-outlet', function (hooks) {
       hbs`<SetRoute @outletState={{this.outletState}}>A{{outlet}}B</SetRoute>`
     );
     console.log(this.outletState);
-    let hello = this.makeRoute({ template: hbs`Hello<LiquidOutlet />` });
+    let hello = this.makeRoute({ template: hbs`Hello{{liquid-outlet}}` });
     this.setState(hello);
     assert.dom().hasText('AHelloB');
     hello.setChild('main', { template: hbs`Goodbye` });
@@ -145,7 +145,7 @@ module('Integration: liquid-outlet', function (hooks) {
     let tmap = this.owner.lookup('service:liquid-fire-transitions');
     sinon.spy(tmap, 'transitionFor');
     await render(
-      hbs`<SetRoute @outletState={{this.outletState}}><LiquidOutlet @watchModels={{true}}/></SetRoute>`
+      hbs`<SetRoute @outletState={{this.outletState}}>{{liquid-outlet watchModels=true }}</SetRoute>`
     );
     this.setState(state);
     assert.dom('.content').hasText('1');
@@ -165,7 +165,7 @@ module('Integration: liquid-outlet', function (hooks) {
 
   test('tolerates empty content when parent outlet is stable', async function (assert) {
     await render(
-      hbs`<SetRoute @outletState={{this.outletState}}>A<LiquidOutlet />B</SetRoute>`
+      hbs`<SetRoute @outletState={{this.outletState}}>A{{liquid-outlet}}B</SetRoute>`
     );
 
     let state = this.makeRoute({
