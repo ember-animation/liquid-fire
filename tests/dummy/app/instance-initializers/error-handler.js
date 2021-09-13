@@ -13,7 +13,7 @@ export default {
         let errorMessage = `There was an error running your app in fastboot. More info about the error: \n ${
           err.stack || err
         }`;
-        Ember.Logger.error(errorMessage);
+        console.error(errorMessage);
         instance.lookup('service:fastboot').set('response.statusCode', 500);
       };
     }
