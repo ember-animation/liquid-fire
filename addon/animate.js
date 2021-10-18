@@ -1,7 +1,6 @@
 /* jshint newcap: false */
 import Promise from './promise';
 import Velocity from 'velocity';
-import { assign } from '@ember/polyfills';
 
 // Make sure Velocity always has promise support by injecting our own
 // RSVP-based implementation if it doesn't already have one.
@@ -28,7 +27,7 @@ export function animate(elt, props, opts, label) {
   if (!opts) {
     opts = {};
   } else {
-    opts = assign({}, opts);
+    opts = { ...opts };
   }
 
   // By default, we ask velocity to clear the element's `display`
