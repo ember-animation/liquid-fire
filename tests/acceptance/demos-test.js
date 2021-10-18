@@ -19,6 +19,7 @@ module('Acceptance: Demos', function (hooks) {
       if (forward) {
         await click('.page-item.forward a');
       } else {
+        // eslint-disable-next-line qunit/no-conditional-assertions
         assert.equal(currentRouteName(), lastRouteName);
         break;
       }
@@ -65,6 +66,8 @@ module('Acceptance: Demos', function (hooks) {
   });
 
   test('liquid bind demo', async function (assert) {
+    assert.expect(4);
+
     let first, second;
     function clock() {
       let m = /(\d\d)\s*:\s*(\d\d)\s*:\s*(\d\d)/.exec(
@@ -109,6 +112,8 @@ module('Acceptance: Demos', function (hooks) {
   });
 
   test('interruption demo, normal transition', async function (assert) {
+    assert.expect(3);
+
     await visit('/transitions/primitives');
     assert.noTransitionsYet();
     classFound(assert, 'one');

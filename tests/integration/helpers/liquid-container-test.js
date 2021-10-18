@@ -87,6 +87,8 @@ module('Integration: liquid-container', function (hooks) {
   });
 
   test(`has liquid-animating class during animation`, async function (assert) {
+    assert.expect(5);
+
     let resolveAnimation;
     this.owner.register('transition:blocking', function () {
       return new EmberPromise(function (resolve) {
@@ -103,8 +105,8 @@ module('Integration: liquid-container', function (hooks) {
                 `);
 
     assert.dom('.test-container').exists({ count: 1 }, 'have test-container');
-    assert.ok(
-      !this.element
+    assert.notOk(
+      this.element
         .querySelector('.test-container')
         .classList.contains('liquid-animating'),
       "it doesn't have liquid-animating class"
@@ -120,8 +122,8 @@ module('Integration: liquid-container', function (hooks) {
       assert
         .dom('.test-container')
         .exists({ count: 1 }, 'still have test-container');
-      assert.ok(
-        !this.element
+      assert.notOk(
+        this.element
           .querySelector('.test-container')
           .classList.contains('liquid-animating'),
         'liquid-animating class was removed'

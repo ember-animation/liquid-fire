@@ -1,6 +1,5 @@
 'use strict';
 
-let VersionChecker = require('ember-cli-version-checker');
 let path = require('path');
 let mergeTrees = require('broccoli-merge-trees');
 let Funnel = require('broccoli-funnel');
@@ -9,13 +8,10 @@ let map = require('broccoli-stew').map;
 module.exports = {
   name: require('./package').name,
 
-  init: function () {
+  init() {
     if (this._super.init) {
       this._super.init.apply(this, arguments);
     }
-
-    this.versionChecker = new VersionChecker(this);
-    this.versionChecker.for('ember-cli').assertAbove('0.2.0');
 
     // Shim this.import for Engines support
     if (!this.import) {
@@ -40,7 +36,7 @@ module.exports = {
     }
   },
 
-  treeForVendor: function (tree) {
+  treeForVendor(tree) {
     let velocityPath = path.dirname(require.resolve('velocity-animate'));
     let velocityTree = new Funnel(this.treeGenerator(velocityPath), {
       srcDir: '/',
@@ -70,7 +66,7 @@ module.exports = {
     return mergeTrees([tree, velocityTree, matchMediaTree]);
   },
 
-  included: function () {
+  included() {
     this._super.included.apply(this, arguments);
 
     // We cannot use ember-cli to import velocity as an AMD module here, because we always need the shim in FastBoot

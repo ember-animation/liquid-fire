@@ -11,6 +11,7 @@ module.exports = {
         'liquid-child',
         'liquid-container',
         'liquid-versions',
+        'liquid-outlet',
         '-with-dynamic-vars',
       ],
     },

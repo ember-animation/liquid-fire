@@ -49,13 +49,13 @@ module('Integration | Component | liquid sync', function (hooks) {
 
     this.set('activated', true);
 
-    assert.equal(animationStarted, false, 'No animation yet');
+    assert.false(animationStarted, 'No animation yet');
     assert.dom('.off').exists({ count: 1 }, 'Found Off');
     assert.dom('.sample').exists({ count: 1 }, 'Found sample');
 
     run(() => sample.ready());
 
-    assert.equal(animationStarted, true, 'Animation started');
+    assert.true(animationStarted, 'Animation started');
     return tmap.waitUntilIdle().then(() => {
       assert.dom('.sample').exists({ count: 1 }, 'Found sample');
       assert.dom('.off').doesNotExist('Off is gone');
@@ -82,13 +82,13 @@ module('Integration | Component | liquid sync', function (hooks) {
 
     this.set('activated', true);
 
-    assert.equal(animationStarted, false, 'No animation yet');
+    assert.false(animationStarted, 'No animation yet');
     assert.dom('.off').exists({ count: 1 }, 'Found Off');
     assert.dom('.sample').exists({ count: 1 }, 'Found sample');
 
     this.set('innerThing', true);
 
-    assert.equal(animationStarted, true, 'Animation started');
+    assert.true(animationStarted, 'Animation started');
     return tmap.waitUntilIdle().then(() => {
       assert.dom('.alt').exists({ count: 1 }, 'Found alt');
       assert.dom('.off').doesNotExist('Off is gone');
@@ -108,7 +108,7 @@ module('Integration | Component | liquid sync', function (hooks) {
 
     this.set('activated', true);
 
-    assert.equal(animationStarted, false, 'No animation yet');
+    assert.false(animationStarted, 'No animation yet');
     assert.ok(tmap.runningTransitions() > 0, "Isn't idle");
     run(() => sample.ready());
   });
