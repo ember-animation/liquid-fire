@@ -44,6 +44,8 @@ module.exports = function (defaults) {
     },
   });
 
+  app.import('node_modules/prismjs/themes/prism.css');
+
   const { maybeEmbroider } = require('@embroider/test-setup');
   return maybeEmbroider(app);
 };
