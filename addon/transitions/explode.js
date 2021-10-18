@@ -1,7 +1,6 @@
 import $ from 'jquery';
 import { isArray, A } from '@ember/array';
 import { guidFor } from '@ember/object/internals';
-import { assign } from '@ember/polyfills';
 import { Promise } from 'liquid-fire';
 
 // Explode is not, by itself, an animation. It exists to pull apart
@@ -51,7 +50,7 @@ export default function explode(...pieces) {
 }
 
 function explodePiece(context, piece, seen) {
-  let childContext = assign({}, context);
+  let childContext = { ...context };
   let selectors = [piece.pickOld || piece.pick, piece.pickNew || piece.pick];
   let cleanupOld, cleanupNew;
 
