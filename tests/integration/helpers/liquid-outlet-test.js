@@ -5,6 +5,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
+import { gte } from 'ember-compatibility-helpers';
 import {
   RouteBuilder,
   SetRouteComponent,
@@ -52,19 +53,21 @@ module('Integration: liquid-outlet', function (hooks) {
     assert.dom().hasText('AHelloGoodbyeB');
   });
 
-  test('it should support an optional name', async function (assert) {
-    await render(
-      hbs`<SetRoute @outletState={{this.outletState}}>A{{outlet}}B</SetRoute>`
-    );
-    let hello = this.makeRoute({
-      template: hbs`Hello{{liquid-outlet "other"}}`,
+  if (!gte('4.0.0')) {
+    test('it should support an optional name', async function (assert) {
+      await render(
+        hbs`<SetRoute @outletState={{this.outletState}}>A{{outlet}}B</SetRoute>`
+      );
+      let hello = this.makeRoute({
+        template: hbs`Hello{{liquid-outlet "other"}}`,
+      });
+      this.setState(hello);
+      assert.dom().hasText('AHelloB');
+      hello.setChild('other', { template: hbs`Goodbye` });
+      this.setState(hello);
+      assert.dom().hasText('AHelloGoodbyeB');
     });
-    this.setState(hello);
-    assert.dom().hasText('AHelloB');
-    hello.setChild('other', { template: hbs`Goodbye` });
-    this.setState(hello);
-    assert.dom().hasText('AHelloGoodbyeB');
-  });
+  }
 
   test('it should support static class', async function (assert) {
     await render(hbs`{{liquid-outlet class="magical"}}`);
