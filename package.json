@@ -24,7 +24,7 @@
     "broccoli-string-replace": "^0.1.2",
     "ember-cli-babel": "^7.26.6",
     "ember-cli-htmlbars": "^5.7.1",
-    "ember-compatibility-helpers": "^1.2.5",
+    "ember-cli-version-checker": "^5.1.2",
     "match-media": "^0.2.0",
     "velocity-animate": "^1.5.2"
   },
