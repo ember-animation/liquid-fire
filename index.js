@@ -5,7 +5,7 @@ let mergeTrees = require('broccoli-merge-trees');
 let Funnel = require('broccoli-funnel');
 let map = require('broccoli-stew').map;
 const replace = require('broccoli-string-replace');
-import { gte } from 'ember-compatibility-helpers';
+const gte = require('ember-compatibility-helpers').gte;
 
 module.exports = {
   name: require('./package').name,
