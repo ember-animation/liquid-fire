@@ -47,9 +47,8 @@ jobs:
           - ember-lts-3.20
           - ember-lts-3.24
           - ember-release
-          # TODO: we need to remove named outlets for beta and canary compatibility
-          # - ember-beta
-          # - ember-canary
+          - ember-beta
+          - ember-canary
           - ember-classic
           - fastboot
 
