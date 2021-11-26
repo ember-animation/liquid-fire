@@ -172,12 +172,12 @@ module('Integration: liquid-outlet', function (hooks) {
     );
 
     let state = this.makeRoute({
-      template: hbs`C{{liquid-outlet "a"}}D{{liquid-outlet "b"}}E`,
+      template: hbs`C{{liquid-outlet}}DE`,
     });
 
     this.setState(state);
     assert.dom().hasText('ACDEB');
-    state.setChild('a', { template: hbs`foo` });
+    state.setChild('main', { template: hbs`foo` });
     this.setState(state);
     assert.dom().hasText('ACfooDEB');
   });
