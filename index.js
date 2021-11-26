@@ -44,7 +44,7 @@ module.exports = {
 
     let tree;
 
-    if (dep.gte('4.0.0')) {
+    if (dep.gte('4.0.0-alpha.0', { includePrerelease: true })) {
       tree = replace('addon', {
         files: ['templates/components/liquid-outlet.hbs'],
         pattern: {
