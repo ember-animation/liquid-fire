@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.33.0 (2021-11-27)
+
+- COMPAT: compatibility with Ember 4.0. Since Ember 4.0 drops support for named outlets, `{{liquid-outlet}}` with a name argument is also no longer supported when you use Ember >= 4. On earlier Ember versions, named liquid-outlet is still supported but will hit Ember's named outlet deprecation.
+
 ## 0.32.0 (2021-10-17)
 
 - COMPAT: should be deprecation-clean up through Ember 3.28. Thanks @rwwagner90
