@@ -4,6 +4,8 @@ let path = require('path');
 let mergeTrees = require('broccoli-merge-trees');
 let Funnel = require('broccoli-funnel');
 let map = require('broccoli-stew').map;
+let replace = require('broccoli-string-replace');
+let VersionChecker = require('ember-cli-version-checker');
 
 module.exports = {
   name: require('./package').name,
@@ -34,6 +36,25 @@ module.exports = {
         app.import(asset, options);
       };
     }
+  },
+
+  treeForAddon(_tree) {
+    let checker = new VersionChecker(this.project);
+    let dep = checker.for('ember-source');
+
+    let tree;
+
+    if (dep.gte('4.0.0-alpha.0', { includePrerelease: true })) {
+      tree = replace('addon', {
+        files: ['templates/components/liquid-outlet.hbs'],
+        pattern: {
+          match: /{{outlet this.outletName}}/g,
+          replacement: '{{outlet}}',
+        },
+      });
+    }
+
+    return this._super.treeForAddon.call(this, tree || _tree);
   },
 
   treeForVendor(tree) {

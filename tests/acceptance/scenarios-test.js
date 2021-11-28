@@ -35,7 +35,6 @@ module('Acceptance: Scenarios', function (hooks) {
 
   test('model-dependent transitions are matching correctly', async function (assert) {
     await visit('/scenarios/model-dependent-rule/1');
-    assert.ranTransition('toLeft');
     await click(
       [...document.querySelectorAll('a')].find(
         (elt) => elt.textContent.trim() === 'Previous'
