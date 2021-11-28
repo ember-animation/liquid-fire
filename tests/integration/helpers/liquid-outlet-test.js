@@ -5,7 +5,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
-import { gte } from 'ember-compatibility-helpers';
+import { macroCondition, dependencySatisfies } from '@embroider/macros';
 import {
   RouteBuilder,
   SetRouteComponent,
@@ -53,7 +53,7 @@ module('Integration: liquid-outlet', function (hooks) {
     assert.dom().hasText('AHelloGoodbyeB');
   });
 
-  if (!gte('4.0.0')) {
+  if (macroCondition(dependencySatisfies('ember-source', '<=3.26.0'))) {
     test('it should support an optional name', async function (assert) {
       await render(
         hbs`<SetRoute @outletState={{this.outletState}}>A{{outlet}}B</SetRoute>`

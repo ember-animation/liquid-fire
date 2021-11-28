@@ -1,6 +1,6 @@
 import { click, findAll, visit, waitUntil } from '@ember/test-helpers';
 import { setupTransitionTest } from '../helpers/integration';
-import { module, skip, test } from 'qunit';
+import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { macroCondition, dependencySatisfies } from '@embroider/macros';
 
@@ -33,9 +33,8 @@ module('Acceptance: Scenarios', function (hooks) {
     });
   }
 
-  skip('model-dependent transitions are matching correctly', async function (assert) {
+  test('model-dependent transitions are matching correctly', async function (assert) {
     await visit('/scenarios/model-dependent-rule/1');
-    assert.ranTransition('toLeft');
     await click(
       [...document.querySelectorAll('a')].find(
         (elt) => elt.textContent.trim() === 'Previous'
