@@ -17,6 +17,7 @@
     "test:fastboot": "qunit fastboot-tests"
   },
   "dependencies": {
+    "@ember/jquery": "^2.0.0",
     "@embroider/macros": "^0.48.1",
     "broccoli-funnel": "^3.0.8",
     "broccoli-merge-trees": "^4.2.0",
