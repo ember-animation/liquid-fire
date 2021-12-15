@@ -28,6 +28,7 @@
     "ember-cli-version-checker": "^5.1.2",
     "jquery": "^3.6.0",
     "match-media": "^0.2.0",
+    "rsvp": "^4.8.5",
     "velocity-animate": "^1.5.2"
   },
   "devDependencies": {
@@ -82,7 +83,6 @@
     "prismjs": "^1.24.1",
     "qunit": "^2.15.0",
     "qunit-dom": "^1.6.0",
-    "rsvp": "^4.8.5",
     "sass": "^1.43.2",
     "webpack": "^5.58.2"
   },
