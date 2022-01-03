@@ -38,14 +38,12 @@ module.exports = {
     }
   },
 
-  treeForAddon(_tree) {
+  treeForAddon(tree) {
     let checker = new VersionChecker(this.project);
     let dep = checker.for('ember-source');
 
-    let tree;
-
     if (dep.gte('4.0.0-alpha.0', { includePrerelease: true })) {
-      tree = replace('addon', {
+      tree = replace(tree, {
         files: ['templates/components/liquid-outlet.hbs'],
         pattern: {
           match: /{{outlet this.outletName}}/g,
@@ -54,7 +52,7 @@ module.exports = {
       });
     }
 
-    return this._super.treeForAddon.call(this, tree || _tree);
+    return this._super.treeForAddon.call(this, tree);
   },
 
   treeForVendor(tree) {
