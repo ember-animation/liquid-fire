@@ -1,7 +1,7 @@
 {
   "name": "liquid-fire",
   "description": "Animated transitions for Ember applications.",
-  "version": "0.33.0",
+  "version": "0.33.1",
   "scripts": {
     "build": "ember build --environment=production",
     "lint": "npm-run-all --aggregate-output --continue-on-error --parallel \"lint:!(fix)\"",
