@@ -24,12 +24,15 @@ module('Integration: liquid-spacer', function (hooks) {
     assert.expect(1);
 
     let theSpacer;
-    this.spacer = ensureSafeComponent(LiquidSpacer.extend({
-      didInsertElement() {
-        this._super(...arguments);
-        theSpacer = this;
-      },
-    }), this);
+    this.spacer = ensureSafeComponent(
+      LiquidSpacer.extend({
+        didInsertElement() {
+          this._super(...arguments);
+          theSpacer = this;
+        },
+      }),
+      this
+    );
 
     this.set('message', longMessage);
     await render(hbs`
