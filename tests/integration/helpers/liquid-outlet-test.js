@@ -105,7 +105,7 @@ module('Integration: liquid-outlet', function (hooks) {
     routerState.setChild('main', { template: hbs`byte` });
     this.setState(routerState);
     assert.ok(tmap.transitionFor.called, 'transitionFor should be called');
-    assert.equal(
+    assert.strictEqual(
       tmap.transitionFor.lastCall.returnValue.animation.name,
       'fade'
     );

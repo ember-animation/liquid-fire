@@ -60,7 +60,7 @@ module('Integration: liquid-bind block form', function (hooks) {
     this.set('foo', 'hi');
     assert.dom('.liquid-child').exists({ count: 1 }, 'child rendered');
     assert.ok(tmap.transitionFor.calledTwice, 'second transition');
-    assert.equal(
+    assert.strictEqual(
       tmap.transitionFor.lastCall.returnValue.animation.handler,
       dummyAnimation
     );

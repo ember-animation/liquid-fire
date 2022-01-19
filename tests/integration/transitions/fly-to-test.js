@@ -40,9 +40,17 @@ module('Integration: fly-to transition', function (hooks) {
             pickNew: '.bluebox',
             use: function () {
               // sanity checks
-              assert.equal(this.oldElement?.length, 1, 'found old element');
-              assert.equal(this.newElement?.length, 1, 'found new element');
-              assert.equal(
+              assert.strictEqual(
+                this.oldElement?.length,
+                1,
+                'found old element'
+              );
+              assert.strictEqual(
+                this.newElement?.length,
+                1,
+                'found new element'
+              );
+              assert.strictEqual(
                 this.oldElement?.css('background-color'),
                 'rgb(255, 0, 0)'
               );
@@ -55,12 +63,12 @@ module('Integration: fly-to transition', function (hooks) {
                     this.oldElement.offset(),
                     "element didn't jump"
                   );
-                  assert.equal(
+                  assert.strictEqual(
                     this.newElement.outerWidth(),
                     this.oldElement.outerWidth(),
                     'same width'
                   );
-                  assert.equal(
+                  assert.strictEqual(
                     this.newElement.outerHeight(),
                     this.oldElement.outerHeight(),
                     'same height'
@@ -96,9 +104,17 @@ module('Integration: fly-to transition', function (hooks) {
             pickNew: '.yellowbox',
             use: function () {
               // sanity checks
-              assert.equal(this.oldElement?.length, 1, 'found old element');
-              assert.equal(this.newElement?.length, 1, 'found new element');
-              assert.equal(
+              assert.strictEqual(
+                this.oldElement?.length,
+                1,
+                'found old element'
+              );
+              assert.strictEqual(
+                this.newElement?.length,
+                1,
+                'found new element'
+              );
+              assert.strictEqual(
                 this.oldElement?.css('background-color'),
                 'rgb(0, 128, 0)'
               );
@@ -111,12 +127,12 @@ module('Integration: fly-to transition', function (hooks) {
                     this.oldElement.offset(),
                     "element didn't jump"
                   );
-                  assert.equal(
+                  assert.strictEqual(
                     this.newElement.outerWidth(),
                     this.oldElement.outerWidth(),
                     'same width'
                   );
-                  assert.equal(
+                  assert.strictEqual(
                     this.newElement.outerHeight(),
                     this.oldElement.outerHeight(),
                     'same height'

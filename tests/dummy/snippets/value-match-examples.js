@@ -1,3 +1,4 @@
+/* global Person */
 // Matches any change that ends up with a value that's a Person.
 this.transition(
   this.toValue(function (value) {

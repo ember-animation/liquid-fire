@@ -89,12 +89,12 @@ module('Integration: liquid-spacer', function (hooks) {
       this.set('message', longMessage);
       testingKick();
       await tmap.waitUntilIdle();
-      assert.equal(
+      assert.strictEqual(
         this.element.querySelector('#my-spacer').offsetWidth,
         initialWidth,
         'width'
       );
-      assert.equal(
+      assert.strictEqual(
         this.element.querySelector('#my-spacer').offsetHeight,
         initialHeight,
         'height'
@@ -113,7 +113,7 @@ module('Integration: liquid-spacer', function (hooks) {
 
     let style = findAll('#my-spacer')[0].style;
 
-    assert.equal(style.width, '', 'width style is unset');
+    assert.strictEqual(style.width, '', 'width style is unset');
     assert.ok(
       /^\d+px$/.test(style.height),
       'height style is set to ' + style.height
@@ -131,7 +131,7 @@ module('Integration: liquid-spacer', function (hooks) {
 
     let style = findAll('#my-spacer')[0].style;
 
-    assert.equal(style.height, '', 'height style is unset');
+    assert.strictEqual(style.height, '', 'height style is unset');
     assert.ok(
       /^\d+px$/.test(style.width),
       'width style is set to ' + style.width

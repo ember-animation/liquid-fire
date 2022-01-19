@@ -109,7 +109,7 @@ module('Integration: liquid-if', function (hooks) {
     sinon.spy(tmap, 'transitionFor');
     await render(hbs`{{#liquid-if this.isReady}}A{{else}}B{{/liquid-if}}`);
     this.set('isReady', true);
-    assert.equal(
+    assert.strictEqual(
       tmap.transitionFor.lastCall.returnValue.animation.handler,
       dummyAnimation
     );
@@ -128,7 +128,7 @@ module('Integration: liquid-if', function (hooks) {
       hbs`{{#liquid-unless this.isReady}}A{{else}}B{{/liquid-unless}}`
     );
     this.set('isReady', true);
-    assert.equal(
+    assert.strictEqual(
       tmap.transitionFor.lastCall.returnValue.animation.handler,
       dummyAnimation
     );

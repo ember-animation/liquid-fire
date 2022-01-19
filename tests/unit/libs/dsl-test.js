@@ -352,9 +352,9 @@ module('Transitions DSL', function (hooks) {
         this.toRoute('two'),
         this.use(
           function (a, b, c) {
-            assert.equal(a, 1);
-            assert.equal(b, 2);
-            assert.equal(c, 3);
+            assert.strictEqual(a, 1);
+            assert.strictEqual(b, 2);
+            assert.strictEqual(c, 3);
           },
           1,
           2,
@@ -519,9 +519,13 @@ module('Transitions DSL', function (hooks) {
   function expectAnimation(assert, conditions, nameOrHandler, msg) {
     let runningTransition = t.transitionFor(conditions);
     if (typeof nameOrHandler === 'string') {
-      assert.equal(runningTransition.animation.name, nameOrHandler, msg);
+      assert.strictEqual(runningTransition.animation.name, nameOrHandler, msg);
     } else {
-      assert.equal(runningTransition.animation.handler, nameOrHandler, msg);
+      assert.strictEqual(
+        runningTransition.animation.handler,
+        nameOrHandler,
+        msg
+      );
     }
   }
 
