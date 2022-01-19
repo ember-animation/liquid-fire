@@ -5,6 +5,7 @@ import { testingKick } from 'liquid-fire/mutation-observer';
 import LiquidSpacer from 'liquid-fire/components/liquid-spacer';
 import sinon from 'sinon';
 import { hbs } from 'ember-cli-htmlbars';
+import { ensureSafeComponent } from '@embroider/util';
 
 let tmap;
 
@@ -23,21 +24,19 @@ module('Integration: liquid-spacer', function (hooks) {
     assert.expect(1);
 
     let theSpacer;
-    this.owner.register(
-      'component:x-spacer',
-      LiquidSpacer.extend({
-        didInsertElement() {
-          this._super(...arguments);
-          theSpacer = this;
-        },
-      })
-    );
+    this.spacer = ensureSafeComponent(LiquidSpacer.extend({
+      didInsertElement() {
+        this._super(...arguments);
+        theSpacer = this;
+      },
+    }), this);
+
     this.set('message', longMessage);
     await render(hbs`
                  <div style="width: 20em">
-                 {{#x-spacer id="my-spacer" growDuration=1 }}
+                 <this.spacer @id="my-spacer" @growDuration={{1}}>
                    {{this.message}}
-                 {{/x-spacer}}
+                </this.spacer>
                  </div>
                 `);
 

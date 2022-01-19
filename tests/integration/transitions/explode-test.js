@@ -5,6 +5,9 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { ensureSafeComponent } from '@embroider/util';
+import { setComponentTemplate } from '@ember/component';
+import templateOnlyComponent from '@ember/component/template-only';
 
 let Promise = EmberPromise;
 let tmap;
@@ -488,9 +491,10 @@ module('Integration: explode transition', function (hooks) {
         );
       });
       this.set('boxSizing', boxSizing);
-      this.owner.register('template:components/my-stylesheet', stylesheet());
+
+      this.styles = ensureSafeComponent(stylesheet(), this);
       await render(hbs`
-                  {{my-stylesheet boxSizing=this.boxSizing}}
+                  <this.styles @boxSizing={{this.boxSizing}} />
                   {{#liquid-if this.showBlue class="explode-transition-test"}}
                   <div class="bluebox"></div>
                   {{else}}
@@ -565,9 +569,9 @@ module('Integration: explode transition', function (hooks) {
         );
       });
       this.set('boxSizing', boxSizing);
-      this.owner.register('template:components/my-stylesheet', stylesheet());
+      this.styles = ensureSafeComponent(stylesheet(), this);
       await render(hbs`
-                  {{my-stylesheet boxSizing=this.boxSizing}}
+                  <this.styles @boxSizing={{this.boxSizing}} />
                   {{#liquid-if this.showYellow class="explode-transition-test"}}
                   <div class="yellowbox"></div>
                   {{else}}
@@ -624,7 +628,8 @@ module('Integration: explode transition', function (hooks) {
   });
 
   function stylesheet() {
-    return hbs`
+    return setComponentTemplate(
+      hbs`
       <style>
       .explode-transition-test {
         width: 600px;
@@ -677,6 +682,8 @@ module('Integration: explode transition', function (hooks) {
       }
                 </style>
 
-      `;
+      `,
+      templateOnlyComponent()
+    );
   }
 });
