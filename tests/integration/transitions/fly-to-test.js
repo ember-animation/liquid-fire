@@ -3,6 +3,9 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import $ from 'jquery';
 import { hbs } from 'ember-cli-htmlbars';
+import { ensureSafeComponent } from '@embroider/util';
+import { setComponentTemplate } from '@ember/component';
+import templateOnlyComponent from '@ember/component/template-only';
 
 let tmap;
 
@@ -80,9 +83,9 @@ module('Integration: fly-to transition', function (hooks) {
       });
 
       this.set('boxSizing', boxSizing);
-      this.owner.register('template:components/my-stylesheet', stylesheet());
+      this.styles = ensureSafeComponent(stylesheet(), this);
       await render(hbs`
-                  {{my-stylesheet boxSizing=this.boxSizing}}
+                  <this.styles @boxSizing={{this.boxSizing}} />
                   {{#liquid-if this.showBlue class="fly-to-test"}}
                   <div class="bluebox"></div>
                   {{else}}
@@ -143,9 +146,9 @@ module('Integration: fly-to transition', function (hooks) {
         );
       });
       this.set('boxSizing', boxSizing);
-      this.owner.register('template:components/my-stylesheet', stylesheet());
+      this.styles = ensureSafeComponent(stylesheet(), this);
       await render(hbs`
-                  {{my-stylesheet boxSizing=this.boxSizing}}
+                  <this.styles @boxSizing={{this.boxSizing}} />
                   {{#liquid-if this.showYellow class="fly-to-test"}}
                   <div class="yellowbox"></div>
                   {{else}}
@@ -159,7 +162,8 @@ module('Integration: fly-to transition', function (hooks) {
   });
 
   function stylesheet() {
-    return hbs`
+    return setComponentTemplate(
+      hbs`
       <style>
       .fly-to-test {
         width: 600px;
@@ -212,6 +216,8 @@ module('Integration: fly-to transition', function (hooks) {
       }
                 </style>
 
-      `;
+      `,
+      templateOnlyComponent()
+    );
   }
 });

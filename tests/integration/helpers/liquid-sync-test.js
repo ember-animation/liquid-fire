@@ -5,6 +5,8 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import Component from '@ember/component';
 import { hbs } from 'ember-cli-htmlbars';
+import { ensureSafeComponent } from '@embroider/util';
+import { setComponentTemplate } from '@ember/component';
 
 let sample, tmap, animationStarted;
 
@@ -13,19 +15,20 @@ module('Integration | Component | liquid sync', function (hooks) {
 
   hooks.beforeEach(function () {
     tmap = this.owner.lookup('service:liquid-fire-transitions');
-    this.owner.register(
-      'component:x-sample',
-      Component.extend({
-        didInsertElement() {
-          this._super(...arguments);
-          sample = this;
-        },
-      })
+
+    this.Sample = ensureSafeComponent(
+      setComponentTemplate(
+        hbs`<div class="sample">Sample</div>`,
+        Component.extend({
+          didInsertElement() {
+            this._super(...arguments);
+            sample = this;
+          },
+        })
+      ),
+      this
     );
-    this.owner.register(
-      'template:components/x-sample',
-      hbs`<div class="sample">Sample</div>`
-    );
+
     animationStarted = false;
     this.owner.register('transition:spy', function () {
       animationStarted = true;
@@ -37,7 +40,7 @@ module('Integration | Component | liquid sync', function (hooks) {
     await render(hbs`
       {{#liquid-if this.activated use="spy"}}
         <LiquidSync as |sync|>
-          {{x-sample ready=sync}}
+          <this.Sample @ready={{sync}} />
         </LiquidSync>
       {{else}}
         <div class="off">Off</div>
@@ -69,7 +72,7 @@ module('Integration | Component | liquid sync', function (hooks) {
            <div class="alt">Alt</div>
         {{else}}
           {{#liquid-sync as |sync|}}
-            {{x-sample ready=sync}}
+            <this.Sample @ready={{sync}} />
           {{/liquid-sync}}
         {{/if}}
       {{else}}
@@ -99,7 +102,7 @@ module('Integration | Component | liquid sync', function (hooks) {
     await render(hbs`
       {{#liquid-if this.activated use="spy"}}
         {{#liquid-sync as |sync|}}
-          {{x-sample ready=sync}}
+          <this.Sample @ready={{sync}} />
         {{/liquid-sync}}
       {{else}}
         <div class="off">Off</div>
