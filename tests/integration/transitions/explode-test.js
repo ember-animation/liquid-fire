@@ -5,6 +5,9 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { ensureSafeComponent } from '@embroider/util';
+import { setComponentTemplate } from '@ember/component';
+import templateOnlyComponent from '@ember/component/template-only';
 
 let Promise = EmberPromise;
 let tmap;
@@ -90,7 +93,7 @@ module('Integration: explode transition', function (hooks) {
           use: function () {
             return new Promise((resolve) => {
               next(() => {
-                assert.equal(
+                assert.strictEqual(
                   getComputedStyle(
                     liquidContainer.querySelector('.liquid-child .bluebox')
                       .parentElement
@@ -98,7 +101,7 @@ module('Integration: explode transition', function (hooks) {
                   'visible',
                   'new element'
                 );
-                assert.equal(
+                assert.strictEqual(
                   getComputedStyle(
                     liquidContainer.querySelector('.liquid-child .redbox')
                       .parentElement
@@ -133,8 +136,8 @@ module('Integration: explode transition', function (hooks) {
         this.use('explode', {
           pick: 'h1',
           use: function () {
-            assert.equal(this.oldElement?.text(), 'Old Title');
-            assert.equal(this.newElement?.text(), 'New Title');
+            assert.strictEqual(this.oldElement?.text(), 'Old Title');
+            assert.strictEqual(this.newElement?.text(), 'New Title');
             return resolve();
           },
         })
@@ -160,8 +163,8 @@ module('Integration: explode transition', function (hooks) {
           pickOld: 'h1',
           pickNew: 'h2',
           use: function () {
-            assert.equal(this.oldElement?.text(), 'Old Title');
-            assert.equal(this.newElement?.text(), 'New Title');
+            assert.strictEqual(this.oldElement?.text(), 'Old Title');
+            assert.strictEqual(this.newElement?.text(), 'New Title');
             return resolve();
           },
         })
@@ -186,7 +189,7 @@ module('Integration: explode transition', function (hooks) {
         this.use('explode', {
           pickOld: 'h1',
           use: function () {
-            assert.equal(this.oldElement?.text(), 'Old Title');
+            assert.strictEqual(this.oldElement?.text(), 'Old Title');
             assert.notOk(this.newElement, 'Should be no new element');
             return resolve();
           },
@@ -212,7 +215,7 @@ module('Integration: explode transition', function (hooks) {
         this.use('explode', {
           pickNew: 'h1',
           use: function () {
-            assert.equal(this.newElement?.text(), 'New Title');
+            assert.strictEqual(this.newElement?.text(), 'New Title');
             assert.notOk(this.oldElement, 'Should be no old element');
             return resolve();
           },
@@ -242,7 +245,7 @@ module('Integration: explode transition', function (hooks) {
             let newText = this.newElement && this.newElement.text();
             assert.ok(/Old/.test(oldText), 'old text');
             assert.ok(/New/.test(newText), 'new text');
-            assert.equal(oldText?.slice(4), newText?.slice(4));
+            assert.strictEqual(oldText?.slice(4), newText?.slice(4));
             return resolve();
           },
         })
@@ -404,7 +407,7 @@ module('Integration: explode transition', function (hooks) {
             let newText = this.newElement && this.newElement.text();
             assert.ok(/Old/.test(oldText), 'old text');
             assert.ok(/New/.test(newText), 'new text');
-            assert.equal(oldText?.slice(4), newText?.slice(4));
+            assert.strictEqual(oldText?.slice(4), newText?.slice(4));
             return resolve();
           },
         })
@@ -438,9 +441,17 @@ module('Integration: explode transition', function (hooks) {
             pickNew: '.bluebox',
             use: function () {
               // sanity checks
-              assert.equal(this.oldElement?.length, 1, 'found old element');
-              assert.equal(this.newElement?.length, 1, 'found new element');
-              assert.equal(
+              assert.strictEqual(
+                this.oldElement?.length,
+                1,
+                'found old element'
+              );
+              assert.strictEqual(
+                this.newElement?.length,
+                1,
+                'found new element'
+              );
+              assert.strictEqual(
                 this.oldElement?.css('background-color'),
                 'rgb(255, 0, 0)'
               );
@@ -452,23 +463,23 @@ module('Integration: explode transition', function (hooks) {
               let realOldElement = this.oldElement
                 .parent()
                 .find('.liquid-child .redbox');
-              assert.equal(
+              assert.strictEqual(
                 realOldElement.length,
                 1,
                 'found actual old element'
               );
-              assert.equal(realOldElement.css('visibility'), 'hidden');
+              assert.strictEqual(realOldElement.css('visibility'), 'hidden');
               assert.deepEqual(
                 realOldElement.offset(),
                 this.oldElement.offset(),
                 "element didn't jump"
               );
-              assert.equal(
+              assert.strictEqual(
                 realOldElement.outerWidth(),
                 this.oldElement.outerWidth(),
                 'same width'
               );
-              assert.equal(
+              assert.strictEqual(
                 realOldElement.outerHeight(),
                 this.oldElement.outerHeight(),
                 'same height'
@@ -480,9 +491,10 @@ module('Integration: explode transition', function (hooks) {
         );
       });
       this.set('boxSizing', boxSizing);
-      this.owner.register('template:components/my-stylesheet', stylesheet());
+
+      this.styles = ensureSafeComponent(stylesheet(), this);
       await render(hbs`
-                  {{my-stylesheet boxSizing=this.boxSizing}}
+                  <this.styles @boxSizing={{this.boxSizing}} />
                   {{#liquid-if this.showBlue class="explode-transition-test"}}
                   <div class="bluebox"></div>
                   {{else}}
@@ -507,9 +519,17 @@ module('Integration: explode transition', function (hooks) {
             pickNew: '.yellowbox',
             use: function () {
               // sanity checks
-              assert.equal(this.oldElement?.length, 1, 'found old element');
-              assert.equal(this.newElement?.length, 1, 'found new element');
-              assert.equal(
+              assert.strictEqual(
+                this.oldElement?.length,
+                1,
+                'found old element'
+              );
+              assert.strictEqual(
+                this.newElement?.length,
+                1,
+                'found new element'
+              );
+              assert.strictEqual(
                 this.oldElement?.css('background-color'),
                 'rgb(0, 128, 0)'
               );
@@ -521,23 +541,23 @@ module('Integration: explode transition', function (hooks) {
               let realOldElement = this.oldElement
                 .parent()
                 .find('.liquid-child .greenbox');
-              assert.equal(
+              assert.strictEqual(
                 realOldElement.length,
                 1,
                 'found actual old element'
               );
-              assert.equal(realOldElement.css('visibility'), 'hidden');
+              assert.strictEqual(realOldElement.css('visibility'), 'hidden');
               assert.deepEqual(
                 realOldElement.offset(),
                 this.oldElement.offset(),
                 "element didn't jump"
               );
-              assert.equal(
+              assert.strictEqual(
                 realOldElement.outerWidth(),
                 this.oldElement.outerWidth(),
                 'same width'
               );
-              assert.equal(
+              assert.strictEqual(
                 realOldElement.outerHeight(),
                 this.oldElement.outerHeight(),
                 'same height'
@@ -549,9 +569,9 @@ module('Integration: explode transition', function (hooks) {
         );
       });
       this.set('boxSizing', boxSizing);
-      this.owner.register('template:components/my-stylesheet', stylesheet());
+      this.styles = ensureSafeComponent(stylesheet(), this);
       await render(hbs`
-                  {{my-stylesheet boxSizing=this.boxSizing}}
+                  <this.styles @boxSizing={{this.boxSizing}} />
                   {{#liquid-if this.showYellow class="explode-transition-test"}}
                   <div class="yellowbox"></div>
                   {{else}}
@@ -574,12 +594,12 @@ module('Integration: explode transition', function (hooks) {
           this.use('explode', {
             pick: 'h1',
             use: function () {
-              assert.equal(
+              assert.strictEqual(
                 document.querySelectorAll('#unique-parent-id').length,
                 1,
                 'cloned top level DOM element does not have duplicated id attribute'
               );
-              assert.equal(
+              assert.strictEqual(
                 document.querySelectorAll('#unique-child-id').length,
                 1,
                 'any cloned child DOM does not have duplicate id attributes'
@@ -608,7 +628,8 @@ module('Integration: explode transition', function (hooks) {
   });
 
   function stylesheet() {
-    return hbs`
+    return setComponentTemplate(
+      hbs`
       <style>
       .explode-transition-test {
         width: 600px;
@@ -661,6 +682,8 @@ module('Integration: explode transition', function (hooks) {
       }
                 </style>
 
-      `;
+      `,
+      templateOnlyComponent()
+    );
   }
 });

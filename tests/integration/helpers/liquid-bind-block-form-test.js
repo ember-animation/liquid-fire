@@ -4,6 +4,7 @@ import { render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
+import { settled } from '@ember/test-helpers';
 
 module('Integration: liquid-bind block form', function (hooks) {
   setupRenderingTest(hooks);
@@ -58,9 +59,10 @@ module('Integration: liquid-bind block form', function (hooks) {
       dummyAnimation
     );
     this.set('foo', 'hi');
+    await settled();
     assert.dom('.liquid-child').exists({ count: 1 }, 'child rendered');
     assert.ok(tmap.transitionFor.calledTwice, 'second transition');
-    assert.equal(
+    assert.strictEqual(
       tmap.transitionFor.lastCall.returnValue.animation.handler,
       dummyAnimation
     );

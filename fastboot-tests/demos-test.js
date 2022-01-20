@@ -34,7 +34,11 @@ Qmodule('Fastboot', function (hooks) {
         );
         return await navigateForward(location.pathname);
       }
-      assert.equal(page.statusCode, 200, `Expected status 200 for ${url}`);
+      assert.strictEqual(
+        page.statusCode,
+        200,
+        `Expected status 200 for ${url}`
+      );
       let html = await page.html();
       let dom = new JSDOM(html);
       let forward = dom.window.document.querySelector('.page-item.forward a');

@@ -6,6 +6,7 @@ import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import { macroCondition, dependencySatisfies } from '@embroider/macros';
+import { ensureSafeComponent } from '@embroider/util';
 import {
   RouteBuilder,
   SetRouteComponent,
@@ -17,7 +18,7 @@ module('Integration: liquid-outlet', function (hooks) {
   hooks.beforeEach(function () {
     this.owner.register('service:route-builder', RouteBuilder);
     this.builder = this.owner.lookup('service:route-builder');
-    this.owner.register('component:set-route', SetRouteComponent);
+    this.SetRoute = ensureSafeComponent(SetRouteComponent, this);
     this.setState = function (routeInfo) {
       this.set('outletState', routeInfo.asTop());
     };
@@ -34,7 +35,7 @@ module('Integration: liquid-outlet', function (hooks) {
 
   test('it should render when state is set after insertion', async function (assert) {
     await render(
-      hbs`<SetRoute @outletState={{this.outletState}}>{{liquid-outlet}}</SetRoute>`
+      hbs`<this.SetRoute @outletState={{this.outletState}}>{{liquid-outlet}}</this.SetRoute>`
     );
     this.setState(this.makeRoute({ template: hbs`<h1>Hello world</h1>` }));
     assert.dom('h1').exists({ count: 1 });
@@ -42,7 +43,7 @@ module('Integration: liquid-outlet', function (hooks) {
 
   test('it should render when state is set before insertion', async function (assert) {
     await render(
-      hbs`<SetRoute @outletState={{this.outletState}}>A{{outlet}}B</SetRoute>`
+      hbs`<this.SetRoute @outletState={{this.outletState}}>A{{outlet}}B</this.SetRoute>`
     );
     console.log(this.outletState);
     let hello = this.makeRoute({ template: hbs`Hello{{liquid-outlet}}` });
@@ -56,7 +57,7 @@ module('Integration: liquid-outlet', function (hooks) {
   if (macroCondition(dependencySatisfies('ember-source', '<=3.26.0'))) {
     test('it should support an optional name', async function (assert) {
       await render(
-        hbs`<SetRoute @outletState={{this.outletState}}>A{{outlet}}B</SetRoute>`
+        hbs`<this.SetRoute @outletState={{this.outletState}}>A{{outlet}}B</this.SetRoute>`
       );
       let hello = this.makeRoute({
         template: hbs`Hello{{liquid-outlet "other"}}`,
@@ -95,7 +96,7 @@ module('Integration: liquid-outlet', function (hooks) {
     let tmap = this.owner.lookup('service:liquid-fire-transitions');
     sinon.spy(tmap, 'transitionFor');
     await render(
-      hbs`<SetRoute @outletState={{this.outletState}}>{{outlet}}</SetRoute>`
+      hbs`<this.SetRoute @outletState={{this.outletState}}>{{outlet}}</this.SetRoute>`
     );
     let routerState = this.makeRoute({
       template: hbs`{{liquid-outlet use="fade"}}`,
@@ -105,7 +106,7 @@ module('Integration: liquid-outlet', function (hooks) {
     routerState.setChild('main', { template: hbs`byte` });
     this.setState(routerState);
     assert.ok(tmap.transitionFor.called, 'transitionFor should be called');
-    assert.equal(
+    assert.strictEqual(
       tmap.transitionFor.lastCall.returnValue.animation.name,
       'fade'
     );
@@ -114,7 +115,7 @@ module('Integration: liquid-outlet', function (hooks) {
 
   test('should support containerless mode', async function (assert) {
     await render(
-      hbs`<div data-test-target><SetRoute @outletState={{this.outletState}}>{{liquid-outlet containerless=true}}</SetRoute></div>`
+      hbs`<div data-test-target><this.SetRoute @outletState={{this.outletState}}>{{liquid-outlet containerless=true}}</this.SetRoute></div>`
     );
     this.setState(this.makeRoute({ template: hbs`<h1>Hello world</h1>` }));
     assert.dom('.liquid-container').doesNotExist('no container');
@@ -125,7 +126,7 @@ module('Integration: liquid-outlet', function (hooks) {
 
   test('should support `class` on children in containerless mode', async function (assert) {
     await render(
-      hbs`<div data-test-target><SetRoute @outletState={{this.outletState}}>{{liquid-outlet class="bar" containerless=true}}</SetRoute></div>`
+      hbs`<div data-test-target><this.SetRoute @outletState={{this.outletState}}>{{liquid-outlet class="bar" containerless=true}}</this.SetRoute></div>`
     );
     this.setState(this.makeRoute({ template: hbs`<h1>Hello world</h1>` }));
     assert
@@ -148,7 +149,7 @@ module('Integration: liquid-outlet', function (hooks) {
     let tmap = this.owner.lookup('service:liquid-fire-transitions');
     sinon.spy(tmap, 'transitionFor');
     await render(
-      hbs`<SetRoute @outletState={{this.outletState}}>{{liquid-outlet watchModels=true }}</SetRoute>`
+      hbs`<this.SetRoute @outletState={{this.outletState}}>{{liquid-outlet watchModels=true }}</this.SetRoute>`
     );
     this.setState(state);
     assert.dom('.content').hasText('1');
@@ -168,7 +169,7 @@ module('Integration: liquid-outlet', function (hooks) {
 
   test('tolerates empty content when parent outlet is stable', async function (assert) {
     await render(
-      hbs`<SetRoute @outletState={{this.outletState}}>A{{liquid-outlet}}B</SetRoute>`
+      hbs`<this.SetRoute @outletState={{this.outletState}}>A{{liquid-outlet}}B</this.SetRoute>`
     );
 
     let state = this.makeRoute({
@@ -186,7 +187,7 @@ module('Integration: liquid-outlet', function (hooks) {
     this.set('thing', 'Goodbye');
     this.setState(this.makeRoute({ template: hbs`Hello` }));
     await render(
-      hbs`<SetRoute @outletState={{this.outletState}}>{{#liquid-bind this.thing as |thingVersion|}}{{thingVersion}}{{outlet}}{{/liquid-bind}}</SetRoute>`
+      hbs`<this.SetRoute @outletState={{this.outletState}}>{{#liquid-bind this.thing as |thingVersion|}}{{thingVersion}}{{outlet}}{{/liquid-bind}}</this.SetRoute>`
     );
     assert.dom().hasText('GoodbyeHello');
     this.set('thing', 'Other');

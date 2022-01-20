@@ -15,8 +15,8 @@ module('Integration: liquid-measured', function (hooks) {
     let template = hbs`{{#liquid-measured didMeasure=this.didMeasureSpy}}hello{{/liquid-measured}}`;
     await render(template);
 
-    assert.equal(didMeasureSpy.callCount, 1);
+    assert.strictEqual(didMeasureSpy.callCount, 1);
     await triggerEvent(window, 'resize');
-    assert.equal(didMeasureSpy.callCount, 2);
+    assert.strictEqual(didMeasureSpy.callCount, 2);
   });
 });

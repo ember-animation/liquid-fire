@@ -66,7 +66,7 @@ module('Integration: liquid-bind', function (hooks) {
     this.set('name', 'unicorn');
     await render(hbs`{{liquid-bind this.name use="fade"}}`);
     this.set('name', 'other');
-    assert.equal(
+    assert.strictEqual(
       tmap.transitionFor.lastCall.returnValue.animation.name,
       'fade'
     );
@@ -117,7 +117,7 @@ module('Integration: liquid-bind', function (hooks) {
     sinon.spy(tmap, 'transitionFor');
     await render(hbs`{{liquid-bind this.foo}}`);
     this.set('foo', 'bar');
-    assert.equal(
+    assert.strictEqual(
       tmap.transitionFor.lastCall.returnValue.animation.handler,
       dummyAnimation
     );

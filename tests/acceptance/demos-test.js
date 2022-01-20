@@ -20,7 +20,7 @@ module('Acceptance: Demos', function (hooks) {
         await click('.page-item.forward a');
       } else {
         // eslint-disable-next-line qunit/no-conditional-assertions
-        assert.equal(currentRouteName(), lastRouteName);
+        assert.strictEqual(currentRouteName(), lastRouteName);
         break;
       }
     }
@@ -28,21 +28,21 @@ module('Acceptance: Demos', function (hooks) {
 
   test('liquid outlet demo', async function (assert) {
     await visit('/helpers/liquid-outlet');
-    assert.equal(
+    assert.strictEqual(
       currentRouteName(),
       'helpers-documentation.liquid-outlet.index'
     );
     assert.dom('.demo-container a').hasText('Click me!');
     assert.noTransitionsYet();
     await click('.demo-container a');
-    assert.equal(
+    assert.strictEqual(
       currentRouteName(),
       'helpers-documentation.liquid-outlet.other'
     );
     assert.dom('.demo-container a').hasText('Go back!');
     assert.ranTransition('toLeft');
     await click('.demo-container a');
-    assert.equal(
+    assert.strictEqual(
       currentRouteName(),
       'helpers-documentation.liquid-outlet.index'
     );
@@ -249,7 +249,7 @@ function isTransparent(assert, selector) {
 }
 
 function isHidden(assert, selector) {
-  assert.equal(
+  assert.strictEqual(
     getComputedStyle(document.querySelector(selector).parentElement)[
       'visibility'
     ],
