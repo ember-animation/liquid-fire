@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.34.0 (2022-01-19)
+
+- BREAKING: oldest supported Ember is now 3.16
+- COMPAT: full compatibility with Ember 4.1 and Embroider by @rwwagner90
+
 ## 0.33.1 (2022-01-02)
 
 - BUGFIX: the compatibility code in 0.33.0 failed in a confusing way that was only detectable when not working with the test suite
