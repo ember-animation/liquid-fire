@@ -69,7 +69,7 @@ export default class DSL {
 
   matchSelector(selector) {
     return new Constraint('parentElement', function (elt) {
-      return elt.is(selector);
+      return elt.matches(selector);
     });
   }
 

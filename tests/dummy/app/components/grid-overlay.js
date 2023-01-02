@@ -1,12 +1,15 @@
 import Component from '@ember/component';
-import $ from 'jquery';
 
 function show_lead(space, offset) {
-  let max = $(document).height() / space;
+  let max = document.querySelector('body').clientHeight / space;
   hide_lead();
   for (let i = 0; i < max; i++) {
-    $('body').append("<div class='grid' id='vgrid" + i + "'></div>");
-    $('#vgrid' + i).css({
+    const element = document.createElement('div');
+    element.class = 'grid';
+    element.id = `vgrid${i}`;
+    const body = document.querySelector('body')
+    body.appendChild(element);
+    css(document.querySelector('#vgrid' + i), {
       height: '' + space + 'px',
       width: '100%',
       position: 'absolute',
@@ -21,15 +24,20 @@ function show_lead(space, offset) {
   }
 }
 
+function css(element, styles) {
+  for (const property in styles)
+      element.style[property] = styles[property];
+}
+
 function hide_lead() {
-  $('.grid').remove();
+  document.querySelector('.grid').remove();
 }
 
 function toggleGrid(leading, leading_offset) {
   if (leading_offset == null) {
     leading_offset = 0;
   }
-  if ($('#vgrid0').length > 0) {
+  if (document.querySelector('#vgrid0')) {
     return hide_lead();
   } else {
     return show_lead(leading, leading_offset);
@@ -39,7 +47,7 @@ function toggleGrid(leading, leading_offset) {
 export default Component.extend({
   didInsertElement: function () {
     this._super(...arguments);
-    $(document).bind('keydown', function (e) {
+    document.addEventListener('keydown', function (e) {
       // Ctrl-Alt-g shows vertical rhythm
       if (e.ctrlKey && e.altKey && e.keyCode === 71) {
         toggleGrid(22);

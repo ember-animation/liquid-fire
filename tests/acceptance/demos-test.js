@@ -4,7 +4,6 @@ import { later } from '@ember/runloop';
 import { module, test, skip } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { classFound, setupTransitionTest } from '../helpers/integration';
-import $ from 'jquery';
 
 module('Acceptance: Demos', function (hooks) {
   setupApplicationTest(hooks);
@@ -71,7 +70,7 @@ module('Acceptance: Demos', function (hooks) {
     let first, second;
     function clock() {
       let m = /(\d\d)\s*:\s*(\d\d)\s*:\s*(\d\d)/.exec(
-        $('#liquid-bind-demo').text()
+        document.querySelector('#liquid-bind-demo').innerText
       );
       assert.ok(m, 'Read the clock');
       return parseInt(m[3]);

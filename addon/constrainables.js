@@ -69,7 +69,7 @@ export default {
   },
   parentElementClass: {
     accessor: function (conditions) {
-      let cls = conditions.parentElement.attr('class');
+      let cls = conditions.parentElement.getAttribute('class');
       if (cls) {
         return cls.split(/\s+/);
       }

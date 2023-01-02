@@ -1,6 +1,5 @@
 import { next } from '@ember/runloop';
 import { Promise as EmberPromise, resolve } from 'rsvp';
-import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
@@ -21,7 +20,7 @@ module('Integration: explode transition', function (hooks) {
     // TODO: our tests don't pass when we're inside a transformed
     // element. I think this is a legit bug in the implementation that
     // we should fix.
-    $('#ember-testing').css('transform', 'none');
+    document.querySelector('#ember-testing').style.transform = 'none';
   });
 
   hooks.afterEach(function () {
@@ -30,7 +29,7 @@ module('Integration: explode transition', function (hooks) {
     // TODO: our tests don't pass when we're inside a transformed
     // element. I think this is a legit bug in the implementation that
     // we should fix.
-    $('#ember-testing').css('transform', '');
+    document.querySelector('#ember-testing').style.transform = '';
   });
 
   test(`it doesn't runs parts with no matching elements`, async function (assert) {

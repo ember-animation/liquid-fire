@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import $ from 'jquery';
 import { hbs } from 'ember-cli-htmlbars';
 import { ensureSafeComponent } from '@embroider/util';
 import { setComponentTemplate } from '@ember/component';
@@ -19,7 +18,7 @@ module('Integration: fly-to transition', function (hooks) {
       // TODO: our tests don't pass when we're inside a transformed
       // element. I think this is a legit bug in the implementation that
       // we should fix.
-      $('#ember-testing').css('transform', '');
+      document.querySelector('#ember-testing').style.transform = '';
     };
   });
 
@@ -29,7 +28,7 @@ module('Integration: fly-to transition', function (hooks) {
     // TODO: our tests don't pass when we're inside a transformed
     // element. I think this is a legit bug in the implementation that
     // we should fix.
-    $('#ember-testing').css('transform', 'none');
+    document.querySelector('#ember-testing').style.transform = 'none';
   });
 
   ['border-box', 'content-box'].forEach(function (boxSizing) {

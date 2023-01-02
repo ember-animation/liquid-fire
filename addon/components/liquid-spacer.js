@@ -2,7 +2,6 @@ import Component from '@ember/component';
 import { measure } from './liquid-measured';
 import Growable from 'liquid-fire/mixins/growable';
 import layout from 'liquid-fire/templates/components/liquid-spacer';
-import $ from 'jquery';
 
 export default Component.extend(Growable, {
   layout,
@@ -10,17 +9,17 @@ export default Component.extend(Growable, {
 
   didInsertElement() {
     this._super(...arguments);
-    let elt = $(this.element);
-    let child = elt.find('> div');
+    let elt = this.element;
+    let child = elt.querySelector('> div');
     let measurements = this.myMeasurements(measure(child));
 
     this.element.style.overflow = 'hidden';
 
     if (this.growWidth) {
-      elt.outerWidth(measurements.width);
+      elt.style.width = `${measurements.width}px`;
     }
     if (this.growHeight) {
-      elt.outerHeight(measurements.height);
+      elt.style.height = `${measurements.height}px`;
     }
   },
 
@@ -32,7 +31,7 @@ export default Component.extend(Growable, {
       return;
     }
     let want = this.myMeasurements(measurements);
-    let elt = $(this.element);
+    let elt = this.element;
     let have = measure(elt);
     this.animateGrowth(elt, have, want);
   },
@@ -40,7 +39,7 @@ export default Component.extend(Growable, {
   // given our child's outerWidth & outerHeight, figure out what our
   // outerWidth & outerHeight should be.
   myMeasurements(childMeasurements) {
-    let elt = $(this.element);
+    let elt = this.element;
     return {
       width:
         childMeasurements.width +
@@ -71,7 +70,7 @@ function border(dimension) {
 function sumCSS(elt, fields) {
   let accum = 0;
   for (let i = 0; i < fields.length; i++) {
-    let num = parseFloat(elt.css(fields[i]), 10);
+    let num = parseFloat(elt.stylefields[i], 10);
     if (!isNaN(num)) {
       accum += num;
     }

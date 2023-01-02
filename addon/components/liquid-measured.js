@@ -3,7 +3,6 @@ import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import MutationObserver from 'liquid-fire/mutation-observer';
 import layout from 'liquid-fire/templates/components/liquid-measured';
-import $ from 'jquery';
 
 const WINDOW_RESIZE_THROTTLE_DURATION = 100;
 
@@ -37,8 +36,7 @@ export default Component.extend({
     this.windowResizeHandler = this.windowDidResize.bind(this);
     window.addEventListener('resize', this.windowResizeHandler);
 
-    let elt = $(this.element);
-    elt.bind('webkitTransitionEnd', function () {
+    this.element.addEventListener('webkitTransitionEnd', function () {
       self.didMutate();
     });
     // Chrome Memory Leak: https://bugs.webkit.org/show_bug.cgi?id=93661
@@ -77,8 +75,7 @@ export default Component.extend({
     if (!this.element) {
       return;
     }
-    let elt = $(this.element);
-    this.didMeasure(measure(elt));
+    this.didMeasure(measure(this.element));
   },
 
   _destroyOnUnload() {
@@ -87,11 +84,11 @@ export default Component.extend({
 });
 
 export function measure($elt) {
-  let boundingRect = $elt[0].getBoundingClientRect();
+  let boundingRect = $elt.getBoundingClientRect();
 
   // Calculate the scaling.
   // NOTE: We only handle the simple zoom case.
-  let claimedWidth = $elt[0].offsetWidth;
+  let claimedWidth = $elt.offsetWidth;
 
   // Round the width because offsetWidth is rounded
   let actualWidth = Math.round(boundingRect.width);
