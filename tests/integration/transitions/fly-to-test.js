@@ -43,17 +43,17 @@ module('Integration: fly-to transition', function (hooks) {
             use: function () {
               // sanity checks
               assert.strictEqual(
-                this.oldElement?.length,
-                1,
+                !!this.oldElement,
+                true,
                 'found old element'
               );
               assert.strictEqual(
-                this.newElement?.length,
-                1,
+                !!this.newElement,
+                true,
                 'found new element'
               );
               assert.strictEqual(
-                this.oldElement?.css('background-color'),
+                getComputedStyle(this.oldElement).backgroundColor,
                 'rgb(255, 0, 0)'
               );
 
@@ -61,18 +61,18 @@ module('Integration: fly-to transition', function (hooks) {
                 .call(this, { duration: 0 })
                 .then(() => {
                   assert.deepEqual(
-                    this.newElement.offset(),
-                    this.oldElement.offset(),
+                    getOffset(this.newElement),
+                    getOffset(this.oldElement),
                     "element didn't jump"
                   );
                   assert.strictEqual(
-                    this.newElement.outerWidth(),
-                    this.oldElement.outerWidth(),
+                    this.newElement.offsetWidth,
+                    this.oldElement.offsetWidth,
                     'same width'
                   );
                   assert.strictEqual(
-                    this.newElement.outerHeight(),
-                    this.oldElement.outerHeight(),
+                    this.newElement.offsetHeight,
+                    this.oldElement.offsetHeight,
                     'same height'
                   );
                 });
@@ -107,17 +107,17 @@ module('Integration: fly-to transition', function (hooks) {
             use: function () {
               // sanity checks
               assert.strictEqual(
-                this.oldElement?.length,
-                1,
+                !!this.oldElement,
+                true,
                 'found old element'
               );
               assert.strictEqual(
-                this.newElement?.length,
-                1,
+                !!this.newElement,
+                true,
                 'found new element'
               );
               assert.strictEqual(
-                this.oldElement?.css('background-color'),
+                getComputedStyle(this.oldElement).backgroundColor,
                 'rgb(0, 128, 0)'
               );
 
@@ -125,18 +125,18 @@ module('Integration: fly-to transition', function (hooks) {
                 .call(this, { duration: 0 })
                 .then(() => {
                   assert.deepEqual(
-                    this.newElement.offset(),
-                    this.oldElement.offset(),
+                    getOffset(this.newElement),
+                    getOffset(this.oldElement),
                     "element didn't jump"
                   );
                   assert.strictEqual(
-                    this.newElement.outerWidth(),
-                    this.oldElement.outerWidth(),
+                    this.newElement.offsetWidth,
+                    this.oldElement.offsetWidth,
                     'same width'
                   );
                   assert.strictEqual(
-                    this.newElement.outerHeight(),
-                    this.oldElement.outerHeight(),
+                    this.newElement.offsetHeight,
+                    this.oldElement.offsetHeight,
                     'same height'
                   );
                 });
@@ -159,6 +159,15 @@ module('Integration: fly-to transition', function (hooks) {
       await tmap.waitUntilIdle();
     });
   });
+  
+  function getOffset(ele) {
+    const rect = ele.getBoundingClientRect();
+    
+    return { 
+      top: rect.top + window.scrollY, 
+      left: rect.left + window.scrollX, 
+    };
+  }
 
   function stylesheet() {
     return setComponentTemplate(

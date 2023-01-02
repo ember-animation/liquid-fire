@@ -70,7 +70,7 @@ module('Acceptance: Demos', function (hooks) {
     let first, second;
     function clock() {
       let m = /(\d\d)\s*:\s*(\d\d)\s*:\s*(\d\d)/.exec(
-        document.querySelector('#liquid-bind-demo').innerText
+        document.querySelector('#liquid-bind-demo').textContent
       );
       assert.ok(m, 'Read the clock');
       return parseInt(m[3]);

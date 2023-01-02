@@ -63,8 +63,8 @@ module('Integration: explode transition', function (hooks) {
         this.hasClass('explode-transition-test'),
         this.use('explode', {
           use: function () {
-            assert.ok(this.oldElement?.is('.liquid-child'));
-            assert.ok(this.newElement?.is('.liquid-child'));
+            assert.ok(this.oldElement?.classList?.contains('liquid-child'));
+            assert.ok(this.newElement?.classList?.contains('liquid-child'));
             return resolve();
           },
         })
@@ -135,8 +135,8 @@ module('Integration: explode transition', function (hooks) {
         this.use('explode', {
           pick: 'h1',
           use: function () {
-            assert.strictEqual(this.oldElement?.text(), 'Old Title');
-            assert.strictEqual(this.newElement?.text(), 'New Title');
+            assert.strictEqual(this.oldElement?.textContent, 'Old Title');
+            assert.strictEqual(this.newElement?.textContent, 'New Title');
             return resolve();
           },
         })
@@ -162,8 +162,8 @@ module('Integration: explode transition', function (hooks) {
           pickOld: 'h1',
           pickNew: 'h2',
           use: function () {
-            assert.strictEqual(this.oldElement?.text(), 'Old Title');
-            assert.strictEqual(this.newElement?.text(), 'New Title');
+            assert.strictEqual(this.oldElement?.textContent, 'Old Title');
+            assert.strictEqual(this.newElement?.textContent, 'New Title');
             return resolve();
           },
         })
@@ -188,7 +188,7 @@ module('Integration: explode transition', function (hooks) {
         this.use('explode', {
           pickOld: 'h1',
           use: function () {
-            assert.strictEqual(this.oldElement?.text(), 'Old Title');
+            assert.strictEqual(this.oldElement?.textContent, 'Old Title');
             assert.notOk(this.newElement, 'Should be no new element');
             return resolve();
           },
@@ -214,7 +214,7 @@ module('Integration: explode transition', function (hooks) {
         this.use('explode', {
           pickNew: 'h1',
           use: function () {
-            assert.strictEqual(this.newElement?.text(), 'New Title');
+            assert.strictEqual(this.newElement?.textContent, 'New Title');
             assert.notOk(this.oldElement, 'Should be no old element');
             return resolve();
           },
@@ -240,8 +240,8 @@ module('Integration: explode transition', function (hooks) {
         this.use('explode', {
           matchBy: 'data-model-id',
           use: function () {
-            let oldText = this.oldElement && this.oldElement.text();
-            let newText = this.newElement && this.newElement.text();
+            let oldText = this.oldElement && this.oldElement.textContent;
+            let newText = this.newElement && this.newElement.textContent;
             assert.ok(/Old/.test(oldText), 'old text');
             assert.ok(/New/.test(newText), 'new text');
             assert.strictEqual(oldText?.slice(4), newText?.slice(4));
@@ -271,8 +271,8 @@ module('Integration: explode transition', function (hooks) {
         this.use('explode', {
           matchBy: 'data-model-name',
           use: function () {
-            let oldText = this.oldElement && this.oldElement.text();
-            let newText = this.newElement && this.newElement.text();
+            let oldText = this.oldElement && this.oldElement.textContent;
+            let newText = this.newElement && this.newElement.textContent;
             assert.ok(/Old/.test(oldText), 'old text');
             assert.ok(/New/.test(newText), 'new text');
             return resolve();
@@ -402,8 +402,8 @@ module('Integration: explode transition', function (hooks) {
           pickNew: '.reducedScope',
           matchBy: 'id',
           use: function () {
-            let oldText = this.oldElement && this.oldElement.text();
-            let newText = this.newElement && this.newElement.text();
+            let oldText = this.oldElement && this.oldElement.textContent;
+            let newText = this.newElement && this.newElement.textContent;
             assert.ok(/Old/.test(oldText), 'old text');
             assert.ok(/New/.test(newText), 'new text');
             assert.strictEqual(oldText?.slice(4), newText?.slice(4));
@@ -441,17 +441,17 @@ module('Integration: explode transition', function (hooks) {
             use: function () {
               // sanity checks
               assert.strictEqual(
-                this.oldElement?.length,
-                1,
+                !!this.oldElement,
+                true,
                 'found old element'
               );
               assert.strictEqual(
-                this.newElement?.length,
-                1,
+                !!this.newElement,
+                true,
                 'found new element'
               );
               assert.strictEqual(
-                this.oldElement?.css('background-color'),
+                getComputedStyle(this.oldElement).backgroundColor,
                 'rgb(255, 0, 0)'
               );
 
@@ -460,27 +460,27 @@ module('Integration: explode transition', function (hooks) {
               // liquid-child (the copy is not inside a liquid-child, that
               // is part of the point of explode).
               let realOldElement = this.oldElement
-                .parent()
-                .find('.liquid-child .redbox');
+                .parentElement
+                .querySelector('.liquid-child .redbox');
               assert.strictEqual(
-                realOldElement.length,
-                1,
+                !!realOldElement,
+                true,
                 'found actual old element'
               );
-              assert.strictEqual(realOldElement.css('visibility'), 'hidden');
+              assert.strictEqual(realOldElement.style.visibility, 'hidden');
               assert.deepEqual(
-                realOldElement.offset(),
-                this.oldElement.offset(),
+                getOffset(realOldElement),
+                getOffset(this.oldElement),
                 "element didn't jump"
               );
               assert.strictEqual(
-                realOldElement.outerWidth(),
-                this.oldElement.outerWidth(),
+                realOldElement.offsetWidth,
+                this.oldElement.offsetWidth,
                 'same width'
               );
               assert.strictEqual(
-                realOldElement.outerHeight(),
-                this.oldElement.outerHeight(),
+                realOldElement.offsetHeight,
+                this.oldElement.offsetHeight,
                 'same height'
               );
               didTransition = true;
@@ -519,17 +519,17 @@ module('Integration: explode transition', function (hooks) {
             use: function () {
               // sanity checks
               assert.strictEqual(
-                this.oldElement?.length,
-                1,
+                !!this.oldElement,
+                true,
                 'found old element'
               );
               assert.strictEqual(
-                this.newElement?.length,
-                1,
+                !!this.newElement,
+                true,
                 'found new element'
               );
               assert.strictEqual(
-                this.oldElement?.css('background-color'),
+                getComputedStyle(this.oldElement).backgroundColor,
                 'rgb(0, 128, 0)'
               );
 
@@ -538,27 +538,27 @@ module('Integration: explode transition', function (hooks) {
               // liquid-child (the copy is not inside a liquid-child, that
               // is part of the point of explode).
               let realOldElement = this.oldElement
-                .parent()
-                .find('.liquid-child .greenbox');
+                .parentElement
+                .querySelector('.liquid-child .greenbox');
               assert.strictEqual(
-                realOldElement.length,
-                1,
+                !!realOldElement,
+                true,
                 'found actual old element'
               );
-              assert.strictEqual(realOldElement.css('visibility'), 'hidden');
+              assert.strictEqual(realOldElement.style.visibility, 'hidden');
               assert.deepEqual(
-                realOldElement.offset(),
-                this.oldElement.offset(),
+                getOffset(realOldElement),
+                getOffset(this.oldElement),
                 "element didn't jump"
               );
               assert.strictEqual(
-                realOldElement.outerWidth(),
-                this.oldElement.outerWidth(),
+                realOldElement.offsetWidth,
+                this.oldElement.offsetWidth,
                 'same width'
               );
               assert.strictEqual(
-                realOldElement.outerHeight(),
-                this.oldElement.outerHeight(),
+                realOldElement.offsetHeight,
+                this.oldElement.offsetHeight,
                 'same height'
               );
               didTransition = true;
@@ -625,6 +625,15 @@ module('Integration: explode transition', function (hooks) {
       return tmap.waitUntilIdle();
     });
   });
+  
+  function getOffset(ele) {
+    const rect = ele.getBoundingClientRect();
+    
+    return { 
+      top: rect.top + window.scrollY, 
+      left: rect.left + window.scrollX, 
+    };
+  }
 
   function stylesheet() {
     return setComponentTemplate(

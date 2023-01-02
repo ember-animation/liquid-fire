@@ -11,7 +11,7 @@ let deduplicateChildElementIds = (parentElem) => {
     return;
   }
 
-  let parentEl = parentElem[0];
+  let parentEl = parentElem;
   if (parentEl.id) {
     parentEl.setAttribute('id', `${guidFor(parentEl)}-${parentEl.id}`);
   }
@@ -39,10 +39,10 @@ export default function explode(...pieces) {
   });
   if (!sawBackgroundPiece) {
     if (this.newElement) {
-      this.newElement.css({ visibility: '' });
+      this.newElement.style.visibility = '';
     }
     if (this.oldElement) {
-      this.oldElement.css({ visibility: 'hidden' });
+      this.oldElement.style.visibility = 'hidden';
     }
   }
   return Promise.all(promises);
@@ -72,7 +72,7 @@ function explodePiece(context, piece, seen) {
       return Promise.resolve();
     }
   }
-
+  
   return runAnimation(childContext, piece).finally(() => {
     if (cleanupOld) {
       cleanupOld();
@@ -89,48 +89,68 @@ function _explodePart(context, field, childContext, selector, seen) {
 
   childContext[field] = null;
   if (elt && selector) {
-    child = elt.find(selector).filter(function () {
-      let guid = guidFor(this);
+    child = [...elt.querySelectorAll(selector)].filter(function (elm) {
+      let guid = guidFor(elm);
       if (!seen[guid]) {
         seen[guid] = true;
         return true;
       }
     });
     if (child.length > 0) {
-      childOffset = child.offset();
-      width = child.outerWidth();
-      height = child.outerHeight();
-      newChild = child.clone();
+      child = child[0];
+      
+      childOffset = getOffset(child);
+      
+      width = child.offsetWidth;
+      height = child.offsetHeight;
+      newChild = child.cloneNode(true);
 
       deduplicateChildElementIds(newChild);
 
       // Hide the original element
-      child.css({ visibility: 'hidden' });
+      child.style.visibility = 'hidden';
 
       // If the original element's parent was hidden, hide our clone
       // too.
-      if (elt.css('visibility') === 'hidden') {
-        newChild.css({ visibility: 'hidden' });
+      if (elt.style.visibility === 'hidden') {
+        newChild.style.visibility = 'hidden';
       }
-      newChild.appendTo(elt.parent());
-      newChild.outerWidth(width);
-      newChild.outerHeight(height);
-      let newParentOffset = newChild.offsetParent().offset();
-      newChild.css({
+      elt.parentElement.append(newChild);
+      newChild.style.width = `${width}px`;
+      newChild.style.height = `${height}px`;
+      let newParentOffset = getOffset(newChild.offsetParent);
+      
+      css(newChild, {
         position: 'absolute',
-        top: childOffset.top - newParentOffset.top,
-        left: childOffset.left - newParentOffset.left,
+        top: childOffset.top - newParentOffset.top + 'px',
+        left: childOffset.left - newParentOffset.left + 'px',
         margin: 0,
       });
 
       // Pass the clone to the next animation
       childContext[field] = newChild;
+      
       return function cleanup() {
         newChild.remove();
-        child.css({ visibility: '' });
+        child.style.visibility = '';
       };
     }
   }
+}
+
+function getOffset(ele) {
+  const rect = ele.getBoundingClientRect();
+  
+  return { 
+    top: rect.top + window.scrollY, 
+    left: rect.left + window.scrollX, 
+  };
+}
+
+
+function css(element, styles) {
+  for (const property in styles)
+    element.style[property] = styles[property];
 }
 
 function animationFor(context, piece) {
@@ -170,16 +190,16 @@ function matchAndExplode(context, piece, seen) {
 
   // reduce the matchBy scope
   if (piece.pick) {
-    context.oldElement = context.oldElement.find(piece.pick);
-    context.newElement = context.newElement.find(piece.pick);
+    context.oldElement = context.oldElement.querySelector(piece.pick);
+    context.newElement = context.newElement.querySelector(piece.pick);
   }
 
   if (piece.pickOld) {
-    context.oldElement = context.oldElement.find(piece.pickOld);
+    context.oldElement = context.oldElement.querySelector(piece.pickOld);
   }
 
   if (piece.pickNew) {
-    context.newElement = context.newElement.find(piece.pickNew);
+    context.newElement = context.newElement.querySelector(piece.pickNew);
   }
 
   // use the fastest selector available
@@ -200,7 +220,7 @@ function matchAndExplode(context, piece, seen) {
     };
   }
 
-  let hits = A(context.oldElement.find(`[${piece.matchBy}]`).toArray());
+  let hits = A([...context.oldElement.querySelectorAll(`[${piece.matchBy}]`)]);
   return Promise.all(
     hits.map((elt) => {
       let attrValue = elt.getAttribute(piece.matchBy);
@@ -208,7 +228,7 @@ function matchAndExplode(context, piece, seen) {
       // if there is no match for a particular item just skip it
       if (
         attrValue === '' ||
-        context.newElement.find(selector(attrValue)).length === 0
+        context.newElement.querySelectorAll(selector(attrValue)).length === 0
       ) {
         return Promise.resolve();
       }

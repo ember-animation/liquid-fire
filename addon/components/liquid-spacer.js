@@ -10,7 +10,7 @@ export default Component.extend(Growable, {
   didInsertElement() {
     this._super(...arguments);
     let elt = this.element;
-    let child = elt.querySelector('> div');
+    let child = elt.getElementsByTagName('div')[0];
     let measurements = this.myMeasurements(measure(child));
 
     this.element.style.overflow = 'hidden';
@@ -69,8 +69,10 @@ function border(dimension) {
 
 function sumCSS(elt, fields) {
   let accum = 0;
+  const style = getComputedStyle(elt);
+  
   for (let i = 0; i < fields.length; i++) {
-    let num = parseFloat(elt.stylefields[i], 10);
+    let num = parseFloat(style[fields[i]], 10);
     if (!isNaN(num)) {
       accum += num;
     }
