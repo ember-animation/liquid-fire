@@ -520,11 +520,7 @@ module('Integration: explode transition', function (hooks) {
               let realOldElement = this.oldElement.parentElement.querySelector(
                 '.liquid-child .greenbox'
               );
-              assert.strictEqual(
-                !!realOldElement,
-                true,
-                'found actual old element'
-              );
+              assert.true(!!realOldElement, 'found actual old element');
               assert.strictEqual(realOldElement.style.visibility, 'hidden');
               assert.deepEqual(
                 getOffset(realOldElement),
