@@ -70,7 +70,7 @@ function border(dimension) {
 function sumCSS(elt, fields) {
   let accum = 0;
   const style = getComputedStyle(elt);
-  
+
   for (let i = 0; i < fields.length; i++) {
     let num = parseFloat(style[fields[i]], 10);
     if (!isNaN(num)) {

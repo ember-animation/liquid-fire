@@ -117,9 +117,9 @@ function goAbsolute(version, size) {
     return;
   }
   let elt = version.view.element;
-  let pos = { 
-    top: elt.offsetTop, 
-    left: elt.offsetLeft, 
+  let pos = {
+    top: elt.offsetTop,
+    left: elt.offsetLeft,
   };
   if (!size) {
     size = measure(elt);

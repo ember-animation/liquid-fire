@@ -7,7 +7,7 @@ function show_lead(space, offset) {
     const element = document.createElement('div');
     element.class = 'grid';
     element.id = `vgrid${i}`;
-    const body = document.querySelector('body')
+    const body = document.querySelector('body');
     body.appendChild(element);
     css(document.querySelector('#vgrid' + i), {
       height: '' + space + 'px',
@@ -25,8 +25,9 @@ function show_lead(space, offset) {
 }
 
 function css(element, styles) {
-  for (const property in styles)
-      element.style[property] = styles[property];
+  for (const property in styles) {
+    element.style[property] = styles[property];
+  }
 }
 
 function hide_lead() {

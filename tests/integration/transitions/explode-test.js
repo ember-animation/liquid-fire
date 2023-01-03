@@ -440,16 +440,8 @@ module('Integration: explode transition', function (hooks) {
             pickNew: '.bluebox',
             use: function () {
               // sanity checks
-              assert.strictEqual(
-                !!this.oldElement,
-                true,
-                'found old element'
-              );
-              assert.strictEqual(
-                !!this.newElement,
-                true,
-                'found new element'
-              );
+              assert.true(!!this.oldElement, 'found old element');
+              assert.true(!!this.newElement, 'found new element');
               assert.strictEqual(
                 getComputedStyle(this.oldElement).backgroundColor,
                 'rgb(255, 0, 0)'
@@ -459,14 +451,10 @@ module('Integration: explode transition', function (hooks) {
               // original oldElement, which we can still find inside a
               // liquid-child (the copy is not inside a liquid-child, that
               // is part of the point of explode).
-              let realOldElement = this.oldElement
-                .parentElement
-                .querySelector('.liquid-child .redbox');
-              assert.strictEqual(
-                !!realOldElement,
-                true,
-                'found actual old element'
+              let realOldElement = this.oldElement.parentElement.querySelector(
+                '.liquid-child .redbox'
               );
+              assert.true(!!realOldElement, 'found actual old element');
               assert.strictEqual(realOldElement.style.visibility, 'hidden');
               assert.deepEqual(
                 getOffset(realOldElement),
@@ -518,16 +506,8 @@ module('Integration: explode transition', function (hooks) {
             pickNew: '.yellowbox',
             use: function () {
               // sanity checks
-              assert.strictEqual(
-                !!this.oldElement,
-                true,
-                'found old element'
-              );
-              assert.strictEqual(
-                !!this.newElement,
-                true,
-                'found new element'
-              );
+              assert.true(!!this.oldElement, 'found old element');
+              assert.true(!!this.newElement, 'found new element');
               assert.strictEqual(
                 getComputedStyle(this.oldElement).backgroundColor,
                 'rgb(0, 128, 0)'
@@ -537,9 +517,9 @@ module('Integration: explode transition', function (hooks) {
               // original oldElement, which we can still find inside a
               // liquid-child (the copy is not inside a liquid-child, that
               // is part of the point of explode).
-              let realOldElement = this.oldElement
-                .parentElement
-                .querySelector('.liquid-child .greenbox');
+              let realOldElement = this.oldElement.parentElement.querySelector(
+                '.liquid-child .greenbox'
+              );
               assert.strictEqual(
                 !!realOldElement,
                 true,
@@ -625,13 +605,12 @@ module('Integration: explode transition', function (hooks) {
       return tmap.waitUntilIdle();
     });
   });
-  
+
   function getOffset(ele) {
     const rect = ele.getBoundingClientRect();
-    
-    return { 
-      top: rect.top + window.scrollY, 
-      left: rect.left + window.scrollX, 
+    return {
+      top: rect.top + window.scrollY,
+      left: rect.left + window.scrollX,
     };
   }
 

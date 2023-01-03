@@ -131,21 +131,21 @@ function clearLabel(elt, label) {
 
 const DATA_STORAGE = {};
 
-function data (obj, key, val) {
-  if(!obj) {
+function data(obj, key, val) {
+  if (!obj) {
     return DATA_STORAGE;
-  } else if(!key) {
-    if(!(obj in DATA_STORAGE)) {
+  } else if (!key) {
+    if (!(obj in DATA_STORAGE)) {
       return {};
     }
     return DATA_STORAGE[obj];
-  } else if(arguments.length < 3) {
-    if(!(obj in DATA_STORAGE)) {
+  } else if (arguments.length < 3) {
+    if (!(obj in DATA_STORAGE)) {
       return undefined;
     }
     return DATA_STORAGE[obj][key];
   } else {
-    if(!(obj in DATA_STORAGE)) {
+    if (!(obj in DATA_STORAGE)) {
       DATA_STORAGE[obj] = {};
     }
     DATA_STORAGE[obj][key] = val;

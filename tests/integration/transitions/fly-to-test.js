@@ -42,16 +42,8 @@ module('Integration: fly-to transition', function (hooks) {
             pickNew: '.bluebox',
             use: function () {
               // sanity checks
-              assert.strictEqual(
-                !!this.oldElement,
-                true,
-                'found old element'
-              );
-              assert.strictEqual(
-                !!this.newElement,
-                true,
-                'found new element'
-              );
+              assert.true(!!this.oldElement, 'found old element');
+              assert.true(!!this.newElement, 'found new element');
               assert.strictEqual(
                 getComputedStyle(this.oldElement).backgroundColor,
                 'rgb(255, 0, 0)'
@@ -106,16 +98,8 @@ module('Integration: fly-to transition', function (hooks) {
             pickNew: '.yellowbox',
             use: function () {
               // sanity checks
-              assert.strictEqual(
-                !!this.oldElement,
-                true,
-                'found old element'
-              );
-              assert.strictEqual(
-                !!this.newElement,
-                true,
-                'found new element'
-              );
+              assert.true(!!this.oldElement, 'found old element');
+              assert.true(!!this.newElement, 'found new element');
               assert.strictEqual(
                 getComputedStyle(this.oldElement).backgroundColor,
                 'rgb(0, 128, 0)'
@@ -159,13 +143,12 @@ module('Integration: fly-to transition', function (hooks) {
       await tmap.waitUntilIdle();
     });
   });
-  
+
   function getOffset(ele) {
     const rect = ele.getBoundingClientRect();
-    
-    return { 
-      top: rect.top + window.scrollY, 
-      left: rect.left + window.scrollX, 
+    return {
+      top: rect.top + window.scrollY,
+      left: rect.left + window.scrollX,
     };
   }
 

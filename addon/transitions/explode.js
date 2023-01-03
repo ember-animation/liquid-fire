@@ -72,7 +72,7 @@ function explodePiece(context, piece, seen) {
       return Promise.resolve();
     }
   }
-  
+
   return runAnimation(childContext, piece).finally(() => {
     if (cleanupOld) {
       cleanupOld();
@@ -98,9 +98,9 @@ function _explodePart(context, field, childContext, selector, seen) {
     });
     if (child.length > 0) {
       child = child[0];
-      
+
       childOffset = getOffset(child);
-      
+
       width = child.offsetWidth;
       height = child.offsetHeight;
       newChild = child.cloneNode(true);
@@ -119,7 +119,7 @@ function _explodePart(context, field, childContext, selector, seen) {
       newChild.style.width = `${width}px`;
       newChild.style.height = `${height}px`;
       let newParentOffset = getOffset(newChild.offsetParent);
-      
+
       css(newChild, {
         position: 'absolute',
         top: childOffset.top - newParentOffset.top + 'px',
@@ -129,7 +129,7 @@ function _explodePart(context, field, childContext, selector, seen) {
 
       // Pass the clone to the next animation
       childContext[field] = newChild;
-      
+
       return function cleanup() {
         newChild.remove();
         child.style.visibility = '';
@@ -140,17 +140,14 @@ function _explodePart(context, field, childContext, selector, seen) {
 
 function getOffset(ele) {
   const rect = ele.getBoundingClientRect();
-  
-  return { 
-    top: rect.top + window.scrollY, 
-    left: rect.left + window.scrollX, 
+  return {
+    top: rect.top + window.scrollY,
+    left: rect.left + window.scrollX,
   };
 }
 
-
 function css(element, styles) {
-  for (const property in styles)
-    element.style[property] = styles[property];
+  for (const property in styles) element.style[property] = styles[property];
 }
 
 function animationFor(context, piece) {
