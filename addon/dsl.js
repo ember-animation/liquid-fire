@@ -123,8 +123,9 @@ function matches(elt, s) {
   if (Element.prototype.matches) {
     return elt.matches(s);
   } else {
-    var matches = (elt.document || elt.ownerDocument).querySelectorAll(s),
+    let matches = (elt.document || elt.ownerDocument).querySelectorAll(s),
       i = matches.length;
+    // eslint-disable-next-line no-empty
     while (--i >= 0 && matches.item(i) !== elt) {}
     return i > -1;
   }
