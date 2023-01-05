@@ -69,7 +69,7 @@ export default class DSL {
 
   matchSelector(selector) {
     return new Constraint('parentElement', function (elt) {
-      return elt.matches(selector);
+      return matches(elt, selector);
     });
   }
 
@@ -116,5 +116,16 @@ export default class DSL {
 
   debug() {
     return 'debug';
+  }
+}
+
+function matches(elt, s) {
+  if (Element.prototype.matches) {
+    return elt.matches(s);
+  } else {
+    var matches = (elt.document || elt.ownerDocument).querySelectorAll(s),
+      i = matches.length;
+    while (--i >= 0 && matches.item(i) !== elt) {}
+    return i > -1;
   }
 }
