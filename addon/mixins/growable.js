@@ -43,7 +43,7 @@ export default Mixin.create({
       want[dimension],
       have[dimension],
     ];
-    return Velocity(elt[0], target, {
+    return Velocity(elt, target, {
       delay: this._delayFor(have[dimension], want[dimension]),
       duration: this._durationFor(have[dimension], want[dimension]),
       queue: false,

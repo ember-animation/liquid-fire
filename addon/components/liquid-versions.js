@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import { A } from '@ember/array';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
@@ -70,7 +69,7 @@ export default Component.extend({
 
     transition = this.transitionMap.transitionFor({
       versions: versions,
-      parentElement: $(containingElement(this)),
+      parentElement: containingElement(this),
       use: this.use,
       rules: this.rules,
       matchContext: this.matchContext || {},

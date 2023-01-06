@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import $ from 'jquery';
 import { hbs } from 'ember-cli-htmlbars';
 import { ensureSafeComponent } from '@embroider/util';
 import { setComponentTemplate } from '@ember/component';
@@ -19,7 +18,7 @@ module('Integration: fly-to transition', function (hooks) {
       // TODO: our tests don't pass when we're inside a transformed
       // element. I think this is a legit bug in the implementation that
       // we should fix.
-      $('#ember-testing').css('transform', '');
+      document.querySelector('#ember-testing').style.transform = '';
     };
   });
 
@@ -29,7 +28,7 @@ module('Integration: fly-to transition', function (hooks) {
     // TODO: our tests don't pass when we're inside a transformed
     // element. I think this is a legit bug in the implementation that
     // we should fix.
-    $('#ember-testing').css('transform', 'none');
+    document.querySelector('#ember-testing').style.transform = 'none';
   });
 
   ['border-box', 'content-box'].forEach(function (boxSizing) {
@@ -43,18 +42,10 @@ module('Integration: fly-to transition', function (hooks) {
             pickNew: '.bluebox',
             use: function () {
               // sanity checks
+              assert.true(!!this.oldElement, 'found old element');
+              assert.true(!!this.newElement, 'found new element');
               assert.strictEqual(
-                this.oldElement?.length,
-                1,
-                'found old element'
-              );
-              assert.strictEqual(
-                this.newElement?.length,
-                1,
-                'found new element'
-              );
-              assert.strictEqual(
-                this.oldElement?.css('background-color'),
+                getComputedStyle(this.oldElement).backgroundColor,
                 'rgb(255, 0, 0)'
               );
 
@@ -62,18 +53,18 @@ module('Integration: fly-to transition', function (hooks) {
                 .call(this, { duration: 0 })
                 .then(() => {
                   assert.deepEqual(
-                    this.newElement.offset(),
-                    this.oldElement.offset(),
+                    getOffset(this.newElement),
+                    getOffset(this.oldElement),
                     "element didn't jump"
                   );
                   assert.strictEqual(
-                    this.newElement.outerWidth(),
-                    this.oldElement.outerWidth(),
+                    this.newElement.offsetWidth,
+                    this.oldElement.offsetWidth,
                     'same width'
                   );
                   assert.strictEqual(
-                    this.newElement.outerHeight(),
-                    this.oldElement.outerHeight(),
+                    this.newElement.offsetHeight,
+                    this.oldElement.offsetHeight,
                     'same height'
                   );
                 });
@@ -107,18 +98,10 @@ module('Integration: fly-to transition', function (hooks) {
             pickNew: '.yellowbox',
             use: function () {
               // sanity checks
+              assert.true(!!this.oldElement, 'found old element');
+              assert.true(!!this.newElement, 'found new element');
               assert.strictEqual(
-                this.oldElement?.length,
-                1,
-                'found old element'
-              );
-              assert.strictEqual(
-                this.newElement?.length,
-                1,
-                'found new element'
-              );
-              assert.strictEqual(
-                this.oldElement?.css('background-color'),
+                getComputedStyle(this.oldElement).backgroundColor,
                 'rgb(0, 128, 0)'
               );
 
@@ -126,18 +109,18 @@ module('Integration: fly-to transition', function (hooks) {
                 .call(this, { duration: 0 })
                 .then(() => {
                   assert.deepEqual(
-                    this.newElement.offset(),
-                    this.oldElement.offset(),
+                    getOffset(this.newElement),
+                    getOffset(this.oldElement),
                     "element didn't jump"
                   );
                   assert.strictEqual(
-                    this.newElement.outerWidth(),
-                    this.oldElement.outerWidth(),
+                    this.newElement.offsetWidth,
+                    this.oldElement.offsetWidth,
                     'same width'
                   );
                   assert.strictEqual(
-                    this.newElement.outerHeight(),
-                    this.oldElement.outerHeight(),
+                    this.newElement.offsetHeight,
+                    this.oldElement.offsetHeight,
                     'same height'
                   );
                 });
@@ -160,6 +143,14 @@ module('Integration: fly-to transition', function (hooks) {
       await tmap.waitUntilIdle();
     });
   });
+
+  function getOffset(ele) {
+    const rect = ele.getBoundingClientRect();
+    return {
+      top: rect.top + window.scrollY,
+      left: rect.left + window.scrollX,
+    };
+  }
 
   function stylesheet() {
     return setComponentTemplate(
