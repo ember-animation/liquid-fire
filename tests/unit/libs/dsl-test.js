@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import EmberObject from '@ember/object';
 import { run } from '@ember/runloop';
 import Application from '../../../app';
@@ -511,7 +510,7 @@ module('Transitions DSL', function (hooks) {
     return {
       versions: [{ value: b }, { value: a }],
       firstTime: 'no',
-      parentElement: $('body'),
+      parentElement: document.querySelector('body'),
       matchContext: { outletName: 'main' },
     };
   }

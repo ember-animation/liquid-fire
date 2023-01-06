@@ -45,7 +45,6 @@ module('Integration: liquid-outlet', function (hooks) {
     await render(
       hbs`<this.SetRoute @outletState={{this.outletState}}>A{{outlet}}B</this.SetRoute>`
     );
-    console.log(this.outletState);
     let hello = this.makeRoute({ template: hbs`Hello{{liquid-outlet}}` });
     this.setState(hello);
     assert.dom().hasText('AHelloB');

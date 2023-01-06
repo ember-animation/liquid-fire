@@ -37,12 +37,12 @@ export default function moveOver(dimension, direction, opts) {
 function biggestSize(context, dimension) {
   let sizes = [];
   if (context.newElement) {
-    sizes.push(parseInt(context.newElement.css(dimension), 10));
-    sizes.push(parseInt(context.newElement.parent().css(dimension), 10));
+    sizes.push(parseInt(context.newElement.style[dimension], 10));
+    sizes.push(parseInt(context.newElement.parentElement.style[dimension], 10));
   }
   if (context.oldElement) {
-    sizes.push(parseInt(context.oldElement.css(dimension), 10));
-    sizes.push(parseInt(context.oldElement.parent().css(dimension), 10));
+    sizes.push(parseInt(context.oldElement.style[dimension], 10));
+    sizes.push(parseInt(context.oldElement.parentElement.style[dimension], 10));
   }
   return Math.max.apply(null, sizes);
 }
