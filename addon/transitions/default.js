@@ -6,7 +6,7 @@ import { Promise } from 'liquid-fire';
 // appearance).
 export default function defaultTransition() {
   if (this.newElement) {
-    this.newElement.css({ visibility: '' });
+    this.newElement.style.visibility = '';
   }
   return Promise.resolve();
 }

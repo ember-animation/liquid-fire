@@ -2,15 +2,14 @@ import Component from '@ember/component';
 import Growable from 'liquid-fire/mixins/growable';
 import { measure } from './liquid-measured';
 import layout from 'liquid-fire/templates/components/liquid-container';
-import $ from 'jquery';
 
 export default Component.extend(Growable, {
   layout,
   classNames: ['liquid-container'],
 
   lockSize(elt, want) {
-    elt.outerWidth(want.width);
-    elt.outerHeight(want.height);
+    elt.style.width = `${want.width}px`;
+    elt.style.height = `${want.height}px`;
   },
 
   unlockSize() {
@@ -54,8 +53,7 @@ export default Component.extend(Growable, {
       }
 
       // Remember our own size before anything changes
-      let elt = $(this.element);
-      this._cachedSize = measure(elt);
+      this._cachedSize = measure(this.element);
 
       // And make any children absolutely positioned with fixed sizes.
       for (let i = 0; i < versions.length; i++) {
@@ -64,15 +62,14 @@ export default Component.extend(Growable, {
     },
 
     afterChildInsertion(versions) {
-      let elt = $(this.element);
+      let elt = this.element;
       let enableGrowth = this.enableGrowth !== false;
 
       // Measure children
       let sizes = [];
       for (let i = 0; i < versions.length; i++) {
         if (versions[i].view) {
-          let childElt = $(versions[i].view.element);
-          sizes[i] = measure(childElt);
+          sizes[i] = measure(versions[i].view.element);
         }
       }
 
@@ -119,23 +116,26 @@ function goAbsolute(version, size) {
   if (!version.view) {
     return;
   }
-  let elt = $(version.view.element);
-  let pos = elt.position();
+  let elt = version.view.element;
+  let pos = {
+    top: elt.offsetTop,
+    left: elt.offsetLeft,
+  };
   if (!size) {
     size = measure(elt);
   }
-  elt.outerWidth(size.width);
-  elt.outerHeight(size.height);
-  elt.css({
-    position: 'absolute',
-    top: pos.top,
-    left: pos.left,
-  });
+  elt.style.width = `${size.width}px`;
+  elt.style.height = `${size.height}px`;
+  elt.style.position = 'absolute';
+  elt.style.top = `${pos.top}px`;
+  elt.style.left = `${pos.left}px`;
 }
 
 function goStatic(version) {
   if (version.view && !version.view.isDestroyed) {
-    let elt = $(version.view.element);
-    elt.css({ width: '', height: '', position: '' });
+    let elt = version.view.element;
+    elt.style.width = '';
+    elt.style.height = '';
+    elt.style.position = '';
   }
 }

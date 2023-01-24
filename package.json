@@ -29,7 +29,6 @@
     "velocity-animate": "^1.5.2"
   },
   "devDependencies": {
-    "@ember/jquery": "^2.0.0",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.6.0",
     "@embroider/test-setup": "^1.0.0",
@@ -72,7 +71,7 @@
     "eslint-plugin-qunit": "^7.2.0",
     "fastboot": "^3.2.0-beta.5",
     "git-repo-info": "^2.1.1",
-    "github": "git://github.com/mikedeboer/node-github#ca90bf27d5820812c3b76908189d666446ed97cd",
+    "github": "git+https://github.com/mikedeboer/node-github#ca90bf27d5820812c3b76908189d666446ed97cd",
     "jsdom": "^16.7.0",
     "loader.js": "^4.7.0",
     "ncp": "^2.0.0",

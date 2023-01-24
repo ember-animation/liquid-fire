@@ -66,7 +66,7 @@ export default class Constraints {
     if (this.debug) {
       console.log(
         '[liquid-fire] Checking transition rules for',
-        conditions.parentElement[0]
+        conditions.parentElement
       );
     }
 

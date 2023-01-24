@@ -20,7 +20,7 @@ export function animate(elt, props, opts, label) {
   // 'progress' callback has fired.
   let state = { percentComplete: 0, timeRemaining: 100, timeSpent: 0 };
 
-  if (!elt || elt.length === 0) {
+  if (!elt) {
     return Promise.resolve();
   }
 
@@ -54,7 +54,7 @@ export function animate(elt, props, opts, label) {
     state.timeSpent = state.timeRemaining / (1 / state.percentComplete - 1);
   };
 
-  state.promise = Promise.resolve(Velocity.animate(elt[0], props, opts));
+  state.promise = Promise.resolve(Velocity.animate(elt, props, opts));
 
   if (label) {
     state.promise = state.promise.then(
@@ -74,7 +74,7 @@ export function animate(elt, props, opts, label) {
 
 export function stop(elt) {
   if (elt) {
-    Velocity(elt[0], 'stop', true);
+    Velocity(elt, 'stop', true);
   }
 }
 
@@ -94,7 +94,7 @@ export function setDefaults(props) {
 }
 
 export function isAnimating(elt, animationLabel) {
-  return elt && elt.data('lfTags_' + animationLabel);
+  return elt && data(elt, 'lfTags_' + animationLabel);
 }
 
 export function finish(elt, animationLabel) {
@@ -119,12 +119,35 @@ function stateForLabel(elt, label) {
 
 function applyLabel(elt, label, state) {
   if (elt) {
-    elt.data('lfTags_' + label, state);
+    data(elt, 'lfTags_' + label, state);
   }
 }
 
 function clearLabel(elt, label) {
   if (elt) {
-    elt.data('lfTags_' + label, null);
+    data(elt, 'lfTags_' + label, null);
+  }
+}
+
+const DATA_STORAGE = {};
+
+function data(obj, key, val) {
+  if (!obj) {
+    return DATA_STORAGE;
+  } else if (!key) {
+    if (!(obj in DATA_STORAGE)) {
+      return {};
+    }
+    return DATA_STORAGE[obj];
+  } else if (arguments.length < 3) {
+    if (!(obj in DATA_STORAGE)) {
+      return undefined;
+    }
+    return DATA_STORAGE[obj][key];
+  } else {
+    if (!(obj in DATA_STORAGE)) {
+      DATA_STORAGE[obj] = {};
+    }
+    DATA_STORAGE[obj][key] = val;
   }
 }

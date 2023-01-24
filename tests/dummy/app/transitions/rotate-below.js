@@ -8,10 +8,10 @@ export default function rotateBelow(opts = {}) {
   }
   stop(this.oldElement);
   if (this.oldElement) {
-    this.oldElement.css('transform-origin', '50% 150%');
+    this.oldElement.style.transformOrigin = '50% 150%';
   }
   if (this.newElement) {
-    this.newElement.css('transform-origin', '50% 150%');
+    this.newElement.style.transformOrigin = '50% 150%';
   }
   return Promise.all([
     animate(this.oldElement, { rotateZ: -90 * direction + 'deg' }, opts),
