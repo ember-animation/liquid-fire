@@ -5,37 +5,29 @@ const { embroiderSafe, embroiderOptimized } = require('@embroider/test-setup');
 
 module.exports = async function () {
   return {
-    useYarn: true,
     scenarios: [
       {
-        name: 'ember-lts-3.16',
+        name: 'ember-lts-4.4',
         npm: {
           devDependencies: {
-            'ember-source': '~3.16.0',
+            'ember-resolver': '^8.0.0',
+            'ember-source': '~4.4.0',
           },
         },
       },
       {
-        name: 'ember-lts-3.20',
+        name: 'ember-lts-4.8',
         npm: {
           devDependencies: {
-            'ember-source': '~3.20.5',
+            'ember-source': '~4.8.0',
           },
         },
       },
       {
-        name: 'ember-lts-3.24',
+        name: 'ember-lts-4.12',
         npm: {
           devDependencies: {
-            'ember-source': '~3.24.3',
-          },
-        },
-      },
-      {
-        name: 'ember-lts-3.28',
-        npm: {
-          devDependencies: {
-            'ember-source': '~3.28.0',
+            'ember-source': '~4.12.0',
           },
         },
       },
@@ -74,7 +66,7 @@ module.exports = async function () {
         },
         npm: {
           devDependencies: {
-            'ember-source': '~3.28.0',
+            'ember-source': '~4.12.0',
           },
           ember: {
             edition: 'classic',
@@ -83,10 +75,10 @@ module.exports = async function () {
       },
       {
         name: 'fastboot',
-        command: 'yarn run test:fastboot',
+        command: 'npm run test:fastboot',
         npm: {
           devDependencies: {
-            'ember-source': '~3.28.0',
+            'ember-source': '~4.12.0',
           },
         },
       },
