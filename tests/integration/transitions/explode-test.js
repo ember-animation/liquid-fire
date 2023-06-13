@@ -252,11 +252,11 @@ module('Integration: explode transition', function (hooks) {
     });
     await render(hbs`
                 {{#liquid-if this.otherMode class="explode-transition-test"}}
-                  <div data-model-id=1>New One</div>
-                  <div data-model-id=2>New Two</div>
+                  <div data-model-id="1">New One</div>
+                  <div data-model-id="2">New Two</div>
                 {{else}}
-                  <div data-model-id=1>Old One</div>
-                  <div data-model-id=2>Old Two</div>
+                  <div data-model-id="1">Old One</div>
+                  <div data-model-id="2">Old Two</div>
                 {{/liquid-if}}
                 `);
     this.set('otherMode', true);
@@ -308,9 +308,9 @@ module('Integration: explode transition', function (hooks) {
     });
     await render(hbs`
                 {{#liquid-if this.otherMode class="explode-transition-test"}}
-                  <div data-model-id=2>New Two</div>
+                  <div data-model-id="2">New Two</div>
                 {{else}}
-                  <div data-model-id=1>Old One</div>
+                  <div data-model-id="1">Old One</div>
                 {{/liquid-if}}
                 `);
     this.set('otherMode', true);
@@ -382,10 +382,10 @@ module('Integration: explode transition', function (hooks) {
     });
     await render(hbs`
                 {{#liquid-if this.otherMode class="explode-transition-test"}}
-                  <div data-model-id=1>New One</div>
-                  <div data-model-id=2>New Two</div>
+                  <div data-model-id="1">New One</div>
+                  <div data-model-id="2">New Two</div>
                 {{else}}
-                  <div data-model-id=1>Old One</div>
+                  <div data-model-id="1">Old One</div>
                   <div data-model-id>Old Two</div>
                 {{/liquid-if}}
                 `);
@@ -419,6 +419,7 @@ module('Integration: explode transition', function (hooks) {
                     <div id='two'>New Two</div>
                   </div>
                 {{else}}
+                  {{!-- template-lint-disable no-duplicate-id --}}
                   <div id='one'>Old One</div>
                   <div id='two'>Old Two</div>
                 {{/liquid-if}}
@@ -613,6 +614,7 @@ module('Integration: explode transition', function (hooks) {
   function stylesheet() {
     return setComponentTemplate(
       hbs`
+      {{!-- template-lint-disable no-forbidden-elements --}}
       <style>
       .explode-transition-test {
         width: 600px;

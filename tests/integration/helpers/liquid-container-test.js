@@ -30,6 +30,7 @@ module('Integration: liquid-container', function (hooks) {
         }
       });
       await render(hbs`
+                  {{!-- template-lint-disable no-forbidden-elements --}}
                   <style>
                     .test-container {
                       margin: 5px;
@@ -56,7 +57,7 @@ module('Integration: liquid-container', function (hooks) {
                     }
 
                   </style>
-                  <button {{action this.toggle}}>Toggle</button>
+                  <button type="button" {{action this.toggle}}>Toggle</button>
                   {{#liquid-container class="test-container" growDuration=1 as |c|}}
                     {{#liquid-versions notify=c value=this.value as |valueVersion|}}
                       <div class={{valueVersion}}></div>

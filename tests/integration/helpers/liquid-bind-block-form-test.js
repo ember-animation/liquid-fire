@@ -35,7 +35,7 @@ module('Integration: liquid-bind block form', function (hooks) {
 
   test('it should support element id', async function (assert) {
     await render(
-      hbs`{{#liquid-bind this.foo containerId="foo" as |bar|}} {{/liquid-bind}}`
+      hbs`{{#liquid-bind this.foo containerId="foo"}} {{/liquid-bind}}`
     );
     assert
       .dom('.liquid-container#foo')
@@ -51,7 +51,7 @@ module('Integration: liquid-bind block form', function (hooks) {
       this.transition(this.inHelper('liquid-bind'), this.use(dummyAnimation));
     });
     sinon.spy(tmap, 'transitionFor');
-    await render(hbs`{{#liquid-bind this.foo as |bar|}} {{/liquid-bind}}`);
+    await render(hbs`{{#liquid-bind this.foo}} {{/liquid-bind}}`);
     assert.dom('.liquid-child').exists({ count: 1 }, 'initial child');
     assert.ok(tmap.transitionFor.calledOnce, 'initial transition');
     assert.notEqual(
@@ -71,7 +71,7 @@ module('Integration: liquid-bind block form', function (hooks) {
   test('should support containerless mode', async function (assert) {
     this.set('foo', 'Hi');
     await render(
-      hbs`<div data-test-target>{{#liquid-bind this.foo containerless=true as |bar| }}{{this.foo}}{{/liquid-bind}}</div>`
+      hbs`<div data-test-target>{{#liquid-bind this.foo containerless=true}}{{this.foo}}{{/liquid-bind}}</div>`
     );
     assert.dom('.liquid-container').doesNotExist('no container');
     assert
@@ -82,7 +82,7 @@ module('Integration: liquid-bind block form', function (hooks) {
   test('should support `class` in containerless mode', async function (assert) {
     this.set('foo', 'Hi');
     await render(
-      hbs`<div data-test-target>{{#liquid-bind this.foo class="bar" containerless=true as |bar| }}{{this.foo}}{{/liquid-bind}}</div>`
+      hbs`<div data-test-target>{{#liquid-bind this.foo class="bar" containerless=true}}{{this.foo}}{{/liquid-bind}}</div>`
     );
     assert
       .dom('[data-test-target] > .liquid-child.bar')
