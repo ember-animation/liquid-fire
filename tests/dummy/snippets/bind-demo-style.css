@@ -1,13 +1,15 @@
 #liquid-bind-demo {
-    font-size: 48px;
-    line-height: 66px;
-    text-align: center;
-    .liquid-outlet {
-	display: inline-block;
-	vertical-align: top;
-    }
-    .liquid-child {
-        /* This prevents a slight horizontal wobble in firefox. */
-        width: 1.5em;
-    }
+  font-size: 48px;
+  line-height: 66px;
+  text-align: center;
+
+  .liquid-outlet {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .liquid-child {
+    /* This prevents a slight horizontal wobble in firefox. */
+    width: 1.5em;
+  }
 }

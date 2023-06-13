@@ -4,10 +4,9 @@ module.exports = {
   singleQuote: true,
   overrides: [
     {
-      files: '**/*.hbs',
+      files: '*.{js,ts}',
       options: {
-        parser: 'glimmer',
-        singleQuote: false,
+        singleQuote: true,
       },
     },
   ],
