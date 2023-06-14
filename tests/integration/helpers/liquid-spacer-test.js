@@ -36,6 +36,7 @@ module('Integration: liquid-spacer', function (hooks) {
 
     this.set('message', longMessage);
     await render(hbs`
+                 {{!-- template-lint-disable no-inline-styles --}}
                  <div style="width: 20em">
                  <this.spacer @id="my-spacer" @growDuration={{1}}>
                    {{this.message}}
@@ -67,7 +68,8 @@ module('Integration: liquid-spacer', function (hooks) {
         }
       });
       await render(hbs`
-                 <button {{action this.toggle}}>Toggle</button>
+                 <button type="button" {{action this.toggle}}>Toggle</button>
+                 {{!-- template-lint-disable no-forbidden-elements --}}
                  <style>
                   #my-spacer {
                     padding: 2px;
@@ -76,10 +78,11 @@ module('Integration: liquid-spacer', function (hooks) {
                     box-sizing: {{this.boxSizing}};
                  }
                  </style>
+                 {{!-- template-lint-disable no-inline-styles --}}
                  <div style="width: 20em">
-                 {{#liquid-spacer id="my-spacer" growDuration=1 }}
+                 <LiquidSpacer @id="my-spacer" @growDuration={{1}}>
                    {{this.message}}
-                 {{/liquid-spacer}}
+                 </LiquidSpacer>
                  </div>
                  `);
 
@@ -108,9 +111,9 @@ module('Integration: liquid-spacer', function (hooks) {
     assert.expect(2);
 
     await render(hbs`
-                 {{#liquid-spacer id="my-spacer" growWidth=false}}
+                 <LiquidSpacer @id="my-spacer" @growWidth={{false}}>
                    Hi.
-                 {{/liquid-spacer}}
+                 </LiquidSpacer>
                 `);
 
     let style = findAll('#my-spacer')[0].style;
@@ -126,9 +129,9 @@ module('Integration: liquid-spacer', function (hooks) {
     assert.expect(2);
 
     await render(hbs`
-                 {{#liquid-spacer id="my-spacer" growHeight=false}}
+                 <LiquidSpacer @id="my-spacer" @growHeight={{false}}>
                    Hi.
-                 {{/liquid-spacer}}
+                 </LiquidSpacer>
                 `);
 
     let style = findAll('#my-spacer')[0].style;
@@ -144,10 +147,11 @@ module('Integration: liquid-spacer', function (hooks) {
     assert.expect(1);
 
     await render(hbs`
+                 {{!-- template-lint-disable no-inline-styles --}}
                  <div style="transform: scale(0.5);">
-                   {{#liquid-spacer id="my-spacer"}}
+                   <LiquidSpacer @id="my-spacer">
                      <div style="width:50px; height:50px; background-color:blue;"></div>
-                   {{/liquid-spacer}}
+                   </LiquidSpacer>
                  </div>
                 `);
 

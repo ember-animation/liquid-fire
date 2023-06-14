@@ -6,8 +6,6 @@
        we're trying to hide are on a separate accelerated
        context. Also, this prevents a tiny vertical jump when the
        content switches to accelerated.  */
-    -webkit-transform: translateY(0);
-    -moz-transform: translateY(0);
     transform: translateY(0);
 }
 

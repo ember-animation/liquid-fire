@@ -35,7 +35,7 @@ module('Integration: liquid-outlet', function (hooks) {
 
   test('it should render when state is set after insertion', async function (assert) {
     await render(
-      hbs`<this.SetRoute @outletState={{this.outletState}}>{{liquid-outlet}}</this.SetRoute>`
+      hbs`<this.SetRoute @outletState={{this.outletState}}><LiquidOutlet /></this.SetRoute>`
     );
     this.setState(this.makeRoute({ template: hbs`<h1>Hello world</h1>` }));
     assert.dom('h1').exists({ count: 1 });
@@ -45,7 +45,7 @@ module('Integration: liquid-outlet', function (hooks) {
     await render(
       hbs`<this.SetRoute @outletState={{this.outletState}}>A{{outlet}}B</this.SetRoute>`
     );
-    let hello = this.makeRoute({ template: hbs`Hello{{liquid-outlet}}` });
+    let hello = this.makeRoute({ template: hbs`Hello<LiquidOutlet />` });
     this.setState(hello);
     assert.dom().hasText('AHelloB');
     hello.setChild('main', { template: hbs`Goodbye` });
@@ -168,11 +168,11 @@ module('Integration: liquid-outlet', function (hooks) {
 
   test('tolerates empty content when parent outlet is stable', async function (assert) {
     await render(
-      hbs`<this.SetRoute @outletState={{this.outletState}}>A{{liquid-outlet}}B</this.SetRoute>`
+      hbs`<this.SetRoute @outletState={{this.outletState}}>A<LiquidOutlet />B</this.SetRoute>`
     );
 
     let state = this.makeRoute({
-      template: hbs`C{{liquid-outlet}}DE`,
+      template: hbs`C<LiquidOutlet />DE`,
     });
 
     this.setState(state);

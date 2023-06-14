@@ -3,7 +3,7 @@
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function (defaults) {
-  let app = new EmberAddon(defaults, {
+  const app = new EmberAddon(defaults, {
     sassOptions: {
       includePaths: 'node_modules/bootstrap/scss',
     },
@@ -47,11 +47,23 @@ module.exports = function (defaults) {
   app.import('node_modules/prismjs/themes/prism.css');
 
   const { maybeEmbroider } = require('@embroider/test-setup');
+  const webpack = require('webpack');
+
   return maybeEmbroider(app, {
     skipBabel: [
       {
         package: 'qunit',
       },
     ],
+    packagerOptions: {
+      webpackConfig: {
+        plugins: [
+          new webpack.IgnorePlugin({
+            // workaround for https://github.com/embroider-build/ember-auto-import/issues/578
+            resourceRegExp: /moment-timezone/,
+          }),
+        ],
+      },
+    },
   });
 };

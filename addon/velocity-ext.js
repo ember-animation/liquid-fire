@@ -5,7 +5,7 @@
 */
 
 import Velocity from 'velocity';
-if (typeof FastBoot === undefined) {
+if (typeof FastBoot === 'undefined') {
   let VCSS = Velocity.CSS;
 
   let augmentDimension = function (name, element) {

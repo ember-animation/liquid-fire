@@ -155,6 +155,7 @@ module('Integration: fly-to transition', function (hooks) {
   function stylesheet() {
     return setComponentTemplate(
       hbs`
+      {{!-- template-lint-disable no-forbidden-elements --}}
       <style>
       .fly-to-test {
         width: 600px;

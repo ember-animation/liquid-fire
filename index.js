@@ -4,8 +4,6 @@ let path = require('path');
 let mergeTrees = require('broccoli-merge-trees');
 let Funnel = require('broccoli-funnel');
 let map = require('broccoli-stew').map;
-let replace = require('broccoli-string-replace');
-let VersionChecker = require('ember-cli-version-checker');
 
 module.exports = {
   name: require('./package').name,
@@ -38,23 +36,6 @@ module.exports = {
     }
   },
 
-  treeForAddon(tree) {
-    let checker = new VersionChecker(this.project);
-    let dep = checker.for('ember-source');
-
-    if (dep.gte('4.0.0-alpha.0', { includePrerelease: true })) {
-      tree = replace(tree, {
-        files: ['templates/components/liquid-outlet.hbs'],
-        pattern: {
-          match: /{{outlet this.outletName}}/g,
-          replacement: '{{outlet}}',
-        },
-      });
-    }
-
-    return this._super.treeForAddon.call(this, tree);
-  },
-
   treeForVendor(tree) {
     let velocityPath = path.dirname(require.resolve('velocity-animate'));
     let velocityTree = new Funnel(this.treeGenerator(velocityPath), {
@@ -69,20 +50,7 @@ module.exports = {
       }
     );
 
-    let matchMediaPath = path.dirname(require.resolve('match-media'));
-    let matchMediaTree = new Funnel(this.treeGenerator(matchMediaPath), {
-      srcDir: '/',
-      destDir: 'match-media',
-    });
-    matchMediaTree = map(
-      matchMediaTree,
-      'match-media/matchMedia.js',
-      function (content) {
-        return "if (typeof FastBoot === 'undefined') { " + content + ' }';
-      }
-    );
-
-    return mergeTrees([tree, velocityTree, matchMediaTree]);
+    return mergeTrees([tree, velocityTree]);
   },
 
   included() {
@@ -94,7 +62,6 @@ module.exports = {
     this.import('vendor/velocity/velocity.js');
     this.import('vendor/shims/velocity.js');
 
-    this.import('vendor/match-media/matchMedia.js');
     this.import('vendor/liquid-fire.css');
   },
 };

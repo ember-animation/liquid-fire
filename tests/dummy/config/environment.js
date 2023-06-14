@@ -1,21 +1,17 @@
 'use strict';
 
 module.exports = function (environment) {
-  let ENV = {
+  const ENV = {
     modulePrefix: 'dummy',
     environment,
     rootURL: '/',
-
-    locationType: 'auto',
+    locationType: 'history',
 
     EmberENV: {
+      EXTEND_PROTOTYPES: false,
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
         // e.g. EMBER_NATIVE_DECORATOR_SUPPORT: true
-      },
-      EXTEND_PROTOTYPES: {
-        // Prevent Ember Data from overriding Date.parse.
-        Date: false,
       },
     },
 
@@ -34,7 +30,7 @@ module.exports = function (environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    ENV.EmberENV.RAISE_ON_DEPRECATION = true;
+    // ENV.EmberENV.RAISE_ON_DEPRECATION = true;
   }
 
   if (environment === 'test') {
@@ -47,7 +43,7 @@ module.exports = function (environment) {
 
     ENV.APP.rootElement = '#ember-testing';
 
-    ENV.EmberENV.RAISE_ON_DEPRECATION = true;
+    // ENV.EmberENV.RAISE_ON_DEPRECATION = true;
     ENV.APP.autoboot = false;
   }
 

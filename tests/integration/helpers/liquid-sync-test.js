@@ -71,9 +71,9 @@ module('Integration | Component | liquid sync', function (hooks) {
         {{#if this.innerThing}}
            <div class="alt">Alt</div>
         {{else}}
-          {{#liquid-sync as |sync|}}
+          <LiquidSync as |sync|>
             <this.Sample @ready={{sync}} />
-          {{/liquid-sync}}
+          </LiquidSync>
         {{/if}}
       {{else}}
         <div class="off">Off</div>
@@ -101,9 +101,9 @@ module('Integration | Component | liquid sync', function (hooks) {
   test('it considers liquid-fire non-idle when waiting for liquid-sync to resolve', async function (assert) {
     await render(hbs`
       {{#liquid-if this.activated use="spy"}}
-        {{#liquid-sync as |sync|}}
+        <LiquidSync as |sync|>
           <this.Sample @ready={{sync}} />
-        {{/liquid-sync}}
+        </LiquidSync>
       {{else}}
         <div class="off">Off</div>
       {{/liquid-if}}
