@@ -139,7 +139,7 @@ function _explodePart(context, field, childContext, selector, seen) {
 }
 
 function getOffset(ele) {
-  const rect = ele.getBoundingClientRect();
+  const rect = ele?.getBoundingClientRect() ?? { top: 0, left: 0 };
   return {
     top: rect.top + window.scrollY,
     left: rect.left + window.scrollX,
