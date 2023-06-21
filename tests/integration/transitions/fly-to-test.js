@@ -145,7 +145,7 @@ module('Integration: fly-to transition', function (hooks) {
   });
 
   function getOffset(ele) {
-    const rect = ele.getBoundingClientRect();
+    const rect = ele?.getBoundingClientRect() ?? { top: 0, left: 0 }
     return {
       top: rect.top + window.scrollY,
       left: rect.left + window.scrollX,
