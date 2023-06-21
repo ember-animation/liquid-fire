@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.35.1 (2023-06-21)
+
+- BUGFIX: "Cannot read properties of null" when element position is fixed (#678)
+
 ## 0.35.0 (2023-01-24)
 
 - ENHANCEMENT: replace internal jquery usages (there is now possible to use this package without jquery as dependency) (#674)
