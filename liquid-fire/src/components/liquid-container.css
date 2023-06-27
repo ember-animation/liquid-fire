@@ -1,0 +1,10 @@
+.liquid-container {
+    position: relative;
+    overflow: hidden;
+
+    /* without this, overflow:hidden won't take effect because the things
+       we're trying to hide are on a separate accelerated
+       context. Also, this prevents a tiny vertical jump when the
+       content switches to accelerated.  */
+    transform: translateY(0);
+}

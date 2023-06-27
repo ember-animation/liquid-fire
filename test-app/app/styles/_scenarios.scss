@@ -1,0 +1,144 @@
+#inline-serial-scenario, #inline-scenario, #growable-with-scenario {
+    border: 1px solid blue;
+    width: 30em;
+    label { display: block; }
+    .liquid-container {
+        border: 1px solid black;
+        padding: 11px;
+        display: inline-block;
+    }
+}
+
+#empty-if-scenario {
+    border: 1px solid black;
+    .liquid-child {
+        height: 1.5em;
+    }
+}
+
+#growable-flexboxes-scenario {
+    .liquid-child {
+        border: 1px solid blue;
+        min-height: 6em;
+        text-align: center;
+    }
+
+    .flex-parent {
+        display: flex;
+        min-height: 6em;
+    }
+}
+
+#nested-outlet-scenario {
+    width: 20em;
+    border: 1px solid black;
+    padding: 2em;
+}
+
+td {
+    border: 1px solid black;
+}
+
+#spacer-test {
+    border: 1px solid black;
+    ol {
+        padding: 0 2em;
+    }
+}
+
+#versions-test {
+    .liquid-container {
+        border: 1px solid black;
+    }
+}
+
+.hero-scenario {
+    border: 1px solid black;
+    width: 600px;
+    height: 400px;
+    position: relative;
+
+    .bluebox {
+        width: 100px;
+        height: 100px;
+        background-color: blue;
+        padding: 20px;
+        border: 5px solid purple;
+    }
+
+    .redbox {
+        margin-left: 300px;
+        margin-top: 200px;
+        width: 200px;
+        height: 150px;
+        background-color: red;
+        padding: 10px;
+        border: 10px solid purple;
+
+    }
+
+    .blue-abs-box {
+        position: absolute;
+        top: 200px;
+        left: 50px;
+        width: 50px;
+        height: 50px;
+        background-color: blue;
+        margin: 20px;
+        padding: 50px;
+        box-sizing: content-box;
+        border: 1px solid purple;
+    }
+
+    .red-abs-box {
+        position: absolute;
+        top: 20px;
+        right: 40px;
+        width: 100px;
+        height: 80px;
+        background-color: red;
+        margin: 30px;
+        padding: 10px;
+        box-sizing: content-box;
+        border: 1px solid purple;
+    }
+
+    .liquid-child {
+        width: 100%;
+        height: 100%;
+        padding: 15px;
+    }
+
+    .second {
+        width: 100%;
+        height: 100%;
+        background-color: yellow;
+        border: 1px solid transparent; /* Prevent margin collapse */
+    }
+    .index {
+        width: 100%;
+        height: 100%;
+        background-color: green;
+        border: 1px solid transparent; /* Prevent margin collapse */
+    }
+}
+
+.interrupted-move-scenario {
+    width: 300px;
+    height: 200px;
+
+    .one, .two, .three {
+        line-height: 200px;
+        text-align: center;
+        color: white;
+    }
+    .one {
+        background-color: red;
+    }
+    .two {
+        background-color: green;
+    }
+    .three {
+        background-color: blue;
+    }
+}

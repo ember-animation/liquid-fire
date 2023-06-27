@@ -8,73 +8,73 @@ on:
   pull_request: {}
 
 concurrency:
-  group: ci-${{ github.head_ref || github.ref }}
-  cancel-in-progress: true
+   group: ci-${{ github.head_ref || github.ref }}
+   cancel-in-progress: true
 
 jobs:
   test:
     name: "Tests"
     runs-on: ubuntu-latest
-    timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v3
+      
       - name: Install Node
         uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 14.x
           cache: npm
       - name: Install Dependencies
         run: npm ci
       - name: Lint
         run: npm run lint
       - name: Run Tests
-        run: npm run test:ember
+        run: npm run test
 
   floating:
     name: "Floating Dependencies"
     runs-on: ubuntu-latest
-    timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v3
+      
       - uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 14.x
           cache: npm
       - name: Install Dependencies
-        run: npm ci
+        run: npm install --no-shrinkwrap
       - name: Run Tests
-        run: npm run test:ember
+        run: npm run test
 
   try-scenarios:
     name: ${{ matrix.try-scenario }}
     runs-on: ubuntu-latest
-    needs: "test"
-    timeout-minutes: 10
+    needs: 'test'
 
     strategy:
       fail-fast: false
       matrix:
         try-scenario:
+          - ember-lts-3.28
           - ember-lts-4.4
-          - ember-lts-4.8
-          - ember-lts-4.12
           - ember-release
           - ember-beta
           - ember-canary
+          - ember-classic
           - embroider-safe
           - embroider-optimized
-          - fastboot
 
     steps:
       - uses: actions/checkout@v3
+      
       - name: Install Node
         uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 14.x
           cache: npm
       - name: Install Dependencies
         run: npm ci
       - name: Run Tests
-        run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }} --skip-cleanup
+        run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
+        working-directory: test-app

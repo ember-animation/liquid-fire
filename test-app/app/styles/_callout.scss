@@ -1,0 +1,11 @@
+/* Inspired by the callouts that Bootstrap uses in their own
+documentation. I was a little surprised they're not part of Bootstrap
+itself.*/
+
+.callout {
+  padding: 1rem;
+  margin: 2rem 0;
+  border: 1px solid #eee;
+  border-left: 5px solid $primary;
+  border-radius: 3px;
+}

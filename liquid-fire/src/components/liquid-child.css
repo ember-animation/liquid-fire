@@ -1,0 +1,3 @@
+.liquid-child {
+    overflow: hidden; /* Prevent margin collapse */
+}
