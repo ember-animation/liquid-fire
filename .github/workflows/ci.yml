@@ -99,7 +99,6 @@ jobs:
           - ember-canary
           - embroider-safe
           - embroider-optimized
-          - fastboot
 
     steps:
       - uses: actions/checkout@v3

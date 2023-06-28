@@ -56,15 +56,6 @@ module.exports = async function () {
           },
         },
       },
-      {
-        name: 'fastboot',
-        command: 'npm run test:fastboot',
-        npm: {
-          devDependencies: {
-            'ember-source': '~4.12.0',
-          },
-        },
-      },
       embroiderSafe(),
       embroiderOptimized(),
     ],
