@@ -23,7 +23,9 @@
     "start": "ember serve",
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
     "test:ember": "ember test",
-    "test:ember-try": "ember try:one"
+    "test:ember-try": "ember try:one",
+    "test:ember-compatibility": "ember try:each",
+    "test:fastboot": "qunit fastboot-tests"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.22.5",
