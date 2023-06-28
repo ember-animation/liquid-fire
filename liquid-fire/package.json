@@ -22,8 +22,7 @@
     "lint:js:fix": "eslint . --fix",
     "start": "rollup --config --watch",
     "test": "echo 'A v2 addon does not have tests, run tests in test-app'",
-    "prepack": "npm run build",
-    "prepare": "npm run build"
+    "prepare": "pnpm build"
   },
   "dependencies": {
     "@embroider/addon-shim": "^1.0.0",

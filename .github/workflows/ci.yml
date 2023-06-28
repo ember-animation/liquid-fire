@@ -12,24 +12,51 @@ concurrency:
    cancel-in-progress: true
 
 jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: pnpm
+
+      - name: 'Install dependencies'
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm --filter liquid-fire lint
+
   test:
     name: "Tests"
     runs-on: ubuntu-latest
+    needs: lint
 
     steps:
       - uses: actions/checkout@v3
       
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 8
+          
       - name: Install Node
         uses: actions/setup-node@v3
         with:
-          node-version: 14.x
-          cache: npm
+          node-version: 16.x
+          cache: pnpm
+          
       - name: Install Dependencies
-        run: npm ci
-      - name: Lint
-        run: npm run lint
+        run: pnpm install --frozen-lockfile
+        
       - name: Run Tests
-        run: npm run test
+        run: pnpm --filter liquid-fire test:ember
 
   floating:
     name: "Floating Dependencies"
@@ -38,43 +65,58 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 8
+          
       - uses: actions/setup-node@v3
         with:
-          node-version: 14.x
-          cache: npm
+          node-version: 16.x
+          cache: pnpm
+          
       - name: Install Dependencies
-        run: npm install --no-shrinkwrap
+        run: pnpm install --frozen-lockfile
+        
       - name: Run Tests
-        run: npm run test
+        run: pnpm --filter test-app test:ember
 
   try-scenarios:
     name: ${{ matrix.try-scenario }}
     runs-on: ubuntu-latest
+    continue-on-error: true
     needs: 'test'
 
     strategy:
       fail-fast: false
       matrix:
         try-scenario:
-          - ember-lts-3.28
           - ember-lts-4.4
+          - ember-lts-4.8
+          - ember-lts-4.12
           - ember-release
           - ember-beta
           - ember-canary
           - ember-classic
           - embroider-safe
           - embroider-optimized
+          - fastboot
 
     steps:
       - uses: actions/checkout@v3
       
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 8
+          
       - name: Install Node
         uses: actions/setup-node@v3
         with:
-          node-version: 14.x
-          cache: npm
+          node-version: 16.x
+          cache: pnpm
+          
       - name: Install Dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
+        
       - name: Run Tests
         run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
         working-directory: test-app

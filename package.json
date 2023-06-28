@@ -6,15 +6,14 @@
   "license": "MIT",
   "author": "Edward Faulkner <ef@alum.mit.edu>",
   "scripts": {
-    "build": "npm run build --workspace liquid-fire",
-    "lint": "npm run lint --workspaces --if-present",
-    "lint:fix": "npm run lint:fix --workspaces --if-present",
-    "prepare": "npm run build",
-    "start": "concurrently 'npm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
-    "start:addon": "npm start --workspace liquid-fire -- --no-watch.clearScreen",
-    "start:docs": "npm start --workspace docs",
-    "start:test-app": "npm start --workspace test-app",
-    "test": "npm run test --workspaces --if-present"
+    "build": "pnpm run --filter liquid-fire build",
+    "build:docs": "pnpm run --filter docs build",
+    "lint": "pnpm run --filter '*' lint",
+    "lint:fix": "pnpm run --filter '*' lint:fix",
+    "start": "concurrently 'pnpm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
+    "start:addon": "pnpm run --filter liquid-fire start --no-watch.clearScreen",
+    "start:docs": "pnpm run --filter docs start --preserveWatchOutput",
+    "start:test-app": "pnpm run --filter test-app start"
   },
   "devDependencies": {
     "concurrently": "^7.2.1",
