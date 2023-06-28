@@ -3,7 +3,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { settled } from '@ember/test-helpers';
 
 let tmap;
 
@@ -115,8 +114,6 @@ module('Integration: liquid-container', function (hooks) {
     );
 
     this.set('value', 'new-value');
-    
-    await settled();
 
     assert
       .dom('.test-container.liquid-animating')
