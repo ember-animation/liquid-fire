@@ -56,7 +56,7 @@ jobs:
         run: pnpm install --frozen-lockfile
         
       - name: Run Tests
-        run: pnpm --filter liquid-fire test:ember
+        run: pnpm --filter test-app test:ember
 
   floating:
     name: "Floating Dependencies"
