@@ -57,24 +57,6 @@ module.exports = async function () {
         },
       },
       {
-        name: 'ember-classic',
-        env: {
-          EMBER_OPTIONAL_FEATURES: JSON.stringify({
-            'application-template-wrapper': true,
-            'default-async-observers': false,
-            'template-only-glimmer-components': false,
-          }),
-        },
-        npm: {
-          devDependencies: {
-            'ember-source': '~4.12.0',
-          },
-          ember: {
-            edition: 'classic',
-          },
-        },
-      },
-      {
         name: 'fastboot',
         command: 'npm run test:fastboot',
         npm: {

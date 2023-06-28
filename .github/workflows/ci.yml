@@ -97,7 +97,6 @@ jobs:
           - ember-release
           - ember-beta
           - ember-canary
-          - ember-classic
           - embroider-safe
           - embroider-optimized
           - fastboot
