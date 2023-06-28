@@ -85,7 +85,7 @@ jobs:
     name: ${{ matrix.try-scenario }}
     runs-on: ubuntu-latest
     continue-on-error: true
-    needs: 'test'
+    needs: test
 
     strategy:
       fail-fast: false
@@ -119,5 +119,6 @@ jobs:
         run: pnpm install --frozen-lockfile
         
       - name: Run Tests
-        run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
-        working-directory: test-app
+        env:
+          EMBER_TRY_SCENARIO: ${{ matrix.try-scenario }}
+        run: pnpm --filter test-app test:ember-try $EMBER_TRY_SCENARIO
