@@ -1,0 +1,110 @@
+{
+  "name": "liquid-fire",
+  "version": "0.35.0",
+  "description": "Animated transitions for Ember applications.",
+  "keywords": [
+    "ember-addon"
+  ],
+  "repository": "https://github.com/ember-animation/liquid-fire",
+  "license": "MIT",
+  "author": "Edward Faulkner <ef@alum.mit.edu>",
+  "files": [
+    "addon-main.cjs",
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup --config",
+    "lint": "concurrently 'npm:lint:*(!fix)' --names 'lint:'",
+    "lint:fix": "concurrently 'npm:lint:*:fix' --names 'fix:'",
+    "lint:hbs": "ember-template-lint . --no-error-on-unmatched-pattern",
+    "lint:js": "eslint . --cache",
+    "lint:hbs:fix": "ember-template-lint . --fix --no-error-on-unmatched-pattern",
+    "lint:js:fix": "eslint . --fix",
+    "start": "rollup --config --watch",
+    "test": "echo 'A v2 addon does not have tests, run tests in test-app'",
+    "prepare": "pnpm build"
+  },
+  "dependencies": {
+    "@embroider/addon-shim": "^1.0.0",
+    "@embroider/macros": "^1.11.0",
+    "broccoli-funnel": "^3.0.8",
+    "broccoli-merge-trees": "^4.2.0",
+    "broccoli-stew": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.0",
+    "@babel/eslint-parser": "^7.19.1",
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@babel/plugin-proposal-decorators": "^7.20.13",
+    "@babel/runtime": "^7.17.0",
+    "@embroider/addon-dev": "^3.0.0",
+    "@rollup/plugin-babel": "^6.0.3",
+    "concurrently": "^8.0.1",
+    "ember-template-lint": "^5.7.3",
+    "eslint": "^8.33.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-ember": "^11.6.0",
+    "eslint-plugin-n": "^16.0.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.5.1",
+    "rollup": "^3.21.8",
+    "rollup-plugin-copy": "^3.4.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "ember": {
+    "edition": "octane"
+  },
+  "ember-addon": {
+    "version": 2,
+    "type": "addon",
+    "main": "addon-main.cjs",
+    "app-js": {
+      "./components/illiquid-model.js": "./dist/_app_/components/illiquid-model.js",
+      "./components/lf-get-outlet-state.js": "./dist/_app_/components/lf-get-outlet-state.js",
+      "./components/liquid-bind.js": "./dist/_app_/components/liquid-bind.js",
+      "./components/liquid-child.js": "./dist/_app_/components/liquid-child.js",
+      "./components/liquid-container.js": "./dist/_app_/components/liquid-container.js",
+      "./components/liquid-if.js": "./dist/_app_/components/liquid-if.js",
+      "./components/liquid-measured.js": "./dist/_app_/components/liquid-measured.js",
+      "./components/liquid-outlet.js": "./dist/_app_/components/liquid-outlet.js",
+      "./components/liquid-spacer.js": "./dist/_app_/components/liquid-spacer.js",
+      "./components/liquid-sync.js": "./dist/_app_/components/liquid-sync.js",
+      "./components/liquid-unless.js": "./dist/_app_/components/liquid-unless.js",
+      "./components/liquid-versions.js": "./dist/_app_/components/liquid-versions.js",
+      "./helpers/lf-lock-model.js": "./dist/_app_/helpers/lf-lock-model.js",
+      "./helpers/lf-or.js": "./dist/_app_/helpers/lf-or.js",
+      "./mixins/growable.js": "./dist/_app_/mixins/growable.js",
+      "./mixins/pausable.js": "./dist/_app_/mixins/pausable.js",
+      "./services/liquid-fire-transitions.js": "./dist/_app_/services/liquid-fire-transitions.js",
+      "./transitions/cross-fade.js": "./dist/_app_/transitions/cross-fade.js",
+      "./transitions/default.js": "./dist/_app_/transitions/default.js",
+      "./transitions/explode.js": "./dist/_app_/transitions/explode.js",
+      "./transitions/fade.js": "./dist/_app_/transitions/fade.js",
+      "./transitions/flex-grow.js": "./dist/_app_/transitions/flex-grow.js",
+      "./transitions/fly-to.js": "./dist/_app_/transitions/fly-to.js",
+      "./transitions/move-over.js": "./dist/_app_/transitions/move-over.js",
+      "./transitions/scale.js": "./dist/_app_/transitions/scale.js",
+      "./transitions/scroll-then.js": "./dist/_app_/transitions/scroll-then.js",
+      "./transitions/to-down.js": "./dist/_app_/transitions/to-down.js",
+      "./transitions/to-left.js": "./dist/_app_/transitions/to-left.js",
+      "./transitions/to-right.js": "./dist/_app_/transitions/to-right.js",
+      "./transitions/to-up.js": "./dist/_app_/transitions/to-up.js",
+      "./transitions/wait.js": "./dist/_app_/transitions/wait.js"
+    }
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./*": "./dist/*.js",
+    "./addon-main.js": "./addon-main.cjs"
+  },
+  "volta": {
+    "extends": "../package.json"
+  },
+  "peerDependencies": {
+    "@ember/string": "^3.1.1",
+    "ember-source": ">= 4.0.0",
+    "velocity-animate": "^1.5.2"
+  }
+}
