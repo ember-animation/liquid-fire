@@ -39,11 +39,11 @@ For older versions, see [this wiki page](https://github.com/ember-animation/liqu
 
 This repo contains both the liquid-fire library and a demo application
 that presents interactive documentation. It follows standard ember-cli
-addon format.
+addon v2 format.
 
-- app: is code that's loaded directly into the user's application
-- addon: is code that can be imported by the user from the `liquid-fire` namespace
-- tests/dummy: is the testing, demo, and documentation application
+- liquid-fire: is code that can be imported by the user from the `liquid-fire` namespace
+- docs: is the demo and documentation application
+- test-app: is the testing
 
 ## Testing
 
