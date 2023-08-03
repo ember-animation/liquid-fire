@@ -42,7 +42,7 @@ export default class Rule {
   }
 
   invert() {
-    let rule = new this.constructor();
+    const rule = new this.constructor();
     rule.use = this.reverse;
     rule.reverse = this.use;
     rule.constraints = this.constraints.map((c) => c.invert());

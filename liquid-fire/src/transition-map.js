@@ -13,12 +13,12 @@ export default class TransitionMapService extends Service {
 
     this.activeCount = 0;
     this.constraints = new Constraints();
-    let owner = getOwner(this);
+    const owner = getOwner(this);
     this.isTest =
       owner.resolveRegistration('config:environment').environment === 'test';
     let config;
     if (owner.factoryFor) {
-      let maybeConfig = owner.factoryFor('transitions:main');
+      const maybeConfig = owner.factoryFor('transitions:main');
       config = maybeConfig && maybeConfig.class;
     } else {
       config = owner._lookupFactory('transitions:main');
@@ -57,7 +57,7 @@ export default class TransitionMapService extends Service {
 
   _maybeResolveIdle() {
     if (this.activeCount === 0 && this._resolveWaiting) {
-      let resolveWaiting = this._resolveWaiting;
+      const resolveWaiting = this._resolveWaiting;
       this._resolveWaiting = null;
       this._waitingPromise = null;
       resolveWaiting();
@@ -65,10 +65,10 @@ export default class TransitionMapService extends Service {
   }
 
   lookup(transitionName) {
-    let owner = getOwner(this);
+    const owner = getOwner(this);
     let handler;
     if (owner.factoryFor) {
-      let maybeHandler = owner.factoryFor('transition:' + transitionName);
+      const maybeHandler = owner.factoryFor('transition:' + transitionName);
       handler = maybeHandler && maybeHandler.class;
     } else {
       handler = owner._lookupFactory('transition:' + transitionName);
@@ -88,7 +88,7 @@ export default class TransitionMapService extends Service {
 
   constraintsFor(conditions) {
     if (conditions.rules) {
-      let constraints = new Constraints();
+      const constraints = new Constraints();
       this.map(conditions.rules, constraints);
       return constraints;
     } else {
@@ -102,7 +102,7 @@ export default class TransitionMapService extends Service {
       action = new Action(conditions.use);
       action.validateHandler(this);
     } else {
-      let rule = this.constraintsFor(conditions).bestMatch(conditions);
+      const rule = this.constraintsFor(conditions).bestMatch(conditions);
       if (rule) {
         action = rule.use;
       } else {

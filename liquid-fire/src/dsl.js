@@ -14,10 +14,12 @@ export default class DSL {
   }
 
   transition() {
-    let rule = new Rule();
-    let parts = Array.prototype.slice.apply(arguments).reduce(function (a, b) {
-      return a.concat(b);
-    }, []);
+    const rule = new Rule();
+    const parts = Array.prototype.slice
+      .apply(arguments)
+      .reduce(function (a, b) {
+        return a.concat(b);
+      }, []);
 
     for (let i = 0; i < parts.length; i++) {
       rule.add(parts[i]);
@@ -123,8 +125,8 @@ function matches(elt, s) {
   if (Element.prototype.matches) {
     return elt.matches(s);
   } else {
-    let matches = (elt.document || elt.ownerDocument).querySelectorAll(s),
-      i = matches.length;
+    const matches = (elt.document || elt.ownerDocument).querySelectorAll(s);
+    let i = matches.length;
     // eslint-disable-next-line no-empty
     while (--i >= 0 && matches.item(i) !== elt) {}
     return i > -1;

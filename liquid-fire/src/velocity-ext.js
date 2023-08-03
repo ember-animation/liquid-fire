@@ -7,10 +7,10 @@
 import { Velocity } from './index';
 
 if (typeof FastBoot === 'undefined') {
-  let VCSS = Velocity.CSS;
+  const VCSS = Velocity.CSS;
 
-  let augmentDimension = function (name, element) {
-    let sides = name === 'width' ? ['Left', 'Right'] : ['Top', 'Bottom'];
+  const augmentDimension = function (name, element) {
+    const sides = name === 'width' ? ['Left', 'Right'] : ['Top', 'Bottom'];
 
     if (
       VCSS.getPropertyValue(element, 'boxSizing').toString().toLowerCase() ===
@@ -20,14 +20,14 @@ if (typeof FastBoot === 'undefined') {
       return 0;
     } else {
       let augment = 0;
-      let fields = [
+      const fields = [
         'padding' + sides[0],
         'padding' + sides[1],
         'border' + sides[0] + 'Width',
         'border' + sides[1] + 'Width',
       ];
       for (let i = 0; i < fields.length; i++) {
-        let value = parseFloat(VCSS.getPropertyValue(element, fields[i]));
+        const value = parseFloat(VCSS.getPropertyValue(element, fields[i]));
         if (!isNaN(value)) {
           augment += value;
         }
@@ -36,7 +36,7 @@ if (typeof FastBoot === 'undefined') {
     }
   };
 
-  let outerDimension = function (name) {
+  const outerDimension = function (name) {
     return function (type, element, propertyValue) {
       switch (type) {
         case 'name':

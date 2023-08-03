@@ -9,8 +9,8 @@ export default function (nextTransitionName, options, ...rest) {
       'string' === typeof nextTransitionName
     );
 
-    let el = document.getElementsByTagName('html');
-    let nextTransition = this.lookup(nextTransitionName);
+    const el = document.getElementsByTagName('html');
+    const nextTransition = this.lookup(nextTransitionName);
     if (!options) {
       options = {};
     }

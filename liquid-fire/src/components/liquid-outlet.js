@@ -7,11 +7,11 @@ export default class LiquidOutletComponent extends Component {
   }
 
   get versionEquality() {
-    let outletName = this.outletName;
-    let watchModels = this.args.watchModels;
+    const outletName = this.outletName;
+    const watchModels = this.args.watchModels;
     return function (oldValue, newValue) {
-      let oldChild = childRoute(oldValue, outletName);
-      let newChild = childRoute(newValue, outletName);
+      const oldChild = childRoute(oldValue, outletName);
+      const newChild = childRoute(newValue, outletName);
       return (
         routeIsStable(oldChild, newChild) &&
         (!watchModels || modelIsStable(oldChild, newChild))

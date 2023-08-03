@@ -57,7 +57,7 @@ export function routeIsStable(oldRouteInfo, newRouteInfo) {
 
 // Only valid for states that already satisfy routeIsStable
 export function modelIsStable(oldRouteInfo, newRouteInfo) {
-  let oldModel = routeModel(oldRouteInfo) || [];
-  let newModel = routeModel(newRouteInfo) || [];
+  const oldModel = routeModel(oldRouteInfo) || [];
+  const newModel = routeModel(newRouteInfo) || [];
   return oldModel[0] === newModel[0];
 }

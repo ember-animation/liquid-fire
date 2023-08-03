@@ -18,7 +18,7 @@ export function animate(elt, props, opts, label) {
   // These numbers are just sane defaults in the probably-impossible
   // case where somebody tries to read our state before the first
   // 'progress' callback has fired.
-  let state = { percentComplete: 0, timeRemaining: 100, timeSpent: 0 };
+  const state = { percentComplete: 0, timeRemaining: 100, timeSpent: 0 };
 
   if (!elt) {
     return Promise.resolve();
@@ -79,7 +79,7 @@ export function stop(elt) {
 }
 
 export function setDefaults(props) {
-  for (let key in props) {
+  for (const key in props) {
     if (Object.hasOwnProperty.call(props, key)) {
       if (key === 'progress') {
         throw new Error(
@@ -110,7 +110,7 @@ export function timeRemaining(elt, animationLabel) {
 }
 
 function stateForLabel(elt, label) {
-  let state = isAnimating(elt, label);
+  const state = isAnimating(elt, label);
   if (!state) {
     throw new Error('no animation labeled ' + label + ' is in progress');
   }

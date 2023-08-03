@@ -1,5 +1,5 @@
 import isBrowser from './is-browser';
-let activePollers = [];
+const activePollers = [];
 
 function MutationPoller(callback) {
   this.callback = callback;

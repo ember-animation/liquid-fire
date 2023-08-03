@@ -23,6 +23,7 @@ module.exports = {
     eqeqeq: ['error'],
     'no-console': ['error'],
     'no-var': ['error'],
+    'prefer-const': ['error'],
   },
   overrides: [
     // node files

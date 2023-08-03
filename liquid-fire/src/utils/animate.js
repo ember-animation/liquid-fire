@@ -2,15 +2,15 @@ import { capitalize } from '@ember/string';
 import { Velocity } from '../index';
 
 export function measure($elt) {
-  let boundingRect = $elt.getBoundingClientRect();
+  const boundingRect = $elt.getBoundingClientRect();
 
   // Calculate the scaling.
   // NOTE: We only handle the simple zoom case.
-  let claimedWidth = $elt.offsetWidth;
+  const claimedWidth = $elt.offsetWidth;
 
   // Round the width because offsetWidth is rounded
-  let actualWidth = Math.round(boundingRect.width);
-  let scale = actualWidth > 0 ? claimedWidth / actualWidth : 0;
+  const actualWidth = Math.round(boundingRect.width);
+  const scale = actualWidth > 0 ? claimedWidth / actualWidth : 0;
 
   return {
     width: boundingRect.width * scale,
@@ -32,7 +32,7 @@ export function animateGrowth(
   growPixelsPerSecond
 ) {
   transitionMap.incrementRunningTransitions();
-  let adaptations = [];
+  const adaptations = [];
 
   if (growWidth) {
     adaptations.push(
@@ -85,7 +85,7 @@ function adaptDimension(
   if (have[dimension] === want[dimension]) {
     return Promise.resolve();
   }
-  let target = {};
+  const target = {};
   target['outer' + capitalize(dimension)] = [want[dimension], have[dimension]];
   return Velocity(elt, target, {
     delay: delayFor(have[dimension], want[dimension], shrinkDelay, growDelay),

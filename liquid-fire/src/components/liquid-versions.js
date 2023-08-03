@@ -16,9 +16,9 @@ export default class LiquidVersionsComponent extends Component {
   appendVersion() {
     let versions = this.versions;
     let firstTime = false;
-    let newValue = this.args.value;
+    const newValue = this.args.value;
     let oldValue;
-    let versionEquality = this.args.versionEquality || defaultEqualityCheck;
+    const versionEquality = this.args.versionEquality || defaultEqualityCheck;
 
     if (!versions) {
       firstTime = true;
@@ -42,7 +42,7 @@ export default class LiquidVersionsComponent extends Component {
     }
 
     this.notifyContainer('willTransition', versions);
-    let newVersion = {
+    const newVersion = {
       value: newValue,
       uniqueChildId: this.uniqueChildId,
     };
@@ -64,14 +64,13 @@ export default class LiquidVersionsComponent extends Component {
       !!this.args.containerElement
     );
 
-    let versions = this.versions;
-    let transition;
-    let firstTime = this.firstTime;
+    const versions = this.versions;
+    const firstTime = this.firstTime;
     this.firstTime = false;
 
     this.notifyContainer('afterChildInsertion', versions);
 
-    transition = this.transitionMap.transitionFor({
+    const transition = this.transitionMap.transitionFor({
       versions: versions,
       parentElement: this.args.containerElement,
       use: this.args.use,
@@ -112,7 +111,7 @@ export default class LiquidVersionsComponent extends Component {
   }
 
   notifyContainer(method, versions) {
-    let target = this.args.notify;
+    const target = this.args.notify;
     if (target && !target.isDestroying) {
       target[method](versions);
     }
@@ -120,7 +119,7 @@ export default class LiquidVersionsComponent extends Component {
 
   @action
   childDidRender(child) {
-    let version = child.args.version;
+    const version = child.args.version;
     set(version, 'view', child);
     this._transition();
   }

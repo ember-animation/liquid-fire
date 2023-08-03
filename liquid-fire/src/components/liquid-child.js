@@ -47,7 +47,7 @@ export default class LiquidChildComponent extends Component {
       return;
     }
     this.liquidFireChildren._waitingFor.push(promise);
-    let ancestor = this.liquidFireChildren.closest(this.element);
+    const ancestor = this.liquidFireChildren.closest(this.element);
     if (ancestor) {
       ancestor._waitForMe(promise);
     }

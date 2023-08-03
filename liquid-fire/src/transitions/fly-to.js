@@ -8,11 +8,11 @@ export default function flyTo(opts = {}) {
     return Promise.resolve();
   }
 
-  let oldOffset = getOffset(this.oldElement);
-  let newOffset = getOffset(this.newElement);
+  const oldOffset = getOffset(this.oldElement);
+  const newOffset = getOffset(this.newElement);
 
   if (opts.movingSide === 'new') {
-    let motion = {
+    const motion = {
       translateX: [0, oldOffset.left - newOffset.left],
       translateY: [0, oldOffset.top - newOffset.top],
       outerWidth: [this.newElement.offsetWidth, this.oldElement.offsetWidth],
@@ -21,7 +21,7 @@ export default function flyTo(opts = {}) {
     this.oldElement.style.visibility = 'hidden';
     return animate(this.newElement, motion, opts);
   } else {
-    let motion = {
+    const motion = {
       translateX: newOffset.left - oldOffset.left,
       translateY: newOffset.top - oldOffset.top,
       outerWidth: this.newElement.offsetWidth,

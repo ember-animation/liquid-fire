@@ -27,10 +27,10 @@ export default class LiquidSyncComponent extends Component {
   }
 
   pauseLiquidFire() {
-    let context = this.liquidFireChildren.closest(this.element);
+    const context = this.liquidFireChildren.closest(this.element);
     if (context) {
-      let def = new defer();
-      let tmap = this._transitionMap;
+      const def = new defer();
+      const tmap = this._transitionMap;
       tmap.incrementRunningTransitions();
       def.promise.finally(() => tmap.decrementRunningTransitions());
       this._lfDefer.push(def);
@@ -40,7 +40,7 @@ export default class LiquidSyncComponent extends Component {
 
   @action
   resumeLiquidFire() {
-    let def = this._lfDefer.pop();
+    const def = this._lfDefer.pop();
     if (def) {
       def.resolve();
     }

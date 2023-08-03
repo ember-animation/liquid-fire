@@ -61,11 +61,11 @@ export default class LiquidContainerComponent extends Component {
 
   @action
   afterChildInsertion(versions) {
-    let elt = this.element;
-    let enableGrowth = this.args.enableGrowth !== false;
+    const elt = this.element;
+    const enableGrowth = this.args.enableGrowth !== false;
 
     // Measure children
-    let sizes = [];
+    const sizes = [];
     for (let i = 0; i < versions.length; i++) {
       if (versions[i].view) {
         sizes[i] = measure(versions[i].view.element);
@@ -74,8 +74,8 @@ export default class LiquidContainerComponent extends Component {
 
     // Measure ourself again to see how big the new children make
     // us.
-    let want = measure(elt);
-    let have = this._cachedSize || want;
+    const want = measure(elt);
+    const have = this._cachedSize || want;
 
     // Make ourself absolute
     if (enableGrowth) {
@@ -132,7 +132,7 @@ export default class LiquidContainerComponent extends Component {
   }
 
   unlockSize() {
-    let doUnlock = () => {
+    const doUnlock = () => {
       this.updateAnimatingClass(false);
       if (this.element) {
         this.element.style.width = '';
@@ -165,8 +165,8 @@ function goAbsolute(version, size) {
   if (!version.view) {
     return;
   }
-  let elt = version.view.element;
-  let pos = {
+  const elt = version.view.element;
+  const pos = {
     top: elt.offsetTop,
     left: elt.offsetLeft,
   };
@@ -182,7 +182,7 @@ function goAbsolute(version, size) {
 
 function goStatic(version) {
   if (version.view && !version.view.isDestroyed) {
-    let elt = version.view.element;
+    const elt = version.view.element;
     elt.style.width = '';
     elt.style.height = '';
     elt.style.position = '';

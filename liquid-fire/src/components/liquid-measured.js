@@ -19,7 +19,7 @@ export default class LiquidMeasuredComponent extends Component {
   setup(element) {
     this.element = element;
 
-    let self = this;
+    const self = this;
 
     // This prevents margin collapse
     this.element.style.overflow = 'auto';
@@ -62,7 +62,7 @@ export default class LiquidMeasuredComponent extends Component {
     // tests from falling through the gap between the time they
     // triggered mutation the time we may actually animate in
     // response.
-    let tmap = this.transitionMap;
+    const tmap = this.transitionMap;
     tmap.incrementRunningTransitions();
     next(this, function () {
       this._didMutate();

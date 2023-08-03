@@ -41,9 +41,9 @@ export default class LiquidOutletComponent extends Component {
   setup(element) {
     this.element = element;
 
-    let elt = element;
-    let child = elt.getElementsByTagName('div')[0];
-    let measurements = this.myMeasurements(measure(child));
+    const elt = element;
+    const child = elt.getElementsByTagName('div')[0];
+    const measurements = this.myMeasurements(measure(child));
 
     element.style.overflow = 'hidden';
 
@@ -62,9 +62,9 @@ export default class LiquidOutletComponent extends Component {
     if (!this.element) {
       return;
     }
-    let want = this.myMeasurements(measurements);
-    let elt = this.element;
-    let have = measure(elt);
+    const want = this.myMeasurements(measurements);
+    const elt = this.element;
+    const have = measure(elt);
     this.animateGrowth(elt, have, want);
   }
 
@@ -87,7 +87,7 @@ export default class LiquidOutletComponent extends Component {
   // given our child's outerWidth & outerHeight, figure out what our
   // outerWidth & outerHeight should be.
   myMeasurements(childMeasurements) {
-    let elt = this.element;
+    const elt = this.element;
     return {
       width:
         childMeasurements.width +
@@ -106,12 +106,12 @@ function sides(dimension) {
 }
 
 function padding(dimension) {
-  let s = sides(dimension);
+  const s = sides(dimension);
   return ['padding' + s[0], 'padding' + s[1]];
 }
 
 function border(dimension) {
-  let s = sides(dimension);
+  const s = sides(dimension);
   return ['border' + s[0] + 'Width', 'border' + s[1] + 'Width'];
 }
 
@@ -120,7 +120,7 @@ function sumCSS(elt, fields) {
   const style = getComputedStyle(elt);
 
   for (let i = 0; i < fields.length; i++) {
-    let num = parseFloat(style[fields[i]], 10);
+    const num = parseFloat(style[fields[i]], 10);
     if (!isNaN(num)) {
       accum += num;
     }
