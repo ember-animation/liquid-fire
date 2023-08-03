@@ -54,7 +54,7 @@ module('Integration: liquid-outlet', function (hooks) {
   });
 
   test('it should support static class', async function (assert) {
-    await render(hbs`{{liquid-outlet class="magical"}}`);
+    await render(hbs`<LiquidOutlet @class="magical" />`);
     assert
       .dom('.liquid-container.magical')
       .exists({ count: 1 }, 'found static class');
@@ -62,14 +62,14 @@ module('Integration: liquid-outlet', function (hooks) {
 
   test('it should support dynamic class', async function (assert) {
     this.set('power', 'sparkly');
-    await render(hbs`{{liquid-outlet class=this.power}}`);
+    await render(hbs`<LiquidOutlet @class={{this.power}} />`);
     assert
       .dom('.liquid-container.sparkly')
       .exists({ count: 1 }, 'found dynamic class');
   });
 
   test('it should support element id', async function (assert) {
-    await render(hbs`{{liquid-outlet containerId="foo"}}`);
+    await render(hbs`<LiquidOutlet @containerId="foo" />`);
     assert
       .dom('.liquid-container#foo')
       .exists({ count: 1 }, 'found element by id');
@@ -82,7 +82,7 @@ module('Integration: liquid-outlet', function (hooks) {
       hbs`<this.SetRoute @outletState={{this.outletState}}>{{outlet}}</this.SetRoute>`
     );
     let routerState = this.makeRoute({
-      template: hbs`{{liquid-outlet use="fade"}}`,
+      template: hbs`<LiquidOutlet @use="fade" />`,
     });
     routerState.setChild('main', { template: hbs`hi` });
     this.setState(routerState);
@@ -102,7 +102,7 @@ module('Integration: liquid-outlet', function (hooks) {
       this.containerElement = element;
     };
     await render(
-      hbs`<div data-test-target {{did-insert this.setup}}><this.SetRoute @outletState={{this.outletState}}>{{liquid-outlet containerless=true containerElement=this.containerElement}}</this.SetRoute></div>`
+      hbs`<div data-test-target {{did-insert this.setup}}><this.SetRoute @outletState={{this.outletState}}><LiquidOutlet @containerless={{true}} @containerElement={{this.containerElement}} /></this.SetRoute></div>`
     );
     this.setState(this.makeRoute({ template: hbs`<h1>Hello world</h1>` }));
     await settled();
@@ -117,7 +117,7 @@ module('Integration: liquid-outlet', function (hooks) {
       this.containerElement = element;
     };
     await render(
-      hbs`<div data-test-target {{did-insert this.setup}}><this.SetRoute @outletState={{this.outletState}}>{{liquid-outlet class="bar" containerless=true containerElement=this.containerElement}}</this.SetRoute></div>`
+      hbs`<div data-test-target {{did-insert this.setup}}><this.SetRoute @outletState={{this.outletState}}><LiquidOutlet @class="bar" @containerless={{true}} @containerElement={{this.containerElement}} /></this.SetRoute></div>`
     );
     this.setState(this.makeRoute({ template: hbs`<h1>Hello world</h1>` }));
     await settled();
@@ -141,7 +141,7 @@ module('Integration: liquid-outlet', function (hooks) {
     let tmap = this.owner.lookup('service:liquid-fire-transitions');
     sinon.spy(tmap, 'transitionFor');
     await render(
-      hbs`<this.SetRoute @outletState={{this.outletState}}>{{liquid-outlet watchModels=true }}</this.SetRoute>`
+      hbs`<this.SetRoute @outletState={{this.outletState}}><LiquidOutlet @watchModels={{true}} /></this.SetRoute>`
     );
     this.setState(state);
     assert.dom('.content').hasText('1');
@@ -176,11 +176,11 @@ module('Integration: liquid-outlet', function (hooks) {
     assert.dom().hasText('ACfooDEB');
   });
 
-  test('outlets inside {{liquid-bind}}', async function (assert) {
+  test('outlets inside <LiquidBind>', async function (assert) {
     this.set('thing', 'Goodbye');
     this.setState(this.makeRoute({ template: hbs`Hello` }));
     await render(
-      hbs`<this.SetRoute @outletState={{this.outletState}}>{{#liquid-bind value=this.thing as |thingVersion|}}{{thingVersion}}{{outlet}}{{/liquid-bind}}</this.SetRoute>`
+      hbs`<this.SetRoute @outletState={{this.outletState}}><LiquidBind @value={{this.thing}} as |thingVersion|>{{thingVersion}}{{outlet}}</LiquidBind></this.SetRoute>`
     );
     assert.dom().hasText('GoodbyeHello');
     this.set('thing', 'Other');
