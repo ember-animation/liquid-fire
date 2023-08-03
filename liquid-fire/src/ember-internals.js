@@ -24,7 +24,7 @@ export function routeName(routeInfo) {
 // us avoid the problem of singleton controllers changing underneath
 // us.
 export function routeModel(routeInfo) {
-  if (routeInfo && !routeInfo.hasOwnProperty('_lf_model')) {
+  if (routeInfo && !Object.hasOwnProperty.call(routeInfo, '_lf_model')) {
     let r, c;
     if ((r = routeInfo.render) && (c = r.controller)) {
       routeInfo._lf_model = c.model;

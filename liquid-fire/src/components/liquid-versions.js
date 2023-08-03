@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { action, set, get } from '@ember/object';
+import { action, set } from '@ember/object';
 import { assert } from '@ember/debug';
 import { tracked } from '@glimmer/tracking';
 import { A } from '@ember/array';
@@ -113,8 +113,8 @@ export default class LiquidVersionsComponent extends Component {
 
   notifyContainer(method, versions) {
     let target = this.args.notify;
-    if (target && !get(target, 'isDestroying')) {
-      get(target, method)(versions);
+    if (target && !target.isDestroying) {
+      target[method](versions);
     }
   }
 

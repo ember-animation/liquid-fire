@@ -1,9 +1,7 @@
-import { registerWaiter, unregisterWaiter } from '@ember/test';
 import { Promise as EmberPromise } from 'rsvp';
 import { next } from '@ember/runloop';
 import { getOwner } from '@ember/application';
 import Service from '@ember/service';
-import { DEBUG } from '@glimmer/env';
 import RunningTransition from './running-transition';
 import DSL from './dsl';
 import Action from './action';
@@ -28,26 +26,6 @@ export default class TransitionMapService extends Service {
     if (config) {
       this.map(config);
     }
-
-    if (DEBUG) {
-      if (this.isTest) {
-        this._waiter = () => {
-          return this.runningTransitions() === 0;
-        };
-        registerWaiter(this._waiter);
-      }
-    }
-  }
-
-  willDestroy() {
-    if (DEBUG) {
-      if (this._waiter) {
-        unregisterWaiter(this._waiter);
-        this._waiter = null;
-      }
-    }
-
-    super.willDestroy(...arguments);
   }
 
   runningTransitions() {

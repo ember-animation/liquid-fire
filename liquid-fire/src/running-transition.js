@@ -81,7 +81,7 @@ function addPublicVersion(context, prefix, version) {
   };
   for (let key in props) {
     let outputKey = key;
-    if (props.hasOwnProperty(key)) {
+    if (Object.hasOwnProperty.call(props, key)) {
       if (prefix) {
         outputKey = prefix + capitalize(key);
       }

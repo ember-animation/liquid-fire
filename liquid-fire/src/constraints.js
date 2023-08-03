@@ -215,7 +215,7 @@ function intersection(sets) {
     let key = keys[keyIndex];
     let matched = true;
     for (let restIndex = 0; restIndex < restLength; restIndex++) {
-      if (!rest[restIndex].hasOwnProperty(key)) {
+      if (!Object.hasOwnProperty.call(rest[restIndex], key)) {
         matched = false;
         break;
       }

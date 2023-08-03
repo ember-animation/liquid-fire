@@ -80,7 +80,7 @@ export function stop(elt) {
 
 export function setDefaults(props) {
   for (let key in props) {
-    if (props.hasOwnProperty(key)) {
+    if (Object.hasOwnProperty.call(props, key)) {
       if (key === 'progress') {
         throw new Error(
           "liquid-fire's 'animate' function reserves the use of Velocity's '" +
