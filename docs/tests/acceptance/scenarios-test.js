@@ -2,7 +2,6 @@ import { click, findAll, visit, waitUntil } from '@ember/test-helpers';
 import { setupTransitionTest } from '../helpers/integration';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { macroCondition, dependencySatisfies } from '@embroider/macros';
 
 module('Acceptance: Scenarios', function (hooks) {
   setupApplicationTest(hooks);
@@ -24,14 +23,6 @@ module('Acceptance: Scenarios', function (hooks) {
     await visit('/scenarios/nested-outlets/middle');
     assert.ranTransition('fade');
   });
-
-  // named outlets are deprecated in ember starting at 3.27.
-  if (macroCondition(dependencySatisfies('ember-source', '<=3.26.0'))) {
-    test('liquid-outlet animate by outlet name', async function (assert) {
-      await visit('/scenarios/in-test-outlet');
-      assert.ranTransition('toLeft');
-    });
-  }
 
   test('model-dependent transitions are matching correctly', async function (assert) {
     await visit('/scenarios/model-dependent-rule/1');

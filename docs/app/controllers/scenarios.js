@@ -1,5 +1,4 @@
 import Controller from '@ember/controller';
-import { dependencySatisfies } from '@embroider/macros';
 
 export default Controller.extend({
   queryParams: ['testSalutation', 'testPerson'],
@@ -7,7 +6,5 @@ export default Controller.extend({
     changeSalutation: function () {
       this.set('testSalutation', 'Hola');
     },
-  },
-
-  supportsNamedOutlets: dependencySatisfies('ember-source', '<4.0.0-alpha.0'),
+  }
 });

@@ -89,7 +89,12 @@ function adaptDimension(
   target['outer' + capitalize(dimension)] = [want[dimension], have[dimension]];
   return Velocity(elt, target, {
     delay: delayFor(have[dimension], want[dimension], shrinkDelay, growDelay),
-    duration: durationFor(have[dimension], want[dimension], growDuration, growPixelsPerSecond),
+    duration: durationFor(
+      have[dimension],
+      want[dimension],
+      growDuration,
+      growPixelsPerSecond
+    ),
     queue: false,
     easing: growEasing,
   });

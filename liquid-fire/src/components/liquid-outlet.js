@@ -1,9 +1,5 @@
 import Component from '@glimmer/component';
-import {
-  childRoute,
-  routeIsStable,
-  modelIsStable,
-} from '../ember-internals';
+import { childRoute, routeIsStable, modelIsStable } from '../ember-internals';
 
 export default class LiquidOutletComponent extends Component {
   get outletName() {

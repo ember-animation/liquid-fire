@@ -109,7 +109,7 @@ export default class LiquidContainerComponent extends Component {
     }
     this.unlockSize();
   }
-  
+
   animateGrowth(elt, have, want) {
     return animateGrowth(
       elt,

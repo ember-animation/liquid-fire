@@ -53,22 +53,6 @@ module('Integration: liquid-outlet', function (hooks) {
     assert.dom().hasText('AHelloGoodbyeB');
   });
 
-  // if (macroCondition(dependencySatisfies('ember-source', '<=3.26.0'))) {
-  //   test('it should support an optional name', async function (assert) {
-  //     await render(
-  //       hbs`<this.SetRoute @outletState={{this.outletState}}>A{{outlet}}B</this.SetRoute>`
-  //     );
-  //     let hello = this.makeRoute({
-  //       template: hbs`Hello{{liquid-outlet inputOutletName="other"}}`,
-  //     });
-  //     this.setState(hello);
-  //     assert.dom().hasText('AHelloB');
-  //     hello.setChild('other', { template: hbs`Goodbye` });
-  //     this.setState(hello);
-  //     assert.dom().hasText('AHelloGoodbyeB');
-  //   });
-  // }
-
   test('it should support static class', async function (assert) {
     await render(hbs`{{liquid-outlet class="magical"}}`);
     assert

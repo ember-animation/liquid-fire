@@ -11,7 +11,7 @@ export default class LiquidVersionsComponent extends Component {
   @service('liquid-fire-transitions') transitionMap;
 
   @tracked versions = null;
-  
+
   @action
   appendVersion() {
     let versions = this.versions;
@@ -59,8 +59,11 @@ export default class LiquidVersionsComponent extends Component {
   }
 
   _transition() {
-    assert(`LiquidVersions: @containerElement is required!`, !!this.args.containerElement);
-    
+    assert(
+      `LiquidVersions: @containerElement is required!`,
+      !!this.args.containerElement
+    );
+
     let versions = this.versions;
     let transition;
     let firstTime = this.firstTime;

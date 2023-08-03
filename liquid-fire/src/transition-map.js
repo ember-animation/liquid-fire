@@ -1,4 +1,3 @@
-/* eslint-disable ember/no-legacy-test-waiters */
 import { registerWaiter, unregisterWaiter } from '@ember/test';
 import { Promise as EmberPromise } from 'rsvp';
 import { next } from '@ember/runloop';
@@ -29,7 +28,7 @@ export default class TransitionMapService extends Service {
     if (config) {
       this.map(config);
     }
-    
+
     if (DEBUG) {
       if (this.isTest) {
         this._waiter = () => {
@@ -39,7 +38,7 @@ export default class TransitionMapService extends Service {
       }
     }
   }
-  
+
   willDestroy() {
     if (DEBUG) {
       if (this._waiter) {

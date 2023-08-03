@@ -6,7 +6,7 @@ import './liquid-child.css';
 
 export default class LiquidChildComponent extends Component {
   @service liquidFireChildren;
-  
+
   element = null;
   _waitingFor = [];
   _isLiquidChild = true;
@@ -15,9 +15,12 @@ export default class LiquidChildComponent extends Component {
   @action
   setup(element) {
     this.element = element;
-    
-    this._serviceElement = this.liquidFireChildren.register(this.args.uniqueChildId, this);
-    
+
+    this._serviceElement = this.liquidFireChildren.register(
+      this.args.uniqueChildId,
+      this
+    );
+
     element.style.visibility = 'hidden';
 
     this._waitForAll().then(() => {
@@ -30,7 +33,7 @@ export default class LiquidChildComponent extends Component {
       }
     });
   }
-  
+
   @action
   destroyElement() {
     if (this._serviceElement) {

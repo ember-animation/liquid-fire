@@ -9,7 +9,7 @@ export default class LiquidSyncComponent extends Component {
   @service('liquid-fire-transitions') _transitionMap;
 
   _lfDefer = [];
-  
+
   @action
   setup(element) {
     this.element = element;
@@ -20,7 +20,7 @@ export default class LiquidSyncComponent extends Component {
   destroyElement() {
     this.ready();
   }
-  
+
   @action
   ready() {
     this.resumeLiquidFire();

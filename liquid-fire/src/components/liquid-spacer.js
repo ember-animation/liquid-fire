@@ -67,7 +67,7 @@ export default class LiquidOutletComponent extends Component {
     let have = measure(elt);
     this.animateGrowth(elt, have, want);
   }
-  
+
   animateGrowth(elt, have, want) {
     return animateGrowth(
       elt,

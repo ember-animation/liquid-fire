@@ -14,11 +14,11 @@ export default class LiquidMeasuredComponent extends Component {
 
     // this._destroyOnUnload = bind(this, this._destroyOnUnload);
   }
-  
+
   @action
   setup(element) {
     this.element = element;
-    
+
     let self = this;
 
     // This prevents margin collapse
