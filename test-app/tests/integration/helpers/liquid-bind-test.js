@@ -37,7 +37,9 @@ module('Integration: liquid-bind', function (hooks) {
   test('it should support a dynamic class name', async function (assert) {
     this.set('name', 'unicorn');
     this.set('power', 'rainbow');
-    await render(hbs`<LiquidBind @value={{this.name}} @class={{this.power}} />`);
+    await render(
+      hbs`<LiquidBind @value={{this.name}} @class={{this.power}} />`
+    );
     assert
       .dom('.liquid-container.rainbow')
       .exists({ count: 1 }, 'found dynamic class');
@@ -46,7 +48,9 @@ module('Integration: liquid-bind', function (hooks) {
   test('it should update a dynamic class name', async function (assert) {
     this.set('name', 'unicorn');
     this.set('power', 'rainbow');
-    await render(hbs`<LiquidBind @value={{this.name}} @class={{this.power}} />`);
+    await render(
+      hbs`<LiquidBind @value={{this.name}} @class={{this.power}} />`
+    );
     this.set('power', 'sparkle');
     assert
       .dom('.liquid-container.sparkle')
@@ -54,7 +58,9 @@ module('Integration: liquid-bind', function (hooks) {
   });
 
   test('it should support element id', async function (assert) {
-    await render(hbs`<LiquidBind @value={{this.something}} @containerId="foo" />`);
+    await render(
+      hbs`<LiquidBind @value={{this.something}} @containerId="foo" />`
+    );
     assert
       .dom('.liquid-container#foo')
       .exists({ count: 1 }, 'found element by id');
@@ -77,7 +83,9 @@ module('Integration: liquid-bind', function (hooks) {
     let transition = sinon.stub().returns(resolve());
     this.set('transition', transition);
     this.set('name', 'unicorn');
-    await render(hbs`<LiquidBind @value={{this.name}} @use={{this.transition}} />`);
+    await render(
+      hbs`<LiquidBind @value={{this.name}} @use={{this.transition}} />`
+    );
     this.set('name', 'other');
     await settled();
     assert.ok(transition.called, 'expected my custom transition to be called');
@@ -94,7 +102,9 @@ module('Integration: liquid-bind', function (hooks) {
       );
     });
     this.set('name', 'unicorn');
-    await render(hbs`<LiquidBind @value={{this.name}} @rules={{this.rules}} />`);
+    await render(
+      hbs`<LiquidBind @value={{this.name}} @rules={{this.rules}} />`
+    );
     this.set('name', 'other');
     await settled();
     assert.ok(transitionA.called, 'expected transitionA to run');

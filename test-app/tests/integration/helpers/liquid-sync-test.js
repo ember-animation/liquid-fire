@@ -3,7 +3,7 @@ import { Promise as EmberPromise } from 'rsvp';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, settled } from '@ember/test-helpers';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { hbs } from 'ember-cli-htmlbars';
 import { ensureSafeComponent } from '@embroider/util';
 import { setComponentTemplate } from '@ember/component';
@@ -19,12 +19,16 @@ module('Integration | Component | liquid sync', function (hooks) {
     this.Sample = ensureSafeComponent(
       setComponentTemplate(
         hbs`<div class="sample">Sample</div>`,
-        Component.extend({
-          didInsertElement() {
-            this._super(...arguments);
+        class CustomComponent extends Component {
+          constructor() {
+            super(...arguments);
             sample = this;
-          },
-        })
+          }
+
+          ready() {
+            return this.args.ready();
+          }
+        }
       ),
       this
     );
@@ -57,7 +61,7 @@ module('Integration | Component | liquid sync', function (hooks) {
     assert.dom('.sample').exists({ count: 1 }, 'Found sample');
 
     run(() => sample.ready());
-    
+
     await settled();
 
     assert.true(animationStarted, 'Animation started');
@@ -92,7 +96,7 @@ module('Integration | Component | liquid sync', function (hooks) {
     assert.dom('.sample').exists({ count: 1 }, 'Found sample');
 
     this.set('innerThing', true);
-    
+
     await settled();
 
     assert.true(animationStarted, 'Animation started');

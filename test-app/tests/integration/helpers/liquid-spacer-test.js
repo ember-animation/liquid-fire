@@ -24,7 +24,7 @@ module('Integration: liquid-spacer', function (hooks) {
     assert.expect(1);
 
     let theSpacer;
-    
+
     this.spacer = ensureSafeComponent(
       class LiquidSpacerComponent extends LiquidSpacer {
         constructor() {

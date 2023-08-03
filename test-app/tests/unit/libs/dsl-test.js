@@ -1,4 +1,3 @@
-import EmberObject from '@ember/object';
 import { run } from '@ember/runloop';
 import Application from '../../../app';
 import { module, test } from 'qunit';
@@ -361,7 +360,11 @@ module('Transitions DSL', function (hooks) {
   test('combines multiple value constraints', function (assert) {
     assert.expect(3);
 
-    let Pet = EmberObject.extend();
+    class Pet {
+      constructor(name) {
+        this.name = name;
+      }
+    }
 
     t.map(function () {
       this.transition(
@@ -369,7 +372,7 @@ module('Transitions DSL', function (hooks) {
           return v instanceof Pet;
         }),
         this.toValue(function (v) {
-          return v.get('name') === 'Fluffy';
+          return v.name === 'Fluffy';
         }),
         this.use(dummyAction)
       );
@@ -377,17 +380,17 @@ module('Transitions DSL', function (hooks) {
 
     expectNoAnimation(
       assert,
-      values(null, Pet.create()),
+      values(null, new Pet()),
       'should not match because of name'
     );
     expectNoAnimation(
       assert,
-      values(null, EmberObject.create({ name: 'Fluffy' })),
+      values(null, { name: 'Fluffy' }),
       'should not match because of instanceof'
     );
     expectAnimation(
       assert,
-      values(null, Pet.create({ name: 'Fluffy' })),
+      values(null, new Pet('Fluffy')),
       dummyAction,
       'should match both'
     );
@@ -483,7 +486,7 @@ module('Transitions DSL', function (hooks) {
   function otherAction() {}
 
   function routes(a, b) {
-    let builder = RouteBuilder.create();
+    let builder = new RouteBuilder();
     return values(
       a ? builder.makeRoute({ name: a }).asTop() : null,
       b ? builder.makeRoute({ name: b }).asTop() : null
@@ -491,7 +494,7 @@ module('Transitions DSL', function (hooks) {
   }
 
   function models(a, b) {
-    let builder = RouteBuilder.create();
+    let builder = new RouteBuilder();
     return values(
       a ? builder.makeRoute({ controller: { model: a } }).asTop() : null,
       b ? builder.makeRoute({ controller: { model: b } }).asTop() : null
