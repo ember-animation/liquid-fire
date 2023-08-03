@@ -13,15 +13,15 @@
   </div>
 
   <div class="flex-parent">
-    {{#liquid-if this.showOne use="flex-grow" containerless=true }}
+    {{#liquid-if predicate=this.showOne use="flex-grow" containerless=true }}
       One
     {{/liquid-if}}
 
-    {{#liquid-if this.showTwo use="flex-grow" containerless=true }}
+    {{#liquid-if predicate=this.showTwo use="flex-grow" containerless=true }}
       Two
     {{/liquid-if}}
 
-    {{#liquid-if this.showThree use="flex-grow" containerless=true }}
+    {{#liquid-if predicate=this.showThree use="flex-grow" containerless=true }}
       Three
     {{/liquid-if}}
   </div>

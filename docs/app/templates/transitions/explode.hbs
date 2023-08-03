@@ -11,7 +11,7 @@ and then below we document all the options in detail.</p>
 {{!- BEGIN-SNIPPET explode-demo-1 }}
 <div id="explode-demo-1">
   <button type="button" {{action "toggleDetail"}}>Toggle Detail View</button>
-  {{#liquid-if this.showDetail}}
+  {{#liquid-if predicate=this.showDetail}}
     <div class="details">
       <h3>Details</h3>
       <p>
@@ -42,7 +42,7 @@ and then below we document all the options in detail.</p>
 {{!- BEGIN-SNIPPET explode-demo-2 }}
 <div id="explode-demo-2">
   <button type="button" {{action "shuffle"}}>Shuffle</button>
-  {{#liquid-bind this.photos as |photosVersion|}}
+  {{#liquid-bind value=this.photos as |photosVersion|}}
     {{#each photosVersion key="id" as |photo|}}
       <img alt="a random person photo" data-photo-id={{photo.id}} src={{photo.url}}>
     {{/each}}

@@ -9,7 +9,6 @@ import {
 } from './animate';
 import Promise from './promise';
 import MutationObserver from './mutation-observer';
-export { default as Pausable } from './mixins/pausable';
 import {
   dependencySatisfies,
   macroCondition,

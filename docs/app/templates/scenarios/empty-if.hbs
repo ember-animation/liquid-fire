@@ -1,7 +1,7 @@
 <div id="empty-if-scenario">
   <label><Input @type="checkbox" @checked={{this.showing}} /> Show It</label>
 
-  {{#liquid-if this.showing use="fade"}}
+  {{#liquid-if predicate=this.showing use="fade"}}
     Some Content
   {{/liquid-if}}
 </div>

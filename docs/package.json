@@ -96,6 +96,6 @@
     "edition": "octane"
   },
   "dependencies": {
-    "liquid-fire": "*"
+    "liquid-fire": "workspace:*"
   }
 }

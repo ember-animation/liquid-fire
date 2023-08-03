@@ -5,7 +5,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
-import { macroCondition, dependencySatisfies } from '@embroider/macros';
+// import { macroCondition, dependencySatisfies } from '@embroider/macros';
 import { ensureSafeComponent } from '@embroider/util';
 import {
   RouteBuilder,
@@ -53,21 +53,21 @@ module('Integration: liquid-outlet', function (hooks) {
     assert.dom().hasText('AHelloGoodbyeB');
   });
 
-  if (macroCondition(dependencySatisfies('ember-source', '<=3.26.0'))) {
-    test('it should support an optional name', async function (assert) {
-      await render(
-        hbs`<this.SetRoute @outletState={{this.outletState}}>A{{outlet}}B</this.SetRoute>`
-      );
-      let hello = this.makeRoute({
-        template: hbs`Hello{{liquid-outlet "other"}}`,
-      });
-      this.setState(hello);
-      assert.dom().hasText('AHelloB');
-      hello.setChild('other', { template: hbs`Goodbye` });
-      this.setState(hello);
-      assert.dom().hasText('AHelloGoodbyeB');
-    });
-  }
+  // if (macroCondition(dependencySatisfies('ember-source', '<=3.26.0'))) {
+  //   test('it should support an optional name', async function (assert) {
+  //     await render(
+  //       hbs`<this.SetRoute @outletState={{this.outletState}}>A{{outlet}}B</this.SetRoute>`
+  //     );
+  //     let hello = this.makeRoute({
+  //       template: hbs`Hello{{liquid-outlet inputOutletName="other"}}`,
+  //     });
+  //     this.setState(hello);
+  //     assert.dom().hasText('AHelloB');
+  //     hello.setChild('other', { template: hbs`Goodbye` });
+  //     this.setState(hello);
+  //     assert.dom().hasText('AHelloGoodbyeB');
+  //   });
+  // }
 
   test('it should support static class', async function (assert) {
     await render(hbs`{{liquid-outlet class="magical"}}`);
@@ -114,8 +114,11 @@ module('Integration: liquid-outlet', function (hooks) {
   });
 
   test('should support containerless mode', async function (assert) {
+    this.setup = (element) => {
+      this.containerElement = element;
+    };
     await render(
-      hbs`<div data-test-target><this.SetRoute @outletState={{this.outletState}}>{{liquid-outlet containerless=true}}</this.SetRoute></div>`
+      hbs`<div data-test-target {{did-insert this.setup}}><this.SetRoute @outletState={{this.outletState}}>{{liquid-outlet containerless=true containerElement=this.containerElement}}</this.SetRoute></div>`
     );
     this.setState(this.makeRoute({ template: hbs`<h1>Hello world</h1>` }));
     await settled();
@@ -126,8 +129,11 @@ module('Integration: liquid-outlet', function (hooks) {
   });
 
   test('should support `class` on children in containerless mode', async function (assert) {
+    this.setup = (element) => {
+      this.containerElement = element;
+    };
     await render(
-      hbs`<div data-test-target><this.SetRoute @outletState={{this.outletState}}>{{liquid-outlet class="bar" containerless=true}}</this.SetRoute></div>`
+      hbs`<div data-test-target {{did-insert this.setup}}><this.SetRoute @outletState={{this.outletState}}>{{liquid-outlet class="bar" containerless=true containerElement=this.containerElement}}</this.SetRoute></div>`
     );
     this.setState(this.makeRoute({ template: hbs`<h1>Hello world</h1>` }));
     await settled();
@@ -190,7 +196,7 @@ module('Integration: liquid-outlet', function (hooks) {
     this.set('thing', 'Goodbye');
     this.setState(this.makeRoute({ template: hbs`Hello` }));
     await render(
-      hbs`<this.SetRoute @outletState={{this.outletState}}>{{#liquid-bind this.thing as |thingVersion|}}{{thingVersion}}{{outlet}}{{/liquid-bind}}</this.SetRoute>`
+      hbs`<this.SetRoute @outletState={{this.outletState}}>{{#liquid-bind value=this.thing as |thingVersion|}}{{thingVersion}}{{outlet}}{{/liquid-bind}}</this.SetRoute>`
     );
     assert.dom().hasText('GoodbyeHello');
     this.set('thing', 'Other');

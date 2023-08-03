@@ -1,6 +1,6 @@
 import { isArray, A } from '@ember/array';
 import { guidFor } from '@ember/object/internals';
-import { Promise } from 'liquid-fire';
+import { Promise } from '../index';
 
 // Explode is not, by itself, an animation. It exists to pull apart
 // other elements so that each of the pieces can be targeted by

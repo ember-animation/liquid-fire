@@ -1,4 +1,4 @@
-import { Promise } from 'liquid-fire';
+import { Promise } from '../index';
 
 // This is what we run when no animation is asked for. It just sets
 // the newly-added element to visible (because we always start them

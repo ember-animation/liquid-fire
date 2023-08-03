@@ -66,7 +66,7 @@ the transition rules.
   </label>
   <SimpleSelect @value={{this.vehicle}} @choices={{this.vehicles}} />
 
-  {{#liquid-if this.isBike class="vehicles"}}
+  {{#liquid-if predicate=this.isBike class="vehicles"}}
     <label>
       Would you like a helmet?
       <Input @type="checkbox" @checked="helmet" />

@@ -1,15 +1,7 @@
-import Component from '@ember/component';
-// import layout from '../liquid-if';
+import Component from '@glimmer/component';
 
-let LiquidIf = Component.extend({
-  positionalParams: ['predicate'], // needed for Ember 1.13.[0-5] and 2.0.0-beta.[1-3] support
-  // layout,
-  tagName: '',
-  helperName: 'liquid-if',
-});
-
-LiquidIf.reopenClass({
-  positionalParams: ['predicate'],
-});
-
-export default LiquidIf;
+export default class LiquidIfComponent extends Component {
+	get helperName() {
+		return this.args.helperName || 'liquid-if';
+	}
+}

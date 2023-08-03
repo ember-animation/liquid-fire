@@ -2,7 +2,7 @@
 <table>
   <tbody>
     <tr><td>Static Row</td></tr>
-    {{#liquid-if this.showingRow containerless=true use="fade" }}
+    {{#liquid-if predicate=this.showingRow containerless=true use="fade" }}
       <td>Dynamic Row</td>
     {{/liquid-if}}
   </tbody>

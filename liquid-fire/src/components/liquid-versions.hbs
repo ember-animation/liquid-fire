@@ -1,11 +1,16 @@
 {{#each this.versions as |version|~}}
-  {{#if (lf-or this.renderWhenFalse version.value)~}}
-    {{#liquid-child
-      version=version
-      liquidChildDidRender=(action "childDidRender")
-      class=this.class
-    ~}}
-      {{yield version.value~}}
-    {{/liquid-child}}
-  {{/if}}
-{{/each}}
+  {{#if (lf-or @renderWhenFalse version.value)~}}
+    <LiquidChild
+      @version={{version}}
+      @uniqueChildId={{version.uniqueChildId}}
+      @liquidChildDidRender={{action "childDidRender"}}
+      class={{@class}}
+    >
+      {{~yield version.value~}}
+    </LiquidChild>
+  {{~/if}}
+{{~/each~}}
+<div class="liquid-versions"
+  {{did-insert this.appendVersion}}
+  {{did-update this.appendVersion @value @use @rules @matchContext @versionEquality @renderWhenFalse @class @notify}}
+></div>

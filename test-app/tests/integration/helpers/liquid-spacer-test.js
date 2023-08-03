@@ -24,13 +24,14 @@ module('Integration: liquid-spacer', function (hooks) {
     assert.expect(1);
 
     let theSpacer;
+    
     this.spacer = ensureSafeComponent(
-      LiquidSpacer.extend({
-        didInsertElement() {
-          this._super(...arguments);
+      class LiquidSpacerComponent extends LiquidSpacer {
+        constructor() {
+          super(...arguments);
           theSpacer = this;
-        },
-      }),
+        }
+      },
       this
     );
 
@@ -80,7 +81,7 @@ module('Integration: liquid-spacer', function (hooks) {
                  </style>
                  {{!-- template-lint-disable no-inline-styles --}}
                  <div style="width: 20em">
-                 <LiquidSpacer @id="my-spacer" @growDuration={{1}}>
+                 <LiquidSpacer id="my-spacer" @growDuration={{1}}>
                    {{this.message}}
                  </LiquidSpacer>
                  </div>
@@ -111,7 +112,7 @@ module('Integration: liquid-spacer', function (hooks) {
     assert.expect(2);
 
     await render(hbs`
-                 <LiquidSpacer @id="my-spacer" @growWidth={{false}}>
+                 <LiquidSpacer id="my-spacer" @growWidth={{false}}>
                    Hi.
                  </LiquidSpacer>
                 `);
@@ -129,7 +130,7 @@ module('Integration: liquid-spacer', function (hooks) {
     assert.expect(2);
 
     await render(hbs`
-                 <LiquidSpacer @id="my-spacer" @growHeight={{false}}>
+                 <LiquidSpacer id="my-spacer" @growHeight={{false}}>
                    Hi.
                  </LiquidSpacer>
                 `);
@@ -149,7 +150,7 @@ module('Integration: liquid-spacer', function (hooks) {
     await render(hbs`
                  {{!-- template-lint-disable no-inline-styles --}}
                  <div style="transform: scale(0.5);">
-                   <LiquidSpacer @id="my-spacer">
+                   <LiquidSpacer id="my-spacer">
                      <div style="width:50px; height:50px; background-color:blue;"></div>
                    </LiquidSpacer>
                  </div>

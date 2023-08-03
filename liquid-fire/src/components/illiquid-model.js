@@ -1,19 +1,10 @@
-import Component from '@ember/component';
-// import layout from '../illiquid-model.hbs';
+import Component from '@glimmer/component';
 
-const IlliquidModel = Component.extend({
-  // layout,
-  tagName: '',
-  didReceiveAttrs() {
-    this._super();
-    if (!this._fixedModel) {
-      this.set('_fixedModel', this.model);
-    }
-  },
-});
+export default class IlliquidModelComponent extends Component {
+  _fixedModel = null;
 
-IlliquidModel.reopenClass({
-  positionalParams: ['model'],
-});
-
-export default IlliquidModel;
+  constructor() {
+    super(...arguments);
+    this._fixedModel = this.args.model;
+  }
+}

@@ -1,6 +1,6 @@
 import LiquidIf from './liquid-if';
 
-export default LiquidIf.extend({
-  helperName: 'liquid-unless',
-  inverted: true,
-});
+export default class LiquidUnlessComponent extends LiquidIf {
+  helperName = 'liquid-unless';
+  inverted = true;
+}

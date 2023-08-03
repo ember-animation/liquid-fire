@@ -1,5 +1,6 @@
 // BEGIN-SNIPPET fade-definition
-import { isAnimating, finish, timeSpent, animate, stop } from 'liquid-fire';
+import { isAnimating, finish, timeSpent, animate, stop } from '../index';
+
 export default function fade(opts = {}) {
   let firstStep;
   let outOpts = opts;

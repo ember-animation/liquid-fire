@@ -25,6 +25,7 @@
     "prepare": "pnpm build"
   },
   "dependencies": {
+    "@ember/render-modifiers": "^2.1.0",
     "@embroider/addon-shim": "^1.0.0",
     "@embroider/macros": "^1.11.0",
     "broccoli-funnel": "^3.0.8",
@@ -75,8 +76,7 @@
       "./components/liquid-versions.js": "./dist/_app_/components/liquid-versions.js",
       "./helpers/lf-lock-model.js": "./dist/_app_/helpers/lf-lock-model.js",
       "./helpers/lf-or.js": "./dist/_app_/helpers/lf-or.js",
-      "./mixins/growable.js": "./dist/_app_/mixins/growable.js",
-      "./mixins/pausable.js": "./dist/_app_/mixins/pausable.js",
+      "./services/liquid-fire-children.js": "./dist/_app_/services/liquid-fire-children.js",
       "./services/liquid-fire-transitions.js": "./dist/_app_/services/liquid-fire-transitions.js",
       "./transitions/cross-fade.js": "./dist/_app_/transitions/cross-fade.js",
       "./transitions/default.js": "./dist/_app_/transitions/default.js",

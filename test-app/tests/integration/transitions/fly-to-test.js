@@ -77,7 +77,7 @@ module('Integration: fly-to transition', function (hooks) {
       this.styles = ensureSafeComponent(stylesheet(), this);
       await render(hbs`
                   <this.styles @boxSizing={{this.boxSizing}} />
-                  {{#liquid-if this.showBlue class="fly-to-test"}}
+                  {{#liquid-if predicate=this.showBlue class="fly-to-test"}}
                   <div class="bluebox"></div>
                   {{else}}
                   <div class="redbox"></div>
@@ -132,7 +132,7 @@ module('Integration: fly-to transition', function (hooks) {
       this.styles = ensureSafeComponent(stylesheet(), this);
       await render(hbs`
                   <this.styles @boxSizing={{this.boxSizing}} />
-                  {{#liquid-if this.showYellow class="fly-to-test"}}
+                  {{#liquid-if predicate=this.showYellow class="fly-to-test"}}
                   <div class="yellowbox"></div>
                   {{else}}
                   <div class="greenbox"></div>

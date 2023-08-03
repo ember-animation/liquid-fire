@@ -1,4 +1,4 @@
-import { stop, animate, Promise, isAnimating, finish } from 'liquid-fire';
+import { stop, animate, Promise, isAnimating, finish } from '../index';
 
 export default function moveOver(dimension, direction, opts) {
   let oldParams = {},

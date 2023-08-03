@@ -64,7 +64,7 @@
       <div class="card">
         <div class="card-body">
           <button type="button" {{action "toggleDetail"}}>Toggle Detail View</button>
-          {{#liquid-if this.showDetail class="toLeft-demo"}}
+          {{#liquid-if predicate=this.showDetail class="toLeft-demo"}}
               <div class="details">
                   <h3>Details</h3>
 
@@ -106,7 +106,7 @@
       <div class="card">
         <div class="card-body">
           <button type="button" {{action "toggleDetail"}}>Toggle Detail View</button>
-            {{#liquid-if this.showDetail class="crossFade-demo"}}
+            {{#liquid-if predicate=this.showDetail class="crossFade-demo"}}
               <div class="details">
                 <h3>Details</h3>
 
@@ -149,7 +149,7 @@
       <div class="card">
         <div class="card-body">
           <button type="button" {{action "toggleDetail"}}>Toggle Detail View</button>
-          {{#liquid-if this.showDetail class="fade-demo"}}
+          {{#liquid-if predicate=this.showDetail class="fade-demo"}}
             <div class="details">
               <h3>Details</h3>
 
@@ -211,7 +211,7 @@
       <div class="card">
         <div class="card-body">
           <button type="button" {{action "toggleDetail"}}>Toggle Detail View</button>
-          {{#liquid-if this.showDetail class="scrollThen-demo"}}
+          {{#liquid-if predicate=this.showDetail class="scrollThen-demo"}}
             <div class="details">
               <h3>Details</h3>
 
@@ -254,7 +254,7 @@
       <div class="card mb-3">
         <div class="card-body">
           <button type="button" {{action "toggleDetail"}}>Toggle Detail View</button>
-          {{#liquid-if this.showDetail class="scale-demo"}}
+          {{#liquid-if predicate=this.showDetail class="scale-demo"}}
             <div class="details">
               <h3>Details</h3>
 
@@ -284,7 +284,7 @@
     <div class="card">
       <div class="card-body">
         <button type="button" {{action "toggleDetail"}}>Toggle Detail View</button>
-        {{#liquid-if this.showDetail class="wait-demo"}}
+        {{#liquid-if predicate=this.showDetail class="wait-demo"}}
           <div class="details">
             <h3>Details</h3>
 

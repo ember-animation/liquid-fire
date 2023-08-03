@@ -1,4 +1,4 @@
-import { animate, Promise } from 'liquid-fire';
+import { animate, Promise } from '../index';
 
 export default function flyTo(opts = {}) {
   if (!this.newElement) {

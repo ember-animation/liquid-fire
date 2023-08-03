@@ -1,21 +1,24 @@
 import { next, throttle } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
-import MutationObserver from 'liquid-fire/mutation-observer';
-// import layout from '../liquid-measured';
+import { bind } from '@ember/runloop';
+import Component from '@glimmer/component';
+import { MutationObserver } from '../index';
+import { action } from '@ember/object';
+import { measure } from '../utils/animate';
 
 const WINDOW_RESIZE_THROTTLE_DURATION = 100;
 
-export default Component.extend({
-  // layout,
+export default class LiquidMeasuredComponent extends Component {
+  constructor() {
+    super(...arguments);
 
-  init() {
-    this._super(...arguments);
-    this._destroyOnUnload = this._destroyOnUnload.bind(this);
-  },
-
-  didInsertElement() {
-    this._super(...arguments);
+    // this._destroyOnUnload = bind(this, this._destroyOnUnload);
+  }
+  
+  @action
+  setup(element) {
+    this.element = element;
+    
     let self = this;
 
     // This prevents margin collapse
@@ -33,26 +36,26 @@ export default Component.extend({
       characterData: true,
     });
 
-    this.windowResizeHandler = this.windowDidResize.bind(this);
+    this.windowResizeHandler = bind(this, this.windowDidResize);
     window.addEventListener('resize', this.windowResizeHandler);
 
     this.element.addEventListener('webkitTransitionEnd', function () {
       self.didMutate();
     });
     // Chrome Memory Leak: https://bugs.webkit.org/show_bug.cgi?id=93661
-    window.addEventListener('unload', this._destroyOnUnload);
-  },
+    // window.addEventListener('unload', this._destroyOnUnload);
+  }
 
-  willDestroyElement() {
-    this._super(...arguments);
+  @action
+  destroyElement() {
     if (this.observer) {
       this.observer.disconnect();
     }
     window.removeEventListener('resize', this.windowResizeHandler);
-    window.removeEventListener('unload', this._destroyOnUnload);
-  },
+    // window.removeEventListener('unload', this._destroyOnUnload);
+  }
 
-  transitionMap: service('liquid-fire-transitions'),
+  @service('liquid-fire-transitions') transitionMap;
 
   didMutate() {
     // by incrementing the running transitions counter here we prevent
@@ -65,37 +68,20 @@ export default Component.extend({
       this._didMutate();
       tmap.decrementRunningTransitions();
     });
-  },
+  }
 
   windowDidResize() {
     throttle(this, this.didMutate, WINDOW_RESIZE_THROTTLE_DURATION);
-  },
+  }
 
   _didMutate() {
     if (!this.element) {
       return;
     }
-    this.didMeasure(measure(this.element));
-  },
+    this.args.didMeasure(measure(this.element));
+  }
 
-  _destroyOnUnload() {
-    this.willDestroyElement();
-  },
-});
-
-export function measure($elt) {
-  let boundingRect = $elt.getBoundingClientRect();
-
-  // Calculate the scaling.
-  // NOTE: We only handle the simple zoom case.
-  let claimedWidth = $elt.offsetWidth;
-
-  // Round the width because offsetWidth is rounded
-  let actualWidth = Math.round(boundingRect.width);
-  let scale = actualWidth > 0 ? claimedWidth / actualWidth : 0;
-
-  return {
-    width: boundingRect.width * scale,
-    height: boundingRect.height * scale,
-  };
+  // _destroyOnUnload() {
+  //   this.willDestroyElement();
+  // }
 }

@@ -10,9 +10,9 @@ import DSL from './dsl';
 import Action from './action';
 import Constraints from './constraints';
 
-let TransitionMap = Service.extend({
-  init() {
-    this._super(...arguments);
+export default class TransitionMapService extends Service {
+  constructor() {
+    super(...arguments);
 
     this.activeCount = 0;
     this.constraints = new Constraints();
@@ -29,22 +29,42 @@ let TransitionMap = Service.extend({
     if (config) {
       this.map(config);
     }
-  },
+    
+    if (DEBUG) {
+      if (this.isTest) {
+        this._waiter = () => {
+          return this.runningTransitions() === 0;
+        };
+        registerWaiter(this._waiter);
+      }
+    }
+  }
+  
+  willDestroy() {
+    if (DEBUG) {
+      if (this._waiter) {
+        unregisterWaiter(this._waiter);
+        this._waiter = null;
+      }
+    }
+
+    super.willDestroy(...arguments);
+  }
 
   runningTransitions() {
     return this.activeCount;
-  },
+  }
 
   incrementRunningTransitions() {
     this.activeCount++;
-  },
+  }
 
   decrementRunningTransitions() {
     this.activeCount--;
     next(() => {
       this._maybeResolveIdle();
     });
-  },
+  }
 
   waitUntilIdle() {
     if (this._waitingPromise) {
@@ -56,7 +76,7 @@ let TransitionMap = Service.extend({
         this._maybeResolveIdle();
       });
     }));
-  },
+  }
 
   _maybeResolveIdle() {
     if (this.activeCount === 0 && this._resolveWaiting) {
@@ -65,7 +85,7 @@ let TransitionMap = Service.extend({
       this._waitingPromise = null;
       resolveWaiting();
     }
-  },
+  }
 
   lookup(transitionName) {
     let owner = getOwner(this);
@@ -80,14 +100,14 @@ let TransitionMap = Service.extend({
       throw new Error('unknown transition name: ' + transitionName);
     }
     return handler;
-  },
+  }
 
   defaultAction() {
     if (!this._defaultAction) {
       this._defaultAction = new Action(this.lookup('default'));
     }
     return this._defaultAction;
-  },
+  }
 
   constraintsFor(conditions) {
     if (conditions.rules) {
@@ -97,7 +117,7 @@ let TransitionMap = Service.extend({
     } else {
       return this.constraints;
     }
-  },
+  }
 
   transitionFor(conditions) {
     let action;
@@ -113,46 +133,12 @@ let TransitionMap = Service.extend({
       }
     }
     return new RunningTransition(this, conditions.versions, action);
-  },
+  }
 
   map(handler, constraints) {
     if (handler) {
       handler.apply(new DSL(this, constraints || this.constraints));
     }
     return this;
-  },
-});
-
-if (DEBUG) {
-  TransitionMap.reopen({
-    init() {
-      this._super(...arguments);
-
-      if (this.isTest) {
-        this._waiter = () => {
-          return this.runningTransitions() === 0;
-        };
-        registerWaiter(this._waiter);
-      }
-    },
-
-    willDestroy() {
-      if (this._waiter) {
-        unregisterWaiter(this._waiter);
-        this._waiter = null;
-      }
-
-      this._super(...arguments);
-    },
-  });
+  }
 }
-
-TransitionMap.reopenClass({
-  map(handler) {
-    let t = TransitionMap.create();
-    t.map(handler);
-    return t;
-  },
-});
-
-export default TransitionMap;

@@ -17,7 +17,7 @@ module('Integration: liquid-if', function (hooks) {
   test('it should render', async function (assert) {
     this.set('person', 'Tom');
     await render(hbs`
-      {{#liquid-if this.isReady}}
+      {{#liquid-if predicate=this.isReady}}
         {{this.person}} is ready
       {{else}}
         {{this.person}} is not ready
@@ -33,7 +33,7 @@ module('Integration: liquid-if', function (hooks) {
   });
 
   test('it should work without else block', async function (assert) {
-    await render(hbs`{{#liquid-if this.isReady}}Hi{{/liquid-if}}`);
+    await render(hbs`{{#liquid-if predicate=this.isReady}}Hi{{/liquid-if}}`);
     assert.dom('.liquid-child').doesNotExist();
     this.set('isReady', true);
     assert.dom('.liquid-child').exists({ count: 1 });
@@ -41,14 +41,14 @@ module('Integration: liquid-if', function (hooks) {
   });
 
   test('it should support static class name', async function (assert) {
-    await render(hbs`{{#liquid-if this.isReady class="foo"}}hi{{/liquid-if}}`);
+    await render(hbs`{{#liquid-if predicate=this.isReady class="foo"}}hi{{/liquid-if}}`);
     assert.dom('.liquid-container.foo').exists({ count: 1 }, 'found class foo');
   });
 
   test('it should support dynamic class name', async function (assert) {
     this.set('foo', 'bar');
     await render(
-      hbs`{{#liquid-if this.isReady class=this.foo}}hi{{/liquid-if}}`
+      hbs`{{#liquid-if predicate=this.isReady class=this.foo}}hi{{/liquid-if}}`
     );
     assert.dom('.liquid-container.bar').exists({ count: 1 }, 'found class bar');
   });
@@ -56,7 +56,7 @@ module('Integration: liquid-if', function (hooks) {
   test('it should update dynamic class name', async function (assert) {
     this.set('foo', 'bar');
     await render(
-      hbs`{{#liquid-if this.isReady class=this.foo}}hi{{/liquid-if}}`
+      hbs`{{#liquid-if predicate=this.isReady class=this.foo}}hi{{/liquid-if}}`
     );
     this.set('foo', 'bar2');
     assert
@@ -66,7 +66,7 @@ module('Integration: liquid-if', function (hooks) {
 
   test('it should support element id', async function (assert) {
     await render(
-      hbs`{{#liquid-if this.isReady containerId="foo"}}hi{{/liquid-if}}`
+      hbs`{{#liquid-if predicate=this.isReady containerId="foo"}}hi{{/liquid-if}}`
     );
     assert
       .dom('.liquid-container#foo')
@@ -76,7 +76,7 @@ module('Integration: liquid-if', function (hooks) {
   test('it should support liquid-unless', async function (assert) {
     this.set('isReady', true);
     await render(
-      hbs`{{#liquid-unless this.isReady}}A{{else}}B{{/liquid-unless}}`
+      hbs`{{#liquid-unless predicate=this.isReady}}A{{else}}B{{/liquid-unless}}`
     );
     assert.dom().hasText('B');
     this.set('isReady', false);
@@ -86,15 +86,16 @@ module('Integration: liquid-if', function (hooks) {
 
   test('liquid-unless should have no content when true and there is no else block', async function (assert) {
     this.set('isReady', true);
-    await render(hbs`{{#liquid-unless this.isReady }}hi{{/liquid-unless}}`);
+    await render(hbs`{{#liquid-unless predicate=this.isReady}}hi{{/liquid-unless}}`);
     assert.dom('.liquid-container').exists({ count: 1 }, 'have container');
     assert.dom('.liquid-child').doesNotExist('no child');
   });
 
   test('liquid-unless should have no content when true and there is no else block in containerless mode', async function (assert) {
     this.set('isReady', true);
+    this.containerElement = document.querySelector('body');
     await render(
-      hbs`{{#liquid-unless this.isReady containerless=true }}hi{{/liquid-unless}}`
+      hbs`{{#liquid-unless predicate=this.isReady containerless=true containerElement=this.containerElement}}hi{{/liquid-unless}}`
     );
     assert.dom('.liquid-container').doesNotExist('no container');
     assert.dom('.liquid-child').doesNotExist('no child');
@@ -109,7 +110,7 @@ module('Integration: liquid-if', function (hooks) {
       this.transition(this.inHelper('liquid-if'), this.use(dummyAnimation));
     });
     sinon.spy(tmap, 'transitionFor');
-    await render(hbs`{{#liquid-if this.isReady}}A{{else}}B{{/liquid-if}}`);
+    await render(hbs`{{#liquid-if predicate=this.isReady}}A{{else}}B{{/liquid-if}}`);
     this.set('isReady', true);
     await settled();
     assert.strictEqual(
@@ -128,7 +129,7 @@ module('Integration: liquid-if', function (hooks) {
     });
     sinon.spy(tmap, 'transitionFor');
     await render(
-      hbs`{{#liquid-unless this.isReady}}A{{else}}B{{/liquid-unless}}`
+      hbs`{{#liquid-unless predicate=this.isReady}}A{{else}}B{{/liquid-unless}}`
     );
     this.set('isReady', true);
     await settled();
@@ -139,14 +140,15 @@ module('Integration: liquid-if', function (hooks) {
   });
 
   test('it should have no content when false and there is no else block', async function (assert) {
-    await render(hbs`{{#liquid-if this.isReady }}hi{{/liquid-if}}`);
+    await render(hbs`{{#liquid-if predicate=this.isReady }}hi{{/liquid-if}}`);
     assert.dom('.liquid-container').exists({ count: 1 }, 'have container');
     assert.dom('.liquid-child').doesNotExist('no child');
   });
 
   test('it should have no content when false and there is no else block in containerless mode', async function (assert) {
+    this.containerElement = document.querySelector('body');
     await render(
-      hbs`{{#liquid-if this.isReady containerless=true }}hi{{/liquid-if}}`
+      hbs`{{#liquid-if predicate=this.isReady containerless=true containerElement=this.containerElement}}hi{{/liquid-if}}`
     );
     assert.dom('.liquid-container').doesNotExist('no container');
     assert.dom('.liquid-child').doesNotExist('no child');
@@ -154,8 +156,11 @@ module('Integration: liquid-if', function (hooks) {
 
   test('it should support containerless mode', async function (assert) {
     this.set('isReady', true);
+    this.setup = (element) => {
+      this.containerElement = element;
+    };
     await render(
-      hbs`<div data-test-target> {{#liquid-if this.isReady containerless=true}}hi{{/liquid-if}}</div>`
+      hbs`<div data-test-target {{did-insert this.setup}}> {{#liquid-if predicate=this.isReady containerless=true containerElement=this.containerElement}}hi{{/liquid-if}}</div>`
     );
     assert.dom('.liquid-container').doesNotExist('no container');
     assert
@@ -166,8 +171,11 @@ module('Integration: liquid-if', function (hooks) {
 
   test('should support `class` on liquid-children in containerless mode', async function (assert) {
     this.set('isReady', true);
+    this.setup = (element) => {
+      this.containerElement = element;
+    };
     await render(
-      hbs`<div data-test-target>{{#liquid-if this.isReady class="bar" containerless=true}}hi{{/liquid-if}}</div>`
+      hbs`<div data-test-target {{did-insert this.setup}}>{{#liquid-if predicate=this.isReady class="bar" containerless=true containerElement=this.containerElement}}hi{{/liquid-if}}</div>`
     );
     assert
       .dom('[data-test-target] > .liquid-child.bar')
@@ -186,7 +194,7 @@ module('Integration: liquid-if', function (hooks) {
     });
     this.set('predicate', false);
     await render(
-      hbs`{{#liquid-if this.predicate rules=this.rules}}hi{{/liquid-if}}`
+      hbs`{{#liquid-if predicate=this.predicate rules=this.rules}}hi{{/liquid-if}}`
     );
     this.set('predicate', true);
     await settled();

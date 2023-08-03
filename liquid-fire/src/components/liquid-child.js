@@ -1,49 +1,62 @@
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { all } from 'rsvp';
-import Component from '@ember/component';
 import './liquid-child.css';
 
-export default Component.extend({
-  classNames: ['liquid-child'],
+export default class LiquidChildComponent extends Component {
+  @service liquidFireChildren;
+  
+  element = null;
+  _waitingFor = [];
+  _isLiquidChild = true;
+  _serviceElement = null;
 
-  init() {
-    this._super(...arguments);
-    this._waitingFor = [];
-  },
+  @action
+  setup(element) {
+    this.element = element;
+    
+    this._serviceElement = this.liquidFireChildren.register(this.args.uniqueChildId, this);
+    
+    element.style.visibility = 'hidden';
 
-  didInsertElement() {
-    this._super(...arguments);
-    if (this.element) {
-      this.element.style.visibility = 'hidden';
-    }
     this._waitForAll().then(() => {
       if (!this.isDestroying) {
-        this._waitingFor = null;
-        const didRenderAction = this.liquidChildDidRender;
+        this.liquidFireChildren._waitingFor = [];
+        const didRenderAction = this.args.liquidChildDidRender;
         if (typeof didRenderAction === 'function') {
           didRenderAction(this);
         }
       }
     });
-  },
+  }
+  
+  @action
+  destroyElement() {
+    if (this._serviceElement) {
+      this.liquidFireChildren.unregister(this._serviceElement);
+      this._serviceElement = null;
+    }
+  }
 
-  _isLiquidChild: true,
   _waitForMe(promise) {
-    if (!this._waitingFor) {
+    if (!this.liquidFireChildren._waitingFor) {
       return;
     }
-    this._waitingFor.push(promise);
-    let ancestor = this.nearestWithProperty('_isLiquidChild');
+    this.liquidFireChildren._waitingFor.push(promise);
+    let ancestor = this.liquidFireChildren.closest(this.element);
     if (ancestor) {
       ancestor._waitForMe(promise);
     }
-  },
+  }
+
   _waitForAll() {
-    const promises = this._waitingFor;
-    this._waitingFor = [];
+    const promises = this.liquidFireChildren._waitingFor;
+    this.liquidFireChildren._waitingFor = [];
     return all(promises).then(() => {
-      if (this._waitingFor.length > 0) {
+      if (this.liquidFireChildren._waitingFor.length > 0) {
         return this._waitForAll();
       }
     });
-  },
-});
+  }
+}

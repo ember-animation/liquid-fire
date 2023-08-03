@@ -1,5 +1,5 @@
 // BEGIN-SNIPPET cross-fade-definition
-import { animate, stop, Promise } from 'liquid-fire';
+import { animate, stop, Promise } from '../index';
 export default function crossFade(opts = {}) {
   stop(this.oldElement);
   return Promise.all([

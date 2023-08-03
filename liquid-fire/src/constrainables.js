@@ -1,4 +1,4 @@
-import { childRoute, routeName, routeModel } from 'liquid-fire/ember-internals';
+import { childRoute, routeName, routeModel } from './ember-internals';
 
 export default {
   oldValue: {
