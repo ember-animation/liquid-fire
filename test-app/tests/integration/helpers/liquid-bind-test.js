@@ -9,8 +9,8 @@ module('Integration: liquid-bind', function (hooks) {
   setupRenderingTest(hooks);
 
   hooks.afterEach(function (assert) {
-    let done = assert.async();
-    let tmap = this.owner.lookup('service:liquid-fire-transitions');
+    const done = assert.async();
+    const tmap = this.owner.lookup('service:liquid-fire-transitions');
     tmap.waitUntilIdle().then(done);
   });
 
@@ -67,7 +67,7 @@ module('Integration: liquid-bind', function (hooks) {
   });
 
   test('it should support `use` option with a name', async function (assert) {
-    let tmap = this.owner.lookup('service:liquid-fire-transitions');
+    const tmap = this.owner.lookup('service:liquid-fire-transitions');
     sinon.spy(tmap, 'transitionFor');
     this.set('name', 'unicorn');
     await render(hbs`<LiquidBind @value={{this.name}} @use="fade" />`);
@@ -80,7 +80,7 @@ module('Integration: liquid-bind', function (hooks) {
   });
 
   test('it should support `use` option with a function', async function (assert) {
-    let transition = sinon.stub().returns(resolve());
+    const transition = sinon.stub().returns(resolve());
     this.set('transition', transition);
     this.set('name', 'unicorn');
     await render(
@@ -92,8 +92,8 @@ module('Integration: liquid-bind', function (hooks) {
   });
 
   test('it should support locally-scoped `rules`', async function (assert) {
-    let transitionA = sinon.stub().returns(resolve());
-    let transitionB = sinon.stub().returns(resolve());
+    const transitionA = sinon.stub().returns(resolve());
+    const transitionB = sinon.stub().returns(resolve());
     this.set('rules', function () {
       this.transition(
         this.toValue('other'),
@@ -121,8 +121,8 @@ module('Integration: liquid-bind', function (hooks) {
   });
 
   test('if should match correct helper name', async function (assert) {
-    let tmap = this.owner.lookup('service:liquid-fire-transitions');
-    let dummyAnimation = function () {
+    const tmap = this.owner.lookup('service:liquid-fire-transitions');
+    const dummyAnimation = function () {
       return resolve();
     };
     tmap.map(function () {

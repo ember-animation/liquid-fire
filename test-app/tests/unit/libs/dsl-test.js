@@ -6,7 +6,7 @@ import { RouteBuilder } from '../../helpers/ember-testing-internals';
 let application, t, defaultHandler;
 
 run(function () {
-  let options = {
+  const options = {
     autoboot: false,
   };
 
@@ -15,7 +15,7 @@ run(function () {
 
 module('Transitions DSL', function (hooks) {
   hooks.beforeEach(function () {
-    let instance = application.buildInstance();
+    const instance = application.buildInstance();
     if (instance.lookup) {
       t = instance.lookup('service:liquid-fire-transitions');
     } else {
@@ -334,7 +334,7 @@ module('Transitions DSL', function (hooks) {
 
   // eslint-disable-next-line qunit/resolve-async
   test('passes arguments through to transitions', function (assert) {
-    let done = assert.async();
+    const done = assert.async();
     assert.expect(3);
     t.map(function () {
       this.transition(
@@ -353,7 +353,7 @@ module('Transitions DSL', function (hooks) {
       );
     });
 
-    let action = t.transitionFor(routes('one', 'two'));
+    const action = t.transitionFor(routes('one', 'two'));
     action.run().then(done, done);
   });
 
@@ -418,7 +418,7 @@ module('Transitions DSL', function (hooks) {
     t.map(function () {
       this.transition(this.toRoute('two'), this.use(dummyAction));
     });
-    let conditions = routes('one', 'two');
+    const conditions = routes('one', 'two');
     conditions.firstTime = 'yes';
     expectNoAnimation(assert, conditions);
   });
@@ -433,7 +433,7 @@ module('Transitions DSL', function (hooks) {
         this.use(dummyAction)
       );
     });
-    let conditions = routes('one', 'two');
+    const conditions = routes('one', 'two');
     conditions.firstTime = 'yes';
     expectAnimation(assert, conditions, dummyAction);
   });
@@ -454,7 +454,7 @@ module('Transitions DSL', function (hooks) {
       this.transition(this.outletName('panel'), this.use(dummyAction));
     });
 
-    let conditions = routes('one', 'two');
+    const conditions = routes('one', 'two');
     conditions.matchContext.outletName = 'panel';
     expectAnimation(assert, conditions, dummyAction);
   });
@@ -471,7 +471,7 @@ module('Transitions DSL', function (hooks) {
     });
 
     // Save and stub the matchMedia method
-    let matchMedia = window.matchMedia;
+    const matchMedia = window.matchMedia;
     window.matchMedia = function () {
       return { matches: true };
     };
@@ -486,7 +486,7 @@ module('Transitions DSL', function (hooks) {
   function otherAction() {}
 
   function routes(a, b) {
-    let builder = new RouteBuilder();
+    const builder = new RouteBuilder();
     return values(
       a ? builder.makeRoute({ name: a }).asTop() : null,
       b ? builder.makeRoute({ name: b }).asTop() : null
@@ -494,7 +494,7 @@ module('Transitions DSL', function (hooks) {
   }
 
   function models(a, b) {
-    let builder = new RouteBuilder();
+    const builder = new RouteBuilder();
     return values(
       a ? builder.makeRoute({ controller: { model: a } }).asTop() : null,
       b ? builder.makeRoute({ controller: { model: b } }).asTop() : null
@@ -511,7 +511,7 @@ module('Transitions DSL', function (hooks) {
   }
 
   function expectAnimation(assert, conditions, nameOrHandler, msg) {
-    let runningTransition = t.transitionFor(conditions);
+    const runningTransition = t.transitionFor(conditions);
     if (typeof nameOrHandler === 'string') {
       assert.strictEqual(runningTransition.animation.name, nameOrHandler, msg);
     } else {

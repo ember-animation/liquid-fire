@@ -19,7 +19,6 @@ module('Integration: liquid-container', function (hooks) {
 
   ['content-box', 'border-box'].forEach(function (boxSizing) {
     test(`it should maintain size stability (${boxSizing})`, async function (assert) {
-      let initialSize;
       this.set('value', 'first-value');
       this.set('boxSizing', boxSizing);
       this.set('toggle', () => {
@@ -65,7 +64,7 @@ module('Integration: liquid-container', function (hooks) {
                   </LiquidContainer>
                   `);
       await tmap.waitUntilIdle();
-      initialSize = {
+      const initialSize = {
         width: this.element.querySelector('.test-container').offsetWidth,
         height: this.element.querySelector('.test-container').offsetHeight,
       };

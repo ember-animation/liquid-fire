@@ -28,8 +28,8 @@ module('Integration: liquid-outlet', function (hooks) {
   });
 
   hooks.afterEach(function (assert) {
-    let done = assert.async();
-    let tmap = this.owner.lookup('service:liquid-fire-transitions');
+    const done = assert.async();
+    const tmap = this.owner.lookup('service:liquid-fire-transitions');
     tmap.waitUntilIdle().then(done);
   });
 
@@ -45,7 +45,7 @@ module('Integration: liquid-outlet', function (hooks) {
     await render(
       hbs`<this.SetRoute @outletState={{this.outletState}}>A{{outlet}}B</this.SetRoute>`
     );
-    let hello = this.makeRoute({ template: hbs`Hello<LiquidOutlet />` });
+    const hello = this.makeRoute({ template: hbs`Hello<LiquidOutlet />` });
     this.setState(hello);
     assert.dom().hasText('AHelloB');
     hello.setChild('main', { template: hbs`Goodbye` });
@@ -76,12 +76,12 @@ module('Integration: liquid-outlet', function (hooks) {
   });
 
   test('it should support `use` option', async function (assert) {
-    let tmap = this.owner.lookup('service:liquid-fire-transitions');
+    const tmap = this.owner.lookup('service:liquid-fire-transitions');
     sinon.spy(tmap, 'transitionFor');
     await render(
       hbs`<this.SetRoute @outletState={{this.outletState}}>{{outlet}}</this.SetRoute>`
     );
-    let routerState = this.makeRoute({
+    const routerState = this.makeRoute({
       template: hbs`<LiquidOutlet @use="fade" />`,
     });
     routerState.setChild('main', { template: hbs`hi` });
@@ -127,18 +127,18 @@ module('Integration: liquid-outlet', function (hooks) {
   });
 
   test('can see model-to-model transitions on the same route', async function (assert) {
-    let controller = this.owner.lookup('controller:application');
+    const controller = this.owner.lookup('controller:application');
     controller.set(
       'model',
       EmberObject.create({
         id: 1,
       })
     );
-    let state = this.makeRoute({
+    const state = this.makeRoute({
       template: hbs`'<div class="content">{{this.model.id}}</div>`,
       controller,
     });
-    let tmap = this.owner.lookup('service:liquid-fire-transitions');
+    const tmap = this.owner.lookup('service:liquid-fire-transitions');
     sinon.spy(tmap, 'transitionFor');
     await render(
       hbs`<this.SetRoute @outletState={{this.outletState}}><LiquidOutlet @watchModels={{true}} /></this.SetRoute>`
@@ -165,7 +165,7 @@ module('Integration: liquid-outlet', function (hooks) {
       hbs`<this.SetRoute @outletState={{this.outletState}}>A<LiquidOutlet />B</this.SetRoute>`
     );
 
-    let state = this.makeRoute({
+    const state = this.makeRoute({
       template: hbs`C<LiquidOutlet />DE`,
     });
 

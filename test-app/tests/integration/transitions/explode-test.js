@@ -8,7 +8,7 @@ import { ensureSafeComponent } from '@embroider/util';
 import { setComponentTemplate } from '@ember/component';
 import templateOnlyComponent from '@ember/component/template-only';
 
-let Promise = EmberPromise;
+const Promise = EmberPromise;
 let tmap;
 
 module('Integration: explode transition', function (hooks) {
@@ -82,7 +82,6 @@ module('Integration: explode transition', function (hooks) {
   });
 
   test('it provides default visibility control for background', async function (assert) {
-    let liquidContainer;
     assert.expect(2);
     tmap.map(function () {
       this.transition(
@@ -122,7 +121,7 @@ module('Integration: explode transition', function (hooks) {
                 <div class="redbox something"></div>
                 {{/liquid-if}}
                 `);
-    liquidContainer = this.element.querySelector('.liquid-container');
+    const liquidContainer = this.element.querySelector('.liquid-container');
     this.set('showBlue', true);
     return tmap.waitUntilIdle();
   });
@@ -240,8 +239,8 @@ module('Integration: explode transition', function (hooks) {
         this.use('explode', {
           matchBy: 'data-model-id',
           use: function () {
-            let oldText = this.oldElement && this.oldElement.textContent;
-            let newText = this.newElement && this.newElement.textContent;
+            const oldText = this.oldElement && this.oldElement.textContent;
+            const newText = this.newElement && this.newElement.textContent;
             assert.ok(/Old/.test(oldText), 'old text');
             assert.ok(/New/.test(newText), 'new text');
             assert.strictEqual(oldText?.slice(4), newText?.slice(4));
@@ -271,8 +270,8 @@ module('Integration: explode transition', function (hooks) {
         this.use('explode', {
           matchBy: 'data-model-name',
           use: function () {
-            let oldText = this.oldElement && this.oldElement.textContent;
-            let newText = this.newElement && this.newElement.textContent;
+            const oldText = this.oldElement && this.oldElement.textContent;
+            const newText = this.newElement && this.newElement.textContent;
             assert.ok(/Old/.test(oldText), 'old text');
             assert.ok(/New/.test(newText), 'new text');
             return resolve();
@@ -402,8 +401,8 @@ module('Integration: explode transition', function (hooks) {
           pickNew: '.reducedScope',
           matchBy: 'id',
           use: function () {
-            let oldText = this.oldElement && this.oldElement.textContent;
-            let newText = this.newElement && this.newElement.textContent;
+            const oldText = this.oldElement && this.oldElement.textContent;
+            const newText = this.newElement && this.newElement.textContent;
             assert.ok(/Old/.test(oldText), 'old text');
             assert.ok(/New/.test(newText), 'new text');
             assert.strictEqual(oldText?.slice(4), newText?.slice(4));
@@ -452,9 +451,10 @@ module('Integration: explode transition', function (hooks) {
               // original oldElement, which we can still find inside a
               // liquid-child (the copy is not inside a liquid-child, that
               // is part of the point of explode).
-              let realOldElement = this.oldElement.parentElement.querySelector(
-                '.liquid-child .redbox'
-              );
+              const realOldElement =
+                this.oldElement.parentElement.querySelector(
+                  '.liquid-child .redbox'
+                );
               assert.true(!!realOldElement, 'found actual old element');
               assert.strictEqual(realOldElement.style.visibility, 'hidden');
               assert.deepEqual(
@@ -518,9 +518,10 @@ module('Integration: explode transition', function (hooks) {
               // original oldElement, which we can still find inside a
               // liquid-child (the copy is not inside a liquid-child, that
               // is part of the point of explode).
-              let realOldElement = this.oldElement.parentElement.querySelector(
-                '.liquid-child .greenbox'
-              );
+              const realOldElement =
+                this.oldElement.parentElement.querySelector(
+                  '.liquid-child .greenbox'
+                );
               assert.true(!!realOldElement, 'found actual old element');
               assert.strictEqual(realOldElement.style.visibility, 'hidden');
               assert.deepEqual(

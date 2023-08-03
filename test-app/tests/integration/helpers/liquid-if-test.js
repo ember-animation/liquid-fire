@@ -9,8 +9,8 @@ module('Integration: liquid-if', function (hooks) {
   setupRenderingTest(hooks);
 
   hooks.afterEach(function (assert) {
-    let done = assert.async();
-    let tmap = this.owner.lookup('service:liquid-fire-transitions');
+    const done = assert.async();
+    const tmap = this.owner.lookup('service:liquid-fire-transitions');
     tmap.waitUntilIdle().then(done);
   });
 
@@ -106,8 +106,8 @@ module('Integration: liquid-if', function (hooks) {
   });
 
   test('liquid-if should match correct helper name', async function (assert) {
-    let tmap = this.owner.lookup('service:liquid-fire-transitions');
-    let dummyAnimation = function () {
+    const tmap = this.owner.lookup('service:liquid-fire-transitions');
+    const dummyAnimation = function () {
       return resolve();
     };
     tmap.map(function () {
@@ -126,8 +126,8 @@ module('Integration: liquid-if', function (hooks) {
   });
 
   test('liquid-unless should match correct helper name', async function (assert) {
-    let tmap = this.owner.lookup('service:liquid-fire-transitions');
-    let dummyAnimation = function () {
+    const tmap = this.owner.lookup('service:liquid-fire-transitions');
+    const dummyAnimation = function () {
       return resolve();
     };
     tmap.map(function () {
@@ -189,8 +189,8 @@ module('Integration: liquid-if', function (hooks) {
   });
 
   test('it should support locally-scoped `rules`', async function (assert) {
-    let transitionA = sinon.stub().returns(resolve());
-    let transitionB = sinon.stub().returns(resolve());
+    const transitionA = sinon.stub().returns(resolve());
+    const transitionB = sinon.stub().returns(resolve());
     this.set('rules', function () {
       this.transition(
         this.toValue(true),

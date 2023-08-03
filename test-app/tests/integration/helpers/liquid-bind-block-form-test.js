@@ -10,8 +10,8 @@ module('Integration: liquid-bind block form', function (hooks) {
   setupRenderingTest(hooks);
 
   hooks.afterEach(function (assert) {
-    let done = assert.async();
-    let tmap = this.owner.lookup('service:liquid-fire-transitions');
+    const done = assert.async();
+    const tmap = this.owner.lookup('service:liquid-fire-transitions');
     tmap.waitUntilIdle().then(done);
   });
 
@@ -44,8 +44,8 @@ module('Integration: liquid-bind block form', function (hooks) {
   });
 
   test('it should animate after initially rendering empty', async function (assert) {
-    let tmap = this.owner.lookup('service:liquid-fire-transitions');
-    let dummyAnimation = function () {
+    const tmap = this.owner.lookup('service:liquid-fire-transitions');
+    const dummyAnimation = function () {
       return resolve();
     };
     tmap.map(function () {

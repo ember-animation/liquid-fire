@@ -27,7 +27,7 @@ class RouteInfo {
     };
   }
   _serialize() {
-    let outlets = {};
+    const outlets = {};
     Object.keys(this.outlets).forEach((key) => {
       outlets[key] = this.outlets[key]._serialize();
     });
@@ -47,8 +47,8 @@ export const RouteBuilder = class RouteBuilderService extends Service {
   }
 
   _prepareTemplate(compiled) {
-    let name = `template:${guidFor({})}`;
-    let owner = getOwner(this);
+    const name = `template:${guidFor({})}`;
+    const owner = getOwner(this);
     owner.register(name, compiled);
     return owner.lookup(name);
   }

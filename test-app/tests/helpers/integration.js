@@ -14,8 +14,8 @@ function transitionName(name) {
 
 export function setupTransitionTest(hooks) {
   hooks.beforeEach(function (assert) {
-    let context = getContext();
-    let tmap = transitionMap(context);
+    const context = getContext();
+    const tmap = transitionMap(context);
     sinon.spy(tmap, 'transitionFor');
     assert.ranTransition = function ranTransition(name) {
       this.ok(
@@ -24,8 +24,8 @@ export function setupTransitionTest(hooks) {
       );
     };
     assert.noTransitionsYet = function noTransitionsYet() {
-      let tmap = transitionMap(context);
-      let ranTransitions = A(tmap.transitionFor.returnValues);
+      const tmap = transitionMap(context);
+      const ranTransitions = A(tmap.transitionFor.returnValues);
       return !ranTransitions.any(
         (transition) => transition.animation !== tmap.defaultAction()
       );

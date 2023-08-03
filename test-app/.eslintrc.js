@@ -23,10 +23,10 @@ module.exports = {
     browser: true,
   },
   rules: {
-    // eqeqeq: ['error'],
-    // 'no-console': ['error'],
-    // 'no-var': ['error'],
-    // 'prefer-const': ['error'],
+    eqeqeq: ['error'],
+    'no-console': ['error'],
+    'no-var': ['error'],
+    'prefer-const': ['error'],
   },
   overrides: [
     // node files

@@ -49,7 +49,7 @@ module('Integration: liquid-spacer', function (hooks) {
     this.set('message', shortMessage);
     testingKick();
     return tmap.waitUntilIdle().then(() => {
-      let [, have, want] = theSpacer.animateGrowth.lastCall.args;
+      const [, have, want] = theSpacer.animateGrowth.lastCall.args;
       assert.ok(
         want.height < have.height,
         `expected ${want.height} < ${have.height}`
@@ -87,8 +87,9 @@ module('Integration: liquid-spacer', function (hooks) {
                  </div>
                  `);
 
-      let initialWidth = this.element.querySelector('#my-spacer').offsetWidth;
-      let initialHeight = this.element.querySelector('#my-spacer').offsetHeight;
+      const initialWidth = this.element.querySelector('#my-spacer').offsetWidth;
+      const initialHeight =
+        this.element.querySelector('#my-spacer').offsetHeight;
       this.set('message', shortMessage);
       testingKick();
       await tmap.waitUntilIdle();
@@ -117,7 +118,7 @@ module('Integration: liquid-spacer', function (hooks) {
                  </LiquidSpacer>
                 `);
 
-    let style = findAll('#my-spacer')[0].style;
+    const style = findAll('#my-spacer')[0].style;
 
     assert.strictEqual(style.width, '', 'width style is unset');
     assert.ok(
@@ -135,7 +136,7 @@ module('Integration: liquid-spacer', function (hooks) {
                  </LiquidSpacer>
                 `);
 
-    let style = findAll('#my-spacer')[0].style;
+    const style = findAll('#my-spacer')[0].style;
 
     assert.strictEqual(style.height, '', 'height style is unset');
     assert.ok(
@@ -156,11 +157,11 @@ module('Integration: liquid-spacer', function (hooks) {
                  </div>
                 `);
 
-    let style = findAll('#my-spacer')[0].style;
+    const style = findAll('#my-spacer')[0].style;
 
-    let expectedHeight = 50;
-    let height = parseFloat(style.height, 10);
-    let tolerance = 0.1;
+    const expectedHeight = 50;
+    const height = parseFloat(style.height, 10);
+    const tolerance = 0.1;
     assert.ok(
       Math.abs(height - expectedHeight) < tolerance,
       `height (${height}) is within ${tolerance} pixels of ${expectedHeight}`
