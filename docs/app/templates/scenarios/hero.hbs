@@ -1,4 +1,4 @@
-<button type="button" {{action "toggle"}}>Toggle</button>
+<button type="button" {{on "click" this.toggle}}>Toggle</button>
 
 {{#liquid-if predicate=this.showFirst class="hero-scenario"}}
   <div class="index">
@@ -13,11 +13,11 @@
 {{/liquid-if}}
 
 
-<button type="button" {{action "toggleSort"}}>Toggle Sort</button>
-<button type="button" {{action "restoreModels"}}>Reset</button>
+<button type="button" {{on "click" this.toggleSort}}>Toggle Sort</button>
+<button type="button" {{on "click" this.restoreModels}}>Reset</button>
 
-{{#liquid-bind value=this.sortedModels class="hero-sort" as |currentModels|}}
+<LiquidBind @value={{this.sortedModels}} @class="hero-sort" as |currentModels|>
   {{#each currentModels key="id" as |model|}}
-    <button data-model-id={{model.id}} type="button" {{action "deleteModel" model}}>{{model.firstName}} {{model.lastName}}</button>
+    <button data-model-id={{model.id}} type="button" {{on "click" (fn this.deleteModel model)}}>{{model.firstName}} {{model.lastName}}</button>
   {{/each}}
-{{/liquid-bind}}
+</LiquidBind>

@@ -13,17 +13,17 @@
   </div>
 
   <div class="flex-parent">
-    {{#liquid-if predicate=this.showOne use="flex-grow" containerless=true }}
+    <LiquidIf @predicate={{this.showOne}} @use="flex-grow" @containerless={{true}}>
       One
-    {{/liquid-if}}
+    </LiquidIf>
 
-    {{#liquid-if predicate=this.showTwo use="flex-grow" containerless=true }}
+    <LiquidIf @predicate={{this.showTwo}} @use="flex-grow" @containerless={{true}}>
       Two
-    {{/liquid-if}}
+    </LiquidIf>
 
-    {{#liquid-if predicate=this.showThree use="flex-grow" containerless=true }}
+    <LiquidIf @predicate={{this.showThree}} @use="flex-grow" @containerless={{true}}>
       Three
-    {{/liquid-if}}
+    </LiquidIf>
   </div>
   {{!- END-SNIPPET}}
   <CodeSnippet @name="flexboxes.hbs" />

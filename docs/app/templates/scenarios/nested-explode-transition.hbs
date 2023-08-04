@@ -1,5 +1,5 @@
-<button type="button" {{action "toggle" "showA"}}>Toggle A/B</button>
-<button type="button" {{action "toggle" "showOne"}}>Toggle One/Two</button>
+<button type="button" {{on "click" (fn this.toggle "showA")}}>Toggle A/B</button>
+<button type="button" {{on "click" (fn this.toggle "showOne")}}>Toggle One/Two</button>
 
 {{#liquid-if predicate=this.showOne class="nested-explode-transition-scenario"}}
   <div class="child">

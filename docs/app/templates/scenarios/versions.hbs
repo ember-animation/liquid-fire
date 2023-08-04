@@ -2,11 +2,11 @@
 
   Versions
 
-  <Input @type="text" @value={{this.nextName}} @insert-newline={{action "submitName"}} />
+  <Input @type="text" @value={{this.nextName}} @insert-newline={{this.submitName}} />
   <button type="button" {{action "submitName"}}>Go</button>
 
   <LiquidContainer as |container|>
-    <LiquidVersions @value={{this.name}} @notify={{container}} as |nameVersion|>
+    <LiquidVersions @value={{this.name}} @notify={{container}} @containerElement={{container.element}} as |nameVersion|>
       {{#if (is-equal nameVersion "ed")}}
         <div>Yo Ed</div>
         <div>Yo Ed</div>

@@ -29,16 +29,16 @@ directions.
 
 {{! BEGIN-SNIPPET with-demo }}
 
-{{#liquid-bind
-  value=this.model
-  use="rotateBelow"
-  class="demo-container" as |currentModel|
-}}
+<LiquidBind
+  @value={{this.model}}
+  @use="rotateBelow"
+  @class="demo-container" as |currentModel|
+>
   {{currentModel.id}}
   <button type="button" {{action "higher" currentModel}}>
     Go
   </button>
-{{/liquid-bind}}
+</LiquidBind>
 
 {{! END-SNIPPET }}
 

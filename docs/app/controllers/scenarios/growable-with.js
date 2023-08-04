@@ -1,13 +1,14 @@
-import EmberObject, { computed } from '@ember/object';
 import Controller from '@ember/controller';
-export default Controller.extend({
-  otherState: false,
+import { tracked } from '@glimmer/tracking';
 
-  myThing: computed('otherState', function () {
+export default class ScenariosGrowableWithController extends Controller {
+  @tracked otherState = false;
+
+  get myThing() {
     if (this.otherState) {
-      return EmberObject.create({ description: 'Foo' });
+      return { description: 'Foo' };
     } else {
-      return EmberObject.create({ description: 'Bar baz qux' });
+      return { description: 'Bar baz qux' };
     }
-  }),
-});
+  }
+}

@@ -1,20 +1,24 @@
-import { computed } from '@ember/object';
 import Controller from '@ember/controller';
 import ENV from 'docs/config/environment';
-import { getOwner } from '@ember/application';
+import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
-export default Controller.extend({
-  queryParams: ['warn'],
-  warn: 0,
-  rootURL: computed(function () {
+export default class ApplicationController extends Controller {
+  @service router;
+
+  queryParams = ['warn'];
+
+  @tracked warn = 0;
+
+  get rootURL() {
     let url = ENV.rootURL;
     if (!/\/$/.test(url)) {
       url += '/';
     }
     return url;
-  }),
+  }
 
-  tableOfContents: computed(function () {
+  get tableOfContents() {
     return [
       { route: 'index', title: 'Introduction' },
       { route: 'installation', title: 'Installation & Compatibility' },
@@ -94,9 +98,9 @@ export default Controller.extend({
         ],
       },
     ];
-  }),
+  }
 
-  flatContents: computed('tableOfContents', function () {
+  get flatContents() {
     let flattened = [];
     this.tableOfContents.forEach(function (entry) {
       flattened.push(entry);
@@ -105,53 +109,48 @@ export default Controller.extend({
       }
     });
     return flattened;
-  }),
+  }
 
-  router: computed(function () {
-    let owner = getOwner(this);
-    return owner.lookup('service:router') || owner.lookup('service:-routing');
-  }),
+  get currentIndex() {
+    let contents = this.flatContents,
+      current = this.router.currentRouteName,
+      bestMatch,
+      entry;
 
-  currentIndex: computed(
-    'router.currentRouteName',
-    'flatContents',
-    function () {
-      let contents = this.flatContents,
-        current = this.get('router.currentRouteName'),
-        bestMatch,
-        entry;
-
-      for (let i = 0; i < contents.length; i++) {
-        entry = contents[i];
+    for (let i = 0; i < contents.length; i++) {
+      entry = contents[i];
+      if (
+        entry.route &&
+        new RegExp('^' + entry.route.replace(/\./g, '\\.')).test(current)
+      ) {
         if (
-          entry.route &&
-          new RegExp('^' + entry.route.replace(/\./g, '\\.')).test(current)
+          typeof bestMatch === 'undefined' ||
+          contents[bestMatch].route.length < entry.route.length
         ) {
-          if (
-            typeof bestMatch === 'undefined' ||
-            contents[bestMatch].route.length < entry.route.length
-          ) {
-            bestMatch = i;
-          }
+          bestMatch = i;
         }
       }
-      return bestMatch;
     }
-  ),
+    return bestMatch;
+  }
 
-  nextTopic: computed('currentIndex', 'flatContents', function () {
+  get nextTopic() {
     let contents = this.flatContents,
       index = this.currentIndex;
     if (typeof index !== 'undefined') {
       return contents[index + 1];
     }
-  }),
 
-  prevTopic: computed('currentIndex', 'flatContents', function () {
+    return false;
+  }
+
+  get prevTopic() {
     let contents = this.flatContents,
       index = this.currentIndex;
     if (typeof index !== 'undefined') {
       return contents[index - 1];
     }
-  }),
-});
+
+    return false;
+  }
+}

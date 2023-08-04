@@ -1,15 +1,11 @@
-import { computed } from '@ember/object';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 
-export default Component.extend({
-  classNames: ['page-item'],
-  classNameBindings: ['direction'],
+export default class NavLinkComponent extends Component {
+  get back() {
+    return this.args.topic && this.args.direction === 'back';
+  }
 
-  back: computed('direction', 'topic', function () {
-    return this.topic && this.direction === 'back';
-  }),
-
-  forward: computed('direction', 'topic', function () {
-    return this.topic && this.direction === 'forward';
-  }),
-});
+  get forward() {
+    return this.args.topic && this.args.direction === 'forward';
+  }
+}

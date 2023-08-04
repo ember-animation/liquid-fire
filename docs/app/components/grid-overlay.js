@@ -1,11 +1,11 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 
 function show_lead(space, offset) {
   let max = document.querySelector('body').clientHeight / space;
   hide_lead();
   for (let i = 0; i < max; i++) {
     const element = document.createElement('div');
-    element.class = 'grid';
+    element.classList.add('grid');
     element.id = `vgrid${i}`;
     const body = document.querySelector('body');
     body.appendChild(element);
@@ -31,7 +31,11 @@ function css(element, styles) {
 }
 
 function hide_lead() {
-  document.querySelector('.grid').remove();
+  if (document.querySelector('.grid')) {
+    document.querySelectorAll('.grid').forEach((grid) => {
+      grid.remove();
+    });
+  }
 }
 
 function toggleGrid(leading, leading_offset) {
@@ -45,14 +49,14 @@ function toggleGrid(leading, leading_offset) {
   }
 }
 
-export default Component.extend({
-  didInsertElement: function () {
-    this._super(...arguments);
+export default class GridOverlayComponent extends Component {
+  constructor() {
+    super(...arguments);
     document.addEventListener('keydown', function (e) {
       // Ctrl-Alt-g shows vertical rhythm
       if (e.ctrlKey && e.altKey && e.keyCode === 71) {
         toggleGrid(22);
       }
     });
-  },
-});
+  }
+}

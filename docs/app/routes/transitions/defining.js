@@ -1,3 +1,3 @@
-import Route from '@ember/routing/route';
-import ResetScroll from 'docs/mixins/reset-scroll';
-export default Route.extend(ResetScroll);
+import ResetScrollRoute from '../../reset-scroll-route';
+
+export default class TransitionsDefiningRoute extends ResetScrollRoute {}

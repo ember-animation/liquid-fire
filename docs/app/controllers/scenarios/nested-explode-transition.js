@@ -1,16 +1,13 @@
 import Controller from '@ember/controller';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 
-export default Controller.extend({
-  showOne: true,
-  showA: true,
+export default class ScenariosNestedExplodeTransitionController extends Controller {
+  @tracked showOne = true;
+  @tracked showA = true;
 
-  init() {
-    this._super(...arguments);
-  },
-
-  actions: {
-    toggle(prop) {
-      this.toggleProperty(prop);
-    },
-  },
-});
+  @action
+  toggle(prop) {
+    this[prop] = !this[prop];
+  }
+}

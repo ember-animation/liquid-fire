@@ -64,7 +64,7 @@ the transition rules.
   <label>
     I'm renting a
   </label>
-  <SimpleSelect @value={{this.vehicle}} @choices={{this.vehicles}} />
+  <SimpleSelect @value={{this.vehicle}} @choices={{this.vehicles}} @onChange={{this.onVehicleChange}} />
 
   {{#liquid-if predicate=this.isBike class="vehicles"}}
     <label>
@@ -79,7 +79,7 @@ the transition rules.
     <label>
       License State
     </label>
-    <SimpleSelect @value={{this.state}} @choices={{this.states}} />
+    <SimpleSelect @value={{this.state}} @choices={{this.states}} @onChange={{this.onStateChange}} />
   {{/liquid-if}}
 
   <button type="button" class="btn btn-light">
