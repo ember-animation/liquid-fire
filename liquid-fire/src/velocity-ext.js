@@ -12,13 +12,13 @@ import {
 
 export const Velocity = (() => {
   if (macroCondition(dependencySatisfies('velocity-animate', '*'))) {
-    return importSync('velocity-animate').default;
-  } else {
     // For FastBoot, Velocity don't exist so we use a noop
     if (typeof FastBoot !== 'undefined') {
       return () => {};
     }
 
+    return importSync('velocity-animate').default;
+  } else {
     throw new Error(
       `liquid-fire was unable to detect velocity-animate. Please add to your app.`,
     );
