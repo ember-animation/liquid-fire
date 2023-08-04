@@ -27,7 +27,6 @@ module.exports = {
     'no-console': ['error'],
     'no-var': ['error'],
     'prefer-const': ['error'],
-    'qunit/require-expect': 'off',
   },
   overrides: [
     // node files
@@ -57,6 +56,9 @@ module.exports = {
       // test files
       files: ['tests/**/*-test.{js,ts}'],
       extends: ['plugin:qunit/recommended'],
+      rules: {
+        'qunit/require-expect': 'off',
+      },
     },
   ],
 };
