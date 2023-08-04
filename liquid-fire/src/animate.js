@@ -1,6 +1,6 @@
 /* jshint newcap: false */
 import Promise from './promise';
-import { Velocity } from './index';
+import { Velocity } from './velocity-ext';
 
 // Make sure Velocity always has promise support by injecting our own
 // RSVP-based implementation if it doesn't already have one.

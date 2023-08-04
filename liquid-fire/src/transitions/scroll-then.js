@@ -1,6 +1,6 @@
 import { assert } from '@ember/debug';
 import isBrowser from '../is-browser';
-import { Velocity } from 'liquid-fire';
+import { Velocity } from '../index';
 
 export default function (nextTransitionName, options, ...rest) {
   if (isBrowser()) {

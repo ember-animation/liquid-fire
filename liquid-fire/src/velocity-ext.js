@@ -4,7 +4,21 @@
   to Velocity as PR #485.
 */
 
-import { Velocity } from './index';
+import {
+  dependencySatisfies,
+  macroCondition,
+  importSync,
+} from '@embroider/macros';
+
+export const Velocity = (() => {
+  if (macroCondition(dependencySatisfies('velocity-animate', '*'))) {
+    return importSync('velocity-animate').default;
+  } else {
+    throw new Error(
+      `liquid-fire was unable to detect velocity-animate. Please add to your app.`,
+    );
+  }
+})();
 
 if (typeof FastBoot === 'undefined') {
   const VCSS = Velocity.CSS;
