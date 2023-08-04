@@ -1,4 +1,19 @@
 import Component from '@glimmer/component';
+import isBrowser from 'liquid-fire/is-browser';
+
+export default class GridOverlayComponent extends Component {
+  constructor() {
+    super(...arguments);
+    if (isBrowser()) {
+      document.addEventListener('keydown', function (e) {
+        // Ctrl-Alt-g shows vertical rhythm
+        if (e.ctrlKey && e.altKey && e.keyCode === 71) {
+          toggleGrid(22);
+        }
+      });
+    }
+  }
+}
 
 function show_lead(space, offset) {
   const max = document.querySelector('body').clientHeight / space;
@@ -39,24 +54,12 @@ function hide_lead() {
 }
 
 function toggleGrid(leading, leading_offset) {
-  if (leading_offset === null) {
+  if (!leading_offset) {
     leading_offset = 0;
   }
   if (document.querySelector('#vgrid0')) {
     return hide_lead();
   } else {
     return show_lead(leading, leading_offset);
-  }
-}
-
-export default class GridOverlayComponent extends Component {
-  constructor() {
-    super(...arguments);
-    document.addEventListener('keydown', function (e) {
-      // Ctrl-Alt-g shows vertical rhythm
-      if (e.ctrlKey && e.altKey && e.keyCode === 71) {
-        toggleGrid(22);
-      }
-    });
   }
 }
