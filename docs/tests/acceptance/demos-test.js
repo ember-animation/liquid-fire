@@ -1,4 +1,10 @@
-import { click, currentRouteName, visit, fillIn, settled } from '@ember/test-helpers';
+import {
+  click,
+  currentRouteName,
+  visit,
+  fillIn,
+  settled,
+} from '@ember/test-helpers';
 
 import { later } from '@ember/runloop';
 import { module, test, skip } from 'qunit';
