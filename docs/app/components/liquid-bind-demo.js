@@ -18,7 +18,7 @@ export default class LiquidBindDemoComponent extends Component {
 
     const self = this;
 
-    if (!isBrowser()){
+    if (!isBrowser()) {
       return;
     }
 
