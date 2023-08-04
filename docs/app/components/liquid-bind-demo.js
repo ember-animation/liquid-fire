@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { run } from '@ember/runloop';
+import isBrowser from 'liquid-fire/is-browser';
 import moment from 'moment';
 
 export default class LiquidBindDemoComponent extends Component {
@@ -16,6 +17,11 @@ export default class LiquidBindDemoComponent extends Component {
     this.tick();
 
     const self = this;
+
+    if (!isBrowser()){
+      return;
+    }
+
     this.interval = setInterval(function () {
       run(self, 'tick');
     }, 1000);
