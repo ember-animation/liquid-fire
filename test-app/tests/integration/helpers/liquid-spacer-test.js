@@ -87,6 +87,7 @@ module('Integration: liquid-spacer', function (hooks) {
                  </div>
                  `);
 
+      await settled();
       const initialWidth = this.element.querySelector('#my-spacer').offsetWidth;
       const initialHeight =
         this.element.querySelector('#my-spacer').offsetHeight;
