@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest, settled } from 'ember-qunit';
-import { render, findAll } from '@ember/test-helpers';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, findAll, settled } from '@ember/test-helpers';
 import { testingKick } from 'liquid-fire/mutation-observer';
 import LiquidSpacer from 'liquid-fire/components/liquid-spacer';
 import sinon from 'sinon';
