@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, findAll } from '@ember/test-helpers';
+import { render, find, findAll, waitUntil } from '@ember/test-helpers';
 import { testingKick } from 'liquid-fire/mutation-observer';
 import LiquidSpacer from 'liquid-fire/components/liquid-spacer';
 import sinon from 'sinon';
@@ -96,11 +96,23 @@ module('Integration: liquid-spacer', function (hooks) {
       this.set('message', longMessage);
       testingKick();
       await tmap.waitUntilIdle();
+
+      await waitUntil(
+        function () {
+          return (
+            find('#my-spacer').offsetWidth === initialWidth &&
+            find('#my-spacer').offsetHeight === initialHeight
+          );
+        },
+        { timeout: 1000 },
+      );
+
       assert.strictEqual(
         this.element.querySelector('#my-spacer').offsetWidth,
         initialWidth,
         'width',
       );
+
       assert.strictEqual(
         this.element.querySelector('#my-spacer').offsetHeight,
         initialHeight,
