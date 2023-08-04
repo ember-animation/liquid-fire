@@ -33,7 +33,7 @@ export default class Constraint {
       return this;
     }
     const inverse = new this.constructor(
-      constrainables[this.target].reversesTo
+      constrainables[this.target].reversesTo,
     );
     inverse.predicate = this.predicate;
     inverse.keys = this.keys;

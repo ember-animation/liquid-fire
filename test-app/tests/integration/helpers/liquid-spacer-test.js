@@ -32,7 +32,7 @@ module('Integration: liquid-spacer', function (hooks) {
           theSpacer = this;
         }
       },
-      this
+      this,
     );
 
     this.set('message', longMessage);
@@ -52,7 +52,7 @@ module('Integration: liquid-spacer', function (hooks) {
       const [, have, want] = theSpacer.animateGrowth.lastCall.args;
       assert.ok(
         want.height < have.height,
-        `expected ${want.height} < ${have.height}`
+        `expected ${want.height} < ${have.height}`,
       );
     });
   });
@@ -99,12 +99,12 @@ module('Integration: liquid-spacer', function (hooks) {
       assert.strictEqual(
         this.element.querySelector('#my-spacer').offsetWidth,
         initialWidth,
-        'width'
+        'width',
       );
       assert.strictEqual(
         this.element.querySelector('#my-spacer').offsetHeight,
         initialHeight,
-        'height'
+        'height',
       );
     });
   });
@@ -123,7 +123,7 @@ module('Integration: liquid-spacer', function (hooks) {
     assert.strictEqual(style.width, '', 'width style is unset');
     assert.ok(
       /^\d+px$/.test(style.height),
-      'height style is set to ' + style.height
+      'height style is set to ' + style.height,
     );
   });
 
@@ -141,7 +141,7 @@ module('Integration: liquid-spacer', function (hooks) {
     assert.strictEqual(style.height, '', 'height style is unset');
     assert.ok(
       /^\d+px$/.test(style.width),
-      'width style is set to ' + style.width
+      'width style is set to ' + style.width,
     );
   });
 
@@ -164,7 +164,7 @@ module('Integration: liquid-spacer', function (hooks) {
     const tolerance = 0.1;
     assert.ok(
       Math.abs(height - expectedHeight) < tolerance,
-      `height (${height}) is within ${tolerance} pixels of ${expectedHeight}`
+      `height (${height}) is within ${tolerance} pixels of ${expectedHeight}`,
     );
   });
 

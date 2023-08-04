@@ -8,7 +8,7 @@ this.transition(
   this.toRoute(function (routeName) {
     return routeName === 'foo';
   }),
-  this.use('toLeft')
+  this.use('toLeft'),
 );
 
 // You can list multiple routes, and the constraint will be satisfied
@@ -25,7 +25,7 @@ this.transition(
       return routeName === 'bar';
     },
   ]),
-  this.use('toLeft')
+  this.use('toLeft'),
 );
 
 // All of these examples apply to fromRoute too. This will match any
@@ -39,7 +39,7 @@ this.transition(
       return /^q/.test(routeName);
     },
   ]),
-  this.use('toLeft')
+  this.use('toLeft'),
 );
 
 // withinRoute is just a shorthand. Instead of saying this:

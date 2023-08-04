@@ -9,7 +9,7 @@ export default function () {
     this.fromRoute('helpers-documentation.liquid-outlet.index'),
     this.toRoute('helpers-documentation.liquid-outlet.other'),
     this.use('toLeft'),
-    this.reverse('toRight')
+    this.reverse('toRight'),
   );
   // END-SNIPPET
 
@@ -29,13 +29,13 @@ export default function () {
 
     // which means we can also apply a reverse rule for transitions to
     // the false state.
-    this.reverse('toLeft', { duration })
+    this.reverse('toLeft', { duration }),
   );
   // END-SNIPPET
 
   this.transition(
     this.childOf('#interrupted-fade-demo'),
-    this.use('fade', { duration: Ember.testing ? 100 : 1500 })
+    this.use('fade', { duration: Ember.testing ? 100 : 1500 }),
   );
 
   // BEGIN-SNIPPET explode-demo-1
@@ -62,8 +62,8 @@ export default function () {
         // includes both fading out and fading in steps, each of which
         // spends `duration` milliseconds.
         use: ['fade', { duration: duration / 2 }],
-      }
-    )
+      },
+    ),
   );
   // END-SNIPPET
 
@@ -81,21 +81,21 @@ export default function () {
       // moving from the position of oldElement to the position of
       // newElement.
       use: ['fly-to', { duration, easing: 'spring' }],
-    })
+    }),
   );
   // END-SNIPPET
 
   // BEGIN-SNIPPET toLeft-demo
   this.transition(
     this.hasClass('toLeft-demo'),
-    this.use('toLeft', { duration })
+    this.use('toLeft', { duration }),
   );
   // END-SNIPPET
 
   // BEGIN-SNIPPET crossFade-demo
   this.transition(
     this.hasClass('crossFade-demo'),
-    this.use('crossFade', { duration: duration * 2 })
+    this.use('crossFade', { duration: duration * 2 }),
   );
   // END-SNIPPET
 
@@ -106,7 +106,7 @@ export default function () {
   // BEGIN-SNIPPET scrollThen-demo
   this.transition(
     this.hasClass('scrollThen-demo'),
-    this.use('scrollThen', 'toLeft', { duration })
+    this.use('scrollThen', 'toLeft', { duration }),
   );
   // END-SNIPPET
 
@@ -117,39 +117,39 @@ export default function () {
   // BEGIN-SNIPPET wait-demo
   this.transition(
     this.hasClass('wait-demo'),
-    this.use('wait', 1000, { then: 'fade' })
+    this.use('wait', 1000, { then: 'fade' }),
   );
   // END-SNIPPET
 
   this.transition(
     this.childOf('#inline-serial-scenario'),
-    this.use('fade', { duration: 1000 })
+    this.use('fade', { duration: 1000 }),
   );
 
   this.transition(
     this.childOf('#inline-scenario'),
     this.toValue(true),
     this.use('toLeft', { duration: 1000 }),
-    this.reverse('toRight', { duration: 1000 })
+    this.reverse('toRight', { duration: 1000 }),
   );
 
   this.transition(
     this.fromRoute('scenarios.nested-outlets.middle'),
     this.toRoute('scenarios.nested-outlets.middle2'),
     this.use('fade', { duration: Ember.testing ? 100 : 1000 }),
-    this.reverse('fade', { duration: Ember.testing ? 10 : 1000 })
+    this.reverse('fade', { duration: Ember.testing ? 10 : 1000 }),
   );
 
   this.transition(
     this.fromRoute('scenarios.nested-outlets.middle.index'),
     this.toRoute('scenarios.nested-outlets.middle.inner'),
     this.use('fade', { duration: Ember.testing ? 10 : 1000 }),
-    this.reverse('fade', { duration: Ember.testing ? 10 : 1000 })
+    this.reverse('fade', { duration: Ember.testing ? 10 : 1000 }),
   );
 
   this.transition(
     this.childOf('#versions-test'),
-    this.use('fade', { duration: 500 })
+    this.use('fade', { duration: 500 }),
   );
 
   this.transition(
@@ -169,7 +169,7 @@ export default function () {
       },
       {
         use: ['toLeft', { duration: 1500 }],
-      }
+      },
     ),
     this.reverse(
       'explode',
@@ -185,8 +185,8 @@ export default function () {
       },
       {
         use: ['toRight', { duration: 1500 }],
-      }
-    )
+      },
+    ),
   );
 
   this.transition(
@@ -194,7 +194,7 @@ export default function () {
     this.use('explode', {
       matchBy: 'data-model-id',
       use: ['flyTo', { duration: 500, easing: [250, 15] }],
-    })
+    }),
   );
 
   this.transition(
@@ -202,13 +202,13 @@ export default function () {
     this.use('explode', {
       pick: '.child',
       use: ['toLeft', { duration: 500 }],
-    })
+    }),
   );
 
   this.transition(
     this.includingInitialRender(),
     this.outletName('test'),
-    this.use('toLeft')
+    this.use('toLeft'),
   );
 
   this.transition(
@@ -219,25 +219,25 @@ export default function () {
       );
     }),
     this.use('toLeft'),
-    this.reverse('toRight')
+    this.reverse('toRight'),
   );
 
   this.transition(
     this.fromRoute('scenarios.interrupted-move.index'),
     this.toRoute('scenarios.interrupted-move.two'),
     this.use('toLeft', { duration: 1500 }),
-    this.reverse('toRight', { duration: 1500 })
+    this.reverse('toRight', { duration: 1500 }),
   );
   this.transition(
     this.fromRoute('scenarios.interrupted-move.two'),
     this.toRoute('scenarios.interrupted-move.three'),
     this.use('toLeft', { duration: 1500 }),
-    this.reverse('toRight', { duration: 1500 })
+    this.reverse('toRight', { duration: 1500 }),
   );
   this.transition(
     this.fromRoute('scenarios.interrupted-move.index'),
     this.toRoute('scenarios.interrupted-move.three'),
     this.use('toLeft', { duration: 1500 }),
-    this.reverse('toRight', { duration: 1500 })
+    this.reverse('toRight', { duration: 1500 }),
   );
 }

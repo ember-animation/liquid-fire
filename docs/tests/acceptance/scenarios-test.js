@@ -28,8 +28,8 @@ module('Acceptance: Scenarios', function (hooks) {
     await visit('/scenarios/model-dependent-rule/1');
     await click(
       [...document.querySelectorAll('a')].find(
-        (elt) => elt.textContent.trim() === 'Previous'
-      )
+        (elt) => elt.textContent.trim() === 'Previous',
+      ),
     );
     assert.ranTransition('toRight');
   });
@@ -39,8 +39,8 @@ module('Acceptance: Scenarios', function (hooks) {
 
     click(
       [...document.querySelectorAll('button')].find(
-        (elt) => elt.textContent.trim() === 'Toggle One/Two'
-      )
+        (elt) => elt.textContent.trim() === 'Toggle One/Two',
+      ),
     );
 
     await waitUntil(
@@ -52,7 +52,7 @@ module('Acceptance: Scenarios', function (hooks) {
             .length === 1
         );
       },
-      { timeout: 2000 }
+      { timeout: 2000 },
     );
 
     assert
@@ -67,7 +67,7 @@ module('Acceptance: Scenarios', function (hooks) {
       .dom(second)
       .hasStyle(
         { visibility: 'visible' },
-        'nested children of clone are visible'
+        'nested children of clone are visible',
       );
 
     const [twoFirst, twoSecond] = [...document.querySelectorAll('.child-two')];

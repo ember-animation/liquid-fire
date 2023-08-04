@@ -24,7 +24,7 @@ export default function fade(opts = {}) {
       this.newElement,
       { opacity: [opts.maxOpacity || 1, 0] },
       opts,
-      'fade-in'
+      'fade-in',
     );
   });
 }

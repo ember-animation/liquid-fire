@@ -81,7 +81,7 @@ export default class LiquidOutletComponent extends Component {
       this.shrinkDelay,
       this.growDelay,
       this.growDuration,
-      this.growPixelsPerSecond
+      this.growPixelsPerSecond,
     );
   }
 

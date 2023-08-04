@@ -109,7 +109,7 @@ module('Integration: liquid-container', function (hooks) {
       this.element
         .querySelector('.test-container')
         .classList.contains('liquid-animating'),
-      "it doesn't have liquid-animating class"
+      "it doesn't have liquid-animating class",
     );
 
     this.set('value', 'new-value');
@@ -126,7 +126,7 @@ module('Integration: liquid-container', function (hooks) {
         this.element
           .querySelector('.test-container')
           .classList.contains('liquid-animating'),
-        'liquid-animating class was removed'
+        'liquid-animating class was removed',
       );
     });
   });

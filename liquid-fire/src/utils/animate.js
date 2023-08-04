@@ -29,7 +29,7 @@ export function animateGrowth(
   shrinkDelay,
   growDelay,
   growDuration,
-  growPixelsPerSecond
+  growPixelsPerSecond,
 ) {
   transitionMap.incrementRunningTransitions();
   const adaptations = [];
@@ -45,8 +45,8 @@ export function animateGrowth(
         shrinkDelay,
         growDelay,
         growDuration,
-        growPixelsPerSecond
-      )
+        growPixelsPerSecond,
+      ),
     );
   }
 
@@ -61,8 +61,8 @@ export function animateGrowth(
         shrinkDelay,
         growDelay,
         growDuration,
-        growPixelsPerSecond
-      )
+        growPixelsPerSecond,
+      ),
     );
   }
 
@@ -80,7 +80,7 @@ function adaptDimension(
   shrinkDelay,
   growDelay,
   growDuration,
-  growPixelsPerSecond
+  growPixelsPerSecond,
 ) {
   if (have[dimension] === want[dimension]) {
     return Promise.resolve();
@@ -93,7 +93,7 @@ function adaptDimension(
       have[dimension],
       want[dimension],
       growDuration,
-      growPixelsPerSecond
+      growPixelsPerSecond,
     ),
     queue: false,
     easing: growEasing,
@@ -111,6 +111,6 @@ function delayFor(before, after, shrinkDelay, growDelay) {
 function durationFor(before, after, growDuration, growPixelsPerSecond) {
   return Math.min(
     growDuration,
-    (1000 * Math.abs(before - after)) / growPixelsPerSecond
+    (1000 * Math.abs(before - after)) / growPixelsPerSecond,
   );
 }

@@ -4,7 +4,7 @@ this.transition(
   this.toValue(function (value) {
     value instanceof Person;
   }),
-  this.use('toLeft')
+  this.use('toLeft'),
 );
 
 // You can constrain the from-value too.
@@ -15,7 +15,7 @@ this.transition(
   this.betweenValues(function (value) {
     return value > 10;
   }),
-  this.use('toLeft')
+  this.use('toLeft'),
 );
 
 // `null` matches an undefined value.
@@ -29,7 +29,7 @@ this.transition(
   this.hasClass('fancy-choice'),
   this.toValue(true),
   this.use('toUp'),
-  this.reverse('toDown')
+  this.reverse('toDown'),
 );
 
 // Your test functions also receive an additional argument containing
@@ -41,5 +41,5 @@ this.transition(
     return toValue && fromValue && toValue.get('id') > fromValue.get('id');
   }),
 
-  this.use('toLeft')
+  this.use('toLeft'),
 );

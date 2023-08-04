@@ -17,7 +17,7 @@ export default class Rule {
       }
       if (this[prop]) {
         throw new Error(
-          `More than one "${prop}" statement in the same transition rule is not allowed`
+          `More than one "${prop}" statement in the same transition rule is not allowed`,
         );
       }
       this[prop] = thing;

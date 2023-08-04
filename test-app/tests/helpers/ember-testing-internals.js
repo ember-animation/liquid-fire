@@ -56,5 +56,5 @@ export const RouteBuilder = class RouteBuilderService extends Service {
 
 export const SetRouteComponent = setComponentTemplate(
   hbs`{{#-with-dynamic-vars outletState=@outletState}}{{yield}}{{/-with-dynamic-vars}}`,
-  class CustomComponent extends Component {}
+  class CustomComponent extends Component {},
 );

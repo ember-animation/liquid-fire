@@ -18,7 +18,7 @@ export default class LiquidChildComponent extends Component {
 
     this._serviceElement = this.liquidFireChildren.register(
       this.args.uniqueChildId,
-      this
+      this,
     );
 
     element.style.visibility = 'hidden';

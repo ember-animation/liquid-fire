@@ -47,7 +47,7 @@ export default class LiquidFireChildrenService extends Service {
 
     const child = this.children.find(
       (x) =>
-        x.uniqueChildId === closestElement.getAttribute('data-liquid-child')
+        x.uniqueChildId === closestElement.getAttribute('data-liquid-child'),
     );
 
     if (!child) {

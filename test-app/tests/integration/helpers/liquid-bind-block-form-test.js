@@ -19,7 +19,7 @@ module('Integration: liquid-bind block form', function (hooks) {
     this.set('title', 'Mr');
     this.set('person', 'Tom');
     await render(
-      hbs`<LiquidBind @value={{this.person}} as |p|>{{this.title}}:{{p}}</LiquidBind>`
+      hbs`<LiquidBind @value={{this.person}} as |p|>{{this.title}}:{{p}}</LiquidBind>`,
     );
     assert.dom().hasText('Mr:Tom');
   });
@@ -27,7 +27,7 @@ module('Integration: liquid-bind block form', function (hooks) {
   test('it should update', async function (assert) {
     this.set('person', 'Tom');
     await render(
-      hbs`<LiquidBind @value={{this.person}} as |p|>A{{p}}B</LiquidBind>`
+      hbs`<LiquidBind @value={{this.person}} as |p|>A{{p}}B</LiquidBind>`,
     );
     this.set('person', 'Yehua');
     await settled();
@@ -36,7 +36,7 @@ module('Integration: liquid-bind block form', function (hooks) {
 
   test('it should support element id', async function (assert) {
     await render(
-      hbs`<LiquidBind @value={{this.foo}} @containerId="foo"> </LiquidBind>`
+      hbs`<LiquidBind @value={{this.foo}} @containerId="foo"> </LiquidBind>`,
     );
     assert
       .dom('.liquid-container#foo')
@@ -57,7 +57,7 @@ module('Integration: liquid-bind block form', function (hooks) {
     assert.ok(tmap.transitionFor.calledOnce, 'initial transition');
     assert.notEqual(
       tmap.transitionFor.lastCall.returnValue.animation.handler,
-      dummyAnimation
+      dummyAnimation,
     );
     this.set('foo', 'hi');
     await settled();
@@ -65,7 +65,7 @@ module('Integration: liquid-bind block form', function (hooks) {
     assert.ok(tmap.transitionFor.calledTwice, 'second transition');
     assert.strictEqual(
       tmap.transitionFor.lastCall.returnValue.animation.handler,
-      dummyAnimation
+      dummyAnimation,
     );
   });
 
@@ -75,7 +75,7 @@ module('Integration: liquid-bind block form', function (hooks) {
       this.containerElement = element;
     };
     await render(
-      hbs`<div data-test-target {{did-insert this.setup}}><LiquidBind @value={{this.foo}} @containerless={{true}} @containerElement={{this.containerElement}}>{{this.foo}}</LiquidBind></div>`
+      hbs`<div data-test-target {{did-insert this.setup}}><LiquidBind @value={{this.foo}} @containerless={{true}} @containerElement={{this.containerElement}}>{{this.foo}}</LiquidBind></div>`,
     );
     assert.dom('.liquid-container').doesNotExist('no container');
     assert
@@ -89,7 +89,7 @@ module('Integration: liquid-bind block form', function (hooks) {
       this.containerElement = element;
     };
     await render(
-      hbs`<div data-test-target {{did-insert this.setup}}><LiquidBind @value={{this.foo}} @class="bar" @containerless={{true}} @containerElement={{this.containerElement}}>{{this.foo}}</LiquidBind></div>`
+      hbs`<div data-test-target {{did-insert this.setup}}><LiquidBind @value={{this.foo}} @class="bar" @containerless={{true}} @containerElement={{this.containerElement}}>{{this.foo}}</LiquidBind></div>`,
     );
     assert
       .dom('[data-test-target] > .liquid-child.bar')

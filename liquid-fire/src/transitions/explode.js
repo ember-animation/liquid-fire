@@ -59,14 +59,14 @@ function explodePiece(context, piece, seen) {
       'oldElement',
       childContext,
       selectors[0],
-      seen
+      seen,
     );
     cleanupNew = _explodePart(
       context,
       'newElement',
       childContext,
       selectors[1],
-      seen
+      seen,
     );
     if (!cleanupOld && !cleanupNew) {
       return Promise.resolve();
@@ -154,7 +154,7 @@ function animationFor(context, piece) {
   let name, args, func;
   if (!piece.use) {
     throw new Error(
-      "every argument to the 'explode' animation must include a followup animation to 'use'"
+      "every argument to the 'explode' animation must include a followup animation to 'use'",
     );
   }
   if (isArray(piece.use)) {
@@ -238,8 +238,8 @@ function matchAndExplode(context, piece, seen) {
           pick: selector(attrValue),
           use: piece.use,
         },
-        seen
+        seen,
       );
-    })
+    }),
   );
 }

@@ -44,7 +44,7 @@ export function animate(elt, props, opts, label) {
 
   if (opts.progress) {
     throw new Error(
-      "liquid-fire's 'animate' function reserves the use of Velocity's 'progress' option for its own nefarious purposes."
+      "liquid-fire's 'animate' function reserves the use of Velocity's 'progress' option for its own nefarious purposes.",
     );
   }
 
@@ -64,7 +64,7 @@ export function animate(elt, props, opts, label) {
       function (err) {
         clearLabel(elt, label);
         throw err;
-      }
+      },
     );
     applyLabel(elt, label, state);
   }
@@ -85,7 +85,7 @@ export function setDefaults(props) {
         throw new Error(
           "liquid-fire's 'animate' function reserves the use of Velocity's '" +
             key +
-            "' option for its own nefarious purposes."
+            "' option for its own nefarious purposes.",
         );
       }
       Velocity.defaults[key] = props[key];

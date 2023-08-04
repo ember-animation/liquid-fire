@@ -42,7 +42,7 @@ module('Integration: explode transition', function (hooks) {
           use: function () {
             throw new Error('should not get here');
           },
-        })
+        }),
       );
     });
     await render(hbs`
@@ -67,7 +67,7 @@ module('Integration: explode transition', function (hooks) {
             assert.ok(this.newElement?.classList?.contains('liquid-child'));
             return resolve();
           },
-        })
+        }),
       );
     });
     await render(hbs`
@@ -94,24 +94,24 @@ module('Integration: explode transition', function (hooks) {
                 assert.strictEqual(
                   getComputedStyle(
                     liquidContainer.querySelector('.liquid-child .bluebox')
-                      .parentElement
+                      .parentElement,
                   ).visibility,
                   'visible',
-                  'new element'
+                  'new element',
                 );
                 assert.strictEqual(
                   getComputedStyle(
                     liquidContainer.querySelector('.liquid-child .redbox')
-                      .parentElement
+                      .parentElement,
                   ).visibility,
                   'hidden',
-                  'old element'
+                  'old element',
                 );
                 resolve();
               });
             });
           },
-        })
+        }),
       );
     });
     await render(hbs`
@@ -138,7 +138,7 @@ module('Integration: explode transition', function (hooks) {
             assert.strictEqual(this.newElement?.textContent, 'New Title');
             return resolve();
           },
-        })
+        }),
       );
     });
     await render(hbs`
@@ -165,7 +165,7 @@ module('Integration: explode transition', function (hooks) {
             assert.strictEqual(this.newElement?.textContent, 'New Title');
             return resolve();
           },
-        })
+        }),
       );
     });
     await render(hbs`
@@ -191,7 +191,7 @@ module('Integration: explode transition', function (hooks) {
             assert.notOk(this.newElement, 'Should be no new element');
             return resolve();
           },
-        })
+        }),
       );
     });
     await render(hbs`
@@ -217,7 +217,7 @@ module('Integration: explode transition', function (hooks) {
             assert.notOk(this.oldElement, 'Should be no old element');
             return resolve();
           },
-        })
+        }),
       );
     });
     await render(hbs`
@@ -246,7 +246,7 @@ module('Integration: explode transition', function (hooks) {
             assert.strictEqual(oldText?.slice(4), newText?.slice(4));
             return resolve();
           },
-        })
+        }),
       );
     });
     await render(hbs`
@@ -276,7 +276,7 @@ module('Integration: explode transition', function (hooks) {
             assert.ok(/New/.test(newText), 'new text');
             return resolve();
           },
-        })
+        }),
       );
     });
     await render(hbs`
@@ -302,7 +302,7 @@ module('Integration: explode transition', function (hooks) {
           use: function () {
             throw new Error('should not get here');
           },
-        })
+        }),
       );
     });
     await render(hbs`
@@ -328,11 +328,11 @@ module('Integration: explode transition', function (hooks) {
             use: function () {
               assert.ok(
                 this.oldElement,
-                'expected old element with class=early'
+                'expected old element with class=early',
               );
               assert.notOk(
                 this.newElement,
-                'expected no new element with class=early'
+                'expected no new element with class=early',
               );
               return resolve();
             },
@@ -342,16 +342,16 @@ module('Integration: explode transition', function (hooks) {
             use: function () {
               assert.notOk(
                 this.oldElement,
-                'expected old element with class=late to already match elsewhere'
+                'expected old element with class=late to already match elsewhere',
               );
               assert.ok(
                 this.newElement,
-                'expected new element with class=late'
+                'expected new element with class=late',
               );
               return resolve();
             },
-          }
-        )
+          },
+        ),
       );
     });
     await render(hbs`
@@ -376,7 +376,7 @@ module('Integration: explode transition', function (hooks) {
             assert.ok(true);
             return resolve();
           },
-        })
+        }),
       );
     });
     await render(hbs`
@@ -408,7 +408,7 @@ module('Integration: explode transition', function (hooks) {
             assert.strictEqual(oldText?.slice(4), newText?.slice(4));
             return resolve();
           },
-        })
+        }),
       );
     });
     await render(hbs`
@@ -444,7 +444,7 @@ module('Integration: explode transition', function (hooks) {
               assert.true(!!this.newElement, 'found new element');
               assert.strictEqual(
                 getComputedStyle(this.oldElement).backgroundColor,
-                'rgb(255, 0, 0)'
+                'rgb(255, 0, 0)',
               );
 
               // the explode transition actually animates a copy of the
@@ -453,29 +453,29 @@ module('Integration: explode transition', function (hooks) {
               // is part of the point of explode).
               const realOldElement =
                 this.oldElement.parentElement.querySelector(
-                  '.liquid-child .redbox'
+                  '.liquid-child .redbox',
                 );
               assert.true(!!realOldElement, 'found actual old element');
               assert.strictEqual(realOldElement.style.visibility, 'hidden');
               assert.deepEqual(
                 getOffset(realOldElement),
                 getOffset(this.oldElement),
-                "element didn't jump"
+                "element didn't jump",
               );
               assert.strictEqual(
                 realOldElement.offsetWidth,
                 this.oldElement.offsetWidth,
-                'same width'
+                'same width',
               );
               assert.strictEqual(
                 realOldElement.offsetHeight,
                 this.oldElement.offsetHeight,
-                'same height'
+                'same height',
               );
               didTransition = true;
               return resolve();
             },
-          })
+          }),
         );
       });
       this.set('boxSizing', boxSizing);
@@ -511,7 +511,7 @@ module('Integration: explode transition', function (hooks) {
               assert.true(!!this.newElement, 'found new element');
               assert.strictEqual(
                 getComputedStyle(this.oldElement).backgroundColor,
-                'rgb(0, 128, 0)'
+                'rgb(0, 128, 0)',
               );
 
               // the explode transition actually animates a copy of the
@@ -520,29 +520,29 @@ module('Integration: explode transition', function (hooks) {
               // is part of the point of explode).
               const realOldElement =
                 this.oldElement.parentElement.querySelector(
-                  '.liquid-child .greenbox'
+                  '.liquid-child .greenbox',
                 );
               assert.true(!!realOldElement, 'found actual old element');
               assert.strictEqual(realOldElement.style.visibility, 'hidden');
               assert.deepEqual(
                 getOffset(realOldElement),
                 getOffset(this.oldElement),
-                "element didn't jump"
+                "element didn't jump",
               );
               assert.strictEqual(
                 realOldElement.offsetWidth,
                 this.oldElement.offsetWidth,
-                'same width'
+                'same width',
               );
               assert.strictEqual(
                 realOldElement.offsetHeight,
                 this.oldElement.offsetHeight,
-                'same height'
+                'same height',
               );
               didTransition = true;
               return resolve();
             },
-          })
+          }),
         );
       });
       this.set('boxSizing', boxSizing);
@@ -574,16 +574,16 @@ module('Integration: explode transition', function (hooks) {
               assert.strictEqual(
                 document.querySelectorAll('#unique-parent-id').length,
                 1,
-                'cloned top level DOM element does not have duplicated id attribute'
+                'cloned top level DOM element does not have duplicated id attribute',
               );
               assert.strictEqual(
                 document.querySelectorAll('#unique-child-id').length,
                 1,
-                'any cloned child DOM does not have duplicate id attributes'
+                'any cloned child DOM does not have duplicate id attributes',
               );
               return resolve();
             },
-          })
+          }),
         );
       });
       await render(hbs`
@@ -674,7 +674,7 @@ module('Integration: explode transition', function (hooks) {
                 </style>
 
       `,
-      templateOnlyComponent()
+      templateOnlyComponent(),
     );
   }
 });

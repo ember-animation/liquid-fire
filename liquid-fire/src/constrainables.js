@@ -19,8 +19,8 @@ export default {
       return routeName(
         childRoute(
           versionValue(conditions, 1),
-          conditions.matchContext.outletName
-        )
+          conditions.matchContext.outletName,
+        ),
       );
     },
   },
@@ -30,8 +30,8 @@ export default {
       return routeName(
         childRoute(
           versionValue(conditions, 0),
-          conditions.matchContext.outletName
-        )
+          conditions.matchContext.outletName,
+        ),
       );
     },
   },
@@ -41,8 +41,8 @@ export default {
       return routeModel(
         childRoute(
           versionValue(conditions, 1),
-          conditions.matchContext.outletName
-        )
+          conditions.matchContext.outletName,
+        ),
       );
     },
   },
@@ -52,8 +52,8 @@ export default {
       return routeModel(
         childRoute(
           versionValue(conditions, 0),
-          conditions.matchContext.outletName
-        )
+          conditions.matchContext.outletName,
+        ),
       );
     },
   },

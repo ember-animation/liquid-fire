@@ -21,7 +21,7 @@ export default class Action {
     return new Promise((resolve, reject) => {
       Promise.resolve(this.handler.apply(context, this.args)).then(
         resolve,
-        reject
+        reject,
       );
     });
   }

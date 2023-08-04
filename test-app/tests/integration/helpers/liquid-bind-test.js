@@ -38,7 +38,7 @@ module('Integration: liquid-bind', function (hooks) {
     this.set('name', 'unicorn');
     this.set('power', 'rainbow');
     await render(
-      hbs`<LiquidBind @value={{this.name}} @class={{this.power}} />`
+      hbs`<LiquidBind @value={{this.name}} @class={{this.power}} />`,
     );
     assert
       .dom('.liquid-container.rainbow')
@@ -49,7 +49,7 @@ module('Integration: liquid-bind', function (hooks) {
     this.set('name', 'unicorn');
     this.set('power', 'rainbow');
     await render(
-      hbs`<LiquidBind @value={{this.name}} @class={{this.power}} />`
+      hbs`<LiquidBind @value={{this.name}} @class={{this.power}} />`,
     );
     this.set('power', 'sparkle');
     assert
@@ -59,7 +59,7 @@ module('Integration: liquid-bind', function (hooks) {
 
   test('it should support element id', async function (assert) {
     await render(
-      hbs`<LiquidBind @value={{this.something}} @containerId="foo" />`
+      hbs`<LiquidBind @value={{this.something}} @containerId="foo" />`,
     );
     assert
       .dom('.liquid-container#foo')
@@ -75,7 +75,7 @@ module('Integration: liquid-bind', function (hooks) {
     await settled();
     assert.strictEqual(
       tmap.transitionFor.lastCall.returnValue.animation.name,
-      'fade'
+      'fade',
     );
   });
 
@@ -84,7 +84,7 @@ module('Integration: liquid-bind', function (hooks) {
     this.set('transition', transition);
     this.set('name', 'unicorn');
     await render(
-      hbs`<LiquidBind @value={{this.name}} @use={{this.transition}} />`
+      hbs`<LiquidBind @value={{this.name}} @use={{this.transition}} />`,
     );
     this.set('name', 'other');
     await settled();
@@ -98,12 +98,12 @@ module('Integration: liquid-bind', function (hooks) {
       this.transition(
         this.toValue('other'),
         this.use(transitionA),
-        this.reverse(transitionB)
+        this.reverse(transitionB),
       );
     });
     this.set('name', 'unicorn');
     await render(
-      hbs`<LiquidBind @value={{this.name}} @rules={{this.rules}} />`
+      hbs`<LiquidBind @value={{this.name}} @rules={{this.rules}} />`,
     );
     this.set('name', 'other');
     await settled();
@@ -116,7 +116,7 @@ module('Integration: liquid-bind', function (hooks) {
     assert.ok(transitionB.called, 'expected transitionB to run on second set');
     assert.ok(
       transitionA.notCalled,
-      'expected transitionA to not run on second set'
+      'expected transitionA to not run on second set',
     );
   });
 
@@ -134,7 +134,7 @@ module('Integration: liquid-bind', function (hooks) {
     await settled();
     assert.strictEqual(
       tmap.transitionFor.lastCall.returnValue.animation.handler,
-      dummyAnimation
+      dummyAnimation,
     );
   });
 
@@ -148,7 +148,7 @@ module('Integration: liquid-bind', function (hooks) {
       this.containerElement = element;
     };
     await render(
-      hbs`<div data-test-target {{did-insert this.setup}}><LiquidBind @value={{this.foo}} @containerless={{true}} @containerElement={{this.containerElement}} /></div>`
+      hbs`<div data-test-target {{did-insert this.setup}}><LiquidBind @value={{this.foo}} @containerless={{true}} @containerElement={{this.containerElement}} /></div>`,
     );
     assert.dom('.liquid-container').doesNotExist('no container');
     assert
@@ -161,7 +161,7 @@ module('Integration: liquid-bind', function (hooks) {
       this.containerElement = element;
     };
     await render(
-      hbs`<div data-test-target {{did-insert this.setup}}><LiquidBind @value={{this.foo}} @class="bar" @containerless={{true}} @containerElement={{this.containerElement}} /></div>`
+      hbs`<div data-test-target {{did-insert this.setup}}><LiquidBind @value={{this.foo}} @class="bar" @containerless={{true}} @containerElement={{this.containerElement}} /></div>`,
     );
     assert.dom('.liquid-container').doesNotExist('no container');
     assert

@@ -66,7 +66,7 @@ export default class Constraints {
     if (this.debug) {
       console.log(
         '[liquid-fire] Checking transition rules for',
-        conditions.parentElement
+        conditions.parentElement,
       );
     }
 
@@ -78,8 +78,8 @@ export default class Constraints {
         if (rule !== best && rule.debug) {
           console.log(
             `${describeRule(
-              rule
-            )} matched, but it was superceded by another rule`
+              rule,
+            )} matched, but it was superceded by another rule`,
           );
         }
       });
@@ -136,7 +136,7 @@ export default class Constraints {
         if (rule.debug && !matched[guidFor(rule)]) {
           console.log(
             `${describeRule(rule)} rejected because ${target} was`,
-            ...value
+            ...value,
           );
         }
       });
@@ -187,7 +187,7 @@ export default class Constraints {
         `${describeRule(rule)} rejected because of a constraint on ${
           constraint.target
         }. ${constraint.target} was`,
-        ...values
+        ...values,
       );
     }
   }

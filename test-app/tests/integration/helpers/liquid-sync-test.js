@@ -28,9 +28,9 @@ module('Integration | Component | liquid sync', function (hooks) {
           ready() {
             return this.args.ready();
           }
-        }
+        },
       ),
-      this
+      this,
     );
 
     animationStarted = false;

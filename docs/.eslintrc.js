@@ -27,6 +27,7 @@ module.exports = {
     'no-console': ['error'],
     'no-var': ['error'],
     'prefer-const': ['error'],
+    'qunit/require-expect': 'off',
   },
   overrides: [
     // node files

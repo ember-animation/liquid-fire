@@ -35,7 +35,7 @@ module('Integration: liquid-outlet', function (hooks) {
 
   test('it should render when state is set after insertion', async function (assert) {
     await render(
-      hbs`<this.SetRoute @outletState={{this.outletState}}><LiquidOutlet /></this.SetRoute>`
+      hbs`<this.SetRoute @outletState={{this.outletState}}><LiquidOutlet /></this.SetRoute>`,
     );
     this.setState(this.makeRoute({ template: hbs`<h1>Hello world</h1>` }));
     assert.dom('h1').exists({ count: 1 });
@@ -43,7 +43,7 @@ module('Integration: liquid-outlet', function (hooks) {
 
   test('it should render when state is set before insertion', async function (assert) {
     await render(
-      hbs`<this.SetRoute @outletState={{this.outletState}}>A{{outlet}}B</this.SetRoute>`
+      hbs`<this.SetRoute @outletState={{this.outletState}}>A{{outlet}}B</this.SetRoute>`,
     );
     const hello = this.makeRoute({ template: hbs`Hello<LiquidOutlet />` });
     this.setState(hello);
@@ -79,7 +79,7 @@ module('Integration: liquid-outlet', function (hooks) {
     const tmap = this.owner.lookup('service:liquid-fire-transitions');
     sinon.spy(tmap, 'transitionFor');
     await render(
-      hbs`<this.SetRoute @outletState={{this.outletState}}>{{outlet}}</this.SetRoute>`
+      hbs`<this.SetRoute @outletState={{this.outletState}}>{{outlet}}</this.SetRoute>`,
     );
     const routerState = this.makeRoute({
       template: hbs`<LiquidOutlet @use="fade" />`,
@@ -92,7 +92,7 @@ module('Integration: liquid-outlet', function (hooks) {
     assert.ok(tmap.transitionFor.called, 'transitionFor should be called');
     assert.strictEqual(
       tmap.transitionFor.lastCall.returnValue.animation.name,
-      'fade'
+      'fade',
     );
     //return tmap.waitUntilIdle();
   });
@@ -102,7 +102,7 @@ module('Integration: liquid-outlet', function (hooks) {
       this.containerElement = element;
     };
     await render(
-      hbs`<div data-test-target {{did-insert this.setup}}><this.SetRoute @outletState={{this.outletState}}><LiquidOutlet @containerless={{true}} @containerElement={{this.containerElement}} /></this.SetRoute></div>`
+      hbs`<div data-test-target {{did-insert this.setup}}><this.SetRoute @outletState={{this.outletState}}><LiquidOutlet @containerless={{true}} @containerElement={{this.containerElement}} /></this.SetRoute></div>`,
     );
     this.setState(this.makeRoute({ template: hbs`<h1>Hello world</h1>` }));
     await settled();
@@ -117,7 +117,7 @@ module('Integration: liquid-outlet', function (hooks) {
       this.containerElement = element;
     };
     await render(
-      hbs`<div data-test-target {{did-insert this.setup}}><this.SetRoute @outletState={{this.outletState}}><LiquidOutlet @class="bar" @containerless={{true}} @containerElement={{this.containerElement}} /></this.SetRoute></div>`
+      hbs`<div data-test-target {{did-insert this.setup}}><this.SetRoute @outletState={{this.outletState}}><LiquidOutlet @class="bar" @containerless={{true}} @containerElement={{this.containerElement}} /></this.SetRoute></div>`,
     );
     this.setState(this.makeRoute({ template: hbs`<h1>Hello world</h1>` }));
     await settled();
@@ -132,7 +132,7 @@ module('Integration: liquid-outlet', function (hooks) {
       'model',
       EmberObject.create({
         id: 1,
-      })
+      }),
     );
     const state = this.makeRoute({
       template: hbs`'<div class="content">{{this.model.id}}</div>`,
@@ -141,7 +141,7 @@ module('Integration: liquid-outlet', function (hooks) {
     const tmap = this.owner.lookup('service:liquid-fire-transitions');
     sinon.spy(tmap, 'transitionFor');
     await render(
-      hbs`<this.SetRoute @outletState={{this.outletState}}><LiquidOutlet @watchModels={{true}} /></this.SetRoute>`
+      hbs`<this.SetRoute @outletState={{this.outletState}}><LiquidOutlet @watchModels={{true}} /></this.SetRoute>`,
     );
     this.setState(state);
     assert.dom('.content').hasText('1');
@@ -151,7 +151,7 @@ module('Integration: liquid-outlet', function (hooks) {
         'model',
         EmberObject.create({
           id: 2,
-        })
+        }),
       );
     });
     this.setState(state);
@@ -162,7 +162,7 @@ module('Integration: liquid-outlet', function (hooks) {
 
   test('tolerates empty content when parent outlet is stable', async function (assert) {
     await render(
-      hbs`<this.SetRoute @outletState={{this.outletState}}>A<LiquidOutlet />B</this.SetRoute>`
+      hbs`<this.SetRoute @outletState={{this.outletState}}>A<LiquidOutlet />B</this.SetRoute>`,
     );
 
     const state = this.makeRoute({
@@ -180,7 +180,7 @@ module('Integration: liquid-outlet', function (hooks) {
     this.set('thing', 'Goodbye');
     this.setState(this.makeRoute({ template: hbs`Hello` }));
     await render(
-      hbs`<this.SetRoute @outletState={{this.outletState}}><LiquidBind @value={{this.thing}} as |thingVersion|>{{thingVersion}}{{outlet}}</LiquidBind></this.SetRoute>`
+      hbs`<this.SetRoute @outletState={{this.outletState}}><LiquidBind @value={{this.thing}} as |thingVersion|>{{thingVersion}}{{outlet}}</LiquidBind></this.SetRoute>`,
     );
     assert.dom().hasText('GoodbyeHello');
     this.set('thing', 'Other');

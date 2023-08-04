@@ -6,7 +6,7 @@ export default function (nextTransitionName, options, ...rest) {
   if (isBrowser()) {
     assert(
       "You must provide a transition name as the first argument to scrollThen. Example: this.use('scrollThen', 'toLeft')",
-      'string' === typeof nextTransitionName
+      'string' === typeof nextTransitionName,
     );
 
     const el = document.getElementsByTagName('html');
@@ -17,7 +17,7 @@ export default function (nextTransitionName, options, ...rest) {
 
     assert(
       "The second argument to scrollThen is passed to Velocity's scroll function and must be an object",
-      'object' === typeof options
+      'object' === typeof options,
     );
 
     // set scroll options via: this.use('scrollThen', 'ToLeft', {easing: 'spring'})

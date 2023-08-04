@@ -3,6 +3,6 @@ export default function () {
     this.fromRoute('index'),
     this.toRoute('posts'),
     this.use('toLeft'),
-    this.reverse('toRight')
+    this.reverse('toRight'),
   );
 }

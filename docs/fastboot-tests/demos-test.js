@@ -30,14 +30,14 @@ Qmodule('Fastboot', function (hooks) {
       if (page.statusCode >= 300 && page.statusCode < 400) {
         const location = new URL(
           page.headers.headers.location[0],
-          'http://localhost:4200'
+          'http://localhost:4200',
         );
         return await navigateForward(location.pathname);
       }
       assert.strictEqual(
         page.statusCode,
         200,
-        `Expected status 200 for ${url}`
+        `Expected status 200 for ${url}`,
       );
       const html = await page.html();
       const dom = new JSDOM(html);

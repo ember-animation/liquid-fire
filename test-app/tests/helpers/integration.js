@@ -20,14 +20,14 @@ export function setupTransitionTest(hooks) {
     assert.ranTransition = function ranTransition(name) {
       this.ok(
         transitionMap(context).transitionFor.returned(transitionName(name)),
-        'expected transition ' + name
+        'expected transition ' + name,
       );
     };
     assert.noTransitionsYet = function noTransitionsYet() {
       const tmap = transitionMap(context);
       const ranTransitions = A(tmap.transitionFor.returnValues);
       return !ranTransitions.any(
-        (transition) => transition.animation !== tmap.defaultAction()
+        (transition) => transition.animation !== tmap.defaultAction(),
       );
     };
   });

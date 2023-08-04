@@ -61,7 +61,7 @@ export default class LiquidVersionsComponent extends Component {
   _transition() {
     assert(
       `LiquidVersions: @containerElement is required!`,
-      !!this.args.containerElement
+      !!this.args.containerElement,
     );
 
     const versions = this.versions;
@@ -102,7 +102,7 @@ export default class LiquidVersionsComponent extends Component {
         this.finalizeVersions(versions);
         this.notifyContainer('afterTransition', versions);
         throw err;
-      }
+      },
     );
   }
 

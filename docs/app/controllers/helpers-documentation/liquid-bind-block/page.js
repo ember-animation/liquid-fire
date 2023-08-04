@@ -9,7 +9,7 @@ export default class HelpersDocumentationLiquidBindBlockPageController extends C
   higher(model) {
     this.router.transitionTo(
       'helpers-documentation.liquid-bind-block.page',
-      model.get('id') + 1
+      model.get('id') + 1,
     );
   }
 }
