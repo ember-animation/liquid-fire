@@ -81,7 +81,7 @@ module('Integration: liquid-spacer', function (hooks) {
                  </style>
                  {{!-- template-lint-disable no-inline-styles --}}
                  <div style="width: 20em">
-                 <LiquidSpacer id="my-spacer" @growDuration={{0}}>
+                 <LiquidSpacer id="my-spacer" @growDuration={{1}}>
                    {{this.message}}
                  </LiquidSpacer>
                  </div>
