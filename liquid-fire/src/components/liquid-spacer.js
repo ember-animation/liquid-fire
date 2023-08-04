@@ -7,7 +7,10 @@ export default class LiquidOutletComponent extends Component {
   @service('liquid-fire-transitions') transitionMap;
 
   element = null;
-  enabled = true;
+
+  get enabled() {
+    return this.args.enabled || true;
+  }
 
   get growDuration() {
     return this.args.growDuration || 250;
