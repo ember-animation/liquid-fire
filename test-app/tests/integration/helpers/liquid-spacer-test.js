@@ -72,6 +72,11 @@ module('Integration: liquid-spacer', function (hooks) {
                  <button type="button" {{on "click" this.toggle}}>Toggle</button>
                  {{!-- template-lint-disable no-forbidden-elements --}}
                  <style>
+                  *,
+                  *::before,
+                  *::after {
+                    box-sizing: border-box; // 1
+                  }
                   #my-spacer {
                     padding: 2px;
                     margin: 4px;
