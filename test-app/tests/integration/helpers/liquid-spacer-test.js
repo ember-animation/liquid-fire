@@ -14,10 +14,20 @@ module('Integration: liquid-spacer', function (hooks) {
 
   hooks.beforeEach(function () {
     tmap = this.owner.lookup('service:liquid-fire-transitions');
+
+    // TODO: our tests don't pass when we're inside a transformed
+    // element. I think this is a legit bug in the implementation that
+    // we should fix.
+    document.querySelector('#ember-testing').style.transform = 'none';
   });
 
   hooks.afterEach(function () {
     tmap = null;
+
+    // TODO: our tests don't pass when we're inside a transformed
+    // element. I think this is a legit bug in the implementation that
+    // we should fix.
+    document.querySelector('#ember-testing').style.transform = '';
   });
 
   test('it should animate', async function (assert) {
