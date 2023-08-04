@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find, findAll, waitUntil } from '@ember/test-helpers';
+import { render, findAll } from '@ember/test-helpers';
 import { testingKick } from 'liquid-fire/mutation-observer';
 import LiquidSpacer from 'liquid-fire/components/liquid-spacer';
 import sinon from 'sinon';
@@ -72,11 +72,6 @@ module('Integration: liquid-spacer', function (hooks) {
                  <button type="button" {{on "click" this.toggle}}>Toggle</button>
                  {{!-- template-lint-disable no-forbidden-elements --}}
                  <style>
-                  *,
-                  *::before,
-                  *::after {
-                    box-sizing: border-box; // 1
-                  }
                   #my-spacer {
                     padding: 2px;
                     margin: 4px;
@@ -86,11 +81,13 @@ module('Integration: liquid-spacer', function (hooks) {
                  </style>
                  {{!-- template-lint-disable no-inline-styles --}}
                  <div style="width: 20em">
-                 <LiquidSpacer id="my-spacer" @growDuration={{1}}>
+                 <LiquidSpacer id="my-spacer" @growDuration={{0}}>
                    {{this.message}}
                  </LiquidSpacer>
                  </div>
                  `);
+
+      await tmap.waitUntilIdle();
 
       const initialWidth = this.element.querySelector('#my-spacer').offsetWidth;
       const initialHeight =
@@ -101,16 +98,6 @@ module('Integration: liquid-spacer', function (hooks) {
       this.set('message', longMessage);
       testingKick();
       await tmap.waitUntilIdle();
-
-      await waitUntil(
-        function () {
-          return (
-            find('#my-spacer').offsetWidth === initialWidth &&
-            find('#my-spacer').offsetHeight === initialHeight
-          );
-        },
-        { timeout: 1000 },
-      );
 
       assert.strictEqual(
         this.element.querySelector('#my-spacer').offsetWidth,
