@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, findAll, settled } from '@ember/test-helpers';
+import { render, findAll } from '@ember/test-helpers';
 import { testingKick } from 'liquid-fire/mutation-observer';
 import LiquidSpacer from 'liquid-fire/components/liquid-spacer';
 import sinon from 'sinon';
@@ -14,20 +14,10 @@ module('Integration: liquid-spacer', function (hooks) {
 
   hooks.beforeEach(function () {
     tmap = this.owner.lookup('service:liquid-fire-transitions');
-
-    // TODO: our tests don't pass when we're inside a transformed
-    // element. I think this is a legit bug in the implementation that
-    // we should fix.
-    document.querySelector('#ember-testing').style.transform = 'none';
   });
 
   hooks.afterEach(function () {
     tmap = null;
-
-    // TODO: our tests don't pass when we're inside a transformed
-    // element. I think this is a legit bug in the implementation that
-    // we should fix.
-    document.querySelector('#ember-testing').style.transform = '';
   });
 
   test('it should animate', async function (assert) {
@@ -97,7 +87,6 @@ module('Integration: liquid-spacer', function (hooks) {
                  </div>
                  `);
 
-      await settled();
       const initialWidth = this.element.querySelector('#my-spacer').offsetWidth;
       const initialHeight =
         this.element.querySelector('#my-spacer').offsetHeight;
@@ -107,7 +96,6 @@ module('Integration: liquid-spacer', function (hooks) {
       this.set('message', longMessage);
       testingKick();
       await tmap.waitUntilIdle();
-      await settled();
       assert.strictEqual(
         this.element.querySelector('#my-spacer').offsetWidth,
         initialWidth,
