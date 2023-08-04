@@ -3,7 +3,7 @@
     <LiquidChild
       @version={{version}}
       @uniqueChildId={{version.uniqueChildId}}
-      @liquidChildDidRender={{action "childDidRender"}}
+      @liquidChildDidRender={{this.childDidRender}}
       class={{@class}}
     >
       {{~yield version.value~}}

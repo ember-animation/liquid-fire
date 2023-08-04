@@ -35,7 +35,7 @@ directions.
   @class="demo-container" as |currentModel|
 >
   {{currentModel.id}}
-  <button type="button" {{action "higher" currentModel}}>
+  <button type="button" {{on "click" (fn this.higher currentModel)}}>
     Go
   </button>
 </LiquidBind>

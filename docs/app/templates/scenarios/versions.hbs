@@ -2,8 +2,9 @@
 
   Versions
 
+  {{! template-lint-disable require-input-label }}
   <Input @type="text" @value={{this.nextName}} @insert-newline={{this.submitName}} />
-  <button type="button" {{action "submitName"}}>Go</button>
+  <button type="button" {{on "click" this.submitName}}>Go</button>
 
   <LiquidContainer as |container|>
     <LiquidVersions @value={{this.name}} @notify={{container}} @containerElement={{container.element}} as |nameVersion|>

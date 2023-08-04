@@ -1,3 +1,4 @@
+{{! template-lint-disable require-input-label }}
 <select {{on "change" this.change}}>
   {{#each @choices key="@identity" as |choice|}}
     <option value={{choice}} selected={{is-equal @value choice}}>{{choice}}</option>

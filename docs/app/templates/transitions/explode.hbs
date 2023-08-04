@@ -44,7 +44,8 @@ and then below we document all the options in detail.</p>
   <button type="button" {{on "click" this.shuffle}}>Shuffle</button>
   <LiquidBind @value={{this.photos}} as |photosVersion|>
     {{#each photosVersion key="id" as |photo|}}
-      <img alt="a random person photo" data-photo-id={{photo.id}} src={{photo.url}}>
+      {{! template-lint-disable require-valid-alt-text }}
+      <img src={{photo.url}} alt="a random person" data-photo-id={{photo.id}}>
     {{/each}}
   </LiquidBind>
 </div>

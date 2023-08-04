@@ -55,6 +55,7 @@ export default class LiquidOutletComponent extends Component {
     }
   }
 
+  @action
   sizeChanged(measurements) {
     if (!this.enabled) {
       return;

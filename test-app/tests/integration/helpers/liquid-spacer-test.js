@@ -69,7 +69,7 @@ module('Integration: liquid-spacer', function (hooks) {
         }
       });
       await render(hbs`
-                 <button type="button" {{action this.toggle}}>Toggle</button>
+                 <button type="button" {{on "click" this.toggle}}>Toggle</button>
                  {{!-- template-lint-disable no-forbidden-elements --}}
                  <style>
                   #my-spacer {

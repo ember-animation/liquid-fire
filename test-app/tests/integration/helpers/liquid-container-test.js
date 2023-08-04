@@ -56,7 +56,7 @@ module('Integration: liquid-container', function (hooks) {
                     }
 
                   </style>
-                  <button type="button" {{action this.toggle}}>Toggle</button>
+                  <button type="button" {{on "click" this.toggle}}>Toggle</button>
                   <LiquidContainer class="test-container" @growDuration={{1}} as |c|>
                     <LiquidVersions @notify={{c}} @value={{this.value}} @containerElement={{c.element}} as |valueVersion|>
                       <div class={{valueVersion}}></div>
