@@ -10,11 +10,11 @@ module('Acceptance: Demos', function (hooks) {
   setupTransitionTest(hooks);
 
   test('visit every link in sidebar', async function (assert) {
-    let lastRouteName = 'transitions.primitives.index';
+    const lastRouteName = 'transitions.primitives.index';
     assert.expect(1);
     await visit('/');
     for (;;) {
-      let forward = document.querySelector('.page-item.forward a');
+      const forward = document.querySelector('.page-item.forward a');
       if (forward) {
         await click('.page-item.forward a');
       } else {
@@ -67,9 +67,8 @@ module('Acceptance: Demos', function (hooks) {
   test('liquid bind demo', async function (assert) {
     assert.expect(4);
 
-    let first, second;
     function clock() {
-      let m = /(\d\d)\s*:\s*(\d\d)\s*:\s*(\d\d)/.exec(
+      const m = /(\d\d)\s*:\s*(\d\d)\s*:\s*(\d\d)/.exec(
         document.querySelector('#liquid-bind-demo').textContent
       );
       assert.ok(m, 'Read the clock');
@@ -77,9 +76,9 @@ module('Acceptance: Demos', function (hooks) {
     }
 
     await visit('/helpers/liquid-bind');
-    first = clock();
+    const first = clock();
     await click('#force-tick');
-    second = clock();
+    const second = clock();
     assert.notEqual(
       first,
       second,
@@ -97,7 +96,7 @@ module('Acceptance: Demos', function (hooks) {
     assert
       .dom('#liquid-box-demo input[type=text]')
       .doesNotExist('no text input');
-    let select = document.querySelector('select');
+    const select = document.querySelector('select');
     await fillIn(select, 'car');
     assert.ranTransition('toLeft');
     assert
@@ -194,7 +193,7 @@ module('Acceptance: Demos', function (hooks) {
 
   test('explode demo 1', async function (assert) {
     await visit('/transitions/explode');
-    let welcome = [...document.querySelectorAll('h3')].find(
+    const welcome = [...document.querySelectorAll('h3')].find(
       (elt) => elt.textContent.trim() === 'Welcome'
     );
     assert.ok(welcome, 'first state');
@@ -203,7 +202,7 @@ module('Acceptance: Demos', function (hooks) {
         (elt) => elt.textContent.trim() === 'Toggle Detail View'
       )
     );
-    let detail = [...document.querySelectorAll('h3')].find(
+    const detail = [...document.querySelectorAll('h3')].find(
       (elt) => elt.textContent.trim() === 'Details'
     );
     assert.ok(detail, 'second state');
@@ -211,9 +210,8 @@ module('Acceptance: Demos', function (hooks) {
   });
 
   test('explode demo 2', async function (assert) {
-    let ids;
     await visit('/transitions/explode');
-    ids = [...document.querySelectorAll('#explode-demo-2 img')].map(
+    const ids = [...document.querySelectorAll('#explode-demo-2 img')].map(
       (elt) => elt.dataset.photoId
     );
     await click(
@@ -221,7 +219,7 @@ module('Acceptance: Demos', function (hooks) {
         (elt) => elt.textContent.trim() === 'Shuffle'
       )
     );
-    let newIds = [...document.querySelectorAll('#explode-demo-2 img')].map(
+    const newIds = [...document.querySelectorAll('#explode-demo-2 img')].map(
       (elt) => elt.dataset.photoId
     );
     assert.notDeepEqual(ids, newIds);
@@ -231,7 +229,7 @@ module('Acceptance: Demos', function (hooks) {
 });
 
 function isPartiallyOpaque(assert, selector) {
-  let opacity = parseFloat(
+  const opacity = parseFloat(
     getComputedStyle(document.querySelector(selector).parentElement)['opacity']
   );
   assert.ok(
@@ -241,7 +239,7 @@ function isPartiallyOpaque(assert, selector) {
 }
 
 function isTransparent(assert, selector) {
-  let opacity = parseFloat(
+  const opacity = parseFloat(
     getComputedStyle(document.querySelector(selector).parentElement)['opacity']
   );
   assert.ok(opacity === 0, `${selector} opacity: ${opacity} should be 0`);

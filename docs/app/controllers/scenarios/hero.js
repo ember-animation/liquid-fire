@@ -4,7 +4,7 @@ import { get, action } from '@ember/object';
 import { compare } from '@ember/utils';
 import { A } from '@ember/array';
 
-let allModels = [
+const allModels = [
   { id: 1, firstName: 'Tom', lastName: 'Dale' },
   { id: 2, firstName: 'Yehuda', lastName: 'Katz' },
   { id: 3, firstName: 'Leah', lastName: 'Silber' },
@@ -49,8 +49,8 @@ function sortBy(list, sortKeys) {
   return list.slice().sort((a, b) => {
     for (let i = 0; i < sortKeys.length; i++) {
       const key = sortKeys[i];
-      let propA = get(a, key);
-      let propB = get(b, key);
+      const propA = get(a, key);
+      const propB = get(b, key);
 
       // return 1 or -1 else continue to the next sortKey
       const compareValue = compare(propA, propB);

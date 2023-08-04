@@ -17,7 +17,7 @@ export default function () {
   this.transition(this.childOf('#liquid-bind-demo'), this.use('toUp'));
   // END-SNIPPET
 
-  let duration = Ember.testing ? 0 : 1000;
+  const duration = Ember.testing ? 0 : 1000;
   // BEGIN-SNIPPET liquid-box-demo-transition
   this.transition(
     this.hasClass('vehicles'),

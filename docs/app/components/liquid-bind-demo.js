@@ -15,7 +15,7 @@ export default class LiquidBindDemoComponent extends Component {
 
     this.tick();
 
-    let self = this;
+    const self = this;
     this.interval = setInterval(function () {
       run(self, 'tick');
     }, 1000);

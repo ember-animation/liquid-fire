@@ -12,8 +12,8 @@ import 'prismjs/components/prism-css';
 
 export default class CodeSnippetComponent extends Component {
   get source() {
-    let { source, language } = getCodeSnippet(this.args.name);
-    let grammar = Prism.languages[language];
+    const { source, language } = getCodeSnippet(this.args.name);
+    const grammar = Prism.languages[language];
     if (!grammar) {
       throw new Error(`missing language ${language}`);
     }

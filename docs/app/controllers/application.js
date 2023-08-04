@@ -112,10 +112,9 @@ export default class ApplicationController extends Controller {
   }
 
   get currentIndex() {
-    let contents = this.flatContents,
-      current = this.router.currentRouteName,
-      bestMatch,
-      entry;
+    const contents = this.flatContents,
+      current = this.router.currentRouteName;
+    let bestMatch, entry;
 
     for (let i = 0; i < contents.length; i++) {
       entry = contents[i];
@@ -135,7 +134,7 @@ export default class ApplicationController extends Controller {
   }
 
   get nextTopic() {
-    let contents = this.flatContents,
+    const contents = this.flatContents,
       index = this.currentIndex;
     if (typeof index !== 'undefined') {
       return contents[index + 1];
@@ -145,7 +144,7 @@ export default class ApplicationController extends Controller {
   }
 
   get prevTopic() {
-    let contents = this.flatContents,
+    const contents = this.flatContents,
       index = this.currentIndex;
     if (typeof index !== 'undefined') {
       return contents[index - 1];

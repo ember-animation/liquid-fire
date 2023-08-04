@@ -4,7 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
 let i = 0;
-let photos = [
+const photos = [
   '/images/team/ykatz.jpg',
   '/images/team/tdale.jpg',
   '/images/team/pwagenet.jpg',

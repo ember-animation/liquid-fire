@@ -45,7 +45,7 @@ module('Acceptance: Scenarios', function (hooks) {
 
     await waitUntil(
       function () {
-        let twos = findAll('.child-two');
+        const twos = findAll('.child-two');
         return (
           twos.length === 2 &&
           twos.filter((elt) => getComputedStyle(elt).visibility === 'visible')
@@ -59,7 +59,7 @@ module('Acceptance: Scenarios', function (hooks) {
       .dom('.child-one-a')
       .exists({ count: 2 }, 'explode transition clones child-one');
 
-    let [first, second] = [...document.querySelectorAll('.child-one-a')];
+    const [first, second] = [...document.querySelectorAll('.child-one-a')];
     assert
       .dom(first)
       .hasStyle({ visibility: 'hidden' }, 'even nested children are hidden');
@@ -70,7 +70,7 @@ module('Acceptance: Scenarios', function (hooks) {
         'nested children of clone are visible'
       );
 
-    let [twoFirst, twoSecond] = [...document.querySelectorAll('.child-two')];
+    const [twoFirst, twoSecond] = [...document.querySelectorAll('.child-two')];
     assert
       .dom('.child-two')
       .exists({ count: 2 }, 'explode transition clones child-two');

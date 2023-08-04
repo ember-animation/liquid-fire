@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 
 function show_lead(space, offset) {
-  let max = document.querySelector('body').clientHeight / space;
+  const max = document.querySelector('body').clientHeight / space;
   hide_lead();
   for (let i = 0; i < max; i++) {
     const element = document.createElement('div');
@@ -39,7 +39,7 @@ function hide_lead() {
 }
 
 function toggleGrid(leading, leading_offset) {
-  if (leading_offset == null) {
+  if (leading_offset === null) {
     leading_offset = 0;
   }
   if (document.querySelector('#vgrid0')) {
