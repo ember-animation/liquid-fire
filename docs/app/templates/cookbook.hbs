@@ -21,7 +21,7 @@ route to the <em>posts</em> route. The reverse call indicates what should happen
 <h3>2. Replace outlets in your templates</h3>
 
 <p>Now we have defined our transitions, the next step is to replace Embers native <code>\{{outlet}}</code> in your
-template files. You should replace it with the outlet component by Liquid Fire: <code>\{{#liquid-outlet}}</code>. It is
+template files. You should replace it with the outlet component by Liquid Fire: <code>&lt;LiquidOutlet /&gt;</code>. It is
 most likely that you will find this <code>\{{outlet}}</code> in your application template file. So now your
 <em>app/templates/application.hbs</em> might look like this.</p>
 
@@ -56,7 +56,7 @@ place a new liquid outlet component, so the file looks like this.</p>
 And click it. You will now see (another build-in) cross-fade transition!</p>
 
 <p>Remember, you will have to include a
-<code>\{{liquid-outlet}}</code> in any nested route's master template. Otherwise, there will be no transition visible.
+<code>&lt;LiquidOutlet /&gt;</code> in any nested route's master template. Otherwise, there will be no transition visible.
 This is how Ember works. A nested master template contains <code>\{{outlet}}</code> by default and you should overwrite
-it with a <code>\{{liquid-outlet}}</code>. But that is easy, right?</p>
+it with a <code>&lt;LiquidOutlet /&gt;</code>. But that is easy, right?</p>
 

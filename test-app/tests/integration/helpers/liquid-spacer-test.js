@@ -24,14 +24,15 @@ module('Integration: liquid-spacer', function (hooks) {
     assert.expect(1);
 
     let theSpacer;
+
     this.spacer = ensureSafeComponent(
-      LiquidSpacer.extend({
-        didInsertElement() {
-          this._super(...arguments);
+      class LiquidSpacerComponent extends LiquidSpacer {
+        constructor() {
+          super(...arguments);
           theSpacer = this;
-        },
-      }),
-      this
+        }
+      },
+      this,
     );
 
     this.set('message', longMessage);
@@ -48,10 +49,10 @@ module('Integration: liquid-spacer', function (hooks) {
     this.set('message', shortMessage);
     testingKick();
     return tmap.waitUntilIdle().then(() => {
-      let [, have, want] = theSpacer.animateGrowth.lastCall.args;
+      const [, have, want] = theSpacer.animateGrowth.lastCall.args;
       assert.ok(
         want.height < have.height,
-        `expected ${want.height} < ${have.height}`
+        `expected ${want.height} < ${have.height}`,
       );
     });
   });
@@ -68,7 +69,7 @@ module('Integration: liquid-spacer', function (hooks) {
         }
       });
       await render(hbs`
-                 <button type="button" {{action this.toggle}}>Toggle</button>
+                 <button type="button" {{on "click" this.toggle}}>Toggle</button>
                  {{!-- template-lint-disable no-forbidden-elements --}}
                  <style>
                   #my-spacer {
@@ -80,29 +81,34 @@ module('Integration: liquid-spacer', function (hooks) {
                  </style>
                  {{!-- template-lint-disable no-inline-styles --}}
                  <div style="width: 20em">
-                 <LiquidSpacer @id="my-spacer" @growDuration={{1}}>
+                 <LiquidSpacer id="my-spacer" @growDuration={{1}}>
                    {{this.message}}
                  </LiquidSpacer>
                  </div>
                  `);
 
-      let initialWidth = this.element.querySelector('#my-spacer').offsetWidth;
-      let initialHeight = this.element.querySelector('#my-spacer').offsetHeight;
+      await tmap.waitUntilIdle();
+
+      const initialWidth = this.element.querySelector('#my-spacer').offsetWidth;
+      const initialHeight =
+        this.element.querySelector('#my-spacer').offsetHeight;
       this.set('message', shortMessage);
       testingKick();
       await tmap.waitUntilIdle();
       this.set('message', longMessage);
       testingKick();
       await tmap.waitUntilIdle();
+
       assert.strictEqual(
         this.element.querySelector('#my-spacer').offsetWidth,
         initialWidth,
-        'width'
+        'width',
       );
+
       assert.strictEqual(
         this.element.querySelector('#my-spacer').offsetHeight,
         initialHeight,
-        'height'
+        'height',
       );
     });
   });
@@ -111,17 +117,17 @@ module('Integration: liquid-spacer', function (hooks) {
     assert.expect(2);
 
     await render(hbs`
-                 <LiquidSpacer @id="my-spacer" @growWidth={{false}}>
+                 <LiquidSpacer id="my-spacer" @growWidth={{false}}>
                    Hi.
                  </LiquidSpacer>
                 `);
 
-    let style = findAll('#my-spacer')[0].style;
+    const style = findAll('#my-spacer')[0].style;
 
     assert.strictEqual(style.width, '', 'width style is unset');
     assert.ok(
       /^\d+px$/.test(style.height),
-      'height style is set to ' + style.height
+      'height style is set to ' + style.height,
     );
   });
 
@@ -129,17 +135,17 @@ module('Integration: liquid-spacer', function (hooks) {
     assert.expect(2);
 
     await render(hbs`
-                 <LiquidSpacer @id="my-spacer" @growHeight={{false}}>
+                 <LiquidSpacer id="my-spacer" @growHeight={{false}}>
                    Hi.
                  </LiquidSpacer>
                 `);
 
-    let style = findAll('#my-spacer')[0].style;
+    const style = findAll('#my-spacer')[0].style;
 
     assert.strictEqual(style.height, '', 'height style is unset');
     assert.ok(
       /^\d+px$/.test(style.width),
-      'width style is set to ' + style.width
+      'width style is set to ' + style.width,
     );
   });
 
@@ -149,20 +155,20 @@ module('Integration: liquid-spacer', function (hooks) {
     await render(hbs`
                  {{!-- template-lint-disable no-inline-styles --}}
                  <div style="transform: scale(0.5);">
-                   <LiquidSpacer @id="my-spacer">
+                   <LiquidSpacer id="my-spacer">
                      <div style="width:50px; height:50px; background-color:blue;"></div>
                    </LiquidSpacer>
                  </div>
                 `);
 
-    let style = findAll('#my-spacer')[0].style;
+    const style = findAll('#my-spacer')[0].style;
 
-    let expectedHeight = 50;
-    let height = parseFloat(style.height, 10);
-    let tolerance = 0.1;
+    const expectedHeight = 50;
+    const height = parseFloat(style.height, 10);
+    const tolerance = 0.1;
     assert.ok(
       Math.abs(height - expectedHeight) < tolerance,
-      `height (${height}) is within ${tolerance} pixels of ${expectedHeight}`
+      `height (${height}) is within ${tolerance} pixels of ${expectedHeight}`,
     );
   });
 

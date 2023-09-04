@@ -1,5 +1,5 @@
-<button type="button" {{action "addThing"   }}>More Things</button>
-<button type="button" {{action "removeThing"}}>Less Things</button>
+<button type="button" {{on "click" this.addThing}}>More Things</button>
+<button type="button" {{on "click" this.removeThing}}>Less Things</button>
 
 <LiquidSpacer @id="spacer-test">
   <ol>

@@ -48,13 +48,13 @@ export default class RunningTransition {
 // This defines the public set of things that user's transition
 // implementations can access as `this`.
 function publicAnimationContext(rt, versions) {
-  let c = {};
+  const c = {};
   addPublicVersion(c, 'new', versions[0]);
   if (versions[1]) {
     addPublicVersion(c, 'old', versions[1]);
   }
   c.older = versions.slice(2).map((v) => {
-    let context = {};
+    const context = {};
     addPublicVersion(context, null, v);
     return context;
   });
@@ -74,14 +74,14 @@ function addPublicVersion(context, prefix, version) {
     elt = version.view.element;
   }
 
-  let props = {
+  const props = {
     view: version.view,
     element: elt,
     value: version.value,
   };
-  for (let key in props) {
+  for (const key in props) {
     let outputKey = key;
-    if (props.hasOwnProperty(key)) {
+    if (Object.hasOwnProperty.call(props, key)) {
       if (prefix) {
         outputKey = prefix + capitalize(key);
       }

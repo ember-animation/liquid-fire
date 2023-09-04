@@ -6,5 +6,5 @@ this.transition(
   this.fromRoute('foo'),
   this.toRoute('bar'),
   this.use('crossFade'),
-  this.debug()
+  this.debug(),
 );

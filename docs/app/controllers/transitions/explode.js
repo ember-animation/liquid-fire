@@ -1,8 +1,10 @@
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 
 let i = 0;
-let photos = [
+const photos = [
   '/images/team/ykatz.jpg',
   '/images/team/tdale.jpg',
   '/images/team/pwagenet.jpg',
@@ -23,18 +25,20 @@ let photos = [
   };
 });
 
-export default Controller.extend({
-  photos: photos.slice(),
+export default class TransitionsPredefinedController extends Controller {
+  @tracked photos = photos.slice();
+  @tracked showDetail = false;
 
-  actions: {
-    toggleDetail: function () {
-      this.set('showDetail', !this.showDetail);
-    },
-    shuffle: function () {
-      this.photos.forEach((photo) => {
-        photo._randomPosition = Math.random();
-      });
-      this.set('photos', A(this.photos).sortBy('_randomPosition'));
-    },
-  },
-});
+  @action
+  toggleDetail() {
+    this.showDetail = !this.showDetail;
+  }
+
+  @action
+  shuffle() {
+    this.photos.forEach((photo) => {
+      photo._randomPosition = Math.random();
+    });
+    this.photos = A(this.photos).sortBy('_randomPosition');
+  }
+}

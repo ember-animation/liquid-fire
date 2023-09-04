@@ -19,7 +19,6 @@ module('Integration: liquid-container', function (hooks) {
 
   ['content-box', 'border-box'].forEach(function (boxSizing) {
     test(`it should maintain size stability (${boxSizing})`, async function (assert) {
-      let initialSize;
       this.set('value', 'first-value');
       this.set('boxSizing', boxSizing);
       this.set('toggle', () => {
@@ -57,15 +56,15 @@ module('Integration: liquid-container', function (hooks) {
                     }
 
                   </style>
-                  <button type="button" {{action this.toggle}}>Toggle</button>
-                  {{#liquid-container class="test-container" growDuration=1 as |c|}}
-                    {{#liquid-versions notify=c value=this.value as |valueVersion|}}
+                  <button type="button" {{on "click" this.toggle}}>Toggle</button>
+                  <LiquidContainer class="test-container" @growDuration={{1}} as |c|>
+                    <LiquidVersions @notify={{c}} @value={{this.value}} @containerElement={{c.element}} as |valueVersion|>
                       <div class={{valueVersion}}></div>
-                    {{/liquid-versions}}
-                  {{/liquid-container}}
+                    </LiquidVersions>
+                  </LiquidContainer>
                   `);
       await tmap.waitUntilIdle();
-      initialSize = {
+      const initialSize = {
         width: this.element.querySelector('.test-container').offsetWidth,
         height: this.element.querySelector('.test-container').offsetHeight,
       };
@@ -98,11 +97,11 @@ module('Integration: liquid-container', function (hooks) {
     });
 
     await render(hbs`
-                  {{#liquid-container class="test-container" growDuration=1 as |c|}}
-                    {{#liquid-versions notify=c value=this.value use="blocking" as |valueVersion|}}
+                  <LiquidContainer class="test-container" @growDuration={{1}} as |c|>
+                    <LiquidVersions @notify={{c}} @value={{this.value}} @use="blocking" @containerElement={{c.element}} as |valueVersion|>
                       <div class={{valueVersion}}></div>
-                    {{/liquid-versions}}
-                  {{/liquid-container}}
+                    </LiquidVersions>
+                  </LiquidContainer>
                 `);
 
     assert.dom('.test-container').exists({ count: 1 }, 'have test-container');
@@ -110,7 +109,7 @@ module('Integration: liquid-container', function (hooks) {
       this.element
         .querySelector('.test-container')
         .classList.contains('liquid-animating'),
-      "it doesn't have liquid-animating class"
+      "it doesn't have liquid-animating class",
     );
 
     this.set('value', 'new-value');
@@ -127,7 +126,7 @@ module('Integration: liquid-container', function (hooks) {
         this.element
           .querySelector('.test-container')
           .classList.contains('liquid-animating'),
-        'liquid-animating class was removed'
+        'liquid-animating class was removed',
       );
     });
   });

@@ -23,7 +23,6 @@ export default {
       'components/**/*.js',
       'helpers/*.js',
       'modifiers/**/*.js',
-      'mixins/*.js',
       'services/*.js',
       'transitions/*.js',
     ]),

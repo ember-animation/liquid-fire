@@ -22,14 +22,14 @@ export default class Constraints {
     }
     this.addHalfRule(rule);
     if (rule.reverse) {
-      let inverted = rule.invert();
+      const inverted = rule.invert();
       inverted.id = rule.id + ' reverse';
       this.addHalfRule(inverted);
     }
   }
 
   addHalfRule(rule) {
-    let seen = {};
+    const seen = {};
     rule.constraints.forEach((constraint) => {
       seen[constraint.target] = true;
       this.addConstraint(rule, constraint);
@@ -42,7 +42,7 @@ export default class Constraints {
   }
 
   addConstraint(rule, constraint) {
-    let context = this.targets[constraint.target];
+    const context = this.targets[constraint.target];
     if (!context) {
       throw new Error(`Unknown constraint target ${constraint.target}`);
     }
@@ -66,20 +66,20 @@ export default class Constraints {
     if (this.debug) {
       console.log(
         '[liquid-fire] Checking transition rules for',
-        conditions.parentElement
+        conditions.parentElement,
       );
     }
 
-    let rules = this.match(conditions);
-    let best = highestPriority(rules);
+    const rules = this.match(conditions);
+    const best = highestPriority(rules);
 
     if (rules.length > 1 && this.debug) {
       rules.forEach((rule) => {
         if (rule !== best && rule.debug) {
           console.log(
             `${describeRule(
-              rule
-            )} matched, but it was superceded by another rule`
+              rule,
+            )} matched, but it was superceded by another rule`,
           );
         }
       });
@@ -97,18 +97,18 @@ export default class Constraints {
   }
 
   matchByKeys(conditions) {
-    let matchSets = [];
+    const matchSets = [];
     for (let i = 0; i < constrainableKeys.length; i++) {
-      let key = constrainableKeys[i];
-      let value = conditionAccessor(conditions, key);
+      const key = constrainableKeys[i];
+      const value = conditionAccessor(conditions, key);
       matchSets.push(this.matchingSet(key, value));
     }
     return intersection(matchSets);
   }
 
   matchingSet(prop, value) {
-    let keys = constraintKeys(value);
-    let context = this.targets[prop];
+    const keys = constraintKeys(value);
+    const context = this.targets[prop];
     let matched = A();
     for (let i = 0; i < keys.length; i++) {
       if (context[keys[i]]) {
@@ -130,13 +130,13 @@ export default class Constraints {
 
   logDebugRules(matched, context, target, value) {
     A(Object.keys(context)).forEach((setKey) => {
-      let set = context[setKey];
+      const set = context[setKey];
       A(Object.keys(set)).forEach((ruleKey) => {
-        let rule = set[ruleKey];
+        const rule = set[ruleKey];
         if (rule.debug && !matched[guidFor(rule)]) {
           console.log(
             `${describeRule(rule)} rejected because ${target} was`,
-            ...value
+            ...value,
           );
         }
       });
@@ -144,12 +144,12 @@ export default class Constraints {
   }
 
   matchPredicates(conditions, rules) {
-    let output = [];
+    const output = [];
     for (let i = 0; i < rules.length; i++) {
-      let rule = rules[i];
+      const rule = rules[i];
       let matched = true;
       for (let j = 0; j < rule.constraints.length; j++) {
-        let constraint = rule.constraints[j];
+        const constraint = rule.constraints[j];
         if (
           constraint.predicate &&
           !this.matchConstraintPredicate(conditions, rule, constraint)
@@ -167,7 +167,7 @@ export default class Constraints {
 
   matchConstraintPredicate(conditions, rule, constraint) {
     let values = conditionAccessor(conditions, constraint.target);
-    let reverse = constrainables[constraint.target].reversesTo;
+    const reverse = constrainables[constraint.target].reversesTo;
     let inverseValues;
     if (reverse) {
       inverseValues = conditionAccessor(conditions, reverse);
@@ -187,14 +187,14 @@ export default class Constraints {
         `${describeRule(rule)} rejected because of a constraint on ${
           constraint.target
         }. ${constraint.target} was`,
-        ...values
+        ...values,
       );
     }
   }
 }
 
 function conditionAccessor(conditions, key) {
-  let constrainable = constrainables[key];
+  const constrainable = constrainables[key];
   if (constrainable.accessor) {
     return constrainable.accessor(conditions) || [];
   } else {
@@ -205,17 +205,17 @@ function conditionAccessor(conditions, key) {
 // Returns a list of property values from source whose keys also
 // appear in all of the rest objects.
 function intersection(sets) {
-  let source = sets[0];
-  let rest = sets.slice(1);
-  let keys = Object.keys(source);
-  let keysLength = keys.length;
-  let restLength = rest.length;
-  let result = [];
+  const source = sets[0];
+  const rest = sets.slice(1);
+  const keys = Object.keys(source);
+  const keysLength = keys.length;
+  const restLength = rest.length;
+  const result = [];
   for (let keyIndex = 0; keyIndex < keysLength; keyIndex++) {
-    let key = keys[keyIndex];
+    const key = keys[keyIndex];
     let matched = true;
     for (let restIndex = 0; restIndex < restLength; restIndex++) {
-      if (!rest[restIndex].hasOwnProperty(key)) {
+      if (!Object.hasOwnProperty.call(rest[restIndex], key)) {
         matched = false;
         break;
       }
@@ -228,13 +228,13 @@ function intersection(sets) {
 }
 
 function union(sets) {
-  let setsLength = sets.length;
-  let output = {};
+  const setsLength = sets.length;
+  const output = {};
   for (let i = 0; i < setsLength; i++) {
-    let set = sets[i];
-    let keys = Object.keys(set);
+    const set = sets[i];
+    const keys = Object.keys(set);
     for (let j = 0; j < keys.length; j++) {
-      let key = keys[j];
+      const key = keys[j];
       output[key] = set[key];
     }
   }
@@ -249,8 +249,8 @@ function highestPriority(rules) {
   let best;
   let bestScore = 0;
   for (let i = 0; i < rules.length; i++) {
-    let rule = rules[i];
-    let score = rules[i].constraints.length;
+    const rule = rules[i];
+    const score = rules[i].constraints.length;
     if (
       !best ||
       score > bestScore ||

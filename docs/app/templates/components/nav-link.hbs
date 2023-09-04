@@ -1,23 +1,25 @@
-{{#if this.topic}}
-  {{#if this.topic.route}}
-    <LinkTo @route={{this.topic.route}} class="page-link">
-      {{#if this.back}}
-        <span aria-hidden="true">&laquo;</span>
-      {{/if}}
-      {{this.topic.title}}
-      {{#if this.forward}}
-        <span aria-hidden="true">&raquo;</span>
-      {{/if}}
-    </LinkTo>
-  {{else}}
-    <div class="page-link">
-      {{#if this.back}}
-        <span aria-hidden="true">&laquo;</span>
-      {{/if}}
-      {{if this.topic.title this.topic.title this.topic}}
-      {{#if this.forward}}
-        <span aria-hidden="true">&raquo;</span>
-      {{/if}}
-    </div>
+<div class="page-item {{@direction}}">
+  {{#if @topic}}
+    {{#if @topic.route}}
+      <LinkTo @route={{@topic.route}} class="page-link">
+        {{#if this.back}}
+          <span aria-hidden="true">&laquo;</span>
+        {{/if}}
+        {{@topic.title}}
+        {{#if this.forward}}
+          <span aria-hidden="true">&raquo;</span>
+        {{/if}}
+      </LinkTo>
+    {{else}}
+      <div class="page-link">
+        {{#if this.back}}
+          <span aria-hidden="true">&laquo;</span>
+        {{/if}}
+        {{if @topic.title @topic.title @topic}}
+        {{#if this.forward}}
+          <span aria-hidden="true">&raquo;</span>
+        {{/if}}
+      </div>
+    {{/if}}
   {{/if}}
-{{/if}}
+</div>

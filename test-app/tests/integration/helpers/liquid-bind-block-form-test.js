@@ -10,8 +10,8 @@ module('Integration: liquid-bind block form', function (hooks) {
   setupRenderingTest(hooks);
 
   hooks.afterEach(function (assert) {
-    let done = assert.async();
-    let tmap = this.owner.lookup('service:liquid-fire-transitions');
+    const done = assert.async();
+    const tmap = this.owner.lookup('service:liquid-fire-transitions');
     tmap.waitUntilIdle().then(done);
   });
 
@@ -19,7 +19,7 @@ module('Integration: liquid-bind block form', function (hooks) {
     this.set('title', 'Mr');
     this.set('person', 'Tom');
     await render(
-      hbs`{{#liquid-bind this.person as |p|}}{{this.title}}:{{p}}{{/liquid-bind}}`
+      hbs`<LiquidBind @value={{this.person}} as |p|>{{this.title}}:{{p}}</LiquidBind>`,
     );
     assert.dom().hasText('Mr:Tom');
   });
@@ -27,7 +27,7 @@ module('Integration: liquid-bind block form', function (hooks) {
   test('it should update', async function (assert) {
     this.set('person', 'Tom');
     await render(
-      hbs`{{#liquid-bind this.person as |p|}}A{{p}}B{{/liquid-bind}}`
+      hbs`<LiquidBind @value={{this.person}} as |p|>A{{p}}B</LiquidBind>`,
     );
     this.set('person', 'Yehua');
     await settled();
@@ -36,7 +36,7 @@ module('Integration: liquid-bind block form', function (hooks) {
 
   test('it should support element id', async function (assert) {
     await render(
-      hbs`{{#liquid-bind this.foo containerId="foo"}} {{/liquid-bind}}`
+      hbs`<LiquidBind @value={{this.foo}} @containerId="foo"> </LiquidBind>`,
     );
     assert
       .dom('.liquid-container#foo')
@@ -44,20 +44,20 @@ module('Integration: liquid-bind block form', function (hooks) {
   });
 
   test('it should animate after initially rendering empty', async function (assert) {
-    let tmap = this.owner.lookup('service:liquid-fire-transitions');
-    let dummyAnimation = function () {
+    const tmap = this.owner.lookup('service:liquid-fire-transitions');
+    const dummyAnimation = function () {
       return resolve();
     };
     tmap.map(function () {
       this.transition(this.inHelper('liquid-bind'), this.use(dummyAnimation));
     });
     sinon.spy(tmap, 'transitionFor');
-    await render(hbs`{{#liquid-bind this.foo}} {{/liquid-bind}}`);
+    await render(hbs`<LiquidBind @value={{this.foo}}> </LiquidBind>`);
     assert.dom('.liquid-child').exists({ count: 1 }, 'initial child');
     assert.ok(tmap.transitionFor.calledOnce, 'initial transition');
     assert.notEqual(
       tmap.transitionFor.lastCall.returnValue.animation.handler,
-      dummyAnimation
+      dummyAnimation,
     );
     this.set('foo', 'hi');
     await settled();
@@ -65,14 +65,17 @@ module('Integration: liquid-bind block form', function (hooks) {
     assert.ok(tmap.transitionFor.calledTwice, 'second transition');
     assert.strictEqual(
       tmap.transitionFor.lastCall.returnValue.animation.handler,
-      dummyAnimation
+      dummyAnimation,
     );
   });
 
   test('should support containerless mode', async function (assert) {
     this.set('foo', 'Hi');
+    this.setup = (element) => {
+      this.containerElement = element;
+    };
     await render(
-      hbs`<div data-test-target>{{#liquid-bind this.foo containerless=true}}{{this.foo}}{{/liquid-bind}}</div>`
+      hbs`<div data-test-target {{did-insert this.setup}}><LiquidBind @value={{this.foo}} @containerless={{true}} @containerElement={{this.containerElement}}>{{this.foo}}</LiquidBind></div>`,
     );
     assert.dom('.liquid-container').doesNotExist('no container');
     assert
@@ -82,8 +85,11 @@ module('Integration: liquid-bind block form', function (hooks) {
 
   test('should support `class` in containerless mode', async function (assert) {
     this.set('foo', 'Hi');
+    this.setup = (element) => {
+      this.containerElement = element;
+    };
     await render(
-      hbs`<div data-test-target>{{#liquid-bind this.foo class="bar" containerless=true}}{{this.foo}}{{/liquid-bind}}</div>`
+      hbs`<div data-test-target {{did-insert this.setup}}><LiquidBind @value={{this.foo}} @class="bar" @containerless={{true}} @containerElement={{this.containerElement}}>{{this.foo}}</LiquidBind></div>`,
     );
     assert
       .dom('[data-test-target] > .liquid-child.bar')

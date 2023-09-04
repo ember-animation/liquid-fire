@@ -1,4 +1,4 @@
-import { animate } from 'liquid-fire';
+import { animate } from '../index';
 
 export default function scale(opts = {}) {
   return animate(this.oldElement, { scale: [0.2, 1] }, opts).then(() => {

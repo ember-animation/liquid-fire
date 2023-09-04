@@ -1,14 +1,26 @@
-import { equal } from '@ember/object/computed';
 import Controller from '@ember/controller';
-import { computed } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 
-export default Controller.extend({
-  vehicle: 'bike',
-  vehicles: computed(function () {
-    return ['bike', 'car'];
-  }),
-  states: computed(function () {
-    return ['', 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT'];
-  }),
-  isBike: equal('vehicle', 'bike'),
-});
+export default class HelpersDocumentationLiquidIfController extends Controller {
+  @tracked vehicle = 'bike';
+  @tracked state = '';
+
+  vehicles = ['bike', 'car'];
+
+  states = ['', 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT'];
+
+  get isBike() {
+    return this.vehicle === 'bike';
+  }
+
+  @action
+  onVehicleChange(value) {
+    this.vehicle = value;
+  }
+
+  @action
+  onStateChange(value) {
+    this.state = value;
+  }
+}

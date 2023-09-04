@@ -1,4 +1,4 @@
-import { childRoute, routeName, routeModel } from 'liquid-fire/ember-internals';
+import { childRoute, routeName, routeModel } from './ember-internals';
 
 export default {
   oldValue: {
@@ -19,8 +19,8 @@ export default {
       return routeName(
         childRoute(
           versionValue(conditions, 1),
-          conditions.matchContext.outletName
-        )
+          conditions.matchContext.outletName,
+        ),
       );
     },
   },
@@ -30,8 +30,8 @@ export default {
       return routeName(
         childRoute(
           versionValue(conditions, 0),
-          conditions.matchContext.outletName
-        )
+          conditions.matchContext.outletName,
+        ),
       );
     },
   },
@@ -41,8 +41,8 @@ export default {
       return routeModel(
         childRoute(
           versionValue(conditions, 1),
-          conditions.matchContext.outletName
-        )
+          conditions.matchContext.outletName,
+        ),
       );
     },
   },
@@ -52,8 +52,8 @@ export default {
       return routeModel(
         childRoute(
           versionValue(conditions, 0),
-          conditions.matchContext.outletName
-        )
+          conditions.matchContext.outletName,
+        ),
       );
     },
   },
@@ -69,7 +69,7 @@ export default {
   },
   parentElementClass: {
     accessor: function (conditions) {
-      let cls = conditions.parentElement.getAttribute('class');
+      const cls = conditions.parentElement.getAttribute('class');
       if (cls) {
         return cls.split(/\s+/);
       }
@@ -81,6 +81,6 @@ export default {
 };
 
 function versionValue(conditions, index) {
-  let versions = conditions.versions;
+  const versions = conditions.versions;
   return versions[index] ? versions[index].value : null;
 }

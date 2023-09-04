@@ -41,7 +41,7 @@ normal
 
 <p>
   <code>
-    \{{#liquid-unless}}
+    &lt;LiquidUnless&gt; &lt;/LiquidUnless&gt;
   </code>
   is the complement to
   <code>
@@ -64,9 +64,9 @@ the transition rules.
   <label>
     I'm renting a
   </label>
-  <SimpleSelect @value={{this.vehicle}} @choices={{this.vehicles}} />
+  <SimpleSelect @value={{this.vehicle}} @choices={{this.vehicles}} @onChange={{this.onVehicleChange}} />
 
-  {{#liquid-if this.isBike class="vehicles"}}
+  {{#liquid-if predicate=this.isBike class="vehicles"}}
     <label>
       Would you like a helmet?
       <Input @type="checkbox" @checked="helmet" />
@@ -75,11 +75,12 @@ the transition rules.
     <label>
       License Number
     </label>
+    {{! template-lint-disable require-input-label }}
     <Input @type="text" @value={{this.license}} />
     <label>
       License State
     </label>
-    <SimpleSelect @value={{this.state}} @choices={{this.states}} />
+    <SimpleSelect @value={{this.state}} @choices={{this.states}} @onChange={{this.onStateChange}} />
   {{/liquid-if}}
 
   <button type="button" class="btn btn-light">

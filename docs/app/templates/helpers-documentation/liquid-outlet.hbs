@@ -1,7 +1,7 @@
 {{!-- template-lint-disable no-unbalanced-curlies --}}
 
 <h2>
-  \{{liquid-outlet}}
+  &lt;LiquidOutlet /&gt;
 </h2>
 
 <p>
@@ -43,7 +43,7 @@
   does,
 including named outlets (like
   <code>
-    \{{liquid-outlet "sidebar"}}
+    &lt;LiquidOutlet @inputOutletName="sidebar" /&gt;
   </code>
   ).
 </p>
@@ -66,7 +66,7 @@ routes.
 </p>
 
 {{! BEGIN-SNIPPET outlet }}
-{{liquid-outlet class="demo-container" }}
+<LiquidOutlet @class="demo-container" />
 {{! END-SNIPPET }}
 
 <h4>

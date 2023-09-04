@@ -3,7 +3,7 @@ import { Promise as EmberPromise } from 'rsvp';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, settled } from '@ember/test-helpers';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { hbs } from 'ember-cli-htmlbars';
 import { ensureSafeComponent } from '@embroider/util';
 import { setComponentTemplate } from '@ember/component';
@@ -19,14 +19,18 @@ module('Integration | Component | liquid sync', function (hooks) {
     this.Sample = ensureSafeComponent(
       setComponentTemplate(
         hbs`<div class="sample">Sample</div>`,
-        Component.extend({
-          didInsertElement() {
-            this._super(...arguments);
+        class CustomComponent extends Component {
+          constructor() {
+            super(...arguments);
             sample = this;
-          },
-        })
+          }
+
+          ready() {
+            return this.args.ready();
+          }
+        },
       ),
-      this
+      this,
     );
 
     animationStarted = false;
@@ -38,7 +42,7 @@ module('Integration | Component | liquid sync', function (hooks) {
 
   test('it causes the transition to wait', async function (assert) {
     await render(hbs`
-      {{#liquid-if this.activated use="spy"}}
+      {{#liquid-if predicate=this.activated use="spy"}}
         <LiquidSync as |sync|>
           <this.Sample @ready={{sync}} />
         </LiquidSync>
@@ -57,7 +61,7 @@ module('Integration | Component | liquid sync', function (hooks) {
     assert.dom('.sample').exists({ count: 1 }, 'Found sample');
 
     run(() => sample.ready());
-    
+
     await settled();
 
     assert.true(animationStarted, 'Animation started');
@@ -69,7 +73,7 @@ module('Integration | Component | liquid sync', function (hooks) {
 
   test('transition moves on if component is destroyed', async function (assert) {
     await render(hbs`
-      {{#liquid-if this.activated use="spy"}}
+      {{#liquid-if predicate=this.activated use="spy"}}
         {{#if this.innerThing}}
            <div class="alt">Alt</div>
         {{else}}
@@ -92,7 +96,7 @@ module('Integration | Component | liquid sync', function (hooks) {
     assert.dom('.sample').exists({ count: 1 }, 'Found sample');
 
     this.set('innerThing', true);
-    
+
     await settled();
 
     assert.true(animationStarted, 'Animation started');
@@ -104,7 +108,7 @@ module('Integration | Component | liquid sync', function (hooks) {
 
   test('it considers liquid-fire non-idle when waiting for liquid-sync to resolve', async function (assert) {
     await render(hbs`
-      {{#liquid-if this.activated use="spy"}}
+      {{#liquid-if predicate=this.activated use="spy"}}
         <LiquidSync as |sync|>
           <this.Sample @ready={{sync}} />
         </LiquidSync>

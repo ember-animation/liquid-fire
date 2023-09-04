@@ -1,15 +1,18 @@
 import Controller from '@ember/controller';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 
-export default Controller.extend({
-  showDetail: false,
-  activeTab: 'toLeft',
+export default class TransitionsPredefinedController extends Controller {
+  @tracked showDetail = false;
+  @tracked activeTab = 'toLeft';
 
-  actions: {
-    toggleDetail() {
-      this.toggleProperty('showDetail');
-    },
-    changeTab(tabName) {
-      this.set('activeTab', tabName);
-    },
-  },
-});
+  @action
+  toggleDetail() {
+    this.showDetail = !this.showDetail;
+  }
+
+  @action
+  changeTab(tabName) {
+    this.activeTab = tabName;
+  }
+}

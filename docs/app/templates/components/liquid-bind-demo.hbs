@@ -1,9 +1,10 @@
-<h3>Demo</h3>
-<button id="force-tick" type="button" {{action "forceTick"}}>Force Tick</button>
+<div class="liquid-bind-demo" {{will-destroy this.destroyElement}}>
+  <h3>Demo</h3>
+  <button id="force-tick" type="button" {{on "click" this.forceTick}}>Force Tick</button>
 
-
-{{!- BEGIN-SNIPPET liquid-bind-demo -}}
-<div id="liquid-bind-demo">
-  {{liquid-bind this.hours}}:{{liquid-bind this.minutes}}:{{liquid-bind this.seconds}}
+  {{!- BEGIN-SNIPPET liquid-bind-demo -}}
+  <div id="liquid-bind-demo">
+    <LiquidBind @value={{this.hours}} />:<LiquidBind @value={{this.minutes}} />:<LiquidBind @value={{this.seconds}} />
+  </div>
+  {{!- END-SNIPPET -}}
 </div>
-{{!- END-SNIPPET -}}

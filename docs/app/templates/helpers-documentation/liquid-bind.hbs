@@ -1,7 +1,7 @@
 {{!-- template-lint-disable no-unbalanced-curlies --}}
 
 <h2>
-  \{{liquid-bind}}
+  &lt;LiquidBind /&gt;
 </h2>
 
 <p>
@@ -12,12 +12,12 @@ map to decide how to animate when the bound value changes.
 <p>
   Saying
   <code>
-    \{{liquid-bind someValue}}
+    &lt;LiquidBind @value=\{{this.someValue}} /&gt;
   </code>
   is a drop-in
 replacement for
   <code>
-    \{{someValue}}
+    \{{this.someValue}}
   </code>
   , except this wraps the
 content in markup so that it can be targeted for animation. See the
@@ -31,7 +31,7 @@ Options
 <p>
   There is also a block form of
   <code>
-    \{{#liquid-bind}}
+    &lt;LiquidBind&gt; &lt;/LiquidBind&gt;
   </code>
   that
 is

@@ -1,4 +1,3 @@
-import EmberObject from '@ember/object';
 import { run } from '@ember/runloop';
 import Application from '../../../app';
 import { module, test } from 'qunit';
@@ -7,7 +6,7 @@ import { RouteBuilder } from '../../helpers/ember-testing-internals';
 let application, t, defaultHandler;
 
 run(function () {
-  let options = {
+  const options = {
     autoboot: false,
   };
 
@@ -16,7 +15,7 @@ run(function () {
 
 module('Transitions DSL', function (hooks) {
   hooks.beforeEach(function () {
-    let instance = application.buildInstance();
+    const instance = application.buildInstance();
     if (instance.lookup) {
       t = instance.lookup('service:liquid-fire-transitions');
     } else {
@@ -36,7 +35,7 @@ module('Transitions DSL', function (hooks) {
       this.transition(
         this.fromRoute('one'),
         this.toRoute('two'),
-        this.use(dummyAction)
+        this.use(dummyAction),
       );
     });
     expectAnimation(assert, routes('one', 'two'), dummyAction);
@@ -70,18 +69,18 @@ module('Transitions DSL', function (hooks) {
       assert,
       routes('bogus', 'two'),
       dummyAction,
-      'with a source route'
+      'with a source route',
     );
     expectAnimation(
       assert,
       routes(null, 'two'),
       dummyAction,
-      'with empty source route'
+      'with empty source route',
     );
     expectNoAnimation(
       assert,
       routes('bogus', 'twox'),
-      'with other destination'
+      'with other destination',
     );
     expectNoAnimation(assert, routes('bogus', null), 'with empty destination');
   });
@@ -92,7 +91,7 @@ module('Transitions DSL', function (hooks) {
     t.map(function () {
       this.transition(
         this.toRoute(['one', 'two', 'three']),
-        this.use(dummyAction)
+        this.use(dummyAction),
       );
     });
 
@@ -108,7 +107,7 @@ module('Transitions DSL', function (hooks) {
       this.transition(
         this.fromRoute(null),
         this.toRoute('two'),
-        this.use(dummyAction)
+        this.use(dummyAction),
       );
     });
 
@@ -127,7 +126,7 @@ module('Transitions DSL', function (hooks) {
         this.toValue(function (model) {
           return model && model.isMyDestination;
         }),
-        this.use(dummyAction)
+        this.use(dummyAction),
       );
     });
 
@@ -135,27 +134,27 @@ module('Transitions DSL', function (hooks) {
       assert,
       values({ isMySource: true }, { isMyDestination: true }),
       dummyAction,
-      'both match'
+      'both match',
     );
     expectNoAnimation(
       assert,
       values(null, { isMyDestination: true }),
-      'empty source'
+      'empty source',
     );
     expectNoAnimation(
       assert,
       values({ isMySource: true }, null),
-      'empty destination'
+      'empty destination',
     );
     expectNoAnimation(
       assert,
       values({ isMySource: false }, { isMyDestination: true }),
-      'other source'
+      'other source',
     );
     expectNoAnimation(
       assert,
       values({ isMySource: true }, { isMyDestination: false }),
-      'other destination'
+      'other destination',
     );
   });
 
@@ -170,7 +169,7 @@ module('Transitions DSL', function (hooks) {
         this.toModel(function (model) {
           return model && model.isMyDestination;
         }),
-        this.use(dummyAction)
+        this.use(dummyAction),
       );
     });
 
@@ -178,27 +177,27 @@ module('Transitions DSL', function (hooks) {
       assert,
       models({ isMySource: true }, { isMyDestination: true }),
       dummyAction,
-      'both match'
+      'both match',
     );
     expectNoAnimation(
       assert,
       models(null, { isMyDestination: true }),
-      'empty source'
+      'empty source',
     );
     expectNoAnimation(
       assert,
       models({ isMySource: true }, null),
-      'empty destination'
+      'empty destination',
     );
     expectNoAnimation(
       assert,
       models({ isMySource: false }, { isMyDestination: true }),
-      'other source'
+      'other source',
     );
     expectNoAnimation(
       assert,
       values({ isMySource: true }, { isMyDestination: false }),
-      'other destination'
+      'other destination',
     );
   });
 
@@ -209,12 +208,12 @@ module('Transitions DSL', function (hooks) {
       this.transition(
         this.fromRoute('one'),
         this.toRoute('two'),
-        this.use(otherAction)
+        this.use(otherAction),
       );
       this.transition(
         this.fromRoute('one'),
         this.toRoute('three'),
-        this.use(dummyAction)
+        this.use(dummyAction),
       );
     });
 
@@ -228,12 +227,12 @@ module('Transitions DSL', function (hooks) {
       this.transition(
         this.fromValue('one'),
         this.toValue('two'),
-        this.use(otherAction)
+        this.use(otherAction),
       );
       this.transition(
         this.fromValue('one'),
         this.toValue('three'),
-        this.use(dummyAction)
+        this.use(dummyAction),
       );
     });
 
@@ -247,7 +246,7 @@ module('Transitions DSL', function (hooks) {
       this.transition(
         this.fromRoute('x'),
         this.toValue(false),
-        this.use(otherAction)
+        this.use(otherAction),
       );
       this.transition(this.toValue(true), this.use(dummyAction));
     });
@@ -264,7 +263,7 @@ module('Transitions DSL', function (hooks) {
         this.toValue(function () {
           return true;
         }),
-        this.use(dummyAction)
+        this.use(dummyAction),
       );
     });
 
@@ -279,7 +278,7 @@ module('Transitions DSL', function (hooks) {
         this.betweenModels(function (model) {
           return model && model.isThing;
         }),
-        this.use(dummyAction)
+        this.use(dummyAction),
       );
     });
 
@@ -287,25 +286,25 @@ module('Transitions DSL', function (hooks) {
       assert,
       models({ isThing: true }, { isThing: true }),
       dummyAction,
-      'both match'
+      'both match',
     );
 
     expectNoAnimation(assert, models(null, { isThing: true }), 'empty source');
     expectNoAnimation(
       assert,
       models({ isThing: true }, null),
-      'empty destination'
+      'empty destination',
     );
 
     expectNoAnimation(
       assert,
       models({ isThing: false }, null),
-      'other destination'
+      'other destination',
     );
     expectNoAnimation(
       assert,
       models(null, { isThing: false }),
-      'other destination'
+      'other destination',
     );
   });
 
@@ -316,7 +315,7 @@ module('Transitions DSL', function (hooks) {
       this.transition(
         this.fromRoute(null),
         this.toRoute('one'),
-        this.use(dummyAction)
+        this.use(dummyAction),
       );
     });
     expectAnimation(assert, routes(null, 'one'), dummyAction, 'should match');
@@ -335,7 +334,7 @@ module('Transitions DSL', function (hooks) {
 
   // eslint-disable-next-line qunit/resolve-async
   test('passes arguments through to transitions', function (assert) {
-    let done = assert.async();
+    const done = assert.async();
     assert.expect(3);
     t.map(function () {
       this.transition(
@@ -349,19 +348,23 @@ module('Transitions DSL', function (hooks) {
           },
           1,
           2,
-          3
-        )
+          3,
+        ),
       );
     });
 
-    let action = t.transitionFor(routes('one', 'two'));
+    const action = t.transitionFor(routes('one', 'two'));
     action.run().then(done, done);
   });
 
   test('combines multiple value constraints', function (assert) {
     assert.expect(3);
 
-    let Pet = EmberObject.extend();
+    class Pet {
+      constructor(name) {
+        this.name = name;
+      }
+    }
 
     t.map(function () {
       this.transition(
@@ -369,27 +372,27 @@ module('Transitions DSL', function (hooks) {
           return v instanceof Pet;
         }),
         this.toValue(function (v) {
-          return v.get('name') === 'Fluffy';
+          return v.name === 'Fluffy';
         }),
-        this.use(dummyAction)
+        this.use(dummyAction),
       );
     });
 
     expectNoAnimation(
       assert,
-      values(null, Pet.create()),
-      'should not match because of name'
+      values(null, new Pet()),
+      'should not match because of name',
     );
     expectNoAnimation(
       assert,
-      values(null, EmberObject.create({ name: 'Fluffy' })),
-      'should not match because of instanceof'
+      values(null, { name: 'Fluffy' }),
+      'should not match because of instanceof',
     );
     expectAnimation(
       assert,
-      values(null, Pet.create({ name: 'Fluffy' })),
+      values(null, new Pet('Fluffy')),
       dummyAction,
-      'should match both'
+      'should match both',
     );
   });
 
@@ -401,7 +404,7 @@ module('Transitions DSL', function (hooks) {
         this.fromRoute('one'),
         this.toRoute('two'),
         this.use(dummyAction),
-        this.reverse(otherAction)
+        this.reverse(otherAction),
       );
     });
 
@@ -415,7 +418,7 @@ module('Transitions DSL', function (hooks) {
     t.map(function () {
       this.transition(this.toRoute('two'), this.use(dummyAction));
     });
-    let conditions = routes('one', 'two');
+    const conditions = routes('one', 'two');
     conditions.firstTime = 'yes';
     expectNoAnimation(assert, conditions);
   });
@@ -427,10 +430,10 @@ module('Transitions DSL', function (hooks) {
       this.transition(
         this.toRoute('two'),
         this.onInitialRender(),
-        this.use(dummyAction)
+        this.use(dummyAction),
       );
     });
-    let conditions = routes('one', 'two');
+    const conditions = routes('one', 'two');
     conditions.firstTime = 'yes';
     expectAnimation(assert, conditions, dummyAction);
   });
@@ -451,7 +454,7 @@ module('Transitions DSL', function (hooks) {
       this.transition(this.outletName('panel'), this.use(dummyAction));
     });
 
-    let conditions = routes('one', 'two');
+    const conditions = routes('one', 'two');
     conditions.matchContext.outletName = 'panel';
     expectAnimation(assert, conditions, dummyAction);
   });
@@ -463,12 +466,12 @@ module('Transitions DSL', function (hooks) {
       this.transition(
         this.toRoute('two'),
         this.media('(max-width: 480px)'),
-        this.use(dummyAction)
+        this.use(dummyAction),
       );
     });
 
     // Save and stub the matchMedia method
-    let matchMedia = window.matchMedia;
+    const matchMedia = window.matchMedia;
     window.matchMedia = function () {
       return { matches: true };
     };
@@ -483,18 +486,18 @@ module('Transitions DSL', function (hooks) {
   function otherAction() {}
 
   function routes(a, b) {
-    let builder = RouteBuilder.create();
+    const builder = new RouteBuilder();
     return values(
       a ? builder.makeRoute({ name: a }).asTop() : null,
-      b ? builder.makeRoute({ name: b }).asTop() : null
+      b ? builder.makeRoute({ name: b }).asTop() : null,
     );
   }
 
   function models(a, b) {
-    let builder = RouteBuilder.create();
+    const builder = new RouteBuilder();
     return values(
       a ? builder.makeRoute({ controller: { model: a } }).asTop() : null,
-      b ? builder.makeRoute({ controller: { model: b } }).asTop() : null
+      b ? builder.makeRoute({ controller: { model: b } }).asTop() : null,
     );
   }
 
@@ -508,14 +511,14 @@ module('Transitions DSL', function (hooks) {
   }
 
   function expectAnimation(assert, conditions, nameOrHandler, msg) {
-    let runningTransition = t.transitionFor(conditions);
+    const runningTransition = t.transitionFor(conditions);
     if (typeof nameOrHandler === 'string') {
       assert.strictEqual(runningTransition.animation.name, nameOrHandler, msg);
     } else {
       assert.strictEqual(
         runningTransition.animation.handler,
         nameOrHandler,
-        msg
+        msg,
       );
     }
   }

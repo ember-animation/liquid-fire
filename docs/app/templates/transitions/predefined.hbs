@@ -7,41 +7,41 @@
 
 <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="nav-item">
-        <a href="#" aria-controls="home" role="tab" data-toggle="tab" {{action "changeTab" "toLeft"}} class="nav-link {{if (is-equal this.activeTab "toLeft") "active"}}">
+        <a href="#" aria-controls="home" role="tab" data-toggle="tab" {{on "click" (fn this.changeTab "toLeft")}} class="nav-link {{if (is-equal this.activeTab "toLeft") "active"}}">
             to{Left,Right,UpDown}</a>
     </li>
     <li role="presentation" class="nav-item">
-        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" {{action "changeTab" "fade"}} class="nav-link {{if (is-equal this.activeTab "fade") "active"}}">
+        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" {{on "click" (fn this.changeTab "fade")}} class="nav-link {{if (is-equal this.activeTab "fade") "active"}}">
             fade
         </a>
     </li>
     <li role="presentation" class="nav-item">
-        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action "changeTab" "crossFade"}} class="nav-link {{if (is-equal this.activeTab "crossFade") "active"}}">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{on "click" (fn this.changeTab "crossFade")}} class="nav-link {{if (is-equal this.activeTab "crossFade") "active"}}">
             crossFade
         </a>
     </li>
     <li role="presentation" class="nav-item">
-        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action "changeTab" "explode"}} class="nav-link {{if (is-equal this.activeTab "explode") "active"}}">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{on "click" (fn this.changeTab "explode")}} class="nav-link {{if (is-equal this.activeTab "explode") "active"}}">
             explode
         </a>
     </li>
     <li role="presentation" class="nav-item">
-        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action "changeTab" "flyTo"}} class="nav-link {{if (is-equal this.activeTab "flyTo") "active"}}">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{on "click" (fn this.changeTab "flyTo")}} class="nav-link {{if (is-equal this.activeTab "flyTo") "active"}}">
             flyTo
         </a>
     </li>
     <li role="presentation" class="nav-item">
-        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action "changeTab" "scrollThen"}} class="nav-link {{if (is-equal this.activeTab "scrollThen") "active"}}">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{on "click" (fn this.changeTab "scrollThen")}} class="nav-link {{if (is-equal this.activeTab "scrollThen") "active"}}">
             scrollThen
         </a>
     </li>
     <li role="presentation" class="nav-item">
-        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action "changeTab" "scale"}} class="nav-link {{if (is-equal this.activeTab "scale") "active"}}">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{on "click" (fn this.changeTab "scale")}} class="nav-link {{if (is-equal this.activeTab "scale") "active"}}">
             scale
         </a>
     </li>
     <li role="presentation" class="nav-item">
-        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{action "changeTab" "wait"}} class="nav-link {{if (is-equal this.activeTab "wait") "active"}}">
+        <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" {{on "click" (fn this.changeTab "wait")}} class="nav-link {{if (is-equal this.activeTab "wait") "active"}}">
             wait
         </a>
     </li>
@@ -63,8 +63,8 @@
     {{!- BEGIN-SNIPPET toLeft-demo }}
       <div class="card">
         <div class="card-body">
-          <button type="button" {{action "toggleDetail"}}>Toggle Detail View</button>
-          {{#liquid-if this.showDetail class="toLeft-demo"}}
+          <button type="button" {{on "click" this.toggleDetail}}>Toggle Detail View</button>
+          {{#liquid-if predicate=this.showDetail class="toLeft-demo"}}
               <div class="details">
                   <h3>Details</h3>
 
@@ -105,8 +105,8 @@
     {{!- BEGIN-SNIPPET crossFade-demo }}
       <div class="card">
         <div class="card-body">
-          <button type="button" {{action "toggleDetail"}}>Toggle Detail View</button>
-            {{#liquid-if this.showDetail class="crossFade-demo"}}
+          <button type="button" {{on "click" this.toggleDetail}}>Toggle Detail View</button>
+            {{#liquid-if predicate=this.showDetail class="crossFade-demo"}}
               <div class="details">
                 <h3>Details</h3>
 
@@ -148,8 +148,8 @@
     {{!- BEGIN-SNIPPET fade-demo }}
       <div class="card">
         <div class="card-body">
-          <button type="button" {{action "toggleDetail"}}>Toggle Detail View</button>
-          {{#liquid-if this.showDetail class="fade-demo"}}
+          <button type="button" {{on "click" this.toggleDetail}}>Toggle Detail View</button>
+          {{#liquid-if predicate=this.showDetail class="fade-demo"}}
             <div class="details">
               <h3>Details</h3>
 
@@ -210,8 +210,8 @@
     {{!- BEGIN-SNIPPET scrollThen-demo }}
       <div class="card">
         <div class="card-body">
-          <button type="button" {{action "toggleDetail"}}>Toggle Detail View</button>
-          {{#liquid-if this.showDetail class="scrollThen-demo"}}
+          <button type="button" {{on "click" this.toggleDetail}}>Toggle Detail View</button>
+          {{#liquid-if predicate=this.showDetail class="scrollThen-demo"}}
             <div class="details">
               <h3>Details</h3>
 
@@ -253,8 +253,8 @@
     {{!- BEGIN-SNIPPET scale-demo }}
       <div class="card mb-3">
         <div class="card-body">
-          <button type="button" {{action "toggleDetail"}}>Toggle Detail View</button>
-          {{#liquid-if this.showDetail class="scale-demo"}}
+          <button type="button" {{on "click" this.toggleDetail}}>Toggle Detail View</button>
+          {{#liquid-if predicate=this.showDetail class="scale-demo"}}
             <div class="details">
               <h3>Details</h3>
 
@@ -283,8 +283,8 @@
 
     <div class="card">
       <div class="card-body">
-        <button type="button" {{action "toggleDetail"}}>Toggle Detail View</button>
-        {{#liquid-if this.showDetail class="wait-demo"}}
+        <button type="button" {{on "click" this.toggleDetail}}>Toggle Detail View</button>
+        {{#liquid-if predicate=this.showDetail class="wait-demo"}}
           <div class="details">
             <h3>Details</h3>
 

@@ -1,4 +1,4 @@
-{{#if this.containerless}}
+{{#if @containerless}}
   {{! Why are we using inline-ifs here? Because we want to force
     conversion to a boolean while respecting Ember's built in `if`
     semantics.
@@ -9,12 +9,13 @@
   }}
   
   <LiquidVersions
-    @value={{if this.inverted (if this.predicate false true) (if this.predicate true false)}}
+    @value={{if this.inverted (if @predicate false true) (if @predicate true false)}}
     @matchContext={{hash helperName=this.helperName}}
-    @use={{this.use}}
-    @rules={{this.rules}}
+    @use={{@use}}
+    @rules={{@rules}}
+    @containerElement={{@containerElement}}
     @renderWhenFalse={{has-block "inverse"}}
-    @class={{this.class}} as |valueVersion|
+    @class={{@class}} as |valueVersion|
   >
     {{#if valueVersion}}
       {{yield}}
@@ -24,21 +25,22 @@
   </LiquidVersions>
 {{else}}
   <LiquidContainer
-    @id={{this.containerId}}
-    @class={{this.class}}
-    @growDuration={{this.growDuration}}
-    @growPixelsPerSecond={{this.growPixelsPerSecond}}
-    @growEasing={{this.growEasing}}
-    @shrinkDelay={{this.shrinkDelay}}
-    @growDelay={{this.growDelay}}
-    @enableGrowth={{this.enableGrowth}} as |container|
+    id={{@containerId}}
+    class={{@class}}
+    @growDuration={{@growDuration}}
+    @growPixelsPerSecond={{@growPixelsPerSecond}}
+    @growEasing={{@growEasing}}
+    @shrinkDelay={{@shrinkDelay}}
+    @growDelay={{@growDelay}}
+    @enableGrowth={{@enableGrowth}} as |container|
   >
     <LiquidVersions
-      @value={{if this.inverted (if this.predicate false true) (if this.predicate true false)}}
+      @value={{if this.inverted (if @predicate false true) (if @predicate true false)}}
       @notify={{container}}
       @matchContext={{hash helperName=this.helperName}}
-      @use={{this.use}}
-      @rules={{this.rules}}
+      @use={{@use}}
+      @rules={{@rules}}
+      @containerElement={{container.element}}
       @renderWhenFalse={{has-block "inverse"}} as |valueVersion|
     >
       {{#if valueVersion}}

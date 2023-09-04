@@ -1,7 +1,4 @@
-import Component from '@ember/component';
-// import layout from '../lf-get-outlet-state';
+import Component from '@glimmer/component';
 
-export default Component.extend({
-  tagName: '',
-  // layout,
-});
+// eslint-disable-next-line ember/no-empty-glimmer-component-classes
+export default class lfGetOutletStateComponent extends Component {}

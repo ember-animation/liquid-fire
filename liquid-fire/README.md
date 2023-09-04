@@ -29,9 +29,14 @@ You can also see some examples in my [Ember Animation Demo](http://github.com/ef
 
 ### Ember Compatibility Table
 
-The latest version of Liquid Fire is tested with Ember versions as far back as 4.0.
-
-For older versions, see [this wiki page](https://github.com/ember-animation/liquid-fire/wiki/Compatibility-Table,-Old-Versions).
+| Ember Version     | Liquid Fire Release |
+| ----------------- | ------------------- |
+| 3.28 and newer    | latest              |
+| 3.16 through 4.12 | 0.35.x              |
+| 2.12 through 3.15 | 0.33.x              |
+| 1.13 through 2.11 | 0.29.x              |
+| 1.11 through 1.12 | 0.19.x              |
+| 1.8 through 1.10  | 0.17.x              |
 
 ## Development
 

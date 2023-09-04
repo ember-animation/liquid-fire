@@ -1,16 +1,16 @@
 <h2 id="title">Welcome to Ember.js</h2>
 
 <div class="yoo">
-  <button type="button" {{action "toggle"}}>
+  <button type="button" {{on "click" this.toggle}}>
     toggle
   </button>
 
-  {{#liquid-if this.isExpanded class="menu"}}
-  <ul>
-    <li><a>a</a></li>
-    <li><a>b</a></li>
-    <li><a>c</a></li>
-    <li><a>d</a></li>
-  </ul>
-  {{/liquid-if}}
+  <LiquidIf @predicate={{this.isExpanded}} @class="menu">
+    <ul>
+      <li><a>a</a></li>
+      <li><a>b</a></li>
+      <li><a>c</a></li>
+      <li><a>d</a></li>
+    </ul>
+  </LiquidIf>
 </div>

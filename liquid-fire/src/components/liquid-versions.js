@@ -1,31 +1,29 @@
+import Component from '@glimmer/component';
+import { action, set } from '@ember/object';
+import { assert } from '@ember/debug';
+import { tracked } from '@glimmer/tracking';
 import { A } from '@ember/array';
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
-import { set } from '@ember/object';
-import { containingElement } from 'liquid-fire/ember-internals';
-// import layout from '../liquid-versions';
+import { guidFor } from '@ember/object/internals';
+import './liquid-versions.css';
 
-export default Component.extend({
-  // layout,
-  tagName: '',
+export default class LiquidVersionsComponent extends Component {
+  @service('liquid-fire-transitions') transitionMap;
 
-  transitionMap: service('liquid-fire-transitions'),
+  @tracked versions = null;
 
-  didReceiveAttrs() {
-    this._super(...arguments);
-    this.appendVersion();
-  },
-
+  @action
   appendVersion() {
     let versions = this.versions;
     let firstTime = false;
-    let newValue = this.getAttr('value');
+    const newValue = this.args.value;
     let oldValue;
-    let versionEquality = this.versionEquality || defaultEqualityCheck;
+    const versionEquality = this.args.versionEquality || defaultEqualityCheck;
 
     if (!versions) {
       firstTime = true;
       versions = A();
+      this.uniqueChildId = guidFor(this);
     } else {
       if (versions[0]) {
         oldValue = versions[0].value;
@@ -44,8 +42,9 @@ export default Component.extend({
     }
 
     this.notifyContainer('willTransition', versions);
-    let newVersion = {
+    const newVersion = {
       value: newValue,
+      uniqueChildId: this.uniqueChildId,
     };
     versions.unshiftObject(newVersion);
 
@@ -54,25 +53,29 @@ export default Component.extend({
       set(this, 'versions', versions);
     }
 
-    if (!(newValue || this.renderWhenFalse || firstTime)) {
+    if (!(newValue || this.args.renderWhenFalse || firstTime)) {
       this._transition();
     }
-  },
+  }
 
   _transition() {
-    let versions = this.versions;
-    let transition;
-    let firstTime = this.firstTime;
+    assert(
+      `LiquidVersions: @containerElement is required!`,
+      !!this.args.containerElement,
+    );
+
+    const versions = this.versions;
+    const firstTime = this.firstTime;
     this.firstTime = false;
 
     this.notifyContainer('afterChildInsertion', versions);
 
-    transition = this.transitionMap.transitionFor({
+    const transition = this.transitionMap.transitionFor({
       versions: versions,
-      parentElement: containingElement(this),
-      use: this.use,
-      rules: this.rules,
-      matchContext: this.matchContext || {},
+      parentElement: this.args.containerElement,
+      use: this.args.use,
+      rules: this.args.rules,
+      matchContext: this.args.matchContext || {},
       // Using strings instead of booleans here is an
       // optimization. The constraint system can match them more
       // efficiently, since it treats boolean constraints as generic
@@ -99,29 +102,28 @@ export default Component.extend({
         this.finalizeVersions(versions);
         this.notifyContainer('afterTransition', versions);
         throw err;
-      }
+      },
     );
-  },
+  }
 
   finalizeVersions(versions) {
     versions.replace(1, versions.length - 1);
-  },
+  }
 
   notifyContainer(method, versions) {
-    let target = this.notify;
-    if (target && !target.get('isDestroying')) {
-      target.send(method, versions);
+    const target = this.args.notify;
+    if (target && !target.isDestroying) {
+      target[method](versions);
     }
-  },
+  }
 
-  actions: {
-    childDidRender(child) {
-      let version = child.version;
-      set(version, 'view', child);
-      this._transition();
-    },
-  },
-});
+  @action
+  childDidRender(child) {
+    const version = child.args.version;
+    set(version, 'view', child);
+    this._transition();
+  }
+}
 
 // All falsey values are considered equal, everything else gets strict
 // equality.

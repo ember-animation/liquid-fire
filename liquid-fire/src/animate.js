@@ -1,6 +1,6 @@
 /* jshint newcap: false */
 import Promise from './promise';
-import { Velocity } from './index';
+import { Velocity } from './velocity-ext';
 
 // Make sure Velocity always has promise support by injecting our own
 // RSVP-based implementation if it doesn't already have one.
@@ -18,7 +18,7 @@ export function animate(elt, props, opts, label) {
   // These numbers are just sane defaults in the probably-impossible
   // case where somebody tries to read our state before the first
   // 'progress' callback has fired.
-  let state = { percentComplete: 0, timeRemaining: 100, timeSpent: 0 };
+  const state = { percentComplete: 0, timeRemaining: 100, timeSpent: 0 };
 
   if (!elt) {
     return Promise.resolve();
@@ -44,7 +44,7 @@ export function animate(elt, props, opts, label) {
 
   if (opts.progress) {
     throw new Error(
-      "liquid-fire's 'animate' function reserves the use of Velocity's 'progress' option for its own nefarious purposes."
+      "liquid-fire's 'animate' function reserves the use of Velocity's 'progress' option for its own nefarious purposes.",
     );
   }
 
@@ -64,7 +64,7 @@ export function animate(elt, props, opts, label) {
       function (err) {
         clearLabel(elt, label);
         throw err;
-      }
+      },
     );
     applyLabel(elt, label, state);
   }
@@ -79,13 +79,13 @@ export function stop(elt) {
 }
 
 export function setDefaults(props) {
-  for (let key in props) {
-    if (props.hasOwnProperty(key)) {
+  for (const key in props) {
+    if (Object.hasOwnProperty.call(props, key)) {
       if (key === 'progress') {
         throw new Error(
           "liquid-fire's 'animate' function reserves the use of Velocity's '" +
             key +
-            "' option for its own nefarious purposes."
+            "' option for its own nefarious purposes.",
         );
       }
       Velocity.defaults[key] = props[key];
@@ -110,7 +110,7 @@ export function timeRemaining(elt, animationLabel) {
 }
 
 function stateForLabel(elt, label) {
-  let state = isAnimating(elt, label);
+  const state = isAnimating(elt, label);
   if (!state) {
     throw new Error('no animation labeled ' + label + ' is in progress');
   }

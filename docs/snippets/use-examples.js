@@ -12,7 +12,7 @@ this.transition(
   this.fromRoute('foo'),
   this.toRoute('bar'),
   this.use('toLeft'),
-  this.reverse('toRight')
+  this.reverse('toRight'),
 );
 
 // You can also provide an implementation instead of a name, though
@@ -28,7 +28,7 @@ this.transition(
       .then(function (newView) {
         return animate(newView, { opacity: [1, 0] }, opts);
       });
-  })
+  }),
 );
 
 // This declares two equivalent rules: "from foo to bar use fade" and
@@ -36,5 +36,5 @@ this.transition(
 this.transition(
   this.fromRoute('foo'),
   this.toRoute('bar'),
-  this.useAndReverse('fade')
+  this.useAndReverse('fade'),
 );

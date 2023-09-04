@@ -1,22 +1,23 @@
 import { assert } from '@ember/debug';
-import isBrowser from 'liquid-fire/is-browser';
+import isBrowser from '../is-browser';
+import { Velocity } from '../index';
 
 export default function (nextTransitionName, options, ...rest) {
   if (isBrowser()) {
     assert(
       "You must provide a transition name as the first argument to scrollThen. Example: this.use('scrollThen', 'toLeft')",
-      'string' === typeof nextTransitionName
+      'string' === typeof nextTransitionName,
     );
 
-    let el = document.getElementsByTagName('html');
-    let nextTransition = this.lookup(nextTransitionName);
+    const el = document.getElementsByTagName('html');
+    const nextTransition = this.lookup(nextTransitionName);
     if (!options) {
       options = {};
     }
 
     assert(
       "The second argument to scrollThen is passed to Velocity's scroll function and must be an object",
-      'object' === typeof options
+      'object' === typeof options,
     );
 
     // set scroll options via: this.use('scrollThen', 'ToLeft', {easing: 'spring'})
@@ -25,7 +26,7 @@ export default function (nextTransitionName, options, ...rest) {
     // additional args can be passed through after the scroll options object
     // like so: this.use('scrollThen', 'moveOver', {duration: 100}, 'x', -1);
 
-    return window.$.Velocity(el, 'scroll', options).then(() => {
+    return Velocity(el, 'scroll', options).then(() => {
       nextTransition.apply(this, rest);
     });
   }

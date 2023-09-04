@@ -1,11 +1,11 @@
 {{! template-lint-disable no-unbalanced-curlies }}
 
 <h2>
-  \{{#liquid-bind}} with a block
+  &lt;LiquidBind /&gt; with a block
 </h2>
 
 <p>
-  If you pass a block to\{{#liquid-bind}}, each new version of your
+  If you pass a block to <code>&lt;LiquidBind /&gt;</code>, each new version of your
 bound value will cause the block to render
 </p>
 
@@ -29,16 +29,16 @@ directions.
 
 {{! BEGIN-SNIPPET with-demo }}
 
-{{#liquid-bind
-  this.model
-  use="rotateBelow"
-  class="demo-container" as |currentModel|
-}}
+<LiquidBind
+  @value={{this.model}}
+  @use="rotateBelow"
+  @class="demo-container" as |currentModel|
+>
   {{currentModel.id}}
-  <button type="button" {{action "higher" currentModel}}>
+  <button type="button" {{on "click" (fn this.higher currentModel)}}>
     Go
   </button>
-{{/liquid-bind}}
+</LiquidBind>
 
 {{! END-SNIPPET }}
 

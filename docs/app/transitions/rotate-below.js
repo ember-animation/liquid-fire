@@ -18,7 +18,7 @@ export default function rotateBelow(opts = {}) {
     animate(
       this.newElement,
       { rotateZ: ['0deg', 90 * direction + 'deg'] },
-      opts
+      opts,
     ),
   ]);
 }

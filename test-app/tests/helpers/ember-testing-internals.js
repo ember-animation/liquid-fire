@@ -1,9 +1,9 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 import Service from '@ember/service';
 import { getOwner } from '@ember/application';
-import Ember from 'ember';
 import { hbs } from 'ember-cli-htmlbars';
+import { setComponentTemplate } from '@ember/component';
 
 class RouteInfo {
   constructor(builder, { template, controller, name }, owner) {
@@ -27,7 +27,7 @@ class RouteInfo {
     };
   }
   _serialize() {
-    let outlets = {};
+    const outlets = {};
     Object.keys(this.outlets).forEach((key) => {
       outlets[key] = this.outlets[key]._serialize();
     });
@@ -38,41 +38,23 @@ class RouteInfo {
   }
 }
 
-export const RouteBuilder = Service.extend({
+export const RouteBuilder = class RouteBuilderService extends Service {
   makeRoute(args) {
     if (args.template) {
       args.template = this._prepareTemplate(args.template);
     }
     return new RouteInfo(this, args, getOwner(this));
-  },
+  }
+
   _prepareTemplate(compiled) {
-    let name = `template:${guidFor({})}`;
-    let owner = getOwner(this);
+    const name = `template:${guidFor({})}`;
+    const owner = getOwner(this);
     owner.register(name, compiled);
     return owner.lookup(name);
-  },
-});
+  }
+};
 
-let usingGlimmer2;
-try {
-  let emberRequire = Ember.__loader.require;
-  emberRequire('ember-glimmer');
-  usingGlimmer2 = true;
-} catch (err) {
-  usingGlimmer2 = false;
-}
-
-export const SetRouteComponent = Component.extend({
-  tagName: '',
-  layout: hbs`{{#-with-dynamic-vars outletState=this.outletState}}{{yield}}{{/-with-dynamic-vars}}`,
-  didReceiveAttrs() {
-    this._super();
-    // before glimmer2, outlets aren't really data-down. We need to
-    // trigger revalidation manually. This is only an issue during
-    // tests, because we only set outlet states during real
-    // transitions anyway.
-    if (!usingGlimmer2) {
-      this.rerender();
-    }
-  },
-});
+export const SetRouteComponent = setComponentTemplate(
+  hbs`{{#-with-dynamic-vars outletState=@outletState}}{{yield}}{{/-with-dynamic-vars}}`,
+  class CustomComponent extends Component {},
+);

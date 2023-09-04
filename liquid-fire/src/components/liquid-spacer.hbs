@@ -1,3 +1,8 @@
-<LiquidMeasured @didMeasure={{action this.sizeChanged}}>
-  {{yield}}
-</LiquidMeasured>
+<div class={{@class}}
+  ...attributes
+  {{did-insert this.setup}}
+>
+  <LiquidMeasured @didMeasure={{this.sizeChanged}}>
+    {{yield}}
+  </LiquidMeasured>
+</div>

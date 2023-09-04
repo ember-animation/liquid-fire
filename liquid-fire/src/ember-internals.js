@@ -1,16 +1,3 @@
-import {
-  macroCondition,
-  dependencySatisfies,
-  importSync,
-} from '@embroider/macros';
-
-let getViewBounds;
-if (macroCondition(dependencySatisfies('ember-source', '>=3.27.0'))) {
-  ({ getViewBounds } = importSync('@ember/-internals/views'));
-} else {
-  ({ getViewBounds } = window.Ember.ViewUtils);
-}
-
 // Traverses down to the child routeInfo with the given name.
 export function childRoute(routeInfo, outletName) {
   let outlets;
@@ -37,7 +24,7 @@ export function routeName(routeInfo) {
 // us avoid the problem of singleton controllers changing underneath
 // us.
 export function routeModel(routeInfo) {
-  if (routeInfo && !routeInfo.hasOwnProperty('_lf_model')) {
+  if (routeInfo && !Object.hasOwnProperty.call(routeInfo, '_lf_model')) {
     let r, c;
     if ((r = routeInfo.render) && (c = r.controller)) {
       routeInfo._lf_model = c.model;
@@ -70,11 +57,7 @@ export function routeIsStable(oldRouteInfo, newRouteInfo) {
 
 // Only valid for states that already satisfy routeIsStable
 export function modelIsStable(oldRouteInfo, newRouteInfo) {
-  let oldModel = routeModel(oldRouteInfo) || [];
-  let newModel = routeModel(newRouteInfo) || [];
+  const oldModel = routeModel(oldRouteInfo) || [];
+  const newModel = routeModel(newRouteInfo) || [];
   return oldModel[0] === newModel[0];
-}
-
-export function containingElement(view) {
-  return getViewBounds(view).parentElement;
 }

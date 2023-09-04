@@ -17,7 +17,7 @@ export default class Rule {
       }
       if (this[prop]) {
         throw new Error(
-          `More than one "${prop}" statement in the same transition rule is not allowed`
+          `More than one "${prop}" statement in the same transition rule is not allowed`,
         );
       }
       this[prop] = thing;
@@ -42,7 +42,7 @@ export default class Rule {
   }
 
   invert() {
-    let rule = new this.constructor();
+    const rule = new this.constructor();
     rule.use = this.reverse;
     rule.reverse = this.use;
     rule.constraints = this.constraints.map((c) => c.invert());

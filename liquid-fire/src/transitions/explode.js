@@ -1,33 +1,33 @@
 import { isArray, A } from '@ember/array';
 import { guidFor } from '@ember/object/internals';
-import { Promise } from 'liquid-fire';
+import { Promise } from '../index';
 
 // Explode is not, by itself, an animation. It exists to pull apart
 // other elements so that each of the pieces can be targeted by
 // animations.
 
-let deduplicateChildElementIds = (parentElem) => {
+const deduplicateChildElementIds = (parentElem) => {
   if (!parentElem) {
     return;
   }
 
-  let parentEl = parentElem;
+  const parentEl = parentElem;
   if (parentEl.id) {
     parentEl.setAttribute('id', `${guidFor(parentEl)}-${parentEl.id}`);
   }
 
-  let childrenWithUniqueIds = parentEl.querySelectorAll('[id]');
+  const childrenWithUniqueIds = parentEl.querySelectorAll('[id]');
   if (childrenWithUniqueIds.length) {
-    for (let el of childrenWithUniqueIds) {
+    for (const el of childrenWithUniqueIds) {
       el.setAttribute('id', `${guidFor(el)}-${el.id}`);
     }
   }
 };
 
 export default function explode(...pieces) {
-  let seenElements = {};
+  const seenElements = {};
   let sawBackgroundPiece = false;
-  let promises = pieces.map((piece) => {
+  const promises = pieces.map((piece) => {
     if (piece.matchBy) {
       return matchAndExplode(this, piece, seenElements);
     } else if (piece.pick || piece.pickOld || piece.pickNew) {
@@ -49,8 +49,8 @@ export default function explode(...pieces) {
 }
 
 function explodePiece(context, piece, seen) {
-  let childContext = { ...context };
-  let selectors = [piece.pickOld || piece.pick, piece.pickNew || piece.pick];
+  const childContext = { ...context };
+  const selectors = [piece.pickOld || piece.pick, piece.pickNew || piece.pick];
   let cleanupOld, cleanupNew;
 
   if (selectors[0] || selectors[1]) {
@@ -59,14 +59,14 @@ function explodePiece(context, piece, seen) {
       'oldElement',
       childContext,
       selectors[0],
-      seen
+      seen,
     );
     cleanupNew = _explodePart(
       context,
       'newElement',
       childContext,
       selectors[1],
-      seen
+      seen,
     );
     if (!cleanupOld && !cleanupNew) {
       return Promise.resolve();
@@ -85,12 +85,12 @@ function explodePiece(context, piece, seen) {
 
 function _explodePart(context, field, childContext, selector, seen) {
   let child, childOffset, width, height, newChild;
-  let elt = context[field];
+  const elt = context[field];
 
   childContext[field] = null;
   if (elt && selector) {
     child = [...elt.querySelectorAll(selector)].filter(function (elm) {
-      let guid = guidFor(elm);
+      const guid = guidFor(elm);
       if (!seen[guid]) {
         seen[guid] = true;
         return true;
@@ -118,7 +118,7 @@ function _explodePart(context, field, childContext, selector, seen) {
       elt.parentElement.append(newChild);
       newChild.style.width = `${width}px`;
       newChild.style.height = `${height}px`;
-      let newParentOffset = getOffset(newChild.offsetParent);
+      const newParentOffset = getOffset(newChild.offsetParent);
 
       css(newChild, {
         position: 'absolute',
@@ -154,7 +154,7 @@ function animationFor(context, piece) {
   let name, args, func;
   if (!piece.use) {
     throw new Error(
-      "every argument to the 'explode' animation must include a followup animation to 'use'"
+      "every argument to the 'explode' animation must include a followup animation to 'use'",
     );
   }
   if (isArray(piece.use)) {
@@ -212,15 +212,17 @@ function matchAndExplode(context, piece, seen) {
     };
   } else {
     selector = (attrValue) => {
-      let escapedAttrValue = attrValue.replace(/'/g, "\\'");
+      const escapedAttrValue = attrValue.replace(/'/g, "\\'");
       return `[${piece.matchBy}='${escapedAttrValue}']`;
     };
   }
 
-  let hits = A([...context.oldElement.querySelectorAll(`[${piece.matchBy}]`)]);
+  const hits = A([
+    ...context.oldElement.querySelectorAll(`[${piece.matchBy}]`),
+  ]);
   return Promise.all(
     hits.map((elt) => {
-      let attrValue = elt.getAttribute(piece.matchBy);
+      const attrValue = elt.getAttribute(piece.matchBy);
 
       // if there is no match for a particular item just skip it
       if (
@@ -236,8 +238,8 @@ function matchAndExplode(context, piece, seen) {
           pick: selector(attrValue),
           use: piece.use,
         },
-        seen
+        seen,
       );
-    })
+    }),
   );
 }

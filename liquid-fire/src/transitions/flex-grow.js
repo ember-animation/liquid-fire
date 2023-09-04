@@ -1,4 +1,4 @@
-import { animate, stop, Promise } from 'liquid-fire';
+import { animate, stop, Promise } from '../index';
 export default function flexGrow(opts) {
   stop(this.oldElement);
   return Promise.all([

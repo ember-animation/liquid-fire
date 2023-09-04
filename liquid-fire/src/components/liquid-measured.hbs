@@ -1,1 +1,6 @@
-{{yield}}
+<div
+	{{did-insert this.setup}}
+	{{will-destroy this.destroyElement}}
+>
+	{{yield}}
+</div>

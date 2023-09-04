@@ -1,14 +1,19 @@
 import Controller from '@ember/controller';
-export default Controller.extend({
-  count: 1,
-  things: Object.freeze([{ number: 0 }]),
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { A } from '@ember/array';
 
-  actions: {
-    addThing: function () {
-      this.things.pushObject({ number: ++this.count });
-    },
-    removeThing: function () {
-      this.things.replace(0, 1);
-    },
-  },
-});
+export default class ScenariosSpacerController extends Controller {
+  @tracked count = 1;
+  @tracked things = A([{ number: 0 }]);
+
+  @action
+  addThing() {
+    this.things.pushObject({ number: ++this.count });
+  }
+
+  @action
+  removeThing() {
+    this.things.replace(0, 1);
+  }
+}

@@ -46,7 +46,7 @@ module('Integration: fly-to transition', function (hooks) {
               assert.true(!!this.newElement, 'found new element');
               assert.strictEqual(
                 getComputedStyle(this.oldElement).backgroundColor,
-                'rgb(255, 0, 0)'
+                'rgb(255, 0, 0)',
               );
 
               return this.lookup('fly-to')
@@ -55,21 +55,21 @@ module('Integration: fly-to transition', function (hooks) {
                   assert.deepEqual(
                     getOffset(this.newElement),
                     getOffset(this.oldElement),
-                    "element didn't jump"
+                    "element didn't jump",
                   );
                   assert.strictEqual(
                     this.newElement.offsetWidth,
                     this.oldElement.offsetWidth,
-                    'same width'
+                    'same width',
                   );
                   assert.strictEqual(
                     this.newElement.offsetHeight,
                     this.oldElement.offsetHeight,
-                    'same height'
+                    'same height',
                   );
                 });
             },
-          })
+          }),
         );
       });
 
@@ -77,7 +77,7 @@ module('Integration: fly-to transition', function (hooks) {
       this.styles = ensureSafeComponent(stylesheet(), this);
       await render(hbs`
                   <this.styles @boxSizing={{this.boxSizing}} />
-                  {{#liquid-if this.showBlue class="fly-to-test"}}
+                  {{#liquid-if predicate=this.showBlue class="fly-to-test"}}
                   <div class="bluebox"></div>
                   {{else}}
                   <div class="redbox"></div>
@@ -102,7 +102,7 @@ module('Integration: fly-to transition', function (hooks) {
               assert.true(!!this.newElement, 'found new element');
               assert.strictEqual(
                 getComputedStyle(this.oldElement).backgroundColor,
-                'rgb(0, 128, 0)'
+                'rgb(0, 128, 0)',
               );
 
               return this.lookup('fly-to')
@@ -111,28 +111,28 @@ module('Integration: fly-to transition', function (hooks) {
                   assert.deepEqual(
                     getOffset(this.newElement),
                     getOffset(this.oldElement),
-                    "element didn't jump"
+                    "element didn't jump",
                   );
                   assert.strictEqual(
                     this.newElement.offsetWidth,
                     this.oldElement.offsetWidth,
-                    'same width'
+                    'same width',
                   );
                   assert.strictEqual(
                     this.newElement.offsetHeight,
                     this.oldElement.offsetHeight,
-                    'same height'
+                    'same height',
                   );
                 });
             },
-          })
+          }),
         );
       });
       this.set('boxSizing', boxSizing);
       this.styles = ensureSafeComponent(stylesheet(), this);
       await render(hbs`
                   <this.styles @boxSizing={{this.boxSizing}} />
-                  {{#liquid-if this.showYellow class="fly-to-test"}}
+                  {{#liquid-if predicate=this.showYellow class="fly-to-test"}}
                   <div class="yellowbox"></div>
                   {{else}}
                   <div class="greenbox"></div>
@@ -214,7 +214,7 @@ module('Integration: fly-to transition', function (hooks) {
                 </style>
 
       `,
-      templateOnlyComponent()
+      templateOnlyComponent(),
     );
   }
 });

@@ -1,1 +1,5 @@
-{{yield (action "ready")}}
+{{yield (action "ready")~}}
+<div class="liquid-sync"
+	{{did-insert this.setup}}
+	{{will-destroy this.destroyElement}}
+></div>

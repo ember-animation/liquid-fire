@@ -1,10 +1,12 @@
 import Controller from '@ember/controller';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 
-export default Controller.extend({
-  isExpanded: true,
-  actions: {
-    toggle: function () {
-      this.toggleProperty('isExpanded');
-    },
-  },
-});
+export default class ScenariosStefController extends Controller {
+  @tracked isExpanded = true;
+
+  @action
+  toggle() {
+    this.isExpanded = !this.isExpanded;
+  }
+}

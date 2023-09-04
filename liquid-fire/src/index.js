@@ -9,22 +9,7 @@ import {
 } from './animate';
 import Promise from './promise';
 import MutationObserver from './mutation-observer';
-export { default as Pausable } from './mixins/pausable';
-import {
-  dependencySatisfies,
-  macroCondition,
-  importSync,
-} from '@embroider/macros';
-
-const Velocity = (() => {
-  if (macroCondition(dependencySatisfies('velocity-animate', '*'))) {
-    return importSync('velocity-animate').default;
-  } else {
-    throw new Error(
-      `liquid-fire was unable to detect velocity-animate. Please add to your app.`
-    );
-  }
-})();
+import { Velocity } from './velocity-ext';
 
 export {
   TransitionMap,

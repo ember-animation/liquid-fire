@@ -1,9 +1,10 @@
+{{! template-lint-disable require-input-label }}
 <Input @type="checkbox" @checked={{this.showingRow}} />
 <table>
   <tbody>
     <tr><td>Static Row</td></tr>
-    {{#liquid-if this.showingRow containerless=true use="fade" }}
+    <LiquidIf @predicate={{this.showingRow}} @containerless={{true}} @use="fade">
       <td>Dynamic Row</td>
-    {{/liquid-if}}
+    </LiquidIf>
   </tbody>
 </table>
