@@ -3,6 +3,7 @@
 ## 0.36.0 (2023-09-18)
 
 - BREAKING: oldest supported Ember Version is now 3.28+
+- BREAKING: `velocity-animate` is now a peerDependency. Apps should depend directly on `velocity-animate`.
 - BREAKING: `liquid-if`, `liquid-bind`, `liquid-outlet`... are now glimmer components. This means that there are not anymore position parameters. The condition must be passed as parameter `@predicate`
 - BREAKING: All `mixins` (`growable` & `pausable`) were removed as there doesn't exists in glimmer components
 - BREAKING: `LiquidVersions` has new parameter (`@containerElement`). The parameter must be passed when the app is using `LiquidContainer` or when the app use `@containerless={{true}}`
