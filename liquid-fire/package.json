@@ -1,6 +1,6 @@
 {
   "name": "liquid-fire",
-  "version": "0.36.0",
+  "version": "0.36.1",
   "description": "Animated transitions for Ember applications.",
   "keywords": [
     "ember-addon"

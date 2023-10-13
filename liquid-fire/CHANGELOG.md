@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.36.1 (2023-10-13)
+
+- BUGFIX: Fix `move-over` element calculation (wrong replacing from jquery) (#687)
+
 ## 0.36.0 (2023-09-18)
 
 - BREAKING: oldest supported Ember Version is now 3.28+
