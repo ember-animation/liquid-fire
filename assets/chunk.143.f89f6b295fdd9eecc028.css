@@ -1,0 +1,23 @@
+.liquid-child {
+    overflow: hidden; /* Prevent margin collapse */
+}
+
+.liquid-container {
+    position: relative;
+    overflow: hidden;
+
+    /* without this, overflow:hidden won't take effect because the things
+       we're trying to hide are on a separate accelerated
+       context. Also, this prevents a tiny vertical jump when the
+       content switches to accelerated.  */
+    transform: translateY(0);
+}
+
+.liquid-versions {
+    display: none;
+}
+
+.liquid-versions {
+    display: none;
+}
+
