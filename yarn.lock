@@ -7767,9 +7767,9 @@ git-repo-info@^2.1.1:
   resolved "https://registry.yarnpkg.com/git-repo-info/-/git-repo-info-2.1.1.tgz#220ffed8cbae74ef8a80e3052f2ccb5179aed058"
   integrity sha512-8aCohiDo4jwjOwma4FmYFd3i97urZulL8XL24nIPxuE+GZnfsAyy/g2Shqx6OjUiFKUXZM+Yy+KHnOmmA3FVcg==
 
-"github@git://github.com/mikedeboer/node-github#ca90bf27d5820812c3b76908189d666446ed97cd":
+"github@https://github.com/mikedeboer/node-github#ca90bf27d5820812c3b76908189d666446ed97cd":
   version "0.2.3"
-  resolved "git://github.com/mikedeboer/node-github#ca90bf27d5820812c3b76908189d666446ed97cd"
+  resolved "https://github.com/mikedeboer/node-github#ca90bf27d5820812c3b76908189d666446ed97cd"
   dependencies:
     mime "^1.2.11"
 
