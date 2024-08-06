@@ -73,7 +73,7 @@
     "tracked-built-ins": "^3.1.1",
     "webpack": "^5.88.2",
     "bootstrap": "^4.6.0",
-    "ember-cli-fastboot": "^4.1.1",
+    "ember-cli-fastboot": "^4.1.5",
     "ember-cli-sass": "^11.0.1",
     "ember-code-snippet": "git+https://git@github.com/ef4/ember-code-snippet.git#d054b697098ad52481c94a952ccf8d89ba1f25fe",
     "ember-moment": "^10.0.0",
