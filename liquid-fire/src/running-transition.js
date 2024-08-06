@@ -1,4 +1,4 @@
-import { capitalize } from '@ember/string';
+import { capitalize } from './-private/string';
 
 export default class RunningTransition {
   constructor(transitionMap, versions, animation) {

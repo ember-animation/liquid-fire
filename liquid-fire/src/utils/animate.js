@@ -1,5 +1,5 @@
-import { capitalize } from '@ember/string';
 import { Velocity } from '../index';
+import { capitalize } from '../-private/string';
 
 export function measure($elt) {
   const boundingRect = $elt.getBoundingClientRect();
