@@ -106,6 +106,7 @@ module('Acceptance: Demos', function (hooks) {
     const select = document.querySelector('select');
     await fillIn(select, 'car');
     assert.ranTransition('toLeft');
+    await settled();
     assert
       .dom('#liquid-box-demo input[type=checkbox]')
       .doesNotExist('no more checkbox');
