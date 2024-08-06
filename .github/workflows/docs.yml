@@ -5,8 +5,12 @@ on:
     branches:
       - main
       - master
-  pull_request:
-  
+  pull_request: {}
+
+concurrency:
+  group: ci-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint:
     name: Lint
