@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.36.2 (2024-08-06)
+
+- Refactor: Remove `@ember/string` peerDependency (#691)
+
 ## 0.36.1 (2023-10-13)
 
 - BUGFIX: Fix `move-over` element calculation (wrong replacing from jquery) (#687)
