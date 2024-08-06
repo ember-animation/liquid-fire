@@ -213,9 +213,6 @@ importers:
       '@ember/render-modifiers':
         specifier: ^2.1.0
         version: 2.1.0(@babel/core@7.22.9)(ember-source@4.12.0)
-      '@ember/string':
-        specifier: ^3.1.1
-        version: 3.1.1
       '@embroider/addon-shim':
         specifier: ^1.8.6
         version: 1.8.6
@@ -2041,6 +2038,7 @@ packages:
       ember-cli-babel: 7.26.11
     transitivePeerDependencies:
       - supports-color
+    dev: true
 
   /@ember/test-helpers@3.2.0(ember-source@4.12.0)(webpack@5.88.2):
     resolution: {integrity: sha512-3yWpPsK5O77tUdCwW3HayrAcdlRitIRYMvLIG69Pkal1JMIGdNYVTvJ2R1lenhQh2syd/WFmGM07vQuDAtotQw==}
