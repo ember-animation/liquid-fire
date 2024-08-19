@@ -27,9 +27,6 @@
   "dependencies": {
     "@embroider/addon-shim": "^1.8.6",
     "@embroider/macros": "^1.13.1",
-    "broccoli-funnel": "^3.0.8",
-    "broccoli-merge-trees": "^4.2.0",
-    "broccoli-stew": "^3.0.0",
     "ember-modifier": "^4.2.0"
   },
   "devDependencies": {
@@ -104,7 +101,7 @@
     "extends": "../package.json"
   },
   "peerDependencies": {
-    "ember-source": ">= 4.0.0",
+    "ember-source": ">= 3.28.0",
     "velocity-animate": "^1.5.2"
   }
 }
