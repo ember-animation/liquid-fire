@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.37.0 (2024-08-19)
+
+- Refactor: Replace `render-modifier` with `ember-modifier` (#694)
+- Refactor: Remove last `action` usage (#695)
+- Refactor: Remove unnecessary package dependencies (#696)
+
 ## 0.36.2 (2024-08-06)
 
 - Refactor: Remove `@ember/string` peerDependency (#691)
