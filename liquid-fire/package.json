@@ -25,12 +25,12 @@
     "prepare": "pnpm build"
   },
   "dependencies": {
-    "@ember/render-modifiers": "^2.1.0",
     "@embroider/addon-shim": "^1.8.6",
     "@embroider/macros": "^1.13.1",
     "broccoli-funnel": "^3.0.8",
     "broccoli-merge-trees": "^4.2.0",
-    "broccoli-stew": "^3.0.0"
+    "broccoli-stew": "^3.0.0",
+    "ember-modifier": "^4.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.22.9",
@@ -49,7 +49,8 @@
     "eslint-plugin-prettier": "^5.0.0",
     "prettier": "^3.0.1",
     "rollup": "^3.27.1",
-    "rollup-plugin-copy": "^3.4.0"
+    "rollup-plugin-copy": "^3.4.0",
+    "webpack": "^5.93.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

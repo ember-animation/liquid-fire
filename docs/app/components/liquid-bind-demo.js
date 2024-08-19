@@ -38,8 +38,8 @@ export default class LiquidBindDemoComponent extends Component {
     this.seconds = now.format('ss');
   }
 
-  @action
-  destroyElement() {
+  willDestroy() {
+    super.willDestroy();
     clearInterval(this.interval);
   }
 

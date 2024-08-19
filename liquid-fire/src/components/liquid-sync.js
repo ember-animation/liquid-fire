@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { defer } from 'rsvp';
 import { inject as service } from '@ember/service';
+import { modifier } from 'ember-modifier';
 import './liquid-sync.css';
 
 export default class LiquidSyncComponent extends Component {
@@ -10,14 +11,8 @@ export default class LiquidSyncComponent extends Component {
 
   _lfDefer = [];
 
-  @action
-  setup(element) {
-    this.element = element;
-    this.pauseLiquidFire();
-  }
-
-  @action
-  destroyElement() {
+  willDestroy() {
+    super.willDestroy();
     this.ready();
   }
 
@@ -25,6 +20,17 @@ export default class LiquidSyncComponent extends Component {
   ready() {
     this.resumeLiquidFire();
   }
+
+  setup = modifier((element) => {
+    if (this._didSetup) {
+      return;
+    }
+
+    this._didSetup = true;
+
+    this.element = element;
+    this.pauseLiquidFire();
+  });
 
   pauseLiquidFire() {
     const context = this.liquidFireChildren.closest(this.element);

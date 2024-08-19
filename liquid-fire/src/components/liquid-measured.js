@@ -3,20 +3,27 @@ import { inject as service } from '@ember/service';
 import { bind } from '@ember/runloop';
 import Component from '@glimmer/component';
 import { MutationObserver } from '../index';
-import { action } from '@ember/object';
 import { measure } from '../utils/animate';
+import { modifier } from 'ember-modifier';
 
 const WINDOW_RESIZE_THROTTLE_DURATION = 100;
 
 export default class LiquidMeasuredComponent extends Component {
+  _didSetup = false;
+
   constructor() {
     super(...arguments);
 
     // this._destroyOnUnload = bind(this, this._destroyOnUnload);
   }
 
-  @action
-  setup(element) {
+  setup = modifier((element) => {
+    if (this._didSetup) {
+      return;
+    }
+
+    this._didSetup = true;
+
     this.element = element;
 
     const self = this;
@@ -44,10 +51,11 @@ export default class LiquidMeasuredComponent extends Component {
     });
     // Chrome Memory Leak: https://bugs.webkit.org/show_bug.cgi?id=93661
     // window.addEventListener('unload', this._destroyOnUnload);
-  }
+  });
 
-  @action
-  destroyElement() {
+  willDestroy() {
+    super.willDestroy();
+
     if (this.observer) {
       this.observer.disconnect();
     }

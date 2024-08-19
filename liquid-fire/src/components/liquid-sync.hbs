@@ -1,5 +1,3 @@
+{{!-- template-lint-disable no-action --}}
 {{yield (action "ready")~}}
-<div class="liquid-sync"
-	{{did-insert this.setup}}
-	{{will-destroy this.destroyElement}}
-></div>
+<div class="liquid-sync" {{this.setup}}></div>

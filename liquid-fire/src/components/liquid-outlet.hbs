@@ -19,7 +19,8 @@
   >
   {{~!~}}
     {{~#-with-dynamic-vars outletState=version~}}
-      {{outlet}}
+      {{!-- template-lint-disable no-outlet-outside-routes --}}
+      {{~outlet~}}
     {{~/-with-dynamic-vars~}}
   {{~!~}}
   </LiquidBind>
