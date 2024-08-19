@@ -32,6 +32,7 @@ You can also see some examples in my [Ember Animation Demo](http://github.com/ef
 | Ember Version     | Liquid Fire Release |
 | ----------------- | ------------------- |
 | 3.28 and newer    | latest              |
+| 3.16 through 5.10 | 0.36.x              |
 | 3.16 through 4.12 | 0.35.x              |
 | 2.12 through 3.15 | 0.33.x              |
 | 1.13 through 2.11 | 0.29.x              |
