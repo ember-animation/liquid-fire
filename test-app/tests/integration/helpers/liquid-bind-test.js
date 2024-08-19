@@ -4,6 +4,7 @@ import { render, settled } from '@ember/test-helpers';
 import sinon from 'sinon';
 import { module, test } from 'qunit';
 import { hbs } from 'ember-cli-htmlbars';
+import { modifier } from 'ember-modifier';
 
 module('Integration: liquid-bind', function (hooks) {
   setupRenderingTest(hooks);
@@ -144,11 +145,11 @@ module('Integration: liquid-bind', function (hooks) {
   });
 
   test('should support containerless mode', async function (assert) {
-    this.setup = (element) => {
+    this.setup = modifier((element) => {
       this.containerElement = element;
-    };
+    });
     await render(
-      hbs`<div data-test-target {{did-insert this.setup}}><LiquidBind @value={{this.foo}} @containerless={{true}} @containerElement={{this.containerElement}} /></div>`,
+      hbs`<div data-test-target {{this.setup}}><LiquidBind @value={{this.foo}} @containerless={{true}} @containerElement={{this.containerElement}} /></div>`,
     );
     assert.dom('.liquid-container').doesNotExist('no container');
     assert
@@ -157,11 +158,11 @@ module('Integration: liquid-bind', function (hooks) {
   });
 
   test('should support `class` on liquid-children in containerless mode', async function (assert) {
-    this.setup = (element) => {
+    this.setup = modifier((element) => {
       this.containerElement = element;
-    };
+    });
     await render(
-      hbs`<div data-test-target {{did-insert this.setup}}><LiquidBind @value={{this.foo}} @class="bar" @containerless={{true}} @containerElement={{this.containerElement}} /></div>`,
+      hbs`<div data-test-target {{this.setup}}><LiquidBind @value={{this.foo}} @class="bar" @containerless={{true}} @containerElement={{this.containerElement}} /></div>`,
     );
     assert.dom('.liquid-container').doesNotExist('no container');
     assert

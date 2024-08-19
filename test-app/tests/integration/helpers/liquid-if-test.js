@@ -4,6 +4,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, settled } from '@ember/test-helpers';
 import sinon from 'sinon';
 import { hbs } from 'ember-cli-htmlbars';
+import { modifier } from 'ember-modifier';
 
 module('Integration: liquid-if', function (hooks) {
   setupRenderingTest(hooks);
@@ -162,11 +163,11 @@ module('Integration: liquid-if', function (hooks) {
 
   test('it should support containerless mode', async function (assert) {
     this.set('isReady', true);
-    this.setup = (element) => {
+    this.setup = modifier((element) => {
       this.containerElement = element;
-    };
+    });
     await render(
-      hbs`<div data-test-target {{did-insert this.setup}}> <LiquidIf @predicate={{this.isReady}} @containerless={{true}} @containerElement={{this.containerElement}}>hi</LiquidIf></div>`,
+      hbs`<div data-test-target {{this.setup}}> <LiquidIf @predicate={{this.isReady}} @containerless={{true}} @containerElement={{this.containerElement}}>hi</LiquidIf></div>`,
     );
     assert.dom('.liquid-container').doesNotExist('no container');
     assert
@@ -177,11 +178,11 @@ module('Integration: liquid-if', function (hooks) {
 
   test('should support `class` on liquid-children in containerless mode', async function (assert) {
     this.set('isReady', true);
-    this.setup = (element) => {
+    this.setup = modifier((element) => {
       this.containerElement = element;
-    };
+    });
     await render(
-      hbs`<div data-test-target {{did-insert this.setup}}><LiquidIf @predicate={{this.isReady}} @class="bar" @containerless={{true}} @containerElement={{this.containerElement}}>hi</LiquidIf></div>`,
+      hbs`<div data-test-target {{this.setup}}><LiquidIf @predicate={{this.isReady}} @class="bar" @containerless={{true}} @containerElement={{this.containerElement}}>hi</LiquidIf></div>`,
     );
     assert
       .dom('[data-test-target] > .liquid-child.bar')

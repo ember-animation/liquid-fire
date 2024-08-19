@@ -1,12 +1,14 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { modifier } from 'ember-modifier';
 import { animateGrowth, measure } from '../utils/animate';
 
 export default class LiquidOutletComponent extends Component {
   @service('liquid-fire-transitions') transitionMap;
 
   element = null;
+  _didSetup = false;
 
   get enabled() {
     return this.args.enabled || true;
@@ -40,8 +42,13 @@ export default class LiquidOutletComponent extends Component {
     return this.args.growHeight !== undefined ? this.args.growHeight : true;
   }
 
-  @action
-  setup(element) {
+  setup = modifier((element) => {
+    if (this._didSetup) {
+      return;
+    }
+
+    this._didSetup = true;
+
     this.element = element;
 
     const elt = element;
@@ -56,7 +63,7 @@ export default class LiquidOutletComponent extends Component {
     if (this.growHeight) {
       elt.style.height = `${measurements.height}px`;
     }
-  }
+  });
 
   @action
   sizeChanged(measurements) {

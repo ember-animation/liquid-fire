@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
+import { modifier } from 'ember-modifier';
 import { measure, animateGrowth } from '../utils/animate';
 import './liquid-container.css';
 
@@ -9,6 +10,7 @@ export default class LiquidContainerComponent extends Component {
 
   _wasInserted = false;
   element = null;
+  _didSetup = false;
 
   get growDuration() {
     return this.args.growDuration || 250;
@@ -38,11 +40,16 @@ export default class LiquidContainerComponent extends Component {
     return this.args.growHeight !== undefined ? this.args.growHeight : true;
   }
 
-  @action
-  setup(element) {
+  setup = modifier((element) => {
+    if (this._didSetup) {
+      return;
+    }
+
+    this._didSetup = true;
+
     this.element = element;
     this._wasInserted = true;
-  }
+  });
 
   @action
   willTransition(versions) {

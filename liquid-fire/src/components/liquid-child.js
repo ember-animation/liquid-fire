@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { all } from 'rsvp';
+import { modifier } from 'ember-modifier';
 import './liquid-child.css';
 
 export default class LiquidChildComponent extends Component {
@@ -11,9 +11,15 @@ export default class LiquidChildComponent extends Component {
   _waitingFor = [];
   _isLiquidChild = true;
   _serviceElement = null;
+  _didSetup = false;
 
-  @action
-  setup(element) {
+  setup = modifier((element) => {
+    if (this._didSetup) {
+      return;
+    }
+
+    this._didSetup = true;
+
     this.element = element;
 
     this._serviceElement = this.liquidFireChildren.register(
@@ -32,10 +38,10 @@ export default class LiquidChildComponent extends Component {
         }
       }
     });
-  }
+  });
 
-  @action
-  destroyElement() {
+  willDestroy() {
+    super.willDestroy();
     if (this._serviceElement) {
       this.liquidFireChildren.unregister(this._serviceElement);
       this._serviceElement = null;

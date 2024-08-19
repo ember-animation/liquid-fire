@@ -5,6 +5,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
+import { modifier } from 'ember-modifier';
 // import { macroCondition, dependencySatisfies } from '@embroider/macros';
 import { ensureSafeComponent } from '@embroider/util';
 import {
@@ -98,11 +99,11 @@ module('Integration: liquid-outlet', function (hooks) {
   });
 
   test('should support containerless mode', async function (assert) {
-    this.setup = (element) => {
+    this.setup = modifier((element) => {
       this.containerElement = element;
-    };
+    });
     await render(
-      hbs`<div data-test-target {{did-insert this.setup}}><this.SetRoute @outletState={{this.outletState}}><LiquidOutlet @containerless={{true}} @containerElement={{this.containerElement}} /></this.SetRoute></div>`,
+      hbs`<div data-test-target {{this.setup}}><this.SetRoute @outletState={{this.outletState}}><LiquidOutlet @containerless={{true}} @containerElement={{this.containerElement}} /></this.SetRoute></div>`,
     );
     this.setState(this.makeRoute({ template: hbs`<h1>Hello world</h1>` }));
     await settled();
@@ -113,11 +114,11 @@ module('Integration: liquid-outlet', function (hooks) {
   });
 
   test('should support `class` on children in containerless mode', async function (assert) {
-    this.setup = (element) => {
+    this.setup = modifier((element) => {
       this.containerElement = element;
-    };
+    });
     await render(
-      hbs`<div data-test-target {{did-insert this.setup}}><this.SetRoute @outletState={{this.outletState}}><LiquidOutlet @class="bar" @containerless={{true}} @containerElement={{this.containerElement}} /></this.SetRoute></div>`,
+      hbs`<div data-test-target {{this.setup}}><this.SetRoute @outletState={{this.outletState}}><LiquidOutlet @class="bar" @containerless={{true}} @containerElement={{this.containerElement}} /></this.SetRoute></div>`,
     );
     this.setState(this.makeRoute({ template: hbs`<h1>Hello world</h1>` }));
     await settled();

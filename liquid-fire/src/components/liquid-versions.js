@@ -5,16 +5,27 @@ import { tracked } from '@glimmer/tracking';
 import { A } from '@ember/array';
 import { inject as service } from '@ember/service';
 import { guidFor } from '@ember/object/internals';
+import { modifier } from 'ember-modifier';
 import './liquid-versions.css';
 
 export default class LiquidVersionsComponent extends Component {
   @service('liquid-fire-transitions') transitionMap;
 
-  @tracked versions = null;
+  @tracked _versions = null;
 
-  @action
-  appendVersion() {
-    let versions = this.versions;
+  __versions = null;
+
+  get versions() {
+    return this._versions;
+  }
+
+  set versions(v) {
+    this._versions = v;
+    this.__versions = v;
+  }
+
+  appendVersion = modifier(() => {
+    let versions = this.__versions;
     let firstTime = false;
     const newValue = this.args.value;
     let oldValue;
@@ -36,7 +47,7 @@ export default class LiquidVersionsComponent extends Component {
         // equal for our purposes that are not `===`. In that case, we
         // still need to thread updated values through to our children
         // so they have their own opportunity to react.
-        set(versions[0], 'value', newValue);
+        set(this.versions[0], 'value', newValue);
       }
       return;
     }
@@ -50,13 +61,13 @@ export default class LiquidVersionsComponent extends Component {
 
     this.firstTime = firstTime;
     if (firstTime) {
-      set(this, 'versions', versions);
+      this.versions = versions;
     }
 
     if (!(newValue || this.args.renderWhenFalse || firstTime)) {
       this._transition();
     }
-  }
+  });
 
   _transition() {
     assert(
@@ -64,7 +75,7 @@ export default class LiquidVersionsComponent extends Component {
       !!this.args.containerElement,
     );
 
-    const versions = this.versions;
+    const versions = this.__versions;
     const firstTime = this.firstTime;
     this.firstTime = false;
 
