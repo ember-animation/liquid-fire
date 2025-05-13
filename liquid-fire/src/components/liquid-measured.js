@@ -1,5 +1,5 @@
 import { next, throttle } from '@ember/runloop';
-import { inject as service } from '@ember/service';
+import service from '../-private/service.ts';
 import { bind } from '@ember/runloop';
 import Component from '@glimmer/component';
 import { MutationObserver } from '../index';
