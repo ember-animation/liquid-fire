@@ -3,7 +3,7 @@ import { action, set } from '@ember/object';
 import { assert } from '@ember/debug';
 import { tracked } from '@glimmer/tracking';
 import { A } from '@ember/array';
-import { inject as service } from '@ember/service';
+import service from '../-private/service.ts';
 import { guidFor } from '@ember/object/internals';
 import { modifier } from 'ember-modifier';
 import './liquid-versions.css';

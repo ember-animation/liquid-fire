@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { inject as service } from '@ember/service';
+import service from '../-private/service.ts';
 import { action } from '@ember/object';
 import { modifier } from 'ember-modifier';
 import { measure, animateGrowth } from '../utils/animate';

@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { defer } from 'rsvp';
-import { inject as service } from '@ember/service';
+import service from '../-private/service.ts';
 import { modifier } from 'ember-modifier';
 import './liquid-sync.css';
 
