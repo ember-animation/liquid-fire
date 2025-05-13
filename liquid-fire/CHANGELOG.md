@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.37.0 (2024-08-19)
+## 0.37.1 (2025-05-13)
 
 - Fix: Remove `ember-source` as a peer dependency (#699)
 - Fix: Remove deprecation warning `inject as service` (#700)
