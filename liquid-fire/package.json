@@ -101,7 +101,6 @@
     "extends": "../package.json"
   },
   "peerDependencies": {
-    "ember-source": ">= 3.28.0",
     "velocity-animate": "^1.5.2"
   }
 }
