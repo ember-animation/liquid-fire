@@ -2,6 +2,11 @@
 
 ## 0.37.0 (2024-08-19)
 
+- Fix: Remove `ember-source` as a peer dependency (#699)
+- Fix: Remove deprecation warning `inject as service` (#700)
+
+## 0.37.0 (2024-08-19)
+
 - Refactor: Replace `render-modifier` with `ember-modifier` (#694)
 - Refactor: Remove last `action` usage (#695)
 - Refactor: Remove unnecessary package dependencies (#696)
